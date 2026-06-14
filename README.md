@@ -1,161 +1,232 @@
-<p align="center">⚡ Arafat Al-Kamly ⚡</p>
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:2563EB,100:0F172A&height=220&section=header&text=Information%20Technology%20Student&fontSize=42&fontColor=ffffff&animation=fadeIn"/>
+</p>
+
+<h1 align="center">⚡ Mohammed Ghaleb Al-Osaimi ⚡</h1>
 
 <h3 align="center">
-🔐 Cybersecurity Student • Network Security Enthusiast • Future Security Engineer
-</h3><p align="center">
-<img src="https://capsule-render.vercel.app/render?type=waving&color=0:00B4D8,100:001F3F&height=220&section=header&text=Cybersecurity%20Engineer%20in%20Progress&fontSize=42&fontColor=ffffff&animation=fadeIn"/>
-</p><p align="center">
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&pause=1000&color=00B4D8&center=true&vCenter=true&width=900&lines=Cybersecurity+Student;Network+Security+Specialist;Future+Security+Engineer;Penetration+Testing+Learner;Secure+Software+Developer;Building+A+Safer+Digital+Future" />
-</p><p align="center">
-<img src="https://komarev.com/ghpvc/?username=arfat-alkamly&label=PROFILE+VIEWS&color=00b4d8&style=for-the-badge"/>
-</p>---
+💻 Information Technology Student • Full-Stack Developer • ERP Systems Enthusiast • Future Solutions Architect
+</h3>
 
-🛡️ Professional Profile
-
-Cybersecurity student passionate about network security, ethical hacking, secure software development, and vulnerability assessment.
-
-Currently expanding expertise in penetration testing, Linux systems, web application security, and security operations while building practical projects and continuously improving technical capabilities.
-
-My goal is to become a Security Engineer capable of protecting modern infrastructures, identifying vulnerabilities, and developing secure digital solutions.
+<p align="center">
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&pause=1000&color=2563EB&center=true&vCenter=true&width=900&lines=Information+Technology+Student;Future+Solutions+Architect;Full+Stack+Developer;Enterprise+Systems+Enthusiast;Artificial+Intelligence+Learner;Cloud+Computing+Explorer;Technology+Driven+Problem+Solver" />
+</p>
 
 ---
 
-🎯 Current Mission
+# 🎓 Academic Profile
 
-- 🔐 Master Cybersecurity
-- 🌐 Advance Full Stack Development
-- 🤖 Integrate Artificial Intelligence
-- ☁️ Learn Cloud Security
-- 🐧 Deepen Linux Administration
-- 🧪 Build Security Labs
-- 📚 Conduct Security Research
-- 🌍 Contribute to Open Source
+Information Technology student dedicated to mastering modern technologies and building practical solutions that create real-world impact.
 
----
+Passionate about software engineering, enterprise systems, artificial intelligence, cloud computing, digital transformation, and information systems.
 
-🏆 Certifications & Achievements
+Focused on combining academic knowledge with practical implementation to design scalable, efficient, and innovative technology solutions.
 
-<p align="center"><a href="https://lnkd.in/dRCcTwf5">
-<img src="https://img.shields.io/badge/Cisco-Introduction_to_Modern_AI-1BA0D7?style=for-the-badge&logo=cisco&logoColor=white"/>
-</a><a href="https://www.credly.com/badges/dd68b74c-65f9-468f-9a51-3bb78adad239/public_url">
-<img src="https://img.shields.io/badge/Cisco_IT_Customer_Support_Basics-Verified-success?style=for-the-badge"/>
-</a><a href="https://www.credly.com/badges/a370a36f-7ce1-4531-b44b-b909e56ee52d/public_url">
-<img src="https://img.shields.io/badge/Cisco_Learn_A_Thon_2026-Participant-blue?style=for-the-badge"/>
-</a></p>---
-
-⚔️ Cybersecurity Focus Areas
-
-├── Network Security
-├── Penetration Testing
-├── Vulnerability Assessment
-├── Web Application Security
-├── Security Operations
-├── Incident Response
-├── Linux Administration
-├── Secure Coding
-├── Digital Forensics
-└── Threat Intelligence
+Committed to continuous learning, technical excellence, and contributing to the advancement of information technology.
 
 ---
 
-💻 Programming Languages
+# 🎯 Current Mission
 
-<p align="center"><img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white"/>
-<img src="https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white"/>
-<img src="https://img.shields.io/badge/Java-ED8A00?style=for-the-badge&logo=openjdk&logoColor=white"/>
-<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
-<img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white"/>
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/>
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/></p>---
+```text
+├── Academic Excellence
+├── Information Systems Engineering
+├── Enterprise Software Development
+├── Artificial Intelligence Integration
+├── Cloud Computing & Infrastructure
+├── Database Architecture
+├── Digital Transformation
+├── Research & Innovation
+└── Technology Leadership
 
-🛡️ Cybersecurity Arsenal
+---
 
-<p align="center"><img src="https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kali-linux&logoColor=white"/>
-<img src="https://img.shields.io/badge/Metasploit-000000?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/Nmap-4E9A06?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/Wireshark-1679A7?style=for-the-badge&logo=wireshark&logoColor=white"/>
-<img src="https://img.shields.io/badge/Burp_Suite-FF6633?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/OWASP-000000?style=for-the-badge&logo=owasp&logoColor=white"/>
-<img src="https://img.shields.io/badge/VMware-607078?style=for-the-badge&logo=vmware&logoColor=white"/>
-<img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"/></p>---
+🖥️ Information Technology Domains
 
-🗄️ Databases & Development Tools
+├── Information Systems
+├── Software Engineering
+├── Enterprise Resource Planning (ERP)
+├── Artificial Intelligence
+├── Data Analytics
+├── Cloud Computing
+├── Cybersecurity Fundamentals
+├── Database Management
+├── Network Technologies
+├── System Analysis & Design
+├── Digital Transformation
+└── IT Project Management
 
-<p align="center"><img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/>
-<img src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white"/>
-<img src="https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white"/>
-<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
-<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"/>
-<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
-<img src="https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white"/></p>---
+---
 
-🚀 Strategic Projects
+💡 Core Competencies
 
-🎓 Student Management System
+✔ Problem Solving
+✔ Critical Thinking
+✔ Analytical Reasoning
+✔ Technical Research
+✔ System Design
+✔ Requirements Analysis
+✔ Process Optimization
+✔ Strategic Planning
+✔ Technology Evaluation
+✔ Innovation & Creativity
+✔ Team Collaboration
+✔ Continuous Learning
 
-Object-Oriented Java application for managing academic records.
+---
 
-🌍 Tourism Platform
+🚀 Professional Interests
 
-Complete web platform deployed through GitHub Pages.
+📊 Data & Business Intelligence
+🤖 Artificial Intelligence
+🏢 Enterprise Systems
+☁️ Cloud Technologies
+🌐 Modern Web Technologies
+📱 Mobile Applications
+🧠 Digital Innovation
+🗄️ Database Engineering
+📈 Business Process Automation
+🔍 Emerging Technologies
 
-🔐 Cybersecurity Portfolio
+---
 
-Collection of security research, labs, tools, and technical write-ups.
+📚 Areas Of Knowledge
 
-🧪 Virtual Pentesting Lab
+├── Programming Principles
+├── Software Development Lifecycle
+├── Database Systems
+├── Computer Networks
+├── Information Security
+├── Cloud Services
+├── System Architecture
+├── Human Computer Interaction
+├── Data Structures & Algorithms
+├── Information Management
+├── Enterprise Solutions
+└── Technology Governance
 
-VMware-based penetration testing environment for ethical hacking practice.
+---
 
-🛡️ Network Security Projects
+💻 Technical Stack
 
-Hands-on implementations focused on network defense and monitoring.
+<p align="center"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/><img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/><img src="https://img.shields.io/badge/Java-ED8A00?style=for-the-badge&logo=openjdk&logoColor=white"/><img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white"/><img src="https://img.shields.io/badge/SQL-336791?style=for-the-badge&logo=postgresql&logoColor=white"/></p>---
+
+🏗️ Technologies & Tools
+
+<p align="center"><img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"/><img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"/><img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white"/><img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black"/><img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"/><img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"/><img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"/><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/></p>---
+
+🚀 Strategic Focus Areas
+
+🏢 Enterprise Systems
+
+Designing and understanding large-scale business systems and organizational workflows.
+
+🤖 Artificial Intelligence
+
+Exploring AI technologies and their integration into modern applications and services.
+
+☁️ Cloud Computing
+
+Learning scalable cloud infrastructure, deployment strategies, and cloud-native technologies.
+
+📊 Data & Analytics
+
+Transforming raw data into actionable insights that support decision-making.
+
+🌐 Digital Transformation
+
+Leveraging technology to improve efficiency, productivity, and innovation.
+
+🧠 Emerging Technologies
+
+Keeping up with modern technological trends and future innovations.
 
 ---
 
 📈 GitHub Statistics
 
-<p align="center"><img height="180em" src="https://github-readme-stats.vercel.app/api?username=arfat-alkamly&show_icons=true&theme=tokyonight"/><img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=arfat-alkamly&layout=compact&theme=tokyonight"/></p>---
+<p align="center">
+<img height="180em" src="https://github-readme-stats.vercel.app/api?username=YOUR_USERNAME&show_icons=true&theme=tokyonight"/>
+<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=YOUR_USERNAME&layout=compact&theme=tokyonight"/>
+</p>---
 
-🏅 GitHub Trophies
+🔥 GitHub Streak
 
 <p align="center">
-<img src="https://github-profile-trophy.vercel.app/?username=arfat-alkamly&theme=algolia&no-frame=true&row=1&column=7"/>
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=YOUR_USERNAME&theme=tokyonight"/>
+</p>---
+
+🏆 GitHub Trophies
+
+<p align="center">
+<img src="https://github-profile-trophy.vercel.app/?username=YOUR_USERNAME&theme=algolia&no-frame=true&row=1&column=7"/>
 </p>---
 
 📚 2026 Learning Roadmap
 
-[✓] Networking Fundamentals
-[✓] Linux Fundamentals
-[✓] Cisco Networking Academy
-[✓] Programming Foundations
+[✓] Programming Fundamentals
+[✓] Information Systems Fundamentals
+[✓] Database Fundamentals
+[✓] Software Engineering Basics
 
-[⏳] Web Security
-[⏳] Penetration Testing
-[⏳] Security Operations
-[⏳] Advanced Networking
+[⏳] Advanced Web Development
+[⏳] Enterprise Architecture
+[⏳] Cloud Computing
+[⏳] Artificial Intelligence
+[⏳] Data Analytics
 
-[🎯] Cloud Security
-[🎯] Digital Forensics
-[🎯] Malware Analysis
-[🎯] Security Engineering
+[🎯] Solutions Architecture
+[🎯] Digital Transformation
+[🎯] Technology Leadership
+[🎯] Innovation Management
+
+---
+
+🏆 Professional Vision
+
+Student
+   ↓
+IT Specialist
+   ↓
+Software Engineer
+   ↓
+Senior Engineer
+   ↓
+Solutions Architect
+   ↓
+Technology Consultant
+   ↓
+Technology Leader
+
+---
+
+🌍 Technology Philosophy
+
+Technology is not only about writing code.
+
+It is about understanding problems,
+designing effective solutions,
+improving processes,
+empowering people,
+and creating sustainable digital value.
 
 ---
 
 🤝 Connect With Me
 
-<p align="center"><a href="https://github.com/arfat-alkamly">
+<p align="center"><a href="#">
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github"/>
-</a><a href="https://www.linkedin.com/in/arfat-alkamly-399676409">
+</a><a href="#">
 <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin"/>
-</a><a href="https://www.facebook.com/rfatalkamly">
+</a><a href="#">
 <img src="https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook"/>
-</a><a href="https://www.instagram.com/dark.hacker_x">
+</a><a href="#">
 <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram"/>
-</a><a href="https://www.tiktok.com/@dark.hacker_x">
+</a><a href="#">
 <img src="https://img.shields.io/badge/TikTok-000000?style=for-the-badge&logo=tiktok"/>
 </a></p>---
 
-<p align="center">⚡ "Security Is Not A Product, It Is A Process."
+<p align="center">⚡ "Technology Is The Bridge Between Ideas And Reality."
 
 </p>
+```
