@@ -1,214 +1,215 @@
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:2563EB,100:0F172A&height=220&section=header&text=Information%20Technology%20Student&fontSize=42&fontColor=ffffff&animation=fadeIn"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0F172A,100:2563EB&height=250&section=header&text=Mohammed%20Ghaleb%20Al-Osaimi&fontSize=40&fontColor=ffffff&animation=fadeIn"/>
 </p>
 
-<h1 align="center">⚡ Mohammed Ghaleb Al-Osaimi ⚡</h1>
+<h1 align="center">⚡ M.GH.AL ⚡</h1>
 
 <h3 align="center">
-💻 Information Technology Student • Full-Stack Developer • ERP Systems Enthusiast • Future Solutions Architect
+Full-Stack Developer • ERP Systems Developer • Software Engineer • Information Technology Specialist
 </h3>
 
 <p align="center">
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&pause=1000&color=2563EB&center=true&vCenter=true&width=900&lines=Information+Technology+Student;Future+Solutions+Architect;Full+Stack+Developer;Enterprise+Systems+Enthusiast;Artificial+Intelligence+Learner;Cloud+Computing+Explorer;Technology+Driven+Problem+Solver" />
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&pause=1000&color=2563EB&center=true&vCenter=true&width=1000&lines=Full-Stack+Developer;ERP+Systems+Developer;Software+Engineer;Information+Technology+Specialist;Building+Enterprise+Solutions;Artificial+Intelligence+Integration;Open+Source+Contributor;Technology+Driven+Problem+Solver" />
 </p>
 
 ---
 
-# 🎓 Academic Profile
+# 🚀 About Me
 
-Information Technology student dedicated to mastering modern technologies and building practical solutions that create real-world impact.
+Passionate software developer focused on building scalable applications, enterprise solutions, and modern digital systems.
 
-Passionate about software engineering, enterprise systems, artificial intelligence, cloud computing, digital transformation, and information systems.
+Interested in software engineering, enterprise resource planning (ERP), artificial intelligence integration, cloud technologies, information systems, and digital transformation.
 
-Focused on combining academic knowledge with practical implementation to design scalable, efficient, and innovative technology solutions.
-
-Committed to continuous learning, technical excellence, and contributing to the advancement of information technology.
+Dedicated to continuous learning, solving real-world problems through technology, and creating impactful software solutions.
 
 ---
 
-# 🎯 Current Mission
+# 🎯 Professional Focus
 
 ```text
-├── Academic Excellence
-├── Information Systems Engineering
 ├── Enterprise Software Development
+├── ERP Systems Architecture
+├── Full-Stack Development
+├── Information Systems
 ├── Artificial Intelligence Integration
-├── Cloud Computing & Infrastructure
-├── Database Architecture
+├── Cloud Technologies
+├── Database Engineering
+├── Software Architecture
+├── Business Process Automation
+└── Digital Transformation
+
+---
+
+🏆 Core Competencies
+
+✔ Problem Solving
+
+✔ Critical Thinking
+
+✔ Software Design
+
+✔ System Analysis
+
+✔ Technical Research
+
+✔ Requirements Engineering
+
+✔ Process Optimization
+
+✔ Database Design
+
+✔ Technology Evaluation
+
+✔ Team Collaboration
+
+✔ Continuous Learning
+
+✔ Innovation & Creativity
+
+---
+
+🌍 Technology Domains
+
+├── Software Engineering
+├── Information Systems
+├── Enterprise Solutions
+├── ERP Development
+├── Artificial Intelligence
+├── Cloud Computing
+├── Data Analytics
+├── Database Management
+├── Web Technologies
+├── System Architecture
 ├── Digital Transformation
-├── Research & Innovation
 └── Technology Leadership
 
 ---
 
-🖥️ Information Technology Domains
+💻 Programming Languages
 
-├── Information Systems
-├── Software Engineering
-├── Enterprise Resource Planning (ERP)
-├── Artificial Intelligence
-├── Data Analytics
-├── Cloud Computing
-├── Cybersecurity Fundamentals
-├── Database Management
-├── Network Technologies
-├── System Analysis & Design
-├── Digital Transformation
-└── IT Project Management
+<p align="center"><img src="https://skillicons.dev/icons?i=html,css,js,ts,python,java,cs,php" /></p>---
 
----
+⚙️ Frameworks & Technologies
 
-💡 Core Competencies
+<p align="center"><img src="https://skillicons.dev/icons?i=react,nextjs,nodejs,express,prisma,firebase" /></p>---
 
-✔ Problem Solving
-✔ Critical Thinking
-✔ Analytical Reasoning
-✔ Technical Research
-✔ System Design
-✔ Requirements Analysis
-✔ Process Optimization
-✔ Strategic Planning
-✔ Technology Evaluation
-✔ Innovation & Creativity
-✔ Team Collaboration
-✔ Continuous Learning
+🗄️ Databases
 
----
+<p align="center"><img src="https://skillicons.dev/icons?i=mysql,postgres,mongodb,firebase" /></p>---
+
+🛠️ Tools & Platforms
+
+<p align="center"><img src="https://skillicons.dev/icons?i=git,github,docker,linux,vscode,postman" /></p>---
 
 🚀 Professional Interests
 
-📊 Data & Business Intelligence
-🤖 Artificial Intelligence
-🏢 Enterprise Systems
-☁️ Cloud Technologies
-🌐 Modern Web Technologies
-📱 Mobile Applications
-🧠 Digital Innovation
-🗄️ Database Engineering
-📈 Business Process Automation
-🔍 Emerging Technologies
-
----
-
-📚 Areas Of Knowledge
-
-├── Programming Principles
-├── Software Development Lifecycle
-├── Database Systems
-├── Computer Networks
-├── Information Security
-├── Cloud Services
-├── System Architecture
-├── Human Computer Interaction
-├── Data Structures & Algorithms
-├── Information Management
-├── Enterprise Solutions
-└── Technology Governance
-
----
-
-💻 Technical Stack
-
-<p align="center"><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/><img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"/><img src="https://img.shields.io/badge/Java-ED8A00?style=for-the-badge&logo=openjdk&logoColor=white"/><img src="https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white"/><img src="https://img.shields.io/badge/SQL-336791?style=for-the-badge&logo=postgresql&logoColor=white"/></p>---
-
-🏗️ Technologies & Tools
-
-<p align="center"><img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white"/><img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"/><img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white"/><img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black"/><img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"/><img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"/><img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/><img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"/><img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white"/><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/></p>---
-
-🚀 Strategic Focus Areas
-
 🏢 Enterprise Systems
 
-Designing and understanding large-scale business systems and organizational workflows.
+Designing and developing large-scale business applications and organizational solutions.
 
 🤖 Artificial Intelligence
 
-Exploring AI technologies and their integration into modern applications and services.
+Exploring intelligent systems and AI-powered technologies that enhance productivity and innovation.
 
 ☁️ Cloud Computing
 
-Learning scalable cloud infrastructure, deployment strategies, and cloud-native technologies.
+Building scalable and reliable cloud-native applications and services.
 
 📊 Data & Analytics
 
-Transforming raw data into actionable insights that support decision-making.
+Transforming data into meaningful insights and business value.
 
-🌐 Digital Transformation
+🌐 Modern Web Technologies
 
-Leveraging technology to improve efficiency, productivity, and innovation.
+Developing high-performance web applications using modern frameworks and technologies.
 
-🧠 Emerging Technologies
+🔄 Digital Transformation
 
-Keeping up with modern technological trends and future innovations.
+Leveraging technology to improve efficiency, scalability, and business growth.
+
+---
+
+📚 Areas of Knowledge
+
+├── Software Development Lifecycle
+├── Object-Oriented Programming
+├── Database Systems
+├── Information Systems
+├── Computer Networks
+├── Cloud Services
+├── Artificial Intelligence
+├── Software Architecture
+├── System Analysis & Design
+├── Business Information Systems
+├── Data Structures & Algorithms
+└── Technology Management
 
 ---
 
 📈 GitHub Statistics
 
-<p align="center">
-<img height="180em" src="https://github-readme-stats.vercel.app/api?username=YOUR_USERNAME&show_icons=true&theme=tokyonight"/>
-<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=YOUR_USERNAME&layout=compact&theme=tokyonight"/>
-</p>---
+<p align="center"><img height="180em" src="https://github-readme-stats.vercel.app/api?username=YOUR_USERNAME&show_icons=true&theme=tokyonight"/><img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=YOUR_USERNAME&layout=compact&theme=tokyonight"/></p>---
 
 🔥 GitHub Streak
 
-<p align="center">
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=YOUR_USERNAME&theme=tokyonight"/>
-</p>---
+<p align="center"><img src="https://github-readme-streak-stats.herokuapp.com/?user=YOUR_USERNAME&theme=tokyonight"/></p>---
 
 🏆 GitHub Trophies
 
-<p align="center">
-<img src="https://github-profile-trophy.vercel.app/?username=YOUR_USERNAME&theme=algolia&no-frame=true&row=1&column=7"/>
-</p>---
+<p align="center"><img src="https://github-profile-trophy.vercel.app/?username=YOUR_USERNAME&theme=algolia&no-frame=true&row=1&column=7"/></p>---
 
-📚 2026 Learning Roadmap
+🎓 Professional Development Roadmap
 
-[✓] Programming Fundamentals
-[✓] Information Systems Fundamentals
-[✓] Database Fundamentals
-[✓] Software Engineering Basics
+[✓] Software Development
 
-[⏳] Advanced Web Development
+[✓] Database Management
+
+[✓] Information Systems
+
+[✓] Web Technologies
+
 [⏳] Enterprise Architecture
+
 [⏳] Cloud Computing
+
 [⏳] Artificial Intelligence
-[⏳] Data Analytics
+
+[⏳] Advanced System Design
 
 [🎯] Solutions Architecture
-[🎯] Digital Transformation
+
 [🎯] Technology Leadership
-[🎯] Innovation Management
+
+[🎯] Digital Transformation
+
+[🎯] Enterprise Innovation
 
 ---
 
-🏆 Professional Vision
+🏅 Career Vision
 
-Student
-   ↓
-IT Specialist
-   ↓
+Developer
+    ↓
 Software Engineer
-   ↓
+    ↓
 Senior Engineer
-   ↓
+    ↓
 Solutions Architect
-   ↓
+    ↓
 Technology Consultant
-   ↓
+    ↓
 Technology Leader
 
 ---
 
-🌍 Technology Philosophy
+💡 Philosophy
 
 Technology is not only about writing code.
 
-It is about understanding problems,
-designing effective solutions,
-improving processes,
-empowering people,
-and creating sustainable digital value.
+It is about solving problems,
+building systems,
+creating value,
+and transforming ideas into reality.
 
 ---
 
@@ -226,7 +227,7 @@ and creating sustainable digital value.
 <img src="https://img.shields.io/badge/TikTok-000000?style=for-the-badge&logo=tiktok"/>
 </a></p>---
 
-<p align="center">⚡ "Technology Is The Bridge Between Ideas And Reality."
+<p align="center">⚡ Building Technology That Creates Real Impact ⚡
 
 </p>
 ```
