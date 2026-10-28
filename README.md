@@ -1,165 +1,284 @@
-<div align="center">
-
-<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=280&color=0:0D1117,35:001F3F,70:00B4D8,100:00E5FF&text=M.GH.AL&fontSize=82&fontColor=ffffff&animation=fadeIn&fontAlignY=38"/>
-
-# Mohammed Ghalib Nasser Al-Oseimi
-
-### Enterprise Full-Stack Engineer • ERP Systems Architect • AI & Cybersecurity Specialist
-
-<img src="https://readme-typing-svg.demolab.com?font=Inter&weight=700&size=23&pause=1500&color=00E5FF&center=true&vCenter=true&width=900&lines=Building+Sovereign+AI+Ecosystems.;Architecting+Enterprise+ERP+Platforms.;Full-Stack+Web+%2B+Mobile+Engineering.;Applied+Cryptography+%2B+Cybersecurity.;Clean+Architecture+%2B+High+Performance." />
-
-<br>
-
-<img src="https://img.shields.io/badge/OpenJS-Node.js_Certified-339933?style=for-the-badge&logo=node.js&logoColor=white"/>
-<img src="https://img.shields.io/badge/Enterprise-Software_Engineer-007ACC?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/AI-Sovereign_Architecture-0A192F?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/Location-Yemen-8A2BE2?style=for-the-badge"/>
-
-</div>
-
----
-
-# ⚡ About Me
-
-I am an Enterprise Full-Stack Software Engineer & AI Systems Architect specializing in designing scalable ERP platforms, sovereign bilingual AI systems, cryptographic security suites, cross-platform mobile applications, and high-performance backend infrastructures.
-
-My engineering philosophy revolves around writing maintainable code, designing scalable architectures, and delivering production-ready software built around Clean Architecture, Type Safety, and Security by Design.
-
----
-
-# 🚀 Current Mission & Core Focus
-
-- 🇾🇪 **Yemen AI Platform (v9.5)** — Sovereign Bilingual AI Core & High-Speed RAG Engine
-- 🔐 **CipherSphere** — Applied Cryptography Laboratory & Security Suite
-- 🎓 **Al-Manar University Platform** — Academic Schedule & Student Management System
-- 📱 **FocusFlow & Mobile Apps** — Flutter Productivity Applications & Analytics
-- 🏥 **Enterprise ERP Platforms** — Healthcare & Retail Management Systems
-
----
-
-# 📊 Engineering Snapshot
-
-| Metric | Value |
-|---------|-------|
-| 💻 Specialization | Sovereign AI, Cryptography & Enterprise Full-Stack |
-| 🏗 Core Focus | RAG Engines, ERP Systems & Security Suites |
-| 📱 Mobile | Flutter / Dart |
-| 🌐 Frontend | React / Next.js / Tailwind CSS |
-| ⚙ Backend | Python (FastAPI) / Node.js (Express) |
-| 🗄 Database & ORM | PostgreSQL / SQLite / Prisma |
-| 🤖 AI & Local LLMs | Ollama / Hybrid RAG / Vector Stores |
-| ☁ Deployment | Docker / Render / Vercel |
-
----
-
-# 🛠 Technology Stack
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=ts,js,python,cpp,dart,cs,react,next,fastapi,nodejs,postgres,prisma,flutter,docker,git,linux,tailwind" />
+  <img src="https://capsule-render.vercel.app/api?type=venom&height=300&color=gradient&customColorList=0,2,2,5,30&text=M.GH.AL&fontColor=fff&fontSize=70&stroke=000&strokeWidth=2&desc=Full-Stack%20Developer%20%7C%20Software%20Engineer%20%7C%20IT%20Student&descSize=18&descAlign=50&descAlignY=75" />
+</p>
+
+<p align="center">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=0F766E&center=true&vCenter=true&width=650&lines=Full-Stack+Developer;Software+Engineer+%7C+IT+Student;Building+Real-World+Software+Solutions;Next.js+%7C+Node.js+%7C+TypeScript;Engineering+with+Purpose+%26+Precision" alt="Typing SVG" />
+</p>
+
+<p align="center">
+  <a href="https://github.com/mghalaosimi-web?tab=followers">
+    <img src="https://img.shields.io/github/followers/mghalaosimi-web?label=Followers&style=social" alt="GitHub Followers" />
+  </a>
+  <a href="https://github.com/mghalaosimi-web?tab=repositories">
+    <img src="https://img.shields.io/github/stars/mghalaosimi-web?label=Total%20Stars&style=social" alt="GitHub Stars" />
+  </a>
+  <img src="https://komarev.com/ghpvc/?username=mghalaosimi-web&label=Profile%20Views&color=0F766E&style=flat" alt="Profile Views" />
+  <a href="https://www.credly.com/">
+    <img src="https://img.shields.io/badge/Credentials-Credly-FF6B00?style=social&logo=credly" alt="Credly" />
+  </a>
 </p>
 
 ---
 
-# 🏢 Featured Enterprise Projects
+## 👨‍💻 About Me | نبذة عني
 
-### 🇾🇪 [Yemen AI Platform (v9.5)](https://github.com/mghalaosimi-web/yemen-ai)
-Enterprise sovereign bilingual (Arabic/English) intelligence core featuring local LLM orchestration (**Ollama**), hybrid RAG retrieval, multi-portal RBAC, and deep document research workspace.
-
-### 🔐 [CipherSphere](https://github.com/mghalaosimi-web/CipherSphere)
-Applied Cryptography & Security Suite featuring interactive 14-cipher visual matrices (AES-128, Playfair, Rail Fence, RSA Lab) with PyInstaller standalone compilation.
-
-### 🏫 [Al-Manar Schedule System](https://github.com/mghalaosimi-web/manar-schedule-system)
-Academic scheduling & student management system with automated WhatsApp cron digests, JWT authentication, and Prisma PostgreSQL database.
-
----
-
-# 📊 GitHub Analytics
-
-<div align="center">
-
-<img height="180em" src="https://github-readme-stats.vercel.app/api?username=mghalaosimi-web&show_icons=true&theme=github_dark&hide_border=true&rank_icon=github"/>
-
-<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=mghalaosimi-web&layout=compact&theme=github_dark&hide_border=true"/>
-
-</div>
-
-<br>
-
-<div align="center">
-
-<img src="https://streak-stats.demolab.com?user=mghalaosimi-web&theme=github-dark-blue&hide_border=true"/>
-
-</div>
+<p align="center">
+  I'm <b>Mohammed Ghaleb Alaosimi</b>, known as <b>M.GH.AL</b> — a Full-Stack Developer, Software Engineer, and Information Technology student at Al-Manar University College, Yemen.
+  <br><br>
+  I focus on building practical software solutions, full-stack web applications, business management systems, and modern digital experiences. My work combines frontend engineering, backend development, database design, API architecture, and thoughtful user experience.
+  <br><br>
+  I enjoy turning complex requirements into maintainable software, exploring modern technologies, and continuously improving my engineering skills through hands-on projects.
+  <br><br>
+  أنا <b>محمد غالب العصيمي</b>، المعروف بهوية <b>M.GH.AL</b>، مطور برمجيات شامل، ومهتم بهندسة البرمجيات، وطالب تقنية معلومات في كلية المنار الجامعية باليمن.
+  <br><br>
+  أركز على بناء حلول برمجية عملية، وتطبيقات ويب متكاملة، وأنظمة إدارية، وتجارب رقمية حديثة، مع الاهتمام بهندسة الواجهات والخلفية، وتصميم قواعد البيانات، وبناء واجهات API، وجودة تجربة المستخدم.
+</p>
 
 ---
 
-# 🌍 Connect With Me
+## 🎓 Education | التعليم
 
-<div align="center">
+<p align="center">
+  <img src="https://img.shields.io/badge/Al--Manar%20University%20College-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Information%20Technology-134E4A?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Yemen-1F2937?style=for-the-badge" />
+</p>
 
-<a href="https://github.com/mghalaosimi-web">
-<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github"/>
-</a>
-
-<a href="https://www.facebook.com/MOAS.2006">
-<img src="https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook"/>
-</a>
-
-<a href="https://www.tiktok.com/@m.gh.al.2006">
-<img src="https://img.shields.io/badge/TikTok-000000?style=for-the-badge&logo=tiktok"/>
-</a>
-
-<a href="mailto:m.gh.alaosimi@gmail.com">
-<img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail"/>
-</a>
-
-</div>
+- **Degree:** Bachelor's degree in Information Technology — in progress.
+- **Institution:** Al-Manar University College.
+- **Focus:** Full-Stack Development, Software Engineering, Databases, and Modern Application Architecture.
 
 ---
 
+## 🏆 Professional Certification | الشهادات المهنية
+
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=170&section=footer&color=0:00E5FF,35:00B4D8,70:001F3F,100:0D1117"/>
+<table>
+  <tr>
+    <td align="center" width="300">
+      <a href="https://openjsf.org/">
+        <img src="https://img.shields.io/badge/OpenJS-Application%20Development-3C873A?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="OpenJS" />
+      </a>
+      <br /><br />
+      <b>OpenJS Node.js Application Developer (JSNAD)</b>
+      <br /><br />
+      <sub>Issued by OpenJS Foundation and The Linux Foundation</sub>
+      <br />
+      <sub>May 2026</sub>
+    </td>
+  </tr>
+</table>
 
 </div>
 
+<p align="center">
+  <a href="https://www.credly.com/">
+    <img src="https://img.shields.io/badge/Cisco%20Networking%20Academy-Certificates%20%26%20Achievements-049FD9?style=for-the-badge&logo=cisco&logoColor=white" alt="Cisco Networking Academy" />
+  </a>
+</p>
+
+I have also completed Cisco Networking Academy learning and certification activities. Individual certificate names and verification links should be added from the corresponding issued credentials.
+
+لدي أيضًا شهادات وإنجازات تعليمية من Cisco Networking Academy. ستُضاف كل شهادة باسمها الصحيح ورابط التحقق الخاص بها بعد مطابقة بياناتها مع سجلات الشهادات الأصلية.
+
 ---
 
-# 🎓 Certifications & Verified Credentials
+## 🛠️ Tech Stack | المهارات التقنية
 
-## Professional Skills Summary
+### Programming Languages | لغات البرمجة
 
-- **Cybersecurity & Network Defense:** threats, firewalls, cloud security, cryptography, access controls, endpoint protection, vulnerability assessment, risk management, forensics, incident response, and data protection.
-- **Networking & Connectivity:** IP addressing, protocols, cabling, wireless networks, connectivity troubleshooting, device setup, and Cisco Packet Tracer.
-- **IT Support & Customer Service:** help-desk operations, customer service, documentation, remote troubleshooting, technical problem solving, and technical communication.
-- **Operating Systems & Hardware:** Windows, Linux, Android, iOS, operating-system security, mobile connectivity, hardware upgrades, and device support.
-- **Python & Programming:** Python syntax, basic programming, procedural programming, scripting, debugging, algorithmic thinking, best practices, and the Python Standard Library.
-- **Artificial Intelligence:** AI-enabled applications, chatbot interaction, prompt design, machine-learning fundamentals, computer vision, and machine translation.
-- **UX/UI & Interaction Design:** UX design, UI principles, UI/UX design, interaction design, and usable digital interfaces.
+<p>
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/C%23-512BD4?style=for-the-badge&logo=csharp&logoColor=white" />
+  <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" />
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+</p>
 
-## Verified Certificate Links
+### Frontend Development | تطوير الواجهات
 
-### Cisco / Credly
+<p>
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
+  <img src="https://img.shields.io/badge/Responsive_UI-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/RTL_Interfaces-134E4A?style=for-the-badge" />
+</p>
 
-1. [Junior Cybersecurity Analyst Career Path](https://www.credly.com/badges/dd87ef5f-4c10-4d9d-928b-cf0a995c5ccb)
-2. [Python Essentials 1 — Arfat Abdullah Alkamly](https://www.credly.com/badges/43943e68-05c5-40ea-93d1-d2a26e07ced0)
-3. [IT Customer Support Basics — Cisco verification](https://cp.certmetrics.com/cisco/en/public/verify/credential/) — Cert ID: c21859f1-476d-49bb-a798-ac1479307855
-4. [Introduction to Modern AI](https://www.credly.com/badges/35fadd6d-f9d6-4d4f-b151-464d30637bbb)
-5. [Python Essentials 1](https://www.credly.com/badges/8d8f1cba-4a98-4cd5-b3b9-fe4233f085b1)
-6. [Security and Connectivity Support](https://www.credly.com/badges/327cec43-3807-4a02-b144-c72407bdc4f3)
-7. [Operating Systems Basics](https://www.credly.com/badges/73d091cc-193d-4b57-b8e0-e64340df62c7)
-8. [Networking Basics](https://www.credly.com/badges/6e1ad458-e752-4064-a997-27092902f884)
-9. [IT Customer Support Basics](https://www.credly.com/badges/2319c9be-ea2f-44ff-a256-d431cd48404e)
-10. [Hardware and Upgrade Support — Cisco verification](https://cp.certmetrics.com/cisco/en/public/verify/credential/) — Cert ID: bc68bb11-3b72-420d-877a-a92139aff2f6
+### Backend Development | تطوير الخلفية
 
-### Edraak
+<p>
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/REST_APIs-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" />
+  <img src="https://img.shields.io/badge/Zod-3068B7?style=for-the-badge" />
+</p>
 
-11. [UX Design](https://programs.edraak.org/learn/verify-certificate/261ba96416f847dea412232020b915ec/?lang=en)
-12. [Interaction Design Fundamentals](https://programs.edraak.org/learn/verify-certificate/b774c07893ef4cacb20a6271fcc126c3/?lang=en)
-13. [User Interface Design Principles](https://programs.edraak.org/learn/verify-certificate/39ab850762d242e4aba085047a34a440/?lang=en)
-14. [UI/UX Design](https://programs.edraak.org/learn/verify-certificate/6addfdb9d4ce42cbb6581c5ad7798421/?lang=en)
+### Databases | قواعد البيانات
 
-## Portfolio Links
+<p>
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/PostGIS-4169E1?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" />
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" />
+  <img src="https://img.shields.io/badge/Supabase-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" />
+  <img src="https://img.shields.io/badge/Drift-1976D2?style=for-the-badge" />
+</p>
 
-- [Professional CV / Resume](https://mohammedcv-nsou5oex.manus.space)
-- [GitHub profile](https://github.com/mghalaosimi-web)
+### Mobile Development | تطوير تطبيقات الجوال
+
+<p>
+  <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" />
+  <img src="https://img.shields.io/badge/Android_Development-3DDC84?style=for-the-badge&logo=android&logoColor=black" />
+</p>
+
+### DevOps & Developer Tools | الأدوات
+
+<p>
+  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" />
+  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/pnpm-F69220?style=for-the-badge&logo=pnpm&logoColor=white" />
+  <img src="https://img.shields.io/badge/Turborepo-EF4444?style=for-the-badge&logo=turborepo&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
+  <img src="https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black" />
+  <img src="https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" />
+</p>
+
+---
+
+## 🚀 Featured Projects | أبرز المشاريع
+
+<table>
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Description</th>
+      <th>Technologies</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <a href="https://humanity-system.vercel.app/"><b>Humanity System</b></a>
+      </td>
+      <td>
+        A web-based system focused on organizing workflows and managing information.
+        <br />
+        نظام ويب لتنظيم سير العمل وإدارة المعلومات.
+      </td>
+      <td>Next.js, TypeScript, Prisma, PostgreSQL</td>
+    </tr>
+    <tr>
+      <td><b>WAYNAH | وَيْنَه؟</b></td>
+      <td>
+        A geographic discovery concept focused on trusted local information and location-based discovery in Yemen.
+        <br />
+        مشروع للاستكشاف الجغرافي والمعلومات المحلية الموثوقة في اليمن.
+      </td>
+      <td>Next.js, TypeScript, PostgreSQL, PostGIS</td>
+    </tr>
+    <tr>
+      <td><b>Business Management Systems</b></td>
+      <td>
+        Full-stack application development focused on administrative workflows, data management, and business operations.
+        <br />
+        تطوير أنظمة إدارية متكاملة لإدارة البيانات والعمليات التجارية.
+      </td>
+      <td>React, Node.js, Prisma, PostgreSQL</td>
+    </tr>
+    <tr>
+      <td><b>Offline-First Applications</b></td>
+      <td>
+        Exploring applications that support local data persistence and reliable user experiences with limited connectivity.
+        <br />
+        تطوير تطبيقات تدعم تخزين البيانات محليًا والعمل مع الاتصال المحدود.
+      </td>
+      <td>Flutter, SQLite, Drift</td>
+    </tr>
+  </tbody>
+</table>
+
+<p align="center">
+  <a href="https://github.com/mghalaosimi-web?tab=repositories">
+    <img src="https://img.shields.io/badge/Explore%20My%20Repositories-181717?style=for-the-badge&logo=github&logoColor=white" alt="Explore Repositories" />
+  </a>
+</p>
+
+---
+
+## 🎯 Current Focus | مجالات التركيز
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Full--Stack%20Engineering-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Software%20Architecture-134E4A?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/AI%20Integration-7C3AED?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Database%20Engineering-2563EB?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Open%20Source-181717?style=for-the-badge&logo=github&logoColor=white" />
+</p>
+
+| Area | المجال | Focus |
+|---|---|---|
+| Full-Stack Development | تطوير الويب المتكامل | Building maintainable web applications |
+| Software Engineering | هندسة البرمجيات | Architecture, testing, and code quality |
+| Database Engineering | هندسة قواعد البيانات | Data modeling, SQL, and geospatial data |
+| AI Integration | دمج الذكاء الاصطناعي | Integrating AI capabilities into applications |
+| Mobile Development | تطوير تطبيقات الجوال | Flutter and local-first application design |
+| Open Source | البرمجيات مفتوحة المصدر | Developing useful software and improving engineering skills |
+
+---
+
+## 📊 GitHub Analytics | إحصائيات GitHub
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=mghalaosimi-web&show_icons=true&theme=radical&hide_border=true&include_all_commits=true" alt="GitHub Statistics" />
+</p>
+
+<p align="center">
+  <img src="https://streak-stats.demolab.com?user=mghalaosimi-web&theme=radical&hide_border=true" alt="GitHub Contribution Streak" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mghalaosimi-web&layout=compact&theme=radical&hide_border=true" alt="Most Used Languages" />
+</p>
+
+---
+
+## 📫 Connect With Me | تواصل معي
+
+<p align="center">
+  <a href="https://github.com/mghalaosimi-web">
+    <img src="https://img.shields.io/badge/GitHub-M.GH.AL-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
+  </a>
+  <a href="https://linkedin.com/in/mohammed-alaosimi-038155443">
+    <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
+  <a href="https://www.credly.com/">
+    <img src="https://img.shields.io/badge/Credly-Certifications-FF6B00?style=for-the-badge&logo=credly&logoColor=white" alt="Credly" />
+  </a>
+</p>
+
+<p align="center">
+  <sub>For professional inquiries, please contact me through my GitHub or LinkedIn profile.</sub>
+  <br />
+  <sub>للتواصل المهني، يمكنك التواصل معي عبر GitHub أو LinkedIn.</sub>
+</p>
+
+---
+
+<p align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0F766E&height=120&section=footer" />
+</p>
+
+<p align="center">
+  <b>M.GH.AL</b>
+  <br />
+  <sub>Full-Stack Developer | Software Engineer | IT Student</sub>
+  <br />
+  <sub>Building software with purpose, precision, and continuous learning.</sub>
+</p>
