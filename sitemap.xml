@@ -18,4 +18,6 @@
 <url><loc>https://mghal.vercel.app/en/achievements.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>.7</priority></url>
 <url><loc>https://mghal.vercel.app/en/knowledge.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>.7</priority></url>
 <url><loc>https://mghal.vercel.app/en/contact.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>.7</priority></url>
+  <url><loc>https://mghal.vercel.app/showcase.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mghal.vercel.app/en/showcase.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
