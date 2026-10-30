@@ -84,3 +84,6 @@ section{border-top-color:#94a3b820!important}.card,.item,.note,.monogram,.mark{b
 .credential-search{font:inherit}.credential-detail[hidden],main .item[hidden]{display:none!important}
 main .item.engineering-card{padding:22px;border:1px solid var(--border-subtle);border-radius:16px;background:var(--bg-card)}
 @media(max-width:760px){.navlinks{gap:9px}.navlinks a{font-size:12px}.top .nav{align-items:flex-start;gap:12px;flex-wrap:wrap}}
+
+.credential-file-actions{display:inline-flex;align-items:center;justify-content:center;min-height:42px;margin:7px 5px 0 0;padding:8px 13px;border-radius:10px;background:#17255488;border:1px solid var(--border-subtle);color:#dbeafe!important;font-size:12px;font-weight:700}
+.credential-file-actions:hover{border-color:var(--border-hover);background:#2563eb22}
