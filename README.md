@@ -22,6 +22,12 @@
 
 ---
 
+## 🌐 Official Website | الموقع الرسمي
+
+[https://mghal.vercel.app](https://mghal.vercel.app) — the Arabic and English portfolio, project catalog, and credential record.
+
+---
+
 ## 👨‍💻 About Me | نبذة عني
 
 <p align="center">
@@ -80,9 +86,52 @@
   </a>
 </p>
 
-I have also completed Cisco Networking Academy learning and certification activities. Individual certificate names and verification links should be added from the corresponding issued credentials.
+### Cisco Networking Academy — 11 recorded badges
 
-لدي أيضًا شهادات وإنجازات تعليمية من Cisco Networking Academy. ستُضاف كل شهادة باسمها الصحيح ورابط التحقق الخاص بها بعد مطابقة بياناتها مع سجلات الشهادات الأصلية.
+1. Hardware and Upgrade Support — August 2, 2026
+2. Cybersecurity Defense Analyst Career Path — July 29, 2026
+3. Operating Systems Support — July 29, 2026
+4. English for IT 1 — July 27, 2026
+5. Junior Cybersecurity Analyst Career Path — July 27, 2026
+6. Networking Basics — July 27, 2026
+7. Security and Connectivity Support — July 27, 2026
+8. Python Essentials 1 — July 26, 2026
+9. Operating Systems Basics — July 25, 2026
+10. IT Customer Support Basics — July 24, 2026
+11. Introduction to Modern AI — July 23, 2026
+
+[Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
+
+### Edraak — 6 recorded certificates
+
+- UI/UX Design
+- Communications Skills
+- Interaction Design Fundamentals
+- UX Research
+- UX Design
+- User Interface Design Principles
+
+Individual verification references:
+1. [Edraak verification 1](https://programs.edraak.org/learn/verify-certificate/6addfdb9d4ce42cbb6581c5ad7798421/?lang=en)
+2. [Edraak verification 2](https://programs.edraak.org/learn/verify-certificate/e3d641d030654b5ea5a62a0011a80f41/?lang=en)
+3. [Edraak verification 3](https://programs.edraak.org/learn/verify-certificate/b774c07893ef4cacb20a6271fcc126c3/?lang=en)
+4. [Edraak verification 4](https://programs.edraak.org/learn/verify-certificate/528490ad79e14aefb6f42e361200d20d/?lang=en)
+5. [Edraak verification 5](https://programs.edraak.org/learn/verify-certificate/261ba96416f847dea412232020b915ec/?lang=en)
+6. [Edraak verification 6](https://programs.edraak.org/learn/verify-certificate/39ab850762d242e4aba085047a34a440/?lang=en)
+
+The names above follow the saved credential record. The six verification URLs are listed separately because an exact URL-to-title mapping has not been independently confirmed.
+
+### Additional Credly references
+
+1. [Badge reference 1](https://www.credly.com/badges/35fadd6d-f9d6-4d4f-b151-464d30637bbb)
+2. [Badge reference 2](https://www.credly.com/badges/2319c9be-ea2f-44ff-a256-d431cd48404e)
+3. [Badge reference 3](https://www.credly.com/badges/dd87ef5f-4c10-4d9d-928b-cf0a995c5ccb)
+4. [Badge reference 4](https://www.credly.com/badges/6e1ad458-e752-4064-a997-27092902f884)
+5. [Badge reference 5](https://www.credly.com/badges/73d091cc-193d-4b57-b8e0-e64340df62c7)
+6. [Badge reference 6](https://www.credly.com/badges/8d8f1cba-4a98-4cd5-b3b9-fe4233f085b1/public_url)
+7. [Badge reference 7](https://www.credly.com/badges/327cec43-3807-4a02-b144-c72407bdc4f3)
+
+Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a798-ac1479307855`, `bc68bb11-3b72-420d-877a-a92139aff2f6`. These identifiers are not presented as direct Credly links.
 
 ---
 
@@ -155,52 +204,15 @@ I have also completed Cisco Networking Academy learning and certification activi
 ## 🚀 Featured Projects | أبرز المشاريع
 
 <table>
-  <thead>
-    <tr>
-      <th>Project</th>
-      <th>Description</th>
-      <th>Technologies</th>
-    </tr>
-  </thead>
+  <thead><tr><th>Project</th><th>Description</th><th>Technologies</th></tr></thead>
   <tbody>
-    <tr>
-      <td>
-        <a href="https://humanity-system.vercel.app/"><b>Humanity System</b></a>
-      </td>
-      <td>
-        A web-based system focused on organizing workflows and managing information.
-        <br />
-        نظام ويب لتنظيم سير العمل وإدارة المعلومات.
-      </td>
-      <td>Next.js, TypeScript, Prisma, PostgreSQL</td>
-    </tr>
-    <tr>
-      <td><b>WAYNAH | وَيْنَه؟</b></td>
-      <td>
-        A geographic discovery concept focused on trusted local information and location-based discovery in Yemen.
-        <br />
-        مشروع للاستكشاف الجغرافي والمعلومات المحلية الموثوقة في اليمن.
-      </td>
-      <td>Next.js, TypeScript, PostgreSQL, PostGIS</td>
-    </tr>
-    <tr>
-      <td><b>Business Management Systems</b></td>
-      <td>
-        Full-stack application development focused on administrative workflows, data management, and business operations.
-        <br />
-        تطوير أنظمة إدارية متكاملة لإدارة البيانات والعمليات التجارية.
-      </td>
-      <td>React, Node.js, Prisma, PostgreSQL</td>
-    </tr>
-    <tr>
-      <td><b>Offline-First Applications</b></td>
-      <td>
-        Exploring applications that support local data persistence and reliable user experiences with limited connectivity.
-        <br />
-        تطوير تطبيقات تدعم تخزين البيانات محليًا والعمل مع الاتصال المحدود.
-      </td>
-      <td>Flutter, SQLite, Drift</td>
-    </tr>
+    <tr><td><a href="https://github.com/mghalaosimi-web/waynah"><b>WAYNAH | وَيْنَه؟</b></a></td><td>Trusted geographic discovery and local information platform for Yemen.</td><td>Next.js, TypeScript, PostgreSQL, PostGIS, Turborepo</td></tr>
+    <tr><td><a href="https://github.com/mghalaosimi-web/humanity-system"><b>Humanity System</b></a></td><td>Arabic RTL institutional workflow and information management system.</td><td>Next.js, TypeScript, Prisma, PostgreSQL</td></tr>
+    <tr><td><a href="https://github.com/mghalaosimi-web/yemen-ai"><b>Yemen AI Platform</b></a></td><td>Bilingual AI platform with RAG, document research, and model orchestration.</td><td>Python, FastAPI, RAG</td></tr>
+    <tr><td><a href="https://github.com/mghalaosimi-web/mghal-content-os"><b>M.GH.AL Content Studio</b></a></td><td>AI-assisted Arabic content planning, generation, visual design, and publishing workflows.</td><td>Next.js, TypeScript, Gemini, Prisma</td></tr>
+    <tr><td><a href="https://github.com/mghalaosimi-web/CipherSphere"><b>CipherSphere</b></a></td><td>Interactive desktop cryptography learning and visualization lab.</td><td>Python, PyQt6</td></tr>
+    <tr><td><a href="https://github.com/mghalaosimi-web/focusflow"><b>FocusFlow</b></a></td><td>Mobile productivity app for tasks, Pomodoro, habits, and analytics.</td><td>Flutter, Dart, SQLite</td></tr>
+    <tr><td><a href="https://github.com/mghalaosimi-web/manar-schedule-system"><b>Manar Schedule System</b></a> / <a href="https://github.com/mghalaosimi-web/almanar-schedule-system">related repository</a></td><td>University academic scheduling and timetable management; two related repositories are listed together.</td><td>React, Node.js, Express, PostgreSQL, Prisma</td></tr>
   </tbody>
 </table>
 
