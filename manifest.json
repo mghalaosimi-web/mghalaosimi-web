@@ -1,0 +1,24 @@
+{
+  "id": "/",
+  "name": "M.GH.AL — محمد غالب العصيمي",
+  "short_name": "M.GH.AL",
+  "description": "الهوية الرقمية الرسمية لمحمد غالب العصيمي",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#080b18",
+  "theme_color": "#080b18",
+  "categories": ["business", "education", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
