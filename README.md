@@ -73,7 +73,7 @@
       <br /><br />
       <sub>Issued by OpenJS Foundation and The Linux Foundation</sub>
       <br />
-      <sub>November 12, 2024</sub>
+      <sub>May 2026</sub>
     </td>
   </tr>
 </table>
@@ -207,7 +207,7 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
   <thead><tr><th>Project</th><th>Description</th><th>Technologies</th></tr></thead>
   <tbody>
     <tr><td><a href="https://github.com/mghalaosimi-web/waynah"><b>WAYNAH | وَيْنَه؟</b></a></td><td>Trusted geographic discovery and local information platform for Yemen.</td><td>Next.js, TypeScript, PostgreSQL, PostGIS, Turborepo</td></tr>
-    <tr><td><a href="https://github.com/mghalaosimi-web/humanity-system"><b>Humanity System</b></a></td><td>Arabic RTL institutional workflow and information management system.</td><td>Next.js, TypeScript, Prisma, PostgreSQL</td></tr>
+    <tr><td><a href="https://humanity-system.vercel.app/"><b>Humanity System</b></a></td><td>Arabic RTL institutional workflow and information management system.</td><td>Next.js, TypeScript, Prisma, PostgreSQL</td></tr>
     <tr><td><a href="https://github.com/mghalaosimi-web/yemen-ai"><b>Yemen AI Platform</b></a></td><td>Bilingual AI platform with RAG, document research, and model orchestration.</td><td>Python, FastAPI, RAG</td></tr>
     <tr><td><a href="https://github.com/mghalaosimi-web/mghal-content-os"><b>M.GH.AL Content Studio</b></a></td><td>AI-assisted Arabic content planning, generation, visual design, and publishing workflows.</td><td>Next.js, TypeScript, Gemini, Prisma</td></tr>
     <tr><td><a href="https://github.com/mghalaosimi-web/CipherSphere"><b>CipherSphere</b></a></td><td>Interactive desktop cryptography learning and visualization lab.</td><td>Python, PyQt6</td></tr>
