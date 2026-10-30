@@ -67,7 +67,7 @@
       <br /><br />
       <sub>Issued by OpenJS Foundation and The Linux Foundation</sub>
       <br />
-      <sub>May 2026</sub>
+      <sub>November 12, 2024</sub>
     </td>
   </tr>
 </table>
