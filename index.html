@@ -62,13 +62,6 @@
   </main>
   <footer class="wrap"><span>© <span id="year"></span> M.GH.AL — Mohammed Ghaleb Alaosimi</span><span>Built with purpose · Yemen</span></footer>
   <script>document.getElementById("year").textContent=new Date().getFullYear();</script>
-<script src="/assets/site.js" defer></script><script>
-  if ("serviceWorker" in navigator && location.protocol === "https:") {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("/sw.js", { scope: "/" })
-        .catch((error) => console.error("M.GH.AL offline support:", error));
-    });
-  }
-</script>
+<script src="/assets/site.js" defer></script>
 </body>
 </html>
