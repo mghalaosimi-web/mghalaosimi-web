@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080b18">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="M.GH.AL">
   <meta name="author" content="Mohammed Ghaleb Alaosimi">
   <meta property="og:site_name" content="M.GH.AL — الموقع الرسمي">
   <meta property="og:locale:alternate" content="en_US">
@@ -64,5 +70,13 @@
   <section id="digital-hub"><h2 class="section-title">بوابة الهوية الرقمية <small>Digital identity hub</small></h2><div class="grid"><a class="card" href="/profile.html"><h3>الملف الشخصي</h3><p>تعريف موحد بالهوية المهنية لمحمد غالب العصيمي، المعروف باسم M.GH.AL.</p></a><a class="card" href="/education.html"><h3>المسيرة التعليمية</h3><p>المسيرة الأكاديمية في تخصص تقنية المعلومات بكلية المنار الجامعية في اليمن.</p></a><a class="card" href="/skills.html"><h3>المهارات التقنية</h3><p>التقنيات ومجالات العمل المستخدمة في المشاريع والتعلم التقني.</p></a><a class="card" href="/achievements.html"><h3>الإنجازات والمسار المهني</h3><p>محطات تعليمية ومهنية مسجلة في ملف M.GH.AL وروابط الشهادات المتاحة.</p></a><a class="card" href="/knowledge.html"><h3>المعرفة والمقالات</h3><p>مساحة للمقالات والملاحظات التقنية بعد إعدادها ومراجعتها.</p></a><a class="card" href="/contact.html"><h3>التواصل الرسمي</h3><p>قنوات التواصل والحسابات المهنية الرسمية المرتبطة بالهوية الرقمية M.GH.AL.</p></a></div></section></main>
   <footer class="wrap"><span>© <span id="year"></span> M.GH.AL — Mohammed Ghaleb Alaosimi</span><span>Built with purpose · Yemen</span></footer>
   <script>document.getElementById("year").textContent=new Date().getFullYear();</script>
-<script src="/assets/site.js" defer></script></body>
+<script src="/assets/site.js" defer></script><script>
+  if ("serviceWorker" in navigator && location.protocol === "https:") {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js", { scope: "/" })
+        .catch((error) => console.error("M.GH.AL offline support:", error));
+    });
+  }
+</script>
+</body>
 </html>
