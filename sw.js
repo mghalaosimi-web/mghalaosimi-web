@@ -1,8 +1,9 @@
-const CACHE_NAME = "mghal-pwa-v1";
+const CACHE_NAME = "mghal-pwa-v2";
 const APP_SHELL = [
   "/",
   "/index.html",
   "/favicon.svg",
+  "/assets/pwa-icon.svg",
   "/manifest.json",
   "/assets/theme.css",
   "/assets/site.js"
