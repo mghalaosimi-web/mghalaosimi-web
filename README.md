@@ -248,15 +248,15 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 ## 📊 GitHub Analytics | إحصائيات GitHub
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=mghalaosimi-web&show_icons=true&theme=radical&hide_border=true&include_all_commits=true" alt="GitHub Statistics" />
+  <img src="https://github-readme-stats.vercel.app/api?username=mghalaosimi-web&show_icons=true&theme=transparent&hide_border=true&bg_color=0D1117&title_color=8DD9C9&text_color=9BB2AB&icon_color=32A895&include_all_commits=true" alt="GitHub Statistics" />
 </p>
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=mghalaosimi-web&theme=radical&hide_border=true" alt="GitHub Contribution Streak" />
+  <img src="https://streak-stats.demolab.com?user=mghalaosimi-web&theme=transparent&hide_border=true&bg_color=0D1117&title_color=8DD9C9&text_color=9BB2AB&icon_color=32A895" alt="GitHub Contribution Streak" />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mghalaosimi-web&layout=compact&theme=radical&hide_border=true" alt="Most Used Languages" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mghalaosimi-web&layout=compact&theme=transparent&hide_border=true&bg_color=0D1117&title_color=8DD9C9&text_color=9BB2AB&icon_color=32A895" alt="Most Used Languages" />
 </p>
 
 ---
@@ -264,14 +264,23 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 ## 📫 Connect With Me | تواصل معي
 
 <p align="center">
+  <a href="https://mghal.vercel.app/">
+    <img src="https://img.shields.io/badge/Official%20Website-M.GH.AL-0F766E?style=for-the-badge" alt="Official Website" />
+  </a>
   <a href="https://github.com/mghalaosimi-web">
     <img src="https://img.shields.io/badge/GitHub-M.GH.AL-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
   </a>
   <a href="https://linkedin.com/in/mohammed-alaosimi-038155443">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
-  <a href="https://www.credly.com/">
-    <img src="https://img.shields.io/badge/Credly-Certifications-FF6B00?style=for-the-badge&logo=credly&logoColor=white" alt="Credly" />
+  <a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi">
+    <img src="https://img.shields.io/badge/Credly-Credentials-FF6B00?style=for-the-badge&logo=credly&logoColor=white" alt="Credly" />
+  </a>
+  <a href="https://www.instagram.com/q_v94/">
+    <img src="https://img.shields.io/badge/Instagram-Profile-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" />
+  </a>
+  <a href="https://www.tiktok.com/@m.gh.al.2006">
+    <img src="https://img.shields.io/badge/TikTok-Profile-111111?style=for-the-badge&logo=tiktok&logoColor=white" alt="TikTok" />
   </a>
 </p>
 
