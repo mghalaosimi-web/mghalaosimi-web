@@ -5,4 +5,4 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-</urlset>
+  <url>\n    <loc>https://mghal.vercel.app/certificates.html</loc>\n    <changefreq>yearly</changefreq>\n    <priority>0.7</priority>\n  </url>\n</urlset>
