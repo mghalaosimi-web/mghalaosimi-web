@@ -21,6 +21,7 @@ for(const p of catalog.projects){
   assert.match(html,/hreflang='ar'/);
   assert.match(html,/hreflang='en'/);
   assert.match(html,/application\/ld\+json/);
+  if(p.slug==="mghal-official-website")assert.ok(html.includes('"@type":"WebSite"'),"Official website must use WebSite structured data.");
   assert.match(html,/id='main-content'/);
   assert.match(html,/class='skip-link'/);
   assert.match(html,/name='description'/);
