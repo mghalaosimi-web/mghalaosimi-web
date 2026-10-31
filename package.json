@@ -4,7 +4,7 @@
   "private": true,
   "description": "Bilingual M.GH.AL official static website — quality and TypeScript tooling",
   "engines": {
-    "node": ">=22.0.0"
+    "node": "24.x"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
