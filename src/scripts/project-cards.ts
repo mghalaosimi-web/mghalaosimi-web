@@ -24,17 +24,12 @@ document.querySelectorAll<HTMLElement>(projectSelector).forEach((card) => {
   card.dataset["engineeringEnhanced"] = "true";
   card.classList.add("engineering-card");
 
-  const status = card.querySelector(".status")?.textContent?.trim() ??
-    (isEnglish ? "Recorded project" : "مشروع مسجل");
   const meta = document.createElement("div");
   meta.className = "engineering-meta";
   const scopeNode = document.createElement("span");
   scopeNode.className = "engineering-role";
   scopeNode.textContent = (isEnglish ? "Engineering scope: " : "النطاق الهندسي: ") + getProjectScope(title);
-  const statusNode = document.createElement("span");
-  statusNode.className = "status";
-  statusNode.textContent = status;
-  meta.append(scopeNode, statusNode);
+  meta.append(scopeNode);
 
   const cover = card.querySelector(".project-cover");
   if (cover) cover.after(meta);
