@@ -73,7 +73,7 @@
       <br /><br />
       <sub>Issued by OpenJS Foundation and The Linux Foundation</sub>
       <br />
-      <sub>May 2026</sub>
+      <sub>November 12, 2024</sub>
     </td>
   </tr>
 </table>
@@ -86,7 +86,7 @@
   </a>
 </p>
 
-### Cisco Networking Academy — 11 recorded badges
+### Cisco Networking Academy — 14 recorded badges
 
 1. Hardware and Upgrade Support — August 2, 2026
 2. Cybersecurity Defense Analyst Career Path — July 29, 2026
@@ -99,6 +99,8 @@
 9. Operating Systems Basics — July 25, 2026
 10. IT Customer Support Basics — July 24, 2026
 11. Introduction to Modern AI — July 23, 2026
+
+The current credential record totals 21 entries: one JSNAD credential, 14 Cisco Networking Academy records, and 6 Edraak certificates. The 11 Cisco titles listed above are the entries currently itemized by name; three additional records are not named here until their exact titles and verification references are matched.
 
 [Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
 
