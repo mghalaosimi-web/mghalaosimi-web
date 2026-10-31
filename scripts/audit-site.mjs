@@ -56,6 +56,9 @@ for (const file of pages) {
       && !/<meta\b[^>]*content=["'][^"']+["'][^>]*name=["']description["'][^>]*>/i.test(html)) {
     fail(file, "missing meta description");
   }
+  const hasStaticSkipLink = /class=["'][^"']*\bskip-link\b[^"']*["']/i.test(html);
+  const hasSkipLinkEnhancement = /(?:src|href)=["'][^"']*accessibility\.js["']/i.test(html);
+  if (!hasStaticSkipLink && !hasSkipLinkEnhancement) fail(file, "missing keyboard skip-navigation link or enhancement");
   const mainCount = (html.match(/<main\b/gi) ?? []).length;
   if (mainCount !== 1) fail(file, `expected exactly one main landmark, found ${mainCount}`);
 
