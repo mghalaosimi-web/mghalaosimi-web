@@ -156,7 +156,8 @@
           "The deployment URL is documented in the repository, but live availability could not be confirmed with the available browser check; it is not represented as a verified live demo."
         ]
       },
-      "operatingSystem": "Web browser"
+      "operatingSystem": "Web browser",
+      "lastUpdated": "2026-10-31"
     },
     {
       "id": "humanity-system",
@@ -262,7 +263,8 @@
           "The public description is intentionally high-level and omits internal operational details."
         ]
       },
-      "operatingSystem": "Web browser and Android"
+      "operatingSystem": "Web browser and Android",
+      "lastUpdated": "2026-05-27"
     },
     {
       "id": "yemen-ai",
@@ -399,7 +401,8 @@
           "Default credentials were found exposed in the public README. Their values are intentionally omitted from this site and audit; rotate them and remove defaults from public documentation before production use."
         ]
       },
-      "operatingSystem": "Windows, Linux or Docker host"
+      "operatingSystem": "Windows, Linux or Docker host",
+      "lastUpdated": "2026-09-18"
     },
     {
       "id": "mghal-content-os",
@@ -553,7 +556,8 @@
           "Integrations are documented in the repository; connected Meta/TikTok accounts and live publishing were not tested during this audit."
         ]
       },
-      "operatingSystem": "Web browser"
+      "operatingSystem": "Web browser",
+      "lastUpdated": "2026-10-28"
     },
     {
       "id": "manar-schedule-system",
@@ -706,7 +710,8 @@
           "The repositories remain separate in GitHub. The portfolio groups them as one project family with two distinct source links because they are separate repositories and exact duplication was not established."
         ]
       },
-      "operatingSystem": "Web browser"
+      "operatingSystem": "Web browser",
+      "lastUpdated": "2026-09-18"
     },
     {
       "id": "ciphersphere",
@@ -819,7 +824,8 @@
           "No published or signed executable release was verified; the project is not labelled completed."
         ]
       },
-      "operatingSystem": "Windows desktop"
+      "operatingSystem": "Windows desktop",
+      "lastUpdated": "2026-09-18"
     },
     {
       "id": "focusflow",
@@ -913,7 +919,8 @@
           "The cover is illustrative artwork; the repository contains no real screenshots."
         ]
       },
-      "operatingSystem": "Mobile (intended; not verified)"
+      "operatingSystem": "Mobile (intended; not verified)",
+      "lastUpdated": "2026-05-20"
     },
     {
       "id": "mghal-esdp",
@@ -1003,7 +1010,8 @@
           "No GitHub link, screenshots or live demo are available; unverified technical details are not asserted."
         ]
       },
-      "operatingSystem": "Windows"
+      "operatingSystem": "Windows",
+      "lastUpdated": null
     },
     {
       "id": "mghal-official-website",
@@ -1122,7 +1130,8 @@
           "The official deployment URL matches the Vercel domain connected to the project."
         ]
       },
-      "operatingSystem": "Web browser"
+      "operatingSystem": "Web browser",
+      "lastUpdated": "2026-10-31"
     }
   ]
 }
