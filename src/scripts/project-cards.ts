@@ -20,8 +20,8 @@ function getProjectScope(title: string): string {
 
 document.querySelectorAll<HTMLElement>(projectSelector).forEach((card) => {
   const title = card.querySelector("h2, h3")?.textContent?.trim() ?? "";
-  if (!title || card.dataset.engineeringEnhanced === "true") return;
-  card.dataset.engineeringEnhanced = "true";
+  if (!title || card.dataset["engineeringEnhanced"] === "true") return;
+  card.dataset["engineeringEnhanced"] = "true";
   card.classList.add("engineering-card");
 
   const status = card.querySelector(".status")?.textContent?.trim() ??
