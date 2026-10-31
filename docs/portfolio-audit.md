@@ -11,8 +11,8 @@
 - Public repositories: **8** (including the website repository).
 - Private repositories accessible to the connected GitHub integration: **1**.
 - Additional repositories returned under collaborator affiliation: **0**.
-- Project repositories excluding the website: **8**.
-- Distinct portfolio project records: **8**. The two university scheduling repositories are grouped as one related project family but remain separate source repositories. ESDP is retained as a project record from the owner's existing project context; no corresponding repository was found in the accessible account inventory.
+- Project repositories excluding the website: **8** (7 public and 1 private).
+- Distinct portfolio project records: **9**, including the official website itself and ESDP. The two university scheduling repositories are grouped as one related project family but remain separate source repositories. ESDP is retained as a project record from the owner's existing project context; no corresponding repository was found in the accessible account inventory.
 - No repository in the accessible owner inventory was marked archived.
 
 ## Repository register
@@ -27,11 +27,12 @@
 | `yemen-ai` | Public | `main` | Yemen AI Platform | Python/FastAPI and RAG-oriented platform; docs/images contains dashboard, document workspace and model-control visuals. |
 | `waynah` | Public | `main` | WAYNAH | Next.js/Hono/TypeScript/PostgreSQL/PostGIS monorepo; architecture and UI images found in docs/images. |
 | `mghal-content-os` | Public | `main` | M.GH.AL Content Studio | Next.js/TypeScript/Gemini/Prisma; 20 user-guide image assets found. |
-| `mghalaosimi-web` | Public | `main` | Official website — not a portfolio project | Static bilingual website and portfolio source. |
+| `mghalaosimi-web` | Public | `main` | M.GH.AL Official Website | Static bilingual website and portfolio source; included as a meta-project record as requested. |
 
 ## Project classification
 
 - **Main projects:** WAYNAH, Humanity System, Yemen AI Platform, M.GH.AL Content Studio.
+- **Professional platform:** M.GH.AL Official Website.
 - **Academic / institutional systems:** Al-Manar Schedule Systems, CipherSphere.
 - **Desktop applications:** CipherSphere, M.GH.AL ESDP.
 - **Mobile project records:** FocusFlow (README-only evidence); Humanity Android/Capacitor packaging is present in its private repository.
@@ -52,9 +53,10 @@ The public `yemen-ai/README.md` contains default role credentials. Credential va
 - The Humanity System private repository was accessible for metadata/README/tree review. No private content or internal image is exposed by the public pages.
 - Deployment URLs mentioned in repository documentation were not treated as live demos unless their live response could be confirmed. No live demo is claimed in the generated project pages; WAYNAH's README-listed deployment is labelled unverified.
 - Render workspace selection was unavailable in this session, so no Render service or deploy status was inspected.
-- Vercel project inspection showed the latest deployment ended in ERROR because the configured `public` output directory was absent. The build pipeline is being adjusted to create that output directory; no production deployment was triggered.
+- The latest branch preview deployment for commit `2c4bf618dba38c39c11b45368a28df967f394997` reached `READY`. Vercel logs confirm `npm run build`, static page generation, TypeScript checks, script compilation and static output preparation completed. This is a preview deployment, not a production promotion.
+- Render was not inspected because the account workspace was not selected; no Render service was changed.
 - Commit dates for every source repository were not included in this portfolio content pass. The project record review date is not represented as a source-code last-commit date.
 
 ## Safety boundaries
 
-No main-branch changes, PR merge, production deployment, database change, secret rotation, or deletion was performed as part of the portfolio inventory. The existing draft PR remains unmerged.
+No main-branch changes, PR merge, production deployment, database change, secret rotation, or deletion was performed as part of the portfolio inventory. No PR was merged.

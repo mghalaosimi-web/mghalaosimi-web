@@ -1004,6 +1004,114 @@
         ]
       },
       "operatingSystem": "Windows"
+    },
+    {
+      "id": "mghal-official-website",
+      "slug": "mghal-official-website",
+      "title": {
+        "ar": "M.GH.AL — الموقع الرسمي",
+        "en": "M.GH.AL Official Website"
+      },
+      "summary": {
+        "ar": "موقع شخصي مهني ثنائي اللغة يعرض هوية M.GH.AL والملف المهني والشهادات ومحفظة المشاريع، ببنية ثابتة قابلة للفهرسة.",
+        "en": "A bilingual professional website presenting the M.GH.AL identity, profile, credentials and verified software portfolio through a static, indexable architecture."
+      },
+      "problem": {
+        "ar": "الحاجة إلى مرجع رقمي موحد يعرض الهوية المهنية والأعمال البرمجية بمعلومات قابلة للتحقق بدلاً من تشتتها عبر المنصات.",
+        "en": "The need for a single verifiable digital reference for professional identity and software work instead of fragmented profiles across platforms."
+      },
+      "goal": {
+        "ar": "تقديم موقع عربي وإنجليزي سريع ومتجاوب، مع صفحات مستقلة للمشاريع وبيانات منظمة وتهيئة لمحركات البحث.",
+        "en": "Deliver a responsive Arabic and English website with standalone project pages, structured content and search-engine metadata."
+      },
+      "audience": {
+        "ar": "الجهات المهنية وفرق التوظيف والعملاء والمطورون والمهتمون بأعمال M.GH.AL.",
+        "en": "Professional contacts, hiring teams, clients, developers and visitors interested in M.GH.AL work."
+      },
+      "value": {
+        "ar": "جمع الهوية والسيرة والمهارات والشهادات والمشاريع في مرجع رسمي واحد مع دعم RTL وLTR.",
+        "en": "Unify identity, résumé, skills, credentials and projects in one official reference with RTL and LTR support."
+      },
+      "category": {
+        "ar": "موقع ويب شخصي ثنائي اللغة",
+        "en": "Bilingual personal website"
+      },
+      "categoryKey": "web",
+      "status": {
+        "ar": "تطوير نشط",
+        "en": "Active development"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/mghalaosimi-web",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/mghal-official-website.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي للموقع الرسمي M.GH.AL، وليس لقطة شاشة.",
+        "en": "Illustrative artwork for the M.GH.AL official website, not a screenshot."
+      },
+      "technologies": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "TypeScript 7",
+        "Node.js 22+",
+        "Vercel"
+      ],
+      "features": [
+        {
+          "ar": "محتوى عربي RTL وإنجليزي LTR مع صفحات منفصلة.",
+          "en": "Arabic RTL and English LTR content with separate pages."
+        },
+        {
+          "ar": "محفظة مشاريع تعتمد سجل JSON موحداً وتوليد صفحات تفاصيل ثنائية اللغة.",
+          "en": "A project portfolio powered by a unified JSON catalogue and generated bilingual detail pages."
+        },
+        {
+          "ar": "بيانات SEO وOpen Graph وTwitter Cards وStructured Data وSitemap.",
+          "en": "SEO metadata, Open Graph, Twitter Cards, structured data and sitemap."
+        },
+        {
+          "ar": "دعم PWA عبر manifest وService Worker وصفحة offline.",
+          "en": "PWA support through a manifest, service worker and offline page."
+        },
+        {
+          "ar": "فحوصات TypeScript وإمكانية الوصول وجودة المحتوى والصفحات.",
+          "en": "TypeScript, accessibility, content-quality and page validation checks."
+        }
+      ],
+      "architecture": {
+        "ar": "موقع ثابت يعتمد صفحات HTML وأصول CSS/JavaScript وسجل JSON للمشاريع. ينفذ Node.js مرحلة بناء تولّد صفحات المشاريع وتنسخ مخرجات النشر إلى public، مع تجميع ملفات TypeScript الخاصة بسكربتات المتصفح.",
+        "en": "A static site built from HTML pages, CSS/JavaScript assets and a JSON project catalogue. A Node.js build step generates project pages and prepares the public output directory, while TypeScript compiles browser scripts."
+      },
+      "gallery": [],
+      "docs": "https://github.com/mghalaosimi-web/mghalaosimi-web/blob/main/README.md",
+      "evidence": {
+        "ar": [
+          "README.md يعرّف المستودع كموقع شخصي ثنائي اللغة.",
+          "package.json يثبت أوامر build وtypecheck وquality وتوليد صفحات المشاريع.",
+          "بنية المستودع تتضمن صفحات HTML وملفات TypeScript وPWA manifest وService Worker."
+        ],
+        "en": [
+          "README.md identifies the repository as the bilingual personal website.",
+          "package.json defines build, typecheck, quality and project-page generation scripts.",
+          "Repository structure includes HTML pages, TypeScript scripts, a PWA manifest and service worker."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "الموقع نفسه هو المنصة الحاضنة للمحفظة؛ لا تُعرض هذه الصفحة كلقطة شاشة للتطبيق.",
+          "لم يُضف رابط Demo منفصل؛ عنوان الموقع هو المرجع الرسمي نفسه."
+        ],
+        "en": [
+          "This website hosts the portfolio itself; this record does not present a screenshot as application evidence.",
+          "No separate demo URL is listed because the website is the official destination itself."
+        ]
+      },
+      "operatingSystem": "Web browser"
     }
   ]
 }
