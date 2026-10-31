@@ -189,3 +189,25 @@ img{max-width:100%;height:auto}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 @media print{body{background:#FFFFFF!important;color:#202B38!important}.card,.item,.sheet{box-shadow:none!important}}
+
+/* Final component-level normalization for legacy inline page styles */
+.hero-portrait,.photo-item,.photo-tile,.issuer-badge,.credential-card,.credential-summary,.credential-toolbar,.credential-search,.credential-filter,.credential-library{
+ color:#202B38!important;border-color:#DCE2E8!important;
+}
+.hero-portrait{background:linear-gradient(145deg,#F3F5F7,#FFFFFF)!important;box-shadow:0 12px 34px rgba(23,43,77,.08)!important;backdrop-filter:none!important}
+.hero-portrait figcaption,.photo-item figcaption{color:#172B4D!important}
+.hero-portrait figcaption span{color:#64748B!important}
+.photo-item{background:#FFFFFF!important;box-shadow:0 8px 24px rgba(23,43,77,.06)!important}
+.photo-tile{background:#F3F5F7!important}
+.credential-card{background:#FFFFFF!important;border:1px solid #DCE2E8!important;border-radius:16px!important;box-shadow:0 8px 24px rgba(23,43,77,.06)!important}
+.credential-card:hover{border-color:#B69A62!important;transform:translateY(-2px)}
+.issuer-badge{background:#F3F5F7!important;border:1px solid #DCE2E8!important;border-radius:12px!important}
+.issuer-caption,.credential-meta,.credential-card p{color:#64748B!important}
+.credential-card h2,.credential-card h3{color:#202B38!important}
+.credential-actions a,.credential-card a{color:#315A85!important}
+.credential-actions a:hover,.credential-card a:hover{color:#172B4D!important}
+.credential-search{background:#FFFFFF!important;color:#202B38!important;border:1px solid #DCE2E8!important}
+.credential-search:focus{border-color:#315A85!important;outline:3px solid #315A8522!important}
+.credential-filter button,.credential-toolbar button{background:#F3F5F7!important;color:#315A85!important;border:1px solid #DCE2E8!important}
+.credential-filter button[aria-pressed=true],.credential-filter button.active{background:#172B4D!important;color:#FFFFFF!important;border-color:#172B4D!important}
+@media(max-width:680px){.credential-card{padding:16px!important}.issuer-logo-pair{gap:8px;flex-wrap:wrap}}
