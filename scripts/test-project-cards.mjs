@@ -54,9 +54,9 @@ function mount(lang = "ar", pathname = "/projects.html") {
     createElement(tag) { return element(tag); },
   };
   const context = { document, location: { pathname } };
-  vm.runInNewContext(source, context);
+  vm.runInNewContext('(function(){\\n' + source + '\\n})()', context);
   const firstMeta = cover.afterNode;
-  vm.runInNewContext(source, context);
+  vm.runInNewContext('(function(){\\n' + source + '\\n})()', context);
   return { card, cover, firstMeta, anchors, originalStatus };
 }
 
