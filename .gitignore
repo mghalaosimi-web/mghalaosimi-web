@@ -19,3 +19,6 @@ test-results/
 Thumbs.db
 .vscode/
 .idea/
+
+# Generated static deployment output
+public/
