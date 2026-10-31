@@ -29,3 +29,11 @@ jobs:
 
       - name: Run type checks and compile browser scripts
         run: npm run quality
+
+      - name: Upload compiled browser scripts
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-browser-scripts
+          path: dist/scripts/
+          if-no-files-found: error
+          retention-days: 7
