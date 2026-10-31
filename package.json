@@ -9,11 +9,11 @@
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
     "build:scripts": "tsc -p tsconfig.scripts.json",
-    "check:generated": "node -e \"const fs=require('node:fs');for(const n of ['credentials.js','accessibility.js']){const a=fs.readFileSync('dist/scripts/'+n,'utf8');const b=fs.readFileSync('assets/'+n,'utf8');if(a!==b){console.error('Generated asset is stale: '+n);process.exitCode=1}}\"",
+    "check:generated": "node -e \"const fs=require('node:fs');for(const n of ['credentials.js','accessibility.js','project-cards.js']){const a=fs.readFileSync('dist/scripts/'+n,'utf8');const b=fs.readFileSync('assets/'+n,'utf8');if(a!==b){console.error('Generated asset is stale: '+n);process.exitCode=1}}\"",
     "build": "npm run typecheck && npm run build:scripts && npm run check:generated",
     "quality": "npm run build && npm run audit:html && npm run test:unit",
     "audit:html": "node scripts/audit-site.mjs",
-    "test:unit": "node scripts/test-credentials.mjs && node scripts/test-accessibility.mjs"
+    "test:unit": "node scripts/test-credentials.mjs && node scripts/test-accessibility.mjs && node scripts/test-project-cards.mjs"
   },
   "devDependencies": {
     "typescript": "7.0.2"
