@@ -31,7 +31,7 @@
 
     for (const card of cards) {
       const categoryMatches =
-        activeFilter === "all" || card.dataset.category === activeFilter;
+        activeFilter === "all" || card.dataset["category"] === activeFilter;
       const queryMatches = normalize(card.innerText).includes(query);
       const isVisible = categoryMatches && queryMatches;
 
@@ -51,7 +51,7 @@
 
   for (const button of buttons) {
     button.addEventListener("click", () => {
-      activeFilter = button.dataset.filter ?? "all";
+      activeFilter = button.dataset["filter"] ?? "all";
 
       for (const candidate of buttons) {
         candidate.setAttribute(
