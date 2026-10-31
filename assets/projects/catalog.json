@@ -560,12 +560,12 @@
       "id": "manar-schedule-system",
       "slug": "manar-schedule-system",
       "title": {
-        "ar": "Al-Manar Schedule Systems",
-        "en": "Al-Manar Schedule Systems"
+        "ar": "Manar Schedule System",
+        "en": "Manar Schedule System"
       },
       "summary": {
-        "ar": "عائلة أنظمة أكاديمية لإدارة الجداول الجامعية والبوابات والصلاحيات وتعديلات الجدول والتنبيهات، ممثلة في مستودعين مرتبطين.",
-        "en": "A family of academic scheduling systems for university timetables, portals, access roles, schedule overrides and notifications, represented by two related repositories."
+        "ar": "نظام إدارة الجداول الأكاديمية المخصص لكلية الجامعة اليمنية، ويُعرض كسجل مستقل عن Al-Manar Schedule System المخصص لكلية المنار الجامعية.",
+        "en": "An academic scheduling system for Yemen University College, maintained as a separate project from Al-Manar Schedule System for Al-Manar University College."
       },
       "problem": {
         "ar": "إدارة الجداول والتغييرات الأكاديمية والطلاب والمحاضرين عبر قنوات منفصلة تؤدي إلى صعوبة نشر التحديثات ومتابعتها.",
@@ -576,8 +576,8 @@
         "en": "Provide connected student and administration portals with a schedule engine, role management, notifications and operational records."
       },
       "audience": {
-        "ar": "الطلاب والمحاضرون والإداريون ومشرفو الأنظمة الأكاديمية.",
-        "en": "Students, lecturers, administrators and academic-system operators."
+        "ar": "طلاب ومحاضرو وإداريو كلية الجامعة اليمنية.",
+        "en": "Students, lecturers and administrators at Yemen University College."
       },
       "value": {
         "ar": "تنظيم الجدول الأكاديمي وتعديله مركزياً مع فصل واجهات الأدوار ودعم التنبيهات.",
@@ -597,10 +597,8 @@
         "ar": "مستودعان عامان",
         "en": "Two public repositories"
       },
-      "repository": "https://github.com/mghalaosimi-web/manar-schedule-system",
-      "relatedRepositories": [
-        "https://github.com/mghalaosimi-web/almanar-schedule-system"
-      ],
+      "repository": "https://github.com/mghalaosimi-web/almanar-schedule-system",
+      "relatedRepositories": [],
       "cover": "/assets/projects/schedule.svg",
       "coverAlt": {
         "ar": "غلاف فني توضيحي لأنظمة الجدولة الأكاديمية، وليس لقطة شاشة.",
@@ -641,28 +639,6 @@
       },
       "gallery": [
         {
-          "src": "https://raw.githubusercontent.com/mghalaosimi-web/manar-schedule-system/main/docs/images/schedule_dashboard.png",
-          "alt": {
-            "ar": "لوحة جدول الطالب الأسبوعي من توثيق المستودع.",
-            "en": "Student weekly schedule dashboard from repository documentation."
-          },
-          "caption": {
-            "ar": "لوحة جدول الطالب.",
-            "en": "Student schedule dashboard."
-          }
-        },
-        {
-          "src": "https://raw.githubusercontent.com/mghalaosimi-web/manar-schedule-system/main/docs/images/portal_overview.png",
-          "alt": {
-            "ar": "نظرة عامة على بوابة الإدارة.",
-            "en": "Administration portal overview."
-          },
-          "caption": {
-            "ar": "بوابة الإدارة.",
-            "en": "Administration portal."
-          }
-        },
-        {
           "src": "https://raw.githubusercontent.com/mghalaosimi-web/almanar-schedule-system/main/frontend/public/organized_portal_ui.png",
           "alt": {
             "ar": "واجهة بوابة أكاديمية من المستودع المرتبط الثاني.",
@@ -685,7 +661,7 @@
           }
         }
       ],
-      "docs": "https://github.com/mghalaosimi-web/manar-schedule-system/blob/main/README.md",
+      "docs": "https://github.com/mghalaosimi-web/almanar-schedule-system/blob/main/README.md",
       "deploymentReference": null,
       "evidence": {
         "ar": [
@@ -701,10 +677,10 @@
       },
       "notes": {
         "ar": [
-          "لم يتم دمج المستودعين في سجل GitHub؛ يعرضهما الموقع كعائلة مشروع واحدة مع رابطين منفصلين لأنهما مستودعان مستقلان ولم يثبت أنهما نسخة متطابقة."
+          "هذا المشروع مستقل عن Al-Manar Schedule System المخصص لكلية المنار الجامعية. وصف الميزات والتقنيات مستند إلى README للمستودع؛ يجب مراجعة التفاصيل الخاصة بالكلية قبل توسيع الوصف."
         ],
         "en": [
-          "The repositories remain separate in GitHub. The portfolio groups them as one project family with two distinct source links because they are separate repositories and exact duplication was not established."
+          "This project is separate from Al-Manar Schedule System for Al-Manar University College. Features and technologies are based on this repository's README; institution-specific details should be verified before expanding the description."
         ]
       },
       "operatingSystem": "Web browser"
@@ -1110,6 +1086,135 @@
         "en": [
           "This website hosts the portfolio itself; this record does not present a screenshot as application evidence.",
           "No separate demo URL is listed because the website is the official destination itself."
+        ]
+      },
+      "operatingSystem": "Web browser"
+    },
+    {
+      "id": "almanar-schedule-system",
+      "slug": "almanar-schedule-system",
+      "title": {
+        "ar": "Al-Manar Schedule System",
+        "en": "Al-Manar Schedule System"
+      },
+      "summary": {
+        "ar": "نظام إدارة الجداول الأكاديمية المخصص لكلية المنار الجامعية، ويُعرض كسجل مستقل عن مشروع Manar Schedule System المخصص لكلية الجامعة اليمنية.",
+        "en": "An academic scheduling system for Al-Manar University College, maintained as a separate project from the Manar Schedule System for Yemen University College."
+      },
+      "problem": {
+        "ar": "إدارة الجداول والتغييرات الأكاديمية والطلاب والمحاضرين عبر قنوات منفصلة تؤدي إلى صعوبة نشر التحديثات ومتابعتها.",
+        "en": "Managing timetables, academic changes, students and lecturers across separate channels makes updates difficult to distribute and track."
+      },
+      "goal": {
+        "ar": "توفير بوابات مترابطة للطلاب والإدارة مع محرك جداول وإدارة صلاحيات وإشعارات وسجلات تشغيل.",
+        "en": "Provide connected student and administration portals with a schedule engine, role management, notifications and operational records."
+      },
+      "audience": {
+        "ar": "طلاب ومحاضرو وإداريو كلية المنار الجامعية.",
+        "en": "Students, lecturers and administrators at Al-Manar University College."
+      },
+      "value": {
+        "ar": "تنظيم الجدول الأكاديمي وتعديله مركزياً مع فصل واجهات الأدوار ودعم التنبيهات.",
+        "en": "Centralize academic scheduling and overrides while separating role-specific portals and notification workflows."
+      },
+      "category": {
+        "ar": "أنظمة أكاديمية",
+        "en": "Academic systems"
+      },
+      "categoryKey": "academic",
+      "status": {
+        "ar": "تطوير نشط — مستودعان مرتبطان/نسختان",
+        "en": "Active development — two related repositories/iterations"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودعان عامان",
+        "en": "Two public repositories"
+      },
+      "repository": "https://github.com/mghalaosimi-web/manar-schedule-system",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/schedule.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لأنظمة الجدولة الأكاديمية، وليس لقطة شاشة.",
+        "en": "Academic scheduling systems illustrative artwork, not a screenshot."
+      },
+      "technologies": [
+        "React 18",
+        "Vite",
+        "Node.js",
+        "Express",
+        "Prisma",
+        "PostgreSQL",
+        "JWT",
+        "CAPTCHA",
+        "Cron"
+      ],
+      "features": [
+        {
+          "ar": "بوابة لعرض الجداول الأسبوعية ومعلومات المقررات والمحاضرين والقاعات.",
+          "en": "Student portal for weekly timetables, courses, lecturers and rooms."
+        },
+        {
+          "ar": "إدارة الجداول والتعديلات الفورية من واجهات الإدارة.",
+          "en": "Schedule management and overrides through administration interfaces."
+        },
+        {
+          "ar": "أدوار وصلاحيات منفصلة للطلاب والإدارة والمشرف الأعلى.",
+          "en": "Separate roles and portals for students, administrators and super administrators."
+        },
+        {
+          "ar": "إشعارات مجدولة وسجلات للتنبيهات.",
+          "en": "Scheduled notifications and notification logs."
+        }
+      ],
+      "architecture": {
+        "ar": "واجهة React/Vite تتصل ببوابة خلفية Express على Node.js. يستخدم المشروع Prisma للوصول إلى PostgreSQL، مع middleware للمصادقة وRBAC وجدولة المهام.",
+        "en": "A React/Vite frontend communicates with an Express backend on Node.js. Prisma accesses PostgreSQL, with authentication, RBAC middleware and scheduled jobs."
+      },
+      "gallery": [
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/manar-schedule-system/main/docs/images/schedule_dashboard.png",
+          "alt": {
+            "ar": "لوحة جدول الطالب الأسبوعي من توثيق المستودع.",
+            "en": "Student weekly schedule dashboard from repository documentation."
+          },
+          "caption": {
+            "ar": "لوحة جدول الطالب.",
+            "en": "Student schedule dashboard."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/manar-schedule-system/main/docs/images/portal_overview.png",
+          "alt": {
+            "ar": "نظرة عامة على بوابة الإدارة.",
+            "en": "Administration portal overview."
+          },
+          "caption": {
+            "ar": "بوابة الإدارة.",
+            "en": "Administration portal."
+          }
+        }
+      ],
+      "docs": "https://github.com/mghalaosimi-web/manar-schedule-system/blob/main/README.md",
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "README.md في كلا المستودعين يصفان نظام الجدولة الجامعية والتقنيات المتقاربة.",
+          "المستودع الأول يحوي صوراً توثيقية في docs/images.",
+          "المستودع الثاني يحوي تقارير تنفيذ ومراجعة وواجهات في frontend/public."
+        ],
+        "en": [
+          "Both repository READMEs describe university scheduling with closely related technology stacks.",
+          "The first repository contains screenshots in docs/images.",
+          "The second contains implementation/audit reports and UI assets in frontend/public."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "هذا المشروع مستقل عن Manar Schedule System المخصص لكلية الجامعة اليمنية. أُسند هذا السجل إلى المستودع الذي يعرّف نفسه صراحةً كنظام مخصص لـ Al-Manar University؛ ولا تُدمج بيانات المشروع الآخر معه."
+        ],
+        "en": [
+          "This is separate from the Manar Schedule System for Yemen University College. This record is linked to the repository that explicitly describes itself as a system for Al-Manar University; the other project's data is not merged into it."
         ]
       },
       "operatingSystem": "Web browser"
