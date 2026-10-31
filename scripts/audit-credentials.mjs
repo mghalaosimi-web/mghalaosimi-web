@@ -36,12 +36,12 @@ function inspectPage(path, language) {
       assert.ok(alt?.trim(), language + ": issuer logo is missing descriptive alt text.");
       assert.match(attrs, /\bloading=["']lazy["']/i, language + ": issuer logos must be lazy-loaded.");
       assert.match(attrs, /\bdecoding=["']async["']/i, language + ": issuer logos must decode asynchronously.");
-      sources.push({ src, alt });
+      sources.push(src);
     }
 
     const previous = logoMap.get(issuer);
     if (previous) {
-      assert.deepEqual(sources, previous, language + ": issuer logo mapping is inconsistent.");
+      assert.deepEqual(sources, previous, language + ": issuer logo source mapping is inconsistent.");
     } else {
       logoMap.set(issuer, sources);
     }
@@ -58,7 +58,7 @@ for (const issuer of ["openjs", "cisco", "edraak"]) {
   assert.deepEqual(
     english.logoMap.get(issuer),
     arabic.logoMap.get(issuer),
-    "Arabic and English pages must use the same verified issuer logo assets for " + issuer + ".",
+    "Arabic and English pages must use the same issuer logo sources for " + issuer + ".",
   );
 }
 
