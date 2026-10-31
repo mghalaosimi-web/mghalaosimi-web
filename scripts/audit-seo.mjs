@@ -28,6 +28,7 @@ function attributes(tag) {
 function publicUrl(relative) {
   if (relative === "index.html") return origin + "/";
   if (relative === "en/index.html") return origin + "/en/";
+  if (/^(?:en\/)?projects\/[^/]+\/index\.html$/.test(relative)) return origin + "/" + relative.replace(/index\.html$/, "");
   return origin + "/" + relative;
 }
 
