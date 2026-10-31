@@ -56,6 +56,10 @@ for (const file of pages) {
       && !/<meta\b[^>]*content=["'][^"']+["'][^>]*name=["']description["'][^>]*>/i.test(html)) {
     fail(file, "missing meta description");
   }
+  const hasViewport =
+    /<meta\\b[^>]*name=["']viewport["'][^>]*content=["'][^"']+["'][^>]*>/i.test(html) ||
+    /<meta\\b[^>]*content=["'][^"']+["'][^>]*name=["']viewport["'][^>]*>/i.test(html);
+  if (!hasViewport) fail(file, "missing responsive viewport metadata");
   const hasStaticSkipLink = /class=["'][^"']*\bskip-link\b[^"']*["']/i.test(html);
   const hasSkipLinkEnhancement = /(?:src|href)=["'][^"']*accessibility\.js["']/i.test(html);
   if (!hasStaticSkipLink && !hasSkipLinkEnhancement) fail(file, "missing keyboard skip-navigation link or enhancement");
@@ -63,6 +67,10 @@ for (const file of pages) {
   if (mainCount !== 1) fail(file, `expected exactly one main landmark, found ${mainCount}`);
 
   const ids = new Set();
+  const staticSkipLink = html.match(/<a\\b([^>]*class=["'][^"']*\\bskip-link\\b[^"']*["'][^>]*)>/i)?.[1];
+  const skipTarget = staticSkipLink?.match(/\\bhref=["']#([^"']+)["']/i)?.[1];
+  if (skipTarget && !ids.has(skipTarget)) fail(file, "skip link target does not exist: #" + skipTarget);
+
   for (const match of html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)) {
     const id = match[1];
     if (ids.has(id)) fail(file, `duplicate id="${id}"`);
