@@ -8,7 +8,9 @@
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
-    "quality": "npm run typecheck"
+    "build:scripts": "tsc -p tsconfig.scripts.json",
+    "build": "npm run typecheck && npm run build:scripts",
+    "quality": "npm run build"
   },
   "devDependencies": {
     "typescript": "7.0.2"

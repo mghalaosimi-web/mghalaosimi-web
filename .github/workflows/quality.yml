@@ -27,5 +27,5 @@ jobs:
       - name: Install pinned development dependencies
         run: npm install --ignore-scripts --no-package-lock
 
-      - name: Validate TypeScript contracts
-        run: npm run typecheck
+      - name: Run type checks and compile browser scripts
+        run: npm run quality
