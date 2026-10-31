@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-31",
+  "scope": "All repositories returned by the authorized GitHub integration for owner mghalaosimi-web; page offsets 0, 100 and 200 were checked.",
+  "discoveredRepositories": 9,
+  "publicRepositories": 8,
+  "privateRepositories": 1,
+  "privateRepositoriesInspected": 1,
+  "privateRepositoryPublicDetails": "Private source URL and internal file inventory are deliberately omitted from this public file.",
+  "projects": 9,
+  "repositoryRecords": [
+    {
+      "name": "waynah",
+      "visibility": "public",
+      "branch": "main",
+      "latest": {
+        "sha": "8bf75bba8d9c13f00d722bcb217aa851d2d58835",
+        "date": "2026-10-31T14:03:39Z",
+        "subject": "fix(api): use native Vercel Hono routing"
+      },
+      "readme": true,
+      "structure": "TypeScript monorepo with apps, components, data, packages, docs, scripts and tests.",
+      "project": "waynah",
+      "relation": "Independent main project.",
+      "activity": "active",
+      "url": "https://github.com/mghalaosimi-web/waynah"
+    },
+    {
+      "name": "humanity-system",
+      "visibility": "private",
+      "branch": "main",
+      "latest": {
+        "sha": "dc96965debfe41077a598df14ded7a66554ec337",
+        "date": "2026-05-27T02:00:48Z",
+        "subject": "feat(prod): complete reports dashboard, A4 voucher printing engine, encrypted Google Drive backup mirroring, and final production cleanup"
+      },
+      "readme": true,
+      "structure": "Private Next.js application with Android and mobile app assets, Prisma data layer, public assets, scripts and UI components. Internal file inventory intentionally withheld.",
+      "project": "humanity-system",
+      "relation": "Independent institutional system; private source. Not publicly linked.",
+      "activity": "inactive-90d",
+      "url": null
+    },
+    {
+      "name": "yemen-ai",
+      "visibility": "public",
+      "branch": "main",
+      "latest": {
+        "sha": "1ba18038d226c611aff1343f67748bee60bf093f",
+        "date": "2026-09-18T01:23:09Z",
+        "subject": "fix(test): update version assertion check in smoke_test.py"
+      },
+      "readme": true,
+      "structure": "Python application with app, backend, data, docs, installer, scripts, tests and Docker configuration.",
+      "project": "yemen-ai",
+      "relation": "Independent AI platform.",
+      "activity": "maintenance",
+      "url": "https://github.com/mghalaosimi-web/yemen-ai"
+    },
+    {
+      "name": "mghal-content-os",
+      "visibility": "public",
+      "branch": "main",
+      "latest": {
+        "sha": "580fa3b32b457e44ba804469613ebab90e247a98",
+        "date": "2026-10-28T00:00:50Z",
+        "subject": "docs: add official visual user guide, bilingual manuals, and real UI screenshots"
+      },
+      "readme": true,
+      "structure": "Next.js and TypeScript workspace with src, Prisma, public, docs, scripts, tests and Docker Compose.",
+      "project": "mghal-content-os",
+      "relation": "Independent content automation platform.",
+      "activity": "active",
+      "url": "https://github.com/mghalaosimi-web/mghal-content-os"
+    },
+    {
+      "name": "manar-schedule-system",
+      "visibility": "public",
+      "branch": "main",
+      "latest": {
+        "sha": "628e9da4b1674f5a75b79167a2ef5d532ce33126",
+        "date": "2026-09-18T01:09:48Z",
+        "subject": "docs: add application UI screenshots and enterprise README documentation"
+      },
+      "readme": true,
+      "structure": "Full-stack academic platform with frontend, backend, mobile, docs, reports and deployment configuration.",
+      "project": "manar-schedule-system",
+      "relation": "Primary/modern repository for the Manar academic scheduling project family; related to almanar-schedule-system.",
+      "activity": "maintenance",
+      "url": "https://github.com/mghalaosimi-web/manar-schedule-system"
+    },
+    {
+      "name": "almanar-schedule-system",
+      "visibility": "public",
+      "branch": "main",
+      "latest": {
+        "sha": "3afa1a014207e51290358ace3c50b9528be0639d",
+        "date": "2026-08-22T17:36:56Z",
+        "subject": "fix(auth): resilient offline authentication & local cached user login fallback"
+      },
+      "readme": true,
+      "structure": "Full-stack academic platform with frontend, backend, mobile, docs and deployment configuration.",
+      "project": "manar-schedule-system",
+      "relation": "Related earlier/variant repository in the same academic scheduling project family; not counted as a separate project pending full source diff.",
+      "activity": "maintenance",
+      "url": "https://github.com/mghalaosimi-web/almanar-schedule-system"
+    },
+    {
+      "name": "CipherSphere",
+      "visibility": "public",
+      "branch": "main",
+      "latest": {
+        "sha": "8ad8453003d7d5f16972b089caaacae2a302c2be",
+        "date": "2026-09-18T01:08:36Z",
+        "subject": "docs: add UI screenshot and enterprise README documentation"
+      },
+      "readme": true,
+      "structure": "Python desktop application with PyQt6 UI, cipher engine modules, documentation and Windows executable build scripts.",
+      "project": "ciphersphere",
+      "relation": "Independent desktop cryptography learning and simulation project.",
+      "activity": "maintenance",
+      "url": "https://github.com/mghalaosimi-web/CipherSphere"
+    },
+    {
+      "name": "focusflow",
+      "visibility": "public",
+      "branch": "main",
+      "latest": {
+        "sha": "fbfe9ef164a33c5ee7835f47c2a29a9f3dba1de2",
+        "date": "2026-05-20T18:23:10Z",
+        "subject": "Initial commit"
+      },
+      "readme": true,
+      "structure": "README-only repository on the inspected default branch; no application source tree was present in the root listing.",
+      "project": "focusflow",
+      "relation": "Separate experimental mobile-app concept; implementation could not be verified from the default branch.",
+      "activity": "inactive-90d",
+      "url": "https://github.com/mghalaosimi-web/focusflow"
+    },
+    {
+      "name": "mghalaosimi-web",
+      "visibility": "public",
+      "branch": "main",
+      "latest": {
+        "sha": "f5c91e59c693611d21721d74f8b136780d17286e",
+        "date": "2026-10-31T14:43:28Z",
+        "subject": "Align M.GH.AL design tokens and accessible contrast"
+      },
+      "readme": true,
+      "structure": "Static bilingual website with HTML pages, assets, scripts, sitemap, PWA manifest and service worker.",
+      "project": "mghal-official-website",
+      "relation": "Official identity website and host for the engineering portfolio.",
+      "activity": "active",
+      "url": "https://github.com/mghalaosimi-web/mghalaosimi-web"
+    }
+  ],
+  "limitations": [
+    "This inventory reflects repositories visible to the connected GitHub integration at review time; it cannot prove access to repositories outside that integration's permissions.",
+    "Latest commit information is from the default branch at review time. Commit history and all nested files were not exhaustively enumerated for every repository.",
+    "FocusFlow has a README but no implementation source files in the inspected default-branch root.",
+    "The two academic scheduling repositories are linked as one project family; a full file-by-file source comparison remains outstanding.",
+    "The private Humanity System repository was inspected through authorized access, but its internal source, paths, logs and assets are not published here.",
+    "M.GH.AL ESDP is listed in the project catalogue as a separately known project without a discovered public repository."
+  ]
+}
