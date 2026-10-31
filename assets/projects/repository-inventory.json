@@ -84,8 +84,8 @@
       },
       "readme": true,
       "structure": "Full-stack academic platform with frontend, backend, mobile, docs, reports and deployment configuration.",
-      "project": "manar-schedule-system",
-      "relation": "Primary/modern repository for the Manar academic scheduling project family; related to almanar-schedule-system.",
+      "project": "almanar-schedule-system",
+      "relation": "Independent project for Al-Manar University College; distinct from Manar Schedule System for Yemen University College.",
       "activity": "maintenance",
       "url": "https://github.com/mghalaosimi-web/manar-schedule-system"
     },
@@ -101,7 +101,7 @@
       "readme": true,
       "structure": "Full-stack academic platform with frontend, backend, mobile, docs and deployment configuration.",
       "project": "manar-schedule-system",
-      "relation": "Related earlier/variant repository in the same academic scheduling project family; not counted as a separate project pending full source diff.",
+      "relation": "Independent project for Yemen University College; distinct from Al-Manar Schedule System for Al-Manar University College.",
       "activity": "maintenance",
       "url": "https://github.com/mghalaosimi-web/almanar-schedule-system"
     },
@@ -158,8 +158,8 @@
     "This inventory reflects repositories visible to the connected GitHub integration at review time; it cannot prove access to repositories outside that integration's permissions.",
     "Latest commit information is from the default branch at review time. Commit history and all nested files were not exhaustively enumerated for every repository.",
     "FocusFlow has a README but no implementation source files in the inspected default-branch root.",
-    "The two academic scheduling repositories are linked as one project family; a full file-by-file source comparison remains outstanding.",
     "The private Humanity System repository was inspected through authorized access, but its internal source, paths, logs and assets are not published here.",
-    "M.GH.AL ESDP is listed in the project catalogue as a separately known project without a discovered public repository."
+    "M.GH.AL ESDP is listed in the project catalogue as a separately known project without a discovered public repository.",
+    "The two academic scheduling repositories are represented as distinct portfolio records based on the owner-provided institutional distinction; repository-specific details remain grounded in each repository README."
   ]
 }
