@@ -60,3 +60,27 @@ The public `yemen-ai/README.md` contains default role credentials. Credential va
 ## Safety boundaries
 
 No main-branch changes, PR merge, production deployment, database change, secret rotation, or deletion was performed as part of the portfolio inventory. No PR was merged.
+
+## Latest source commits (UTC)
+
+| Repository | Latest commit | Committed at | Latest commit subject |
+|---|---|---|---|
+| waynah | 8bf75bba8d9c13f00d722bcb217aa851d2d58835 | 2026-10-31 14:03:39 | Vercel Hono routing compatibility fix |
+| humanity-system (private) | dc96965debfe41077a598df14ded7a66554ec337 | 2026-05-27 02:00:48 | Reports dashboard, A4 voucher printing, encrypted Drive backup and cleanup |
+| yemen-ai | 1ba18038d226c611aff1343f67748bee60bf093f | 2026-09-18 01:23:09 | Smoke-test version assertion fix |
+| mghal-content-os | 580fa3b32b457e44ba804469613ebab90e247a98 | 2026-10-28 00:00:50 | Bilingual manuals and visual user guide |
+| manar-schedule-system | 628e9da4b1674f5a75b79167a2ef5d532ce33126 | 2026-09-18 01:10:00 | Application UI screenshots and README |
+| almanar-schedule-system | 3afa1a014207e51290358ace3c50b9528be0639d | 2026-08-22 17:36:56 | Offline authentication and cached-login fallback |
+| CipherSphere | 8ad8453003d7d5f16972b089caaacae2a302c2be | 2026-09-18 01:08:36 | GUI screenshot and README documentation |
+| focusflow | fbfe9ef164a33c5ee7835f47c2a29a9f3dba1de2 | 2026-05-20 18:23:10 | Initial commit |
+| mghalaosimi-web (portfolio branch) | e79391238b3f69344cbf5f0cb66556fb9a4710a5 | 2026-10-31 | Added the official website as a ninth portfolio record |
+
+## Expanded evidence and delivery state
+
+- Repository inventory was paginated with page size 100; the owner inventory returned 9 repositories on one page and page offset 100 returned 0. The collaborator-affiliation query returned 0 additional repositories.
+- humanity-system is private but its README and package.json were readable through the authorized GitHub integration. Its verified dependency stack includes Next.js 16.2.4, React 19.2.4, Prisma 6.19.0 and Capacitor 8.3.1. No private source URL or private image is exposed.
+- Public screenshot assets were verified by repository directory listings: WAYNAH (4 selected images), Yemen AI (3), Content Studio (4), schedule family (4 across both repositories) and CipherSphere (1). FocusFlow and ESDP have no verified screenshots. The official website cover is clearly labelled illustrative artwork.
+- The latest completed Vercel preview is commit 2c4bf618dba38c39c11b45368a28df967f394997 (READY); its build log shows static generation of 16 pages, TypeScript validation, script compilation and output preparation succeeded.
+- The subsequent portfolio commit e79391238b3f69344cbf5f0cb66556fb9a4710a was not deployed: Vercel rejected a preview-deployment request with HTTP 402 because the team exceeded the API deployment quota (more than 100 deployments/day; retry window 24 hours). The previous READY deployment remains intact; no production deployment or alias promotion occurred.
+- GitHub Actions returned no workflow runs for the latest portfolio commit. A full test-suite result is therefore not claimed. Vercel's successful build validates the preceding 8-project commit only, not the latest ninth-project update.
+- A Render workspace named My Workspace is available, but no workspace was selected. No Render service was inspected or changed.

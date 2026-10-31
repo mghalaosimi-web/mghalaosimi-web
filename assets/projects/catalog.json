@@ -207,13 +207,14 @@
         "en": "Humanity System illustrative artwork, not a system screenshot."
       },
       "technologies": [
-        "Next.js",
+        "Next.js 16.2.4",
+        "React 19.2.4",
         "TypeScript",
-        "Prisma",
-        "SQLite (development configuration)",
-        "PWA",
-        "Capacitor",
-        "Android"
+        "Prisma 6.19.0",
+        "Capacitor 8.3.1",
+        "Zod 4.3.6",
+        "SimpleWebAuthn 13.1.1",
+        "SQLite (local development configuration)"
       ],
       "features": [
         {
@@ -313,7 +314,7 @@
         "en": "Yemen AI illustrative artwork, not an application screenshot."
       },
       "technologies": [
-        "Python 3.13",
+        "Python 3.11–3.13",
         "FastAPI",
         "RAG",
         "SQLite",
