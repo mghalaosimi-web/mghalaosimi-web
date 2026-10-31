@@ -36,15 +36,46 @@ main .item.engineering-card{padding:22px;border:1px solid var(--border-subtle);b
 .credential-file-actions:hover{border-color:var(--border-hover);background:#2563eb22}
 
 
-/* M.GH.AL Corporate Visual Identity — Navy / White / Slate / Champagne */
 :root{
- color-scheme:light;
- --bg:#FFFFFF;--bg-primary:#FFFFFF;--bg-secondary:#F3F5F7;--bg-card:#FFFFFF;
- --panel:#FFFFFF;--line:#DCE2E8;--border-subtle:#DCE2E8;--border-hover:#315A85;
- --text:#202B38;--text-primary:#202B38;--muted:#64748B;--text-secondary:#64748B;--text-muted:#64748B;
- --accent:#315A85;--accent-primary:#315A85;--accent2:#172B4D;--accent-secondary:#315A85;
- --gold:#B69A62;--gold-soft:#9A7C45;--shadow:0 8px 24px rgba(23,43,77,.06);
+  --bg:#FFFFFF;
+  --bg-primary:#FFFFFF;
+  --bg-secondary:#F3F5F7;
+  --bg-card:#FFFFFF;
+  --panel:#FFFFFF;
+  --line:#DCE2E8;
+  --border-subtle:#DCE2E8;
+  --border-hover:#315A85;
+  --text:#202B38;
+  --text-primary:#202B38;
+  --muted:#64748B;
+  --text-secondary:#64748B;
+  --text-muted:#64748B;
+  --accent:#315A85;
+  --accent-primary:#315A85;
+  --accent2:#172B4D;
+  --accent-secondary:#315A85;
+  --gold:#B69A62;
+  --gold-soft:#B69A62;
+  --shadow:0 12px 34px rgba(23,43,77,.07);
+  --surface:#F3F5F7;
+  --navy:#172B4D;
+  --blue:#315A85;
+  --gold-ink:#806333;
+  --mghal-navy:#172B4D;
+  --mghal-blue:#315A85;
+  --mghal-white:#fff;
+  --mghal-surface:#F3F5F7;
+  --mghal-text:#202B38;
+  --mghal-muted:#64748B;
+  --mghal-border:#DCE2E8;
+  --mghal-gold:#B69A62;
+  --mghal-gold-ink:#806333;
+  --mghal-radius:14px;
+  --mghal-content:1180px;
+  --mghal-shadow:0 8px 28px rgba(23,43,77,.07);
 }
+/* M.GH.AL Corporate Visual Identity — Navy / White / Slate / Champagne */
+
 html{background:#FFFFFF;color-scheme:light}
 body{background:#FFFFFF!important;color:#202B38!important;font-family:"IBM Plex Sans Arabic",Inter,system-ui,sans-serif!important;line-height:1.8;overflow-x:clip}
 a{color:#315A85;text-decoration:none}a:hover{color:#172B4D!important}
@@ -80,14 +111,7 @@ footer,.foot{background:transparent!important;color:#64748B!important;border-top
 
 
 /* FINAL CORPORATE IDENTITY OVERRIDE — approved M.GH.AL palette */
-:root{
- color-scheme:light;
- --bg:#FFFFFF;--panel:#FFFFFF;--surface:#F3F5F7;
- --line:#DCE2E8;--text:#202B38;--muted:#64748B;
- --navy:#172B4D;--blue:#315A85;--gold:#B69A62;
- --accent:#315A85;--accent2:#172B4D;--gold-soft:#B69A62;
- --shadow:0 12px 34px rgba(23,43,77,.07);
-}
+
 html,body{background:#FFFFFF!important;color:#202B38!important}
 body{background:#FFFFFF!important;font-family:"IBM Plex Sans Arabic",Inter,system-ui,sans-serif!important}
 a{color:#315A85}a:hover{color:#172B4D!important}
@@ -160,14 +184,14 @@ img{max-width:100%;height:auto}
 @media(max-width:680px){.credential-card{padding:16px!important}.issuer-logo-pair{gap:8px;flex-wrap:wrap}}
 
 /* WCAG AA text and focus contrast: reserve metallic gold for non-text accents */
-:root{--gold-ink:#806333}
+
 .section-title small,.section-title small *{color:#806333!important}
 :focus-visible{outline-color:#806333!important}
 .site-search-result:hover{border-color:#806333!important}
 @media(prefers-contrast:more){.muted,p,.lead,.intro,.card p,.item p{color:#475569!important}}
 
 /* M.GH.AL Corporate UI System v2 */
-:root{--mghal-navy:#172B4D;--mghal-blue:#315A85;--mghal-white:#fff;--mghal-surface:#F3F5F7;--mghal-text:#202B38;--mghal-muted:#64748B;--mghal-border:#DCE2E8;--mghal-gold:#B69A62;--mghal-gold-ink:#806333;--mghal-radius:14px;--mghal-content:1180px;--mghal-shadow:0 8px 28px rgba(23,43,77,.07)}
+
 html{background:#fff!important;scroll-padding-block-start:6rem}
 body{min-width:320px;background:linear-gradient(180deg,#fff,#fbfcfd 65%,#f7f9fb)!important;color:var(--mghal-text)!important;line-height:1.8}
 .wrap{width:min(var(--mghal-content),calc(100% - 48px))!important;margin-inline:auto}
