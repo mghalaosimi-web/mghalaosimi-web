@@ -211,3 +211,10 @@ img{max-width:100%;height:auto}
 .credential-filter button,.credential-toolbar button{background:#F3F5F7!important;color:#315A85!important;border:1px solid #DCE2E8!important}
 .credential-filter button[aria-pressed=true],.credential-filter button.active{background:#172B4D!important;color:#FFFFFF!important;border-color:#172B4D!important}
 @media(max-width:680px){.credential-card{padding:16px!important}.issuer-logo-pair{gap:8px;flex-wrap:wrap}}
+
+/* WCAG AA text and focus contrast: reserve metallic gold for non-text accents */
+:root{--gold-ink:#806333}
+.section-title small,.section-title small *{color:#806333!important}
+:focus-visible{outline-color:#806333!important}
+.site-search-result:hover{border-color:#806333!important}
+@media(prefers-contrast:more){.muted,p,.lead,.intro,.card p,.item p{color:#475569!important}}
