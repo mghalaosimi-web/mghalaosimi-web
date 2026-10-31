@@ -13,7 +13,7 @@
     "build": "npm run typecheck && npm run build:scripts && npm run check:generated",
     "quality": "npm run build && npm run audit:html && npm run test:unit",
     "audit:html": "node scripts/audit-site.mjs",
-    "test:unit": "node scripts/test-credentials.mjs"
+    "test:unit": "node scripts/test-credentials.mjs && node scripts/test-accessibility.mjs"
   },
   "devDependencies": {
     "typescript": "7.0.2"
