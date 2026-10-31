@@ -21,7 +21,7 @@ function render(p,l){
  if(p.deploymentReference)links.push("<a class='action' href='"+esc(p.deploymentReference.url)+"' target='_blank' rel='noopener noreferrer'>"+esc(tx(p.deploymentReference.label,l))+" ↗</a>");
  if(!links.length)links.push("<span class='action muted-action'>"+(ar?"لا يوجد رابط عام متحقق منه":"No verified public link available")+"</span>");
  const jsonld=[
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":title,"alternateName":tx(p.title,ar?"en":"ar"),"description":summary,"applicationCategory":tx(p.category,l),"operatingSystem":p.operatingSystem,"image":origin+p.cover,"url":canonical,"author":{"@type":"Person","name":"Mohammed Ghaleb Alaosimi","alternateName":"محمد غالب العصيمي","url":origin+"/"}},
+  {"@context":"https://schema.org","@type":p.slug==="mghal-official-website"?"WebSite":"SoftwareApplication","name":title,"alternateName":tx(p.title,ar?"en":"ar"),"description":summary,"applicationCategory":tx(p.category,l),"operatingSystem":p.operatingSystem,"image":origin+p.cover,"url":canonical,"author":{"@type":"Person","name":"Mohammed Ghaleb Alaosimi","alternateName":"محمد غالب العصيمي","url":origin+"/"}},
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":ar?"الرئيسية":"Home","item":origin+(ar?"/":"/en/")},{"@type":"ListItem","position":2,"name":ar?"المشاريع":"Projects","item":origin+(ar?"/projects.html":"/en/projects.html")},{"@type":"ListItem","position":3,"name":title,"item":canonical}]}
  ];
  const mt=title+" | "+(ar?"مشروع برمجي":"Software project")+" — M.GH.AL";
