@@ -11,7 +11,7 @@ function inspectPage(path, language) {
   const cards = [...html.matchAll(/<article\b[^>]*class=["'][^"']*\bcredential-card\b[^"']*["'][^>]*>[\s\S]*?<\/article>/gi)]
     .map((match) => match[0]);
 
-  assert.equal(cards.length, 18, language + ": expected 18 credential cards.");
+  assert.equal(cards.length, 21, language + ": expected 21 credential cards.");
 
   const issuerCounts = { openjs: 0, cisco: 0, edraak: 0 };
   const logoMap = new Map();
@@ -47,7 +47,7 @@ function inspectPage(path, language) {
     }
   }
 
-  assert.deepEqual(issuerCounts, { openjs: 1, cisco: 11, edraak: 6 }, language + ": issuer distribution changed; review before updating this audit.");
+  assert.deepEqual(issuerCounts, { openjs: 1, cisco: 14, edraak: 6 }, language + ": issuer distribution changed; review before updating this audit.");
   return { issuerCounts, logoMap };
 }
 
@@ -62,4 +62,4 @@ for (const issuer of ["openjs", "cisco", "edraak"]) {
   );
 }
 
-console.log("Credential audit passed: 18 cards per language, expected issuer distribution, descriptive logo alternatives, HTTPS sources, lazy loading, and bilingual logo consistency.");
+console.log("Credential audit passed: 21 cards per language, expected issuer distribution, descriptive logo alternatives, HTTPS sources, lazy loading, and bilingual logo consistency.");
