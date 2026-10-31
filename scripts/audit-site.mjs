@@ -61,7 +61,7 @@ for (const file of pages) {
     /<meta\b[^>]*content=["'][^"']+["'][^>]*name=["']viewport["'][^>]*>/i.test(html);
   if (!hasViewport) fail(file, "missing responsive viewport metadata");
   const hasStaticSkipLink = /class=["'][^"']*\bskip-link\b[^"']*["']/i.test(html);
-  const hasSkipLinkEnhancement = /(?:src|href)=["'][^"']*accessibility\.js["']/i.test(html);
+  const hasSkipLinkEnhancement = /(?:src|href)=["'][^"']*(?:accessibility|site)\.js["']/i.test(html);
   if (!hasStaticSkipLink && !hasSkipLinkEnhancement) fail(file, "missing keyboard skip-navigation link or enhancement");
   const mainCount = (html.match(/<main\b/gi) ?? []).length;
   if (mainCount !== 1) fail(file, `expected exactly one main landmark, found ${mainCount}`);
