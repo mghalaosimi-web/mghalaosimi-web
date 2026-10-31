@@ -203,5 +203,36 @@
       "Software Engineer",
       "Yemen"
     ]
+  },
+  {
+    "title": "السيرة الذاتية | محمد غالب العصيمي",
+    "url": "/resume.html",
+    "description": "السيرة الذاتية المهنية القابلة للطباعة لمحمد غالب العصيمي M.GH.AL، وتشمل التعليم والمهارات والمشاريع والاعتمادات المسجلة.",
+    "keywords": [
+      "السيرة الذاتية",
+      "محمد غالب العصيمي",
+      "محمد العصيمي",
+      "M.GH.AL",
+      "CV",
+      "Resume",
+      "طباعة",
+      "تنزيل PDF",
+      "ملف مهني"
+    ]
+  },
+  {
+    "title": "Professional Resume | Mohammed Ghaleb Alaosimi",
+    "url": "/en/resume.html",
+    "description": "Print-ready professional CV for Mohammed Ghaleb Alaosimi, covering education, skills, selected projects, and recorded credentials.",
+    "keywords": [
+      "resume",
+      "CV",
+      "curriculum vitae",
+      "Mohammed Ghaleb Alaosimi",
+      "M.GH.AL",
+      "professional profile",
+      "print",
+      "PDF"
+    ]
   }
 ]
