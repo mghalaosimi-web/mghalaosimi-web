@@ -67,15 +67,16 @@ for (const file of pages) {
   if (mainCount !== 1) fail(file, `expected exactly one main landmark, found ${mainCount}`);
 
   const ids = new Set();
-  const staticSkipLink = html.match(/<a\b([^>]*class=["'][^"']*\bskip-link\b[^"']*["'][^>]*)>/i)?.[1];
-  const skipTarget = staticSkipLink?.match(/\bhref=["']#([^"']+)["']/i)?.[1];
-  if (skipTarget && !ids.has(skipTarget)) fail(file, "skip link target does not exist: #" + skipTarget);
-
   for (const match of html.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)) {
     const id = match[1];
     if (ids.has(id)) fail(file, `duplicate id="${id}"`);
     ids.add(id);
   }
+
+  const staticSkipLink = html.match(/<a\b([^>]*class=["'][^"']*\bskip-link\b[^"']*["'][^>]*)>/i)?.[1];
+  const skipTarget = staticSkipLink?.match(/\bhref=["']#([^"']+)["']/i)?.[1];
+  if (skipTarget && !ids.has(skipTarget)) fail(file, "skip link target does not exist: #" + skipTarget);
+
 
   for (const match of html.matchAll(/<img\b([^>]*)>/gi)) {
     if (!/\balt\s*=\s*["'][^"']*["']/i.test(match[1])) fail(file, "img element missing alt attribute");
