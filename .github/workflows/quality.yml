@@ -17,12 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
-          node-version: "22"
+          node-version: "24"
+          package-manager-cache: false
 
       - name: Install pinned development dependencies
         run: npm install --ignore-scripts --no-package-lock
@@ -31,7 +32,7 @@ jobs:
         run: npm run quality
 
       - name: Upload compiled browser scripts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: compiled-browser-scripts
           path: dist/scripts/
