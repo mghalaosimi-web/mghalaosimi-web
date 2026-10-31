@@ -1,0 +1,14 @@
+name = "mghal-api"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+workers_dev = true
+preview_urls = false
+[[d1_databases]]
+binding = "DB"
+database_name = "mghal-db"
+database_id = "1e5682c3-6a68-4fe5-b2c5-01f9fbe1aabd"
+migrations_dir = "migrations"
+[vars]
+ALLOWED_ORIGINS = "https://mghalaosimi-web.vercel.app,https://mghal.vercel.app"
+RATE_LIMIT_PER_MINUTE = "60"
+SESSION_TTL_SECONDS = "28800"
