@@ -11,10 +11,11 @@
     "build:scripts": "tsc -p tsconfig.scripts.json",
     "check:generated": "node -e \"const fs=require('node:fs');for(const n of ['credentials.js','accessibility.js','project-cards.js']){const a=fs.readFileSync('dist/scripts/'+n,'utf8');const b=fs.readFileSync('assets/'+n,'utf8');if(a!==b){console.error('Generated asset is stale: '+n);process.exitCode=1}}\"",
     "build": "npm run typecheck && npm run build:scripts && npm run check:generated",
-    "quality": "npm run build && npm run audit:html && npm run audit:design && npm run audit:pwa && npm run test:unit",
+    "quality": "npm run build && npm run audit:html && npm run audit:design && npm run audit:pwa && npm run audit:credentials && npm run test:unit",
     "audit:html": "node scripts/audit-site.mjs",
     "audit:design": "node scripts/audit-design.mjs",
     "audit:pwa": "node scripts/audit-pwa.mjs",
+    "audit:credentials": "node scripts/audit-credentials.mjs",
     "test:unit": "node scripts/test-credentials.mjs && node scripts/test-accessibility.mjs && node scripts/test-project-cards.mjs"
   },
   "devDependencies": {
