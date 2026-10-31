@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "siteOrigin": "https://mghal.vercel.app",
+  "siteOrigin": "https://mghalaosimi-web.vercel.app",
   "reviewedAt": "2026-10-31",
   "projects": [
     {
@@ -1004,6 +1004,125 @@
         ]
       },
       "operatingSystem": "Windows"
+    },
+    {
+      "id": "mghal-official-website",
+      "slug": "mghal-official-website",
+      "title": {
+        "ar": "M.GH.AL Official Website",
+        "en": "M.GH.AL Official Website"
+      },
+      "summary": {
+        "ar": "الموقع الرسمي ثنائي اللغة للهوية المهنية M.GH.AL، يجمع الملف المهني والشهادات والإنجازات ومحفظة المشاريع في تجربة عربية وإنجليزية قابلة للفهرسة.",
+        "en": "The bilingual official M.GH.AL professional identity website, bringing together the profile, credentials, achievements and software portfolio in an indexable Arabic and English experience."
+      },
+      "problem": {
+        "ar": "توزع المعلومات المهنية والمشاريع والشهادات بين منصات وروابط متعددة، مع صعوبة الوصول إلى مرجع موحد ومتسق.",
+        "en": "Professional information, projects and credentials are distributed across multiple platforms, making a consistent verified reference harder to find."
+      },
+      "goal": {
+        "ar": "إنشاء مرجع رقمي موحد يعرض الهوية المهنية والأعمال والاعتمادات بصورة منظمة وقابلة للاكتشاف.",
+        "en": "Create a unified digital reference that presents professional identity, work and credentials in a structured, discoverable form."
+      },
+      "audience": {
+        "ar": "جهات التوظيف، والمتعاونون، والعملاء المحتملون، والمهتمون بالأعمال البرمجية والهوية المهنية.",
+        "en": "Recruiters, collaborators, prospective clients and people exploring the developer's software work and professional identity."
+      },
+      "value": {
+        "ar": "تجميع المعلومات المهنية في موقع سريع ومتجاوب مع صفحات مشاريع مستقلة وبيانات وصفية منظمة ودعم كامل للعربية والإنجليزية.",
+        "en": "Centralize professional information in a responsive site with dedicated project pages, structured metadata and full Arabic/English support."
+      },
+      "category": {
+        "ar": "موقع هوية ومحفظة مهنية",
+        "en": "Professional identity and portfolio website"
+      },
+      "categoryKey": "web",
+      "status": {
+        "ar": "تطوير نشط",
+        "en": "Active development"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/mghalaosimi-web",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/mghal-website.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لموقع M.GH.AL الرسمي، وليس لقطة شاشة من الموقع.",
+        "en": "Illustrative artwork for the M.GH.AL official website, not a website screenshot."
+      },
+      "technologies": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "TypeScript (build tooling)",
+        "JSON-LD / Schema.org",
+        "Progressive Web App",
+        "Service Worker",
+        "Node.js build scripts"
+      ],
+      "features": [
+        {
+          "ar": "صفحات عربية وإنجليزية مع دعم RTL وLTR.",
+          "en": "Arabic and English pages with RTL and LTR layout support."
+        },
+        {
+          "ar": "صفحات مستقلة للملف المهني والشهادات والإنجازات والمشاريع.",
+          "en": "Dedicated pages for the professional profile, credentials, achievements and projects."
+        },
+        {
+          "ar": "بيانات SEO وOpen Graph وTwitter Cards وhreflang وJSON-LD.",
+          "en": "SEO metadata, Open Graph, Twitter Cards, hreflang and JSON-LD structured data."
+        },
+        {
+          "ar": "محفظة مشاريع قابلة للبحث والتصفية مع صفحات تفاصيل مولدة من سجل بيانات موحد.",
+          "en": "Searchable and filterable project catalogue with detail pages generated from a unified data catalogue."
+        },
+        {
+          "ar": "إعدادات PWA وملفات Sitemap وrobots.txt.",
+          "en": "PWA support plus sitemap and robots.txt resources."
+        }
+      ],
+      "architecture": {
+        "ar": "موقع Static متعدد الصفحات؛ تُدار بيانات المشاريع في JSON موحد، ثم تولّد سكربتات Node.js صفحات تفاصيل عربية وإنجليزية وتجهز مخرجات النشر داخل public. يستخدم TypeScript لفحوصات وأدوات الجودة، ولا يعتمد عرض صفحات المشاريع على استدعاء GitHub API في كل زيارة.",
+        "en": "A multi-page static site. Project records live in a unified JSON catalogue; Node.js scripts generate Arabic and English detail pages and prepare the public output. TypeScript powers quality tooling, and project pages do not call the GitHub API on every visit."
+      },
+      "gallery": [],
+      "docs": "https://github.com/mghalaosimi-web/mghalaosimi-web/blob/main/README.md",
+      "deploymentReference": {
+        "url": "https://mghalaosimi-web.vercel.app",
+        "label": {
+          "ar": "الموقع الرسمي",
+          "en": "Official website"
+        }
+      },
+      "evidence": {
+        "ar": [
+          "مستودع الموقع العام وملف README.md.",
+          "ملفات HTML وCSS وJavaScript وبيانات المشاريع وملفات PWA في شجرة المستودع.",
+          "حزمة package.json وسكربتات التوليد وفحوصات الجودة."
+        ],
+        "en": [
+          "Public website repository and README.md.",
+          "HTML, CSS, JavaScript, project data and PWA files in the repository tree.",
+          "package.json, page-generation scripts and quality-check scripts."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "الغلاف Artwork توضيحي وليس لقطة شاشة فعلية.",
+          "حالة الموقع تطوير نشط؛ لا يُوصف بأنه مكتمل.",
+          "رابط النشر الرسمي مأخوذ من نطاق Vercel المرتبط بالمشروع."
+        ],
+        "en": [
+          "The cover is illustrative artwork, not a real screenshot.",
+          "The website remains in active development and is not labelled completed.",
+          "The official deployment URL matches the Vercel domain connected to the project."
+        ]
+      },
+      "operatingSystem": "Web browser"
     }
   ]
 }
