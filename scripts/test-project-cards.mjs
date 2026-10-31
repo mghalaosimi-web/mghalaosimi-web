@@ -11,6 +11,7 @@ const required = [
   "Live preview",
   "engineeringEnhanced",
   "primary-action",
+  "meta.append(scopeNode)",
 ];
 for (const token of required) assert.ok(source.includes(token), "Missing project enhancement: " + token);
 assert.ok(source.includes('document.querySelectorAll(projectSelector)'));
