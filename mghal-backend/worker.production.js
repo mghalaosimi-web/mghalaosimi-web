@@ -32,9 +32,9 @@ export default {
   if(path==="/api/admin/auth/logout"&&method==="POST"){const t=(request.headers.get("Authorization")||"").slice(7);await q("UPDATE admin_sessions SET revoked_at=? WHERE user_id=? AND token_hash=? AND revoked_at IS NULL",new Date().toISOString(),current.id,await hash(t)).run();return out({success:true});}
   if(path==="/api/public/visitors"&&method==="POST"){
    const b=await json(),visitorToken=typeof b?.visitorToken==="string"&&b.visitorToken.length>=32?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
-   let f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1",key).first();if(!f){f={id:crypto.randomUUID()};await q("INSERT INTO followers(id,email_hash,status,consent_at) VALUES(?,?,'active',?)",f.id,key,new Date().toISOString()).run();}
+   let f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1",key).first();let fresh=false;if(!f){f={id:crypto.randomUUID()};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'active')",f.id,key).run();}
    const page=typeof b?.path==="string"&&b.path.startsWith("/")?b.path.slice(0,500):"/";
-   await q("INSERT INTO analytics_events(id,event_type,path,session_hash) VALUES(?,?,?,?)",crypto.randomUUID(),"visitor_start",page,await hash(visitorToken)).run();
+   if(fresh)await q("INSERT INTO analytics_events(id,event_type,path,session_hash) VALUES(?,?,?,?)",crypto.randomUUID(),"visitor_start",page,await hash(visitorToken)).run();
    return out({visitorToken,followerId:f.id,status:"active"},201);
   }
   if(path==="/api/public/events"&&method==="POST"){
