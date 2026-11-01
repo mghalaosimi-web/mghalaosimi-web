@@ -12,7 +12,7 @@ for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap','/api/a
 assert.match(html,/name="robots" content="noindex,nofollow,noarchive"/);
 assert.match(worker,/PBKDF2/);assert.match(worker,/LAST_OWNER_PROTECTED/);assert.match(worker,/MEDIA_STORAGE_NOT_CONFIGURED/);
 assert.match(worker,/content\.write/);assert.match(worker,/content\.delete/);assert.match(migration,/followers\.manage/);
-assert.match(localization,/name_ar/);assert.match(worker,/short_description_ar/);assert.match(databaseContent,/api\/public\/projects\?locale=/);assert.match(databaseContent,/api\/public\/certificates/);
+assert.match(localization,/name_ar/);assert.match(worker,/short_description_ar/);assert.match(databaseContent,/api\/public\/projects\?locale=/);assert.match(databaseContent,/api\/public\/certificates/);assert.match(databaseContent,/querySelectorAll\('\.tag'\)/);
 assert.ok(js.includes('sessionStorage'));assert.ok(js.includes('Do Not Track')===false);assert.ok(css.includes('--navy:#172b4d'));
 assert.ok(existsSync('article.html')&&existsSync('en/article.html'));
 assert.ok(readFileSync('knowledge.html','utf8').includes('published-articles'));
