@@ -42,9 +42,10 @@ function pairedPaths(relative) {
 walk(siteRoot);
 pages.sort();
 const nonIndexable = new Set(["404.html", "offline.html"]);
-const publicPages = pages.filter(file => !nonIndexable.has(file));
+const noindexPages = new Set(pages.filter(file => /<meta\b[^>]*name=["\']robots["\'][^>]*content=["\'][^"\']*noindex/i.test(readFileSync(path.join(siteRoot, file), "utf8"))));
+const publicPages = pages.filter(file => !nonIndexable.has(file) && !noindexPages.has(file));
 
-for (const relative of pages.filter(file => nonIndexable.has(file))) {
+for (const relative of pages.filter(file => nonIndexable.has(file) || noindexPages.has(file))) {
   const html = readFileSync(path.join(siteRoot, relative), "utf8");
   if (!/<meta\b[^>]*name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html)) {
     fail(relative, "non-indexable utility page must declare robots noindex");
