@@ -8,7 +8,7 @@
   const buttons = Array.from(
     root.querySelectorAll<HTMLButtonElement>(".credential-filter"),
   );
-  const cards = Array.from(
+  const getCards = (): HTMLElement[] => Array.from(
     root.querySelectorAll<HTMLElement>(".credential-card"),
   );
   const count = root.querySelector<HTMLElement>(".credential-count");
@@ -29,6 +29,7 @@
     const query = normalize(search?.value).trim();
     let visibleCount = 0;
 
+    const cards = getCards();
     for (const card of cards) {
       const categoryMatches =
         activeFilter === "all" || card.dataset["category"] === activeFilter;
