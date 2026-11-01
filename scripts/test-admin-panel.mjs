@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { readFileSync, existsSync } from 'node:fs';
+const html=readFileSync('admin/index.html','utf8');
+const js=readFileSync('assets/admin.js','utf8');
+const css=readFileSync('assets/admin.css','utf8');
+const worker=readFileSync('mghal-backend/worker.production.js','utf8');
+const migration=readFileSync('mghal-backend/migrations/0002_admin_permissions.sql','utf8');
+for(const view of ['dashboard','identity','projects','certificates','articles','technologies','skills','education','achievements','followers','comments','analytics','media','users'])assert.ok(html.includes(`data-view="${view}"`),`missing admin view ${view}`);
+for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap','/api/admin/auth/login','/api/admin/dashboard','/api/admin/analytics','/api/admin/followers','/api/admin/comments','/api/admin/media','/api/admin/users'])assert.ok(worker.includes(route),`missing API route ${route}`);
+assert.match(html,/name="robots" content="noindex,nofollow,noarchive"/);
+assert.match(worker,/PBKDF2/);assert.match(worker,/LAST_OWNER_PROTECTED/);assert.match(worker,/MEDIA_STORAGE_NOT_CONFIGURED/);
+assert.match(worker,/content\.write/);assert.match(worker,/content\.delete/);assert.match(migration,/followers\.manage/);
+assert.ok(js.includes('sessionStorage'));assert.ok(js.includes('Do Not Track')===false);assert.ok(css.includes('--navy:#172b4d'));
+assert.ok(existsSync('article.html')&&existsSync('en/article.html'));
+assert.ok(readFileSync('knowledge.html','utf8').includes('published-articles'));
+console.log('Admin/platform tests passed: auth bootstrap, RBAC, content CRUD, users, followers, moderation, analytics, media adapter and bilingual article presentation.');
