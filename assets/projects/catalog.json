@@ -564,8 +564,8 @@
         "en": "Manar Schedule System"
       },
       "summary": {
-        "ar": "نظام إدارة الجداول الأكاديمية المخصص لكلية الجامعة اليمنية، ويُعرض كسجل مستقل عن Al-Manar Schedule System المخصص لكلية المنار الجامعية.",
-        "en": "An academic scheduling system for Yemen University College, maintained as a separate project from Al-Manar Schedule System for Al-Manar University College."
+        "ar": "نظام جامعي لإدارة الطلاب والجداول الأكاديمية والصلاحيات والإشعارات المجدولة، ويُعرض كسجل مستقل عن Al-Manar Schedule System.",
+        "en": "A university scheduling system for student management, timetables, role-based access and scheduled notifications, maintained separately from Al-Manar Schedule System."
       },
       "problem": {
         "ar": "إدارة الجداول والتغييرات الأكاديمية والطلاب والمحاضرين عبر قنوات منفصلة تؤدي إلى صعوبة نشر التحديثات ومتابعتها.",
@@ -576,8 +576,8 @@
         "en": "Provide connected student and administration portals with a schedule engine, role management, notifications and operational records."
       },
       "audience": {
-        "ar": "طلاب ومحاضرو وإداريو كلية الجامعة اليمنية.",
-        "en": "Students, lecturers and administrators at Yemen University College."
+        "ar": "طلاب الجامعات والكليات والمحاضرون والإداريون الأكاديميون.",
+        "en": "University and college students, lecturers and academic administrators."
       },
       "value": {
         "ar": "تنظيم الجدول الأكاديمي وتعديله مركزياً مع فصل واجهات الأدوار ودعم التنبيهات.",
