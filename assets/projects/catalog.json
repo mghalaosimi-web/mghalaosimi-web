@@ -685,12 +685,14 @@
         "ar": [
           "سجل منصة M.GH.AL يحدد هذا المشروع لكلية الجامعة اليمنية، بينما README في المستودع يصف نظام جدولة جامعية دون تسمية المؤسسة؛ لذلك مصدر الإسناد المؤسسي هو سجل المشروع لا README.",
           "المستودعان متقاربان في أجزاء كبيرة من الشيفرة، لكن هذا السجل يوثق خصائص مستودع almanar-schedule-system تحديداً.",
-          "لم يتم اختبار تشغيل الخدمة أو تطبيق الجوال أو صلاحية ملف APK مباشرة."
+          "لم يتم اختبار تشغيل الخدمة أو تطبيق الجوال أو صلاحية ملف APK مباشرة.",
+          "ملف ALMANAR_PROJECT_CONTEXT.md موجود بالنص نفسه في المستودعين ويصف بوابة كلية المنار؛ لذلك توجد مفارقة بين هذا الملف وسجل المنصة الذي يحدد كلية الجامعة اليمنية. يلزم حسم الجهة من صاحب المشروع قبل اعتماد النسبة المؤسسية نهائياً."
         ],
         "en": [
           "The M.GH.AL project registry assigns this project to Yemen University College, while the repository README describes a university scheduling system without naming the institution; the institutional attribution therefore comes from the project registry, not the README.",
           "The repositories share substantial code, but this record documents the almanar-schedule-system repository specifically.",
-          "Live service operation, mobile-app behavior and APK validity have not been independently tested."
+          "Live service operation, mobile-app behavior and APK validity have not been independently tested.",
+          "ALMANAR_PROJECT_CONTEXT.md appears with identical content in both repositories and describes an Al-Manar College portal, conflicting with the platform registry's Yemen University College attribution. The project owner should confirm the institution before this attribution is treated as definitive."
         ]
       },
       "operatingSystem": "Web browser"
