@@ -1108,8 +1108,8 @@
         "en": "Al-Manar Schedule System"
       },
       "summary": {
-        "ar": "نظام لإدارة الجداول والشؤون الأكاديمية يعرّف README الخاص بمستودعه بأنه مخصص لجامعة المنار، مع بوابة للطلاب ولوحات إدارة ومصادقة وصلاحيات وتنبيهات مجدولة.",
-        "en": "An academic scheduling system whose repository README identifies it as designed for Al-Manar University, with a student portal, administration dashboards, authentication, role controls and scheduled notifications."
+        "ar": "نظام إدارة الجداول الأكاديمية المخصص لكلية المنار الجامعية، وفق سجل المشروع واسم المستودع، مع بوابة للطلاب ولوحات إدارة ومصادقة وصلاحيات وتنبيهات مجدولة.",
+        "en": "An academic scheduling system for Al-Manar University College, as identified in the project registry and repository context, with a student portal, administration dashboards, authentication, role controls and scheduled notifications."
       },
       "problem": {
         "ar": "توزع الجداول والتغييرات الأكاديمية وإدارة الطلاب والتنبيهات بين أدوات منفصلة يصعّب متابعة التحديثات وإيصالها.",
@@ -1120,8 +1120,8 @@
         "en": "Provide a centralized academic system for timetables, schedule overrides, student management, access control and role-specific portals."
       },
       "audience": {
-        "ar": "طلاب جامعة المنار ومحاضروها والإداريون الأكاديميون، وفق تعريف المشروع في README.",
-        "en": "Al-Manar University students, lecturers and academic administrators, as identified by the repository README."
+        "ar": "طلاب ومحاضرو وإداريو كلية المنار الجامعية.",
+        "en": "Students, lecturers and administrators at Al-Manar University College."
       },
       "value": {
         "ar": "إدارة الجداول الأسبوعية والتعديلات والتنبيهات من نظام موحد مع فصل صلاحيات الطالب والإدارة والمشرف الأعلى.",
@@ -1225,15 +1225,13 @@
       },
       "notes": {
         "ar": [
-          "هذا السجل مرتبط بمستودع manar-schedule-system لأن README فيه يحدد Al-Manar University صراحةً.",
-          "يوجد ملف سياق إضافي في المستودع يصف بوابة كلية المنار المستقلة؛ أبقينا الوصف المؤسسي ضمن ما تؤيده وثائق المستودع دون توسيع الاسم الرسمي.",
-          "المستودع الآخر ذو الاسم المتقارب محفوظ في سجل منفصل، ولا نفترض أن اختلاف المستودعين يعني اختلاف الجهة التعليمية.",
+          "يرتبط هذا السجل بمستودع manar-schedule-system لأن README يسمي المشروع Al-Manar University Schedule & Academic Management System، كما يصف ملف سياق المشروع بوابة كلية المنار المستقلة.",
+          "المستودع الآخر ذو الاسم المتقارب محفوظ في سجل منفصل؛ ولا نفترض أن اختلاف المستودعين وحده يثبت اختلاف الجهة التعليمية.",
           "لم يتم اختبار الخدمة الحية أو تكامل WhatsApp فعلياً ضمن هذا التوثيق."
         ],
         "en": [
-          "This record is linked to manar-schedule-system because its README explicitly identifies Al-Manar University.",
-          "An additional project-context document describes a standalone Al-Manar College portal; the institutional wording is kept within the repository's own evidence.",
-          "The similarly named repository remains in a separate record; repository separation alone is not treated as proof of a different institution.",
+          "This record links to manar-schedule-system because its README names the project Al-Manar University Schedule & Academic Management System, while its project-context document describes a standalone Al-Manar College portal.",
+          "The similarly named repository remains in a separate record; repository separation alone is not proof of a different institution.",
           "The live service and WhatsApp integration were not tested as part of this documentation."
         ]
       },
