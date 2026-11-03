@@ -8,6 +8,11 @@ for (const [file, expected] of [
   for (const phrase of expected) assert.ok(html.includes(phrase), file + ": missing " + phrase);
   assert.doesNotMatch(html, /18 credentials|18 شهادة|11 Cisco|11 إنجازاً/i, file + ": stale credential count");
 }
+for (const [file, expected] of [["achievements.html", ["21 شهادة", "14 من Cisco", "6 من إدراك", "JSNAD"]], ["en/achievements.html", ["21 professional credentials", "14 from Cisco", "6 from Edraak", "JSNAD"]]]) {
+  const html = readFileSync(file, "utf8");
+  for (const phrase of expected) assert.ok(html.includes(phrase), file + ": missing " + phrase);
+  assert.doesNotMatch(html, /11 Cisco|11 شهادة|18 credentials|18 شهادة/i, file + ": stale achievement count");
+}
 const feed = readFileSync("assets/article-feed.js", "utf8");
 assert.match(feed, /feedState='unavailable'/, "Article feed failure should not contradict the static empty state.");
 assert.doesNotMatch(feed, /Published articles are temporarily unavailable|تعذر تحميل المقالات المنشورة/, "No duplicate API error message in empty article library.");
