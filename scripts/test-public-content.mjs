@@ -19,3 +19,12 @@ assert.doesNotMatch(feed, /Published articles are temporarily unavailable|تعذ
 const knowledge = readFileSync("en/knowledge.html", "utf8");
 assert.doesNotMatch(knowledge, /color-scheme:dark|#081211|#32a895/, "English knowledge page must not retain retired dark teal theme.");
 console.log("Public content consistency tests passed: bilingual résumé credential totals and knowledge empty/error state.");
+for (const [file, locale] of [["profile.html", "ar"], ["en/profile.html", "en"]]) {
+  const html = readFileSync(file, "utf8");
+  assert.ok(html.includes("profile-facts"), file + ": identity facts missing");
+  assert.ok(html.includes("profile-focus-grid"), file + ": engineering focus missing");
+  assert.ok(html.includes("profile-path"), file + ": academic/portfolio path missing");
+  assert.ok(html.includes("nav-resume"), file + ": résumé action missing");
+  assert.ok(html.includes(locale === "ar" ? "تقنية المعلومات" : "Information Technology"), file + ": academic field missing");
+  assert.ok(html.includes(locale === "ar" ? "الأمن السيبراني مجال اهتمام" : "cybersecurity is an area of interest"), file + ": cybersecurity must not be represented as the degree specialization");
+}
