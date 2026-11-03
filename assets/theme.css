@@ -73,6 +73,13 @@ main .item.engineering-card{padding:22px;border:1px solid var(--border-subtle);b
   --mghal-radius:14px;
   --mghal-content:1180px;
   --mghal-shadow:0 8px 28px rgba(23,43,77,.07);
+  --mghal-font-ar:"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --mghal-font-en:Inter,system-ui,sans-serif;
+  --mghal-space-1:4px; --mghal-space-2:8px; --mghal-space-3:12px;
+  --mghal-space-4:16px; --mghal-space-5:24px; --mghal-space-6:32px;
+  --mghal-space-7:48px; --mghal-space-8:64px; --mghal-space-9:80px;
+  --mghal-radius-sm:8px; --mghal-radius-md:12px; --mghal-radius-lg:14px; --mghal-radius-xl:20px;
+  --mghal-content-reading:72ch; --mghal-touch-target:44px;
 }
 /* M.GH.AL Corporate Visual Identity — Navy / White / Slate / Champagne */
 
@@ -232,3 +239,32 @@ img{max-width:100%;height:auto}a{overflow-wrap:anywhere}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.js-ready .reveal{opacity:1!important;transform:none!important}}
 @media(forced-colors:active){.card,.item,.credential-card,.metric-card,.btn,.tag,.status{border:1px solid CanvasText!important}.skip-link:focus{outline:2px solid CanvasText!important}}
 @media print{.top,.site-controls,.site-progress,.site-to-top,.site-overlay,.actions,.engineering-actions{display:none!important}.card,.item,.credential-card{box-shadow:none!important;break-inside:avoid}body{background:#fff!important;color:#202B38!important}}
+
+
+/* Unified navigation, responsive controls and semantic component states */
+.navlinks{min-width:0;flex-wrap:wrap}
+.navlinks a{display:inline-flex;align-items:center;min-height:40px;text-decoration:none}
+.navlinks a[aria-current="page"]{font-weight:800;text-decoration:underline;text-decoration-color:var(--mghal-gold);text-decoration-thickness:2px;text-underline-offset:7px}
+.site-controls{flex:0 0 auto}
+.site-icon-button{min-width:var(--mghal-touch-target);min-height:var(--mghal-touch-target)}
+.site-menu-button{display:none}
+.site-search-close{min-width:44px}
+.site-search-input{width:100%;min-height:48px}
+.site-search-result{display:block;min-height:56px;padding:12px 15px}
+.site-search-result:focus-visible,.credential-filter:focus-visible{outline:3px solid var(--mghal-gold-ink)!important;outline-offset:3px}
+.card:focus-within,.item:focus-within,.credential-card:focus-within{border-color:var(--mghal-blue)!important}
+button:disabled,[aria-disabled="true"]{opacity:.58;cursor:not-allowed}
+[hidden]{display:none!important}
+@media(max-width:900px){.navlinks{gap:6px}.navlinks a{font-size:12px}.site-controls{margin-inline-start:auto}}
+@media(max-width:680px){
+ .nav{display:flex;align-items:center;flex-wrap:wrap}
+ .site-menu-button{display:inline-flex}
+ .navlinks{display:none!important;flex:1 0 100%;order:10;align-items:stretch;max-height:min(65dvh,520px);overflow:auto;padding:8px 4px 12px;border-top:1px solid var(--mghal-border);background:#fff}
+ .nav-open .navlinks{display:flex!important}
+ .navlinks a{width:100%;min-height:46px;padding:10px 8px;border-bottom:1px solid var(--mghal-border);white-space:normal}
+ .site-controls{margin-inline-start:auto}
+ .site-search{padding:16px}
+ .engineering-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:390px){.brand{font-size:19px!important}.site-icon-button{padding:7px 9px}.engineering-metrics{grid-template-columns:1fr}}
+@media(min-width:681px) and (max-width:1024px){.navlinks{gap:5px}.navlinks a{font-size:11px}.wrap{width:calc(100% - 36px)!important}}
