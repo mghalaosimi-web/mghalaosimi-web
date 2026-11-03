@@ -25,7 +25,34 @@ The existing D1 content seed contains 10 projects, 21 certificates, 2 identity p
 
 ## Phase 8 — Preview and release verification
 
-- `npm run quality` validates the static Vercel output, 88+ HTML files, 42 SEO URLs, 10 projects / 20 bilingual detail routes, 21 certificates per language, PWA, accessibility and admin feature contract.
-- `cd mghal-backend && npm ci && npm run check` validates strict TypeScript, lint, unit tests, Wrangler dry-run of the Worker production entrypoint and syntax.
-- Vercel preview is the target for integration verification. Do not promote aliases or deploy to Render until the user authorizes the final Render preview step.
-- Production D1 migration `0002_admin_permissions.sql` must be applied together with the new Worker release; it is additive and idempotent. The first owner is provisioned only through the one-time bootstrap endpoint after the release is live.
+### Verified on 2026-11-03
+
+- Current feature branch: `feat/mghal-complete-platform-2026-11-01`.
+- Current verified source commit before this documentation update: `28a86d0388f2ad164dc59d67944efd32ac384299`.
+- Both connected Vercel projects (`mghalaosimi-web` and `mghal`) have a `READY` Preview deployment for that exact commit. The deployments remain Preview and are not assigned to the public production domains.
+- GitHub Backend CI for that commit completed successfully: strict TypeScript, ESLint, Vitest, Wrangler dry-run and production Worker syntax checks.
+- The full static quality suite was previously reported passing: 94 HTML documents, 42 public SEO pages/sitemap URLs, 10 projects with 20 bilingual detail routes, 21 credentials per language, plus PWA, accessibility, design and admin checks. The latest Vercel Preview builds also completed successfully.
+- Existing Cloudflare Worker `mghal-api` and D1 database `mghal-db` were updated on 2026-11-02; migration `0002_admin_permissions` and `0003_project_localization` are reported as applied. The existing D1 binding was retained.
+- The owner account has not yet been bootstrapped. The first owner must complete the one-time bootstrap through `/admin/` using the privately stored bootstrap token; no token or default password is embedded in the repository.
+- Cloudflare R2 remains unavailable for this account (error 10042). Media UI/API is implemented but uploads remain disabled until the account owner enables R2 and configures the binding.
+- The two schedule-system records remain separate. Their repository evidence and the M.GH.AL project registry contain an unresolved institutional-attribution conflict for one record; this is documented rather than silently inventing a resolution.
+
+### Release boundary
+
+- PR #8 remains open and unmerged; `main` is unchanged.
+- The public Vercel production domains have not been promoted to this release.
+- Render remains unchanged.
+- No production D1 data correction beyond the already reported migrations is authorized by this verification note.
+- Final public release requires explicit approval to merge PR #8 and promote the tested release. Owner bootstrap and R2 enablement are separate account-owner actions.
+
+### Reverification commands
+
+From the repository root:
+
+```bash
+npm ci
+npm run quality
+cd mghal-backend
+npm ci
+npm run check
+```
