@@ -58,3 +58,10 @@ The Arabic and English certificate pages are explicitly excluded from runtime na
 
 ### Current stage boundary
 The internal-page work is in progress, not closed. Profile, project listing, skills, education, contact, article detail, generated project detail, and résumé still need individual visual/interaction review and any remaining component-specific refinement. Responsive-device, WCAG 2.2 AA, and cross-page state audits also remain open.
+
+### Internal-page refinement — profile and résumé pass
+
+- Rebuilt the Arabic and English professional profile pages as full identity records: portrait, bilingual identity, professional title, academic field, institution, engineering focus, portfolio links, and official accounts.
+- Kept cybersecurity clearly identified as an interest/learning area rather than the academic specialization.
+- Refined the résumé credential summary wording to avoid repeating the JSNAD item while retaining the authoritative 21 / 14 / 6 / 1 totals.
+- Visually reviewed the Arabic profile in the browser preview and reran the complete quality suite successfully.
