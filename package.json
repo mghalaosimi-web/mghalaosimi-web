@@ -2,7 +2,7 @@
   "name": "mghal-official-website",
   "version": "1.0.0",
   "private": true,
-  "description": "Bilingual M.GH.AL official static website \u2014 quality and TypeScript tooling",
+  "description": "Bilingual M.GH.AL official static website — quality and TypeScript tooling",
   "engines": {
     "node": "24.x"
   },
@@ -17,7 +17,7 @@
     "audit:design": "node scripts/audit-design.mjs",
     "audit:pwa": "node scripts/audit-pwa.mjs",
     "audit:credentials": "node scripts/audit-credentials.mjs",
-    "test:unit": "node scripts/test-credentials.mjs && node scripts/test-accessibility.mjs && node scripts/test-project-cards.mjs && node scripts/test-navigation.mjs",
+    "test:unit": "node scripts/test-credentials.mjs && node scripts/test-accessibility.mjs && node scripts/test-project-cards.mjs && node scripts/test-navigation.mjs && node scripts/test-homepage.mjs",
     "prepare:site": "node scripts/generate-project-pages.mjs && node scripts/prepare-static-output.mjs",
     "test:project-pages": "node scripts/test-project-pages.mjs",
     "test:admin": "node scripts/test-admin-panel.mjs"
