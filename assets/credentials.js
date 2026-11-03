@@ -6,7 +6,7 @@
         return;
     const search = root.querySelector(".credential-search");
     const buttons = Array.from(root.querySelectorAll(".credential-filter"));
-    const cards = Array.from(root.querySelectorAll(".credential-card"));
+    const getCards = () => Array.from(root.querySelectorAll(".credential-card"));
     const count = root.querySelector(".credential-count");
     const empty = root.querySelector(".credential-empty");
     let activeFilter = "all";
@@ -20,6 +20,7 @@
     const applyFilters = () => {
         const query = normalize(search?.value).trim();
         let visibleCount = 0;
+        const cards = getCards();
         for (const card of cards) {
             const categoryMatches = activeFilter === "all" || card.dataset["category"] === activeFilter;
             const queryMatches = normalize(card.innerText).includes(query);
