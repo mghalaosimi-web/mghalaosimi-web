@@ -9,7 +9,7 @@ const expected = { openjs: 1, cisco: 11, edraak: 6 };
 
 function inspectPage(path, language) {
   const html = readFileSync(new URL(path, import.meta.url), "utf8");
-  const sections = [...html.matchAll(/<section\\b[^>]*id=["'](cisco|edraak|openjs)-credentials["'][^>]*>([\\s\\S]*?)<\\/section>/gi)];
+  const sections = [...html.matchAll(/<section\b[^>]*id=["'](cisco|edraak|openjs)-credentials["'][^>]*>([\s\S]*?)<\/section>/gi)];
   assert.equal(sections.length, 3, language + ": expected all three credential issuer sections.");
 
   const issuerCounts = { openjs: 0, cisco: 0, edraak: 0 };
@@ -18,35 +18,35 @@ function inspectPage(path, language) {
 
   for (const section of sections) {
     const issuer = section[1].toLowerCase();
-    const cards = [...section[2].matchAll(/<article\\b[^>]*class=["'][^"']*\\bcredential-card\\b[^"']*["'][^>]*>[\\s\\S]*?<\\/article>/gi)]
+    const cards = [...section[2].matchAll(/<article\b[^>]*class=["'][^"']*\bcredential-card\b[^"']*["'][^>]*>[\s\S]*?<\/article>/gi)]
       .map((match) => match[0]);
     issuerCounts[issuer] += cards.length;
     total += cards.length;
 
     for (const [index, card] of cards.entries()) {
-      const textOnly = /\\bcert-card-text-only\\b/i.test(card);
-      const badge = card.match(/<div\\b[^>]*class=["'][^"']*\\bissuer-badge\\s+([a-z0-9-]+)[^"']*["'][^>]*>([\\s\\S]*?)<\\/div>/i);
+      const textOnly = /\bcert-card-text-only\b/i.test(card);
+      const badge = card.match(/<div\b[^>]*class=["'][^"']*\bissuer-badge\s+([a-z0-9-]+)[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
 
       if (textOnly) {
-        assert.ok(!/<img\\b/i.test(card), language + ": text-only credential " + issuer + " #" + (index + 1) + " must not contain an image.");
+        assert.ok(!/<img\b/i.test(card), language + ": text-only credential " + issuer + " #" + (index + 1) + " must not contain an image.");
         assert.ok(!badge, language + ": text-only credential " + issuer + " #" + (index + 1) + " must display its name only.");
         continue;
       }
 
       assert.ok(badge, language + ": image credential " + issuer + " #" + (index + 1) + " has no issuer badge.");
       assert.equal(badge[1].toLowerCase(), issuer, language + ": issuer badge does not match its section.");
-      const images = [...badge[2].matchAll(/<img\\b([^>]*)>/gi)];
+      const images = [...badge[2].matchAll(/<img\b([^>]*)>/gi)];
       assert.ok(images.length > 0, language + ": " + issuer + " badge has no issuer logo image.");
 
       const sources = [];
       for (const image of images) {
         const attrs = image[1];
-        const src = attrs.match(/\\bsrc=["']([^"']+)["']/i)?.[1];
-        const alt = attrs.match(/\\balt=["']([^"']*)["']/i)?.[1];
-        assert.ok(src && /^https:\\/\\//i.test(src), language + ": issuer logo must use an HTTPS source.");
+        const src = attrs.match(/\bsrc=["']([^"']+)["']/i)?.[1];
+        const alt = attrs.match(/\balt=["']([^"']*)["']/i)?.[1];
+        assert.ok(src && /^https:\/\//i.test(src), language + ": issuer logo must use an HTTPS source.");
         assert.ok(alt?.trim(), language + ": issuer logo is missing descriptive alt text.");
-        assert.match(attrs, /\\bloading=["']lazy["']/i, language + ": issuer logos must be lazy-loaded.");
-        assert.match(attrs, /\\bdecoding=["']async["']/i, language + ": issuer logos must decode asynchronously.");
+        assert.match(attrs, /\bloading=["']lazy["']/i, language + ": issuer logos must be lazy-loaded.");
+        assert.match(attrs, /\bdecoding=["']async["']/i, language + ": issuer logos must decode asynchronously.");
         sources.push(src);
       }
 
