@@ -40,7 +40,7 @@ Primary destinations: Home, Identity/Profile, Projects, Credentials, Knowledge, 
 
 Legacy public pages used both `.navlinks` and `.links` for the header navigation. The shared site script now normalizes either class into `.navlinks`, applies a localized navigation label, and activates the same mobile menu behavior. This is a presentation normalization; it does not rewrite URLs or remove links.
 
-Breadcrumbs should be used on generated project details and future article details when the page has a clear parent. The homepage remains the root and should not show a breadcrumb.
+Breadcrumbs should be used on generated project details and future article details when the page has a clear parent. The homepage remains the root and should not show a breadcrumb. Project detail pages use the shared corporate tokens and must not reintroduce the retired dark/teal visual theme.
 
 ## 4. Component rules
 
