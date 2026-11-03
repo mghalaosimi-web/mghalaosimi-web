@@ -45,3 +45,16 @@ The Arabic and English certificate pages are explicitly excluded from runtime na
 
 - Do not edit or reorganize the Arabic or English certificate pages, their groups, order, evidence, QR codes, badges, images, issuer details, dates or verification links.
 - Do not publish, merge, deploy, change production routes, or modify production data in this UI/UX completion increment.
+
+## Additional page-by-page work completed
+
+- Removed the retired dark/teal global style layer from the public identity, skills, education, achievements, contact, knowledge, project-listing, and bilingual résumé pages, while preserving page-specific print and functional styles.
+- Added the approved shared design stylesheet directly to those page heads to avoid relying only on late runtime injection.
+- Corrected the résumé credential summary in Arabic and English to the authoritative 21 total: 14 Cisco, 6 Edraak, and 1 OpenJS/Linux Foundation JSNAD. Corrected the stale official-site label at the same time.
+- Corrected the achievements overview to show the same 21 / 14 / 6 / 1 breakdown in both languages.
+- Changed the knowledge feed failure behavior so a temporary API outage does not append a contradictory error below the existing honest empty-library message.
+- Rebuilt the Arabic and English showcase from the project registry: all 10 projects, accurate localized statuses, their own bilingual detail routes, and no incorrect English-page Arabic descriptions.
+- Added regression tests for résumé/achievement counts, knowledge empty/error behavior, and showcase completeness/locale parity.
+
+### Current stage boundary
+The internal-page work is in progress, not closed. Profile, project listing, skills, education, contact, article detail, generated project detail, and résumé still need individual visual/interaction review and any remaining component-specific refinement. Responsive-device, WCAG 2.2 AA, and cross-page state audits also remain open.
