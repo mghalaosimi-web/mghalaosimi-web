@@ -28,3 +28,11 @@ for (const [file, locale] of [["profile.html", "ar"], ["en/profile.html", "en"]]
   assert.ok(html.includes(locale === "ar" ? "تقنية المعلومات" : "Information Technology"), file + ": academic field missing");
   assert.ok(html.includes(locale === "ar" ? "الأمن السيبراني مجال اهتمام" : "cybersecurity is an area of interest"), file + ": cybersecurity must not be represented as the degree specialization");
 }
+for (const file of ["article.html", "en/article.html"]) {
+  const html = readFileSync(file, "utf8");
+  assert.ok(html.includes('id="article-comments" hidden'), file + ": comments must start hidden until an article is found");
+  assert.ok(html.includes('src="/assets/site.js"'), file + ": shared navigation must load on article detail pages");
+}
+const articlePage = readFileSync("assets/article-page.js", "utf8");
+assert.match(articlePage, /article-comments'\)\.hidden=true/, "Unavailable articles must not show the comment form.");
+assert.match(articlePage, /article-comments'\)\.hidden=false/, "Published articles may show the comment form.");
