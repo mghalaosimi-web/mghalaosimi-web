@@ -144,3 +144,10 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 - Added a keyboard Tab loop while the mobile drawer is open, retaining Escape-to-close and focus return to the launcher. Corrected the mobile launcher font shorthand so its family and line-height are valid.
 
 - Raised the desktop rail above the sticky masthead and layered the mobile drawer, overlay, and launcher at z-index 100/98/99 respectively, preventing the sticky header from covering the drawer or its backdrop. Added regression assertions for the stacking order.
+
+### Follow-up functional hardening
+
+- Locale switching in the persistent rail now preserves the current query string and fragment. This is required for article detail URLs because the article identity is carried in the `slug` query parameter.
+- Article comments and reactions now tolerate browsers that deny localStorage access. Visitor tokens remain usable for the current interaction/session even when persistence is blocked; an empty token response is treated as an explicit failure.
+- Corrected the collapsed desktop rail gutter from 88px to 90px to match the 58px border-box rail width plus 16px outer inset and 16px content clearance.
+- Added regression coverage for locale query/fragment preservation, path-boundary-safe locale prefix handling, blocked localStorage reads/writes, and the corrected collapsed gutter. These checks are wired into the existing unit test sequence but have not been executed against this commit in the current environment.
