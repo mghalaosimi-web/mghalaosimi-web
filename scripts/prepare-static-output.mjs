@@ -1,8 +1,65 @@
-import { readdirSync, rmSync, mkdirSync, cpSync, copyFileSync, existsSync } from "node:fs";
+import {
+  copyFileSync,
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  rmSync,
+} from "node:fs";
 import path from "node:path";
-const root=process.cwd(), output=path.join(root,"public");
-rmSync(output,{recursive:true,force:true});mkdirSync(output,{recursive:true});
-for(const e of readdirSync(root,{withFileTypes:true}))if(e.isFile()&&e.name.toLowerCase().endsWith(".html"))copyFileSync(path.join(root,e.name),path.join(output,e.name));
-for(const name of ["assets","en","projects","admin"]){const src=path.join(root,name);if(existsSync(src))cpSync(src,path.join(output,name),{recursive:true,filter:(source)=>{const base=path.basename(source);return !base.endsWith(".txt")&&!base.startsWith("Screenshot_")&&!base.includes("Master Project Book")&&!base.includes("m-gh-alaosimi-gmail-com")&&!base.includes("PythonEssentials1Update20260725")&&!base.includes("IT_Customer_Support_Basics_certificate_");}});}
-for(const name of ["favicon.svg","manifest.json","offline.html","robots.txt","sitemap.xml","sw.js"]){const src=path.join(root,name);if(existsSync(src))copyFileSync(src,path.join(output,name));}
-console.log("Prepared static website output in ./public for the existing Vercel Output Directory setting.");
+
+const root = process.cwd();
+const output = path.join(root, "public");
+
+const blockedNames = [
+  /^Screenshot_/i,
+  /Master Project Book/i,
+  /m-gh-alaosimi-gmail-com/i,
+  /PythonEssentials1Update20260725/i,
+  /IT_Customer_Support_Basics_certificate_/i,
+];
+
+const blockedExtensions = new Set([
+  ".txt", ".md", ".markdown", ".sql", ".log", ".zip", ".7z", ".rar",
+  ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".key", ".pem",
+  ".p12", ".pfx", ".env", ".bak", ".dump",
+]);
+
+function shouldCopy(source) {
+  const relative = path.relative(root, source);
+  const parts = relative.split(path.sep);
+  const base = path.basename(source);
+  if (parts.some((part) => part === ".git" || part === "node_modules" || part === ".wrangler")) return false;
+  if (base.startsWith(".") || blockedNames.some((pattern) => pattern.test(base))) return false;
+  if (blockedExtensions.has(path.extname(base).toLowerCase())) return false;
+  if (/\.(?:map|tsbuildinfo)$/i.test(base)) return false;
+  return true;
+}
+
+rmSync(output, { recursive: true, force: true });
+mkdirSync(output, { recursive: true });
+
+for (const entry of readdirSync(root, { withFileTypes: true })) {
+  if (entry.isFile() && entry.name.toLowerCase().endsWith(".html") && shouldCopy(path.join(root, entry.name))) {
+    copyFileSync(path.join(root, entry.name), path.join(output, entry.name));
+  }
+}
+
+for (const name of ["assets", "en", "projects", "admin"]) {
+  const source = path.join(root, name);
+  if (existsSync(source)) {
+    cpSync(source, path.join(output, name), {
+      recursive: true,
+      filter: shouldCopy,
+    });
+  }
+}
+
+for (const name of ["favicon.svg", "manifest.json", "offline.html", "robots.txt", "sitemap.xml", "sw.js"]) {
+  const source = path.join(root, name);
+  if (existsSync(source) && shouldCopy(source)) {
+    copyFileSync(source, path.join(output, name));
+  }
+}
+
+console.log("Prepared sanitized static website output in ./public.");
