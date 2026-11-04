@@ -38,7 +38,7 @@ function walk(directory) {
 }
 walk(output);
 
-for (const required of ["index.html", "en/index.html", "assets", "projects", "admin"]) {
+for (const required of ["index.html", "en/index.html", "assets", "projects", "admin", "robots.txt", "sitemap.xml"]) {
   if (!existsSync(path.join(output, required))) violations.push(`MISSING:${required}`);
 }
 if (violations.length) {
