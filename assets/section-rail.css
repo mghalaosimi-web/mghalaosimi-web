@@ -45,3 +45,18 @@ body.mghal-rail-collapsed .mghal-rail-link{justify-content:center;padding:7px 2p
 }
 @media(prefers-reduced-motion:reduce){.mghal-rail,.mghal-rail-link{transition:none}}
 @media print{.mghal-rail,.mghal-rail-mobile,.mghal-rail-overlay{display:none!important}body,body.mghal-rail-collapsed{padding:0!important}}
+
+
+/* Unified navigation contract: one section rail, one compact identity masthead. */
+.nav .navlinks,
+.nav .cert-nav-links,
+.nav .site-menu-button{display:none!important}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav .site-controls{display:flex;align-items:center;gap:8px}
+body{padding-inline-end:278px;padding-right:0}
+body.mghal-rail-collapsed{padding-inline-end:88px;padding-right:0}
+@media(max-width:1100px){body{padding-inline-end:252px;padding-right:0}}
+@media(max-width:760px){
+ body,body.mghal-rail-collapsed{padding-inline-end:0;padding-right:0}
+ .nav{min-height:62px}
+}
