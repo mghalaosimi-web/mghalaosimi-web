@@ -87,3 +87,9 @@ The internal-page work is in progress, not closed. Profile, project listing, ski
 ### Accessibility status — not yet WCAG 2.2 AA certified
 
 The code-level baseline includes skip links, visible focus styling, labeled navigation/search controls, keyboard dismissal and focus return for search, reduced-motion handling, forced-colors rules, responsive form controls, and semantic HTML checks. A full WCAG 2.2 AA determination remains open: representative screen-reader testing, full keyboard walkthroughs across every interactive state, measured contrast checks on rendered components, 200%/400% zoom and reflow, and physical Android/iOS testing have not been completed.
+
+### Expanded responsive regression — 42 public routes × 7 viewports
+
+- Expanded Chromium testing from representative routes to all 42 sitemap routes at 320, 360, 390, 768, 1024, 1280, and 1440 CSS-pixel widths (294 route/viewport combinations).
+- The expanded pass exposed one narrow-screen content overflow in the M.GH.AL Content Studio project detail page: a long evidence/documentation path did not wrap. Added safe wrapping to feature, evidence, and note list items in the shared project-detail stylesheet, with a regression assertion.
+- Re-ran the full 294 combinations after the fix: zero horizontal overflow, zero missing image alt attributes, zero broken images, and all non-certificate public routes retained shared navigation and résumé access. Certificate pages were excluded from the navigation assertion because they are deliberately protected from runtime rewriting; their responsive overflow and image checks still ran.
