@@ -18,7 +18,7 @@ assert.match(html,/name="password" type="password" required minlength="12"/,'boo
 assert.match(worker,/b\.password\.length<12/,'bootstrap API must use the same 12-character minimum');
 assert.doesNotMatch(worker,/b\.password\.length<14/,'bootstrap API must not reject passwords accepted by the UI');
 assert.match(js,/تعذر الوصول إلى خادم الإدارة/,'network failures must show a useful Arabic diagnostic');
-assert.match(js,/HTTP \+r\.status/,'API failures must expose their HTTP status');
+assert.match(js,/\[HTTP '/,'API failures must expose their HTTP status');
 assert.match(js,/جارٍ إنشاء حساب المالك/,'bootstrap submission must expose an in-progress state');
 assert.match(worker,/PBKDF2/);assert.match(worker,/LAST_OWNER_PROTECTED/);assert.match(worker,/storage_provider,storage_key,public_url,original_name,mime_type,size_bytes,alt_ar,alt_en,uploaded_by,blob_data/);assert.match(worker,/file.size>1572864/);assert.match(worker,/method===\"DELETE\"/);assert.match(js,/التخزين داخل قاعدة البيانات الحالية/);
 assert.match(worker,/content\.write/);assert.match(worker,/content\.delete/);assert.match(migration,/followers\.manage/);
