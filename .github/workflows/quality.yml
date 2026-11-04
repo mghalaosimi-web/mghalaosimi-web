@@ -4,17 +4,25 @@ on:
   push:
     branches:
       - fix/site-quality-audit-2026-10-31
+      - feat/mghal-visual-redesign-completion-2026-11-04
   pull_request:
     branches:
       - main
+      - feat/mghal-complete-platform-2026-11-01
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: website-quality-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  typecheck:
-    name: TypeScript validation
+  quality:
+    name: Full website quality suite
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -23,15 +31,21 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: "24"
-          package-manager-cache: false
+          cache: npm
 
-      - name: Install pinned development dependencies
-        run: npm install --ignore-scripts --no-package-lock
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
 
-      - name: Run type checks and compile browser scripts
+      - name: Install exact locked dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run full quality suite
         run: npm run quality
 
       - name: Upload compiled browser scripts
+        if: success()
         uses: actions/upload-artifact@v7
         with:
           name: compiled-browser-scripts
