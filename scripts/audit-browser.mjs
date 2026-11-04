@@ -35,32 +35,18 @@ try {
   const page=await browser.newPage({viewport:{width:1440,height:900}});
   const response=await page.goto(base+route,{waitUntil:"domcontentloaded",timeout:30000});
   assert.ok(response&&response.status()>=200&&response.status()<400,route+": page failed to load");
-  await page.waitForSelector(".skip-link",{timeout:10000}).catch(()=>{});
+  await page.waitForFunction(() => document.querySelector(".skip-link")?.dataset.focusBound === "true", null, { timeout: 10000 });
   await page.addScriptTag({content:axeSource});
   const result=await page.evaluate(async()=>window.axe.run(document,{runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]}}));
   for(const v of result.violations) axeViolations.push({route,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.length,examples:v.nodes.slice(0,3).map(n=>n.target)});
   await page.keyboard.press("Tab");
   const skip=await page.evaluate(()=>document.activeElement?.classList?.contains("skip-link")===true);
   assert.ok(skip,route+": first keyboard focus must be the skip link");
-  await page.evaluate(() => {
-    const link = document.querySelector(".skip-link");
-    link?.addEventListener("click", event => {
-      window.__skipClickCount = (window.__skipClickCount || 0) + 1;
-      window.__skipPreventedObserved = event.defaultPrevented;
-    });
-  });
+  await page.keyboard.press("Tab");
+  const skip=await page.evaluate(()=>document.activeElement?.classList?.contains("skip-link")===true);
+  assert.ok(skip,route+": first keyboard focus must be the skip link");
   await page.keyboard.press("Enter");
-  await page.waitForTimeout(100);
-  const focusState = await page.evaluate(() => ({
-    activeTag: document.activeElement?.tagName,
-    activeId: document.activeElement?.id,
-    mainId: document.querySelector("main")?.id,
-    mainTabindex: document.querySelector("main")?.getAttribute("tabindex"),
-    skipHref: document.querySelector(".skip-link")?.getAttribute("href"),
-    clickCount: window.__skipClickCount || 0,
-    defaultPrevented: window.__skipPreventedObserved ?? null,
-  }));
-  console.log("Skip-link focus diagnostic " + route + ": " + JSON.stringify(focusState));
+  await page.waitForFunction(() => document.activeElement === document.querySelector("main"), null, { timeout: 2000 });
   const main=await page.evaluate(()=>document.activeElement === document.querySelector("main"));
   assert.ok(main,route+": skip link must focus main content");
   if(["/","/projects.html","/showcase.html","/certificates.html","/contact.html","/en/","/en/certificates.html"].includes(route)){
