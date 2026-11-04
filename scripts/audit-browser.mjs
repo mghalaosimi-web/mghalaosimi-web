@@ -42,9 +42,6 @@ try {
   await page.keyboard.press("Tab");
   const skip=await page.evaluate(()=>document.activeElement?.classList?.contains("skip-link")===true);
   assert.ok(skip,route+": first keyboard focus must be the skip link");
-  await page.keyboard.press("Tab");
-  const skip=await page.evaluate(()=>document.activeElement?.classList?.contains("skip-link")===true);
-  assert.ok(skip,route+": first keyboard focus must be the skip link");
   await page.keyboard.press("Enter");
   await page.waitForFunction(() => document.activeElement === document.querySelector("main"), null, { timeout: 2000 });
   const main=await page.evaluate(()=>document.activeElement === document.querySelector("main"));
