@@ -7,7 +7,7 @@ if (!existsSync(output) || !statSync(output).isDirectory()) {
 }
 
 const forbiddenExtensions = new Set([
-  ".txt", ".md", ".markdown", ".sql", ".log", ".zip", ".7z", ".rar",
+  ".md", ".markdown", ".sql", ".log", ".zip", ".7z", ".rar",
   ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".key", ".pem",
   ".p12", ".pfx", ".env", ".bak", ".dump",
 ]);
@@ -27,7 +27,8 @@ function walk(directory) {
     if (entry.isDirectory()) walk(full);
     else {
       files += 1;
-      if (forbiddenExtensions.has(path.extname(entry.name).toLowerCase()) ||
+      if ((path.extname(entry.name).toLowerCase() === ".txt" && path.relative(output, full) !== "robots.txt") ||
+          forbiddenExtensions.has(path.extname(entry.name).toLowerCase()) ||
           forbiddenNames.some((pattern) => pattern.test(entry.name)) ||
           entry.name.startsWith(".")) {
         violations.push(path.relative(output, full));
