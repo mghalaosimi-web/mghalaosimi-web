@@ -70,7 +70,7 @@ html[dir="ltr"] .mghal-rail{inset-inline:16px auto;direction:ltr;text-align:left
 .nav .cert-nav-links,
 .nav .site-menu-button{display:none!important}
 body{padding-inline-start:278px;padding-inline-end:0}
-body.mghal-rail-collapsed{padding-inline-start:88px;padding-inline-end:0}
+body.mghal-rail-collapsed{padding-inline-start:90px;padding-inline-end:0}
 @media(max-width:1100px){
   body{padding-inline-start:252px;padding-inline-end:0}
 }
