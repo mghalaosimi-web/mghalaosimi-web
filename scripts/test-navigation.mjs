@@ -37,7 +37,7 @@ assert.match(railCss, /\.mghal-rail-mobile\{display:inline-flex;position:fixed;z
 assert.match(railCss, /body\{padding-inline-start:278px;padding-inline-end:0\}/, "Desktop content must reserve the rail gutter at inline-start in both RTL and LTR.");
 assert.match(railCss, /html\[dir="ltr"\] \.mghal-rail\{inset-inline:16px auto/, "LTR rail must be positioned at inline-start to match its content gutter.");
 assert.match(railCss, /\.nav \.links,/, "Legacy header link groups must be hidden when the persistent rail is active.");
-assert.match(railCss, /body\.mghal-rail-collapsed\{padding-inline-start:88px;padding-inline-end:0\}/, "Collapsed rail must reserve its reduced logical width.");
+assert.match(railCss, /body\.mghal-rail-collapsed\{padding-inline-start:90px;padding-inline-end:0\}/, "Collapsed rail must reserve its reduced logical width.");
 assert.match(railCss, /@media\(max-width:760px\)/, "The rail must switch to a mobile drawer at the mobile breakpoint.");
 assert.match(railCss, /focus-visible/, "Rail controls must expose visible keyboard focus.");
 assert.match(railScript, /querySelector\('.mghal-rail-link'\)\?\.focus\(\)/, "Opening the mobile rail must move focus into the navigation.");
