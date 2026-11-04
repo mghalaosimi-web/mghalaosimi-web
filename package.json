@@ -18,10 +18,11 @@
     "audit:pwa": "node scripts/audit-pwa.mjs",
     "audit:credentials": "node scripts/audit-credentials.mjs",
     "test:unit": "node scripts/test-credentials.mjs && node scripts/test-accessibility.mjs && node scripts/test-project-cards.mjs && node scripts/test-navigation.mjs && node scripts/test-homepage.mjs && node scripts/test-public-content.mjs && node scripts/test-showcase-pages.mjs",
-    "prepare:site": "node scripts/generate-project-pages.mjs && python3 scripts/generate-showcase-pages.py && node scripts/prepare-static-output.mjs",
+    "prepare:site": "node scripts/generate-project-pages.mjs && python3 scripts/generate-showcase-pages.py && node scripts/prepare-static-output.mjs && npm run audit:public-output",
     "test:project-pages": "node scripts/test-project-pages.mjs",
     "test:admin": "node scripts/test-admin-panel.mjs",
-    "audit:corporate-ui": "node scripts/audit-corporate-ui.mjs"
+    "audit:corporate-ui": "node scripts/audit-corporate-ui.mjs",
+    "audit:public-output": "node scripts/audit-public-output.mjs"
   },
   "devDependencies": {
     "typescript": "7.0.2"
