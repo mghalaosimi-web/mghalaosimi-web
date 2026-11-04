@@ -161,3 +161,99 @@ footer p,footer small,.foot p,.foot small{color:#d4dce8!important}
 footer p,footer small,.foot p,.foot small,.home-footer p,.home-footer small{color:#d4dce8!important}
 @media(max-width:680px){.sheet{width:100%!important;max-width:100%!important;min-width:0!important}.sheet .cols{grid-template-columns:minmax(0,1fr)!important}}
 html,body{width:100%;max-width:100%;overflow-x:clip!important}
+
+/* M.GH.AL Signature Edition — grand navigation and editorial information hierarchy */
+.top,header.top,.cert-top{padding:0!important}
+.top:before,header.top:before,.cert-top:before{content:"M.GH.AL  /  OFFICIAL DIGITAL IDENTITY  /  YEMEN";display:block;padding:9px max(28px,calc((100% - 1360px)/2));background:#10213c;color:#d9c79e;border-bottom:1px solid rgba(182,154,98,.28);font:700 10px/1.4 Inter,"IBM Plex Sans Arabic",sans-serif;letter-spacing:.17em;text-align:left}
+.nav,.cert-nav{width:min(1360px,calc(100% - 64px))!important;min-height:unset!important;display:grid!important;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:66px 58px;align-items:center;gap:0 26px!important;margin-inline:auto;padding:0!important}
+.brand,.cert-brand{grid-column:1;grid-row:1;font-size:25px!important;letter-spacing:1.6px!important}
+.navlinks,.cert-nav-links{grid-column:1/-1;grid-row:2;width:100%;display:flex!important;justify-content:space-between!important;align-items:center;gap:clamp(8px,1.8vw,26px)!important;border-top:1px solid rgba(255,255,255,.16);}
+.navlinks a,.cert-nav-links a{min-height:54px!important;padding:8px 4px!important;font-size:14px!important;font-weight:650!important;letter-spacing:.01em}
+.site-controls{grid-column:3;grid-row:1;margin:0!important;justify-self:end}
+.nav-resume{grid-column:2;grid-row:1;justify-self:end;margin-inline-end:16px;min-height:42px!important;padding-inline:20px!important}
+.site-icon-button{min-width:42px;min-height:42px!important;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 13px!important}
+.site-icon-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8}
+.navlinks a[aria-current=page]:after,.cert-nav-links a[aria-current=page]:after{height:4px!important;inset-inline:0!important;bottom:0!important}
+.home-main{width:min(1360px,calc(100% - 64px))!important}
+.home-hero{min-height:560px;grid-template-columns:minmax(0,1.15fr) minmax(320px,.85fr)!important;gap:clamp(45px,8vw,110px)!important;padding-block:76px 84px!important}
+.home-hero h1{font-size:clamp(48px,6vw,78px)!important;line-height:1.13!important}
+.home-hero .lead{font-size:18px!important;max-width:64ch;line-height:2!important}
+.home-portrait{max-width:390px!important}
+.home-portrait-frame{padding:12px!important;border-radius:26px!important;box-shadow:0 28px 70px rgba(23,43,77,.16)!important}
+.home-portrait-frame img{border-radius:18px!important}
+.home-main>section:not(.home-hero){padding-block:clamp(58px,7vw,92px)!important}
+.home-section-heading{max-width:850px!important;margin-block-end:34px!important}
+.home-section-heading h2,.home-profile h2,.home-knowledge h2,.home-contact h2,.home-facts h2{font-size:clamp(29px,3.5vw,42px)!important;letter-spacing:-.025em}
+.home-capability-grid,.home-project-grid{gap:22px!important}
+.home-capability{padding:30px!important;min-height:220px}
+.home-capability h3{font-size:21px!important}
+.home-capability p{font-size:15px!important;line-height:2!important}
+.home-project-card{border-radius:18px!important}
+.home-project-cover img{aspect-ratio:16/10!important}
+.home-project-body{padding:23px!important}
+.home-project-body h3{font-size:21px!important}
+.home-project-body p{font-size:14px!important;line-height:1.9!important}
+.home-facts{display:grid;grid-template-columns:minmax(260px,.72fr) minmax(0,1.28fr);align-items:center;gap:42px;padding:46px!important;border:1px solid var(--mghal-border)!important;border-radius:24px!important;background:linear-gradient(125deg,#f8fafc,#fff 58%,#f3f5f7)!important;box-shadow:0 20px 60px rgba(23,43,77,.07)!important}
+.home-facts-heading>span{color:var(--mghal-gold-ink);font:800 11px Inter,sans-serif;letter-spacing:.16em}
+.home-facts-heading h2{margin:12px 0;font-size:clamp(26px,3vw,36px)!important}
+.home-facts-heading p{color:var(--mghal-muted);line-height:2}
+.home-facts-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.home-facts-grid>a{display:grid;grid-template-columns:auto 1fr;align-items:center;column-gap:14px;padding:19px 20px;border:1px solid var(--mghal-border);border-radius:15px;background:#fff;transition:transform .2s,border-color .2s,box-shadow .2s}
+.home-facts-grid>a:hover{transform:translateY(-3px);border-color:#c9b887;box-shadow:0 12px 28px rgba(23,43,77,.09)}
+.home-facts-grid strong{grid-row:span 2;color:var(--mghal-navy);font:850 34px/1 Inter,sans-serif}
+.home-facts-grid span{color:var(--mghal-navy);font-weight:800;font-size:14px}
+.home-facts-grid small{color:var(--mghal-muted);font-size:11px}
+.home-profile{gap:54px!important}
+.home-profile-copy>p:not(.eyebrow){font-size:16px!important;line-height:2.1!important}
+.home-profile-facts>div{padding:20px 22px!important}
+.home-profile-facts strong{font-size:16px}
+.home-tech-list{gap:12px!important}
+.home-tech-list span{min-height:38px!important;padding:8px 15px!important;font-size:13px!important}
+.home-credential-summary{padding:30px!important;border-radius:20px!important}
+.home-credential-total strong{font-size:46px!important}
+.home-footer{padding-block:36px 24px!important}
+.cert-page{width:min(1360px,calc(100% - 64px))!important}
+.cert-hero{padding:68px 0 44px!important}
+.cert-hero h1{font-size:clamp(38px,4.5vw,56px)!important}
+.cert-grid{gap:20px!important}
+.cert-card{padding:14px!important;border-radius:18px!important}
+.cert-info{padding:17px 5px 6px!important}
+.cert-info h3{font-size:17px!important}
+.cert-info p{font-size:14px!important;line-height:1.8!important}
+@media(max-width:1100px){
+ .nav,.cert-nav{width:calc(100% - 42px)!important;grid-template-columns:auto 1fr auto;grid-template-rows:64px auto}
+ .navlinks,.cert-nav-links{gap:10px!important}
+ .navlinks a,.cert-nav-links a{font-size:12px!important}
+ .home-facts{grid-template-columns:1fr;gap:22px}
+}
+@media(max-width:760px){
+ .top:before,header.top:before,.cert-top:before{padding:7px 16px;font-size:9px;letter-spacing:.12em}
+ .nav,.cert-nav{width:calc(100% - 30px)!important;grid-template-columns:1fr auto;grid-template-rows:64px auto!important;gap:0 10px!important}
+ .brand,.cert-brand{grid-column:1;grid-row:1;font-size:22px!important}
+ .site-controls{grid-column:2;grid-row:1}
+ .nav-resume{display:none!important}
+ .navlinks,.cert-nav-links{grid-column:1/-1;grid-row:2;display:none!important;flex-direction:column!important;align-items:stretch!important;gap:0!important;padding:8px 0 16px!important;border-top:1px solid rgba(255,255,255,.2);}
+ .nav-open .navlinks,.nav-open .cert-nav-links{display:flex!important}
+ .navlinks a,.cert-nav-links a{width:100%;min-height:49px!important;padding:10px 12px!important;font-size:14px!important;border-bottom:1px solid rgba(255,255,255,.1)}
+ .nav-open .nav,.nav-open .cert-nav{grid-template-rows:64px auto!important}
+ .site-controls{gap:7px}
+ .site-icon-button{min-width:42px!important;padding:8px!important}
+ .site-icon-button span{display:none}
+ .home-main,.cert-page{width:calc(100% - 30px)!important}
+ .home-hero{min-height:unset;grid-template-columns:1fr!important;padding-block:44px!important;gap:30px!important}
+ .home-hero h1{font-size:clamp(40px,11vw,56px)!important}
+ .home-hero .lead{font-size:16px!important}
+ .home-portrait{grid-row:1;width:min(78%,320px)!important}
+ .home-facts{padding:24px!important;gap:20px}
+ .home-facts-grid{grid-template-columns:1fr 1fr;gap:9px}
+ .home-facts-grid>a{padding:13px 11px;grid-template-columns:1fr;gap:4px}
+ .home-facts-grid strong{grid-row:auto;font-size:29px}
+ .home-facts-grid span{font-size:12px}
+ .home-facts-grid small{font-size:10px}
+ .home-capability-grid,.home-project-grid,.home-profile{grid-template-columns:1fr!important}
+ .home-capability{min-height:unset;padding:24px!important}
+ .home-project-body{padding:18px!important}
+ .home-credential-summary{padding:20px!important}
+ .cert-hero{padding:38px 0 26px!important}
+}
+@media(prefers-reduced-motion:reduce){.home-facts-grid>a{transition:none}}

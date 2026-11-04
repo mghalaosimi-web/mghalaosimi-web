@@ -6,8 +6,8 @@
   const english = document.documentElement.lang.toLowerCase().startsWith("en");
   const prefix = english ? "/en" : "";
   const items = english
-    ? [["Home", "/en/"], ["Identity", "/en/profile.html"], ["Projects", "/en/projects.html"], ["Credentials", "/en/certificates.html"], ["Knowledge", "/en/knowledge.html"], ["Contact", "/en/contact.html"]]
-    : [["الرئيسية", "/"], ["الهوية", "/profile.html"], ["المشاريع", "/projects.html"], ["الشهادات", "/certificates.html"], ["المعرفة", "/knowledge.html"], ["التواصل", "/contact.html"]];
+    ? [["Home", "/en/"], ["Identity", "/en/profile.html"], ["Projects", "/en/projects.html"], ["Certificates", "/en/certificates.html"], ["Skills", "/en/skills.html"], ["Achievements", "/en/achievements.html"], ["Knowledge", "/en/knowledge.html"], ["About", "/en/education.html"], ["Contact", "/en/contact.html"]]
+    : [["الرئيسية", "/"], ["الهوية", "/profile.html"], ["المشاريع", "/projects.html"], ["الشهادات", "/certificates.html"], ["المهارات", "/skills.html"], ["الإنجازات", "/achievements.html"], ["المعرفة", "/knowledge.html"], ["التعليم", "/education.html"], ["التواصل", "/contact.html"]];
   let links = nav.querySelector(".navlinks, .links");
   if (!links) {
     links = document.createElement("nav");

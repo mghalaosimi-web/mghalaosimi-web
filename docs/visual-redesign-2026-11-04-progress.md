@@ -111,3 +111,12 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 - Node.js runtime for this pass: 25.9.0; project remains pinned to Node 24.x.
 - Chromium check: 24 Arabic/English representative routes × 5 viewport widths (320, 390, 768, 1024, 1440) = 120 combinations; zero body overflow, zero horizontal scroll, zero broken images, zero missing image alt, shared stylesheet/navigation present, and navy header/footer confirmed.
 - Manual physical-device checks and full WCAG 2.2 AA certification remain open. No production deployment or merge was performed.
+
+### Signature luxury navigation and richer homepage — 4 November 2026
+
+- Reworked the shared desktop navigation into a two-tier, full-width corporate masthead with an identity utility strip, larger brand mark, nine primary destinations, language switch, search, mobile menu, and résumé action.
+- Extended the shared bilingual navigation destinations to include identity, projects, certificates, skills, achievements, knowledge, education/about, and contact.
+- Increased the visual scale and whitespace of the homepage hero, section headings, cards, project previews, certificate summary, and footer.
+- Added a bilingual factual overview band linking to the project registry (10), credential summary (21), listed technologies/tools (14+), and academic field (IT). No follower or traffic counters were fabricated.
+- Retained the approved Navy/Blue/White/Gray/Champagne Gold identity and the original personal photograph and credential assets.
+- Responsive Chromium check: 1440px desktop header rendered as a two-row masthead (158px high), nine primary destinations plus language switch, with no horizontal overflow. Existing mobile menu behavior remains the navigation interaction on narrow screens.
