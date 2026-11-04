@@ -32,6 +32,7 @@
 .info-grid p,.architecture-copy,.status-copy{margin:0;color:var(--pd-muted);line-height:1.9}
 .feature-list,.evidence-list,.notes-list{padding-inline-start:22px;color:var(--pd-muted)}
 .feature-list li,.evidence-list li,.notes-list li{padding:5px 0;line-height:1.85}
+.feature-list li,.evidence-list li,.notes-list li{min-width:0;overflow-wrap:anywhere;word-break:normal}
 .tech-list{display:flex;flex-wrap:wrap;gap:9px;padding:0;list-style:none}
 .tech-list li{display:inline-flex;align-items:center;min-height:30px;border:1px solid var(--pd-line);border-radius:999px;background:var(--mghal-surface,#F3F5F7);padding:6px 12px;color:var(--mghal-blue,#315A85);font:700 12px Inter,"IBM Plex Sans Arabic",sans-serif}
 .small-note{font-size:12px;color:var(--pd-muted);line-height:1.8}
