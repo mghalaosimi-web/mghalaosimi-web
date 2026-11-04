@@ -36,6 +36,12 @@ try {
   const response=await page.goto(base+route,{waitUntil:"domcontentloaded",timeout:30000});
   assert.ok(response&&response.status()>=200&&response.status()<400,route+": page failed to load");
   await page.waitForFunction(() => document.querySelector(".skip-link")?.dataset.focusBound === "true", null, { timeout: 10000 });
+  await page.waitForFunction(() => {
+    const styles = [...document.querySelectorAll('link[rel="stylesheet"]')].filter(link => new URL(link.href).origin === location.origin);
+    return styles.length > 0 && styles.every(link => link.sheet !== null);
+  }, null, { timeout: 10000 });
+  await page.evaluate(() => document.fonts.ready.then(() => true));
+  await page.waitForTimeout(150);
   await page.addScriptTag({content:axeSource});
   const result=await page.evaluate(async()=>window.axe.run(document,{runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]}}));
   for(const v of result.violations) axeViolations.push({route,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.length,examples:v.nodes.slice(0,3).map(n=>({target:n.target,failureSummary:n.failureSummary,checks:[...n.any,...n.all,...n.none].map(c=>({id:c.id,data:c.data,message:c.message}))}))});
