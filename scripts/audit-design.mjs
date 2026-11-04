@@ -11,7 +11,7 @@ const requiredTokens = {
   "--mghal-white": "#fff",
   "--mghal-surface": "#F3F5F7",
   "--mghal-text": "#202B38",
-  "--mghal-muted": "#64748B",
+  "--mghal-muted": "#5B6678",
   "--mghal-border": "#DCE2E8",
   "--mghal-gold": "#B69A62",
   "--mghal-gold-ink": "#806333",
