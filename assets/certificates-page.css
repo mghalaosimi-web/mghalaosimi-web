@@ -14,3 +14,24 @@
 /* Text-only credential cards: no fabricated preview or empty image column. */
 .cert-card-text-only{grid-template-columns:minmax(0,1fr);min-height:76px;align-items:center}
 .cert-card-text-only .cert-info{justify-content:center}
+
+/* Expanded credential gallery */
+.cert-page{width:min(1320px,calc(100% - 48px))}
+.cert-hero h1{font-size:clamp(36px,5.5vw,60px);letter-spacing:-.035em}
+.cert-hero>p{font-size:16px;line-height:1.9}
+.cert-stat{padding:13px 18px;border-radius:14px}.cert-stat strong{font-size:23px}
+.cert-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.cert-card{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:20px;padding:18px;border-radius:18px;box-shadow:0 8px 28px rgba(23,43,77,.055)}
+.cert-preview{min-height:260px;padding:12px;border-radius:12px;background:#f3f5f7}
+.cert-image{max-height:420px;width:100%;object-fit:contain}
+.cert-info h3{font-size:19px;line-height:1.5}.cert-description{font-size:14px!important;line-height:1.9}
+.cert-info>p{font-size:13px;line-height:1.8}.cert-info .issuer-badge{height:42px;max-width:180px;margin-bottom:12px}
+.cert-info .issuer-badge img{max-height:38px;max-width:170px}
+.cert-badge-wall{margin:24px 0 4px;padding:22px;border:1px solid #dce2e8;border-radius:16px;background:#f8fafc}
+.cert-badge-wall h3{margin:0 0 8px;color:#172b4d;font-size:18px}.cert-badge-wall p{color:#64748b;line-height:1.8;font-size:13px}
+.cert-badge-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.cert-badge-links a{display:flex;align-items:center;justify-content:center;min-height:52px;padding:10px;border:1px solid #dce2e8;border-radius:12px;background:#fff;color:#315a85;font-size:12px;font-weight:800;text-align:center}
+.cert-badge-links a:hover{border-color:#b69a62;background:#fbfaf7}
+.cert-note{line-height:1.9}.cert-card-text-only{grid-template-columns:1fr;min-height:130px;padding:24px}
+@media(max-width:900px){.cert-grid{grid-template-columns:1fr}.cert-card{grid-template-columns:minmax(0,1fr) minmax(0,.85fr)}.cert-badge-links{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.cert-page{width:calc(100% - 28px)}.cert-card{grid-template-columns:1fr}.cert-preview{min-height:0}.cert-image{max-height:380px}.cert-badge-links{grid-template-columns:1fr 1fr}.cert-hero{padding-top:34px}}
