@@ -5,6 +5,7 @@ on:
     branches:
       - fix/site-quality-audit-2026-10-31
       - feat/mghal-visual-redesign-completion-2026-11-04
+      - feat/mghal-credentials-projects-expansion-2026-11-05
   pull_request:
     branches:
       - main
