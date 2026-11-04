@@ -42,7 +42,25 @@ try {
   await page.keyboard.press("Tab");
   const skip=await page.evaluate(()=>document.activeElement?.classList?.contains("skip-link")===true);
   assert.ok(skip,route+": first keyboard focus must be the skip link");
+  await page.evaluate(() => {
+    const link = document.querySelector(".skip-link");
+    link?.addEventListener("click", event => {
+      window.__skipClickCount = (window.__skipClickCount || 0) + 1;
+      window.__skipPreventedObserved = event.defaultPrevented;
+    });
+  });
   await page.keyboard.press("Enter");
+  await page.waitForTimeout(100);
+  const focusState = await page.evaluate(() => ({
+    activeTag: document.activeElement?.tagName,
+    activeId: document.activeElement?.id,
+    mainId: document.querySelector("main")?.id,
+    mainTabindex: document.querySelector("main")?.getAttribute("tabindex"),
+    skipHref: document.querySelector(".skip-link")?.getAttribute("href"),
+    clickCount: window.__skipClickCount || 0,
+    defaultPrevented: window.__skipPreventedObserved ?? null,
+  }));
+  console.log("Skip-link focus diagnostic " + route + ": " + JSON.stringify(focusState));
   const main=await page.evaluate(()=>document.activeElement === document.querySelector("main"));
   assert.ok(main,route+": skip link must focus main content");
   if(["/","/projects.html","/showcase.html","/certificates.html","/contact.html","/en/","/en/certificates.html"].includes(route)){
