@@ -22,6 +22,8 @@ assert.doesNotMatch(detailCss, /linear-gradient\(145deg,#070d18/, "Legacy dark p
 assert.match(detailCss, /@media\(max-width:760px\)/, "Project detail responsive layout is missing.");
 assert.match(script, /section-rail\.js/, "The persistent rail must load independently of the main site runtime.");
 assert.match(railScript, /mghal-rail\-mobile/, "The persistent section rail must include its mobile launcher.");
+assert.match(railScript, /locale\.href=localizedPath\+location\.search\+location\.hash/, "Locale switching must preserve article slugs and URL fragments.");
+assert.match(railScript, /path\.replace\(\^?\/en\(\?=\\\/\|\$\)/, "English locale prefix must be removed only at a path boundary.");
 assert.match(script, /isCertificatePage/, "Certificate pages must retain their dedicated styling while receiving the shared rail.");
 assert.match(railScript, /\['الرئيسية والهوية',[\s\S]*?\['المحتوى والتواصل'/, "Arabic rail groups must cover the full public site navigation.");
 assert.match(railScript, /\['OVERVIEW',[\s\S]*?\['CONTENT & CONNECT'/, "English rail groups must cover the full public site navigation.");
