@@ -1,0 +1,22 @@
+services:
+  - type: web
+    runtime: static
+    name: mghal-official
+    repo: https://github.com/mghalaosimi-web/mghalaosimi-web
+    branch: fix/mghal-dual-deploy-hardening-2026-11-05
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./public
+    autoDeployTrigger: checksPass
+    previews:
+      generation: off
+
+  - type: web
+    runtime: static
+    name: mghal-static
+    repo: https://github.com/mghalaosimi-web/mghalaosimi-web
+    branch: fix/mghal-dual-deploy-hardening-2026-11-05
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./public
+    autoDeployTrigger: checksPass
+    previews:
+      generation: off
