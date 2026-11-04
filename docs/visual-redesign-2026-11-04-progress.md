@@ -139,3 +139,6 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 - Commit: `9c523a9ec31f8db54bf2ab83d5ef9d738b94571d`.
 - Verification boundary: source-level checks confirmed the corrected selectors and shared script injection. No browser, device, or full `npm run quality` run was available after this commit. GitHub reports Vercel build-rate-limit failures for both project contexts, and no GitHub Actions workflow runs are associated with this commit. Historical test results above predate this final correction and are not evidence that this commit passed them.
 - The PR remains Draft and unmerged. No main-branch update, production deployment, or database change was made.
+
+- Extended `scripts/test-navigation.mjs` with regression assertions for inline-start gutter alignment, LTR rail placement, duplicate legacy-link suppression, mobile drawer focus containment, and the mobile launcher font declaration. The test is part of `npm run quality` through `test:unit`; it has been updated but not executed in this session.
+- Added a keyboard Tab loop while the mobile drawer is open, retaining Escape-to-close and focus return to the launcher. Corrected the mobile launcher font shorthand so its family and line-height are valid.
