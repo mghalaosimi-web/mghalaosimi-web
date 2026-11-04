@@ -43,7 +43,7 @@ try {
   const skip=await page.evaluate(()=>document.activeElement?.classList?.contains("skip-link")===true);
   assert.ok(skip,route+": first keyboard focus must be the skip link");
   await page.keyboard.press("Enter");
-  const main=await page.evaluate(()=>document.activeElement?.id==="main-content");
+  const main=await page.evaluate(()=>document.activeElement === document.querySelector("main"));
   assert.ok(main,route+": skip link must focus main content");
   if(["/","/projects.html","/showcase.html","/certificates.html","/contact.html","/en/","/en/certificates.html"].includes(route)){
    for(const width of [320,375,768]){
