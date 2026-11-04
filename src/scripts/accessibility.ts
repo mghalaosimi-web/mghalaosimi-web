@@ -17,8 +17,8 @@ if (main && document.body) {
 
   skipLink.href = "#" + mainId;
 
-  if (skipLink.dataset.focusBound !== "true") {
-    skipLink.dataset.focusBound = "true";
+  if (skipLink.dataset["focusBound"] !== "true") {
+    skipLink.dataset["focusBound"] = "true";
     skipLink.addEventListener("click", (event) => {
       event.preventDefault();
       main.setAttribute("tabindex", "-1");
