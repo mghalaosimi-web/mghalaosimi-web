@@ -45,11 +45,22 @@ jobs:
       - name: Run full quality suite
         run: npm run quality
 
-      - name: Upload compiled browser scripts
+      - name: Install real-browser audit dependencies
+        run: npm install --no-save --package-lock=false playwright axe-core lighthouse
+
+      - name: Install Chromium for browser audits
+        run: npx playwright install --with-deps chromium
+
+      - name: Run accessibility, keyboard, reflow, print and Lighthouse audits
+        run: node scripts/audit-browser.mjs
+
+      - name: Upload compiled scripts and browser audit reports
         if: success()
         uses: actions/upload-artifact@v7
         with:
-          name: compiled-browser-scripts
-          path: dist/scripts/
+          name: website-quality-artifacts
+          path: |
+            dist/scripts/
+            artifacts/
           if-no-files-found: error
           retention-days: 7
