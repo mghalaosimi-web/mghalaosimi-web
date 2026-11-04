@@ -13,6 +13,7 @@ function mount(lang = "ar") {
     setAttribute(name, value) { this.attributes[name] = value; },
     removeAttribute(name) { delete this.attributes[name]; },
     focus(options) { this.focused = true; this.focusOptions = options; },
+    scrollIntoView(options) { this.scrolled = true; this.scrollOptions = options; },
     addEventListener(type, callback) {
       const list = listeners.get(type) ?? [];
       list.push(callback);
@@ -34,7 +35,11 @@ function mount(lang = "ar") {
     textContent: "",
     listeners: new Map(),
     addEventListener(type, callback) { this.listeners.set(type, callback); },
-    dispatch(type) { this.listeners.get(type)?.(); },
+    dispatch(type) {
+      const event = { defaultPrevented: false, preventDefault() { this.defaultPrevented = true; } };
+      this.listeners.get(type)?.(event);
+      return event;
+    },
   };
   const document = {
     body,
@@ -60,10 +65,13 @@ assert.equal(ar.skipLink.href, "#main-content");
 assert.equal(ar.skipLink.textContent, "تجاوز إلى المحتوى الرئيسي");
 assert.equal(ar.body.inserted.node, ar.skipLink);
 assert.equal(ar.body.inserted.before, ar.firstChild);
-ar.skipLink.dispatch("click");
+const clickEvent = ar.skipLink.dispatch("click");
+assert.equal(clickEvent.defaultPrevented, true);
 assert.equal(ar.main.attributes.tabindex, "-1");
 assert.equal(ar.main.focused, true);
 assert.equal(ar.main.focusOptions.preventScroll, true);
+assert.equal(ar.main.scrolled, true);
+assert.equal(ar.main.scrollOptions.block, "start");
 ar.main.dispatch("blur");
 assert.equal("tabindex" in ar.main.attributes, false);
 
