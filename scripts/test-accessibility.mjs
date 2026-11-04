@@ -14,7 +14,6 @@ function mount(lang = "ar") {
     removeAttribute(name) { delete this.attributes[name]; },
     focus(options) { this.focused = true; this.focusOptions = options; },
     scrollIntoView(options) { this.scrolled = true; this.scrollOptions = options; },
-    scrollIntoView(options) { this.scrolled = true; this.scrollOptions = options; },
     addEventListener(type, callback) {
       const list = listeners.get(type) ?? [];
       list.push(callback);
@@ -66,14 +65,11 @@ assert.equal(ar.skipLink.href, "#main-content");
 assert.equal(ar.skipLink.textContent, "تجاوز إلى المحتوى الرئيسي");
 assert.equal(ar.body.inserted.node, ar.skipLink);
 assert.equal(ar.body.inserted.before, ar.firstChild);
-const clickEvent = const clickEvent = ar.skipLink.dispatch("click");
-assert.equal(clickEvent.defaultPrevented, true);
+const clickEvent = ar.skipLink.dispatch("click");
 assert.equal(clickEvent.defaultPrevented, true);
 assert.equal(ar.main.attributes.tabindex, "-1");
 assert.equal(ar.main.focused, true);
 assert.equal(ar.main.focusOptions.preventScroll, true);
-assert.equal(ar.main.scrolled, true);
-assert.equal(ar.main.scrollOptions.block, "start");
 assert.equal(ar.main.scrolled, true);
 assert.equal(ar.main.scrollOptions.block, "start");
 ar.main.dispatch("blur");
