@@ -120,3 +120,11 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 - Added a bilingual factual overview band linking to the project registry (10), credential summary (21), listed technologies/tools (14+), and academic field (IT). No follower or traffic counters were fabricated.
 - Retained the approved Navy/Blue/White/Gray/Champagne Gold identity and the original personal photograph and credential assets.
 - Responsive Chromium check: 1440px desktop header rendered as a two-row masthead (158px high), nine primary destinations plus language switch, with no horizontal overflow. Existing mobile menu behavior remains the navigation interaction on narrow screens.
+
+
+### Follow-up correction — single navigation and credential register transparency
+
+- The persistent section rail is now the sole primary section navigation. The top masthead retains the brand and utility actions; duplicate desktop links and the second mobile-menu trigger are hidden by the shared rail stylesheet.
+- The masthead uses logical inline spacing so RTL and LTR layouts reserve the rail space consistently; mobile removes that reserved space.
+- Arabic and English credential pages now show the authoritative 21 total / 14 Cisco / 6 Edraak / 1 JSNAD register. They explicitly distinguish the 11 Cisco detailed cards currently mapped from the three Cisco source records still awaiting original-file matching. No certificate assets or verification URLs were invented.
+- These targeted changes were committed to the review branch only. They have not been browser-tested in this session; the existing CI results predate these follow-up commits and must not be treated as validation of them.
