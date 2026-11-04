@@ -66,3 +66,6 @@ for (const project of catalog.projects) {
     assert.ok(html.includes("src='/assets/site.js'"), "Project details must load shared navigation and search: " + file);
   }
 }
+
+const projectDetailCss = readFileSync(new URL("../assets/project-detail.css", import.meta.url), "utf8");
+assert.match(projectDetailCss, /\.evidence-list li[^}]*overflow-wrap:anywhere/, "Long evidence paths and unbroken tokens must wrap on narrow screens.");
