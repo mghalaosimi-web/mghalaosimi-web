@@ -36,6 +36,8 @@ assert.match(railCss, /body\.mghal-rail-collapsed\{padding-inline-start:88px;pad
 assert.match(railCss, /@media\(max-width:760px\)/, "The rail must switch to a mobile drawer at the mobile breakpoint.");
 assert.match(railCss, /focus-visible/, "Rail controls must expose visible keyboard focus.");
 assert.match(railScript, /querySelector\('.mghal-rail-link'\)\?\.focus\(\)/, "Opening the mobile rail must move focus into the navigation.");
+assert.match(railScript, /e.key==='Tab' && rail.classList.contains\('is-open'\)/, "Mobile drawer must contain keyboard focus while open.");
+assert.match(railCss, /font:700 12px\/1.2 Inter,system-ui,sans-serif/, "Mobile section launcher must use a valid font declaration.");
 assert.match(railCss, /body\.mghal-rail-collapsed \.mghal-rail-label,body\.mghal-rail-collapsed \.mghal-rail-foot\{display:initial\}/, "Mobile drawer must restore full labels after desktop collapse.");
 
 
