@@ -3,12 +3,12 @@
 html[dir="ltr"] .mghal-rail{inset-inline:auto 16px;direction:ltr;text-align:left}
 .mghal-rail-head{position:relative;padding:20px 18px 16px;border-bottom:1px solid #DCE2E8;display:grid;gap:2px}
 .mghal-rail-brand{font:850 22px/1.2 Inter,system-ui,sans-serif;letter-spacing:2px;color:#172B4D!important}
-.mghal-rail-head>span{font-size:9px;letter-spacing:1.5px;color:#9A7C45;font-weight:800}
+.mghal-rail-head>span{font-size:9px;letter-spacing:1.5px;color:#806333;font-weight:800}
 .mghal-rail-collapse{position:absolute;inset-block-start:17px;inset-inline-end:12px;width:30px;height:30px;border:1px solid #DCE2E8;border-radius:8px;background:#F3F5F7;color:#172B4D;font-size:20px;cursor:pointer}
 .mghal-rail-body{overflow:auto;padding:8px 12px;scrollbar-width:thin;flex:1}
 .mghal-rail-group{padding:9px 0 12px;border-bottom:1px solid #edf0f3}
 .mghal-rail-group:last-child{border:0}
-.mghal-rail-group h2{margin:0 8px 7px;color:#9A7C45!important;font-size:10px!important;letter-spacing:.5px;font-weight:800}
+.mghal-rail-group h2{margin:0 8px 7px;color:#806333!important;font-size:10px!important;letter-spacing:.5px;font-weight:800}
 .mghal-rail-link{min-height:40px;display:flex;align-items:center;gap:11px;padding:7px 9px;border-radius:9px;color:#475569!important;font-size:12px;font-weight:650;transition:background .15s,color .15s}
 .mghal-rail-link:hover{background:#F3F5F7;color:#172B4D!important}
 .mghal-rail a:focus-visible,.mghal-rail button:focus-visible,.mghal-rail-mobile:focus-visible{outline:3px solid #B69A62;outline-offset:2px}
