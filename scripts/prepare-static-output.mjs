@@ -20,7 +20,7 @@ const blockedNames = [
 ];
 
 const blockedExtensions = new Set([
-  ".txt", ".md", ".markdown", ".sql", ".log", ".zip", ".7z", ".rar",
+  ".md", ".markdown", ".sql", ".log", ".zip", ".7z", ".rar",
   ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".key", ".pem",
   ".p12", ".pfx", ".env", ".bak", ".dump",
 ]);
@@ -31,6 +31,7 @@ function shouldCopy(source) {
   const base = path.basename(source);
   if (parts.some((part) => part === ".git" || part === "node_modules" || part === ".wrangler")) return false;
   if (base.startsWith(".") || blockedNames.some((pattern) => pattern.test(base))) return false;
+  if (path.extname(base).toLowerCase() === ".txt" && relative !== "robots.txt") return false;
   if (blockedExtensions.has(path.extname(base).toLowerCase())) return false;
   if (/\.(?:map|tsbuildinfo)$/i.test(base)) return false;
   return true;
