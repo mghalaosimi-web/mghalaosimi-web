@@ -36,6 +36,9 @@ for (const file of ["article.html", "en/article.html"]) {
 const articlePage = readFileSync("assets/article-page.js", "utf8");
 assert.match(articlePage, /article-comments'\)\.hidden=true/, "Unavailable articles must not show the comment form.");
 assert.match(articlePage, /article-comments'\)\.hidden=false/, "Published articles may show the comment form.");
+assert.match(articlePage, /try\{t=localStorage\.getItem\(visitorKey\)\}catch\{\}/, "Article interactions must survive blocked localStorage reads.");
+assert.match(articlePage, /try\{localStorage\.setItem\(visitorKey,d\.visitorToken\)\}catch\{\}/, "Article interactions must survive blocked localStorage writes.");
+assert.match(articlePage, /if\(!d\.visitorToken\)throw Error\('visitor token unavailable'\)/, "Article interactions must reject an empty visitor token response.");
 
 const experienceCss = readFileSync("assets/mghal-experience.css", "utf8");
 assert.match(experienceCss, /\.site-to-top\{position:fixed!important/, "Floating back-to-top control must remain fixed in the viewport.");
