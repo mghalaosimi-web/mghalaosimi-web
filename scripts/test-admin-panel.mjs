@@ -4,7 +4,7 @@ const html=readFileSync('admin/index.html','utf8');
 const js=readFileSync('assets/admin.js','utf8');
 const css=readFileSync('assets/admin.css','utf8');
 const worker=readFileSync('mghal-backend/worker.production.js','utf8');
-assert.match(worker,/https:\/\/mghal-release\.onrender\.com/);
+assert.match(worker,/https:\/\/mghal-release-current\.onrender\.com/);
 assert.match(worker,/env\.ALLOWED_ORIGINS/);
 const migration=readFileSync('mghal-backend/migrations/0002_admin_permissions.sql','utf8');
 const localization=readFileSync('mghal-backend/migrations/0003_project_localization.sql','utf8');
