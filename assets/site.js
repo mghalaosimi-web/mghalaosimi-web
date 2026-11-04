@@ -56,10 +56,18 @@
 ;(() => {
   const path = window.location.pathname.replace(/\/+$/, "") || "/";
   if (/\/(?:en\/)?certificates\.html$/.test(path)) return;
-  if (document.querySelector("link[data-mghal-experience]")) return;
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = "/assets/mghal-experience.css";
-  link.dataset.mghalExperience = "true";
-  document.head.appendChild(link);
+  if (!document.querySelector("link[data-mghal-experience]")) {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/assets/mghal-experience.css";
+    link.dataset.mghalExperience = "true";
+    document.head.appendChild(link);
+  }
+  if (!document.querySelector("link[data-mghal-corporate]")) {
+    const corporate = document.createElement("link");
+    corporate.rel = "stylesheet";
+    corporate.href = "/assets/corporate-ui.css";
+    corporate.dataset.mghalCorporate = "true";
+    document.head.appendChild(corporate);
+  }
 })();

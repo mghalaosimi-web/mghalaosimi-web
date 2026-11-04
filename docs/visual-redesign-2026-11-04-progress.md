@@ -99,3 +99,15 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 - On a generated project-detail route at a 360px viewport, the mobile menu opened with `aria-expanded=true`, exposed the navigation, and closed on Escape with `aria-expanded=false`.
 - The search dialog opened, moved focus to its search field after asynchronous index initialization, closed on Escape, and returned focus to the original search trigger. The Ctrl+K shortcut opened it successfully.
 - Chromium generated a résumé/print preview PDF payload successfully (108 KB in the smoke run); this verifies print rendering can execute, not the final visual quality of every printed page.
+
+
+### Premium corporate visual pass — 4 November 2026
+
+- Added a unified final corporate UI layer using the approved Navy / Blue / White / Gray / Champagne Gold palette, IBM Plex Sans Arabic and Inter.
+- Applied the shared visual layer to bilingual public pages, generated bilingual project-detail routes, both project showcases, and the Arabic/English certificate galleries.
+- Updated certificate-page navigation to the same full bilingual site navigation and existing shared search/mobile-menu behavior. The gallery uses a navy header/footer, gold active-navigation marker, light hero surface, issuer strip, image-first cards, and navy/outlined actions.
+- Preserved certificate records, original files, images, badges, issuer details, dates, and verification URLs. No missing credentials or other content were fabricated.
+- Added `scripts/audit-corporate-ui.mjs` and wired it into `npm run quality`.
+- Node.js runtime for this pass: 25.9.0; project remains pinned to Node 24.x.
+- Chromium check: 24 Arabic/English representative routes × 5 viewport widths (320, 390, 768, 1024, 1440) = 120 combinations; zero body overflow, zero horizontal scroll, zero broken images, zero missing image alt, shared stylesheet/navigation present, and navy header/footer confirmed.
+- Manual physical-device checks and full WCAG 2.2 AA certification remain open. No production deployment or merge was performed.
