@@ -41,3 +41,8 @@ const experienceCss = readFileSync("assets/mghal-experience.css", "utf8");
 assert.match(experienceCss, /\.site-to-top\{position:fixed!important/, "Floating back-to-top control must remain fixed in the viewport.");
 assert.match(experienceCss, /\.sheet\{box-sizing:border-box!important;width:100%!important;max-width:100%!important/, "Résumé sheet must not exceed its responsive container.");
 assert.match(experienceCss, /html\{overflow-x:clip!important\}/, "Public pages must clip accidental root-level horizontal overflow.");
+assert.match(experienceCss, /:where\(a,button,input,select,textarea,\[tabindex\]\):focus-visible/, "Interactive controls must expose a visible keyboard focus indicator.");
+assert.match(experienceCss, /@media\(prefers-reduced-motion:reduce\)/, "Public pages must respect reduced-motion preferences.");
+assert.match(experienceCss, /@media\(forced-colors:active\)/, "Public pages must retain visible boundaries in forced-colors mode.");
+assert.match(experienceCss, /--mx-control-height:46px/, "Form controls must retain a comfortable minimum control height.");
+assert.match(experienceCss, /min-height:44px/, "Mobile navigation targets must meet the project touch-target baseline.");
