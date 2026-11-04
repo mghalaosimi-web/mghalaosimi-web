@@ -29,6 +29,9 @@ for (const href of ["/profile.html", "/resume.html", "/projects.html", "/showcas
   assert.ok(railScript.includes(href), `Persistent rail is missing public destination: ${href}`);
 }
 assert.match(railCss, /position:fixed/, "The section rail must remain fixed while scrolling.");
+assert.match(railCss, /\.mghal-rail\{position:fixed;z-index:100;/, "Desktop rail must stay above the sticky masthead.");
+assert.match(railCss, /\.mghal-rail-overlay\.is-visible\{display:block;position:fixed;z-index:98;/, "Mobile rail overlay must cover the sticky masthead.");
+assert.match(railCss, /\.mghal-rail-mobile\{display:inline-flex;position:fixed;z-index:99;/, "Mobile rail launcher must remain above the overlay.");
 assert.match(railCss, /body\{padding-inline-start:278px;padding-inline-end:0\}/, "Desktop content must reserve the rail gutter at inline-start in both RTL and LTR.");
 assert.match(railCss, /html\[dir="ltr"\] \.mghal-rail\{inset-inline:16px auto/, "LTR rail must be positioned at inline-start to match its content gutter.");
 assert.match(railCss, /\.nav \.links,/, "Legacy header link groups must be hidden when the persistent rail is active.");
