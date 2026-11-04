@@ -59,7 +59,7 @@
   const close=()=>{const wasOpen=rail.classList.contains('is-open');rail.classList.remove('is-open');overlay.classList.remove('is-visible');mobile.setAttribute('aria-expanded','false');mobile.setAttribute('aria-label',en?'Open sections menu':'فتح قائمة الأقسام');if(wasOpen)mobile.focus()};
   mobile.addEventListener('click',()=>{const open=!rail.classList.contains('is-open');rail.classList.toggle('is-open',open);overlay.classList.toggle('is-visible',open);mobile.setAttribute('aria-expanded',String(open));mobile.setAttribute('aria-label',open?(en?'Close sections menu':'إغلاق قائمة الأقسام'):(en?'Open sections menu':'فتح قائمة الأقسام'));if(open)rail.querySelector('.mghal-rail-link')?.focus()});
   overlay.addEventListener('click',close); rail.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
-  toggle.addEventListener('click',()=>{const collapsed=document.body.classList.toggle('mghal-rail-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));toggle.textContent=collapsed?'›':'‹'});
+  toggle.addEventListener('click',()=>{const collapsed=document.body.classList.toggle('mghal-rail-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));toggle.setAttribute('aria-label',collapsed?(en?'Expand sidebar':'توسيع الشريط الجانبي'):(en?'Collapse sidebar':'طي الشريط الجانبي'));toggle.textContent=collapsed?'›':'‹'});
   document.addEventListener('keydown',e=>{
     if(e.key==='Escape'){close();return}
     if(e.key==='Tab' && rail.classList.contains('is-open')){
