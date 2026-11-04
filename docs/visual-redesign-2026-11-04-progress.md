@@ -151,3 +151,6 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 - Article comments and reactions now tolerate browsers that deny localStorage access. Visitor tokens remain usable for the current interaction/session even when persistence is blocked; an empty token response is treated as an explicit failure.
 - Corrected the collapsed desktop rail gutter from 88px to 90px to match the 58px border-box rail width plus 16px outer inset and 16px content clearance.
 - Added regression coverage for locale query/fragment preservation, path-boundary-safe locale prefix handling, blocked localStorage reads/writes, and the corrected collapsed gutter. These checks are wired into the existing unit test sequence but have not been executed against this commit in the current environment.
+
+- The rail now marks article detail pages as part of the Knowledge section and updates both desktop-collapse and mobile-drawer accessible labels to describe their current expanded/collapsed state in Arabic and English.
+- Regression checks cover the mobile launcher's open/closed announcements and the article-detail active navigation state.
