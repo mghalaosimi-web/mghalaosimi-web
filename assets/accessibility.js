@@ -15,6 +15,7 @@ if (main && document.body && !document.querySelector(".skip-link")) {
         main.setAttribute("tabindex", "-1");
         main.focus({ preventScroll: true });
         main.scrollIntoView({ block: "start" });
+        main.scrollIntoView({ block: "start" });
         main.addEventListener("blur", () => main.removeAttribute("tabindex"), { once: true });
     });
 }
