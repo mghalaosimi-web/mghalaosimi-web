@@ -1,7 +1,7 @@
 export default {
  async fetch(request, env) {
   const url = new URL(request.url), path = url.pathname, method = request.method;
-  const allowed = (env.ALLOWED_ORIGINS || "https://mghalaosimi-web.vercel.app,https://mghal-static.onrender.com,https://mghal-release.onrender.com,https://mghal.vercel.app").split(",").map(value => value.trim()).filter(Boolean);
+  const allowed = (env.ALLOWED_ORIGINS || "https://mghalaosimi-web.vercel.app,https://mghal-static.onrender.com,https://mghal-release.onrender.com,https://mghal-release-current.onrender.com,https://mghal.vercel.app").split(",").map(value => value.trim()).filter(Boolean);
   const origin = request.headers.get("Origin") || "";
   const headers = new Headers({"Vary":"Origin","Access-Control-Allow-Methods":"GET,POST,PATCH,DELETE,OPTIONS","Access-Control-Allow-Headers":"Content-Type,Authorization","X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"strict-origin-when-cross-origin","Cache-Control":"no-store"});
   const previewOrigin=/^https:\/\/mghalaosimi-[a-z0-9-]+-mghalaosimi-webs-projects\.vercel\.app$/i.test(origin);
