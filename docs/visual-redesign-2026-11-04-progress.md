@@ -65,3 +65,12 @@ The internal-page work is in progress, not closed. Profile, project listing, ski
 - Kept cybersecurity clearly identified as an interest/learning area rather than the academic specialization.
 - Refined the résumé credential summary wording to avoid repeating the JSNAD item while retaining the authoritative 21 / 14 / 6 / 1 totals.
 - Visually reviewed the Arabic profile in the browser preview and reran the complete quality suite successfully.
+
+
+### Responsive verification — 4 November 2026
+
+- Ran Chromium viewport emulation across 14 representative Arabic/English public routes at 320, 360, 390, 768, 1024, 1280, and 1440 CSS-pixel widths (98 route/viewport combinations).
+- The initial run exposed an inaccurate overflow detector: it compared `scrollWidth` to `clientWidth`, which counts the vertical scrollbar as horizontal overflow. The check was corrected to compare against `innerWidth`.
+- Added explicit positioning for the floating back-to-top control and constrained résumé sheet sizing in the shared experience stylesheet.
+- Final responsive run: no horizontal overflow across all 98 combinations; no missing image alt attributes. One transient navigation-readiness result on the achievements page was rechecked after full script initialization at 360px and 1280px; both passed.
+- This is automated browser emulation, not a claim of physical-device testing. Manual Android/iOS and WCAG 2.2 AA review remain open.
