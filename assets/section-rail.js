@@ -56,8 +56,8 @@
   const mobile=document.createElement('button');mobile.className='mghal-rail-mobile';mobile.type='button';mobile.textContent=en?'☰ Sections':'☰ الأقسام';mobile.setAttribute('aria-expanded','false');mobile.setAttribute('aria-controls','mghal-section-rail');
   rail.id='mghal-section-rail'; document.body.append(rail,mobile);
   const overlay=document.createElement('button');overlay.className='mghal-rail-overlay';overlay.type='button';overlay.setAttribute('aria-label',en?'Close sections menu':'إغلاق قائمة الأقسام');document.body.append(overlay);
-  const close=()=>{const wasOpen=rail.classList.contains('is-open');rail.classList.remove('is-open');overlay.classList.remove('is-visible');mobile.setAttribute('aria-expanded','false');if(wasOpen)mobile.focus()};
-  mobile.addEventListener('click',()=>{const open=!rail.classList.contains('is-open');rail.classList.toggle('is-open',open);overlay.classList.toggle('is-visible',open);mobile.setAttribute('aria-expanded',String(open));if(open)rail.querySelector('.mghal-rail-link')?.focus()});
+  const close=()=>{const wasOpen=rail.classList.contains('is-open');rail.classList.remove('is-open');overlay.classList.remove('is-visible');mobile.setAttribute('aria-expanded','false');mobile.setAttribute('aria-label',en?'Open sections menu':'فتح قائمة الأقسام');if(wasOpen)mobile.focus()};
+  mobile.addEventListener('click',()=>{const open=!rail.classList.contains('is-open');rail.classList.toggle('is-open',open);overlay.classList.toggle('is-visible',open);mobile.setAttribute('aria-expanded',String(open));mobile.setAttribute('aria-label',open?(en?'Close sections menu':'إغلاق قائمة الأقسام'):(en?'Open sections menu':'فتح قائمة الأقسام'));if(open)rail.querySelector('.mghal-rail-link')?.focus()});
   overlay.addEventListener('click',close); rail.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
   toggle.addEventListener('click',()=>{const collapsed=document.body.classList.toggle('mghal-rail-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));toggle.textContent=collapsed?'›':'‹'});
   document.addEventListener('keydown',e=>{
