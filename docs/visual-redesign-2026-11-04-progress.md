@@ -74,3 +74,16 @@ The internal-page work is in progress, not closed. Profile, project listing, ski
 - Added explicit positioning for the floating back-to-top control and constrained résumé sheet sizing in the shared experience stylesheet.
 - Final responsive run: no horizontal overflow across all 98 combinations; no missing image alt attributes. One transient navigation-readiness result on the achievements page was rechecked after full script initialization at 360px and 1280px; both passed.
 - This is automated browser emulation, not a claim of physical-device testing. Manual Android/iOS and WCAG 2.2 AA review remain open.
+
+### Internal-page smoke review and accessibility baseline — 4 November 2026
+
+- Opened and reviewed rendered content on 19 bilingual public routes: profile, projects, skills, education, achievements, knowledge, contact, showcase, résumé, article fallback, and representative project detail pages. The missing-article route correctly remains an explicit not-found state rather than showing fabricated content.
+- Confirmed shared navigation and locale controls are present across public routes. The deliberate navigation-script exclusions are admin and offline utility pages; Arabic and English certificate pages remain outside runtime rewriting and untouched.
+- Confirmed the shared experience stylesheet is linked by all reviewed public pages other than the protected certificate pages.
+- Re-ran `npm run quality`: build/typecheck, 94-page HTML audit, 42-route SEO/sitemap audit, design tokens, PWA, credential integrity, browser behavior tests, 10-project/20-detail-route checks, and admin/platform tests all passed. This execution environment reported Node.js 25.9.0; the project engine remains pinned to Node 24.x, and the prior Node 24.22.2 quality pass remains recorded above.
+- Extended regression checks for visible keyboard focus, reduced-motion support, forced-colors support, 46px form-control sizing, and the 44px mobile navigation target baseline.
+- `git diff --check` passed. The Arabic and English certificate HTML files have zero diff and remain untouched.
+
+### Accessibility status — not yet WCAG 2.2 AA certified
+
+The code-level baseline includes skip links, visible focus styling, labeled navigation/search controls, keyboard dismissal and focus return for search, reduced-motion handling, forced-colors rules, responsive form controls, and semantic HTML checks. A full WCAG 2.2 AA determination remains open: representative screen-reader testing, full keyboard walkthroughs across every interactive state, measured contrast checks on rendered components, 200%/400% zoom and reflow, and physical Android/iOS testing have not been completed.
