@@ -162,3 +162,12 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 - Replaced non-deterministic `npm install --no-package-lock` with `npm ci --ignore-scripts`, enabled npm lockfile caching, and explicitly provisioned Python 3.12 for the static-site preparation script.
 - Added a 25-minute job timeout, read-only repository permissions, concurrency cancellation, and retained the compiled browser-script artifact on successful runs.
 - The workflow change is committed to the development branch. A successful run is not claimed until GitHub Actions reports its result.
+
+### Current CI verification — 4 November 2026
+
+- GitHub Actions run #91 (`41908221059`) completed successfully on the pull-request merge ref after the desktop sidebar accessible-label correction.
+- Deterministic installation completed with `npm ci --ignore-scripts`; the full `npm run quality` command passed.
+- Results: 94 HTML documents inspected; 42 public deployment routes and 42 sitemap URLs passed SEO consistency; all design-system, corporate UI, PWA and credential audits passed; 47 retained HTML documents passed navigation checks; bilingual homepage, public content, 10-project/20-route showcase, and admin/platform tests passed.
+- The generated static site, TypeScript checks, compiled browser scripts, project-page generation and artifact upload all completed successfully.
+- This confirms the repository quality suite on the PR merge ref. It does not replace real-device visual testing, screen-reader testing, or an actual Vercel production deployment.
+- Vercel status contexts remain blocked by the account's build-rate-limit response; no production deployment was performed.
