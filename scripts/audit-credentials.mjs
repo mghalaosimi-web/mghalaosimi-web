@@ -5,7 +5,7 @@ const pages = [
   { path: "../certificates.html", language: "ar" },
   { path: "../en/certificates.html", language: "en" },
 ];
-const expected = { openjs: 1, cisco: 11, edraak: 6 };
+const expected = { openjs: 1, cisco: 14, edraak: 6 };
 
 function inspectPage(path, language) {
   const html = readFileSync(new URL(path, import.meta.url), "utf8");
@@ -56,7 +56,7 @@ function inspectPage(path, language) {
     }
   }
 
-  assert.equal(total, 18, language + ": expected 18 credential cards.");
+  assert.equal(total, 21, language + ": expected all 21 credential records.");
   assert.deepEqual(issuerCounts, expected, language + ": issuer distribution changed; review before updating this audit.");
   return { issuerCounts, logoMap };
 }
@@ -72,4 +72,4 @@ for (const issuer of ["openjs", "cisco", "edraak"]) {
   );
 }
 
-console.log("Credential audit passed: 18 records per language, correct issuer distribution, original-image-only cards, text-only cards without imagery, and bilingual issuer-logo consistency.");
+console.log("Credential audit passed: all 21 records per language, correct issuer distribution, original source previews where available, text-only records without fabricated imagery, and bilingual issuer-logo consistency.");
