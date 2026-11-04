@@ -38,7 +38,7 @@
     for (const [symbol,name,href] of links) {
       const a=document.createElement('a'); a.className='mghal-rail-link'; a.href=href;
       const target=href.replace(/\/+$/,'')||'/';
-      const active=path===target || (target.endsWith('projects.html') && path.includes('/projects/')) || (target.endsWith('profile.html') && /\/(resume|skills|education|achievements)\.html$/.test(path));
+      const active=path===target || (target.endsWith('projects.html') && path.includes('/projects/')) || (target.endsWith('profile.html') && /\/(resume|skills|education|achievements)\.html$/.test(path)) || (target.endsWith('knowledge.html') && /\/(?:en\/)?article\.html$/.test(path));
       if(active){a.classList.add('is-active');a.setAttribute('aria-current','page')}
       const icon=document.createElement('span');icon.className='mghal-rail-icon';icon.setAttribute('aria-hidden','true');icon.textContent=symbol;
       const text=document.createElement('span');text.className='mghal-rail-label';text.textContent=name;
