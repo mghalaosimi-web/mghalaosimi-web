@@ -43,7 +43,7 @@ assert.match(railCss, /focus-visible/, "Rail controls must expose visible keyboa
 assert.match(railScript, /querySelector\('.mghal-rail-link'\)\?\.focus\(\)/, "Opening the mobile rail must move focus into the navigation.");
 assert.match(railScript, /e.key==='Tab' && rail.classList.contains\('is-open'\)/, "Mobile drawer must contain keyboard focus while open.");
 assert.match(railScript, /Expand sidebar.*توسيع الشريط الجانبي/, "Collapsed rail toggle must announce the expanded state in both languages.");
-assert.match(railScript, /target\.endsWith\('knowledge\.html'\).*article\\\.html/, "Article detail pages must mark the knowledge section as active.");
+assert.ok(railScript.includes("target.endsWith('knowledge.html')") && railScript.includes("article\\.html$"), "Article detail pages must mark the knowledge section as active.");
 assert.match(railCss, /font:700 12px\/1.2 Inter,system-ui,sans-serif/, "Mobile section launcher must use a valid font declaration.");
 assert.match(railCss, /body\.mghal-rail-collapsed \.mghal-rail-label,body\.mghal-rail-collapsed \.mghal-rail-foot\{display:initial\}/, "Mobile drawer must restore full labels after desktop collapse.");
 
