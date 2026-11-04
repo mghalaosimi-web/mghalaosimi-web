@@ -42,6 +42,20 @@ try {
   }, null, { timeout: 10000 });
   await page.evaluate(() => document.fonts.ready.then(() => true));
   await page.waitForTimeout(150);
+  const revealCount = await page.evaluate(async () => {
+    const elements = [...document.querySelectorAll(".reveal")];
+    for (const element of elements) {
+      element.scrollIntoView({ block: "center", behavior: "instant" });
+      await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    await new Promise(resolve => setTimeout(resolve, 650));
+    return {
+      total: elements.length,
+      unrevealed: elements.filter(element => !element.classList.contains("is-visible")).length,
+    };
+  });
+  assert.equal(revealCount.unrevealed, 0, route + ": scroll-reveal content remained hidden after full-page traversal");
   await page.addScriptTag({content:axeSource});
   const result=await page.evaluate(async()=>window.axe.run(document,{runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]}}));
   for(const v of result.violations) axeViolations.push({route,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.length,examples:v.nodes.slice(0,3).map(n=>({target:n.target,failureSummary:n.failureSummary,checks:[...n.any,...n.all,...n.none].map(c=>({id:c.id,data:c.data,message:c.message}))}))});
@@ -63,7 +77,7 @@ try {
    await page.emulateMedia({media:"print"});
    assert.ok(await page.locator("body").count()>0,route+": print document missing");
   }
-  browserChecks.push({route,axeViolations:result.violations.length,keyboardSkipLink:true});
+  browserChecks.push({route,axeViolations:result.violations.length,keyboardSkipLink:true,revealCount});
   await page.close();
  }
  const severe=axeViolations.filter(v=>v.impact==="critical"||v.impact==="serious");
