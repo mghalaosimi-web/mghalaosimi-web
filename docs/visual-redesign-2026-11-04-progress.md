@@ -142,3 +142,5 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 
 - Extended `scripts/test-navigation.mjs` with regression assertions for inline-start gutter alignment, LTR rail placement, duplicate legacy-link suppression, mobile drawer focus containment, and the mobile launcher font declaration. The test is part of `npm run quality` through `test:unit`; it has been updated but not executed in this session.
 - Added a keyboard Tab loop while the mobile drawer is open, retaining Escape-to-close and focus return to the launcher. Corrected the mobile launcher font shorthand so its family and line-height are valid.
+
+- Raised the desktop rail above the sticky masthead and layered the mobile drawer, overlay, and launcher at z-index 100/98/99 respectively, preventing the sticky header from covering the drawer or its backdrop. Added regression assertions for the stacking order.
