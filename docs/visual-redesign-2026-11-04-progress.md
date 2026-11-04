@@ -154,3 +154,11 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 
 - The rail now marks article detail pages as part of the Knowledge section and updates both desktop-collapse and mobile-drawer accessible labels to describe their current expanded/collapsed state in Arabic and English.
 - Regression checks cover the mobile launcher's open/closed announcements and the article-detail active navigation state.
+
+### CI pipeline correction
+
+- The existing Website Quality workflow did not trigger for the active redesign branch or pull requests targeting `feat/mghal-complete-platform-2026-11-01`; it only watched an older push branch and PRs targeting `main`.
+- Updated the workflow to run on pushes to the active redesign branch and on PRs targeting the actual base branch, while retaining the existing main/legacy triggers and adding manual dispatch.
+- Replaced non-deterministic `npm install --no-package-lock` with `npm ci --ignore-scripts`, enabled npm lockfile caching, and explicitly provisioned Python 3.12 for the static-site preparation script.
+- Added a 25-minute job timeout, read-only repository permissions, concurrency cancellation, and retained the compiled browser-script artifact on successful runs.
+- The workflow change is committed to the development branch. A successful run is not claimed until GitHub Actions reports its result.
