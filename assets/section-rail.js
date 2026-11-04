@@ -48,7 +48,9 @@
   }
   rail.append(body);
   const footer=document.createElement('div');footer.className='mghal-rail-foot';
-  const locale=document.createElement('a');locale.href=en?(path==='/en'||path==='/en/'?'/':path.replace(/^\/en/,'')||'/'):(path==='/'?'/en/':'/en'+path);
+  const locale=document.createElement('a');
+  const localizedPath=en?(path==='/en'||path==='/en/'?'/':path.replace(/^\/en(?=\/|$)/,'')||'/'):(path==='/'?'/en/':'/en'+path);
+  locale.href=localizedPath+location.search+location.hash;
   locale.textContent=en?'العربية':'English';locale.lang=en?'ar':'en';footer.append(locale);
   const top=document.createElement('a');top.href='#main-content';top.textContent=en?'↑ Back to content':'↑ العودة إلى المحتوى';footer.append(top);rail.append(footer);
   const mobile=document.createElement('button');mobile.className='mghal-rail-mobile';mobile.type='button';mobile.textContent=en?'☰ Sections':'☰ الأقسام';mobile.setAttribute('aria-expanded','false');mobile.setAttribute('aria-controls','mghal-section-rail');
