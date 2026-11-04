@@ -36,3 +36,8 @@ for (const file of ["article.html", "en/article.html"]) {
 const articlePage = readFileSync("assets/article-page.js", "utf8");
 assert.match(articlePage, /article-comments'\)\.hidden=true/, "Unavailable articles must not show the comment form.");
 assert.match(articlePage, /article-comments'\)\.hidden=false/, "Published articles may show the comment form.");
+
+const experienceCss = readFileSync("assets/mghal-experience.css", "utf8");
+assert.match(experienceCss, /\.site-to-top\{position:fixed!important/, "Floating back-to-top control must remain fixed in the viewport.");
+assert.match(experienceCss, /\.sheet\{box-sizing:border-box!important;width:100%!important;max-width:100%!important/, "Résumé sheet must not exceed its responsive container.");
+assert.match(experienceCss, /html\{overflow-x:clip!important\}/, "Public pages must clip accidental root-level horizontal overflow.");
