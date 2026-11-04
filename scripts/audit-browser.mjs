@@ -38,7 +38,7 @@ try {
   await page.waitForFunction(() => document.querySelector(".skip-link")?.dataset.focusBound === "true", null, { timeout: 10000 });
   await page.addScriptTag({content:axeSource});
   const result=await page.evaluate(async()=>window.axe.run(document,{runOnly:{type:"tag",values:["wcag2a","wcag2aa","wcag21a","wcag21aa","wcag22aa"]}}));
-  for(const v of result.violations) axeViolations.push({route,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.length,examples:v.nodes.slice(0,3).map(n=>n.target)});
+  for(const v of result.violations) axeViolations.push({route,id:v.id,impact:v.impact,help:v.help,nodes:v.nodes.length,examples:v.nodes.slice(0,3).map(n=>({target:n.target,failureSummary:n.failureSummary,checks:[...n.any,...n.all,...n.none].map(c=>({id:c.id,data:c.data,message:c.message}))}))});
   await page.keyboard.press("Tab");
   const skip=await page.evaluate(()=>document.activeElement?.classList?.contains("skip-link")===true);
   assert.ok(skip,route+": first keyboard focus must be the skip link");
