@@ -5,6 +5,7 @@ const js=readFileSync('assets/admin.js','utf8');
 const css=readFileSync('assets/admin.css','utf8');
 const worker=readFileSync('mghal-backend/worker.production.js','utf8');
 assert.match(worker,/https:\/\/mghal-release\.onrender\.com/);
+assert.match(worker,/env\.ALLOWED_ORIGINS/);
 const migration=readFileSync('mghal-backend/migrations/0002_admin_permissions.sql','utf8');
 const localization=readFileSync('mghal-backend/migrations/0003_project_localization.sql','utf8');
 const mediaMigration=readFileSync('mghal-backend/migrations/0004_d1_media_storage.sql','utf8');
