@@ -93,3 +93,9 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 - Expanded Chromium testing from representative routes to all 42 sitemap routes at 320, 360, 390, 768, 1024, 1280, and 1440 CSS-pixel widths (294 route/viewport combinations).
 - The expanded pass exposed one narrow-screen content overflow in the M.GH.AL Content Studio project detail page: a long evidence/documentation path did not wrap. Added safe wrapping to feature, evidence, and note list items in the shared project-detail stylesheet, with a regression assertion.
 - Re-ran the full 294 combinations after the fix: zero horizontal overflow, zero missing image alt attributes, zero broken images, and all non-certificate public routes retained shared navigation and résumé access. Certificate pages were excluded from the navigation assertion because they are deliberately protected from runtime rewriting; their responsive overflow and image checks still ran.
+
+### Real Chromium interaction smoke checks
+
+- On a generated project-detail route at a 360px viewport, the mobile menu opened with `aria-expanded=true`, exposed the navigation, and closed on Escape with `aria-expanded=false`.
+- The search dialog opened, moved focus to its search field after asynchronous index initialization, closed on Escape, and returned focus to the original search trigger. The Ctrl+K shortcut opened it successfully.
+- Chromium generated a résumé/print preview PDF payload successfully (108 KB in the smoke run); this verifies print rendering can execute, not the final visual quality of every printed page.
