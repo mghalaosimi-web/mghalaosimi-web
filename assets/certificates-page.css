@@ -35,3 +35,5 @@
 .cert-note{line-height:1.9}.cert-card-text-only{grid-template-columns:1fr;min-height:130px;padding:24px}
 @media(max-width:900px){.cert-grid{grid-template-columns:1fr}.cert-card{grid-template-columns:minmax(0,1fr) minmax(0,.85fr)}.cert-badge-links{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.cert-page{width:calc(100% - 28px)}.cert-card{grid-template-columns:1fr}.cert-preview{min-height:0}.cert-image{max-height:380px}.cert-badge-links{grid-template-columns:1fr 1fr}.cert-hero{padding-top:34px}}
+
+.cert-badge-embeds{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;align-items:start;justify-items:center;margin-top:18px}.credly-embed-card{display:flex;align-items:flex-start;justify-content:center;width:100%;min-height:260px;padding:12px;border:1px solid #dce2e8;border-radius:14px;background:#fff;overflow:hidden}.credly-embed-card iframe{max-width:100%;border:0}@media(max-width:560px){.cert-badge-embeds{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.credly-embed-card{padding:5px;min-height:245px}}
