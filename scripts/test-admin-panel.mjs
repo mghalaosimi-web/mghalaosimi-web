@@ -9,6 +9,7 @@ assert.match(worker,/env\.ALLOWED_ORIGINS/);
 const migration=readFileSync('mghal-backend/migrations/0002_admin_permissions.sql','utf8');
 const localization=readFileSync('mghal-backend/migrations/0003_project_localization.sql','utf8');
 const mediaMigration=readFileSync('mghal-backend/migrations/0004_d1_media_storage.sql','utf8');
+const technologyMigration=readFileSync('mghal-backend/migrations/0005_technology_visibility.sql','utf8');
 const databaseContent=readFileSync('assets/database-content.js','utf8');
 for(const view of ['dashboard','identity','projects','certificates','articles','technologies','skills','education','achievements','followers','comments','analytics','media','users'])assert.ok(html.includes(`data-view="${view}"`),`missing admin view ${view}`);
 for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap','/api/admin/auth/login','/api/admin/dashboard','/api/admin/analytics','/api/admin/followers','/api/admin/comments','/api/admin/media','/api/admin/users'])assert.ok(worker.includes(route),`missing API route ${route}`);
@@ -20,3 +21,5 @@ assert.ok(js.includes('sessionStorage'));assert.ok(js.includes('Do Not Track')==
 assert.ok(existsSync('article.html')&&existsSync('en/article.html'));
 assert.ok(readFileSync('knowledge.html','utf8').includes('published-articles'));
 console.log('Admin/platform tests passed: auth bootstrap, RBAC, content CRUD, users, followers, moderation, analytics, media adapter and bilingual article presentation.');
+
+assert.match(technologyMigration,/ADD COLUMN is_published/);assert.match(technologyMigration,/ADD COLUMN archived/);assert.match(worker,/technologies:\[\"technologies\",\"is_published=1 AND archived=0\"\]/);assert.match(js,/\['archived','مؤرشف','checkbox'\]/);
