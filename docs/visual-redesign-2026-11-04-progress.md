@@ -2,7 +2,7 @@
 
 **Date:** 4 November 2026
 **Branch:** feat/mghal-visual-redesign-completion-2026-11-04
-**Base:** feat/mghal-visual-redesign-2026-11-03
+**Base:** feat/mghal-complete-platform-2026-11-01
 **Release:** Review branch only. No merge, production deployment, domain change, or database migration.
 
 ## Completed in this increment
@@ -128,3 +128,14 @@ The code-level baseline includes skip links, visible focus styling, labeled navi
 - The masthead uses logical inline spacing so RTL and LTR layouts reserve the rail space consistently; mobile removes that reserved space.
 - Arabic and English credential pages now show the authoritative 21 total / 14 Cisco / 6 Edraak / 1 JSNAD register. They explicitly distinguish the 11 Cisco detailed cards currently mapped from the three Cisco source records still awaiting original-file matching. No certificate assets or verification URLs were invented.
 - These targeted changes were committed to the review branch only. They have not been browser-tested in this session; the existing CI results predate these follow-up commits and must not be treated as validation of them.
+
+
+### Final navigation correction — 4 November 2026
+
+- Audited the shared rail stylesheet and confirmed the rail's desktop inset and the content gutter did not consistently align for LTR pages; the previous override also reset the physical right padding after setting a logical end gutter.
+- Corrected the rail to occupy inline-start in both RTL and LTR, and reserved content space with `padding-inline-start` (278px desktop, 252px at the intermediate breakpoint, 88px collapsed). The gutter is removed on mobile.
+- Hid both legacy `.navlinks` and legacy `.links` navigation inside the masthead, in addition to the old certificate links and secondary menu trigger, preventing a second navigation bar from appearing beside the persistent section rail.
+- Confirmed from the shared `assets/site.js` source that it injects `assets/section-rail.js` and `assets/mghal-experience.css`; the rail stylesheet is loaded by the injected script. The article templates also load `site.js`.
+- Commit: `9c523a9ec31f8db54bf2ab83d5ef9d738b94571d`.
+- Verification boundary: source-level checks confirmed the corrected selectors and shared script injection. No browser, device, or full `npm run quality` run was available after this commit. GitHub reports Vercel build-rate-limit failures for both project contexts, and no GitHub Actions workflow runs are associated with this commit. Historical test results above predate this final correction and are not evidence that this commit passed them.
+- The PR remains Draft and unmerged. No main-branch update, production deployment, or database change was made.
