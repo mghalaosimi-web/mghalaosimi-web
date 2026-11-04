@@ -10,7 +10,7 @@
     "typecheck": "tsc -p tsconfig.json",
     "build:scripts": "tsc -p tsconfig.scripts.json",
     "check:generated": "node -e \"const fs=require('node:fs');for(const n of ['credentials.js','accessibility.js','project-cards.js']){const a=fs.readFileSync('dist/scripts/'+n,'utf8');const b=fs.readFileSync('assets/'+n,'utf8');if(a!==b){console.error('Generated asset is stale: '+n);process.exitCode=1}}\"",
-    "build": "npm run prepare:site && npm run typecheck && npm run build:scripts && npm run check:generated && npm run test:project-pages",
+    "build": "npm run typecheck && npm run build:scripts && npm run sync:generated && npm run check:generated && npm run prepare:site && npm run test:project-pages",
     "quality": "npm run build && npm run audit:html && npm run audit:seo && npm run audit:design && npm run audit:corporate-ui && npm run audit:pwa && npm run audit:credentials && npm run test:unit && npm run test:project-pages && npm run test:admin",
     "audit:html": "node scripts/audit-site.mjs",
     "audit:seo": "node scripts/audit-seo.mjs",
@@ -22,7 +22,8 @@
     "test:project-pages": "node scripts/test-project-pages.mjs",
     "test:admin": "node scripts/test-admin-panel.mjs",
     "audit:corporate-ui": "node scripts/audit-corporate-ui.mjs",
-    "audit:public-output": "node scripts/audit-public-output.mjs"
+    "audit:public-output": "node scripts/audit-public-output.mjs",
+    "sync:generated": "node scripts/sync-generated.mjs"
   },
   "devDependencies": {
     "typescript": "7.0.2"
