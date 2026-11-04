@@ -10,7 +10,7 @@
 
 - **Render:** latest observed deployment is LIVE for commit `57d1bb46aba17993375f762ee47466351b33ecae`.
 - **GitHub PR #12:** OPEN, not merged, reported mergeable. Current head is the same commit above.
-- **CI:** Backend CI and Website Quality were IN PROGRESS immediately after the latest commit. The preceding Website Quality run failed at the design-token assertion because the audit expected `#64748B` while the approved theme uses the higher-contrast `#5B6678`. The assertion was corrected in commit `57d1bb4`; the rerun must finish before declaring CI green.
+- **CI:** Backend CI run #87 completed SUCCESS. Website Quality run #156 passed the full static/build/quality suite; Chromium installation and the real-browser accessibility/keyboard/reflow/print/Lighthouse stage were still running at the latest check. Do not call the entire workflow green until that browser stage completes. The preceding run failed on a stale muted-token assertion; commit `57d1bb4` aligned the expected token with the approved theme.
 - **Vercel:** deployment status checks remain failed because the account hit Vercel's `api-deployments-free-per-day` / build-rate limit (HTTP 402). A READY preview deployment is not proof of a production alias update.
 - **Admin owner:** no owner/admin account exists in D1 at this snapshot. Do not distribute credentials; none have been provisioned.
 - **Cloudflare D1:** read-only verification returned 10 projects, 21 certificates, 0 admin users, 0 technologies, and 0 media records.
@@ -69,7 +69,7 @@ Important: those results are historical and must not be presented as a fresh pas
 
 At commit `b7b2a3e39c54fb019aec9a3d113a368c88557814`, Website Quality failed before browser audits ran. The exact failure was:
 `AssertionError: Incorrect or missing design token: --mghal-muted`.
-The theme token was `#5B6678`, but `scripts/audit-design.mjs` still expected `#64748B`. The audit expectation was aligned with the theme in commit `57d1bb46aba17993375f762ee47466351b33ecae`. CI run #156 and Backend CI run #87 were observed in progress immediately after that commit; final results must be checked.
+The theme token was `#5B6678`, but `scripts/audit-design.mjs` still expected `#64748B`. Commit `57d1bb46aba17993375f762ee47466351b33ecae` aligned the audit expectation. On the latest check, Backend CI #87 was SUCCESS and the Website Quality full static/build/quality suite was SUCCESS; Chromium setup and browser-based acceptance tests were still in progress.
 
 ## 5. Deployment inventory
 
