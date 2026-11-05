@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { createServer } from "node:http";
 import { createReadStream, existsSync, readFileSync, statSync, mkdirSync } from "node:fs";
 import { resolve, extname, join } from "node:path";
-import { spawnSync } from "node:child_process";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import { createRequire } from "node:module";
 import { chromium } from "playwright";
 
@@ -90,7 +91,13 @@ try {
  for(const [name,route] of [["home","/"],["projects","/projects.html"],["certificates","/certificates.html"]]){
   const output=join(artifacts,"lighthouse-"+name+".json");
   const lighthouseBin=join(process.cwd(),"node_modules",".bin","lighthouse");
-  const run=spawnSync(lighthouseBin,[base+route,"--output=json","--output-path="+output,"--chrome-flags=--headless --no-sandbox --disable-dev-shm-usage","--quiet"],{encoding:"utf8",timeout:300000,env:{...process.env,CHROME_PATH:chromePath},maxBuffer:8*1024*1024});
+  let run;
+  try {
+   const result=await promisify(execFile)(lighthouseBin,[base+route,"--output=json","--output-path="+output,"--chrome-flags=--headless --no-sandbox --disable-dev-shm-usage","--quiet"],{encoding:"utf8",timeout:300000,env:{...process.env,CHROME_PATH:chromePath},maxBuffer:8*1024*1024});
+   run={status:0,signal:null,error:null,stdout:result.stdout||"",stderr:result.stderr||""};
+  } catch(error) {
+   run={status:error.code??null,signal:error.signal??null,error,stdout:error.stdout||"",stderr:error.stderr||""};
+  }
   if(run.status!==0) throw new Error("Lighthouse failed for "+route+": "+JSON.stringify({status:run.status,signal:run.signal,error:run.error?.message||null,stderr:(run.stderr||"").slice(-4000),stdout:(run.stdout||"").slice(-4000)}));
   const report=JSON.parse(readFileSync(output,"utf8"));
   const scores=Object.fromEntries(["performance","accessibility","best-practices","seo"].map(k=>[k,Math.round((report.categories[k]?.score??0)*100)]));
