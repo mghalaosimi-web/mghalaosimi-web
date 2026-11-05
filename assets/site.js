@@ -72,4 +72,4 @@
 
 ;(()=>{const s=document.createElement('script');s.src='/assets/visitor-tracking.js';s.defer=true;document.head.appendChild(s)})();
 
-;(()=>{if(document.querySelector('link[data-mghal-social-style]'))return;const style=document.createElement('link');style.rel='stylesheet';style.href='/assets/social-engagement.css';style.dataset.mghalSocialStyle='true';document.head.append(style);const script=document.createElement('script');script.src='/assets/social-engagement.js';script.defer=true;document.head.append(script)})();
+;(()=>{if(!document.querySelector('script[data-mghal-visitor-tracking]')){const tracking=document.createElement('script');tracking.src='/assets/visitor-tracking.js';tracking.defer=true;tracking.dataset.mghalVisitorTracking='true';document.head.append(tracking)}if(document.querySelector('link[data-mghal-social-style]'))return;const style=document.createElement('link');style.rel='stylesheet';style.href='/assets/social-engagement.css';style.dataset.mghalSocialStyle='true';document.head.append(style);const script=document.createElement('script');script.src='/assets/social-engagement.js';script.defer=true;document.head.append(script)})();
