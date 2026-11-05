@@ -89,7 +89,8 @@ try {
  const lighthouseResults=[],chromePath=chromium.executablePath();
  for(const [name,route] of [["home","/"],["projects","/projects.html"],["certificates","/certificates.html"]]){
   const output=join(artifacts,"lighthouse-"+name+".json");
-  const run=spawnSync("npx",["lighthouse",base+route,"--output=json","--output-path="+output,"--chrome-flags=--headless --no-sandbox --disable-dev-shm-usage","--quiet"],{encoding:"utf8",timeout:180000,env:{...process.env,CHROME_PATH:chromePath},maxBuffer:8*1024*1024});
+  const lighthouseBin=join(process.cwd(),"node_modules",".bin","lighthouse");
+  const run=spawnSync(lighthouseBin,[base+route,"--output=json","--output-path="+output,"--chrome-flags=--headless --no-sandbox --disable-dev-shm-usage","--quiet"],{encoding:"utf8",timeout:300000,env:{...process.env,CHROME_PATH:chromePath},maxBuffer:8*1024*1024});
   if(run.status!==0) throw new Error("Lighthouse failed for "+route+": "+JSON.stringify({status:run.status,signal:run.signal,error:run.error?.message||null,stderr:(run.stderr||"").slice(-4000),stdout:(run.stdout||"").slice(-4000)}));
   const report=JSON.parse(readFileSync(output,"utf8"));
   const scores=Object.fromEntries(["performance","accessibility","best-practices","seo"].map(k=>[k,Math.round((report.categories[k]?.score??0)*100)]));
