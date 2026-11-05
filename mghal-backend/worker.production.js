@@ -127,7 +127,7 @@ export default {
    return out({success:true,created:Number(result?.meta?.changes||0)===1},200);
   }
   if(path==="/api/public/reactions"&&method==="DELETE"){
-   const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||typeof b.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid reaction removal");
+   const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||typeof b.visitorToken!=="string"||b.visitorToken.length<32||!["like","clap"].includes(b.reaction||"like"))return fail(400,"VALIDATION_ERROR","Invalid reaction removal");
    const f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(b.visitorToken)).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const result=await q("DELETE FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction=? RETURNING id",b.targetType,b.targetId,f.id,b.reaction||"like").first();
    return out({success:true,removed:!!result});
