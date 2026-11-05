@@ -126,6 +126,12 @@ export default {
    const result=await q("INSERT INTO reactions(id,target_type,target_id,follower_id,reaction) VALUES(?,?,?,?,?) ON CONFLICT(target_type,target_id,follower_id,reaction) DO NOTHING",crypto.randomUUID(),b.targetType,b.targetId,f.id,b.reaction).run();
    return out({success:true,created:Number(result?.meta?.changes||0)===1},200);
   }
+  if(path==="/api/public/reactions"&&method==="DELETE"){
+   const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||typeof b.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid reaction removal");
+   const f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(b.visitorToken)).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const result=await q("DELETE FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction=? RETURNING id",b.targetType,b.targetId,f.id,b.reaction||"like").first();
+   return out({success:true,removed:!!result});
+  }
   if(admin&&path==="/api/admin/users"&&method==="GET"){
    if(!(await can("users.manage")))return fail(403,"FORBIDDEN","Missing users.manage permission");
    const rows=await q("SELECT u.id,u.email,u.display_name,u.status,u.created_at,u.last_login_at,GROUP_CONCAT(r.name,', ') roles FROM admin_users u LEFT JOIN admin_user_roles ur ON ur.user_id=u.id LEFT JOIN roles r ON r.id=ur.role_id GROUP BY u.id ORDER BY u.created_at DESC").all();return out({data:rows.results});
