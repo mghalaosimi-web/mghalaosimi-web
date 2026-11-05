@@ -97,6 +97,15 @@ describe("production Worker security contract", () => {
     expect(await response.json()).toMatchObject({ success: true });
   });
 
+  it("allows unauthenticated login attempts to reach credential verification", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/auth/login", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "owner@example.test", password: "a-very-long-test-password-12345" }),
+    }), { DB: fakeDb() } as never);
+    expect(response.status).toBe(401);
+    expect(await response.json()).toMatchObject({ error: { code: "INVALID_CREDENTIALS" } });
+  });
+
   it("creates anonymous visitor sessions as unverified, not followers", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/visitors", {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ path: "/projects/waynah/" }),
