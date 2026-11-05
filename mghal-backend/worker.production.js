@@ -10,11 +10,12 @@ export default {
   const fail=(status,code,message)=>out({error:{code,message}},status);
   const q=(sql,...params)=>env.DB.prepare(sql).bind(...params);
   const hash=async value=>{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(value));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")};
+  const constantTimeEqual=(a,b)=>{if(typeof a!=="string"||typeof b!=="string"||a.length!==b.length)return false;let difference=0;for(let i=0;i<a.length;i++)difference|=a.charCodeAt(i)^b.charCodeAt(i);return difference===0};
   const json=async()=>{try{return await request.json()}catch{return null}};
   const token=()=>[...crypto.getRandomValues(new Uint8Array(32))].map(x=>x.toString(16).padStart(2,"0")).join("");
   const actor=async()=>{const raw=request.headers.get("Authorization")||"",t=raw.startsWith("Bearer ")?raw.slice(7):"";if(!t||t.length>200)return null;return q("SELECT u.id,u.email FROM admin_sessions s JOIN admin_users u ON u.id=s.user_id WHERE s.token_hash=? AND s.revoked_at IS NULL AND s.expires_at>? AND u.status='active' LIMIT 1",await hash(t),new Date().toISOString()).first()};
   const admin=path.startsWith("/api/admin/");
-  const setupRoute=path==="/api/admin/bootstrap/status"||path==="/api/admin/bootstrap"||path==="/api/admin/auth/login";
+  const setupRoute=path==="/api/admin/bootstrap/status"||path==="/api/admin/bootstrap"||path==="/api/admin/bootstrap/rotate"||path==="/api/admin/auth/login";
   const resources={
    projects:{table:"projects",cols:["id","slug","name","name_ar","locale","short_description","short_description_ar","description","description_ar","status","repository_url","live_url","cover_media_id","started_at","completed_at","sort_order","is_published","created_at","updated_at"],fields:["slug","name","name_ar","locale","short_description","short_description_ar","description","description_ar","status","repository_url","live_url","cover_media_id","started_at","completed_at","sort_order","is_published"],permission:"content"},
    certificates:{table:"certificates",cols:["id","slug","title","issuer","category","credential_id","issued_at","expires_at","verification_url","image_media_id","pdf_media_id","qr_url","description","is_published","sort_order","created_at","updated_at"],fields:["slug","title","issuer","category","credential_id","issued_at","expires_at","verification_url","image_media_id","pdf_media_id","qr_url","description","is_published","sort_order"],permission:"content"},
@@ -34,9 +35,21 @@ export default {
    const [users,setup]=await Promise.all([q("SELECT COUNT(*) n FROM admin_users").first(),q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first()]);
    return out({available:Number(users?.n||0)===0&&!!setup?.value_json,ownerExists:Number(users?.n||0)>0});
   }
+  if(path==="/api/admin/bootstrap/rotate"&&method==="POST"){
+   const secret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";
+   if(secret.length<32)return fail(503,"BOOTSTRAP_ROTATION_NOT_CONFIGURED","Configure OWNER_BOOTSTRAP_TOKEN as a Worker secret with at least 32 characters");
+   const authorization=request.headers.get("Authorization")||"",supplied=authorization.startsWith("Bearer ")?authorization.slice(7):"";
+   if(supplied.length!==secret.length||!constantTimeEqual(supplied,secret))return fail(403,"BOOTSTRAP_ROTATION_UNAUTHORIZED","Bootstrap rotation authorization failed");
+   const users=await q("SELECT COUNT(*) n FROM admin_users").first();
+   if(Number(users?.n||0)>0)return fail(409,"BOOTSTRAP_ALREADY_USED","Owner bootstrap cannot be rotated after an admin account exists");
+   const tokenHash=await hash(secret);
+   const result=await q("INSERT INTO site_settings(key,value_json) SELECT 'owner_bootstrap_hash',? WHERE (SELECT COUNT(*) FROM admin_users)=0 ON CONFLICT(key) DO UPDATE SET value_json=excluded.value_json",tokenHash).run();
+   if(Number(result?.meta?.changes||0)!==1)return fail(409,"BOOTSTRAP_ROTATION_CONFLICT","Owner setup changed during token rotation; retry after checking bootstrap status");
+   return out({success:true,message:"One-time bootstrap token rotated. Use the configured token to create the first owner."});
+  }
   if(path==="/api/admin/bootstrap"&&method==="POST"){
    const b=await json();if(!b||typeof b.token!=="string"||typeof b.email!=="string"||typeof b.password!=="string"||typeof b.displayName!=="string"||b.password.length<12||b.password.length>200||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)||b.displayName.trim().length<2||b.displayName.length>120)return fail(400,"VALIDATION_ERROR","Provide a valid email, display name and password of at least 12 characters");
-   const supplied=await hash(b.token),configured=await q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first();if(!configured?.value_json||supplied!==configured.value_json)return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
+   const supplied=await hash(b.token),configured=await q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first();const workerSecret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";if(workerSecret&&(b.token.length!==workerSecret.length||!constantTimeEqual(b.token,workerSecret)))return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");if(!configured?.value_json||supplied!==configured.value_json)return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
    const salt=crypto.getRandomValues(new Uint8Array(16)),key=await crypto.subtle.importKey("raw",new TextEncoder().encode(b.password),"PBKDF2",false,["deriveBits"]),bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt,iterations:210000},key,256),b64=x=>btoa(String.fromCharCode(...x));
    const passwordHash="pbkdf2-sha256$210000$"+b64(salt)+"$"+b64(new Uint8Array(bits)),id=crypto.randomUUID(),email=b.email.trim().toLowerCase();
    const batch=await env.DB.batch([
