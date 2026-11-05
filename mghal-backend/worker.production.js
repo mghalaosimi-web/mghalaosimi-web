@@ -33,7 +33,9 @@ export default {
   const minute=Math.floor(Date.now()/60000),ip=request.headers.get("CF-Connecting-IP")||"unknown",rateKey="rl:"+await hash(ip+":"+minute);try{await q("INSERT INTO site_settings(key,value_json) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value_json=CAST(CAST(site_settings.value_json AS INTEGER)+1 AS TEXT)",rateKey,"1").run();const count=await q("SELECT value_json FROM site_settings WHERE key=?",rateKey).first();if(Number(count?.value_json||0)>120)return fail(429,"RATE_LIMITED","Too many requests");}catch{return fail(503,"RATE_LIMIT_UNAVAILABLE","Request protection is temporarily unavailable");}
   if(path==="/api/admin/bootstrap/status"&&method==="GET"){
    const [users,setup]=await Promise.all([q("SELECT COUNT(*) n FROM admin_users").first(),q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first()]);
-   return out({available:Number(users?.n||0)===0&&!!setup?.value_json,ownerExists:Number(users?.n||0)>0});
+   const ownerExists=Number(users?.n||0)>0,secret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"",secretHash=secret.length>=32?await hash(secret):null;
+   const rotationRequired=!ownerExists&&secret.length>0&&(secret.length<32||!setup?.value_json||setup.value_json!==secretHash);
+   return out({available:!ownerExists&&!!setup?.value_json&&!rotationRequired,ownerExists,rotationRequired});
   }
   if(path==="/api/admin/bootstrap/rotate"&&method==="POST"){
    const secret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";
@@ -49,7 +51,7 @@ export default {
   }
   if(path==="/api/admin/bootstrap"&&method==="POST"){
    const b=await json();if(!b||typeof b.token!=="string"||typeof b.email!=="string"||typeof b.password!=="string"||typeof b.displayName!=="string"||b.password.length<12||b.password.length>200||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)||b.displayName.trim().length<2||b.displayName.length>120)return fail(400,"VALIDATION_ERROR","Provide a valid email, display name and password of at least 12 characters");
-   const supplied=await hash(b.token),configured=await q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first();const workerSecret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";if(workerSecret&&(b.token.length!==workerSecret.length||!constantTimeEqual(b.token,workerSecret)))return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");if(!configured?.value_json||supplied!==configured.value_json)return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
+   const supplied=await hash(b.token),configured=await q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first();const workerSecret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";if(workerSecret&&workerSecret.length<32)return fail(503,"BOOTSTRAP_SECRET_WEAK","OWNER_BOOTSTRAP_TOKEN must contain at least 32 characters");if(workerSecret&&(b.token.length!==workerSecret.length||!constantTimeEqual(b.token,workerSecret)))return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");if(!configured?.value_json||supplied!==configured.value_json)return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
    const salt=crypto.getRandomValues(new Uint8Array(16)),key=await crypto.subtle.importKey("raw",new TextEncoder().encode(b.password),"PBKDF2",false,["deriveBits"]),bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt,iterations:210000},key,256),b64=x=>btoa(String.fromCharCode(...x));
    const passwordHash="pbkdf2-sha256$210000$"+b64(salt)+"$"+b64(new Uint8Array(bits)),id=crypto.randomUUID(),email=b.email.trim().toLowerCase();
    const batch=await env.DB.batch([

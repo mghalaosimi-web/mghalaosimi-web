@@ -97,6 +97,15 @@ describe("production Worker security contract", () => {
     expect(await response.json()).toMatchObject({ success: true });
   });
 
+  it("reports rotation required when the configured Worker secret does not match the stored hash", async () => {
+    const token = "rotation-secret-with-at-least-32-characters-0001";
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/bootstrap/status"), {
+      DB: fakeDb("old-bootstrap-hash"), OWNER_BOOTSTRAP_TOKEN: token,
+    } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ available: false, ownerExists: false, rotationRequired: true });
+  });
+
   it("rotates the one-time bootstrap hash using a configured Worker secret", async () => {
     const token = "rotation-secret-with-at-least-32-characters-0001";
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/bootstrap/rotate", {
