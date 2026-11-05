@@ -73,4 +73,6 @@ console.log('Engagement tests passed: explicit follow consent, browser-linked un
 const sharedSite=readFileSync('assets/site.js','utf8'),visitorTracking=readFileSync('assets/visitor-tracking.js','utf8');
 assert.match(sharedSite,/visitor-tracking\.js/,'all public pages must load visitor analytics');
 assert.match(visitorTracking,/__mghalVisitorTracking/,'visitor analytics must be idempotent when detail pages also include it');
+assert.match(engagementUi,/navigator\.doNotTrack==='1'/,'engagement analytics must respect Do Not Track');
+assert.match(articleInteractions,/navigator\.doNotTrack==='1'/,'article analytics must respect Do Not Track');
 
