@@ -15,9 +15,9 @@ for(const view of ['dashboard','identity','projects','certificates','articles','
 for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap/rotate','/api/admin/bootstrap','/api/admin/auth/login','/api/admin/dashboard','/api/admin/analytics','/api/admin/followers','/api/admin/comments','/api/admin/media','/api/admin/users'])assert.ok(worker.includes(route),`missing API route ${route}`);
 assert.match(html,/name="robots" content="noindex,nofollow,noarchive"/);
 assert.ok(html.includes('id="bootstrap-rotate-form"'),'admin UI must expose the one-time token rotation form');
-assert.match(js,/s\\.rotationRequired/,'admin UI must react to bootstrap rotation readiness');
-assert.match(js,/api\\('/api/admin/bootstrap/rotate'/,'admin UI must call the protected bootstrap rotation route');
-assert.match(js,/headers\\.has\\('Authorization'\\)/,'explicit bootstrap Bearer credentials must not be overwritten by an admin session token');
+assert.ok(js.includes('s.rotationRequired'),'admin UI must react to bootstrap rotation readiness');
+assert.ok(js.includes("api('/api/admin/bootstrap/rotate'"),'admin UI must call the protected bootstrap rotation route');
+assert.ok(js.includes("headers.has('Authorization')"),'explicit bootstrap Bearer credentials must not be overwritten by an admin session token');
 assert.match(worker,/OWNER_BOOTSTRAP_TOKEN/,'Worker bootstrap recovery must require its secret binding');
 assert.match(html,/name="password" type="password" required minlength="12"/,'bootstrap UI must accept 12-character owner passwords');
 assert.match(worker,/b\.password\.length<12/,'bootstrap API must use the same 12-character minimum');
