@@ -49,3 +49,22 @@ assert.match(experienceCss, /@media\(prefers-reduced-motion:reduce\)/, "Public p
 assert.match(experienceCss, /@media\(forced-colors:active\)/, "Public pages must retain visible boundaries in forced-colors mode.");
 assert.match(experienceCss, /--mx-control-height:46px/, "Form controls must retain a comfortable minimum control height.");
 assert.match(experienceCss, /min-height:44px/, "Mobile navigation targets must meet the project touch-target baseline.");
+
+const engagementWorker=readFileSync("mghal-backend/worker.production.js","utf8");
+const engagementUi=readFileSync("assets/social-engagement.js","utf8");
+const engagementCss=readFileSync("assets/social-engagement.css","utf8");
+for(const route of ['/api/public/followers/status','/api/public/followers','/api/public/reactions','/api/public/comments'])assert.ok(engagementWorker.includes(route),'missing engagement API '+route);
+assert.match(engagementWorker,/status='unverified'/,'anonymous visitor sessions must not be counted as explicit followers');
+assert.match(engagementWorker,/consent!==true/,'following must require explicit consent');
+assert.match(engagementWorker,/status IN \('active','unverified'\)/,'visitor sessions may react and comment without being forced to follow');
+assert.match(engagementWorker,/status='approved'/,'public comments must be moderated before display');
+assert.match(engagementUi,/تابع تحديثات M\.GH\.AL|Follow M\.GH\.AL updates/,'public follow component is missing');
+assert.match(engagementUi,/navigator\.share/,'share action must use the native share sheet when available');
+assert.match(engagementUi,/api\/public\/reactions/,'project reaction controls must call the API');
+assert.match(engagementCss,/\.mghal-follow-panel/,'follow component must be styled');
+assert.match(engagementCss,/\.mghal-comments-list/,'approved comments must be styled');
+for(const file of ['article.html','en/article.html']){const html=readFileSync(file,'utf8');assert.match(html,/id="share-article"/,file+': article sharing control missing');assert.match(html,/id="article-comments-list"/,file+': approved comments list missing');}
+const articleInteractions=readFileSync('assets/article-page.js','utf8');
+assert.match(articleInteractions,/api\/public\/comments\?articleId=/,'approved comments must load from public API');
+assert.match(articleInteractions,/api\/public\/reactions\?targetType=article/,'article reaction counts must load from public API');
+console.log('Engagement tests passed: explicit follow consent, browser-linked unsubscribe, project/article reactions, sharing and moderated comments.');
