@@ -54,14 +54,15 @@ const engagementWorker=readFileSync("mghal-backend/worker.production.js","utf8")
 const engagementUi=readFileSync("assets/social-engagement.js","utf8");
 const engagementCss=readFileSync("assets/social-engagement.css","utf8");
 for(const route of ['/api/public/followers/status','/api/public/followers/count','/api/public/followers','/api/public/reactions','/api/public/comments'])assert.ok(engagementWorker.includes(route),'missing engagement API '+route);
-assert.match(engagementWorker,/VALUES\\(\\?,\\?,'unverified'\\)/,'anonymous visitor sessions must not be counted as explicit followers');
+assert.match(engagementWorker,/VALUES\(\?,\?,'unverified'\)/,'anonymous visitor sessions must not be counted as explicit followers');
 assert.match(engagementWorker,/consent!==true/,'following must require explicit consent');
 assert.match(engagementWorker,/status IN \('active','unverified'\)/,'visitor sessions may react and comment without being forced to follow');
 assert.match(engagementWorker,/status='approved'/,'public comments must be moderated before display');
-assert.match(engagementWorker,/\"share\",\"follow\",\"unfollow\",\"reaction\",\"comment_submitted\"/,'analytics must include social engagement events');\nassert.match(engagementUi,/api\/public\/followers\/count/,'public follower count must be loaded from API');
+assert.match(engagementWorker/,"share","follow","unfollow","reaction","comment_submitted"/,'analytics must include social engagement events');
 assert.match(engagementUi,/تابع M\.GH\.AL|Follow M\.GH\.AL/,'public follow component is missing');
 assert.match(engagementUi,/navigator\.share/,'share action must use the native share sheet when available');
 assert.match(engagementUi,/api\/public\/reactions/,'project reaction controls must call the API');
+assert.match(engagementUi,/api\/public\/followers\/count/,'public follower count must be loaded from API');
 assert.match(engagementCss,/\.mghal-follow-panel/,'follow component must be styled');
 assert.match(engagementCss,/\.mghal-comments-list/,'approved comments must be styled');
 for(const file of ['article.html','en/article.html']){const html=readFileSync(file,'utf8');assert.match(html,/id="share-article"/,file+': article sharing control missing');assert.match(html,/id="article-comments-list"/,file+': approved comments list missing');}
