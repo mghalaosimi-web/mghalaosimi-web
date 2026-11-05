@@ -113,6 +113,42 @@ describe("production Worker security contract", () => {
     expect(response.status).toBe(400);
   });
 
+
+  it("activates a follower only after a valid explicit opt-in", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/followers", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64), displayName: "Tester", consent: true }),
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ success: true, following: true, data: { status: "active" } });
+  });
+
+  it("allows a browser-linked follower to unsubscribe", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/followers", {
+      method: "DELETE", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64) }),
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ success: true, following: false });
+  });
+
+  it("records a project reaction for a valid visitor", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/reactions", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64), targetType: "project", targetId: "project-1", reaction: "like" }),
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ success: true, created: true });
+  });
+
+  it("accepts a comment into moderation rather than publishing it immediately", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/comments", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64), articleId: "article-1", body: "A useful article." }),
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(201);
+    expect(await response.json()).toMatchObject({ status: "pending" });
+  });
   it("returns only the public follower count", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/followers/count"), { DB: engagementDb() } as never);
     expect(response.status).toBe(200);
