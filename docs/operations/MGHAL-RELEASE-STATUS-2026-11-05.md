@@ -125,8 +125,8 @@ The theme token was `#5B6678`, but `scripts/audit-design.mjs` still expected `#6
 - Public follower count is derived only from active records with explicit consent. Admin follower results exclude anonymous browser sessions and show only consented records.
 - Anonymous visitors are stored as `unverified` browser sessions, not counted as followers. They may still react or comment without being forced to follow.
 - Projects support Like and Applaud reactions with aggregate counts, duplicate prevention, removal, and share actions on project cards and detail pages.
-- Articles support Like counts, share actions, comment submission, and display of approved comments only. New comments enter `pending` moderation.
-- Analytics accepts page views, project/article views, shares, follows, unfollows, reactions and comment-submission events.
+- Articles support Like and Applaud counts, share actions, comment submission, and display of approved comments only. New comments enter `pending` moderation.
+- Analytics accepts page views across public pages, project/article views, shares, follows, unfollows, reactions and comment-submission events. Visitor analytics is idempotently loaded site-wide and honors the browser Do Not Track signal.
 - Existing admin UI includes follower management, comment moderation and analytics. These controls require a provisioned owner account before they can be operated.
 
 ### Production changes and verification
