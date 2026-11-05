@@ -141,4 +141,5 @@ The theme token was `#5B6678`, but `scripts/audit-design.mjs` still expected `#6
 1. Owner bootstrap is still unprovisioned; the admin moderation screens exist, but an owner must be created securely before pending comments can be reviewed.
 2. Notifications/email delivery are not implemented. Current follow is a consented public follower-list membership linked to one browser, not a mailing subscription.
 3. A real browser acceptance pass is still required: follow, refresh, unfollow, like/unlike, share, submit comment, approve it in admin, and verify it appears publicly.
-4. Confirm the current Backend CI and Website Quality workflow results before marking the latest PR head fully green.
+4. D1 currently contains 10 published projects but 0 published articles. Project engagement can be exercised now; article reactions/comments become usable after the first article is published.
+5. Confirm the current Backend CI and Website Quality workflow results before marking the latest PR head fully green.
