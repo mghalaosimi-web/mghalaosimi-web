@@ -54,7 +54,7 @@ const engagementWorker=readFileSync("mghal-backend/worker.production.js","utf8")
 const engagementUi=readFileSync("assets/social-engagement.js","utf8");
 const engagementCss=readFileSync("assets/social-engagement.css","utf8");
 for(const route of ['/api/public/followers/status','/api/public/followers/count','/api/public/followers','/api/public/reactions','/api/public/comments'])assert.ok(engagementWorker.includes(route),'missing engagement API '+route);
-assert.match(engagementWorker,/status='unverified'/,'anonymous visitor sessions must not be counted as explicit followers');
+assert.match(engagementWorker,/VALUES\\(\\?,\\?,'unverified'\\)/,'anonymous visitor sessions must not be counted as explicit followers');
 assert.match(engagementWorker,/consent!==true/,'following must require explicit consent');
 assert.match(engagementWorker,/status IN \('active','unverified'\)/,'visitor sessions may react and comment without being forced to follow');
 assert.match(engagementWorker,/status='approved'/,'public comments must be moderated before display');\nassert.match(engagementWorker,/\"share\",\"follow\",\"unfollow\",\"reaction\",\"comment_submitted\"/,'analytics must include social engagement events');\nassert.match(engagementUi,/api\\/public\\/followers\\/count/,'public follower count must be loaded from API');
