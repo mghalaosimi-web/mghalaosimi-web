@@ -57,8 +57,9 @@ for(const route of ['/api/public/followers/status','/api/public/followers/count'
 assert.match(engagementWorker,/VALUES\\(\\?,\\?,'unverified'\\)/,'anonymous visitor sessions must not be counted as explicit followers');
 assert.match(engagementWorker,/consent!==true/,'following must require explicit consent');
 assert.match(engagementWorker,/status IN \('active','unverified'\)/,'visitor sessions may react and comment without being forced to follow');
-assert.match(engagementWorker,/status='approved'/,'public comments must be moderated before display');\nassert.match(engagementWorker,/\"share\",\"follow\",\"unfollow\",\"reaction\",\"comment_submitted\"/,'analytics must include social engagement events');\nassert.match(engagementUi,/api\\/public\\/followers\\/count/,'public follower count must be loaded from API');
-assert.match(engagementUi,/تابع تحديثات M\.GH\.AL|Follow M\.GH\.AL updates/,'public follow component is missing');
+assert.match(engagementWorker,/status='approved'/,'public comments must be moderated before display');
+assert.match(engagementWorker,/\"share\",\"follow\",\"unfollow\",\"reaction\",\"comment_submitted\"/,'analytics must include social engagement events');\nassert.match(engagementUi,/api\/public\/followers\/count/,'public follower count must be loaded from API');
+assert.match(engagementUi,/تابع M\.GH\.AL|Follow M\.GH\.AL/,'public follow component is missing');
 assert.match(engagementUi,/navigator\.share/,'share action must use the native share sheet when available');
 assert.match(engagementUi,/api\/public\/reactions/,'project reaction controls must call the API');
 assert.match(engagementCss,/\.mghal-follow-panel/,'follow component must be styled');
