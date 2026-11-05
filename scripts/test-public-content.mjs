@@ -69,6 +69,8 @@ for(const file of ['article.html','en/article.html']){const html=readFileSync(fi
 const articleInteractions=readFileSync('assets/article-page.js','utf8');
 assert.match(articleInteractions,/api\/public\/comments\?articleId=/,'approved comments must load from public API');
 assert.match(articleInteractions,/api\/public\/reactions\?targetType=article/,'article reaction counts must load from public API');
+for(const file of ['article.html','en/article.html'])assert.match(readFileSync(file,'utf8'),/id="clap-article"/,file+': article applause control missing');
+assert.match(articleInteractions,/targetType:'article',targetId:article.id,reaction:'clap'/,'article applause must call the reaction API');
 console.log('Engagement tests passed: explicit follow consent, browser-linked unsubscribe, project/article reactions, sharing and moderated comments.');
 const sharedSite=readFileSync('assets/site.js','utf8'),visitorTracking=readFileSync('assets/visitor-tracking.js','utf8');
 assert.match(sharedSite,/visitor-tracking\.js/,'all public pages must load visitor analytics');
