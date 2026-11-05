@@ -90,7 +90,7 @@ try {
  for(const [name,route] of [["home","/"],["projects","/projects.html"],["certificates","/certificates.html"]]){
   const output=join(artifacts,"lighthouse-"+name+".json");
   const run=spawnSync("npx",["lighthouse",base+route,"--output=json","--output-path="+output,"--chrome-flags=--headless --no-sandbox --disable-dev-shm-usage","--quiet"],{encoding:"utf8",timeout:180000,env:{...process.env,CHROME_PATH:chromePath},maxBuffer:8*1024*1024});
-  if(run.status!==0) throw new Error("Lighthouse failed for "+route+": "+(run.stderr||run.stdout||"unknown error"));
+  if(run.status!==0) throw new Error("Lighthouse failed for "+route+": "+JSON.stringify({status:run.status,signal:run.signal,error:run.error?.message||null,stderr:(run.stderr||"").slice(-4000),stdout:(run.stdout||"").slice(-4000)}));
   const report=JSON.parse(readFileSync(output,"utf8"));
   const scores=Object.fromEntries(["performance","accessibility","best-practices","seo"].map(k=>[k,Math.round((report.categories[k]?.score??0)*100)]));
   lighthouseResults.push({route,scores}); console.log("Lighthouse "+route+": "+JSON.stringify(scores));
