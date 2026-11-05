@@ -63,6 +63,7 @@ assert.match(engagementUi,/تابع M\.GH\.AL|Follow M\.GH\.AL/,'public follow c
 assert.match(engagementUi,/navigator\.share/,'share action must use the native share sheet when available');
 assert.match(engagementUi,/api\/public\/reactions/,'project reaction controls must call the API');
 assert.match(engagementUi,/api\/public\/followers\/count/,'public follower count must be loaded from API');
+for(const file of ['projects.html','en/projects.html'])assert.equal((readFileSync(file,'utf8').match(/data-project-slug=/g)||[]).length,10,file+': all 10 project cards must have a reaction target');
 assert.match(engagementCss,/\.mghal-follow-panel/,'follow component must be styled');
 assert.match(engagementCss,/\.mghal-comments-list/,'approved comments must be styled');
 for(const file of ['article.html','en/article.html']){const html=readFileSync(file,'utf8');assert.match(html,/id="share-article"/,file+': article sharing control missing');assert.match(html,/id="article-comments-list"/,file+': approved comments list missing');}
