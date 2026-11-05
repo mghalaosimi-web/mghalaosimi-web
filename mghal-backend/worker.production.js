@@ -61,14 +61,36 @@ export default {
   if(path==="/api/admin/auth/logout"&&method==="POST"){const t=(request.headers.get("Authorization")||"").slice(7);await q("UPDATE admin_sessions SET revoked_at=? WHERE user_id=? AND token_hash=? AND revoked_at IS NULL",new Date().toISOString(),current.id,await hash(t)).run();return out({success:true});}
   if(path==="/api/public/visitors"&&method==="POST"){
    const b=await json(),visitorToken=typeof b?.visitorToken==="string"&&b.visitorToken.length>=32?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
-   let f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1",key).first();let fresh=false;if(!f){f={id:crypto.randomUUID()};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'active')",f.id,key).run();}
+   let f=await q("SELECT id,status,display_name FROM followers WHERE email_hash=? LIMIT 1",key).first();let fresh=false;
+   if(!f){f={id:crypto.randomUUID(),status:"unverified",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'unverified')",f.id,key).run();}
    const page=typeof b?.path==="string"&&b.path.startsWith("/")?b.path.slice(0,500):"/";
    if(fresh)await q("INSERT INTO analytics_events(id,event_type,path,session_hash) VALUES(?,?,?,?)",crypto.randomUUID(),"visitor_start",page,await hash(visitorToken)).run();
-   return out({visitorToken,followerId:f.id,status:"active"},201);
+   return out({visitorToken,followerId:f.id,status:f.status,displayName:f.display_name||null},201);
+  }
+  if(path==="/api/public/followers/status"&&method==="POST"){
+   const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid visitor session");
+   const f=await q("SELECT id,status,display_name,consent_at FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(b.visitorToken)).first();
+   return out({following:f?.status==="active",status:f?.status||"unknown",displayName:f?.display_name||null,consentAt:f?.consent_at||null});
+  }
+  if(path==="/api/public/followers"&&method==="POST"){
+   const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32||typeof b?.displayName!=="string"||b.displayName.trim().length<2||b.displayName.trim().length>80||b.consent!==true)return fail(400,"VALIDATION_ERROR","Provide a display name and explicit consent");
+   const key="visitor:"+await hash(b.visitorToken),f=await q("SELECT id,status FROM followers WHERE email_hash=? LIMIT 1",key).first();
+   if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   if(f.status==="blocked")return fail(403,"FOLLOW_BLOCKED","This visitor cannot follow updates");
+   const now=new Date().toISOString();
+   const row=await q("UPDATE followers SET display_name=?,status='active',consent_at=?,unsubscribed_at=NULL WHERE id=? RETURNING id,status,display_name,consent_at",b.displayName.trim(),now,f.id).first();
+   if(!row)return fail(409,"FOLLOW_FAILED","Unable to activate following");
+   return out({success:true,following:true,data:row},200);
+  }
+  if(path==="/api/public/followers"&&method==="DELETE"){
+   const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid visitor session");
+   const key="visitor:"+await hash(b.visitorToken),now=new Date().toISOString();
+   const row=await q("UPDATE followers SET status='unsubscribed',unsubscribed_at=? WHERE email_hash=? AND status='active' RETURNING id,status",now,key).first();
+   return out({success:true,following:false,status:row?.status||"unsubscribed"});
   }
   if(path==="/api/public/events"&&method==="POST"){
    const b=await json();if(!b||typeof b.visitorToken!=="string"||!["page_view","project_view","article_view","certificate_view","contact_click"].includes(b.eventType)||typeof b.path!=="string"||!b.path.startsWith("/"))return fail(400,"VALIDATION_ERROR","Invalid event payload");
-   const key="visitor:"+await hash(b.visitorToken),f=await q("SELECT id FROM followers WHERE email_hash=? AND status='active' LIMIT 1",key).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const key="visitor:"+await hash(b.visitorToken),f=await q("SELECT id FROM followers WHERE email_hash=? AND status IN ('active','unverified') LIMIT 1",key).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    let ref=null;try{ref=b.referrer?new URL(b.referrer).hostname:null}catch{}
    await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,referrer_host,session_hash) VALUES(?,?,?,?,?,?,?)",crypto.randomUUID(),b.eventType,b.path.slice(0,500),b.targetType||null,b.targetId||null,ref,await hash(b.visitorToken)).run();return out({success:true},202);
   }
@@ -76,15 +98,33 @@ export default {
   if(path.startsWith("/api/public/articles/")&&method==="GET"){const slug=decodeURIComponent(path.split("/").pop());const row=await q("SELECT id,slug,locale,title,excerpt,body,category_id,cover_media_id,seo_title,seo_description,published_at FROM articles WHERE slug=? AND status='Published' AND published_at IS NOT NULL LIMIT 1",slug).first();return row?out(row):fail(404,"NOT_FOUND","Article not found");}
   if(path==="/api/public/comments"&&method==="POST"){
    const b=await json();if(!b||typeof b.visitorToken!=="string"||typeof b.articleId!=="string"||typeof b.body!=="string"||b.body.trim().length<2||b.body.length>2000)return fail(400,"VALIDATION_ERROR","Invalid comment");
-   const f=await q("SELECT id FROM followers WHERE email_hash=? AND status='active' LIMIT 1","visitor:"+await hash(b.visitorToken)).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await q("SELECT id FROM followers WHERE email_hash=? AND status IN ('active','unverified') LIMIT 1","visitor:"+await hash(b.visitorToken)).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const a=await q("SELECT id FROM articles WHERE id=? AND status='Published'",b.articleId).first();if(!a)return fail(404,"ARTICLE_NOT_FOUND","Published article not found");
    const id=crypto.randomUUID();await q("INSERT INTO comments(id,article_id,follower_id,body,status) VALUES(?,?,?,?,'pending')",id,b.articleId,f.id,b.body.trim()).run();return out({id,status:"pending"},201);
   }
+  if(path==="/api/public/reactions"&&method==="GET"){
+   const targetType=url.searchParams.get("targetType"),targetId=url.searchParams.get("targetId");
+   if(!["article","project"].includes(targetType)||!targetId||targetId.length>100)return fail(400,"VALIDATION_ERROR","Invalid reaction target");
+   const table=targetType==="article"?"articles":"projects",where=targetType==="article"?"status='Published'":"is_published=1";
+   const target=await q("SELECT id FROM "+table+" WHERE id=? AND "+where,targetId).first();if(!target)return fail(404,"TARGET_NOT_FOUND","Published target not found");
+   const rows=await q("SELECT reaction,COUNT(*) count FROM reactions WHERE target_type=? AND target_id=? GROUP BY reaction",targetType,targetId).all();
+   const counts={like:0,clap:0};for(const row of rows.results||[])if(row.reaction in counts)counts[row.reaction]=Number(row.count)||0;
+   let reacted=false;const visitorToken=url.searchParams.get("visitorToken");
+   if(visitorToken&&visitorToken.length>=32){const f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(visitorToken)).first();if(f)reacted=!!(await q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first());}
+   return out({targetType,targetId,counts,reacted});
+  }
+  if(path==="/api/public/comments"&&method==="GET"){
+   const articleId=url.searchParams.get("articleId");if(!articleId)return fail(400,"VALIDATION_ERROR","Article ID is required");
+   const article=await q("SELECT id FROM articles WHERE id=? AND status='Published'",articleId).first();if(!article)return fail(404,"ARTICLE_NOT_FOUND","Published article not found");
+   const rows=await q("SELECT c.id,c.body,c.created_at,COALESCE(f.display_name,'زائر') display_name FROM comments c LEFT JOIN followers f ON f.id=c.follower_id WHERE c.article_id=? AND c.status='approved' ORDER BY c.created_at ASC LIMIT 100",articleId).all();
+   return out({data:rows.results});
+  }
   if(path==="/api/public/reactions"&&method==="POST"){
-   const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||!["like","clap"].includes(b.reaction)||typeof b.visitorToken!=="string")return fail(400,"VALIDATION_ERROR","Invalid reaction");
-   const f=await q("SELECT id FROM followers WHERE email_hash=? AND status='active' LIMIT 1","visitor:"+await hash(b.visitorToken)).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||!["like","clap"].includes(b.reaction)||typeof b.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid reaction");
+   const f=await q("SELECT id FROM followers WHERE email_hash=? AND status IN ('active','unverified') LIMIT 1","visitor:"+await hash(b.visitorToken)).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const table=b.targetType==="article"?"articles":"projects",where=b.targetType==="article"?"status='Published'":"is_published=1";const target=await q("SELECT id FROM "+table+" WHERE id=? AND "+where,b.targetId).first();if(!target)return fail(404,"TARGET_NOT_FOUND","Published target not found");
-   await q("INSERT INTO reactions(id,target_type,target_id,follower_id,reaction) VALUES(?,?,?,?,?) ON CONFLICT(target_type,target_id,follower_id,reaction) DO NOTHING",crypto.randomUUID(),b.targetType,b.targetId,f.id,b.reaction).run();return out({success:true},201);
+   const result=await q("INSERT INTO reactions(id,target_type,target_id,follower_id,reaction) VALUES(?,?,?,?,?) ON CONFLICT(target_type,target_id,follower_id,reaction) DO NOTHING",crypto.randomUUID(),b.targetType,b.targetId,f.id,b.reaction).run();
+   return out({success:true,created:Number(result?.meta?.changes||0)===1},200);
   }
   if(admin&&path==="/api/admin/users"&&method==="GET"){
    if(!(await can("users.manage")))return fail(403,"FORBIDDEN","Missing users.manage permission");
