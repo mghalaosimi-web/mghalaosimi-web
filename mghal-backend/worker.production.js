@@ -67,6 +67,10 @@ export default {
    if(fresh)await q("INSERT INTO analytics_events(id,event_type,path,session_hash) VALUES(?,?,?,?)",crypto.randomUUID(),"visitor_start",page,await hash(visitorToken)).run();
    return out({visitorToken,followerId:f.id,status:f.status,displayName:f.display_name||null},201);
   }
+  if(path==="/api/public/followers/count"&&method==="GET"){
+   const row=await q("SELECT COUNT(*) count FROM followers WHERE status='active' AND consent_at IS NOT NULL").first();
+   return out({count:Number(row?.count||0)});
+  }
   if(path==="/api/public/followers/status"&&method==="POST"){
    const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid visitor session");
    const f=await q("SELECT id,status,display_name,consent_at FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(b.visitorToken)).first();
@@ -89,7 +93,7 @@ export default {
    return out({success:true,following:false,status:row?.status||"unsubscribed"});
   }
   if(path==="/api/public/events"&&method==="POST"){
-   const b=await json();if(!b||typeof b.visitorToken!=="string"||!["page_view","project_view","article_view","certificate_view","contact_click"].includes(b.eventType)||typeof b.path!=="string"||!b.path.startsWith("/"))return fail(400,"VALIDATION_ERROR","Invalid event payload");
+   const b=await json();if(!b||typeof b.visitorToken!=="string"||!["page_view","project_view","article_view","certificate_view","contact_click","share","follow","unfollow","reaction","comment_submitted"].includes(b.eventType)||typeof b.path!=="string"||!b.path.startsWith("/"))return fail(400,"VALIDATION_ERROR","Invalid event payload");
    const key="visitor:"+await hash(b.visitorToken),f=await q("SELECT id FROM followers WHERE email_hash=? AND status IN ('active','unverified') LIMIT 1",key).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    let ref=null;try{ref=b.referrer?new URL(b.referrer).hostname:null}catch{}
    await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,referrer_host,session_hash) VALUES(?,?,?,?,?,?,?)",crypto.randomUUID(),b.eventType,b.path.slice(0,500),b.targetType||null,b.targetId||null,ref,await hash(b.visitorToken)).run();return out({success:true},202);
