@@ -58,7 +58,7 @@ assert.match(engagementWorker,/VALUES\(\?,\?,'unverified'\)/,'anonymous visitor 
 assert.match(engagementWorker,/consent!==true/,'following must require explicit consent');
 assert.match(engagementWorker,/status IN \('active','unverified'\)/,'visitor sessions may react and comment without being forced to follow');
 assert.match(engagementWorker,/status='approved'/,'public comments must be moderated before display');
-assert.match(engagementWorker/,"share","follow","unfollow","reaction","comment_submitted"/,'analytics must include social engagement events');
+assert.match(engagementWorker,/"share","follow","unfollow","reaction","comment_submitted"/,'analytics must include social engagement events');
 assert.match(engagementUi,/تابع M\.GH\.AL|Follow M\.GH\.AL/,'public follow component is missing');
 assert.match(engagementUi,/navigator\.share/,'share action must use the native share sheet when available');
 assert.match(engagementUi,/api\/public\/reactions/,'project reaction controls must call the API');
