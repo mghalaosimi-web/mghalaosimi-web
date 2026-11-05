@@ -4,7 +4,7 @@
 > **Last verified:** 2026-11-05 (Asia/Aden, UTC+03:00)
 > **Repository:** https://github.com/mghalaosimi-web/mghalaosimi-web
 > **Current verification branch:** `feat/mghal-credentials-projects-expansion-2026-11-05`
-> **Last verified implementation commit:** `b1d19925ba2a414cc8b85a7e3f5ae335eb0a07f3` (the follow-up state-document commit is documentation-only)
+> **Last verified code commit:** `ed3beed547d03949c1fef085e1b85f97003efb93` (this state refresh is a subsequent documentation-only commit)
 
 ## 1. Project identity
 
@@ -43,7 +43,7 @@ Complete a secure, bilingual, accessible and maintainable professional identity 
 
 ## 5. Public website status
 
-**Render current release:** service `mghal-release-current` (`srv-dblr12ou01pc739c9img`) is LIVE on commit `81eada27b9d22a4ffc5c872dd54dce7b9e0bc276`. Published path is `public`; build command is `npm ci && npm run build`. Live page inspection shows the current bilingual identity presentation, 10 projects and 21 certificates.
+**Render current release:** service `mghal-release-current` (`srv-dblr12ou01pc739c9img`) is LIVE on code commit `ed3beed547d03949c1fef085e1b85f97003efb93` (deployment `dep-dbme06ql7uoc73cubq10`). Published path is `public`; build command is `npm ci && npm run build`. Live page inspection shows the current bilingual identity presentation, 10 projects and 21 certificates. The admin page includes the bootstrap-recovery form, shown when the Worker reports `rotationRequired: true`.
 
 **Vercel:** project `mghalaosimi-web` exists. The latest listed production deployment was ERROR on `main` commit `d7378bffeb55ca957829995fb4fee8355181d792`, with build error `ENOENT` and message `npm run quality` exited with 254. A previous production deployment on `22cc0d3bee06141b9031c62143775e27ee024c8e` was READY. The public alias `mghalaosimi-web.vercel.app` currently serves older content (9 projects; 21 credential records with only 18 detailed records). Do not describe Vercel as current-release parity.
 
@@ -54,9 +54,9 @@ Complete a secure, bilingual, accessible and maintainable professional identity 
 - Static admin UI exists at `admin/index.html` with `assets/admin.js` and `assets/admin.css`.
 - Worker contains admin authentication, session handling, RBAC, content CRUD for projects/certificates/articles/skills/education/achievements/identity/technologies, media handling, follower/comment moderation and analytics endpoints.
 - Roles present in D1: `owner`, `editor`, `analyst`.
-- Admin account count is **0**. The live bootstrap status endpoint returns `available: true`, `ownerExists: false`.
+- Admin account count is **0**. The live production bootstrap status endpoint (Worker v15) returns `available: true`, `ownerExists: false`. The development Worker adds `rotationRequired` and `POST /api/admin/bootstrap/rotate`; those changes are not live yet.
 - A bootstrap hash exists in `site_settings`; the plaintext token is not available in this record. The current Worker settings response did not show an `OWNER_BOOTSTRAP_TOKEN` binding. Do not attempt bootstrap with guessed credentials.
-- A branch-only recovery route `POST /api/admin/bootstrap/rotate` now uses a high-entropy `OWNER_BOOTSTRAP_TOKEN` Worker secret, rejects weak/mismatched tokens, refuses rotation once any admin exists, and stores only the SHA-256 digest. Backend CI passed on the implementation commit. This code is **not deployed to the production Worker**; the secret is not configured. Production owner creation remains blocked pending explicit approval.
+- A branch-only recovery route `POST /api/admin/bootstrap/rotate` now uses a high-entropy `OWNER_BOOTSTRAP_TOKEN` Worker secret, rejects weak/mismatched tokens, refuses rotation once any admin exists, and stores only the SHA-256 digest. The admin UI includes a password-type rotation form and sends the token only in the Bearer header; after successful rotation it carries the token into the one-time owner form without persisting it. Backend CI and the full website quality suite passed. This code is **not deployed to the production Worker**; the secret is not configured. Production owner creation remains blocked pending explicit approval.
 
 ## 7. API status
 
@@ -126,9 +126,9 @@ Repository default branch is `main`, currently at `d7378bffeb55ca957829995fb4fee
 Current PR:
 - PR **#12**, “Expand M.GH.AL credentials, projects and research sections”.
 - State: OPEN, not merged; draft=false; mergeable=true at last read.
-- Last verified implementation head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `b1d19925ba2a414cc8b85a7e3f5ae335eb0a07f3`; a later documentation-only commit updates this state file.
+- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `ed3beed547d03949c1fef085e1b85f97003efb93`; this state-file refresh is a subsequent documentation-only commit.
 - Base: `feat/mghal-complete-platform-2026-11-01` at `bea6e75b452386c60e9bd5c434ce2189635de2ef`.
-- PR contains 99 changed files and 278 commits at the latest metadata read.
+- PR contains 99 changed files and 281 commits at the latest metadata read; GitHub reports mergeable=true and mergeable_state=unstable while checks are still running.
 - The platform base branch and `main` are **diverged**: platform branch is 323 commits ahead and 19 behind `main`. This is a verified compare result; do not merge or retarget without deliberate reconciliation.
 - The PR head is not the production branch and must not be promoted automatically.
 
@@ -136,10 +136,11 @@ Other relevant branches include `feat/mghal-visual-redesign-2026-11-03`, `feat/m
 
 ## 12. CI/CD and deployment evidence
 
-On PR head `81eada27...`:
-- GitHub Actions **M.GH.AL Backend CI** run `42098683461`: completed, conclusion SUCCESS on implementation commit `b1d19925...` (including the bootstrap rotation tests).
-- GitHub Actions **Website Quality** run `42098675537`: PENDING at last read on `b1d19925...`; prior Website Quality run `42098319326` completed SUCCESS on the documentation-only commit `393c199b...`.
-- Render `mghal-release-current`: deployment `dep-dbmdut2vcj2c739oej0g`, LIVE on implementation commit `b1d19925...`.
+On the latest verified code head `ed3beed...`:
+- GitHub Actions **M.GH.AL Backend CI** run `42098683461`: completed SUCCESS on backend implementation commit `b1d19925...`, including five bootstrap-rotation regression tests.
+- GitHub Actions **Website Quality** run `42099101015`: full website quality suite completed SUCCESS on `ed3beed...`; browser audit stage (Chromium, accessibility, keyboard, reflow, print and Lighthouse) was still in progress at last read. An earlier UI-test run failed; the over-escaped assertions were corrected in `ed3beed...` and the full suite then passed.
+- Render `mghal-release-current`: deployment `dep-dbme06ql7uoc73cubq10`, LIVE on `ed3beed...`.
+- Both Vercel preview status checks on `ed3beed...` returned SUCCESS; this does not change the older public production alias.
 - Cloudflare Worker `mghal-api`: version **15** remains the active 100% production deployment. Version ID `01abb3a3-1313-4782-a90d-59abcbf90d40`; deployment ID `f710e941-a8da-4129-b4d6-d09d1a248c49`; deployed 2026-11-05 19:28 UTC. It retains the D1 binding. The new bootstrap-rotation code exists only in the Git branch and has not been deployed to Cloudflare.
 - Version 14 ID: `509e6147-1e3a-4fa9-9bee-7fc3d7acf7e3`; superseded by version 15.
 - CI success does not equal full production acceptance. Manual assistive-technology, keyboard, 200%/400% reflow, real-device and print/PDF acceptance remain open.
@@ -148,8 +149,8 @@ On PR head `81eada27...`:
 
 **P0 — Owner bootstrap**
 - No admin owner exists. The existing bootstrap hash is present, but its plaintext token is unrecoverable.
-- A tested implementation is now on the development branch: configure a high-entropy `OWNER_BOOTSTRAP_TOKEN` as a Cloudflare Worker secret, deploy the updated Worker, call `POST /api/admin/bootstrap/rotate` with that value as a Bearer token, then perform the one-time owner bootstrap and remove the secret binding.
-- No secret has been configured and no production Worker/D1 change has been made. Configuration, deployment and rotation require explicit approval.
+- The development branch and Render admin UI now contain the tested end-to-end recovery flow. Configure a high-entropy `OWNER_BOOTSTRAP_TOKEN` as a Cloudflare Worker secret, deploy the updated Worker, use the admin recovery form to call `POST /api/admin/bootstrap/rotate`, then complete one-time owner bootstrap and remove the secret binding.
+- No secret has been configured and no production Worker/D1 change has been made. Configuration, Worker deployment and rotation require explicit approval. Render static auto-deployment from the development branch does not update the Worker or D1.
 
 **P1 — Vercel/Render divergence**
 - Current Render release is live on PR head; Vercel's latest production deployment failed on `main` and its public alias serves older content.
@@ -176,9 +177,9 @@ On PR head `81eada27...`:
 ## 15. Completed work (evidence-backed)
 
 - Current PR head and implementation commit identified and confirmed.
-- Backend CI passed on the implementation commit, including the new rotation tests.
-- Render current release is LIVE on the implementation commit.
-- Production Worker remains version 15; the new rotation route is not deployed.
+- Backend CI passed on the bootstrap-rotation implementation; full website quality suite passed on the latest UI commit.
+- Render current release is LIVE with the admin recovery form.
+- Production Worker remains version 15; the new rotation route is not deployed and no production secret is configured.
 - Worker version 15 is deployed at 100% with the D1 binding.
 - D1 migrations 0001–0005 are recorded as applied.
 - D1 inventory and foreign-key check read successfully; no FK violations.
@@ -188,27 +189,27 @@ On PR head `81eada27...`:
 ## 16. Remaining work (ordered)
 
 1. Obtain explicit approval to configure `OWNER_BOOTSTRAP_TOKEN` as a Cloudflare Worker secret and deploy the reviewed Worker change; do not ask the user to paste the secret into chat.
-2. Rotate the stored bootstrap hash through the new route, perform the one-time owner bootstrap under user control, and remove the secret binding.
-3. Diagnose Vercel production build error and reconcile Vercel source/branch with the intended release without touching `main` until approved.
+2. Use the admin recovery form to rotate the stored bootstrap hash, perform the one-time owner bootstrap under user control, and remove the secret binding.
 3. Verify authenticated admin login, session lifecycle, RBAC and content CRUD in a controlled test.
-4. Populate technology and media records from authentic source files; reconcile certificate mappings.
-5. Complete manual accessibility, device, reflow and print acceptance.
-6. Finalize cross-platform release parity and public SEO/indexing checks.
+4. Diagnose Vercel production build error and reconcile Vercel source/branch with the intended release without touching `main` until approved.
+5. Populate technology and media records from authentic source files; reconcile certificate mappings.
+6. Complete manual accessibility, device, reflow and print acceptance.
+7. Finalize cross-platform release parity and public SEO/indexing checks.
 
 ## 17. Last verified checkpoint
 
 At the latest verification on 2026-11-05:
 - PR #12 remains open and unmerged; mergeability is true while GitHub reports checks as unstable/in progress.
-- Last verified implementation commit is `b1d19925ba2a414cc8b85a7e3f5ae335eb0a07f3`.
-- Render current release is LIVE on that implementation commit.
+- Last verified code commit is `ed3beed547d03949c1fef085e1b85f97003efb93`.
+- Render current release is LIVE on that code commit with the updated admin UI.
 - Worker version 15 is active.
-- Backend CI on the implementation commit is successful; Website Quality is pending at last read.
+- Backend CI is successful; the full Website Quality suite is successful on the latest code commit, while browser/Lighthouse audits remain in progress at last read.
 - D1 contains the inventory listed above; no admin owner exists.
 - Vercel production is not in parity and latest deployment failed.
 
 ## 18. Exact next task
 
-**P0: Activate the reviewed bootstrap-recovery path.** The development branch now contains the secret-gated rotation endpoint and regression tests; Backend CI passed. Production still runs Worker version 15 and has no `OWNER_BOOTSTRAP_TOKEN` secret. Obtain explicit approval before configuring the secret and deploying the Worker. Never request or store the secret in chat. After deployment, the user controls the one-time owner creation; remove the secret binding afterward and verify login/RBAC.
+**P0: Activate the reviewed end-to-end bootstrap-recovery flow.** The development branch and Render admin UI contain the secret-gated rotation flow; Backend CI and the full website quality suite passed. Production still runs Worker version 15 and has no `OWNER_BOOTSTRAP_TOKEN` secret. Obtain explicit approval before configuring the secret and deploying the Worker. Never request or store the secret in chat. After deployment, use the recovery form to rotate the hash, create the first owner once, remove the secret binding, then verify login/RBAC.
 
 ## 19. Context-management policy
 
