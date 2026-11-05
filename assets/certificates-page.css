@@ -41,3 +41,35 @@
 :root{--cert-gold:#806333}
 .cert-type,.cert-kicker{color:#806333!important}
 .cert-action{min-height:32px;padding:8px 11px;}
+
+
+/* WCAG 2.2 AA: certificate actions remain fully visible and meet touch-target size. */
+.cert-card .cert-actions {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  isolation: isolate;
+}
+.cert-card .cert-actions .cert-action {
+  position: relative;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 44px;
+  min-height: 44px;
+  line-height: 1.4;
+  padding: 10px 13px;
+  flex: 0 0 auto;
+  pointer-events: auto;
+}
+.cert-card .cert-info {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+}
