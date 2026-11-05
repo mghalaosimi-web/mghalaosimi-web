@@ -30,6 +30,38 @@ function fakeDb(bootstrapHash = "") {
   };
 }
 
+
+function engagementDb() {
+  return {
+    prepare(sql: string) {
+      return {
+        bind(...params: unknown[]) {
+          return {
+            async run() { return { success: true, meta: { changes: 1 } }; },
+            async first() {
+              if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
+              if (sql.includes("SELECT COUNT(*) count FROM followers")) return { count: 3 };
+              if (sql.includes("SELECT id,status,display_name,consent_at FROM followers")) return { id: "follower-1", status: "active", display_name: "Tester", consent_at: "2026-11-05T00:00:00.000Z" };
+              if (sql.includes("SELECT id,status,display_name FROM followers")) return null;
+              if (sql.includes("SELECT id,status FROM followers")) return { id: "follower-1", status: "unverified" };
+              if (sql.includes("UPDATE followers SET display_name")) return { id: "follower-1", status: "active", display_name: "Tester", consent_at: "2026-11-05T00:00:00.000Z" };
+              if (sql.includes("SELECT id FROM followers")) return { id: "follower-1" };
+              if (sql.includes("SELECT id FROM projects") || sql.includes("SELECT id FROM articles")) return { id: params[0] };
+              if (sql.includes("DELETE FROM reactions")) return { id: "reaction-1" };
+              return null;
+            },
+            async all() {
+              if (sql.includes("SELECT reaction,COUNT(*) count FROM reactions")) return { results: [{ reaction: "like", count: 2 }, { reaction: "clap", count: 1 }] };
+              if (sql.includes("SELECT c.id,c.body,c.created_at")) return { results: [] };
+              return { results: [] };
+            },
+          };
+        },
+      };
+    },
+  };
+}
+
 describe("production Worker security contract", () => {
   it("allows the official Vercel origin on preflight", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/dashboard", { method: "OPTIONS", headers: { Origin: "https://mghalaosimi-web.vercel.app" } }), {} as never);
@@ -63,5 +95,39 @@ describe("production Worker security contract", () => {
     }), { DB: fakeDb(await digest(token)) } as never);
     expect(response.status).toBe(201);
     expect(await response.json()).toMatchObject({ success: true });
+  });
+
+  it("creates anonymous visitor sessions as unverified, not followers", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/visitors", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ path: "/projects/waynah/" }),
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(201);
+    expect(await response.json()).toMatchObject({ status: "unverified" });
+  });
+
+  it("requires explicit consent before following", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/followers", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64), displayName: "Tester", consent: false }),
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(400);
+  });
+
+  it("returns only the public follower count", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/followers/count"), { DB: engagementDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ count: 3 });
+  });
+
+  it("returns aggregate reactions for a published project", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/reactions?targetType=project&targetId=project-1"), { DB: engagementDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ counts: { like: 2, clap: 1 } });
+  });
+
+  it("serves only approved comments for published articles", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/comments?articleId=article-1"), { DB: engagementDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ data: [] });
   });
 });
