@@ -12,8 +12,13 @@ const mediaMigration=readFileSync('mghal-backend/migrations/0004_d1_media_storag
 const technologyMigration=readFileSync('mghal-backend/migrations/0005_technology_visibility.sql','utf8');
 const databaseContent=readFileSync('assets/database-content.js','utf8');
 for(const view of ['dashboard','identity','projects','certificates','articles','technologies','skills','education','achievements','followers','comments','analytics','media','users'])assert.ok(html.includes(`data-view="${view}"`),`missing admin view ${view}`);
-for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap','/api/admin/auth/login','/api/admin/dashboard','/api/admin/analytics','/api/admin/followers','/api/admin/comments','/api/admin/media','/api/admin/users'])assert.ok(worker.includes(route),`missing API route ${route}`);
+for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap/rotate','/api/admin/bootstrap','/api/admin/auth/login','/api/admin/dashboard','/api/admin/analytics','/api/admin/followers','/api/admin/comments','/api/admin/media','/api/admin/users'])assert.ok(worker.includes(route),`missing API route ${route}`);
 assert.match(html,/name="robots" content="noindex,nofollow,noarchive"/);
+assert.ok(html.includes('id="bootstrap-rotate-form"'),'admin UI must expose the one-time token rotation form');
+assert.match(js,/s\\.rotationRequired/,'admin UI must react to bootstrap rotation readiness');
+assert.match(js,/api\\('/api/admin/bootstrap/rotate'/,'admin UI must call the protected bootstrap rotation route');
+assert.match(js,/headers\\.has\\('Authorization'\\)/,'explicit bootstrap Bearer credentials must not be overwritten by an admin session token');
+assert.match(worker,/OWNER_BOOTSTRAP_TOKEN/,'Worker bootstrap recovery must require its secret binding');
 assert.match(html,/name="password" type="password" required minlength="12"/,'bootstrap UI must accept 12-character owner passwords');
 assert.match(worker,/b\.password\.length<12/,'bootstrap API must use the same 12-character minimum');
 assert.doesNotMatch(worker,/b\.password\.length<14/,'bootstrap API must not reject passwords accepted by the UI');
