@@ -116,3 +116,29 @@ The theme token was `#5B6678`, but `scripts/audit-design.mjs` still expected `#6
 
 ---
 **Report status:** saved as a repository operations record. This report intentionally identifies the unresolved gates rather than marking the platform complete prematurely.
+
+## 9. Public engagement implementation — 2026-11-05
+
+### Delivered in the current development branch
+- A bilingual, browser-linked follow panel is injected on public pages. Following requires a display name and explicit consent; the visitor can later unfollow from the same browser.
+- No email address is collected, no mailing list is created, and no email/push notifications are sent. Clearing browser site data removes the local ability to manage that browser-linked follow.
+- Public follower count is derived only from active records with explicit consent. Admin follower results exclude anonymous browser sessions and show only consented records.
+- Anonymous visitors are stored as `unverified` browser sessions, not counted as followers. They may still react or comment without being forced to follow.
+- Projects support Like and Applaud reactions with aggregate counts, duplicate prevention, removal, and share actions on project cards and detail pages.
+- Articles support Like counts, share actions, comment submission, and display of approved comments only. New comments enter `pending` moderation.
+- Analytics accepts page views, project/article views, shares, follows, unfollows, reactions and comment-submission events.
+- Existing admin UI includes follower management, comment moderation and analytics. These controls require a provisioned owner account before they can be operated.
+
+### Production changes and verification
+- No D1 schema migration was required; existing `followers`, `comments`, `reactions` and `analytics_events` tables were reused.
+- Fifteen pre-existing browser-session rows had been incorrectly marked active by the old visitor tracking behavior. They were reclassified as `unverified` (no records deleted). A read-only check then showed 15 unverified browser sessions and zero consented followers.
+- Cloudflare Worker `mghal-api` was uploaded with the new public endpoints and is routed at 100% to version `cacd90ee-e8f9-49b3-b7e6-d2428b011b4a` (deployment `460720c9-da4a-436d-bedb-f1aa2280cc4f`).
+- Render service `mghal-release-current` reported deployment `dep-dblt19bncjis738007h0` LIVE for commit `09d8c1e341791c0a1442e039781a69ec48a65d95`.
+- Build-time JavaScript syntax checks and public-content engagement assertions were added. Backend Worker tests now cover anonymous sessions, explicit consent, follower counts, follow/unfollow, reactions and comment moderation.
+- The tool environment could not independently fetch the public Render/Worker HTTP endpoints; deployment status is confirmed from Render/Cloudflare deployment records, not from a live browser transaction. Do not claim an end-to-end real visitor transaction has been observed yet.
+
+### Remaining engagement limitations
+1. Owner bootstrap is still unprovisioned; the admin moderation screens exist, but an owner must be created securely before pending comments can be reviewed.
+2. Notifications/email delivery are not implemented. Current follow is a consented public follower-list membership linked to one browser, not a mailing subscription.
+3. A real browser acceptance pass is still required: follow, refresh, unfollow, like/unlike, share, submit comment, approve it in admin, and verify it appears publicly.
+4. Confirm the current Backend CI and Website Quality workflow results before marking the latest PR head fully green.
