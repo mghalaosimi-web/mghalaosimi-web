@@ -9,6 +9,8 @@ assert.match(adapter, /safeExternalUrl\(project\.repository_url\)/, 'published r
 assert.match(adapter, /safeExternalUrl\(staticRecord\?\.repository\)/, 'fallback repository links must be URL-validated');
 assert.match(adapter, /safeExternalUrl/, 'project links from the API must reject unsafe URL schemes');
 assert.match(adapter, /project\.cover_media_id/, 'project cards must support published media references');
+assert.match(adapter, /const makeProjectCard/, 'newly published projects must be rendered even without a prebuilt static card');
+assert.match(adapter, /if \(!card\)/, 'API-only project records must create a public card');
 assert.match(adapter, /publishedSlugs\.has\(slug\)/, 'a successful API response must hide records absent from the published set');
 assert.match(adapter, /syncProjects\(\)\.catch\(/, 'API failures must retain static project cards');
 assert.doesNotMatch(adapter, /innerHTML|insertAdjacentHTML/, 'API content must not be injected as HTML');
