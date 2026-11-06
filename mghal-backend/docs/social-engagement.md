@@ -5,7 +5,7 @@
 - The first page visit creates or reuses a random 256-bit visitor token stored in the browser's local storage.
 - The API stores only a SHA-256-derived visitor key, not the raw token.
 - A new visitor is represented as an anonymous guest follow (status active, display_name NULL, consent_at NULL).
-- Anonymous guest follows are private: they are not included in the public named-follower count and are not returned by the admin named-followers list.
+- Anonymous guest follows are private: they are not included in the public named-follower count. The admin followers endpoint may show them as “زائر مجهول” with an is_guest flag, without exposing an email or public display name.
 - The follow panel explains that the visitor is anonymous, that the site cannot read the visitor's email account, and that no email notifications are sent.
 - A visitor can stop following from the panel. A visitor can optionally publish a display name only by entering it and checking the explicit consent box.
 - Explicitly named followers have consent_at set and are counted separately from anonymous guest follows.
