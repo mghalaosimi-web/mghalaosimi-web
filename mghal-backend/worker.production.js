@@ -89,11 +89,11 @@ export default {
   const can=async code=>!!(await q("SELECT 1 FROM admin_user_roles ur JOIN role_permissions rp ON rp.role_id=ur.role_id JOIN permissions p ON p.id=rp.permission_id WHERE ur.user_id=? AND p.code=? LIMIT 1",current?.id||"",code).first());
   if(path==="/api/admin/auth/logout"&&method==="POST"){const t=(request.headers.get("Authorization")||"").slice(7);await q("UPDATE admin_sessions SET revoked_at=? WHERE user_id=? AND token_hash=? AND revoked_at IS NULL",new Date().toISOString(),current.id,await hash(t)).run();return out({success:true});}
   if(path==="/api/public/auth/google/config"&&method==="GET"){
-   const enabled=!!(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET&&env.GOOGLE_REDIRECT_URI&&env.PUBLIC_SITE_URL);
+   const enabled=env.GOOGLE_AUTH_ENABLED==="true"&&!!(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET&&env.GOOGLE_REDIRECT_URI&&env.PUBLIC_SITE_URL);
    return out({enabled,provider:"google"});
   }
   if(path==="/api/public/auth/google/start"&&method==="POST"){
-   if(!env.GOOGLE_CLIENT_ID||!env.GOOGLE_CLIENT_SECRET||!env.GOOGLE_REDIRECT_URI||!env.PUBLIC_SITE_URL)return fail(503,"GOOGLE_AUTH_NOT_CONFIGURED","Google sign-in is not configured yet");
+   if(env.GOOGLE_AUTH_ENABLED!=="true"||!env.GOOGLE_CLIENT_ID||!env.GOOGLE_CLIENT_SECRET||!env.GOOGLE_REDIRECT_URI||!env.PUBLIC_SITE_URL)return fail(503,"GOOGLE_AUTH_NOT_CONFIGURED","Google sign-in is not enabled or configured yet");
    const b=await json();
    if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32||b.visitorToken.length>128)return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
    const site=new URL(env.PUBLIC_SITE_URL);
@@ -108,6 +108,7 @@ export default {
    return out({authorizationUrl:authUrl.toString()});
   }
   if(path==="/api/public/auth/google/callback"&&method==="GET"){
+   if(env.GOOGLE_AUTH_ENABLED!=="true"||!env.GOOGLE_CLIENT_ID||!env.GOOGLE_CLIENT_SECRET||!env.GOOGLE_REDIRECT_URI||!env.PUBLIC_SITE_URL)return identityRedirect(env.PUBLIC_SITE_URL||"https://mghalaosimi-web.vercel.app","/","failed");
    const siteUrl=env.PUBLIC_SITE_URL||"https://mghalaosimi-web.vercel.app",state=url.searchParams.get("state")||"";
    if(!state||state.length>200)return identityRedirect(siteUrl,"/","failed");
    const now=new Date().toISOString(),tx=await q("DELETE FROM oauth_transactions WHERE state_hash=? AND expires_at>? RETURNING visitor_hash,code_verifier,return_path",await hash(state),now).first();
