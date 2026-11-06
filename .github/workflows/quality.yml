@@ -4,17 +4,26 @@ on:
   push:
     branches:
       - fix/site-quality-audit-2026-10-31
+      - feat/mghal-visual-redesign-completion-2026-11-04
+      - feat/mghal-credentials-projects-expansion-2026-11-05
   pull_request:
     branches:
       - main
+      - feat/mghal-complete-platform-2026-11-01
+  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: website-quality-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  typecheck:
-    name: TypeScript validation
+  quality:
+    name: Full website quality suite
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -23,18 +32,35 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: "24"
-          package-manager-cache: false
+          cache: npm
 
-      - name: Install pinned development dependencies
-        run: npm install --ignore-scripts --no-package-lock
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
 
-      - name: Run type checks and compile browser scripts
+      - name: Install exact locked dependencies
+        run: npm ci --include=dev --ignore-scripts
+
+      - name: Run full quality suite
         run: npm run quality
 
-      - name: Upload compiled browser scripts
+      - name: Install real-browser audit dependencies
+        run: npm install --no-save --package-lock=false playwright axe-core lighthouse
+
+      - name: Install Chromium for browser audits
+        run: npx playwright install --with-deps chromium
+
+      - name: Run accessibility, keyboard, reflow, print and Lighthouse audits
+        run: node scripts/audit-browser.mjs
+
+      - name: Upload compiled scripts and browser audit reports
+        if: success()
         uses: actions/upload-artifact@v7
         with:
-          name: compiled-browser-scripts
-          path: dist/scripts/
+          name: website-quality-artifacts
+          path: |
+            dist/scripts/
+            artifacts/
           if-no-files-found: error
           retention-days: 7

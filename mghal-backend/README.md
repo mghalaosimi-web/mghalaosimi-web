@@ -35,7 +35,7 @@ Visitor tokens are opaque random values held by the browser; only SHA-256 hashes
 
 All admin routes require a valid Bearer session. Password hashes use PBKDF2-SHA256. Permissions are checked through the D1 role/permission tables.
 
-- `GET /api/admin/bootstrap/status` and `POST /api/admin/bootstrap` (one-time owner creation while no admin exists)
+- `GET /api/admin/bootstrap/status`, `POST /api/admin/bootstrap/rotate` and `POST /api/admin/bootstrap` (one-time owner creation while no admin exists; rotation requires the `OWNER_BOOTSTRAP_TOKEN` Worker secret)
 - `POST /api/admin/auth/login`
 - `POST /api/admin/auth/logout`
 - `GET /api/admin/dashboard`
@@ -48,7 +48,7 @@ All admin routes require a valid Bearer session. Password hashes use PBKDF2-SHA2
 - `GET|POST|PATCH /api/admin/users` (owner-only user administration)
 - `PATCH /api/admin/followers/:id` (owner/editor follower moderation)
 
-No default owner account or password is created. The one-time bootstrap route requires a SHA-256 token stored in `site_settings.owner_bootstrap_hash`, accepts only the first account while `admin_users` is empty, hashes the password with PBKDF2-SHA256, assigns the owner role and consumes the token. Do not expose the token in source code.
+No default owner account or password is created. The one-time bootstrap route requires a SHA-256 token stored in `site_settings.owner_bootstrap_hash`, accepts only the first account while `admin_users` is empty, hashes the password with PBKDF2-SHA256, assigns the owner role and consumes the token. The recovery route `POST /api/admin/bootstrap/rotate` is gated by the high-entropy `OWNER_BOOTSTRAP_TOKEN` Worker secret, refuses rotation after any admin exists, and stores only the SHA-256 digest. Configure the secret outside source control, call rotation with its Bearer value, bootstrap the owner, then remove the secret binding. Do not expose the token in source code.
 
 ## Imported content
 

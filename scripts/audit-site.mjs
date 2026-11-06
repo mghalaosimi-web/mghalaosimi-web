@@ -92,7 +92,7 @@ for (const file of pages) {
 
   if (/certificates\.html$/i.test(relative)) {
     const count = (html.match(/class=["'][^"']*\bcredential-card\b[^"']*["']/gi) ?? []).length;
-    if (count !== 18) fail(file, `expected 18 credential cards, found ${count}`);
+    if (count !== 21) fail(file, `expected 21 credential cards, found ${count}`);
   }
 }
 

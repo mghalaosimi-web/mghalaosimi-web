@@ -57,3 +57,15 @@ for (const route of expectedRoutes) assert.ok(sitemap.includes("<loc>" + route +
 const sitemapRoutes = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
 assert.equal(new Set(sitemapRoutes).size, sitemapRoutes.length, "Sitemap URLs must be unique.");
 console.log("Project portfolio tests passed: " + catalog.projects.length + " records, " + expectedRoutes.length + " bilingual routes, covers, gallery metadata, private-source guard, SEO, JSON-LD, accessibility and sitemap.");
+for (const project of catalog.projects) {
+  for (const language of ["ar", "en"]) {
+    const file = path.join(root, language === "en" ? "en" : "", "projects", project.slug, "index.html");
+    const html = readFileSync(file, "utf8");
+    assert.ok(html.includes("class='navlinks'"), "Project details must use the shared primary navigation: " + file);
+    assert.ok(html.includes('nav-resume'), "Project details must expose the résumé action: " + file);
+    assert.ok(html.includes("src='/assets/site.js'"), "Project details must load shared navigation and search: " + file);
+  }
+}
+
+const projectDetailCss = readFileSync(new URL("../assets/project-detail.css", import.meta.url), "utf8");
+assert.match(projectDetailCss, /\.evidence-list li[^}]*overflow-wrap:anywhere/, "Long evidence paths and unbroken tokens must wrap on narrow screens.");
