@@ -405,3 +405,8 @@ This integration batch is independent of the owner bootstrap, but its production
 - Commits: script `f5414f1de167aefa0ac1427d621ec5d57aeb18cf`; Arabic page `bf1b886c0e5e8703b20b3b381e2d58dfb68b6d23`; English page `11082081a2677f679a719daae85b8a17cfe96e23`; regression test `be78081735b3941af00b20141fc71c71b29338f2`; package test integration `000aa33776b22c0b5feef16c73c68cb13d314455`.
 - GitHub Actions runs triggered by the latest package commit: Website Quality run `42140037779` (pending at this checkpoint) and Backend CI run `42140037813` (in progress). No test result is claimed until these runs complete.
 - No changes were made to `main`, PR targets, Cloudflare Worker, D1, production secrets or owner records in this task. The certificate UI change is branch-only; production visibility is not claimed.
+
+
+### CI follow-up
+- Backend CI run `42140037813` completed SUCCESS; dependency installation and `npm run check` passed.
+- Website Quality run `42140037779` was cancelled by workflow scheduling before jobs ran. Its cancelled quality job (`127637965266`) was successfully re-requested through GitHub Actions; the rerun has not yet returned a completed result. Do not treat the website quality suite as passed until the rerun completes.
