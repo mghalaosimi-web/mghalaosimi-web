@@ -1,25 +1,144 @@
 (()=>{'use strict';
-const API='https://mghal-api.m-gh-alaosimi.workers.dev',VISITOR_KEY='mghal_visitor_v1',LIKE_KEY='mghal_reactions_v1',en=document.documentElement.lang.toLowerCase().startsWith('en'),$=(s,r=document)=>r.querySelector(s);
-const words=en?{followTitle:'Follow M.GH.AL',followCopy:'Add your name to the followers list. Notifications are not sent yet.',name:'Display name',consent:'I agree to appear in the M.GH.AL followers list.',follow:'Follow',unfollow:'Unfollow',following:'You are following M.GH.AL.',notFollowing:'You are not following yet.',privacy:'No email is collected and no notifications are sent yet. Your follow is linked to this browser; clearing site data removes local access.',like:'Like',clap:'Applaud',share:'Share',shared:'Link copied / ready to share',error:'Could not complete the action. Please try again.',liked:'You liked this.',unliked:'Like removed.',comments:'Comments',noComments:'No approved comments yet.'}:{followTitle:'تابع M.GH.AL',followCopy:'أضف اسمك إلى قائمة متابعي الموقع لإظهار دعمك ومتابعتك.',name:'الاسم الذي سيظهر',consent:'أوافق على ظهور اسمي ضمن قائمة متابعي M.GH.AL.',follow:'متابعة',unfollow:'إلغاء المتابعة',following:'أنت تتابع M.GH.AL حالياً.',notFollowing:'لم تسجل المتابعة بعد.',privacy:'لا نجمع بريدك ولا نرسل إشعارات حالياً. ترتبط المتابعة بهذا المتصفح؛ ومسح بيانات الموقع يزيل إمكانية إدارتها محلياً.',like:'إعجاب',clap:'أُعجبني جداً',share:'مشاركة',shared:'الرابط جاهز للمشاركة',error:'تعذر تنفيذ العملية. حاول مرة أخرى.',liked:'تم تسجيل إعجابك.',unliked:'تم إلغاء الإعجاب.',comments:'التعليقات',noComments:'لا توجد تعليقات منشورة بعد.'};
-let visitorToken=null,projectIndexPromise=null;try{visitorToken=localStorage.getItem(VISITOR_KEY)}catch{}
-async function visitor(){if(visitorToken)return visitorToken;let saved=null;try{saved=localStorage.getItem(VISITOR_KEY)}catch{}if(saved&&saved.length>=32){visitorToken=saved;return saved}const r=await fetch(API+'/api/public/visitors',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:location.pathname})});const d=await r.json();if(!r.ok||!d.visitorToken)throw Error('visitor session unavailable');visitorToken=d.visitorToken;try{localStorage.setItem(VISITOR_KEY,visitorToken)}catch{}return visitorToken}
-async function json(url,options){const r=await fetch(API+url,options);const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error?.message||d.message||('HTTP '+r.status));return d}
-async function track(eventType,targetType,targetId){if(navigator.doNotTrack==='1')return;try{const t=await visitor();await json('/api/public/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:t,eventType,path:location.pathname,targetType:targetType||undefined,targetId:targetId||undefined})})}catch{}}
-function likedSet(){try{return new Set(JSON.parse(localStorage.getItem(LIKE_KEY)||'[]'))}catch{return new Set()}}
-function setLiked(set){try{localStorage.setItem(LIKE_KEY,JSON.stringify([...set].slice(-300)))}catch{}}
-async function share(url,title){const data={title:title||'M.GH.AL',text:title||'M.GH.AL',url};if(navigator.share){try{await navigator.share(data);return true}catch(e){if(e.name==='AbortError')return false}}try{await navigator.clipboard.writeText(url);return true}catch{}const field=document.createElement('textarea');field.value=url;document.body.append(field);field.select();const copied=document.execCommand('copy');field.remove();return copied}
-function shareButton(url,title){const b=document.createElement('button');b.type='button';b.className='mghal-social-btn mghal-share';b.textContent=words.share;b.addEventListener('click',async()=>{const shared=await share(url,title);if(shared){await track('share');b.textContent=words.shared;setTimeout(()=>b.textContent=words.share,2200)}});return b}
-function reactionWidget(type,id,title){const box=document.createElement('div');box.className='mghal-reactions';box.dataset.targetType=type;box.dataset.targetId=id;const key=type+':'+id;const set=likedSet();const make=(reaction,label)=>{const b=document.createElement('button');b.type='button';b.className='mghal-social-btn';b.dataset.reaction=reaction;b.textContent=label+' · …';b.addEventListener('click',async()=>{b.disabled=true;try{const t=await visitor(),active=likedSet(),k=key+':'+reaction;if(active.has(k)){await json('/api/public/reactions',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:t,targetType:type,targetId:id,reaction})});active.delete(k);b.setAttribute('aria-pressed','false')}else{await json('/api/public/reactions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:t,targetType:type,targetId:id,reaction})});active.add(k);b.setAttribute('aria-pressed','true')}setLiked(active);feedback.textContent='';await track('reaction',type,id);await refresh();}catch(e){feedback.textContent=e.message||words.error}finally{b.disabled=false}});return b};
-const like=make('like',words.like),clap=make('clap',words.clap),feedback=document.createElement('span');feedback.className='mghal-reaction-feedback';feedback.setAttribute('role','status');box.append(like,clap,feedback);const refresh=async()=>{try{const d=await json('/api/public/reactions?targetType='+type+'&targetId='+encodeURIComponent(id));const current=likedSet();like.textContent=words.like+' · '+(d.counts?.like||0);clap.textContent=words.clap+' · '+(d.counts?.clap||0);like.setAttribute('aria-pressed',String(current.has(key+':like')));clap.setAttribute('aria-pressed',String(current.has(key+':clap')))}catch{like.textContent=words.like+' · 0';clap.textContent=words.clap+' · 0'}};refresh();return box}
-function addFollowPanel(){const main=$('main');if(!main||$('#mghal-follow-panel'))return;const section=document.createElement('section');section.id='mghal-follow-panel';section.className='mghal-follow-panel';section.innerHTML='<div class="mghal-follow-copy"><p class="mghal-social-eyebrow">M.GH.AL COMMUNITY</p><h2>'+words.followTitle+'</h2><p>'+words.followCopy+'</p><small>'+words.privacy+'</small></div><form class="mghal-follow-form"><label>'+words.name+'<input name="displayName" minlength="2" maxlength="80" required autocomplete="nickname"></label><label class="mghal-consent"><input type="checkbox" name="consent" required><span>'+words.consent+'</span></label><button class="mghal-social-btn mghal-follow-submit" type="submit">'+words.follow+'</button><button class="mghal-social-btn mghal-unfollow" type="button" hidden>'+words.unfollow+'</button><p class="mghal-follow-status" role="status" aria-live="polite">'+words.notFollowing+'</p></form>';
-const form=$('.mghal-follow-form',section),submit=$('.mghal-follow-submit',section),unfollow=$('.mghal-unfollow',section),status=$('.mghal-follow-status',section),name=$('input[name="displayName"]',form),consent=$('input[name="consent"]',form);
-async function state(){try{let t=visitorToken;try{t=t||localStorage.getItem(VISITOR_KEY)}catch{}if(!t){status.textContent=words.notFollowing;return}const d=await json('/api/public/followers/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:t})});if(d.following){form.classList.add('is-following');name.value=d.displayName||'';name.disabled=true;consent.checked=true;consent.disabled=true;submit.hidden=true;unfollow.hidden=false;status.textContent=words.following}else{form.classList.remove('is-following');name.disabled=false;consent.disabled=false;submit.hidden=false;unfollow.hidden=true;status.textContent=words.notFollowing}}catch{status.textContent=words.error}}
-form.addEventListener('submit',async e=>{e.preventDefault();if(!form.reportValidity())return;submit.disabled=true;try{const t=await visitor();await json('/api/public/followers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:t,displayName:name.value,consent:consent.checked})});await track('follow');await state();await refreshCount()}catch(err){status.textContent=err.message||words.error}finally{submit.disabled=false}});
-unfollow.addEventListener('click',async()=>{unfollow.disabled=true;try{const t=await visitor();await json('/api/public/followers',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:t})});await track('unfollow');name.value='';consent.checked=false;await state();await refreshCount()}catch(err){status.textContent=err.message||words.error}finally{unfollow.disabled=false}});
-const count=document.createElement('p');count.className='mghal-follower-count';count.setAttribute('aria-live','polite');$('.mghal-follow-copy',section).append(count);async function refreshCount(){try{const d=await json('/api/public/followers/count');count.textContent=(en?'Followers: ':'المتابعون: ')+Number(d.count||0).toLocaleString(en?'en':'ar')}catch{count.textContent=''}}main.append(section);state();refreshCount();window.addEventListener('mghal:visitor-ready',state)}
-function getProjects(){if(!projectIndexPromise)projectIndexPromise=json('/api/public/projects?locale='+(en?'en':'ar')).then(d=>d.data||[]);return projectIndexPromise}
-function projectCards(){const cards=[...document.querySelectorAll('main .grid .card[data-project-slug],main .grid .card,main .home-project-card')];for(const card of cards){if(card.dataset.socialReady==='1')continue;const link=card.querySelector('a.project-detail-link,a[href*="/projects/"]');const path=link?new URL(link.href,location.origin).pathname:'';const slug=card.dataset.projectSlug||(path.match(/\/projects\/([^/]+)/)||[])[1];if(!slug)continue;card.dataset.socialReady='1';card.dataset.projectSlug=slug;const row=document.createElement('div');row.className='mghal-card-social';row.textContent=en?'Loading reactions…':'جارٍ تحميل التفاعلات…';card.append(row);getProjects().then(projects=>{const p=projects.find(x=>x.slug===slug);if(!p){row.remove();return}row.replaceChildren(reactionWidget('project',p.id,p.name||p.name_ar),shareButton(location.origin+(en?'/en':'')+'/projects/'+slug+'/',p.name||p.name_ar))}).catch(()=>{row.textContent=''})}}
-async function projectDetail(){const m=location.pathname.match(/^\/(?:en\/)?projects\/([^/]+)\/?$/);if(!m)return;const slug=m[1];try{const projects=await getProjects(),p=projects.find(x=>x.slug===slug);if(!p)return;const hero=$('.project-hero');if(!hero||$('#mghal-project-engagement'))return;const section=document.createElement('section');section.id='mghal-project-engagement';section.className='mghal-project-engagement';const h=document.createElement('h2');h.textContent=en?'Support this project':'تفاعل مع المشروع';const row=document.createElement('div');row.className='mghal-card-social';row.append(reactionWidget('project',p.id,p.name||p.name_ar),shareButton(location.href,p.name||p.name_ar));section.append(h,row);hero.after(section)}catch{}}
+if(window.__mghalSocialEngagement)return;window.__mghalSocialEngagement=true;
+const API='https://mghal-api.m-gh-alaosimi.workers.dev',VISITOR_KEY='mghal_visitor_v1';
+const en=document.documentElement.lang.toLowerCase().startsWith('en'),$=(s,r=document)=>r.querySelector(s);
+const words=en?{
+ followTitle:'Follow M.GH.AL',followCopy:'You are automatically following as an anonymous guest on this browser.',
+ guest:'You are following as an anonymous guest. Your name and email are not published, and no email notifications are sent.',
+ name:'Public display name',consent:'I agree to publish this display name in the M.GH.AL followers list.',
+ follow:'Become a public follower',following:'You are following M.GH.AL.',notFollowing:'You are not following yet.',
+ unfollow:'Stop following',privacy:'Guest following uses a random browser token. The site cannot read your email account automatically. Add a public name only with your consent.',
+ count:'Public followers',guests:'Anonymous guest follows',like:'Like',clap:'Applaud',share:'Share',shared:'Link copied / ready to share',
+ error:'Could not complete the action. Please try again.',liked:'Reaction updated.',comments:'Comments',noComments:'No approved comments yet.'
+}:{followTitle:'تابع M.GH.AL',followCopy:'أصبحت تتابع الموقع تلقائياً كزائر مجهول على هذا المتصفح.',
+ guest:'أنت تتابع الآن كضيف مجهول. لا ننشر اسمك أو بريدك الإلكتروني، ولا نرسل إليك رسائل بريدية.',
+ name:'الاسم الذي سيظهر علناً',consent:'أوافق على نشر هذا الاسم ضمن قائمة متابعي M.GH.AL.',
+ follow:'حوّل المتابعة إلى متابعة باسمك',following:'أنت تتابع M.GH.AL حالياً.',notFollowing:'أنت لا تتابع الموقع حالياً.',
+ unfollow:'إيقاف المتابعة',privacy:'تُحفظ متابعة الضيف بمعرّف عشوائي لهذا المتصفح. لا يستطيع الموقع قراءة بريدك تلقائياً. لن يظهر اسم علني إلا بموافقتك.',
+ count:'المتابعون بأسماء معلنة',guests:'متابعات الضيوف المجهولة',like:'إعجاب',clap:'أعجبني جداً',share:'مشاركة',shared:'تم نسخ الرابط أو تجهيزه للمشاركة',
+ error:'تعذر تنفيذ العملية. حاول مرة أخرى.',liked:'تم تحديث التفاعل.',comments:'التعليقات',noComments:'لا توجد تعليقات منشورة بعد.'
+};
+let visitorPromise=window.__mghalVisitorPromise||null;
+function storedToken(){try{return localStorage.getItem(VISITOR_KEY)}catch{return null}}
+async function visitor(){
+ if(visitorPromise)return visitorPromise;
+ visitorPromise=(async()=>{
+  if(navigator.doNotTrack==='1')throw new Error(en?'Visitor tracking is disabled by your browser setting.':'إعداد عدم التتبع في متصفحك يمنع إنشاء متابعة الضيف.');
+  let current=storedToken();
+  if(!current||current.length<32)current=null;
+  const response=await fetch(API+'/api/public/visitors',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:current,path:location.pathname})});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok||!data.visitorToken)throw new Error(data.error?.message||'Visitor session unavailable');
+  try{localStorage.setItem(VISITOR_KEY,data.visitorToken)}catch{}
+  window.dispatchEvent(new CustomEvent('mghal:visitor-ready',{detail:data}));
+  return data.visitorToken;
+ })();
+ window.__mghalVisitorPromise=visitorPromise;
+ try{return await visitorPromise}catch(error){visitorPromise=null;window.__mghalVisitorPromise=null;throw error}
+}
+async function json(path,options){const response=await fetch(API+path,options);const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error?.message||data.message||('HTTP '+response.status));return data}
+async function track(eventType,targetType,targetId){
+ if(navigator.doNotTrack==='1')return;
+ try{const token=await visitor();await json('/api/public/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token,eventType,path:location.pathname,targetType:targetType||undefined,targetId:targetId||undefined})})}catch{}
+}
+async function share(url,title){
+ const data={title:title||'M.GH.AL',text:title||'M.GH.AL',url};
+ if(navigator.share){try{await navigator.share(data);return true}catch(error){if(error.name==='AbortError')return false}}
+ try{await navigator.clipboard.writeText(url);return true}catch{}
+ const field=document.createElement('textarea');field.value=url;document.body.append(field);field.select();const copied=document.execCommand('copy');field.remove();return copied;
+}
+function shareButton(url,title){
+ const button=document.createElement('button');button.type='button';button.className='mghal-social-btn mghal-share';button.textContent=words.share;
+ button.addEventListener('click',async()=>{const result=await share(url,title);if(result){await track('share');button.textContent=words.shared;window.setTimeout(()=>button.textContent=words.share,2200)}});
+ return button;
+}
+function reactionWidget(type,id){
+ const box=document.createElement('div');box.className='mghal-reactions';box.dataset.targetType=type;box.dataset.targetId=id;
+ const feedback=document.createElement('span');feedback.className='mghal-reaction-feedback';feedback.setAttribute('role','status');
+ let state={like:false,clap:false};
+ const buttons={};
+ const make=(reaction,label)=>{
+  const button=document.createElement('button');button.type='button';button.className='mghal-social-btn';button.dataset.reaction=reaction;button.textContent=label+' · …';
+  button.addEventListener('click',async()=>{
+   button.disabled=true;
+   try{
+    const token=await visitor(),active=!!state[reaction],method=active?'DELETE':'POST';
+    await json('/api/public/reactions',{method,headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token,targetType:type,targetId:id,reaction})});
+    await refresh();feedback.textContent=words.liked;await track('reaction',type,id);
+   }catch(error){feedback.textContent=error.message||words.error}
+   finally{button.disabled=false}
+  });
+  buttons[reaction]=button;return button;
+ };
+ const like=make('like',words.like),clap=make('clap',words.clap);box.append(like,clap,feedback);
+ async function refresh(){
+  try{
+   let token=null;try{token=await visitor()}catch{}
+   const query=new URLSearchParams({targetType:type,targetId:id});if(token)query.set('visitorToken',token);
+   const data=await json('/api/public/reactions?'+query.toString());
+   state=data.viewerReactions||{like:!!data.reacted,clap:false};
+   like.textContent=words.like+' · '+Number(data.counts?.like||0).toLocaleString(en?'en':'ar');
+   clap.textContent=words.clap+' · '+Number(data.counts?.clap||0).toLocaleString(en?'en':'ar');
+   like.setAttribute('aria-pressed',String(!!state.like));clap.setAttribute('aria-pressed',String(!!state.clap));
+  }catch{like.textContent=words.like+' · 0';clap.textContent=words.clap+' · 0'}
+ }
+ refresh();return box;
+}
+function addFollowPanel(){
+ const main=$('main');if(!main||$('#mghal-follow-panel'))return;
+ const section=document.createElement('section');section.id='mghal-follow-panel';section.className='mghal-follow-panel';
+ section.innerHTML='<div class="mghal-follow-copy"><p class="mghal-social-eyebrow">M.GH.AL COMMUNITY</p><h2></h2><p class="mghal-follow-intro"></p><p class="mghal-guest-notice" role="status"></p><small class="mghal-follow-privacy"></small><div class="mghal-follower-counts" aria-live="polite"></div></div><form class="mghal-follow-form"><label class="mghal-name-label"></label><label class="mghal-consent"><input type="checkbox" name="consent"><span></span></label><button class="mghal-social-btn mghal-follow-submit" type="submit"></button><button class="mghal-social-btn mghal-unfollow" type="button" hidden></button><p class="mghal-follow-status" role="status" aria-live="polite"></p></form>';
+ $('h2',section).textContent=words.followTitle;$('.mghal-follow-intro',section).textContent=words.followCopy;$('.mghal-guest-notice',section).textContent=words.guest;$('.mghal-follow-privacy',section).textContent=words.privacy;
+ const form=$('.mghal-follow-form',section),submit=$('.mghal-follow-submit',section),unfollow=$('.mghal-unfollow',section),status=$('.mghal-follow-status',section),nameLabel=$('.mghal-name-label',section),name=document.createElement('input'),consent=$('input[name="consent"]',form);
+ name.name='displayName';name.minLength=2;name.maxLength=80;name.autocomplete='nickname';name.placeholder=en?'Your name':'اكتب الاسم الذي تريد إظهاره';name.required=true;nameLabel.append(document.createTextNode(words.name),name);
+ $('.mghal-consent span',section).textContent=words.consent;submit.textContent=words.follow;unfollow.textContent=words.unfollow;
+ async function state(){
+  try{
+   const token=await visitor(),data=await json('/api/public/followers/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token})});
+   const following=!!data.following,publicFollowing=following&&!!data.displayName;
+   form.classList.toggle('is-following',following);form.classList.toggle('is-guest-following',following&&!publicFollowing);
+   if(publicFollowing){name.value=data.displayName;name.disabled=true;consent.checked=true;consent.disabled=true;submit.hidden=true;submit.textContent=words.follow;unfollow.hidden=false;$('.mghal-guest-notice',section).hidden=true;status.textContent=words.following}
+   else if(following){name.value='';name.disabled=false;consent.checked=false;consent.disabled=false;submit.hidden=false;submit.textContent=words.follow;unfollow.hidden=false;$('.mghal-guest-notice',section).hidden=false;status.textContent=words.guest}
+   else{name.disabled=false;consent.disabled=false;consent.checked=false;submit.hidden=false;submit.textContent=words.follow;unfollow.hidden=true;$('.mghal-guest-notice',section).hidden=true;status.textContent=words.notFollowing}
+  }catch(error){status.textContent=error.message||words.error;$('.mghal-guest-notice',section).hidden=true}
+ }
+ form.addEventListener('submit',async event=>{
+  event.preventDefault();if(!form.reportValidity())return;submit.disabled=true;
+  try{const token=await visitor();await json('/api/public/followers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token,displayName:name.value,consent:consent.checked})});await track('follow');await state();await refreshCount()}
+  catch(error){status.textContent=error.message||words.error}finally{submit.disabled=false}
+ });
+ unfollow.addEventListener('click',async()=>{
+  unfollow.disabled=true;try{const token=await visitor();await json('/api/public/followers',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token})});await track('unfollow');name.value='';consent.checked=false;await state();await refreshCount()}
+  catch(error){status.textContent=error.message||words.error}finally{unfollow.disabled=false}
+ });
+ async function refreshCount(){
+  try{const data=await json('/api/public/followers/count'),target=$('.mghal-follower-counts',section);target.replaceChildren();
+   const publicCount=document.createElement('span');publicCount.textContent=words.count+': '+Number(data.count||0).toLocaleString(en?'en':'ar');
+   const guestCount=document.createElement('span');guestCount.textContent=words.guests+': '+Number(data.guestCount||0).toLocaleString(en?'en':'ar');target.append(publicCount,guestCount);
+  }catch{}
+ }
+ main.append(section);state();refreshCount();
+ window.addEventListener('mghal:visitor-ready',state);
+}
+function getProjects(){if(!window.__mghalProjectIndex)window.__mghalProjectIndex=json('/api/public/projects?locale='+(en?'en':'ar')).then(data=>data.data||[]);return window.__mghalProjectIndex}
+function projectCards(){
+ const cards=[...document.querySelectorAll('main .grid .card[data-project-slug],main .grid .card,main .home-project-card')];
+ for(const card of cards){
+  if(card.dataset.socialReady==='1')continue;
+  const link=card.querySelector('a.project-detail-link,a[href*="/projects/"]'),path=link?new URL(link.href,location.origin).pathname:'';
+  const slug=card.dataset.projectSlug||(path.match(/\/projects\/([^/]+)/)||[])[1];if(!slug)continue;
+  card.dataset.socialReady='1';card.dataset.projectSlug=slug;
+  const row=document.createElement('div');row.className='mghal-card-social';row.textContent=en?'Loading reactions…':'جارٍ تحميل التفاعلات…';card.append(row);
+  getProjects().then(projects=>{const project=projects.find(item=>item.slug===slug);if(!project){row.remove();return}row.replaceChildren(reactionWidget('project',project.id),shareButton(location.origin+(en?'/en':'')+'/projects/'+slug+'/',project.name||project.name_ar))}).catch(()=>{row.textContent=''});
+ }
+}
+async function projectDetail(){
+ const match=location.pathname.match(/^\/(?:en\/)?projects\/([^/]+)\/?$/);if(!match)return;
+ try{const projects=await getProjects(),project=projects.find(item=>item.slug===match[1]);if(!project)return;const hero=$('.project-hero');if(!hero||$('#mghal-project-engagement'))return;
+  const section=document.createElement('section');section.id='mghal-project-engagement';section.className='mghal-project-engagement';
+  const heading=document.createElement('h2');heading.textContent=en?'Support this project':'تفاعل مع المشروع';const row=document.createElement('div');row.className='mghal-card-social';row.append(reactionWidget('project',project.id),shareButton(location.href,project.name||project.name_ar));section.append(heading,row);hero.after(section);
+ }catch{}
+}
 function setup(){addFollowPanel();projectCards();projectDetail();const grid=$('main .grid');if(grid&&'MutationObserver'in window)new MutationObserver(()=>projectCards()).observe(grid,{childList:true,subtree:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
 })();
