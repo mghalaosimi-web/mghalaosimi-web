@@ -44,7 +44,8 @@ function engagementDb() {
             async run() { return { success: true, meta: { changes: 1 } }; },
             async first() {
               if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
-              if (sql.includes("SELECT COUNT(*) count FROM followers")) return { count: 3 };
+              if (sql.includes("SELECT COUNT(*) count FROM followers") && sql.includes("consent_at IS NULL")) return { count: 5 };
+              if (sql.includes("SELECT COUNT(*) count FROM followers") && sql.includes("consent_at IS NOT NULL")) return { count: 3 };
               if (sql.includes("SELECT id,status,display_name,consent_at FROM followers")) return { id: "follower-1", status: "active", display_name: "Tester", consent_at: "2026-11-05T00:00:00.000Z" };
               if (sql.includes("SELECT id,status,display_name FROM followers")) return null;
               if (sql.includes("SELECT id,status FROM followers")) return { id: "follower-1", status: "unverified" };
@@ -191,12 +192,12 @@ describe("production Worker security contract", () => {
     expect(new Uint8Array(await response.arrayBuffer())).toEqual(bytes);
   });
 
-  it("creates anonymous visitor sessions as unverified, not followers", async () => {
+  it("starts a private anonymous guest follow without publishing a name or recording public consent", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/visitors", {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ path: "/projects/waynah/" }),
     }), { DB: engagementDb() } as never);
     expect(response.status).toBe(201);
-    expect(await response.json()).toMatchObject({ status: "unverified" });
+    expect(await response.json()).toMatchObject({ status: "active", displayName: null, guestFollowing: true });
   });
 
   it("requires explicit consent before following", async () => {
@@ -226,6 +227,12 @@ describe("production Worker security contract", () => {
     expect(await response.json()).toMatchObject({ success: true, following: false });
   });
 
+  it("returns viewer-specific like and clap state for a visitor", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/reactions?targetType=project&targetId=project-1&visitorToken=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"), { DB: engagementDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ counts: { like: 2, clap: 1 }, viewerReactions: { like: false, clap: false } });
+  });
+
   it("records a project reaction for a valid visitor", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/reactions", {
       method: "POST", headers: { "Content-Type": "application/json" },
@@ -246,7 +253,7 @@ describe("production Worker security contract", () => {
   it("returns only the public follower count", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/followers/count"), { DB: engagementDb() } as never);
     expect(response.status).toBe(200);
-    expect(await response.json()).toMatchObject({ count: 3 });
+    expect(await response.json()).toMatchObject({ count: 3, guestCount: 5 });
   });
 
   it("returns aggregate reactions for a published project", async () => {

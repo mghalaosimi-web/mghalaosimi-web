@@ -77,14 +77,18 @@ export default {
   if(path==="/api/public/visitors"&&method==="POST"){
    const b=await json(),visitorToken=typeof b?.visitorToken==="string"&&b.visitorToken.length>=32?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
    let f=await q("SELECT id,status,display_name FROM followers WHERE email_hash=? LIMIT 1",key).first();let fresh=false;
-   if(!f){f={id:crypto.randomUUID(),status:"unverified",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'unverified')",f.id,key).run();}
+   if(!f){f={id:crypto.randomUUID(),status:"active",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'active')",f.id,key).run();}
+   else if(f.status==="unverified"){await q("UPDATE followers SET status='active' WHERE id=? AND status='unverified' AND consent_at IS NULL",f.id).run();f.status="active";}
    const page=typeof b?.path==="string"&&b.path.startsWith("/")?b.path.slice(0,500):"/";
    if(fresh)await q("INSERT INTO analytics_events(id,event_type,path,session_hash) VALUES(?,?,?,?)",crypto.randomUUID(),"visitor_start",page,await hash(visitorToken)).run();
-   return out({visitorToken,followerId:f.id,status:f.status,displayName:f.display_name||null},201);
+   return out({visitorToken,followerId:f.id,status:f.status,displayName:f.display_name||null,guestFollowing:f.status==="active"&&f.display_name===null},201);
   }
   if(path==="/api/public/followers/count"&&method==="GET"){
-   const row=await q("SELECT COUNT(*) count FROM followers WHERE status='active' AND consent_at IS NOT NULL").first();
-   return out({count:Number(row?.count||0)});
+   const [row,guests]=await Promise.all([
+    q("SELECT COUNT(*) count FROM followers WHERE status='active' AND consent_at IS NOT NULL").first(),
+    q("SELECT COUNT(*) count FROM followers WHERE status='active' AND consent_at IS NULL AND display_name IS NULL").first()
+   ]);
+   return out({count:Number(row?.count||0),guestCount:Number(guests?.count||0)});
   }
   if(path==="/api/public/followers/status"&&method==="POST"){
    const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid visitor session");
@@ -128,9 +132,12 @@ export default {
    const target=await q("SELECT id FROM "+table+" WHERE id=? AND "+where,targetId).first();if(!target)return fail(404,"TARGET_NOT_FOUND","Published target not found");
    const rows=await q("SELECT reaction,COUNT(*) count FROM reactions WHERE target_type=? AND target_id=? GROUP BY reaction",targetType,targetId).all();
    const counts={like:0,clap:0};for(const row of rows.results||[])if(row.reaction in counts)counts[row.reaction]=Number(row.count)||0;
-   let reacted=false;const visitorToken=url.searchParams.get("visitorToken");
-   if(visitorToken&&visitorToken.length>=32){const f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(visitorToken)).first();if(f)reacted=!!(await q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first());}
-   return out({targetType,targetId,counts,reacted});
+   let viewerReactions={like:false,clap:false};const visitorToken=url.searchParams.get("visitorToken");
+   if(visitorToken&&visitorToken.length>=32){const f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(visitorToken)).first();if(f){const [like,clap]=await Promise.all([
+    q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first(),
+    q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='clap' LIMIT 1",targetType,targetId,f.id).first()
+   ]);viewerReactions={like:!!like,clap:!!clap};}}
+   return out({targetType,targetId,counts,reacted:viewerReactions.like,viewerReactions});
   }
   if(path==="/api/public/comments"&&method==="GET"){
    const articleId=url.searchParams.get("articleId");if(!articleId)return fail(400,"VALIDATION_ERROR","Article ID is required");
@@ -179,10 +186,10 @@ export default {
   if(admin&&path.startsWith("/api/admin/media/")&&method==="GET"){if(!(await can("content.read")))return fail(403,"FORBIDDEN","Missing content.read permission");const id=path.split("/").pop(),row=await q("SELECT blob_data,mime_type,original_name FROM media WHERE id=? LIMIT 1",id).first();if(!row||!row.blob_data)return fail(404,"MEDIA_NOT_FOUND","Media not found");const h=new Headers({"Content-Type":row.mime_type,"Content-Disposition":"attachment; filename*=UTF-8''"+encodeURIComponent(row.original_name),"Content-Length":String(row.blob_data.byteLength),"Cache-Control":"private, no-store","X-Content-Type-Options":"nosniff"});return new Response(row.blob_data,{headers:h});}
   if(path.startsWith("/api/public/media/")&&method==="GET"){const id=path.split("/").pop(),row=await q("SELECT m.blob_data,m.mime_type FROM media m WHERE m.id=? AND (m.mime_type LIKE 'image/%' OR (m.mime_type='application/pdf' AND EXISTS (SELECT 1 FROM certificates c WHERE c.pdf_media_id=m.id AND c.is_published=1))) LIMIT 1",id).first();if(!row||!row.blob_data)return fail(404,"MEDIA_NOT_FOUND","Public media not found");const isPdf=row.mime_type==="application/pdf";if(!isPdf&&!row.mime_type.startsWith("image/"))return fail(404,"MEDIA_NOT_FOUND","Public media not found");const headers={"Content-Type":row.mime_type,"Content-Length":String(row.blob_data.byteLength),"Cache-Control":"public, max-age=86400","X-Content-Type-Options":"nosniff","Content-Security-Policy":"default-src 'none'; sandbox"};if(isPdf)headers["Content-Disposition"]="inline";return new Response(row.blob_data,{headers:new Headers(headers)});}
   if(admin&&path==="/api/admin/dashboard"&&method==="GET"){if(!(await can("analytics.read"))&&!(await can("content.read")))return fail(403,"FORBIDDEN","Missing dashboard permission");
-   const names=["projects","certificates","followers","comments","articles","analytics_events"],sql=["SELECT COUNT(*) n FROM projects WHERE is_published=1","SELECT COUNT(*) n FROM certificates WHERE is_published=1","SELECT COUNT(*) n FROM followers WHERE status='active'","SELECT COUNT(*) n FROM comments WHERE status='pending'","SELECT COUNT(*) n FROM articles WHERE status='Published'","SELECT COUNT(*) n FROM analytics_events WHERE created_at>=?"];
-   const vals=await Promise.all(sql.map((s,i)=>i===5?q(s,new Date(Date.now()-30*86400000).toISOString()).first():q(s).first()));return out(Object.fromEntries(names.map((n,i)=>[n,vals[i]?.n||0])));
+   const names=["projects","certificates","followers","guest_followers","comments","articles","analytics_events"],sql=["SELECT COUNT(*) n FROM projects WHERE is_published=1","SELECT COUNT(*) n FROM certificates WHERE is_published=1","SELECT COUNT(*) n FROM followers WHERE status='active' AND consent_at IS NOT NULL","SELECT COUNT(*) n FROM followers WHERE status='active' AND consent_at IS NULL AND display_name IS NULL","SELECT COUNT(*) n FROM comments WHERE status='pending'","SELECT COUNT(*) n FROM articles WHERE status='Published'","SELECT COUNT(*) n FROM analytics_events WHERE created_at>=?"];
+   const vals=await Promise.all(sql.map((s,i)=>i===6?q(s,new Date(Date.now()-30*86400000).toISOString()).first():q(s).first()));return out(Object.fromEntries(names.map((n,i)=>[n,vals[i]?.n||0])));
   }
-  if(admin&&path==="/api/admin/followers"&&method==="GET"){if(!(await can("followers.read"))&&!(await can("analytics.read")))return fail(403,"FORBIDDEN","Missing followers.read permission");const rows=await q("SELECT id,display_name,status,verified_at,consent_at,created_at,unsubscribed_at FROM followers WHERE consent_at IS NOT NULL ORDER BY created_at DESC LIMIT 100").all();return out({data:rows.results});}
+  if(admin&&path==="/api/admin/followers"&&method==="GET"){if(!(await can("followers.read"))&&!(await can("analytics.read")))return fail(403,"FORBIDDEN","Missing followers.read permission");const rows=await q("SELECT id,COALESCE(display_name,'زائر مجهول') display_name,status,verified_at,consent_at,created_at,unsubscribed_at,CASE WHEN consent_at IS NULL THEN 1 ELSE 0 END is_guest FROM followers WHERE consent_at IS NOT NULL OR (status='active' AND consent_at IS NULL AND display_name IS NULL) ORDER BY created_at DESC LIMIT 200").all();return out({data:rows.results});}
   if(admin&&path.startsWith("/api/admin/followers/")&&method==="PATCH"){
    if(!(await can("followers.manage")))return fail(403,"FORBIDDEN","Missing followers.manage permission");const id=path.split("/").pop(),b=await json();if(!["active","unsubscribed","blocked"].includes(b?.status))return fail(400,"VALIDATION_ERROR","Invalid follower status");const row=await q("UPDATE followers SET status=?,unsubscribed_at=CASE WHEN ?='unsubscribed' THEN ? ELSE unsubscribed_at END WHERE id=? RETURNING id,status",b.status,b.status,new Date().toISOString(),id).first();return row?out(row):fail(404,"NOT_FOUND","Follower not found");
   }
