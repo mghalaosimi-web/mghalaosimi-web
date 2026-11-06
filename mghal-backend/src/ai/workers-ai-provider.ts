@@ -13,14 +13,15 @@ function extractText(value: unknown): string {
   if (typeof value === "string") return value.trim();
   if (value && typeof value === "object") {
     const record = value as Record<string, unknown>;
-    if (typeof record.response === "string") return record.response.trim();
-    if (typeof record.text === "string") return record.text.trim();
-    if (Array.isArray(record.choices)) {
-      const first = record.choices[0];
+    if (typeof record["response"] === "string") return record["response"].trim();
+    if (typeof record["text"] === "string") return record["text"].trim();
+    const choices = record["choices"];
+    if (Array.isArray(choices)) {
+      const first = choices[0];
       if (first && typeof first === "object") {
-        const message = (first as Record<string, unknown>).message;
+        const message = (first as Record<string, unknown>)["message"];
         if (message && typeof message === "object") {
-          const content = (message as Record<string, unknown>).content;
+          const content = (message as Record<string, unknown>)["content"];
           if (typeof content === "string") return content.trim();
         }
       }
