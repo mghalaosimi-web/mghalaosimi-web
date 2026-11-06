@@ -18,7 +18,7 @@ const words=en?{
  count:'المتابعون بأسماء معلنة',guests:'متابعات الضيوف المجهولة',like:'إعجاب',clap:'أعجبني جداً',share:'مشاركة',shared:'تم نسخ الرابط أو تجهيزه للمشاركة',
  google:'المتابعة باستخدام Google',googleConnected:'تم توثيق حساب Google. بريدك الإلكتروني خاص ولن يُنشر.',googleDisabled:'تسجيل Google غير مفعّل حالياً.',error:'تعذر تنفيذ العملية. حاول مرة أخرى.',liked:'تم تحديث التفاعل.',comments:'التعليقات',noComments:'لا توجد تعليقات منشورة بعد.'
 };
-let visitorPromise=window.__mghalVisitorPromise||null;
+let visitorPromise=window.__mghalVisitorPromise||null,googleEnabled=false;
 function storedToken(){try{return localStorage.getItem(VISITOR_KEY)}catch{return null}}
 async function visitor(){
  if(!visitorPromise&&window.__mghalVisitorPromise)visitorPromise=window.__mghalVisitorPromise;
@@ -93,11 +93,11 @@ function addFollowPanel(){
  const form=$('.mghal-follow-form',section),submit=$('.mghal-follow-submit',section),google=$('.mghal-google-login',section),unfollow=$('.mghal-unfollow',section),status=$('.mghal-follow-status',section),nameLabel=$('.mghal-name-label',section),name=document.createElement('input'),consent=$('input[name="consent"]',form);
  name.name='displayName';name.minLength=2;name.maxLength=80;name.autocomplete='nickname';name.placeholder=en?'Your name':'اكتب الاسم الذي تريد إظهاره';name.required=true;nameLabel.append(document.createTextNode(words.name),name);
  $('.mghal-consent span',section).textContent=words.consent;submit.textContent=words.follow;google.textContent=words.google;unfollow.textContent=words.unfollow;
- async function configureGoogle(){try{const cfg=await json('/api/public/auth/google/config');google.hidden=!cfg.enabled}catch{google.hidden=true}}
+ async function configureGoogle(){try{const cfg=await json('/api/public/auth/google/config');googleEnabled=!!cfg.enabled;google.hidden=!googleEnabled}catch{googleEnabled=false;google.hidden=true}}
  google.addEventListener('click',async()=>{google.disabled=true;try{const token=await visitor(),data=await json('/api/public/auth/google/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token,returnPath:location.pathname+location.search})});location.assign(data.authorizationUrl)}catch(error){status.textContent=error.message||words.error;google.disabled=false}});
  async function state(){
   try{
-   const token=await visitor(),data=await json('/api/public/followers/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token})}),identity=await json('/api/public/auth/google/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token})});
+   const token=await visitor(),data=await json('/api/public/followers/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token})}),identity=googleEnabled?await json('/api/public/auth/google/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token})}):{connected:false};
    const following=!!data.following,publicFollowing=following&&!!data.displayName;
    if(identity.connected){if(!publicFollowing&&!name.value&&identity.suggestedName)name.value=identity.suggestedName;status.textContent=words.googleConnected+(identity.email?' ('+identity.email+')':'')} 
    form.classList.toggle('is-following',following);form.classList.toggle('is-guest-following',following&&!publicFollowing);
