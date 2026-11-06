@@ -24,7 +24,7 @@
 
 ## 🌐 Official Website | الموقع الرسمي
 
-[https://mghal.vercel.app](https://mghal.vercel.app) — the Arabic and English portfolio, project catalog, and credential record.
+[https://mghalaosimi-web.vercel.app](https://mghalaosimi-web.vercel.app) — the Arabic and English portfolio, project catalog, and credential record.
 
 ---
 
@@ -266,13 +266,13 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 ## 📫 Connect With Me | تواصل معي
 
 <p align="center">
-  <a href="https://mghal.vercel.app/">
+  <a href="https://mghalaosimi-web.vercel.app/">
     <img src="https://img.shields.io/badge/Official%20Website-M.GH.AL-0F766E?style=for-the-badge" alt="Official Website" />
   </a>
   <a href="https://github.com/mghalaosimi-web">
     <img src="https://img.shields.io/badge/GitHub-M.GH.AL-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
   </a>
-  <a href="https://linkedin.com/in/mohammed-alaosimi-038155443">
+  <a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
   <a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi">
