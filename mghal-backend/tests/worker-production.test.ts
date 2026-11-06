@@ -85,6 +85,21 @@ describe("production Worker security contract", () => {
     expect(response.status).toBe(403);
   });
 
+  it("keeps Google sign-in disabled until all server-side credentials are configured", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/auth/google/config"), { DB: fakeDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ enabled: false, provider: "google" });
+  });
+
+  it("refuses to start Google sign-in when Worker credentials are missing", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/auth/google/start", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64), returnPath: "/" }),
+    }), { DB: fakeDb() } as never);
+    expect(response.status).toBe(503);
+    expect(await response.json()).toMatchObject({ error: { code: "GOOGLE_AUTH_NOT_CONFIGURED" } });
+  });
+
   it("reports a connected D1 binding", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/health"), { DB: fakeDb() } as never);
     expect(response.status).toBe(200);
