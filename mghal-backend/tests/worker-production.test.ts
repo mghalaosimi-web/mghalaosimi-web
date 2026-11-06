@@ -7,7 +7,7 @@ const digest = async (value: string) => {
   return [...new Uint8Array(bytes)].map((part) => part.toString(16).padStart(2, "0")).join("");
 };
 
-function fakeDb(bootstrapHash = "", adminUserCount = 0) {
+function fakeDb(bootstrapHash = "", adminUserCount = 0, mediaRecord: { blob_data: Uint8Array; mime_type: string } | null = null) {
   return {
     prepare(sql: string) {
       return {
@@ -20,6 +20,7 @@ function fakeDb(bootstrapHash = "", adminUserCount = 0) {
               if (sql.includes("SELECT value_json FROM site_settings WHERE key=?") && params[0] === "owner_bootstrap_hash") return bootstrapHash ? { value_json: bootstrapHash } : null;
               if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
               if (sql.includes("SELECT 1 AS ok")) return { ok: 1 };
+              if (sql.includes("SELECT m.blob_data,m.mime_type FROM media")) return mediaRecord;
               return null;
             },
           };
@@ -155,6 +156,36 @@ describe("production Worker security contract", () => {
     }), { DB: fakeDb() } as never);
     expect(response.status).toBe(401);
     expect(await response.json()).toMatchObject({ error: { code: "INVALID_CREDENTIALS" } });
+  });
+
+  it("serves a PDF only when it is referenced by a published certificate", async () => {
+    const bytes = new Uint8Array([37, 80, 68, 70, 45, 49, 46, 52]);
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/media/certificate-pdf-1"), {
+      DB: fakeDb("", 0, { blob_data: bytes, mime_type: "application/pdf" }),
+    } as never);
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Content-Type")).toBe("application/pdf");
+    expect(response.headers.get("Content-Disposition")).toBe("inline");
+    expect(response.headers.get("X-Content-Type-Options")).toBe("nosniff");
+    expect(new Uint8Array(await response.arrayBuffer())).toEqual(bytes);
+  });
+
+  it("does not expose an unreferenced PDF through the public media route", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/media/unlinked-pdf"), {
+      DB: fakeDb(),
+    } as never);
+    expect(response.status).toBe(404);
+    expect(await response.json()).toMatchObject({ error: { code: "MEDIA_NOT_FOUND" } });
+  });
+
+  it("continues to serve public image media", async () => {
+    const bytes = new Uint8Array([137, 80, 78, 71]);
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/media/public-image-1"), {
+      DB: fakeDb("", 0, { blob_data: bytes, mime_type: "image/png" }),
+    } as never);
+    expect(response.status).toBe(200);
+    expect(response.headers.get("Content-Type")).toBe("image/png");
+    expect(new Uint8Array(await response.arrayBuffer())).toEqual(bytes);
   });
 
   it("creates anonymous visitor sessions as unverified, not followers", async () => {
