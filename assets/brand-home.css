@@ -475,3 +475,12 @@ body.home-page .eyebrow,body.home-page .project-kicker,body.home-page .text-link
 .home-v2 .hv-project-card:hover{color:#fff}
 .home-v2 .hv-project-art img{width:100%;height:100%;object-fit:cover}
 @media(max-width:640px){.site-header .header-inner{min-height:64px}.site-header .main-nav{background:#0c121b!important;border:1px solid rgba(155,180,205,.16)!important}}
+
+/* Static HTML portrait support and page footer alignment */
+.home-v2 .hv-portrait-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%}
+.site-footer{background:#070a10!important;border-top:1px solid rgba(155,180,205,.16)!important;color:#8997a8!important}
+.site-footer .brand{color:#eef4fa!important}
+.site-footer .brand span{color:#62d8ef!important}
+.site-footer nav a{color:#9eafbf!important}
+.site-footer nav a:hover{color:#62d8ef!important}
+@media(max-width:640px){.home-v2 .hv-portrait-image{object-position:center 25%}}
