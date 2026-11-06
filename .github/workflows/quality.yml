@@ -40,7 +40,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install exact locked dependencies
-        run: npm ci --ignore-scripts
+        run: npm ci --include=dev --ignore-scripts
 
       - name: Run full quality suite
         run: npm run quality
