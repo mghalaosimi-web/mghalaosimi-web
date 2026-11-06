@@ -132,7 +132,7 @@ export default {
     if(byEmail&&byEmail.provider_subject!==profile.sub)return identityRedirect(siteUrl,tx.return_path,"account-conflict");
     let targetFollowerId=bySubject?.follower_id||null;
     if(bySubject?.status==="blocked")return identityRedirect(siteUrl,tx.return_path,"blocked");
-    const current=await q("SELECT id,status FROM followers WHERE email_hash=? LIMIT 1",tx.visitor_hash).first();
+    const current=await q("SELECT id,status,display_name,consent_at FROM followers WHERE email_hash=? LIMIT 1",tx.visitor_hash).first();
     if(current?.status==="blocked")return identityRedirect(siteUrl,tx.return_path,"blocked");
     if(!targetFollowerId){
      if(!current){
@@ -141,6 +141,7 @@ export default {
      }else targetFollowerId=current.id;
      await q("INSERT INTO follower_identities(id,follower_id,provider,provider_subject,email,email_verified,display_name,created_at,updated_at) VALUES(?,?,'google',?,?,1,?,?,?)",crypto.randomUUID(),targetFollowerId,profile.sub,email,displayName,now,now).run();
     }else if(current&&current.id!==targetFollowerId){
+     await q("UPDATE followers SET display_name=COALESCE(display_name,?),consent_at=COALESCE(consent_at,?) WHERE id=?",current.display_name||null,current.consent_at||null,targetFollowerId).run();
      await q("UPDATE OR IGNORE reactions SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id).run();
      await q("DELETE FROM reactions WHERE follower_id=?",current.id).run();
      await q("UPDATE comments SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id).run();
