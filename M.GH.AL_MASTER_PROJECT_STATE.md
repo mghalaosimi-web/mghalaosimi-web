@@ -343,3 +343,18 @@ Read-only source inspection found an additional functional gap in the admin publ
 4. Keep the work on the development branch. Do not write production D1 media rows until the owner account and upload workflow are safely available.
 
 This integration batch is independent of the owner bootstrap, but its production use still depends on a reviewed Worker deployment and authentic media mappings.
+
+
+---
+
+## 23. Backend media-delivery fix — 2026-11-06 (latest code checkpoint)
+
+- Added a public media delivery branch for `application/pdf` only when the file is referenced by `pdf_media_id` from a certificate with `is_published=1`.
+- Existing public image delivery remains supported. PDF responses use `Content-Type: application/pdf`, inline disposition and `X-Content-Type-Options: nosniff`.
+- Worker code commit: `621447a6d45f2bde9c2afc1df7527d1abbb734ed`.
+- Regression-test commits: `dc27587f59da1180d3fb2e919fadab6e51667248` and `83bf95a4ef23d9b4690f66b7d0d3d1bcb1fb468d`.
+- Backend CI run `42138005255` completed SUCCESS on `83bf95a...`; Vitest reported 2 files and 28 tests passed, and `node --check worker.production.js` passed.
+- Render static deployment `dep-dbmi1rfb9u1s73d2j9h0` is LIVE on `83bf95a...`. Vercel Preview `dpl_2kufrquGuuAM3adzjeTYRonA1jzF` is READY on the same commit. Neither deployment updates Cloudflare Worker.
+- Website Quality full quality-suite step passed on `83bf95a...`; the real-browser Chromium accessibility/reflow/print/Lighthouse stage was still in progress at last read. Do not mark that final browser stage passed until its run completes.
+- Production Worker remains Version 15; no `OWNER_BOOTSTRAP_TOKEN` was configured, no Worker version was deployed, no owner was created, and no D1 row/migration was written.
+- Remaining: connect public certificate/project pages to their actual public API while retaining static fallback; construct public PDF links from `pdf_media_id`; map authentic source files and individual verification URLs. This work remains development-only until reviewed and deployed.
