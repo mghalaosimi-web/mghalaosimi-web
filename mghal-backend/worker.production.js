@@ -199,7 +199,7 @@ export default {
   }
   if(path==="/api/public/events"&&method==="POST"){
    const b=await json();if(!b||typeof b.visitorToken!=="string"||!["page_view","project_view","article_view","certificate_view","contact_click","share","follow","unfollow","reaction","comment_submitted"].includes(b.eventType)||typeof b.path!=="string"||!b.path.startsWith("/"))return fail(400,"VALIDATION_ERROR","Invalid event payload");
-   const f=await followerForVisitor(b.visitorToken);if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    let ref=null;try{ref=b.referrer?new URL(b.referrer).hostname:null}catch{}
    await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,referrer_host,session_hash) VALUES(?,?,?,?,?,?,?)",crypto.randomUUID(),b.eventType,b.path.slice(0,500),b.targetType||null,b.targetId||null,ref,await hash(b.visitorToken)).run();return out({success:true},202);
   }
@@ -207,7 +207,7 @@ export default {
   if(path.startsWith("/api/public/articles/")&&method==="GET"){const slug=decodeURIComponent(path.split("/").pop());const row=await q("SELECT id,slug,locale,title,excerpt,body,category_id,cover_media_id,seo_title,seo_description,published_at FROM articles WHERE slug=? AND status='Published' AND published_at IS NOT NULL LIMIT 1",slug).first();return row?out(row):fail(404,"NOT_FOUND","Article not found");}
   if(path==="/api/public/comments"&&method==="POST"){
    const b=await json();if(!b||typeof b.visitorToken!=="string"||typeof b.articleId!=="string"||typeof b.body!=="string"||b.body.trim().length<2||b.body.length>2000)return fail(400,"VALIDATION_ERROR","Invalid comment");
-   const f=await followerForVisitor(b.visitorToken);if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const a=await q("SELECT id FROM articles WHERE id=? AND status='Published'",b.articleId).first();if(!a)return fail(404,"ARTICLE_NOT_FOUND","Published article not found");
    const id=crypto.randomUUID();await q("INSERT INTO comments(id,article_id,follower_id,body,status) VALUES(?,?,?,?,'pending')",id,b.articleId,f.id,b.body.trim()).run();return out({id,status:"pending"},201);
   }
