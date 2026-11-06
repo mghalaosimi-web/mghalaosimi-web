@@ -21,6 +21,7 @@ const words=en?{
 let visitorPromise=window.__mghalVisitorPromise||null;
 function storedToken(){try{return localStorage.getItem(VISITOR_KEY)}catch{return null}}
 async function visitor(){
+ if(!visitorPromise&&window.__mghalVisitorPromise)visitorPromise=window.__mghalVisitorPromise;
  if(visitorPromise)return visitorPromise;
  visitorPromise=(async()=>{
   if(navigator.doNotTrack==='1')throw new Error(en?'Visitor tracking is disabled by your browser setting.':'إعداد عدم التتبع في متصفحك يمنع إنشاء متابعة الضيف.');
