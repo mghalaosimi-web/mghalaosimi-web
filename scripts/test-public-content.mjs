@@ -54,17 +54,32 @@ const engagementWorker=readFileSync("mghal-backend/worker.production.js","utf8")
 const engagementUi=readFileSync("assets/social-engagement.js","utf8");
 const engagementCss=readFileSync("assets/social-engagement.css","utf8");
 for(const route of ['/api/public/followers/status','/api/public/followers/count','/api/public/followers','/api/public/reactions','/api/public/comments'])assert.ok(engagementWorker.includes(route),'missing engagement API '+route);
-assert.match(engagementWorker,/VALUES\(\?,\?,'unverified'\)/,'anonymous visitor sessions must not be counted as explicit followers');
-assert.match(engagementWorker,/consent!==true/,'following must require explicit consent');
-assert.match(engagementWorker,/status IN \('active','unverified'\)/,'visitor sessions may react and comment without being forced to follow');
+assert.match(engagementWorker,/INSERT INTO followers\(id,email_hash,status\) VALUES\(\?,\?,'active'\)/,'new visitor sessions should start as anonymous active follows');
+assert.match(engagementWorker,/guestFollowing:f\.status==="active"&&f\.display_name===null/,'anonymous following state must be explicit in the visitor response');
+assert.match(engagementWorker,/consent!==true/,'publishing a named follower profile must require explicit consent');
+assert.match(engagementWorker,/status='active' AND consent_at IS NOT NULL/,'public follower count must include only explicitly consented followers');
+assert.match(engagementWorker,/status='active' AND consent_at IS NULL AND display_name IS NULL/,'anonymous guest follows must be counted separately from named followers');
+assert.match(engagementWorker,/\["active","unverified"\]\.includes\(f\.status\)/,'active visitor sessions may react and comment');
+assert.match(engagementWorker,/status='unsubscribed'/,'unsubscribed visitors must not be silently reactivated');
 assert.match(engagementWorker,/status='approved'/,'public comments must be moderated before display');
 assert.match(engagementWorker,/"share","follow","unfollow","reaction","comment_submitted"/,'analytics must include social engagement events');
 assert.match(engagementUi,/تابع M\.GH\.AL|Follow M\.GH\.AL/,'public follow component is missing');
 assert.match(engagementUi,/navigator\.share/,'share action must use the native share sheet when available');
 assert.match(engagementUi,/api\/public\/reactions/,'project reaction controls must call the API');
 assert.match(engagementUi,/api\/public\/followers\/count/,'public follower count must be loaded from API');
+assert.match(engagementUi,/mghal-action-guide/,'the homepage must explain the social action buttons');
+assert.match(engagementUi,/likeHint/,'like action must include a clear explanation');
+assert.match(engagementUi,/clapHint/,'applause action must include a clear explanation');
+assert.match(engagementUi,/querySelectorAll\('\.mghal-guide-item'\)/,'all action guide labels must translate on the English page');
+assert.match(engagementUi,/mghal-reaction-item/,'reaction controls must display their own explanatory labels');
+assert.match(engagementUi,/words\.shareHint/,'share action must explain its purpose');
+
 for(const file of ['projects.html','en/projects.html'])assert.equal((readFileSync(file,'utf8').match(/data-project-slug=/g)||[]).length,10,file+': all 10 project cards must have a reaction target');
 assert.match(engagementCss,/\.mghal-follow-panel/,'follow component must be styled');
+assert.match(engagementCss,/\.mghal-like\.is-active/,'active like state must have a distinct color');
+assert.match(engagementCss,/\.mghal-clap\.is-active/,'active applause state must have a distinct color');
+assert.match(engagementCss,/\.mghal-guide-dot/,'the button guide must use color-coded action markers');
+assert.match(engagementCss,/\.mghal-action-hint/,'reaction buttons must show explanatory helper text');
 assert.match(engagementCss,/\.mghal-comments-list/,'approved comments must be styled');
 for(const file of ['article.html','en/article.html']){const html=readFileSync(file,'utf8');assert.match(html,/id="share-article"/,file+': article sharing control missing');assert.match(html,/id="article-comments-list"/,file+': approved comments list missing');}
 const articleInteractions=readFileSync('assets/article-page.js','utf8');

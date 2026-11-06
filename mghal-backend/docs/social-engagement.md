@@ -28,3 +28,14 @@ A normal browser page cannot read a visitor's mailbox address or account profile
 - Guest-follow records have no display name and no consent timestamp; they are not a marketing mailing list.
 - The token is pseudonymous, not anonymous in the strict legal sense. Review retention, cookie/local-storage disclosure, consent requirements, and applicable privacy notices before production release.
 - This branch does not apply migrations, alter production D1, configure an email provider, or deploy the Worker.
+
+## Optional Google identity linking
+
+- Google sign-in is user-initiated; opening the site never triggers OAuth.
+- The Worker uses Authorization Code flow with PKCE, a random single-use state value, a ten-minute transaction lifetime, and server-side token exchange. The browser never receives the Google client secret or access token.
+- The callback reads the Google UserInfo endpoint over HTTPS and accepts only an identity with a verified email and stable subject identifier.
+- The verified email and Google profile name remain private in `follower_identities`. They are not automatically copied into the public follower name. Public display still requires the existing explicit name + consent action.
+- A signed-in identity can be linked across browsers to one follower record. Existing reactions/comments are transferred when a guest browser is linked to an already-known Google identity; duplicate reactions are ignored.
+- Apply the migration first, then set `GOOGLE_AUTH_ENABLED=true`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` (Worker secret), `GOOGLE_REDIRECT_URI`, and `PUBLIC_SITE_URL`. The explicit enable flag keeps the feature off until the schema is ready. Redirect URI must exactly match the URI registered in Google Cloud Console and point to `/api/public/auth/google/callback` on the Worker.
+- Apply migration `0006_google_follower_identity.sql` before enabling the OAuth endpoints. No credentials, migration, or deployment are included in this source change.
+- Disable/withdraw access in Google account settings to revoke Google consent; account deletion/unlinking should be implemented as a separate explicit privacy workflow before public launch.

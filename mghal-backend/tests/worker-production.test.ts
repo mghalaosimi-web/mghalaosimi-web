@@ -46,7 +46,8 @@ function engagementDb() {
               if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
               if (sql.includes("SELECT COUNT(*) count FROM followers") && sql.includes("consent_at IS NULL")) return { count: 5 };
               if (sql.includes("SELECT COUNT(*) count FROM followers") && sql.includes("consent_at IS NOT NULL")) return { count: 3 };
-              if (sql.includes("SELECT id,status,display_name,consent_at FROM followers")) return { id: "follower-1", status: "active", display_name: "Tester", consent_at: "2026-11-05T00:00:00.000Z" };
+              if (sql.includes("SELECT id,status,display_name,consent_at FROM followers") && params[0] === "visitor:ffe054fe7ae0cb6dc65c3af9b61d5209f439851db43d0ba5997337df154668eb") return { id: "follower-1", status: "active", display_name: "Tester", consent_at: "2026-11-05T00:00:00.000Z" };
+              if (sql.includes("SELECT id,status,display_name,consent_at FROM followers")) return null;
               if (sql.includes("SELECT id,status,display_name FROM followers")) return null;
               if (sql.includes("SELECT id,status FROM followers")) return { id: "follower-1", status: "unverified" };
               if (sql.includes("UPDATE followers SET display_name")) return { id: "follower-1", status: "active", display_name: "Tester", consent_at: "2026-11-05T00:00:00.000Z" };
@@ -83,6 +84,21 @@ describe("production Worker security contract", () => {
   it("rejects untrusted origins before database access", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/projects", { headers: { Origin: "https://attacker.example" } }), {} as never);
     expect(response.status).toBe(403);
+  });
+
+  it("keeps Google sign-in disabled until all server-side credentials are configured", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/auth/google/config"), { DB: fakeDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ enabled: false, provider: "google" });
+  });
+
+  it("refuses to start Google sign-in when Worker credentials are missing", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/auth/google/start", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64), returnPath: "/" }),
+    }), { DB: fakeDb() } as never);
+    expect(response.status).toBe(503);
+    expect(await response.json()).toMatchObject({ error: { code: "GOOGLE_AUTH_NOT_CONFIGURED" } });
   });
 
   it("reports a connected D1 binding", async () => {

@@ -13,6 +13,20 @@ export default {
   const constantTimeEqual=(a,b)=>{if(typeof a!=="string"||typeof b!=="string"||a.length!==b.length)return false;let difference=0;for(let i=0;i<a.length;i++)difference|=a.charCodeAt(i)^b.charCodeAt(i);return difference===0};
   const json=async()=>{try{return await request.json()}catch{return null}};
   const token=()=>[...crypto.getRandomValues(new Uint8Array(32))].map(x=>x.toString(16).padStart(2,"0")).join("");
+  const base64url=bytes=>btoa(String.fromCharCode(...bytes)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+  const randomBytes=n=>crypto.getRandomValues(new Uint8Array(n));
+  const followerByHash=async key=>{
+   const direct=await q("SELECT id,status,display_name,consent_at FROM followers WHERE email_hash=? LIMIT 1",key).first();
+   if(direct)return direct;
+   return q("SELECT f.id,f.status,f.display_name,f.consent_at FROM follower_identity_sessions s JOIN followers f ON f.id=s.follower_id WHERE s.visitor_hash=? LIMIT 1",key).first();
+  };
+  const followerForVisitor=async visitorToken=>followerByHash("visitor:"+await hash(visitorToken));
+  const identityRedirect=(siteUrl,returnPath,status)=>{
+   const base=new URL(siteUrl),safe=typeof returnPath==="string"&&returnPath.startsWith("/")&&!returnPath.startsWith("//")&&!returnPath.includes("\\\\")?returnPath:"/";
+   const target=new URL(safe,base);if(target.origin!==base.origin)target.pathname="/";
+   target.searchParams.set("identity",status);
+   return Response.redirect(target.toString(),302);
+  };
   const actor=async()=>{const raw=request.headers.get("Authorization")||"",t=raw.startsWith("Bearer ")?raw.slice(7):"";if(!t||t.length>200)return null;return q("SELECT u.id,u.email FROM admin_sessions s JOIN admin_users u ON u.id=s.user_id WHERE s.token_hash=? AND s.revoked_at IS NULL AND s.expires_at>? AND u.status='active' LIMIT 1",await hash(t),new Date().toISOString()).first()};
   const admin=path.startsWith("/api/admin/");
   const setupRoute=path==="/api/admin/bootstrap/status"||path==="/api/admin/bootstrap"||path==="/api/admin/bootstrap/rotate"||path==="/api/admin/auth/login";
@@ -74,9 +88,82 @@ export default {
   let current=null;if(admin&&!setupRoute){current=await actor();if(!current)return fail(401,"UNAUTHENTICATED","Authentication required");}
   const can=async code=>!!(await q("SELECT 1 FROM admin_user_roles ur JOIN role_permissions rp ON rp.role_id=ur.role_id JOIN permissions p ON p.id=rp.permission_id WHERE ur.user_id=? AND p.code=? LIMIT 1",current?.id||"",code).first());
   if(path==="/api/admin/auth/logout"&&method==="POST"){const t=(request.headers.get("Authorization")||"").slice(7);await q("UPDATE admin_sessions SET revoked_at=? WHERE user_id=? AND token_hash=? AND revoked_at IS NULL",new Date().toISOString(),current.id,await hash(t)).run();return out({success:true});}
+  if(path==="/api/public/auth/google/config"&&method==="GET"){
+   const enabled=env.GOOGLE_AUTH_ENABLED==="true"&&!!(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET&&env.GOOGLE_REDIRECT_URI&&env.PUBLIC_SITE_URL);
+   return out({enabled,provider:"google"});
+  }
+  if(path==="/api/public/auth/google/start"&&method==="POST"){
+   if(env.GOOGLE_AUTH_ENABLED!=="true"||!env.GOOGLE_CLIENT_ID||!env.GOOGLE_CLIENT_SECRET||!env.GOOGLE_REDIRECT_URI||!env.PUBLIC_SITE_URL)return fail(503,"GOOGLE_AUTH_NOT_CONFIGURED","Google sign-in is not enabled or configured yet");
+   const b=await json();
+   if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32||b.visitorToken.length>128)return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
+   const site=new URL(env.PUBLIC_SITE_URL);
+   if(site.protocol!=="https:"||site.username||site.password)return fail(503,"GOOGLE_AUTH_CONFIG_INVALID","The public site URL must be a trusted HTTPS origin");
+   const returnPath=typeof b.returnPath==="string"&&b.returnPath.startsWith("/")&&!b.returnPath.startsWith("//")&&!b.returnPath.includes("\\\\")&&b.returnPath.length<=500?b.returnPath:"/";
+   const state=base64url(randomBytes(32)),verifier=base64url(randomBytes(48)),challenge=base64url(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(verifier))));
+   const now=new Date().toISOString(),expires=new Date(Date.now()+10*60*1000).toISOString(),visitorHash="visitor:"+await hash(b.visitorToken);
+   await q("DELETE FROM oauth_transactions WHERE expires_at<=?",now).run();
+   await q("INSERT INTO oauth_transactions(state_hash,visitor_hash,code_verifier,return_path,expires_at) VALUES(?,?,?,?,?)",await hash(state),visitorHash,verifier,returnPath,expires).run();
+   const authUrl=new URL("https://accounts.google.com/o/oauth2/v2/auth");
+   for(const [key,value] of Object.entries({client_id:env.GOOGLE_CLIENT_ID,redirect_uri:env.GOOGLE_REDIRECT_URI,response_type:"code",scope:"openid email profile",state,code_challenge:challenge,code_challenge_method:"S256",prompt:"select_account"}))authUrl.searchParams.set(key,value);
+   return out({authorizationUrl:authUrl.toString()});
+  }
+  if(path==="/api/public/auth/google/callback"&&method==="GET"){
+   if(env.GOOGLE_AUTH_ENABLED!=="true"||!env.GOOGLE_CLIENT_ID||!env.GOOGLE_CLIENT_SECRET||!env.GOOGLE_REDIRECT_URI||!env.PUBLIC_SITE_URL)return identityRedirect(env.PUBLIC_SITE_URL||"https://mghalaosimi-web.vercel.app","/","failed");
+   const siteUrl=env.PUBLIC_SITE_URL||"https://mghalaosimi-web.vercel.app",state=url.searchParams.get("state")||"";
+   if(!state||state.length>200)return identityRedirect(siteUrl,"/","failed");
+   const now=new Date().toISOString(),tx=await q("DELETE FROM oauth_transactions WHERE state_hash=? AND expires_at>? RETURNING visitor_hash,code_verifier,return_path",await hash(state),now).first();
+   if(!tx)return identityRedirect(siteUrl,"/","expired");
+   if(url.searchParams.has("error"))return identityRedirect(siteUrl,tx.return_path,"cancelled");
+   const code=url.searchParams.get("code");
+   if(!code||code.length>4096||!env.GOOGLE_CLIENT_ID||!env.GOOGLE_CLIENT_SECRET||!env.GOOGLE_REDIRECT_URI)return identityRedirect(siteUrl,tx.return_path,"failed");
+   try{
+    const form=new URLSearchParams({code,client_id:env.GOOGLE_CLIENT_ID,client_secret:env.GOOGLE_CLIENT_SECRET,redirect_uri:env.GOOGLE_REDIRECT_URI,grant_type:"authorization_code",code_verifier:tx.code_verifier});
+    const tokenResponse=await fetch("https://oauth2.googleapis.com/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded","Accept":"application/json"},body:form});
+    if(!tokenResponse.ok)return identityRedirect(siteUrl,tx.return_path,"failed");
+    const tokenData=await tokenResponse.json();
+    if(typeof tokenData.access_token!=="string"||tokenData.access_token.length>8192)return identityRedirect(siteUrl,tx.return_path,"failed");
+    const profileResponse=await fetch("https://openidconnect.googleapis.com/v1/userinfo",{headers:{Authorization:"Bearer "+tokenData.access_token,Accept:"application/json"}});
+    if(!profileResponse.ok)return identityRedirect(siteUrl,tx.return_path,"failed");
+    const profile=await profileResponse.json();
+    if(typeof profile.sub!=="string"||!profile.sub||typeof profile.email!=="string"||profile.email.length>254||!(profile.email_verified===true||profile.email_verified==="true"))return identityRedirect(siteUrl,tx.return_path,"unverified");
+    const email=profile.email.trim().toLowerCase(),displayName=typeof profile.name==="string"?profile.name.trim().slice(0,120):"";
+    const bySubject=await q("SELECT i.follower_id,f.status FROM follower_identities i JOIN followers f ON f.id=i.follower_id WHERE i.provider='google' AND i.provider_subject=? LIMIT 1",profile.sub).first();
+    const byEmail=await q("SELECT provider_subject FROM follower_identities WHERE provider='google' AND email=? COLLATE NOCASE LIMIT 1",email).first();
+    if(byEmail&&byEmail.provider_subject!==profile.sub)return identityRedirect(siteUrl,tx.return_path,"account-conflict");
+    let targetFollowerId=bySubject?.follower_id||null;
+    if(bySubject?.status==="blocked")return identityRedirect(siteUrl,tx.return_path,"blocked");
+    const current=await q("SELECT id,status,display_name,consent_at FROM followers WHERE email_hash=? LIMIT 1",tx.visitor_hash).first();
+    if(current?.status==="blocked")return identityRedirect(siteUrl,tx.return_path,"blocked");
+    if(!targetFollowerId){
+     if(!current){
+      targetFollowerId=crypto.randomUUID();
+      await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'active')",targetFollowerId,tx.visitor_hash).run();
+     }else targetFollowerId=current.id;
+     await q("INSERT INTO follower_identities(id,follower_id,provider,provider_subject,email,email_verified,display_name,created_at,updated_at) VALUES(?,?,'google',?,?,1,?,?,?)",crypto.randomUUID(),targetFollowerId,profile.sub,email,displayName,now,now).run();
+    }else if(current&&current.id!==targetFollowerId){
+     await q("UPDATE followers SET display_name=COALESCE(display_name,?),consent_at=COALESCE(consent_at,?) WHERE id=?",current.display_name||null,current.consent_at||null,targetFollowerId).run();
+     await q("UPDATE OR IGNORE reactions SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id).run();
+     await q("DELETE FROM reactions WHERE follower_id=?",current.id).run();
+     await q("UPDATE comments SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id).run();
+     await q("UPDATE followers SET email_hash=?,status='unsubscribed',unsubscribed_at=COALESCE(unsubscribed_at,?) WHERE id=?", "merged:"+token(),now,current.id).run();
+    }
+    await q("UPDATE follower_identities SET email=?,email_verified=1,display_name=?,updated_at=? WHERE provider='google' AND provider_subject=?",email,displayName,now,profile.sub).run();
+    await q("INSERT INTO follower_identity_sessions(visitor_hash,follower_id,created_at) VALUES(?,?,?) ON CONFLICT(visitor_hash) DO UPDATE SET follower_id=excluded.follower_id,created_at=excluded.created_at",tx.visitor_hash,targetFollowerId,now).run();
+    return identityRedirect(siteUrl,tx.return_path,"connected");
+   }catch(error){
+    console.error("Google identity callback failed",error instanceof Error?error.message:"unknown");
+    return identityRedirect(siteUrl,tx.return_path,"failed");
+   }
+  }
+  if(path==="/api/public/auth/google/status"&&method==="POST"){
+   const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32||b.visitorToken.length>128)return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
+   const f=await followerForVisitor(b.visitorToken);if(!f)return out({connected:false});
+   const identity=await q("SELECT email,email_verified,display_name FROM follower_identities WHERE follower_id=? AND provider='google' LIMIT 1",f.id).first();
+   return out({connected:!!identity,email:identity?.email||null,emailVerified:!!identity?.email_verified,suggestedName:identity?.display_name||null});
+  }
   if(path==="/api/public/visitors"&&method==="POST"){
    const b=await json(),visitorToken=typeof b?.visitorToken==="string"&&b.visitorToken.length>=32?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
-   let f=await q("SELECT id,status,display_name FROM followers WHERE email_hash=? LIMIT 1",key).first();let fresh=false;
+   let f=await followerByHash(key);let fresh=false;
    if(!f){f={id:crypto.randomUUID(),status:"active",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'active')",f.id,key).run();}
    else if(f.status==="unverified"){await q("UPDATE followers SET status='active' WHERE id=? AND status='unverified' AND consent_at IS NULL",f.id).run();f.status="active";}
    const page=typeof b?.path==="string"&&b.path.startsWith("/")?b.path.slice(0,500):"/";
@@ -92,12 +179,12 @@ export default {
   }
   if(path==="/api/public/followers/status"&&method==="POST"){
    const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid visitor session");
-   const f=await q("SELECT id,status,display_name,consent_at FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(b.visitorToken)).first();
+   const f=await followerForVisitor(b.visitorToken);
    return out({following:f?.status==="active",status:f?.status||"unknown",displayName:f?.display_name||null,consentAt:f?.consent_at||null});
   }
   if(path==="/api/public/followers"&&method==="POST"){
    const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32||typeof b?.displayName!=="string"||b.displayName.trim().length<2||b.displayName.trim().length>80||b.consent!==true)return fail(400,"VALIDATION_ERROR","Provide a display name and explicit consent");
-   const key="visitor:"+await hash(b.visitorToken),f=await q("SELECT id,status FROM followers WHERE email_hash=? LIMIT 1",key).first();
+   const f=await followerForVisitor(b.visitorToken);
    if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    if(f.status==="blocked")return fail(403,"FOLLOW_BLOCKED","This visitor cannot follow updates");
    const now=new Date().toISOString();
@@ -107,13 +194,13 @@ export default {
   }
   if(path==="/api/public/followers"&&method==="DELETE"){
    const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid visitor session");
-   const key="visitor:"+await hash(b.visitorToken),now=new Date().toISOString();
-   const row=await q("UPDATE followers SET status='unsubscribed',unsubscribed_at=? WHERE email_hash=? AND status='active' RETURNING id,status",now,key).first();
+   const f=await followerForVisitor(b.visitorToken),now=new Date().toISOString();
+   const row=f?await q("UPDATE followers SET status='unsubscribed',unsubscribed_at=? WHERE id=? AND status='active' RETURNING id,status",now,f.id).first():null;
    return out({success:true,following:false,status:row?.status||"unsubscribed"});
   }
   if(path==="/api/public/events"&&method==="POST"){
    const b=await json();if(!b||typeof b.visitorToken!=="string"||!["page_view","project_view","article_view","certificate_view","contact_click","share","follow","unfollow","reaction","comment_submitted"].includes(b.eventType)||typeof b.path!=="string"||!b.path.startsWith("/"))return fail(400,"VALIDATION_ERROR","Invalid event payload");
-   const key="visitor:"+await hash(b.visitorToken),f=await q("SELECT id FROM followers WHERE email_hash=? AND status IN ('active','unverified') LIMIT 1",key).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    let ref=null;try{ref=b.referrer?new URL(b.referrer).hostname:null}catch{}
    await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,referrer_host,session_hash) VALUES(?,?,?,?,?,?,?)",crypto.randomUUID(),b.eventType,b.path.slice(0,500),b.targetType||null,b.targetId||null,ref,await hash(b.visitorToken)).run();return out({success:true},202);
   }
@@ -121,7 +208,7 @@ export default {
   if(path.startsWith("/api/public/articles/")&&method==="GET"){const slug=decodeURIComponent(path.split("/").pop());const row=await q("SELECT id,slug,locale,title,excerpt,body,category_id,cover_media_id,seo_title,seo_description,published_at FROM articles WHERE slug=? AND status='Published' AND published_at IS NOT NULL LIMIT 1",slug).first();return row?out(row):fail(404,"NOT_FOUND","Article not found");}
   if(path==="/api/public/comments"&&method==="POST"){
    const b=await json();if(!b||typeof b.visitorToken!=="string"||typeof b.articleId!=="string"||typeof b.body!=="string"||b.body.trim().length<2||b.body.length>2000)return fail(400,"VALIDATION_ERROR","Invalid comment");
-   const f=await q("SELECT id FROM followers WHERE email_hash=? AND status IN ('active','unverified') LIMIT 1","visitor:"+await hash(b.visitorToken)).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const a=await q("SELECT id FROM articles WHERE id=? AND status='Published'",b.articleId).first();if(!a)return fail(404,"ARTICLE_NOT_FOUND","Published article not found");
    const id=crypto.randomUUID();await q("INSERT INTO comments(id,article_id,follower_id,body,status) VALUES(?,?,?,?,'pending')",id,b.articleId,f.id,b.body.trim()).run();return out({id,status:"pending"},201);
   }
@@ -133,7 +220,7 @@ export default {
    const rows=await q("SELECT reaction,COUNT(*) count FROM reactions WHERE target_type=? AND target_id=? GROUP BY reaction",targetType,targetId).all();
    const counts={like:0,clap:0};for(const row of rows.results||[])if(row.reaction in counts)counts[row.reaction]=Number(row.count)||0;
    let viewerReactions={like:false,clap:false};const visitorToken=url.searchParams.get("visitorToken");
-   if(visitorToken&&visitorToken.length>=32){const f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(visitorToken)).first();if(f){const [like,clap]=await Promise.all([
+   if(visitorToken&&visitorToken.length>=32){const f=await followerForVisitor(visitorToken);if(f){const [like,clap]=await Promise.all([
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first(),
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='clap' LIMIT 1",targetType,targetId,f.id).first()
    ]);viewerReactions={like:!!like,clap:!!clap};}}
@@ -147,14 +234,14 @@ export default {
   }
   if(path==="/api/public/reactions"&&method==="POST"){
    const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||!["like","clap"].includes(b.reaction)||typeof b.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid reaction");
-   const f=await q("SELECT id FROM followers WHERE email_hash=? AND status IN ('active','unverified') LIMIT 1","visitor:"+await hash(b.visitorToken)).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const table=b.targetType==="article"?"articles":"projects",where=b.targetType==="article"?"status='Published'":"is_published=1";const target=await q("SELECT id FROM "+table+" WHERE id=? AND "+where,b.targetId).first();if(!target)return fail(404,"TARGET_NOT_FOUND","Published target not found");
    const result=await q("INSERT INTO reactions(id,target_type,target_id,follower_id,reaction) VALUES(?,?,?,?,?) ON CONFLICT(target_type,target_id,follower_id,reaction) DO NOTHING",crypto.randomUUID(),b.targetType,b.targetId,f.id,b.reaction).run();
    return out({success:true,created:Number(result?.meta?.changes||0)===1},200);
   }
   if(path==="/api/public/reactions"&&method==="DELETE"){
    const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||typeof b.visitorToken!=="string"||b.visitorToken.length<32||!["like","clap"].includes(b.reaction||"like"))return fail(400,"VALIDATION_ERROR","Invalid reaction removal");
-   const f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(b.visitorToken)).first();if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const result=await q("DELETE FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction=? RETURNING id",b.targetType,b.targetId,f.id,b.reaction||"like").first();
    return out({success:true,removed:!!result});
   }
