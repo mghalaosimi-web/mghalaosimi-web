@@ -6,7 +6,7 @@ assert.match(adapter, /api\/public\/projects\?locale=/, 'project pages must requ
 assert.match(adapter, /project\.name \|\| staticRecord\?\.title/, 'published API names must take precedence over the static catalogue');
 assert.match(adapter, /project\.short_description \|\| staticRecord\?\.summary/, 'published API summaries must take precedence over the static catalogue');
 assert.match(adapter, /project\.repository_url \|\| staticRecord\?\.repository/, 'repository links must prefer published API values');
-assert.match(adapter, /project\.cover_media_id/, 'project cards must support published media references');
+assert.match(adapter, /safeExternalUrl/, 'project links from the API must reject unsafe URL schemes');\nassert.match(adapter, /project\.cover_media_id/, 'project cards must support published media references');
 assert.match(adapter, /publishedSlugs\.has\(slug\)/, 'a successful API response must hide records absent from the published set');
 assert.match(adapter, /syncProjects\(\)\.catch\(/, 'API failures must retain static project cards');
 assert.doesNotMatch(adapter, /innerHTML|insertAdjacentHTML/, 'API content must not be injected as HTML');
