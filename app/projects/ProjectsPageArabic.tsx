@@ -26,8 +26,8 @@ export default function ProjectsPage(){
   const [filter,setFilter]=useState<typeof filters[number]['id']>('all');
   const [selectedProject,setSelectedProject]=useState<Project|null>(null);
   useEffect(()=>{if(!selectedProject)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape')setSelectedProject(null)};window.addEventListener('keydown',onKeyDown);return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKeyDown)}},[selectedProject]);
-  const featured=projects.find(p=>p.slug==='aegis-titan');
-  const archive=projects.filter(p=>p.slug!=='aegis-titan');
+  const featured=undefined;
+  const archive=projects;
   const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
   const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
   const repositoryCount=projects.filter(p=>p.repository).length;
@@ -74,7 +74,7 @@ export default function ProjectsPage(){
         <p>{featured.summary}</p>
         <div className="portfolio-featured-tags">{featured.stack.slice(0,4).map(x=><span key={x}>{x}</span>)}</div>
         <div className="portfolio-featured-footer">
-          <span>FOUNDER &amp; LEAD SYSTEMS ARCHITECT<br/><b>ARFAT ALKAMLI</b></span>
+          <span>FOUNDER &amp; LEAD SYSTEMS ARCHITECT<br/><b>M.GH.AL</b></span>
           <button type="button" onClick={()=>setSelectedProject(featured)}>استكشف المنظومة <ArrowUpLeft size={17}/></button>
         </div>
       </div>
@@ -137,7 +137,7 @@ export default function ProjectsPage(){
     {selectedProject&&<div className="project-modal-backdrop" role="presentation" onMouseDown={event=>{if(event.target===event.currentTarget)setSelectedProject(null)}}>
       <section className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" dir="rtl">
         <header className="project-modal-header">
-          <div className="project-modal-brand"><span className="project-modal-brand-icon"><Layers3 size={21}/></span><span><small>ARFAT ALKAMLI / PROJECT PROFILE</small><b>ملف المشروع الهندسي</b></span></div>
+          <div className="project-modal-brand"><span className="project-modal-brand-icon"><Layers3 size={21}/></span><span><small>M.GH.AL / PROJECT PROFILE</small><b>ملف المشروع الهندسي</b></span></div>
           <button type="button" className="project-modal-close" onClick={()=>setSelectedProject(null)} aria-label="إغلاق النافذة"><X size={19}/></button>
         </header>
         <div className="project-modal-content">
