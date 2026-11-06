@@ -127,11 +127,13 @@ export default {
     const profile=await profileResponse.json();
     if(typeof profile.sub!=="string"||!profile.sub||typeof profile.email!=="string"||profile.email.length>254||!(profile.email_verified===true||profile.email_verified==="true"))return identityRedirect(siteUrl,tx.return_path,"unverified");
     const email=profile.email.trim().toLowerCase(),displayName=typeof profile.name==="string"?profile.name.trim().slice(0,120):"";
-    const bySubject=await q("SELECT follower_id FROM follower_identities WHERE provider='google' AND provider_subject=? LIMIT 1",profile.sub).first();
+    const bySubject=await q("SELECT i.follower_id,f.status FROM follower_identities i JOIN followers f ON f.id=i.follower_id WHERE i.provider='google' AND i.provider_subject=? LIMIT 1",profile.sub).first();
     const byEmail=await q("SELECT provider_subject FROM follower_identities WHERE provider='google' AND email=? COLLATE NOCASE LIMIT 1",email).first();
     if(byEmail&&byEmail.provider_subject!==profile.sub)return identityRedirect(siteUrl,tx.return_path,"account-conflict");
     let targetFollowerId=bySubject?.follower_id||null;
-    const current=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1",tx.visitor_hash).first();
+    if(bySubject?.status==="blocked")return identityRedirect(siteUrl,tx.return_path,"blocked");
+    const current=await q("SELECT id,status FROM followers WHERE email_hash=? LIMIT 1",tx.visitor_hash).first();
+    if(current?.status==="blocked")return identityRedirect(siteUrl,tx.return_path,"blocked");
     if(!targetFollowerId){
      if(!current){
       targetFollowerId=crypto.randomUUID();
