@@ -44,7 +44,46 @@
     focusflow: 'focusflow',
     'mghal-esdp': 'esdp',
     'mghal-official-website': 'mghal-official-website',
-  }[slug] || 'project');
+  }[slug] || null);
+
+  const makeProjectCard = (project, staticRecord) => {
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.dataset.projectSlug = project.slug;
+
+    const image = document.createElement('img');
+    image.className = 'project-cover';
+    image.loading = 'lazy';
+    image.src = project.cover_media_id
+      ? API + '/api/public/media/' + encodeURIComponent(project.cover_media_id)
+      : staticRecord?.cover || '/assets/og-image.svg';
+    image.alt = staticRecord?.coverAlt?.[locale] || (isEnglish ? 'Project cover: ' : 'غلاف المشروع: ') + (project.name || project.slug);
+
+    const heading = document.createElement('h2');
+    heading.textContent = project.name || staticRecord?.title?.[locale] || project.slug;
+    const summary = document.createElement('p');
+    summary.textContent = project.short_description || staticRecord?.summary?.[locale] || '';
+
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    const technologies = Array.isArray(project.technologies)
+      ? project.technologies
+      : Array.isArray(staticRecord?.technologies) ? staticRecord.technologies : [];
+    for (const technology of technologies) {
+      const label = typeof technology === 'string' ? technology : technology?.name;
+      if (!label) continue;
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = label;
+      meta.append(tag);
+    }
+
+    const status = document.createElement('div');
+    status.className = 'status';
+    status.textContent = statusLabels[project.status] || project.status || '';
+    card.append(image, heading, summary, meta, status);
+    return card;
+  };
 
   async function syncProjects() {
     const grid = document.querySelector('main .grid');
@@ -73,14 +112,19 @@
 
     for (const project of payload.data) {
       if (!project || typeof project.slug !== 'string') continue;
-      const card = cardsBySlug.get(project.slug);
-      if (!card) continue;
+      const staticRecord = staticCatalogue?.projects?.find((item) => item.slug === project.slug) || null;
+      let card = cardsBySlug.get(project.slug);
+      if (!card) {
+        card = makeProjectCard(project, staticRecord);
+        grid.append(card);
+        cards.push(card);
+        cardsBySlug.set(project.slug, card);
+      }
 
       publishedSlugs.add(project.slug);
       card.hidden = false;
       card.dataset.projectSlug = project.slug;
 
-      const staticRecord = staticCatalogue?.projects?.find((item) => item.slug === project.slug) || null;
       // Published API values take precedence; original catalogue values remain a safe fallback.
       const title = project.name || staticRecord?.title?.[locale] || card.querySelector('h2,h3')?.textContent || '';
       const summary = project.short_description || staticRecord?.summary?.[locale] || '';
@@ -130,8 +174,9 @@
       if (image) {
         image.src = project.cover_media_id
           ? API + '/api/public/media/' + encodeURIComponent(project.cover_media_id)
-          : staticRecord?.gallery?.[0]?.src || '/assets/projects/' + imageFor(project.slug) + '.svg';
-        image.alt = staticRecord?.gallery?.[0]?.alt?.[locale]
+          : staticRecord?.cover || (imageFor(project.slug) ? '/assets/projects/' + imageFor(project.slug) + '.svg' : '/assets/og-image.svg');
+        image.alt = staticRecord?.coverAlt?.[locale]
+          || staticRecord?.gallery?.[0]?.alt?.[locale]
           || (isEnglish ? 'Project cover: ' : 'غلاف المشروع: ') + title;
       }
 
