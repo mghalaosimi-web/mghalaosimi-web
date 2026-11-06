@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import './mghal-portfolio.css';
 import Script from 'next/script';
 export const metadata: Metadata = {
  metadataBase: new URL('https://mghalaosimi-web.vercel.app'),
