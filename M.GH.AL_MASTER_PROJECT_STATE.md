@@ -4,7 +4,7 @@
 > **Last verified:** 2026-11-06 (Asia/Aden, UTC+03:00)
 > **Repository:** https://github.com/mghalaosimi-web/mghalaosimi-web
 > **Current verification branch:** `feat/mghal-credentials-projects-expansion-2026-11-05`
-> **Last verified code commit:** `e983a89e68a3265712d3e41434a49b5e4e5ecf8b` (latest development code checkpoint before this state refresh)
+> **Last verified code commit:** `980b98f2c2f53699c8e8a0f8cd594e1a163160b0` (latest development code checkpoint before this state refresh)
 
 ## 1. Project identity
 
@@ -126,7 +126,7 @@ Repository default branch is `main`, currently at `d7378bffeb55ca957829995fb4fee
 Current PR:
 - PR **#12**, “Expand M.GH.AL credentials, projects and research sections”.
 - State: OPEN, not merged; draft=false; mergeable=true at last read.
-- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `e983a89e68a3265712d3e41434a49b5e4e5ecf8b`; this state-file refresh is a subsequent documentation-only commit.
+- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `980b98f2c2f53699c8e8a0f8cd594e1a163160b0`; this state-file refresh is a subsequent documentation-only commit.
 - Base: `feat/mghal-complete-platform-2026-11-01` at `bea6e75b452386c60e9bd5c434ce2189635de2ef`.
 - PR contains 99 changed files and 281 commits at the latest metadata read; GitHub reports mergeable=true and mergeable_state=unstable while checks are still running.
 - The platform base branch and `main` are **diverged**: platform branch is 323 commits ahead and 19 behind `main`. This is a verified compare result; do not merge or retarget without deliberate reconciliation.
@@ -448,3 +448,16 @@ This integration batch is independent of the owner bootstrap, but its production
 - Corrected package manifest commit: `e983a89e68a3265712d3e41434a49b5e4e5ecf8b`. The manifest was read back and parsed successfully; the lockfile already contains the matching TypeScript 7.0.2 entry.
 - Vercel created new preview deployments for this commit: project `mghalaosimi-web` is BUILDING and project `mghal` is QUEUED at last observation. Earlier ERROR deployments are explained by the invalid package manifest and are not production deployments.
 - Re-run/verify Website Quality against the corrected manifest before claiming green status. The previous run still failed on `tsc: not found`; the workflow's explicit `--include=dev` alone could not fix a missing package manifest dependency.
+
+
+---
+
+## 25. Project adapter test correction and current preview limits — 2026-11-06
+
+- The Website Quality run `42141065203` on commit `a0af150...` completed the build, HTML/SEO/design/PWA/credential audits, and certificate sync tests. It then failed in `scripts/test-project-api-sync.mjs` because the test expected the previous direct repository expression, while the implementation had been hardened to use `safeExternalUrl(...)`.
+- Updated the project integration test to assert HTTPS validation for both API repository URLs and static fallback repository URLs. The latest code commit for this correction is `980b98f2c2f53699c8e8a0f8cd594e1a163160b0`.
+- Rewrote `assets/database-content.js` with normal source line breaks (no literal escaped newline sequences) and added `node --check` for both public API adapter scripts to the build command. This prevents a malformed browser adapter from passing static source assertions.
+- Backend CI run `42141065149` completed SUCCESS on `a0af150...`.
+- Both Vercel preview projects reached READY on `a0af150...`: `mghalaosimi-web` deployment `dpl_7aEwuPLD1scNja2V4Ev3nS5D5G9C` and `mghal` deployment `dpl_BohtGVsEcSxm8hy3ffndJy1actmZ`. These are previews, not production aliases.
+- New Vercel builds for later commits are blocked by Vercel's reported `build-rate-limit`; do not keep triggering redundant deployments. The latest combined statuses on `980b98f...` report this limit for both preview projects.
+- The latest Website Quality rerun for commit `980b98f...` has not yet been observed. Do not mark the website suite green until its GitHub Actions result is confirmed.
