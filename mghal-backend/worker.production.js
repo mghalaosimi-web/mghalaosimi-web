@@ -77,14 +77,18 @@ export default {
   if(path==="/api/public/visitors"&&method==="POST"){
    const b=await json(),visitorToken=typeof b?.visitorToken==="string"&&b.visitorToken.length>=32?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
    let f=await q("SELECT id,status,display_name FROM followers WHERE email_hash=? LIMIT 1",key).first();let fresh=false;
-   if(!f){f={id:crypto.randomUUID(),status:"unverified",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'unverified')",f.id,key).run();}
+   if(!f){f={id:crypto.randomUUID(),status:"active",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'active')",f.id,key).run();}
+   else if(f.status==="unverified"){await q("UPDATE followers SET status='active' WHERE id=? AND status='unverified' AND consent_at IS NULL",f.id).run();f.status="active";}
    const page=typeof b?.path==="string"&&b.path.startsWith("/")?b.path.slice(0,500):"/";
    if(fresh)await q("INSERT INTO analytics_events(id,event_type,path,session_hash) VALUES(?,?,?,?)",crypto.randomUUID(),"visitor_start",page,await hash(visitorToken)).run();
-   return out({visitorToken,followerId:f.id,status:f.status,displayName:f.display_name||null},201);
+   return out({visitorToken,followerId:f.id,status:f.status,displayName:f.display_name||null,guestFollowing:f.status==="active"&&f.display_name===null},201);
   }
   if(path==="/api/public/followers/count"&&method==="GET"){
-   const row=await q("SELECT COUNT(*) count FROM followers WHERE status='active' AND consent_at IS NOT NULL").first();
-   return out({count:Number(row?.count||0)});
+   const [row,guests]=await Promise.all([
+    q("SELECT COUNT(*) count FROM followers WHERE status='active' AND consent_at IS NOT NULL").first(),
+    q("SELECT COUNT(*) count FROM followers WHERE status='active' AND consent_at IS NULL AND display_name IS NULL").first()
+   ]);
+   return out({count:Number(row?.count||0),guestCount:Number(guests?.count||0)});
   }
   if(path==="/api/public/followers/status"&&method==="POST"){
    const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid visitor session");
@@ -128,9 +132,12 @@ export default {
    const target=await q("SELECT id FROM "+table+" WHERE id=? AND "+where,targetId).first();if(!target)return fail(404,"TARGET_NOT_FOUND","Published target not found");
    const rows=await q("SELECT reaction,COUNT(*) count FROM reactions WHERE target_type=? AND target_id=? GROUP BY reaction",targetType,targetId).all();
    const counts={like:0,clap:0};for(const row of rows.results||[])if(row.reaction in counts)counts[row.reaction]=Number(row.count)||0;
-   let reacted=false;const visitorToken=url.searchParams.get("visitorToken");
-   if(visitorToken&&visitorToken.length>=32){const f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(visitorToken)).first();if(f)reacted=!!(await q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first());}
-   return out({targetType,targetId,counts,reacted});
+   let viewerReactions={like:false,clap:false};const visitorToken=url.searchParams.get("visitorToken");
+   if(visitorToken&&visitorToken.length>=32){const f=await q("SELECT id FROM followers WHERE email_hash=? LIMIT 1","visitor:"+await hash(visitorToken)).first();if(f){const [like,clap]=await Promise.all([
+    q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first(),
+    q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='clap' LIMIT 1",targetType,targetId,f.id).first()
+   ]);viewerReactions={like:!!like,clap:!!clap};}}
+   return out({targetType,targetId,counts,reacted:viewerReactions.like,viewerReactions});
   }
   if(path==="/api/public/comments"&&method==="GET"){
    const articleId=url.searchParams.get("articleId");if(!articleId)return fail(400,"VALIDATION_ERROR","Article ID is required");
