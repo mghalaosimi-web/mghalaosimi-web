@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import './mghal-portfolio.css';
+import '../mghal-portfolio.css';
 export const metadata:Metadata={title:'المشاريع | Projects',description:'مشاريع محمد غالب العصيمي في هندسة البرمجيات والأنظمة المؤسسية والذكاء الاصطناعي.'};
 const projects=[
 {name:'WAYNAH | وَيْنَه؟',status:'In Progress',desc:'منصة استكشاف جغرافي محلية موثوقة لليمن، ببنية مكانية تعتمد PostgreSQL وPostGIS، وتجربة منخفضة استهلاك البيانات.',stack:['Next.js','TypeScript','PostGIS'],href:'https://waynah.vercel.app'},

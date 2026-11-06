@@ -1,7 +1,7 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
-import '../mghal-portfolio.css';
+import '../../mghal-portfolio.css';
 const items=[
 {slug:'waynah',name:'WAYNAH | وَيْنَه؟',status:'In Progress',summary:'منصة استكشاف جغرافي محلية موثوقة لليمن، تعتمد PostgreSQL وPostGIS وتجربة منخفضة استهلاك البيانات.',stack:['Next.js','TypeScript','PostgreSQL','PostGIS'],url:'https://waynah.vercel.app'},
 {slug:'humanity-system',name:'Humanity System',status:'Private / In Progress',summary:'منظومة لإدارة البيانات والعمليات المؤسسية. التفاصيل الفنية الحساسة تبقى ضمن المستودع الخاص.',stack:['Full-Stack','Database','RBAC']},
