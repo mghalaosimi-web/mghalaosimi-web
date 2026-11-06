@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Bilingual M.GH.AL official static website — quality and TypeScript tooling",
-  "engines": {
-    "node": "24.x"
-  },
+  "engines": {\n    "node": "24.x"\n  },\n  "devDependencies": {\n    "typescript": "7.0.2"\n  },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json",
     "build:scripts": "tsc -p tsconfig.scripts.json",
