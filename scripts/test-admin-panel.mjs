@@ -28,7 +28,7 @@ assert.match(js,/\[HTTP '/,'API failures must expose their HTTP status');
 assert.match(js,/جارٍ إنشاء حساب المالك/,'bootstrap submission must expose an in-progress state');
 assert.match(worker,/PBKDF2/);assert.match(worker,/LAST_OWNER_PROTECTED/);assert.match(worker,/storage_provider,storage_key,public_url,original_name,mime_type,size_bytes,alt_ar,alt_en,uploaded_by,blob_data/);assert.match(worker,/file.size>1572864/);assert.match(worker,/method===\"DELETE\"/);assert.match(js,/التخزين داخل قاعدة البيانات الحالية/);
 assert.match(worker,/content\.write/);assert.match(worker,/content\.delete/);assert.match(migration,/followers\.manage/);
-assert.match(localization,/name_ar/);assert.match(mediaMigration,/ALTER TABLE media ADD COLUMN blob_data BLOB/);assert.match(worker,/short_description_ar/);assert.match(databaseContent,/api\/public\/projects\?locale=/);assert.match(databaseContent,/api\/public\/certificates/);assert.match(databaseContent,/querySelectorAll\('\.tag'\)/);
+assert.match(localization,/name_ar/);assert.match(mediaMigration,/ALTER TABLE media ADD COLUMN blob_data BLOB/);assert.match(worker,/short_description_ar/);assert.match(databaseContent,/api\/public\/projects\?locale=/);assert.match(certificateSync,/api\/public\/certificates/);assert.match(databaseContent,/project\.name \|\| staticRecord/);assert.match(databaseContent,/querySelectorAll\('\.tag'\)/);
 assert.ok(js.includes('sessionStorage'));assert.ok(js.includes('Do Not Track')===false);assert.ok(css.includes('--navy:#172b4d'));
 assert.ok(existsSync('article.html')&&existsSync('en/article.html'));
 assert.ok(readFileSync('knowledge.html','utf8').includes('published-articles'));
