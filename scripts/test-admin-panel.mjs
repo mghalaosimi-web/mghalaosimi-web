@@ -11,6 +11,7 @@ const localization=readFileSync('mghal-backend/migrations/0003_project_localizat
 const mediaMigration=readFileSync('mghal-backend/migrations/0004_d1_media_storage.sql','utf8');
 const technologyMigration=readFileSync('mghal-backend/migrations/0005_technology_visibility.sql','utf8');
 const databaseContent=readFileSync('assets/database-content.js','utf8');
+const certificateSync=readFileSync('assets/certificate-sync.js','utf8');
 for(const view of ['dashboard','identity','projects','certificates','articles','technologies','skills','education','achievements','followers','comments','analytics','media','users'])assert.ok(html.includes(`data-view="${view}"`),`missing admin view ${view}`);
 for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap/rotate','/api/admin/bootstrap','/api/admin/auth/login','/api/admin/dashboard','/api/admin/analytics','/api/admin/followers','/api/admin/comments','/api/admin/media','/api/admin/users'])assert.ok(worker.includes(route),`missing API route ${route}`);
 assert.match(html,/name="robots" content="noindex,nofollow,noarchive"/);
