@@ -8,8 +8,20 @@
     ? { Completed: 'Completed', 'In Progress': 'In progress', Experimental: 'Experimental', Incomplete: 'Incomplete', Paused: 'Paused', Planned: 'Planned', Archived: 'Archived' }
     : { Completed: 'مكتمل', 'In Progress': 'قيد التطوير', Experimental: 'تجريبي', Incomplete: 'غير مكتمل', Paused: 'متوقف مؤقتاً', Planned: 'مخطط له', Archived: 'مؤرشف' };
 
-  const safeExternalUrl = (value) => {\n    if (typeof value !== 'string' || !value.trim()) return null;\n    try { const url = new URL(value); return url.protocol === 'https:' ? url.href : null; } catch { return null; }\n  };\n\n  const setText = (node, value) => {
-    if (node && value !== null && value !== undefined && String(value).trim()) node.textContent = String(value);
+  const safeExternalUrl = (value) => {
+    if (typeof value !== 'string' || !value.trim()) return null;
+    try {
+      const url = new URL(value);
+      return url.protocol === 'https:' ? url.href : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const setText = (node, value) => {
+    if (node && value !== null && value !== undefined && String(value).trim()) {
+      node.textContent = String(value);
+    }
   };
 
   const detailSlug = (card) => {
@@ -22,21 +34,27 @@
   };
 
   const imageFor = (slug) => ({
-    waynah: 'waynah', 'humanity-system': 'humanity', 'yemen-ai': 'yemen-ai',
-    'mghal-content-os': 'content-os', 'manar-schedule-system': 'schedule',
-    'almanar-schedule-system': 'schedule', ciphersphere: 'ciphersphere',
-    focusflow: 'focusflow', 'mghal-esdp': 'esdp', 'mghal-official-website': 'mghal-official-website',
+    waynah: 'waynah',
+    'humanity-system': 'humanity',
+    'yemen-ai': 'yemen-ai',
+    'mghal-content-os': 'content-os',
+    'manar-schedule-system': 'schedule',
+    'almanar-schedule-system': 'schedule',
+    ciphersphere: 'ciphersphere',
+    focusflow: 'focusflow',
+    'mghal-esdp': 'esdp',
+    'mghal-official-website': 'mghal-official-website',
   }[slug] || 'project');
 
   async function syncProjects() {
     const grid = document.querySelector('main .grid');
     if (!grid || !location.pathname.includes('projects.html')) return;
 
-    const response = await fetch(`${API}/api/public/projects?locale=${locale}`, {
+    const response = await fetch(API + '/api/public/projects?locale=' + locale, {
       headers: { Accept: 'application/json' },
       cache: 'no-store',
     });
-    if (!response.ok) throw new Error(`Projects API returned ${response.status}`);
+    if (!response.ok) throw new Error('Projects API returned ' + response.status);
     const payload = await response.json();
     if (!Array.isArray(payload.data) || payload.data.length === 0) return;
 
@@ -66,7 +84,8 @@
       // Published API values take precedence; original catalogue values remain a safe fallback.
       const title = project.name || staticRecord?.title?.[locale] || card.querySelector('h2,h3')?.textContent || '';
       const summary = project.short_description || staticRecord?.summary?.[locale] || '';
-      const repository = safeExternalUrl(project.repository_url) || safeExternalUrl(staticRecord?.repository);\n      const liveUrl = safeExternalUrl(project.live_url);
+      const repository = safeExternalUrl(project.repository_url) || safeExternalUrl(staticRecord?.repository);
+      const liveUrl = safeExternalUrl(project.live_url);
 
       setText(card.querySelector('h2,h3'), title);
       setText(card.querySelector(':scope > p'), summary);
@@ -74,14 +93,15 @@
 
       const detail = card.querySelector('.project-detail-link');
       if (detail) {
-        detail.href = `${isEnglish ? '/en' : ''}/projects/${encodeURIComponent(project.slug)}/`;
-        detail.setAttribute('aria-label', `${isEnglish ? 'Project details: ' : 'تفاصيل المشروع: '}${title}`);
+        detail.href = (isEnglish ? '/en' : '') + '/projects/' + encodeURIComponent(project.slug) + '/';
+        detail.setAttribute('aria-label', (isEnglish ? 'Project details: ' : 'تفاصيل المشروع: ') + title);
       }
 
       const repositoryLinks = [...card.querySelectorAll('a[href*="github.com"]')];
       if (repository) {
-        if (repositoryLinks[0]) repositoryLinks[0].href = repository;
-        else {
+        if (repositoryLinks[0]) {
+          repositoryLinks[0].href = repository;
+        } else {
           const link = document.createElement('a');
           link.className = 'muted';
           link.href = repository;
@@ -109,10 +129,10 @@
       const image = card.querySelector('img');
       if (image) {
         image.src = project.cover_media_id
-          ? `${API}/api/public/media/${encodeURIComponent(project.cover_media_id)}`
-          : staticRecord?.gallery?.[0]?.src || `/assets/projects/${imageFor(project.slug)}.svg`;
+          ? API + '/api/public/media/' + encodeURIComponent(project.cover_media_id)
+          : staticRecord?.gallery?.[0]?.src || '/assets/projects/' + imageFor(project.slug) + '.svg';
         image.alt = staticRecord?.gallery?.[0]?.alt?.[locale]
-          || `${isEnglish ? 'Project cover: ' : 'غلاف المشروع: '}${title}`;
+          || (isEnglish ? 'Project cover: ' : 'غلاف المشروع: ') + title;
       }
 
       card.dataset.search = [title, summary, ...[...card.querySelectorAll('.tag')].map((tag) => tag.textContent || '')]
