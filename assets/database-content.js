@@ -8,7 +8,7 @@
     ? { Completed: 'Completed', 'In Progress': 'In progress', Experimental: 'Experimental', Incomplete: 'Incomplete', Paused: 'Paused', Planned: 'Planned', Archived: 'Archived' }
     : { Completed: 'مكتمل', 'In Progress': 'قيد التطوير', Experimental: 'تجريبي', Incomplete: 'غير مكتمل', Paused: 'متوقف مؤقتاً', Planned: 'مخطط له', Archived: 'مؤرشف' };
 
-  const setText = (node, value) => {
+  const safeExternalUrl = (value) => {\n    if (typeof value !== 'string' || !value.trim()) return null;\n    try { const url = new URL(value); return url.protocol === 'https:' ? url.href : null; } catch { return null; }\n  };\n\n  const setText = (node, value) => {
     if (node && value !== null && value !== undefined && String(value).trim()) node.textContent = String(value);
   };
 
@@ -66,7 +66,7 @@
       // Published API values take precedence; original catalogue values remain a safe fallback.
       const title = project.name || staticRecord?.title?.[locale] || card.querySelector('h2,h3')?.textContent || '';
       const summary = project.short_description || staticRecord?.summary?.[locale] || '';
-      const repository = project.repository_url || staticRecord?.repository || null;
+      const repository = safeExternalUrl(project.repository_url) || safeExternalUrl(staticRecord?.repository);\n      const liveUrl = safeExternalUrl(project.live_url);
 
       setText(card.querySelector('h2,h3'), title);
       setText(card.querySelector(':scope > p'), summary);
@@ -74,7 +74,7 @@
 
       const detail = card.querySelector('.project-detail-link');
       if (detail) {
-        detail.href = `${isEnglish ? '/en' : ''}/projects/${project.slug}/`;
+        detail.href = `${isEnglish ? '/en' : ''}/projects/${encodeURIComponent(project.slug)}/`;
         detail.setAttribute('aria-label', `${isEnglish ? 'Project details: ' : 'تفاصيل المشروع: '}${title}`);
       }
 
@@ -93,7 +93,7 @@
         for (const extra of repositoryLinks.slice(1)) extra.remove();
       }
 
-      if (project.live_url) {
+      if (liveUrl) {
         let liveLink = card.querySelector('.project-live-link');
         if (!liveLink) {
           liveLink = document.createElement('a');
@@ -102,7 +102,7 @@
           liveLink.rel = 'noopener noreferrer';
           card.append(liveLink);
         }
-        liveLink.href = project.live_url;
+        liveLink.href = liveUrl;
         liveLink.textContent = isEnglish ? 'Live project ↗' : 'المشروع المباشر ↗';
       }
 
