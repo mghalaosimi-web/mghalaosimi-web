@@ -137,3 +137,8 @@ body.resume-page .btn.alt{background:#101b27!important;border-color:rgba(119,153
 body.resume-page{--bg:#070a10!important;--text:#eef4fa!important;--muted:#8997a8!important;--accent:#62d8ef!important}
 body.resume-page .btn{background:#62d8ef!important;border-color:#62d8ef!important;color:#071018!important}
 body.resume-page .btn:hover{background:#a1edfa!important;color:#071018!important}
+
+/* Resume page visual alignment */
+body.resume-page{background:#070a10!important;color:#eef4fa!important}
+body.resume-page .sheet{border-radius:4px!important;background:linear-gradient(145deg,#111d2a,#0a1018)!important}
+body.resume-page .btn{border-radius:3px!important}
