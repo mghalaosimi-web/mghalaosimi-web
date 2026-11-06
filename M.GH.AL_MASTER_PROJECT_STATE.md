@@ -1,7 +1,7 @@
 # M.GH.AL — MASTER PROJECT STATE
 
 > **Purpose:** Single concise source of truth for project continuation. This document records verified state, not assumptions.
-> **Last verified:** 2026-11-05 (Asia/Aden, UTC+03:00)
+> **Last verified:** 2026-11-06 (Asia/Aden, UTC+03:00)
 > **Repository:** https://github.com/mghalaosimi-web/mghalaosimi-web
 > **Current verification branch:** `feat/mghal-credentials-projects-expansion-2026-11-05`
 > **Last verified code commit:** `ed3beed547d03949c1fef085e1b85f97003efb93` (this state refresh is a subsequent documentation-only commit)
@@ -218,3 +218,53 @@ At the latest verification on 2026-11-05:
 - Keep stable architecture/decisions concise; keep open tasks and operational evidence current.
 - Do not copy source files, full logs, secrets or full conversation history into this document.
 - At handoff, read this file and verify mutable state again before acting.
+
+
+---
+
+## 20. Live verification addendum — 2026-11-06 (Asia/Aden, UTC+03:00)
+
+This addendum supersedes conflicting operational statements in earlier sections until a newer verification is recorded. All production checks below were read-only.
+
+### Repository and pull request
+- Repository branches include `main`, `feat/mghal-credentials-projects-expansion-2026-11-05`, `feat/mghal-complete-platform-2026-11-01`, `fix/mghal-dual-deploy-hardening-2026-11-05`, and the preserved redesign/quality branches.
+- PR #12 remains OPEN and unmerged (GitHub issue snapshot). Its description still contains the historical head `81eada27...`; do not treat that description as current branch-head metadata. The latest observed deployment on the development branch is documentation commit `d58c5eba83c968e70586f765d4aa1d02a2b59051`; latest verified code commit remains `ed3beed547d03949c1fef085e1b85f97003efb93`.
+- No merge, retarget, force-push, or main-branch change was performed.
+
+### Live deployments
+- Render `mghal-release-current` is LIVE on `d58c5eba...`, deployment `dep-dbme0mh7lnhs739ikoog`; it tracks the development branch and publishes `public` using `npm ci && npm run build`.
+- Live Render root returned HTTP 200 and exposed 10 project records and 21 credential records.
+- Vercel latest inspected production deployment remains ERROR on `main` commit `d7378bff...`. Build logs identify the exact cause: Vercel runs `npm run quality` at repository root, but `/vercel/path0/package.json` does not exist (npm ENOENT). Do not change Vercel project/build settings or promote another branch without approval.
+- A Vercel Preview deployment for the development branch documentation commit `d58c5eba...` is READY. Preview readiness is not production parity.
+
+### Worker and API
+- Cloudflare `mghal-api` remains on Worker Version 15, Version ID `01abb3a3-1313-4782-a90d-59abcbf90d40`, deployment ID `f710e941-a8da-4129-b4d6-d09d1a248c49`, routed at 100%.
+- Live `GET /health` returned HTTP 200 with `status: ok` and `database: connected`.
+- No Worker version, secret, binding, route or production setting was changed.
+
+### D1 read-only verification
+- Database metadata: 25 tables; 401,408 bytes; APAC.
+- Current counts: projects 10; certificates 21; admin_users 0; technologies 0; articles 0; media 0; followers 20.
+- Applied migration records: `0001_core_platform`, `0002_admin_permissions`, `0003_project_localization`, `0004_d1_media_storage`, `0005_technology_visibility`.
+- The queries returned zero rows written and `changed_db: false`. No migration or data write was performed.
+- Existing distinction remains: the public follower count is consent-filtered and is not the raw `followers` table row count.
+
+### CI verification
+- Backend CI run `42099111695` completed SUCCESS on code commit `ed3beed...`.
+- Website Quality run `42099101015`: the full quality-suite step completed SUCCESS, but the real-browser accessibility/keyboard/reflow/print/Lighthouse step was CANCELLED. A later run `42099111618` was also CANCELLED. Therefore browser/Lighthouse acceptance is OPEN, not passed.
+- Vercel Preview status checks for deployment `dpl_G1caVDBgP7paMYpJJwmdThbL46g7` reported SUCCESS; this does not alter the production failure.
+
+### Current blockers and exact next actions
+1. **P0 — secure owner bootstrap:** no admin owner exists. The branch-only secret-gated bootstrap-recovery implementation is not deployed to Worker v15. Explicit approval is required before configuring `OWNER_BOOTSTRAP_TOKEN` and deploying the Worker. The secret must be created through the provider UI/secure secret channel, never pasted into chat. User-controlled one-time owner creation and subsequent secret removal remain required.
+2. **P1 — Vercel root build configuration:** diagnose and propose a safe project-level build configuration or root-directory correction in a non-production preview; do not alter production settings without approval.
+3. Complete authenticated login/session/RBAC/CRUD verification after owner bootstrap.
+4. Populate technologies/media only from authentic sources; reconcile original certificate files and exact issuer mappings.
+5. Complete browser accessibility, keyboard, reflow, real-device and print/PDF acceptance.
+6. Verify Vercel/Render release parity and public SEO/indexing after the release path is approved.
+
+### Last verified checkpoint
+- Latest observed Render deployment: `d58c5eba...` LIVE.
+- Latest verified code commit: `ed3beed...`; later `d58c5eba...` is documentation-only.
+- Worker v15 active; D1 migrations 0001–0005 applied; no admin owner.
+- API health is healthy; production Vercel remains failed due to missing root `package.json`.
+- **Next safe work:** investigate the Vercel project build/root-directory configuration in read-only mode and prepare a preview-only correction proposal. **Next production action:** wait for explicit approval for Worker secret configuration/deployment and owner bootstrap.
