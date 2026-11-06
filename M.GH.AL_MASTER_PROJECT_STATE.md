@@ -271,3 +271,54 @@ This addendum supersedes conflicting operational statements in earlier sections 
 - Worker v15 active; D1 migrations 0001–0005 applied; no admin owner.
 - API health is healthy; production Vercel remains failed due to missing root `package.json`.
 - **Next safe work:** investigate the Vercel project build/root-directory configuration in read-only mode and prepare a preview-only correction proposal. **Next production action:** wait for explicit approval for Worker secret configuration/deployment and owner bootstrap.
+
+
+---
+
+## 21. Live verification addendum — 2026-11-06 03:31 Asia/Aden (UTC+03:00)
+
+This is the newest verified checkpoint and supersedes older deployment/CI statements above. All Cloudflare/D1 checks were read-only; no production mutations were performed.
+
+### Repository, PR and CI
+- Development branch head: `00cc8446a07342a6d773bd930d9383e3501fb9e4` (`docs(state): record live API and credential mapping checks`); this commit is documentation-only. Latest code changes remain at `ed3beed547d03949c1fef085e1b85f97003efb93`.
+- PR #12 remains OPEN, unmerged, and GitHub reports mergeable=true. Current head matches `00cc8446...`; 284 commits, 99 changed files.
+- Backend CI run `42137072152` completed SUCCESS on `00cc8446...`.
+- Website Quality runs `42137072331` and `42137063315` both completed SUCCESS on `00cc8446...`. The successful job completed the full quality suite and Chromium-based accessibility, keyboard, reflow, print and Lighthouse audit steps.
+- The earlier Website Quality run on `6814282...` was cancelled while a duplicate run was active; it is superseded by the two successful runs on `00cc8446...`.
+- No main-branch update, PR merge, retarget, force-push or destructive Git operation occurred.
+
+### Current deployment state
+- Render `mghal-release-current` is LIVE on `00cc8446...`, deployment `dep-dbmhuabbc2fs73f7pmng`.
+- Vercel Preview deployment `dpl_3r599YnDjiu4kCGrRRAXC2b5Rigm` is READY on the same `00cc8446...` commit. This is a preview deployment, not production.
+- Vercel production remains ERROR on `main` commit `d7378bff...`; the failed build log shows Vercel invokes `npm run quality` from `/vercel/path0` and cannot find `/vercel/path0/package.json`.
+- Root-cause comparison: the current development branch contains a root `package.json`; `main` does not. Thus this is a source-branch content gap, not evidence that the current development branch lacks a package manifest. The Vercel project has Node `24.x`, framework `null`, and SSO protection enabled for non-custom deployment URLs. No Vercel project setting or production alias was changed.
+- Git comparison confirms the platform PR base is 323 commits ahead and 19 behind `main`; PR head is 607 commits ahead and 19 behind `main`. Do not merge this large divergent branch directly into `main` or switch Vercel production branch without an explicit integration/release decision.
+
+### Cloudflare Worker, API and D1
+- `mghal-api` remains on Worker Version 15 at 100%: Version ID `01abb3a3-1313-4782-a90d-59abcbf90d40`, deployment ID `f710e941-a8da-4129-b4d6-d09d1a248c49`.
+- Live `GET /health` returned `status: ok`, `database: connected`.
+- Live bootstrap status remains `available: true`, `ownerExists: false`. No owner account exists.
+- D1 read-only counts: projects 10; certificates 21; roles 3; admin_users 0; admin_sessions 0; media 0; technologies 0; migrations 5. Database metadata remains 25 tables / 401,408 bytes.
+- Migration records `0001_core_platform` through `0005_technology_visibility` are present. The read-only query reported zero rows written and `changed_db: false`.
+- No Worker version, secret, binding, route, D1 migration or production setting was changed.
+
+### Credential mapping audit
+- The 21 D1 certificate records are grouped as 14 Cisco, 6 Edraak and 1 JSNAD.
+- All 21 D1 records currently have null `image_media_id`, `pdf_media_id` and `qr_url`. Cisco records currently point to the generic Credly profile URL rather than individual badge URLs; Edraak D1 verification URLs are null.
+- Eleven Cisco rows have named titles; three are generic placeholders (“سجل اعتماد إضافي 12/13/14”). The static certificate page has original image assets for eight Cisco entries, while six Cisco cards remain text-only.
+- The repository includes original Edraak PDFs for UI/UX Design, Interaction Design, UX Design and User Interface Design Principles; original image/PDF assets are not yet connected to D1 media records. Do not infer exact QR or verification URL-to-title matches without inspecting the relevant original document.
+- The public static certificate page and the D1-backed API therefore have different levels of media completeness. Preserve all 21 records and reconcile original files before changing any record.
+
+### Current next actions
+1. **P0 — Owner bootstrap remains approval-gated.** Configure a high-entropy `OWNER_BOOTSTRAP_TOKEN` as a Cloudflare Worker Secret and deploy the reviewed Worker only after explicit approval. Never paste the secret into chat. After deployment, use the recovery UI, create the first owner once, remove the secret binding, and verify login/RBAC.
+2. **P1 — Vercel production integration.** Decide how to reconcile the 19-commit divergence and 607-commit feature history. Keep work in preview until a release target is explicitly approved; do not alter production project settings or `main` autonomously.
+3. **P1 — Credential media reconciliation.** Map the original Cisco/Edraak/JSNAD files, individual badge/verification URLs and QR codes to the correct certificate records. Keep D1 writes approval-gated.
+4. Populate technologies/media from authentic sources only; both D1 tables are currently empty.
+5. Complete authenticated admin acceptance after owner bootstrap and perform public SEO/indexing and cross-platform parity checks.
+
+### Exact stop point
+- Latest branch head: `00cc8446...`; latest code commit: `ed3beed...`.
+- Latest Render deployment and Vercel Preview are both READY/LIVE on `00cc8446...`.
+- Backend CI and both full Website Quality runs succeeded on `00cc8446...`.
+- Production Worker v15 and D1 remain unchanged; no owner exists.
+- Safe read-only diagnosis of the Vercel production failure is complete. Next production-changing action is blocked on explicit approval for Worker secret configuration/deployment; no production action was taken.
