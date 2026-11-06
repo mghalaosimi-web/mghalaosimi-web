@@ -322,3 +322,24 @@ This is the newest verified checkpoint and supersedes older deployment/CI statem
 - Backend CI and both full Website Quality runs succeeded on `00cc8446...`.
 - Production Worker v15 and D1 remain unchanged; no owner exists.
 - Safe read-only diagnosis of the Vercel production failure is complete. Next production-changing action is blocked on explicit approval for Worker secret configuration/deployment; no production action was taken.
+
+
+---
+
+## 22. Public content delivery integration audit — 2026-11-06
+
+Read-only source inspection found an additional functional gap in the admin publishing architecture:
+
+- `GET /api/public/certificates` returns the 21 published D1 records, but `certificates.html` contains hardcoded certificate markup and does not call that endpoint. `assets/credentials.js` only filters existing DOM cards and contains no `fetch()`.
+- The public projects listing script `assets/project-listing.js` loads `/assets/projects/catalog.json`; it does not load `/api/public/projects`. The listing therefore remains a static catalog rather than a live projection of admin-managed D1 projects.
+- Consequently, successful admin CRUD/API writes are not yet proven to propagate to the public certificate and project pages. This is a release-blocking integration gap for the promised “publish in Admin → appear publicly” workflow.
+- The Worker currently serves `/api/public/media/{id}` only when the media MIME type is `image/*`. Admin upload accepts PDFs and certificate records have `pdf_media_id`, but there is no public PDF delivery path in the current Worker route. Do not expose arbitrary uploaded PDFs; a safe implementation should serve a PDF only when it is referenced by a published certificate.
+- No source files, records, or settings were changed during this audit.
+
+### Next safe engineering batch
+1. Design a progressive-enhancement content adapter for certificates and projects: fetch the real public API, retain authentic static fallback content when the API is unavailable, and avoid mock data.
+2. Add a protected-by-publication PDF media route (published certificate reference required), with MIME, `nosniff`, inline disposition and regression tests.
+3. Add integration tests proving published D1 records render on the public pages and unpublished records remain hidden.
+4. Keep the work on the development branch. Do not write production D1 media rows until the owner account and upload workflow are safely available.
+
+This integration batch is independent of the owner bootstrap, but its production use still depends on a reviewed Worker deployment and authentic media mappings.
