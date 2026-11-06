@@ -4,7 +4,7 @@
 > **Last verified:** 2026-11-06 (Asia/Aden, UTC+03:00)
 > **Repository:** https://github.com/mghalaosimi-web/mghalaosimi-web
 > **Current verification branch:** `feat/mghal-credentials-projects-expansion-2026-11-05`
-> **Last verified code commit:** `ed3beed547d03949c1fef085e1b85f97003efb93` (this state refresh is a subsequent documentation-only commit)
+> **Last verified code commit:** `34adcdd98630befcaa39f5fe0c52432c05146b4c` (latest verified development code checkpoint before this state refresh)
 
 ## 1. Project identity
 
@@ -54,16 +54,16 @@ Complete a secure, bilingual, accessible and maintainable professional identity 
 - Static admin UI exists at `admin/index.html` with `assets/admin.js` and `assets/admin.css`.
 - Worker contains admin authentication, session handling, RBAC, content CRUD for projects/certificates/articles/skills/education/achievements/identity/technologies, media handling, follower/comment moderation and analytics endpoints.
 - Roles present in D1: `owner`, `editor`, `analyst`.
-- Admin account count is **0**. The live production bootstrap status endpoint (Worker v15) returns `available: true`, `ownerExists: false`. The development Worker adds `rotationRequired` and `POST /api/admin/bootstrap/rotate`; those changes are not live yet.
-- A bootstrap hash exists in `site_settings`; the plaintext token is not available in this record. The current Worker settings response did not show an `OWNER_BOOTSTRAP_TOKEN` binding. Do not attempt bootstrap with guessed credentials.
-- A branch-only recovery route `POST /api/admin/bootstrap/rotate` now uses a high-entropy `OWNER_BOOTSTRAP_TOKEN` Worker secret, rejects weak/mismatched tokens, refuses rotation once any admin exists, and stores only the SHA-256 digest. The admin UI includes a password-type rotation form and sends the token only in the Bearer header; after successful rotation it carries the token into the one-time owner form without persisting it. Backend CI and the full website quality suite passed. This code is **not deployed to the production Worker**; the secret is not configured. Production owner creation remains blocked pending explicit approval.
+- Admin account count is **0**. Production Worker Version 16 reports `available: true`, `ownerExists: false`, and `rotationRequired: false`. The `OWNER_BOOTSTRAP_TOKEN` secret binding is not configured; no owner account has been created.
+- A bootstrap hash exists in `site_settings`; the plaintext token is not available in this record. Never guess, retrieve, or disclose bootstrap credentials.
+- The development branch contains the complete recovery UI and secret-gated rotation route. Production Version 16 received the separately reviewed minimal recovery patch after the user's explicit approval; the secret remains user-controlled and the owner form must be completed by the user.
 
 ## 7. API status
 
-Live read-only checks on 2026-11-05:
-- `GET /health` → `status: ok`, `database: connected`.
-- `GET /api/public/projects` → successful JSON response.
-- `GET /api/public/certificates` → successful JSON response.
+Live read-only checks on 2026-11-06:
+- `GET /health` → `status: ok`, `database: connected` on Worker Version 16.
+- `GET /api/public/projects?locale=en` → HTTP 200, 10 published project records.
+- `GET /api/public/certificates` → HTTP 200, 21 published certificate records.
 - `GET /api/public/skills` → successful JSON response.
 - `GET /api/public/technologies` → successful JSON response; currently empty.
 - `GET /api/public/followers/count` → successful JSON response; currently reports 1 consented active follower.
@@ -106,7 +106,7 @@ Applied migration records verified:
 
 - Admin sessions store token hashes; the Worker verifies bearer sessions and checks role-permission mappings.
 - Password hashes use PBKDF2-SHA-256 in the Worker implementation.
-- One-time owner bootstrap route exists; no owner account exists yet. The development branch now contains a secret-gated rotation route and regression tests; production Worker version 15 does not yet contain this change.
+- One-time owner bootstrap and secret rotation routes exist in the active production Worker Version 16; `rotationRequired=false` until the user configures the Worker Secret. No owner account exists.
 - Never add a default owner/password, bypass bootstrap, or expose a bootstrap hash/token.
 - Confirm login, logout, session expiry, RBAC and CORS with an authenticated browser test after secure owner bootstrap.
 
@@ -126,7 +126,7 @@ Repository default branch is `main`, currently at `d7378bffeb55ca957829995fb4fee
 Current PR:
 - PR **#12**, “Expand M.GH.AL credentials, projects and research sections”.
 - State: OPEN, not merged; draft=false; mergeable=true at last read.
-- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `ed3beed547d03949c1fef085e1b85f97003efb93`; this state-file refresh is a subsequent documentation-only commit.
+- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `34adcdd98630befcaa39f5fe0c52432c05146b4c`; this state-file refresh is a subsequent documentation-only commit.
 - Base: `feat/mghal-complete-platform-2026-11-01` at `bea6e75b452386c60e9bd5c434ce2189635de2ef`.
 - PR contains 99 changed files and 281 commits at the latest metadata read; GitHub reports mergeable=true and mergeable_state=unstable while checks are still running.
 - The platform base branch and `main` are **diverged**: platform branch is 323 commits ahead and 19 behind `main`. This is a verified compare result; do not merge or retarget without deliberate reconciliation.
@@ -136,12 +136,12 @@ Other relevant branches include `feat/mghal-visual-redesign-2026-11-03`, `feat/m
 
 ## 12. CI/CD and deployment evidence
 
-On the latest verified code head `ed3beed...`:
+On the previously deployed code head `ed3beed...`:
 - GitHub Actions **M.GH.AL Backend CI** run `42098683461`: completed SUCCESS on backend implementation commit `b1d19925...`, including five bootstrap-rotation regression tests.
 - GitHub Actions **Website Quality** run `42099101015`: full website quality suite completed SUCCESS on `ed3beed...`; browser audit stage (Chromium, accessibility, keyboard, reflow, print and Lighthouse) was still in progress at last read. An earlier UI-test run failed; the over-escaped assertions were corrected in `ed3beed...` and the full suite then passed.
 - Render `mghal-release-current`: deployment `dep-dbme06ql7uoc73cubq10`, LIVE on `ed3beed...`.
 - Both Vercel preview status checks on `ed3beed...` returned SUCCESS; this does not change the older public production alias.
-- Cloudflare Worker `mghal-api`: version **15** remains the active 100% production deployment. Version ID `01abb3a3-1313-4782-a90d-59abcbf90d40`; deployment ID `f710e941-a8da-4129-b4d6-d09d1a248c49`; deployed 2026-11-05 19:28 UTC. It retains the D1 binding. The new bootstrap-rotation code exists only in the Git branch and has not been deployed to Cloudflare.
+- Cloudflare Worker `mghal-api`: production Version **16** is active at 100%, version ID `1c7c5b7f-a2d7-4d05-8583-15040fcaf165`, deployment ID `407e2059-10ee-49cf-a0bc-b4742c1aba1c`. It retains the existing D1 binding. The production recovery patch is deployed; `OWNER_BOOTSTRAP_TOKEN` is not yet configured and no owner account exists.
 - Version 14 ID: `509e6147-1e3a-4fa9-9bee-7fc3d7acf7e3`; superseded by version 15.
 - CI success does not equal full production acceptance. Manual assistive-technology, keyboard, 200%/400% reflow, real-device and print/PDF acceptance remain open.
 
@@ -410,3 +410,19 @@ This integration batch is independent of the owner bootstrap, but its production
 ### CI follow-up
 - Backend CI run `42140037813` completed SUCCESS; dependency installation and `npm run check` passed.
 - Website Quality run `42140037779` was cancelled by workflow scheduling before jobs ran. Its cancelled quality job (`127637965266`) was successfully re-requested through GitHub Actions; the rerun has not yet returned a completed result. Do not treat the website quality suite as passed until the rerun completes.
+
+
+---
+
+## 23. Public project API synchronization — 2026-11-06
+
+- Updated `assets/database-content.js` so bilingual project pages consume the published `GET /api/public/projects?locale=ar|en` response as the primary source for project names, summaries and statuses.
+- Project repository and live links prefer published API values, with authentic static-catalogue links retained as fallback when optional API fields are empty. External links are restricted to HTTPS; unsafe schemes are rejected.
+- Project cover media uses the guarded public media route when `cover_media_id` is present; otherwise the existing local gallery/illustrative asset is preserved.
+- After a successful non-empty API response, cards absent from the published project set are hidden. If the API fails or returns no records, the original static catalogue remains visible.
+- Added `scripts/test-project-api-sync.mjs` and included it in `npm run test:unit`. Updated the admin/platform test to recognize the separated certificate and project adapters.
+- Commits: project API adapter `fa91ccad02d1e6edb83d39909f7597ba98e539b9`; integration test `d542ee8c409f91ef1f213a420b809e228ffa947e`; test command `c4255fbcfd6003a1244203e35a8559553be4a314`; test alignment `84c37bd180a9e14ee8b002104fc77e8877a94e90`; HTTPS link hardening `e0a969e0710175e05caf78cbec0e17f3a0ff51a2`; URL regression assertion `34adcdd98630befcaa39f5fe0c52432c05146b4c`.
+- Live API shape was checked read-only: 10 published projects and 21 published credentials. This does not prove the website deployment is already consuming the latest code.
+- GitHub Actions on `34adcdd...`: Website Quality run `42140651039` and Backend CI run `42140651051` were `in_progress` at the last check. Two Vercel preview status checks were `failure`; investigate their deployment logs before considering the branch preview ready. No successful CI result is claimed for these latest commits yet.
+- The local checkout's `npm run quality` had passed before the GitHub-side commits were applied, but it was not the final remote branch head. Treat the current remote CI runs as authoritative.
+- No changes were made to `main`, PR targets, Cloudflare Worker, D1, production secrets, or owner records in this project API batch.
