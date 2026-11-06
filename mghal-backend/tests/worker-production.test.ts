@@ -46,7 +46,8 @@ function engagementDb() {
               if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
               if (sql.includes("SELECT COUNT(*) count FROM followers") && sql.includes("consent_at IS NULL")) return { count: 5 };
               if (sql.includes("SELECT COUNT(*) count FROM followers") && sql.includes("consent_at IS NOT NULL")) return { count: 3 };
-              if (sql.includes("SELECT id,status,display_name,consent_at FROM followers")) return { id: "follower-1", status: "active", display_name: "Tester", consent_at: "2026-11-05T00:00:00.000Z" };
+              if (sql.includes("SELECT id,status,display_name,consent_at FROM followers") && params[0] === "visitor:ffe054fe7ae0cb6dc65c3af9b61d5209f439851db43d0ba5997337df154668eb") return { id: "follower-1", status: "active", display_name: "Tester", consent_at: "2026-11-05T00:00:00.000Z" };
+              if (sql.includes("SELECT id,status,display_name,consent_at FROM followers")) return null;
               if (sql.includes("SELECT id,status,display_name FROM followers")) return null;
               if (sql.includes("SELECT id,status FROM followers")) return { id: "follower-1", status: "unverified" };
               if (sql.includes("UPDATE followers SET display_name")) return { id: "follower-1", status: "active", display_name: "Tester", consent_at: "2026-11-05T00:00:00.000Z" };
