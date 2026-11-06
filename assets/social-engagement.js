@@ -9,14 +9,14 @@ const words=en?{
  follow:'Become a public follower',following:'You are following M.GH.AL.',notFollowing:'You are not following yet.',
  unfollow:'Stop following',privacy:'Guest following uses a random browser token. The site cannot read your email account automatically. Add a public name only with your consent.',
  count:'Public followers',guests:'Anonymous guest follows',like:'Like',clap:'Applaud',share:'Share',shared:'Link copied / ready to share',
- error:'Could not complete the action. Please try again.',liked:'Reaction updated.',comments:'Comments',noComments:'No approved comments yet.'
+ google:'Continue with Google',googleConnected:'Google account verified. Your email remains private.',googleDisabled:'Google sign-in is not configured yet.', error:'Could not complete the action. Please try again.',liked:'Reaction updated.',comments:'Comments',noComments:'No approved comments yet.'
 }:{followTitle:'تابع M.GH.AL',followCopy:'أصبحت تتابع الموقع تلقائياً كزائر مجهول على هذا المتصفح.',
  guest:'أنت تتابع الآن كضيف مجهول. لا ننشر اسمك أو بريدك الإلكتروني، ولا نرسل إليك رسائل بريدية.',
  name:'الاسم الذي سيظهر علناً',consent:'أوافق على نشر هذا الاسم ضمن قائمة متابعي M.GH.AL.',
  follow:'حوّل المتابعة إلى متابعة باسمك',following:'أنت تتابع M.GH.AL حالياً.',notFollowing:'أنت لا تتابع الموقع حالياً.',
  unfollow:'إيقاف المتابعة',privacy:'تُحفظ متابعة الضيف بمعرّف عشوائي لهذا المتصفح. لا يستطيع الموقع قراءة بريدك تلقائياً. لن يظهر اسم علني إلا بموافقتك.',
  count:'المتابعون بأسماء معلنة',guests:'متابعات الضيوف المجهولة',like:'إعجاب',clap:'أعجبني جداً',share:'مشاركة',shared:'تم نسخ الرابط أو تجهيزه للمشاركة',
- error:'تعذر تنفيذ العملية. حاول مرة أخرى.',liked:'تم تحديث التفاعل.',comments:'التعليقات',noComments:'لا توجد تعليقات منشورة بعد.'
+ google:'المتابعة باستخدام Google',googleConnected:'تم توثيق حساب Google. بريدك الإلكتروني خاص ولن يُنشر.',googleDisabled:'تسجيل Google غير مفعّل حالياً.',error:'تعذر تنفيذ العملية. حاول مرة أخرى.',liked:'تم تحديث التفاعل.',comments:'التعليقات',noComments:'لا توجد تعليقات منشورة بعد.'
 };
 let visitorPromise=window.__mghalVisitorPromise||null;
 function storedToken(){try{return localStorage.getItem(VISITOR_KEY)}catch{return null}}
@@ -88,15 +88,18 @@ function reactionWidget(type,id){
 function addFollowPanel(){
  const main=$('main');if(!main||$('#mghal-follow-panel'))return;
  const section=document.createElement('section');section.id='mghal-follow-panel';section.className='mghal-follow-panel';
- section.innerHTML='<div class="mghal-follow-copy"><p class="mghal-social-eyebrow">M.GH.AL COMMUNITY</p><h2></h2><p class="mghal-follow-intro"></p><p class="mghal-guest-notice" role="status"></p><small class="mghal-follow-privacy"></small><div class="mghal-follower-counts" aria-live="polite"></div></div><form class="mghal-follow-form"><label class="mghal-name-label"></label><label class="mghal-consent"><input type="checkbox" name="consent"><span></span></label><button class="mghal-social-btn mghal-follow-submit" type="submit"></button><button class="mghal-social-btn mghal-unfollow" type="button" hidden></button><p class="mghal-follow-status" role="status" aria-live="polite"></p></form>';
+ section.innerHTML='<div class="mghal-follow-copy"><p class="mghal-social-eyebrow">M.GH.AL COMMUNITY</p><h2></h2><p class="mghal-follow-intro"></p><p class="mghal-guest-notice" role="status"></p><small class="mghal-follow-privacy"></small><div class="mghal-follower-counts" aria-live="polite"></div></div><form class="mghal-follow-form"><label class="mghal-name-label"></label><label class="mghal-consent"><input type="checkbox" name="consent"><span></span></label><button class="mghal-social-btn mghal-google-login" type="button" hidden></button><button class="mghal-social-btn mghal-follow-submit" type="submit"></button><button class="mghal-social-btn mghal-unfollow" type="button" hidden></button><p class="mghal-follow-status" role="status" aria-live="polite"></p></form>';
  $('h2',section).textContent=words.followTitle;$('.mghal-follow-intro',section).textContent=words.followCopy;$('.mghal-guest-notice',section).textContent=words.guest;$('.mghal-follow-privacy',section).textContent=words.privacy;
- const form=$('.mghal-follow-form',section),submit=$('.mghal-follow-submit',section),unfollow=$('.mghal-unfollow',section),status=$('.mghal-follow-status',section),nameLabel=$('.mghal-name-label',section),name=document.createElement('input'),consent=$('input[name="consent"]',form);
+ const form=$('.mghal-follow-form',section),submit=$('.mghal-follow-submit',section),google=$('.mghal-google-login',section),unfollow=$('.mghal-unfollow',section),status=$('.mghal-follow-status',section),nameLabel=$('.mghal-name-label',section),name=document.createElement('input'),consent=$('input[name="consent"]',form);
  name.name='displayName';name.minLength=2;name.maxLength=80;name.autocomplete='nickname';name.placeholder=en?'Your name':'اكتب الاسم الذي تريد إظهاره';name.required=true;nameLabel.append(document.createTextNode(words.name),name);
- $('.mghal-consent span',section).textContent=words.consent;submit.textContent=words.follow;unfollow.textContent=words.unfollow;
+ $('.mghal-consent span',section).textContent=words.consent;submit.textContent=words.follow;google.textContent=words.google;unfollow.textContent=words.unfollow;
+ async function configureGoogle(){try{const cfg=await json('/api/public/auth/google/config');google.hidden=!cfg.enabled}catch{google.hidden=true}}
+ google.addEventListener('click',async()=>{google.disabled=true;try{const token=await visitor(),data=await json('/api/public/auth/google/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token,returnPath:location.pathname+location.search})});location.assign(data.authorizationUrl)}catch(error){status.textContent=error.message||words.error;google.disabled=false}});
  async function state(){
   try{
-   const token=await visitor(),data=await json('/api/public/followers/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token})});
+   const token=await visitor(),data=await json('/api/public/followers/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token})}),identity=await json('/api/public/auth/google/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token})});
    const following=!!data.following,publicFollowing=following&&!!data.displayName;
+   if(identity.connected){if(!publicFollowing&&!name.value&&identity.suggestedName)name.value=identity.suggestedName;status.textContent=words.googleConnected+(identity.email?' ('+identity.email+')':'')} 
    form.classList.toggle('is-following',following);form.classList.toggle('is-guest-following',following&&!publicFollowing);
    if(publicFollowing){name.value=data.displayName;name.disabled=true;consent.checked=true;consent.disabled=true;submit.hidden=true;submit.textContent=words.follow;unfollow.hidden=false;$('.mghal-guest-notice',section).hidden=true;status.textContent=words.following}
    else if(following){name.value='';name.disabled=false;consent.checked=false;consent.disabled=false;submit.hidden=false;submit.textContent=words.follow;unfollow.hidden=false;$('.mghal-guest-notice',section).hidden=false;status.textContent=words.guest}
@@ -118,7 +121,8 @@ function addFollowPanel(){
    const guestCount=document.createElement('span');guestCount.textContent=words.guests+': '+Number(data.guestCount||0).toLocaleString(en?'en':'ar');target.append(publicCount,guestCount);
   }catch{}
  }
- main.append(section);state();refreshCount();
+ main.append(section);configureGoogle();state();refreshCount();
+ const identityResult=new URLSearchParams(location.search).get('identity');if(identityResult){const messages={connected:words.googleConnected,cancelled:en?'Google sign-in was cancelled.':'تم إلغاء تسجيل Google.',expired:en?'The sign-in link expired. Please try again.':'انتهت صلاحية رابط تسجيل الدخول. حاول مجدداً.',unverified:en?'Google did not return a verified email.':'لم يُرجع Google بريداً موثقاً.', 'account-conflict':en?'This email is linked to a different Google identity.':'هذا البريد مرتبط بهوية Google مختلفة.',failed:words.error};status.textContent=messages[identityResult]||words.error;const clean=new URL(location.href);clean.searchParams.delete('identity');history.replaceState({},'',clean.pathname+clean.search+clean.hash);state()}
  window.addEventListener('mghal:visitor-ready',state);
 }
 function getProjects(){if(!window.__mghalProjectIndex)window.__mghalProjectIndex=json('/api/public/projects?locale='+(en?'en':'ar')).then(data=>data.data||[]);return window.__mghalProjectIndex}
