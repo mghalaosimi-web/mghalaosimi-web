@@ -358,3 +358,35 @@ This integration batch is independent of the owner bootstrap, but its production
 - Website Quality full quality-suite step passed on `83bf95a...`; the real-browser Chromium accessibility/reflow/print/Lighthouse stage was still in progress at last read. Do not mark that final browser stage passed until its run completes.
 - Production Worker remains Version 15; no `OWNER_BOOTSTRAP_TOKEN` was configured, no Worker version was deployed, no owner was created, and no D1 row/migration was written.
 - Remaining: connect public certificate/project pages to their actual public API while retaining static fallback; construct public PDF links from `pdf_media_id`; map authentic source files and individual verification URLs. This work remains development-only until reviewed and deployed.
+
+
+---
+
+## 21. Production owner-recovery checkpoint — 2026-11-06
+
+### Explicit authorization and deployment
+- User explicitly approved the owner-recovery procedure, with the conditions that no secret be sent in chat and no owner account be created without the user's control.
+- Live Worker `mghal-api` was upgraded from Version 15 to Version 16.
+- Active version ID: `1c7c5b7f-a2d7-4d05-8583-15040fcaf165`.
+- Active deployment ID: `407e2059-10ee-49cf-a0bc-b4742c1aba1c`, routing 100% to Version 16.
+- This was a minimal production-baseline patch: constant-time secret comparison, bootstrap rotation readiness status, `POST /api/admin/bootstrap/rotate`, and validation that first-owner bootstrap matches the configured Worker secret when present.
+- Existing bindings were preserved: `ALLOWED_ORIGINS`, D1 `DB`, `RATE_LIMIT_PER_MINUTE`, and `SESSION_TTL_SECONDS`. No D1 migration or data write was run during deployment.
+- **Source parity note:** the deployed patch was applied to the active production Worker source to avoid deploying unrelated API changes from the still-open development PR. The development branch already contains the broader reviewed recovery implementation; exact source/version parity remains a follow-up before any future full Worker release.
+
+### Post-deployment verification
+- `GET /health`: HTTP 200, `status=ok`, `database=connected`.
+- `GET /api/admin/bootstrap/status`: HTTP 200, `available=true`, `ownerExists=false`, `rotationRequired=false`.
+- Worker secret bindings remain empty; `OWNER_BOOTSTRAP_TOKEN` has **not** been configured yet.
+- Render admin page `/admin/`: HTTP 200 and the secret-rotation form is present.
+- No owner account was created. No credentials or secret values were generated, viewed, or sent in chat.
+
+### User-controlled next steps — waiting
+1. In Cloudflare Dashboard → Workers & Pages → `mghal-api` → Settings → Variables and Secrets, add a **Secret** named `OWNER_BOOTSTRAP_TOKEN` with a cryptographically random value of at least 32 characters (prefer 64 random hexadecimal characters). Save/deploy the Worker configuration. Do not use Plaintext Variables and do not share the value in chat.
+2. Open `https://mghal-release-current.onrender.com/admin/` over HTTPS. Enter that same secret into the rotation form. The UI calls the rotation endpoint and carries the token into the one-time owner setup form.
+3. User personally enters the owner display name, email and a unique password (12+ characters) and submits account creation.
+4. After user confirms completion, verify the owner exists and remove the temporary Worker secret binding. Do not create or alter the owner account on the user's behalf.
+
+### Current stop point
+- Production recovery endpoint is deployed and healthy.
+- Waiting for user to configure the Worker secret in Cloudflare Dashboard and complete the owner form themselves.
+- Do not repeat Worker deployment unless verification shows the secret configuration did not activate the new code.
