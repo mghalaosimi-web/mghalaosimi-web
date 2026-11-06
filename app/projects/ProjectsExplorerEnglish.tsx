@@ -21,7 +21,7 @@ const copy:Record<string,{name?:string;label:string;summary:string;status:string
 export default function ProjectsExplorerEnglish(){
  const [filter,setFilter]=useState<typeof filters[number]['id']>('all'),[selected,setSelected]=useState<Project|null>(null);
  useEffect(()=>{if(!selected)return;const prev=document.body.style.overflow;document.body.style.overflow='hidden';const key=(e:KeyboardEvent)=>{if(e.key==='Escape')setSelected(null)};window.addEventListener('keydown',key);return()=>{document.body.style.overflow=prev;window.removeEventListener('keydown',key)}},[selected]);
- const featured:Project|undefined=undefined,archive=projects;
+ const featured:Project|undefined=projects.find(p=>p.slug==='__mghal_featured_disabled__'),archive=projects;
  const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
  const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
  const repoCount=projects.filter(p=>p.repository).length,collabCount=projects.filter(p=>p.slug==='manar-schedule-system'||p.slug==='waynah').length;
