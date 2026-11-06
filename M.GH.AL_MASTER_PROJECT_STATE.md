@@ -232,7 +232,7 @@ This addendum supersedes conflicting operational statements in earlier sections 
 - No merge, retarget, force-push, or main-branch change was performed.
 
 ### Live deployments
-- Render `mghal-release-current` is LIVE on `d58c5eba...`, deployment `dep-dbme0mh7lnhs739ikoog`; it tracks the development branch and publishes `public` using `npm ci && npm run build`.
+- Render `mghal-release-current` is LIVE on documentation commit `6814282602e6e6acf8c0d815cb12253410f5de6f`, deployment `dep-dbmhu30473hc73d5si20`; it tracks the development branch and publishes `public` using `npm ci && npm run build`.
 - Live Render root returned HTTP 200 and exposed 10 project records and 21 credential records.
 - Vercel latest inspected production deployment remains ERROR on `main` commit `d7378bff...`. Build logs identify the exact cause: Vercel runs `npm run quality` at repository root, but `/vercel/path0/package.json` does not exist (npm ENOENT). Do not change Vercel project/build settings or promote another branch without approval.
 - A Vercel Preview deployment for the development branch documentation commit `d58c5eba...` is READY. Preview readiness is not production parity.
@@ -240,6 +240,8 @@ This addendum supersedes conflicting operational statements in earlier sections 
 ### Worker and API
 - Cloudflare `mghal-api` remains on Worker Version 15, Version ID `01abb3a3-1313-4782-a90d-59abcbf90d40`, deployment ID `f710e941-a8da-4129-b4d6-d09d1a248c49`, routed at 100%.
 - Live `GET /health` returned HTTP 200 with `status: ok` and `database: connected`.
+- Live `GET /api/admin/bootstrap/status` returned HTTP 200: `available: true`, `ownerExists: false`.
+- Live `GET /api/public/projects` returned HTTP 200 with 10 records; `GET /api/public/certificates` returned HTTP 200 with 21 records.
 - No Worker version, secret, binding, route or production setting was changed.
 
 ### D1 read-only verification
@@ -248,6 +250,7 @@ This addendum supersedes conflicting operational statements in earlier sections 
 - Applied migration records: `0001_core_platform`, `0002_admin_permissions`, `0003_project_localization`, `0004_d1_media_storage`, `0005_technology_visibility`.
 - The queries returned zero rows written and `changed_db: false`. No migration or data write was performed.
 - Existing distinction remains: the public follower count is consent-filtered and is not the raw `followers` table row count.
+- The live certificates API currently returns null `image_media_id`, `pdf_media_id` and `qr_url` for all 21 records. Three Cisco entries are generic additional-record labels without individual certificate titles; the six Edraak entries currently have no issue dates or verification URLs. This establishes missing API/database mappings, not that original certificate files do not exist elsewhere. Preserve source assets and reconcile exact records before claiming the public credential gallery is fully linked.
 
 ### CI verification
 - Backend CI run `42099111695` completed SUCCESS on code commit `ed3beed...`.
