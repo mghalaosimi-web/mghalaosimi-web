@@ -4,7 +4,7 @@
 > **Last verified:** 2026-11-06 (Asia/Aden, UTC+03:00)
 > **Repository:** https://github.com/mghalaosimi-web/mghalaosimi-web
 > **Current verification branch:** `feat/mghal-credentials-projects-expansion-2026-11-05`
-> **Last verified code commit:** `980b98f2c2f53699c8e8a0f8cd594e1a163160b0` (latest development code checkpoint before this state refresh)
+> **Last verified code commit:** `d8b2e3267850cb5a3baaa7b64e83b88160449fb4` (latest development code checkpoint before this state refresh)
 
 ## 1. Project identity
 
@@ -126,7 +126,7 @@ Repository default branch is `main`, currently at `d7378bffeb55ca957829995fb4fee
 Current PR:
 - PR **#12**, “Expand M.GH.AL credentials, projects and research sections”.
 - State: OPEN, not merged; draft=false; mergeable=true at last read.
-- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `980b98f2c2f53699c8e8a0f8cd594e1a163160b0`; this state-file refresh is a subsequent documentation-only commit.
+- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `d8b2e3267850cb5a3baaa7b64e83b88160449fb4`; this state-file refresh is a subsequent documentation-only commit.
 - Base: `feat/mghal-complete-platform-2026-11-01` at `bea6e75b452386c60e9bd5c434ce2189635de2ef`.
 - PR contains 99 changed files and 281 commits at the latest metadata read; GitHub reports mergeable=true and mergeable_state=unstable while checks are still running.
 - The platform base branch and `main` are **diverged**: platform branch is 323 commits ahead and 19 behind `main`. This is a verified compare result; do not merge or retarget without deliberate reconciliation.
@@ -461,3 +461,17 @@ This integration batch is independent of the owner bootstrap, but its production
 - Both Vercel preview projects reached READY on `a0af150...`: `mghalaosimi-web` deployment `dpl_7aEwuPLD1scNja2V4Ev3nS5D5G9C` and `mghal` deployment `dpl_BohtGVsEcSxm8hy3ffndJy1actmZ`. These are previews, not production aliases.
 - New Vercel builds for later commits are blocked by Vercel's reported `build-rate-limit`; do not keep triggering redundant deployments. The latest combined statuses on `980b98f...` report this limit for both preview projects.
 - The latest Website Quality rerun for commit `980b98f...` has not yet been observed. Do not mark the website suite green until its GitHub Actions result is confirmed.
+
+
+---
+
+## 26. Dynamic project publication completion — 2026-11-06
+
+- Extended `assets/database-content.js` to create a project card when a published API record has no matching static catalogue card. This closes the gap where only the original 10 static projects could be rendered.
+- New API-only cards use DOM construction and `textContent`, preserve the approved card layout, show a supplied cover-media URL or a generic local cover, and expose repository/live links only after HTTPS validation. No broken static detail-page link is fabricated for projects that have no generated detail route yet.
+- Existing 10 project cards remain the offline/API-outage fallback. Successful non-empty API responses still determine which existing static records remain visible.
+- Added regression assertions for API-only card creation. Commits: `50e927bbbccbc7ac0dafed148276e1f5d7eba071` (dynamic card creation) and `d8b2e3267850cb5a3baaa7b64e83b88160449fb4` (test coverage).
+- Latest verified CI for the immediately preceding code commit `980b98f...`: Website Quality run `42141213362` completed the full `npm run quality` suite successfully, installed Chromium, and was still executing the real-browser accessibility/keyboard/reflow/print/Lighthouse audit at last observation. Backend CI run `42141213483` completed SUCCESS.
+- The latest dynamic-card commits `50e927...` and `d8b2e326...` have not yet had their own completed CI result confirmed. Do not transfer the earlier green result to the newer commits.
+- Vercel preview projects are currently rate-limited (`build-rate-limit`). The most recent READY preview deployments observed are for commit `a0af150...`, which predates the latest dynamic-card implementation; they are not evidence that the newest branch code is deployed.
+- No production Worker, D1, owner account, secret, `main` branch, PR target or production alias was modified.
