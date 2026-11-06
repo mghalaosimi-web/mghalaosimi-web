@@ -59,7 +59,7 @@ assert.match(engagementWorker,/guestFollowing:f\.status==="active"&&f\.display_n
 assert.match(engagementWorker,/consent!==true/,'publishing a named follower profile must require explicit consent');
 assert.match(engagementWorker,/status='active' AND consent_at IS NOT NULL/,'public follower count must include only explicitly consented followers');
 assert.match(engagementWorker,/status='active' AND consent_at IS NULL AND display_name IS NULL/,'anonymous guest follows must be counted separately from named followers');
-assert.match(engagementWorker,/status IN \('active','unverified'\)/,'active visitor sessions may react and comment');
+assert.match(engagementWorker,/\["active","unverified"\]\.includes\(f\.status\)/,'active visitor sessions may react and comment');
 assert.match(engagementWorker,/status='unsubscribed'/,'unsubscribed visitors must not be silently reactivated');
 assert.match(engagementWorker,/status='approved'/,'public comments must be moderated before display');
 assert.match(engagementWorker,/"share","follow","unfollow","reaction","comment_submitted"/,'analytics must include social engagement events');
