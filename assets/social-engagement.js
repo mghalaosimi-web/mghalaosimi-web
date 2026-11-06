@@ -3,14 +3,16 @@ if(window.__mghalSocialEngagement)return;window.__mghalSocialEngagement=true;
 const API='https://mghal-api.m-gh-alaosimi.workers.dev',VISITOR_KEY='mghal_visitor_v1';
 const en=document.documentElement.lang.toLowerCase().startsWith('en'),$=(s,r=document)=>r.querySelector(s);
 const words=en?{
- followTitle:'Follow M.GH.AL',followCopy:'You are automatically following as an anonymous guest on this browser.',
+ followTitle:'Follow M.GH.AL',followCopy:'Choose how you want to engage. Each button clearly shows its action and current state.',
+ guideTitle:'Button guide',followHint:'Follow the site and stay connected with new work.',likeHint:'Record your appreciation for this project or content.',clapHint:'Show extra appreciation and support.',shareHint:'Share this page link with others.',unfollowHint:'Stop following from this browser at any time.',
  guest:'You are following as an anonymous guest. Your name and email are not published, and no email notifications are sent.',
  name:'Public display name',consent:'I agree to publish this display name in the M.GH.AL followers list.',
  follow:'Become a public follower',following:'You are following M.GH.AL.',notFollowing:'You are not following yet.',
  unfollow:'Stop following',privacy:'Guest following uses a random browser token. The site cannot read your email account automatically. Add a public name only with your consent.',
  count:'Public followers',guests:'Anonymous guest follows',like:'Like',clap:'Applaud',share:'Share',shared:'Link copied / ready to share',
  google:'Continue with Google',googleConnected:'Google account verified. Your email remains private.',googleDisabled:'Google sign-in is not configured yet.', error:'Could not complete the action. Please try again.',liked:'Reaction updated.',comments:'Comments',noComments:'No approved comments yet.'
-}:{followTitle:'تابع M.GH.AL',followCopy:'أصبحت تتابع الموقع تلقائياً كزائر مجهول على هذا المتصفح.',
+}:{followTitle:'تابع M.GH.AL',followCopy:'اختر طريقة التفاعل التي تناسبك. ستظهر حالة كل زر بوضوح بعد استخدامه.',
+ guideTitle:'دليل الأزرار',followHint:'متابعة الموقع وإظهار اهتمامك بالمحتوى.',likeHint:'تسجيل إعجابك بهذا المشروع أو المحتوى.',clapHint:'إظهار تقديرك ودعمك للمشروع.',shareHint:'مشاركة رابط الصفحة مع الآخرين.',unfollowHint:'إيقاف متابعة هذا المتصفح في أي وقت.',
  guest:'أنت تتابع الآن كضيف مجهول. لا ننشر اسمك أو بريدك الإلكتروني، ولا نرسل إليك رسائل بريدية.',
  name:'الاسم الذي سيظهر علناً',consent:'أوافق على نشر هذا الاسم ضمن قائمة متابعي M.GH.AL.',
  follow:'حوّل المتابعة إلى متابعة باسمك',following:'أنت تتابع M.GH.AL حالياً.',notFollowing:'أنت لا تتابع الموقع حالياً.',
@@ -58,8 +60,10 @@ function reactionWidget(type,id){
  const feedback=document.createElement('span');feedback.className='mghal-reaction-feedback';feedback.setAttribute('role','status');
  let state={like:false,clap:false};
  const buttons={};
- const make=(reaction,label)=>{
-  const button=document.createElement('button');button.type='button';button.className='mghal-social-btn';button.dataset.reaction=reaction;button.textContent=label+' · …';
+ const make=(reaction,label,hint,icon)=>{
+  const item=document.createElement('div');item.className='mghal-reaction-item mghal-reaction-'+reaction;
+  const button=document.createElement('button');button.type='button';button.className='mghal-social-btn mghal-reaction-btn mghal-'+reaction;button.dataset.reaction=reaction;button.textContent=icon+' '+label+' · …';button.setAttribute('aria-label',label);button.setAttribute('aria-pressed','false');
+  const help=document.createElement('small');help.className='mghal-action-hint';help.textContent=hint;
   button.addEventListener('click',async()=>{
    button.disabled=true;
    try{
@@ -69,30 +73,33 @@ function reactionWidget(type,id){
    }catch(error){feedback.textContent=error.message||words.error}
    finally{button.disabled=false}
   });
-  buttons[reaction]=button;return button;
+  item.append(button,help);buttons[reaction]={button,item};return item;
  };
- const like=make('like',words.like),clap=make('clap',words.clap);box.append(like,clap,feedback);
+ box.append(make('like',words.like,words.likeHint,'♥'),make('clap',words.clap,words.clapHint,'👏'),feedback);
  async function refresh(){
   try{
    let token=null;try{token=await visitor()}catch{}
    const query=new URLSearchParams({targetType:type,targetId:id});if(token)query.set('visitorToken',token);
    const data=await json('/api/public/reactions?'+query.toString());
    state=data.viewerReactions||{like:!!data.reacted,clap:false};
-   like.textContent=words.like+' · '+Number(data.counts?.like||0).toLocaleString(en?'en':'ar');
-   clap.textContent=words.clap+' · '+Number(data.counts?.clap||0).toLocaleString(en?'en':'ar');
-   like.setAttribute('aria-pressed',String(!!state.like));clap.setAttribute('aria-pressed',String(!!state.clap));
-  }catch{like.textContent=words.like+' · 0';clap.textContent=words.clap+' · 0'}
+   for(const reaction of ['like','clap']){
+    const button=buttons[reaction].button,count=Number(data.counts?.[reaction]||0);
+    button.textContent=(reaction==='like'?'♥ ':'👏 ')+(reaction==='like'?words.like:words.clap)+' · '+count.toLocaleString(en?'en':'ar');
+    button.setAttribute('aria-pressed',String(!!state[reaction]));
+    button.classList.toggle('is-active',!!state[reaction]);
+   }
+  }catch{for(const reaction of ['like','clap'])buttons[reaction].button.textContent=(reaction==='like'?'♥ ':'👏 ')+(reaction==='like'?words.like:words.clap)+' · 0'}
  }
  refresh();return box;
 }
 function addFollowPanel(){
  const main=$('main');if(!main||$('#mghal-follow-panel'))return;
  const section=document.createElement('section');section.id='mghal-follow-panel';section.className='mghal-follow-panel';
- section.innerHTML='<div class="mghal-follow-copy"><p class="mghal-social-eyebrow">M.GH.AL COMMUNITY</p><h2></h2><p class="mghal-follow-intro"></p><p class="mghal-guest-notice" role="status"></p><small class="mghal-follow-privacy"></small><div class="mghal-follower-counts" aria-live="polite"></div></div><form class="mghal-follow-form"><label class="mghal-name-label"></label><label class="mghal-consent"><input type="checkbox" name="consent"><span></span></label><button class="mghal-social-btn mghal-google-login" type="button" hidden></button><button class="mghal-social-btn mghal-follow-submit" type="submit"></button><button class="mghal-social-btn mghal-unfollow" type="button" hidden></button><p class="mghal-follow-status" role="status" aria-live="polite"></p></form>';
- $('h2',section).textContent=words.followTitle;$('.mghal-follow-intro',section).textContent=words.followCopy;$('.mghal-guest-notice',section).textContent=words.guest;$('.mghal-follow-privacy',section).textContent=words.privacy;
+ section.innerHTML='<div class="mghal-follow-copy"><p class="mghal-social-eyebrow">M.GH.AL COMMUNITY</p><h2></h2><p class="mghal-follow-intro"></p><div class="mghal-action-guide"><strong class="mghal-guide-title"></strong><div class="mghal-guide-list"><span class="mghal-guide-item"><i class="mghal-guide-dot follow-dot"></i><span><b>متابعة</b><small>ابقَ على اطلاع بالمشاريع الجديدة</small></span></span><span class="mghal-guide-item"><i class="mghal-guide-dot like-dot"></i><span><b>إعجاب</b><small>عبّر عن إعجابك بالمحتوى</small></span></span><span class="mghal-guide-item"><i class="mghal-guide-dot clap-dot"></i><span><b>تصفيق</b><small>أظهر تقديرك للعمل</small></span></span><span class="mghal-guide-item"><i class="mghal-guide-dot share-dot"></i><span><b>مشاركة</b><small>أرسل الرابط للآخرين</small></span></span></div></div><p class="mghal-guest-notice" role="status"></p><small class="mghal-follow-privacy"></small><div class="mghal-follower-counts" aria-live="polite"></div></div><form class="mghal-follow-form"><label class="mghal-name-label"></label><label class="mghal-consent"><input type="checkbox" name="consent"><span></span></label><button class="mghal-social-btn mghal-google-login" type="button" hidden></button><button class="mghal-social-btn mghal-follow-submit" type="submit"></button><button class="mghal-social-btn mghal-unfollow" type="button" hidden></button><small class="mghal-follow-button-hint"></small><p class="mghal-follow-status" role="status" aria-live="polite"></p></form>';
+ $('h2',section).textContent=words.followTitle;$('.mghal-follow-intro',section).textContent=words.followCopy;$('.mghal-guide-title',section).textContent=words.guideTitle;if(en){const items=$('.mghal-guide-item',section);[['Follow','Stay updated on new projects'],['Like','Show appreciation for content'],['Applaud','Recognize the work'],['Share','Send the page to others']].forEach((pair,i)=>{items[i].querySelector('b').textContent=pair[0];items[i].querySelector('small').textContent=pair[1]})}$('.mghal-guest-notice',section).textContent=words.guest;$('.mghal-follow-privacy',section).textContent=words.privacy;$('.mghal-follow-button-hint',section).textContent=words.followHint;
  const form=$('.mghal-follow-form',section),submit=$('.mghal-follow-submit',section),google=$('.mghal-google-login',section),unfollow=$('.mghal-unfollow',section),status=$('.mghal-follow-status',section),nameLabel=$('.mghal-name-label',section),name=document.createElement('input'),consent=$('input[name="consent"]',form);
  name.name='displayName';name.minLength=2;name.maxLength=80;name.autocomplete='nickname';name.placeholder=en?'Your name':'اكتب الاسم الذي تريد إظهاره';name.required=true;nameLabel.append(document.createTextNode(words.name),name);
- $('.mghal-consent span',section).textContent=words.consent;submit.textContent=words.follow;google.textContent=words.google;unfollow.textContent=words.unfollow;
+ $('.mghal-consent span',section).textContent=words.consent;submit.textContent=words.follow;google.textContent=words.google;unfollow.textContent=words.unfollow;unfollow.title=words.unfollowHint;
  async function configureGoogle(){try{const cfg=await json('/api/public/auth/google/config');googleEnabled=!!cfg.enabled;google.hidden=!googleEnabled;if(googleEnabled)state()}catch{googleEnabled=false;google.hidden=true}}
  google.addEventListener('click',async()=>{google.disabled=true;try{const token=await visitor(),data=await json('/api/public/auth/google/start',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token,returnPath:location.pathname+location.search})});location.assign(data.authorizationUrl)}catch(error){status.textContent=error.message||words.error;google.disabled=false}});
  async function state(){
@@ -121,7 +128,7 @@ function addFollowPanel(){
    const guestCount=document.createElement('span');guestCount.textContent=words.guests+': '+Number(data.guestCount||0).toLocaleString(en?'en':'ar');target.append(publicCount,guestCount);
   }catch{}
  }
- main.append(section);configureGoogle();state();refreshCount();
+ const hero=$('.hero',main)||$('main > section',main);if(hero)hero.after(section);else main.prepend(section);configureGoogle();state();refreshCount();
  const identityResult=new URLSearchParams(location.search).get('identity');if(identityResult){const messages={connected:words.googleConnected,cancelled:en?'Google sign-in was cancelled.':'تم إلغاء تسجيل Google.',expired:en?'The sign-in link expired. Please try again.':'انتهت صلاحية رابط تسجيل الدخول. حاول مجدداً.',blocked:en?'This follower account is blocked and cannot be linked.':'حساب المتابعة هذا محظور ولا يمكن ربطه.',unverified:en?'Google did not return a verified email.':'لم يُرجع Google بريداً موثقاً.', 'account-conflict':en?'This email is linked to a different Google identity.':'هذا البريد مرتبط بهوية Google مختلفة.',failed:words.error};status.textContent=messages[identityResult]||words.error;const clean=new URL(location.href);clean.searchParams.delete('identity');history.replaceState({},'',clean.pathname+clean.search+clean.hash);state()}
  window.addEventListener('mghal:visitor-ready',state);
 }
