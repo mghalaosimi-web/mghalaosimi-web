@@ -4,7 +4,7 @@
 > **Last verified:** 2026-11-06 (Asia/Aden, UTC+03:00)
 > **Repository:** https://github.com/mghalaosimi-web/mghalaosimi-web
 > **Current verification branch:** `feat/mghal-credentials-projects-expansion-2026-11-05`
-> **Last verified code commit:** `d443a14535b2fccce9ea3743f74d9660330b4098` (latest development code checkpoint before this state refresh)
+> **Last verified code commit:** `e983a89e68a3265712d3e41434a49b5e4e5ecf8b` (latest development code checkpoint before this state refresh)
 
 ## 1. Project identity
 
@@ -126,7 +126,7 @@ Repository default branch is `main`, currently at `d7378bffeb55ca957829995fb4fee
 Current PR:
 - PR **#12**, “Expand M.GH.AL credentials, projects and research sections”.
 - State: OPEN, not merged; draft=false; mergeable=true at last read.
-- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `d443a14535b2fccce9ea3743f74d9660330b4098`; this state-file refresh is a subsequent documentation-only commit.
+- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `e983a89e68a3265712d3e41434a49b5e4e5ecf8b`; this state-file refresh is a subsequent documentation-only commit.
 - Base: `feat/mghal-complete-platform-2026-11-01` at `bea6e75b452386c60e9bd5c434ce2189635de2ef`.
 - PR contains 99 changed files and 281 commits at the latest metadata read; GitHub reports mergeable=true and mergeable_state=unstable while checks are still running.
 - The platform base branch and `main` are **diverged**: platform branch is 323 commits ahead and 19 behind `main`. This is a verified compare result; do not merge or retarget without deliberate reconciliation.
@@ -439,3 +439,12 @@ This integration batch is independent of the owner bootstrap, but its production
 - The replacement workflow run has not yet been observed as started/completed at this checkpoint. Re-check the run associated with this commit before declaring Website Quality green.
 - Backend CI run `42140651051` completed SUCCESS on the prior commit. Two Vercel status checks on `34adcdd...` were FAILURE; their deployment logs still require diagnosis. These checks do not authorize a production alias change.
 - No production Worker, D1, secret, owner, `main` branch, or PR target was changed.
+
+
+### Follow-up correction to Section 24
+
+- Further inspection of the exact GitHub Actions merge commit showed that the actual root cause was the root `package.json` manifest: the TypeScript `devDependencies` entry had been dropped while updating the scripts, although `package-lock.json` still contained the TypeScript package. Consequently, `npm ci` installed only the root package and `tsc` was unavailable.
+- The intermediate attempt to restore the dependency produced invalid JSON and Vercel correctly rejected that manifest. This was corrected by regenerating the complete manifest as valid JSON and restoring `devDependencies.typescript = 7.0.2`.
+- Corrected package manifest commit: `e983a89e68a3265712d3e41434a49b5e4e5ecf8b`. The manifest was read back and parsed successfully; the lockfile already contains the matching TypeScript 7.0.2 entry.
+- Vercel created new preview deployments for this commit: project `mghalaosimi-web` is BUILDING and project `mghal` is QUEUED at last observation. Earlier ERROR deployments are explained by the invalid package manifest and are not production deployments.
+- Re-run/verify Website Quality against the corrected manifest before claiming green status. The previous run still failed on `tsc: not found`; the workflow's explicit `--include=dev` alone could not fix a missing package manifest dependency.
