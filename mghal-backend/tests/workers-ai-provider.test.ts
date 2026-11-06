@@ -59,7 +59,8 @@ describe("WorkersAITextProvider", () => {
       messages: [
         { role: "user", content: "a".repeat(4_000) },
         { role: "assistant", content: "b".repeat(4_000) },
-        { role: "user", content: "c".repeat(4_001) },
+        { role: "user", content: "c".repeat(4_000) },
+        { role: "assistant", content: "d".repeat(4_000) },
       ],
     })).rejects.toMatchObject({ code: "AI_INVALID_REQUEST" });
     expect(run).not.toHaveBeenCalled();
