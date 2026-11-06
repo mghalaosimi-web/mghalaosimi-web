@@ -7,7 +7,7 @@ const digest = async (value: string) => {
   return [...new Uint8Array(bytes)].map((part) => part.toString(16).padStart(2, "0")).join("");
 };
 
-function fakeDb(bootstrapHash = "", adminUserCount = 0, mediaRecord: { blob_data: Uint8Array; mime_type: string } | null = null) {
+function fakeDb(bootstrapHash = "", adminUserCount = 0, mediaRecord: { blob_data: Uint8Array; mime_type: string } | null = null, publishedCertificateReference = true) {
   return {
     prepare(sql: string) {
       return {
@@ -20,7 +20,10 @@ function fakeDb(bootstrapHash = "", adminUserCount = 0, mediaRecord: { blob_data
               if (sql.includes("SELECT value_json FROM site_settings WHERE key=?") && params[0] === "owner_bootstrap_hash") return bootstrapHash ? { value_json: bootstrapHash } : null;
               if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
               if (sql.includes("SELECT 1 AS ok")) return { ok: 1 };
-              if (sql.includes("SELECT m.blob_data,m.mime_type FROM media")) return mediaRecord;
+              if (sql.includes("SELECT m.blob_data,m.mime_type FROM media")) {
+                if (mediaRecord?.mime_type === "application/pdf" && !publishedCertificateReference) return null;
+                return mediaRecord;
+              }
               return null;
             },
           };
@@ -172,7 +175,7 @@ describe("production Worker security contract", () => {
 
   it("does not expose an unreferenced PDF through the public media route", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/media/unlinked-pdf"), {
-      DB: fakeDb(),
+      DB: fakeDb("", 0, { blob_data: new Uint8Array([37, 80, 68, 70]), mime_type: "application/pdf" }, false),
     } as never);
     expect(response.status).toBe(404);
     expect(await response.json()).toMatchObject({ error: { code: "MEDIA_NOT_FOUND" } });
