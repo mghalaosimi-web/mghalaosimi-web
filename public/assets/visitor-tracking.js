@@ -1,7 +1,7 @@
 (()=>{'use strict';
  if(window.__mghalVisitorTracking)return;window.__mghalVisitorTracking=true;
  if(navigator.doNotTrack==='1')return;
- const API='https://mghal-api.m-gh-alaosimi.workers.dev',KEY='mghal_visitor_v1';
+ const API='',KEY='mghal_visitor_v1';
  const path=location.pathname,kind=path.includes('/projects/')?'project_view':path.includes('certificates')?'certificate_view':path.includes('knowledge')?'article_view':'page_view';
  async function createVisitor(){
   let visitorToken=null;try{visitorToken=localStorage.getItem(KEY)}catch{}

@@ -1,6 +1,6 @@
 (()=>{'use strict';
 if(window.__mghalSocialEngagement)return;window.__mghalSocialEngagement=true;
-const API='https://mghal-api.m-gh-alaosimi.workers.dev',VISITOR_KEY='mghal_visitor_v1';
+const API='',VISITOR_KEY='mghal_visitor_v1';
 const en=document.documentElement.lang.toLowerCase().startsWith('en'),$=(s,r=document)=>r.querySelector(s);
 const words=en?{
  followTitle:'Follow M.GH.AL',followCopy:'You are automatically following as an anonymous guest on this browser.',
