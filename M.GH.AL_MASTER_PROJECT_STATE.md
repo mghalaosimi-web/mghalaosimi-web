@@ -390,3 +390,18 @@ This integration batch is independent of the owner bootstrap, but its production
 - Production recovery endpoint is deployed and healthy.
 - Waiting for user to configure the Worker secret in Cloudflare Dashboard and complete the owner form themselves.
 - Do not repeat Worker deployment unless verification shows the secret configuration did not activate the new code.
+
+
+---
+
+## 22. Public certificate synchronization — 2026-11-06
+
+- Added `assets/certificate-sync.js` to synchronize both Arabic and English certificate pages with `GET /api/public/certificates`.
+- Wired the script into `certificates.html` and `en/certificates.html`; the page's existing static certificate cards and original document/image assets remain the initial fallback.
+- Stable slug mappings cover the existing 21 records (14 Cisco, 6 Edraak, 1 OpenJS/Linux Foundation JSNAD).
+- On a successful API response, cards absent from the published dataset are hidden; API titles, issuer labels and descriptions update existing content as available. Published PDF media IDs are converted to the guarded public media route; verification and QR URLs are added only when supplied by the record.
+- API-provided text is assigned with `textContent`; no API HTML is injected. If the request fails or the response is invalid, the script logs a warning and leaves the original static content intact.
+- Added `scripts/test-certificate-sync.mjs` and included it in `npm run test:unit`. The regression checks cover both language pages, all 21 mappings/cards, safe text rendering, published-record filtering and static fallback.
+- Commits: script `f5414f1de167aefa0ac1427d621ec5d57aeb18cf`; Arabic page `bf1b886c0e5e8703b20b3b381e2d58dfb68b6d23`; English page `11082081a2677f679a719daae85b8a17cfe96e23`; regression test `be78081735b3941af00b20141fc71c71b29338f2`; package test integration `000aa33776b22c0b5feef16c73c68cb13d314455`.
+- GitHub Actions runs triggered by the latest package commit: Website Quality run `42140037779` (pending at this checkpoint) and Backend CI run `42140037813` (in progress). No test result is claimed until these runs complete.
+- No changes were made to `main`, PR targets, Cloudflare Worker, D1, production secrets or owner records in this task. The certificate UI change is branch-only; production visibility is not claimed.
