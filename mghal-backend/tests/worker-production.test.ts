@@ -253,7 +253,7 @@ describe("production Worker security contract", () => {
   it("returns only the public follower count", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/followers/count"), { DB: engagementDb() } as never);
     expect(response.status).toBe(200);
-    expect(await response.json()).toMatchObject({ count: 3 });
+    expect(await response.json()).toMatchObject({ count: 3, guestCount: 5 });
   });
 
   it("returns aggregate reactions for a published project", async () => {
