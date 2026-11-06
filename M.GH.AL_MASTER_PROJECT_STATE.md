@@ -4,7 +4,7 @@
 > **Last verified:** 2026-11-06 (Asia/Aden, UTC+03:00)
 > **Repository:** https://github.com/mghalaosimi-web/mghalaosimi-web
 > **Current verification branch:** `feat/mghal-credentials-projects-expansion-2026-11-05`
-> **Last verified code commit:** `34adcdd98630befcaa39f5fe0c52432c05146b4c` (latest verified development code checkpoint before this state refresh)
+> **Last verified code commit:** `d443a14535b2fccce9ea3743f74d9660330b4098` (latest development code checkpoint before this state refresh)
 
 ## 1. Project identity
 
@@ -126,7 +126,7 @@ Repository default branch is `main`, currently at `d7378bffeb55ca957829995fb4fee
 Current PR:
 - PR **#12**, “Expand M.GH.AL credentials, projects and research sections”.
 - State: OPEN, not merged; draft=false; mergeable=true at last read.
-- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `34adcdd98630befcaa39f5fe0c52432c05146b4c`; this state-file refresh is a subsequent documentation-only commit.
+- Last verified code head: `feat/mghal-credentials-projects-expansion-2026-11-05` at `d443a14535b2fccce9ea3743f74d9660330b4098`; this state-file refresh is a subsequent documentation-only commit.
 - Base: `feat/mghal-complete-platform-2026-11-01` at `bea6e75b452386c60e9bd5c434ce2189635de2ef`.
 - PR contains 99 changed files and 281 commits at the latest metadata read; GitHub reports mergeable=true and mergeable_state=unstable while checks are still running.
 - The platform base branch and `main` are **diverged**: platform branch is 323 commits ahead and 19 behind `main`. This is a verified compare result; do not merge or retarget without deliberate reconciliation.
@@ -426,3 +426,16 @@ This integration batch is independent of the owner bootstrap, but its production
 - GitHub Actions on `34adcdd...`: Website Quality run `42140651039` and Backend CI run `42140651051` were `in_progress` at the last check. Two Vercel preview status checks were `failure`; investigate their deployment logs before considering the branch preview ready. No successful CI result is claimed for these latest commits yet.
 - The local checkout's `npm run quality` had passed before the GitHub-side commits were applied, but it was not the final remote branch head. Treat the current remote CI runs as authoritative.
 - No changes were made to `main`, PR targets, Cloudflare Worker, D1, production secrets, or owner records in this project API batch.
+
+
+---
+
+## 24. Website Quality CI dependency correction — 2026-11-06
+
+- The first Website Quality run for the public project API changes, run `42140651039`, failed before executing site tests. The failing command was `npm run typecheck`; the runner reported `sh: 1: tsc: not found`.
+- The job's install step used `npm ci --ignore-scripts`, and the install output reported only the root package despite TypeScript being declared as a development dependency in the lockfile. The failure is an environment/dependency-install issue, not a failing TypeScript diagnostic or site assertion.
+- Updated `.github/workflows/quality.yml` to run `npm ci --include=dev --ignore-scripts`, explicitly including the TypeScript compiler and all other development dependencies.
+- Workflow fix commit: `d443a14535b2fccce9ea3743f74d9660330b4098`.
+- The replacement workflow run has not yet been observed as started/completed at this checkpoint. Re-check the run associated with this commit before declaring Website Quality green.
+- Backend CI run `42140651051` completed SUCCESS on the prior commit. Two Vercel status checks on `34adcdd...` were FAILURE; their deployment logs still require diagnosis. These checks do not authorize a production alias change.
+- No production Worker, D1, secret, owner, `main` branch, or PR target was changed.
