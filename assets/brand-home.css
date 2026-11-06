@@ -323,3 +323,10 @@ body.home-page .site-search{background:#0b1017!important;border-color:rgba(119,1
 body.home-page .portrait-card img{border-color:#38bcd0!important;box-shadow:0 0 0 10px rgba(56,188,208,.09)!important}
 body.home-page :focus-visible{outline:2px solid #74dbea!important;outline-offset:4px}
 @media(max-width:760px){body.home-page .path-grid,body.home-page .project-grid,body.home-page .certificate-grid{grid-template-columns:minmax(0,1fr)!important}body.home-page .section-shell{padding:58px 0}}
+
+/* Exact homepage palette and restrained engineering grid */
+body.home-page{--bg:#070a10!important;--surface:#0c121b!important;--surface-2:#111d2a!important;--line:rgba(155,180,205,.16)!important;--text:#eef4fa!important;--muted:#8997a8!important;--accent:#62d8ef!important;--accent-soft:#62d8ef!important;background:#070a10!important}
+body.home-page .hero{background:radial-gradient(ellipse at 82% 47%,rgba(35,102,151,.18),transparent 37%),#070a10!important}
+body.home-page .button-primary,body.home-page .btn:not(.alt){background:#62d8ef!important;border-color:#62d8ef!important;color:#071018!important}
+body.home-page .button-primary:hover,body.home-page .btn:not(.alt):hover{background:#a1edfa!important;color:#071018!important}
+body.home-page .eyebrow,body.home-page .project-kicker,body.home-page .text-link,body.home-page .project-links a{color:#62d8ef!important}
