@@ -54,9 +54,13 @@ const engagementWorker=readFileSync("mghal-backend/worker.production.js","utf8")
 const engagementUi=readFileSync("assets/social-engagement.js","utf8");
 const engagementCss=readFileSync("assets/social-engagement.css","utf8");
 for(const route of ['/api/public/followers/status','/api/public/followers/count','/api/public/followers','/api/public/reactions','/api/public/comments'])assert.ok(engagementWorker.includes(route),'missing engagement API '+route);
-assert.match(engagementWorker,/VALUES\(\?,\?,'unverified'\)/,'anonymous visitor sessions must not be counted as explicit followers');
-assert.match(engagementWorker,/consent!==true/,'following must require explicit consent');
-assert.match(engagementWorker,/status IN \('active','unverified'\)/,'visitor sessions may react and comment without being forced to follow');
+assert.match(engagementWorker,/INSERT INTO followers\(id,email_hash,status\) VALUES\(\?,\?,'active'\)/,'new visitor sessions should start as anonymous active follows');
+assert.match(engagementWorker,/guestFollowing:f\.status==="active"&&f\.display_name===null/,'anonymous following state must be explicit in the visitor response');
+assert.match(engagementWorker,/consent!==true/,'publishing a named follower profile must require explicit consent');
+assert.match(engagementWorker,/status='active' AND consent_at IS NOT NULL/,'public follower count must include only explicitly consented followers');
+assert.match(engagementWorker,/status='active' AND consent_at IS NULL AND display_name IS NULL/,'anonymous guest follows must be counted separately from named followers');
+assert.match(engagementWorker,/status IN \('active','unverified'\)/,'active visitor sessions may react and comment');
+assert.match(engagementWorker,/status='unsubscribed'/,'unsubscribed visitors must not be silently reactivated');
 assert.match(engagementWorker,/status='approved'/,'public comments must be moderated before display');
 assert.match(engagementWorker,/"share","follow","unfollow","reaction","comment_submitted"/,'analytics must include social engagement events');
 assert.match(engagementUi,/تابع M\.GH\.AL|Follow M\.GH\.AL/,'public follow component is missing');
