@@ -51,7 +51,7 @@ async function share(url,title){
  const field=document.createElement('textarea');field.value=url;document.body.append(field);field.select();const copied=document.execCommand('copy');field.remove();return copied;
 }
 function shareButton(url,title){
- const button=document.createElement('button');button.type='button';button.className='mghal-social-btn mghal-share';button.textContent=words.share;
+ const button=document.createElement('button');button.type='button';button.className='mghal-social-btn mghal-share';button.textContent='↗ '+words.share;button.title=words.shareHint;
  button.addEventListener('click',async()=>{const result=await share(url,title);if(result){await track('share');button.textContent=words.shared;window.setTimeout(()=>button.textContent=words.share,2200)}});
  return button;
 }
