@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const API = 'https://mghal-api.m-gh-alaosimi.workers.dev';
+  const API = '';
   const isEnglish = document.documentElement.lang.toLowerCase().startsWith('en');
   const locale = isEnglish ? 'en' : 'ar';
   const statusLabels = isEnglish
