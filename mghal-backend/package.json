@@ -9,7 +9,7 @@
     "test": "vitest run",
     "build": "wrangler deploy --dry-run --outdir dist",
     "check": "npm run typecheck && npm run lint && npm test && npm run build && npm run check:production",
-    "check:production": "node --check worker.production.js && node --check ../assets/social-engagement.js && node --check ../assets/visitor-tracking.js"
+    "check:production": "node --check worker.production.js && node --check ../public/assets/social-engagement.js && node --check ../public/assets/visitor-tracking.js"
   },
   "dependencies": {
     "zod": "^4.1.12"
