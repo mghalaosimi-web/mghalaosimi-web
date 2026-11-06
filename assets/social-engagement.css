@@ -47,3 +47,6 @@
  .mghal-reaction-btn{width:100%}
 }
 @media(prefers-reduced-motion:reduce){.mghal-social-btn{transition:none}.mghal-social-btn:hover:not(:disabled){transform:none}}
+
+.mghal-card-social .mghal-reactions{display:flex;align-items:flex-start;gap:10px}
+.mghal-card-social .mghal-reaction-item{display:grid;gap:5px}
