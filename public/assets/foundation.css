@@ -1,0 +1,114 @@
+/* M.GH.AL — progressive enhancement and accessibility foundation.
+   Uses standards-based features with fallbacks; no framework/runtime dependency. */
+:root {
+  --site-content-width: 1180px;
+  --site-focus-ring: 3px solid #806333;
+  --site-radius-control: 10px;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-synthesis: none;
+  scrollbar-color: #315A85 #F3F5F7;
+}
+html {
+  scroll-padding-block-start: 6rem;
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  min-block-size: 100vh;
+  min-block-size: 100svh;
+}
+:where(button, input, select, textarea) {
+  font: inherit;
+}
+:where(button, [role="button"], a) {
+  touch-action: manipulation;
+}
+:where(img, picture, video, canvas, svg) {
+  max-inline-size: 100%;
+}
+:where(img, video) {
+  block-size: auto;
+}
+:where(.card, .item, .credential-card, .metric-card, .note) {
+  min-inline-size: 0;
+}
+:where(.card, .item, .credential-card) :where(h2, h3, p, a, time, code) {
+  overflow-wrap: anywhere;
+}
+:where(input, select, textarea) {
+  max-inline-size: 100%;
+}
+:where(button, input, select, textarea, a):focus-visible {
+  outline: var(--site-focus-ring);
+  outline-offset: 3px;
+}
+:where(button, input, select, textarea):disabled {
+  cursor: not-allowed;
+  opacity: .65;
+}
+@supports (text-wrap: balance) {
+  :where(h1, h2, h3, .section-title) { text-wrap: balance; }
+}
+@supports (text-wrap: pretty) {
+  :where(p, .lead, .intro) { text-wrap: pretty; }
+}
+@supports (scrollbar-gutter: stable) {
+  html { scrollbar-gutter: stable; }
+}
+@supports (height: 100dvh) {
+  .site-overlay { min-block-size: 100dvh; }
+}
+@supports (overflow: clip) {
+  body { overflow-x: clip; }
+}
+@supports (container-type: inline-size) {
+  :where(.card, .item, .credential-card) { container-type: inline-size; }
+  @container (max-width: 360px) {
+    :where(.card, .item, .credential-card) {
+      padding-inline: 14px;
+    }
+    :where(.credential-meta, .engineering-meta) {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  :where(a, button) { -webkit-tap-highlight-color: transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@media (forced-colors: active) {
+  :where(button, input, select, textarea, a:focus-visible) {
+    forced-color-adjust: auto;
+    outline: 2px solid CanvasText;
+  }
+  :where(.card, .item, .credential-card, .metric-card, .note) {
+    border: 1px solid CanvasText !important;
+  }
+}
+@media print {
+  html, body { min-block-size: auto; }
+  a { color: inherit !important; text-decoration: underline; }
+  .site-controls, .site-progress, .site-to-top, .site-overlay { display: none !important; }
+}
+
+/* Keyboard-first skip navigation, injected by the typed accessibility module. */
+.skip-link{
+ position:fixed;z-index:1000;inset-block-start:12px;inset-inline-start:12px;
+ display:inline-flex;align-items:center;justify-content:center;
+ padding:11px 16px;border:2px solid #B69A62;border-radius:10px;
+ background:#172B4D;color:#FFFFFF!important;font-weight:750;
+ box-shadow:0 8px 24px rgba(23,43,77,.2);
+ transform:translateY(calc(-100% - 18px));transition:transform .18s ease;
+}
+.skip-link:focus{transform:translateY(0);outline:3px solid #806333;outline-offset:3px}
+main:focus{scroll-margin-block-start:6rem}
+@media(prefers-reduced-motion:reduce){.skip-link{transition:none}}

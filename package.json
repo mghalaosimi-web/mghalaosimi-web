@@ -1,0 +1,29 @@
+{
+  "name": "mghal-digital-identity",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "audit:credentials": "node scripts/audit-credentials.mjs",
+    "test:certificates": "node scripts/test-certificate-sync.mjs",
+    "audit:profile": "node scripts/audit-profile-content.mjs"
+  },
+  "dependencies": {
+    "next": "15.5.28",
+    "react": "19.1.2",
+    "react-dom": "19.1.2",
+    "lucide-react": "^0.468.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5.8.3",
+    "tailwindcss": "^3.4.17",
+    "postcss": "^8.5.6",
+    "autoprefixer": "^10.4.20"
+  }
+}

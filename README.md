@@ -24,7 +24,7 @@
 
 ## 🌐 Official Website | الموقع الرسمي
 
-[https://mghal.vercel.app](https://mghal.vercel.app) — the Arabic and English portfolio, project catalog, and credential record.
+[https://mghalaosimi-web.vercel.app](https://mghalaosimi-web.vercel.app) — the Arabic and English portfolio, project catalog, and credential record.
 
 ---
 
@@ -73,7 +73,7 @@
       <br /><br />
       <sub>Issued by OpenJS Foundation and The Linux Foundation</sub>
       <br />
-      <sub>November 12, 2024</sub>
+      <sub>November 12, 2024 · Record ID: JSNAD-ALOSEIMI-20241112</sub>
     </td>
   </tr>
 </table>
@@ -86,7 +86,7 @@
   </a>
 </p>
 
-### Cisco Networking Academy — 14 recorded badges
+### Cisco Networking Academy — 14 owner-confirmed credentials
 
 1. Hardware and Upgrade Support — August 2, 2026
 2. Cybersecurity Defense Analyst Career Path — July 29, 2026
@@ -100,9 +100,7 @@
 10. IT Customer Support Basics — July 24, 2026
 11. Introduction to Modern AI — July 23, 2026
 
-The current credential record totals 21 entries: one JSNAD credential, 14 Cisco Networking Academy records, and 6 Edraak certificates. The 11 Cisco titles listed above are the entries currently itemized by name; three additional records are not named here until their exact titles and verification references are matched.
-
-[Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
+12. Three additional Cisco credential records are confirmed by the owner; their exact official badge titles are not yet included in this public catalogue.\n\n[Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
 
 ### Edraak — 6 recorded certificates
 
@@ -266,7 +264,7 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 ## 📫 Connect With Me | تواصل معي
 
 <p align="center">
-  <a href="https://mghal.vercel.app/">
+  <a href="https://mghalaosimi-web.vercel.app/">
     <img src="https://img.shields.io/badge/Official%20Website-M.GH.AL-0F766E?style=for-the-badge" alt="Official Website" />
   </a>
   <a href="https://github.com/mghalaosimi-web">

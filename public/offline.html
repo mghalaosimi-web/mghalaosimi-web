@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#172B4D">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="صفحة توضح أن الموقع غير متصل بالإنترنت وتتيح إعادة المحاولة أو العودة للرئيسية.">
+  <title>أنت غير متصل — M.GH.AL</title>
+  <style>
+:root{color-scheme:light;font-family:system-ui,"IBM Plex Sans Arabic",sans-serif;background:#FFFFFF;color:#202B38}
+*{box-sizing:border-box}
+body{min-height:100svh;margin:0;display:grid;place-items:center;padding:24px;background:linear-gradient(180deg,#F3F5F7 0%,#FFFFFF 72%)}
+main{width:min(100%,560px);padding:clamp(26px,6vw,48px);border:1px solid #DCE2E8;border-radius:20px;background:#FFFFFF;text-align:center;box-shadow:0 18px 55px rgba(23,43,77,.09)}
+.brand{font:800 28px Arial,sans-serif;letter-spacing:2px;color:#172B4D}
+h1{font-size:clamp(24px,5vw,34px);margin:24px 0 12px;color:#202B38}
+p{color:#64748B;line-height:1.9}
+a,button{display:inline-block;margin:8px 4px;padding:11px 18px;border:1px solid #315A85;border-radius:10px;background:#315A85;color:#FFFFFF;font:inherit;text-decoration:none;cursor:pointer}
+button{background:#FFFFFF;color:#172B4D;border-color:#DCE2E8}
+a:hover,button:hover{background:#172B4D;color:#FFFFFF}
+.skip-link{position:fixed;z-index:10;inset-block-start:12px;inset-inline-start:12px;margin:0;padding:10px 14px;border:2px solid #806333;border-radius:9px;background:#172B4D;color:#FFFFFF;font-weight:700;text-decoration:none;transform:translateY(calc(-100% - 18px));transition:transform .18s ease}
+.skip-link:focus{transform:translateY(0);outline:3px solid #B69A62;outline-offset:3px}
+main:focus{outline:2px solid #806333;outline-offset:5px}
+@media(prefers-reduced-motion:reduce){.skip-link{transition:none}}
+</style>
+<link rel="stylesheet" href="/assets/mghal-experience.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">تجاوز إلى المحتوى الرئيسي</a>
+  <main id="main-content" tabindex="-1">
+    <div class="brand">M.GH.AL</div>
+    <h1>أنت غير متصل بالإنترنت</h1>
+    <p>تعذر الوصول إلى الصفحة المطلوبة حالياً. يمكنك العودة إلى الصفحة الرئيسية أو إعادة المحاولة عندما يتوفر الاتصال.</p>
+    <a href="/">العودة إلى الصفحة الرئيسية</a>
+    <button type="button" onclick="location.reload()">إعادة المحاولة</button>
+  </main>
+</body>
+</html>
