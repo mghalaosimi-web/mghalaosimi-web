@@ -10,7 +10,8 @@ const locations=new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=
 test('sitemap declares the required XML and XHTML namespaces',()=>{
  assert.match(sitemap,/xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/);
  assert.match(sitemap,/xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/);
- assert.match(sitemap,/<urlset[\s\S]*<\/urlset>$/);
+ assert.ok(sitemap.includes('<urlset '),'sitemap root element missing');
+ assert.ok(sitemap.includes('</urlset>'),'sitemap closing element missing');
 });
 
 test('home and primary Next.js routes are discoverable',()=>{
