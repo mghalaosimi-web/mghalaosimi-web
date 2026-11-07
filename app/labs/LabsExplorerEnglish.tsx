@@ -384,7 +384,7 @@ export default function LabsExplorer() {
       </div>
       <div className="lx-architecture" aria-label="Laboratory ecosystem reference architecture">
         <small>LAB ECOSYSTEM / REFERENCE ARCHITECTURE</small><div className="lx-arch-line"/>
-        <div className="lx-arch-core"><ShieldCheck/><b>AEGIS</b><span>LAB CORE</span></div>
+        <div className="lx-arch-core"><ShieldCheck/><b>M.GH.AL</b><span>LAB CORE</span></div>
         <div className="lx-node n1"><b>01 / BUILD</b><span>Design & Configure</span></div><div className="lx-node n2"><b>02 / TEST</b><span>Assess & Validate</span></div><div className="lx-node n3"><b>03 / OBSERVE</b><span>Monitor & Analyze</span></div><div className="lx-node n4"><b>04 / REPORT</b><span>Evidence & Improve</span></div>
       </div>
     </section>
