@@ -44,6 +44,9 @@ assert.ok(arAbout.includes("active==='learning'?<Learning/>") && enAbout.include
 const expectedSlugs = ["waynah","humanity-system","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-esdp","mghal-official-website"];
 const actualSlugs = [...projects.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
 assert.deepEqual(actualSlugs, expectedSlugs, "The project registry must contain exactly the ten owner-confirmed projects in the approved order.");
+const englishStatuses = [...enProjects.matchAll(/status:'([^']+)'/g)].map(match => match[1]);
+assert.equal(englishStatuses.length, 10, "English project explorer must provide an explicit status for every project.");
+assert.ok(englishStatuses.every(status => !/[\u0600-\u06FF]/.test(status)), "English project statuses must not fall back to Arabic registry values.");
 assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'almanar-schedule-system'"), "The two academic scheduling projects must remain separate.");
 for (const slug of expectedSlugs) {
   assert.ok(existsSync(new URL("../public/projects/" + slug + "/index.html", import.meta.url)), "Missing Arabic project detail route for " + slug);
