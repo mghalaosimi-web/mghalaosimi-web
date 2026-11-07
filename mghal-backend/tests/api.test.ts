@@ -52,3 +52,12 @@ describe("admin browser session resilience",()=>{
   expect(adminSource).not.toContain("let token=sessionStorage.getItem(TOKEN_KEY)");
  });
 });
+
+describe("bilingual navigation contracts",()=>{
+ const header=readFileSync("../app/components/SiteHeader.tsx","utf8");
+ it("marks the active route and preserves the current path when switching language",()=>{
+  expect(header).toContain("usePathname");
+  expect(header).toContain("aria-current={active ? 'page' : undefined}");
+  expect(header).toContain("encodeURIComponent(pathname)");
+ });
+});
