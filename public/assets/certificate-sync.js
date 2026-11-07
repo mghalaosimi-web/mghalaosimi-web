@@ -56,11 +56,11 @@
       }
       matchedCount += 1;
       card.dataset.certificateSlug = slug;
-      if (record.title) heading.textContent = record.title;
+      if (record.title && !heading.textContent.trim()) heading.textContent = record.title;
       const issuer = card.querySelector(".cert-type");
-      if (issuer && record.issuer) issuer.textContent = record.issuer;
+      if (issuer && !issuer.textContent.trim() && record.issuer) issuer.textContent = record.issuer;
       const description = card.querySelector(".cert-description");
-      if (description && record.description) description.textContent = record.description;
+      if (description && !description.textContent.trim() && record.description) description.textContent = record.description;
       const actions = card.querySelector(".cert-actions");
       if (!actions) continue;
       const hasSpecificVerification = [...actions.querySelectorAll("a")].some(a =>

@@ -9,7 +9,8 @@ assert.doesNotMatch(script, /card\.hidden\s*=\s*true/, "an incomplete API must n
 assert.match(script, /if \(!record\)\s*\{[\s\S]*?continue;/, "missing API records must preserve static cards");
 assert.match(script, /hasSpecificVerification/, "specific issuer verification URLs must take precedence over generic profile URLs");
 assert.doesNotMatch(script, /innerHTML|insertAdjacentHTML/, "API content must be inserted as text, not parsed as HTML");
-assert.match(script, /textContent = record\.title/, "API titles must be rendered as text");
+assert.match(script, /record\.title && !heading\.textContent\.trim\(\)/, "API titles must never overwrite curated static titles");
+assert.match(script, /description && !description\.textContent\.trim\(\)/, "API descriptions must never overwrite curated static descriptions");
 assert.equal((script.match(/\["[^"]+", "[a-z0-9-]+"\]/g) || []).length, 18, "only 18 substantiated credentials may have stable source slugs");
 
 const foreignIds = [
