@@ -15,13 +15,6 @@ jobs:
         with:
           node-version: 22
       - run: npm install --no-audit --no-fund
-      - name: Capture root npm lockfile for deterministic Vercel installs
-        uses: actions/upload-artifact@v4
-        with:
-          name: mghal-root-package-lock
-          path: package-lock.json
-          if-no-files-found: error
-          retention-days: 1
       - run: npm run audit:credentials
       - run: npm run test:certificates
       - run: npm run audit:profile
@@ -31,3 +24,30 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run build
+
+  sync-root-lockfile:
+    if: github.event_name == 'push'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Generate the root lockfile without executing package scripts
+        run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+      - name: Commit the lockfile only when it is missing or changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: add root npm lockfile for Vercel installs"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
+            echo "Root package-lock.json is already current."
+          fi
