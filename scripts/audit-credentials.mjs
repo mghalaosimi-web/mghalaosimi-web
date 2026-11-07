@@ -19,8 +19,6 @@ const ownerBadgeIds = [
   "2319c9be-ea2f-44ff-a256-d431cd48404e",
   "35fadd6d-f9d6-4d4f-b151-464d30637bbb",
 ];
-// These identifiers were found to belong to the reference portfolio owner and must never
-// appear in Mohammed Ghaleb Alaosimi's credential records.
 const foreignBadgeIds = [
   "23bda189-2470-4ce0-8065-ee904979ba21",
   "e16ca722-84d2-4da2-ad1f-46e972453890",
@@ -34,16 +32,16 @@ const foreignBadgeIds = [
 ];
 
 function extractSection(html, startId, endId) {
-  const start = html.indexOf(`id="${startId}"`);
-  assert.notEqual(start, -1, `Missing ${startId} section.`);
-  const end = endId ? html.indexOf(`id="${endId}"`, start + 1) : html.indexOf("</main>", start);
-  assert.notEqual(end, -1, `Missing end boundary after ${startId}.`);
+  const start = html.indexOf('id="' + startId + '"');
+  assert.notEqual(start, -1, "Missing " + startId + " section.");
+  const end = endId ? html.indexOf('id="' + endId + '"', start + 1) : html.indexOf("</main>", start);
+  assert.notEqual(end, -1, "Missing end boundary after " + startId + ".");
   return html.slice(start, end);
 }
 
 function inspectPage(path, language) {
   const html = readFileSync(new URL(path, import.meta.url), "utf8");
-  assert.match(html, new RegExp(`<html[^>]*lang=["']${language}["']`i), language + ": incorrect document language.");
+  assert.ok(html.includes('lang="' + language + '"'), language + ": incorrect document language.");
   const sections = {
     cisco: extractSection(html, "cisco-credentials", "edraak-credentials"),
     edraak: extractSection(html, "edraak-credentials", "openjs-credentials"),
@@ -51,26 +49,26 @@ function inspectPage(path, language) {
   };
   const counts = {};
   for (const [issuer, section] of Object.entries(sections)) {
-    const cards = [...section.matchAll(/<article\\b[^>]*class=["'][^"']*\\bcredential-card\\b[^"']*["'][^>]*>[\\s\\S]*?<\\/article>/gi)];
+    const cards = [...section.matchAll(/<article\b[^>]*class=["'][^"']*\bcredential-card\b[^"']*["'][^>]*>[\s\S]*?<\/article>/gi)];
     counts[issuer] = cards.length;
     for (const [index, match] of cards.entries()) {
       const card = match[0];
-      const issuerBadge = card.match(/<div\\b[^>]*class=["'][^"']*\\bissuer-badge\\s+([a-z0-9-]+)[^"']*["'][^>]*>([\\s\\S]*?)<\\/div>/i);
+      const issuerBadge = card.match(/<div\b[^>]*class=["'][^"']*\bissuer-badge\s+([a-z0-9-]+)[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
       assert.ok(issuerBadge, language + ": " + issuer + " card " + (index + 1) + " has no issuer logo.");
       assert.equal(issuerBadge[1].toLowerCase(), issuer, language + ": issuer logo class mismatch.");
-      const logo = issuerBadge[2].match(/<img\\b([^>]*)>/i);
+      const logo = issuerBadge[2].match(/<img\b([^>]*)>/i);
       assert.ok(logo, language + ": issuer logo image missing.");
-      assert.match(logo[1], /\\bsrc=["']https:\\/\\//i, language + ": issuer logo must use HTTPS.");
-      assert.match(logo[1], /\\balt=["'][^"']+["']/i, language + ": issuer logo needs alt text.");
-      assert.match(logo[1], /\\bloading=["']lazy["']/i, language + ": issuer logo must be lazy-loaded.");
-      assert.match(logo[1], /\\bdecoding=["']async["']/i, language + ": issuer logo must decode asynchronously.");
+      assert.match(logo[1], /\bsrc=["']https:\/\//i, language + ": issuer logo must use HTTPS.");
+      assert.match(logo[1], /\balt=["'][^"']+["']/i, language + ": issuer logo needs alt text.");
+      assert.match(logo[1], /\bloading=["']lazy["']/i, language + ": issuer logo must be lazy-loaded.");
+      assert.match(logo[1], /\bdecoding=["']async["']/i, language + ": issuer logo must decode asynchronously.");
     }
   }
   assert.deepEqual(counts, expected, language + ": credential issuer counts do not match the verified register.");
   assert.equal(Object.values(counts).reduce((sum, value) => sum + value, 0), 18, language + ": expected 18 credentials.");
 
   for (const id of ownerBadgeIds) {
-    assert.ok(html.includes(`https://www.credly.com/badges/${id}/public_url`), language + ": missing owner-verified Credly badge " + id);
+    assert.ok(html.includes("https://www.credly.com/badges/" + id + "/public_url"), language + ": missing owner-verified Credly badge " + id);
   }
   for (const id of foreignBadgeIds) {
     assert.ok(!html.includes(id), language + ": another person's Credly badge leaked into this page: " + id);
