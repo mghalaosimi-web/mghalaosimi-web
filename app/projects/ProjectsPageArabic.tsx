@@ -1,11 +1,10 @@
 'use client';
 import {useEffect,useMemo,useState} from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {projects,Project,ProjectCategory} from '../../data/projects';
 import {
   ArrowLeft,ArrowUpLeft,ArrowUpRight,Code2,FolderGit2,
-  GraduationCap,Layers3,ShieldCheck,Sparkles,X,ExternalLink,Terminal,GitBranch,FileText,ArrowUpRight as ArrowRightIcon
+  GraduationCap,Layers3,ShieldCheck,X,ExternalLink,Terminal,GitBranch,FileText,ArrowUpRight as ArrowRightIcon
 } from 'lucide-react';
 import './projects.css';
 
@@ -31,7 +30,7 @@ export default function ProjectsPage(){
   const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
   
   const repositoryCount=projects.filter(p=>p.repository).length;
-  const collaborativeCount=projects.filter(p=>p.status.includes('تعاوني')).length;
+  const collaborativeCount=projects.filter(p=>p.slug==='waynah'||p.slug==='manar-schedule-system').length;
 
   return <main className="content-page projects-page portfolio-archive">
     <section className="portfolio-archive-hero">
