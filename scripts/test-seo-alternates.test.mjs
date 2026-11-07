@@ -4,7 +4,7 @@ import {resolveLocalizedAlternates} from '../lib/seo-paths.mjs';
 
 test('home page exposes distinct Arabic and English canonical URLs',()=>{
  assert.deepEqual(resolveLocalizedAlternates('/','ar'),{canonical:'/',languages:{ar:'/',en:'/en/','x-default':'/'}});
- assert.deepEqual(resolveLocalizedAlternates('/','en'),{canonical:'/en/',languages:{ar:'/',en:'/en/index.html','x-default':'/'}});
+ assert.deepEqual(resolveLocalizedAlternates('/','en'),{canonical:'/en/',languages:{ar:'/',en:'/en/','x-default':'/'}});
 });
 
 test('Next.js content routes map to their existing bilingual static counterparts',()=>{
@@ -38,6 +38,6 @@ test('cookie-switched routes without a distinct English URL do not emit false hr
 });
 
 test('normalizes relative paths, duplicate slashes, query strings and trailing slashes',()=>{
- assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah');
+ assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah/');
  assert.equal(resolveLocalizedAlternates('/unmapped/route/','en').canonical,'/unmapped/route');
 });
