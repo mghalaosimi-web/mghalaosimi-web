@@ -111,9 +111,13 @@ for (const page of pages) {
     assert.ok(html.includes(pdf), page.language + ": missing original PDF link " + pdf);
     assert.ok(existsSync(new URL("../public" + pdf, import.meta.url)), "Missing PDF asset " + pdf);
   }
-  const jsonMatch = html.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/i);
-  assert.ok(jsonMatch, page.language + ": JSON-LD missing");
-  const json = JSON.parse(jsonMatch[1]);
+  const jsonOpen = '<script type="application/ld+json">';
+  const jsonStart = html.indexOf(jsonOpen);
+  assert.notEqual(jsonStart, -1, page.language + ": JSON-LD missing");
+  const payloadStart = jsonStart + jsonOpen.length;
+  const payloadEnd = html.indexOf("</script>", payloadStart);
+  assert.notEqual(payloadEnd, -1, page.language + ": JSON-LD script is not closed");
+  const json = JSON.parse(html.slice(payloadStart, payloadEnd));
   assert.equal(json["@type"], "Person");
   assert.equal(json.hasCredential.length, 18);
   assert.equal(json.hasCredential.filter(item => item.recognizedBy?.name === "Cisco Networking Academy").length, 11);
