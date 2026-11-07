@@ -1,0 +1,32 @@
+name: M.GH.AL Node API CI
+on:
+  push:
+    branches: [feat/node-postgres-backend-2026-11-08]
+    paths:
+      - "mghal-backend/node/**"
+      - "mghal-backend/worker.production.js"
+      - "mghal-backend/postgres/**"
+      - ".github/workflows/mghal-node-api.yml"
+  pull_request:
+    paths:
+      - "mghal-backend/node/**"
+      - "mghal-backend/worker.production.js"
+      - "mghal-backend/postgres/**"
+      - ".github/workflows/mghal-node-api.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mghal-backend/node
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run check
+      - run: node --check ../worker.production.js
