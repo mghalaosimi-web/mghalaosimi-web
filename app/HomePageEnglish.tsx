@@ -1,22 +1,23 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import {ArrowUpLeft,ArrowUpRight,ShieldCheck,GraduationCap,Layers3, Github,Linkedin,Award} from 'lucide-react';
+import {ArrowUpRight,Code2,GraduationCap,Layers3,Github,Linkedin,Award} from 'lucide-react';
 import {projects} from '../data/projects';
 
 const projectCopy:Record<string,{label:string;summary:string}>={
 'waynah':{label:'Local Geographic Discovery',summary:'A Yemen-focused platform for trusted local geographic information and discovery.'},
 'mghal-content-os':{label:'Content Operations',summary:'A system for content planning, review, and supported publishing workflows.'},
+'humanity-system':{label:'Enterprise Systems',summary:'An Arabic-first institutional system for managing records, workflows, and role-based access.'},
 'manar-schedule-system':{label:'Academic Systems',summary:'A collaborative application for academic scheduling workflows.'}
 };
 const disciplines=[
- {number:'01',title:'Security Research',text:'Reviewing application security, studying vulnerabilities, analyzing behavior, and documenting technical findings that can be independently verified.'},
- {number:'02',title:'Defensive Security & Networks',text:'Monitoring and analysis concepts, incident response, network security, and digital forensics.'},
- {number:'03',title:'Software Engineering',text:'Building practical applications and technical tools, designing solutions, and turning ideas into maintainable software.'}
+ {number:'01',title:'Software Engineering',text:'Designing and building maintainable applications with clear architecture, reliable APIs, and attention to code quality.'},
+ {number:'02',title:'Enterprise Systems',text:'Connecting interfaces, services, databases, and role-based permissions into practical administrative and business workflows.'},
+ {number:'03',title:'User Experience & RTL',text:'Creating clear, responsive Arabic and English interfaces with consistent interaction patterns and accessibility in mind.'}
 ];
 const skillGroups=[
- {title:'Cybersecurity',detail:'Defensive Security · Security Research · DFIR · Network Security'},
- {title:'Development',detail:'Python · C# · Dart / Flutter · JavaScript · SQL'},
- {title:'Systems & Tools',detail:'Linux · Kali Linux · Wireshark · Cisco · Git & GitHub'}
+ {title:'Software Engineering',detail:'Architecture · Full-Stack · API Design · Testing'},
+ {title:'Web Development',detail:'JavaScript · TypeScript · React · Next.js · Node.js'},
+ {title:'Data & Systems',detail:'PostgreSQL · SQLite · Prisma · Firebase · Supabase · Docker'}
 ];
 export default function HomePageEnglish(){
  const featured=projects.filter(project=>project.featured).slice(0,3);
@@ -41,15 +42,15 @@ export default function HomePageEnglish(){
     <Image src="/images/mghal-avatar.webp" alt="Mohammed Ghaleb Alaosimi" fill priority sizes="(max-width: 640px) 90vw, 42vw" className="hv-portrait-image"/>
     <div className="hv-portrait-shade"/>
     <div className="hv-visual-top"><span>M.GH.AL / 01</span><span>ENGINEERING PROFILE</span></div>
-    <div className="hv-portrait-stamp"><ShieldCheck size={18}/><span>RESEARCH<br/>BUILD<br/>DEFEND</span></div>
+    <div className="hv-portrait-stamp"><Code2 size={18}/><span>DESIGN<br/>BUILD<br/>DELIVER</span></div>
     <div className="hv-visual-foot"><span>M.GH.AL</span><span>YEMEN · 2026</span></div>
    </div>
    <div className="hv-scroll-cue"><span/> SCROLL TO EXPLORE</div>
   </section>
   <section className="hv-disciplines" aria-labelledby="disciplines-title">
    <div className="hv-section-top"><span>01 / AREAS OF FOCUS</span><span>CORE DISCIPLINES</span></div>
-   <div className="hv-section-intro"><div><p className="hv-kicker">WHAT I WORK ON</p><h2 id="disciplines-title">Three disciplines.<br/><em>One engineering mindset.</em></h2></div><p>I bring together systems thinking, security-focused analysis, and software development to build considered technical solutions.</p></div>
-   <div className="hv-discipline-grid">{disciplines.map(item=><article className="hv-discipline-card" key={item.number}><div className="hv-card-head"><ShieldCheck size={23} strokeWidth={1.5}/><span>{item.number}</span></div><h3>{item.title}</h3><p>{item.text}</p><div className="hv-card-rule"/></article>)}</div>
+   <div className="hv-section-intro"><div><p className="hv-kicker">WHAT I WORK ON</p><h2 id="disciplines-title">Three disciplines.<br/><em>One engineering mindset.</em></h2></div><p>I bring together software engineering, enterprise systems, and user experience to build practical, maintainable technical solutions.</p></div>
+   <div className="hv-discipline-grid">{disciplines.map(item=><article className="hv-discipline-card" key={item.number}><div className="hv-card-head"><Code2 size={23} strokeWidth={1.5}/><span>{item.number}</span></div><h3>{item.title}</h3><p>{item.text}</p><div className="hv-card-rule"/></article>)}</div>
   </section>
   <section className="hv-work" id="featured" aria-labelledby="work-title">
    <div className="hv-section-top"><span>02 / SELECTED WORK</span><span>ENGINEERING ARCHIVE</span></div>
@@ -69,13 +70,13 @@ export default function HomePageEnglish(){
   </section>
   <section className="hv-credentials">
    <div className="hv-credential-icon"><Award size={29}/></div>
-   <div><p className="hv-kicker">LEARNING / VALIDATION</p><h2>Continuous learning,<em> documented progress.</em></h2><p>Academic study in cybersecurity and networks, supported by technical credentials and verified learning.</p></div>
+   <div><p className="hv-kicker">LEARNING / VALIDATION</p><h2>Continuous learning,<em> documented progress.</em></h2><p>Information Technology studies, supported by technical credentials and continuous learning.</p></div>
    <Link href="/credentials" className="hv-button hv-button-ghost">Credentials & Education <ArrowUpRight size={16}/></Link>
   </section>
   <section className="hv-contact">
    <div className="hv-contact-orbit" aria-hidden="true"/>
-   <div className="hv-contact-content"><p className="hv-kicker">04 / CONNECT & COLLABORATE</p><h2>Let’s build something<br/><em>worth securing.</em></h2><p>For professional connections, technical project discussions, security research, and collaboration opportunities.</p><Link href="/contact" className="hv-button hv-button-primary">Get in Touch <ArrowUpRight size={17}/></Link></div>
-   <div className="hv-social-links"><a href="https://orcid.org/0009-0000-6007-3170" target="_blank" rel="noopener noreferrer"><span className="hv-orcid-mark">iD</span><span>ORCID</span><small>0009-0000-6007-3170</small><ArrowUpRight size={14}/></a><a href="https://github.com/mghalaosimi-web" target="_blank" rel="noopener noreferrer"><Github size={18}/> GitHub <ArrowUpRight size={14}/></a><a href="https://www.linkedin.com/in/mghalaosimi-web-399676409" target="_blank" rel="noopener noreferrer"><Linkedin size={18}/> LinkedIn <ArrowUpRight size={14}/></a><a href="https://www.credly.com/users/mghalaosimi-web" target="_blank" rel="noopener noreferrer"><GraduationCap size={18}/> Credly <ArrowUpRight size={14}/></a></div>
+   <div className="hv-contact-content"><p className="hv-kicker">04 / CONNECT & COLLABORATE</p><h2>Let’s build something<br/><em>worth building.</em></h2><p>For professional connections, software engineering discussions, project collaboration, and technical opportunities.</p><Link href="/contact" className="hv-button hv-button-primary">Get in Touch <ArrowUpRight size={17}/></Link></div>
+   <div className="hv-social-links"><a href="https://orcid.org/0009-0000-6007-3170" target="_blank" rel="noopener noreferrer"><span className="hv-orcid-mark">iD</span><span>ORCID</span><small>0009-0000-6007-3170</small><ArrowUpRight size={14}/></a><a href="https://github.com/mghalaosimi-web" target="_blank" rel="noopener noreferrer"><Github size={18}/> GitHub <ArrowUpRight size={14}/></a><a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/" target="_blank" rel="noopener noreferrer"><Linkedin size={18}/> LinkedIn <ArrowUpRight size={14}/></a><a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi" target="_blank" rel="noopener noreferrer"><GraduationCap size={18}/> Credly <ArrowUpRight size={14}/></a></div>
    <div className="hv-contact-index">AK<span> / 2026</span></div>
   </section>
  </main>;
