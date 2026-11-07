@@ -113,6 +113,94 @@ function adminPermissionDb(permissions: string[] = []) {
   };
 }
 
+async function testPasswordHash(password: string) {
+  const salt = new Uint8Array(16).fill(7);
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt, iterations: 210000 }, key, 256);
+  const encode = (value: Uint8Array) => btoa(String.fromCharCode(...value));
+  return "pbkdf2-sha256$210000$" + encode(salt) + "$" + encode(new Uint8Array(bits));
+}
+
+function loginDb(user: { id: string; email: string; password_hash: string; status: string }) {
+  let sessionInserted = false;
+  return {
+    prepare(sql: string) {
+      return {
+        bind(..._params: unknown[]) {
+          return {
+            async run() {
+              if (sql.includes("INSERT INTO admin_sessions")) sessionInserted = true;
+              return { success: true, meta: { changes: 1 } };
+            },
+            async first() {
+              if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
+              if (sql.includes("SELECT id,email,password_hash,status FROM admin_users")) return user;
+              return null;
+            },
+            async all() { return { results: [] }; },
+          };
+        },
+      };
+    },
+    get sessionInserted() { return sessionInserted; },
+  };
+}
+
+function adminCrudDb(permissions: string[] = []) {
+  return {
+    prepare(sql: string) {
+      return {
+        bind(...params: unknown[]) {
+          return {
+            async run() { return { success: true, meta: { changes: 1 } }; },
+            async first() {
+              if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
+              if (sql.includes("SELECT u.id,u.email FROM admin_sessions")) return { id: "admin-1", email: "admin@example.test" };
+              if (sql.includes("SELECT 1 FROM admin_user_roles")) return permissions.includes(String(params[1])) ? { ok: 1 } : null;
+              if (sql.includes("FROM projects WHERE id=?")) return { id: "project-1", slug: "waynah", name: "WAYNAH", status: "Experimental" };
+              if (sql.startsWith("INSERT INTO projects")) return { id: params[0], slug: params[1], name: params[2], status: params[3] };
+              if (sql.startsWith("UPDATE projects SET")) return { id: params[params.length - 1], status: params[0] };
+              if (sql.includes("FROM media WHERE id=?")) return { id: params[0], original_name: "brand-mark.webp" };
+              return null;
+            },
+            async all() {
+              if (sql.includes("FROM projects ORDER BY")) return { results: [{ id: "project-1", slug: "waynah" }] };
+              return { results: [] };
+            },
+          };
+        },
+      };
+    },
+  };
+}
+
+function adminUserCreateDb(changes: [number, number]) {
+  let cleanup = false;
+  return {
+    prepare(sql: string) {
+      return {
+        bind(..._params: unknown[]) {
+          return {
+            async run() {
+              if (sql.startsWith("DELETE FROM admin_users WHERE id=? AND NOT EXISTS")) cleanup = true;
+              return { success: true, meta: { changes: 1 } };
+            },
+            async first() {
+              if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
+              if (sql.includes("SELECT u.id,u.email FROM admin_sessions")) return { id: "admin-1", email: "admin@example.test" };
+              if (sql.includes("SELECT 1 FROM admin_user_roles")) return { ok: 1 };
+              return null;
+            },
+            async all() { return { results: [] }; },
+          };
+        },
+      };
+    },
+    async batch() { return changes.map(value => ({ meta: { changes: value } })); },
+    get cleanup() { return cleanup; },
+  };
+}
+
 function idempotentReactionDb() {
   const base = engagementDb();
   let writes = 0;
@@ -270,6 +358,31 @@ describe("production Worker security contract", () => {
     expect(await response.json()).toMatchObject({ error: { code: "INVALID_CREDENTIALS" } });
   });
 
+  it("creates a bounded admin session after valid password verification", async () => {
+    const password = "a-very-long-test-password-12345";
+    const db = loginDb({ id: "owner-1", email: "owner@example.test", password_hash: await testPasswordHash(password), status: "active" });
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/auth/login", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "owner@example.test", password }),
+    }), { DB: db } as never);
+    expect(response.status).toBe(200);
+    const data = await response.json() as { token: string; expiresAt: string; user: { id: string; email: string } };
+    expect(data.token.length).toBeGreaterThan(32);
+    expect(data.user).toEqual({ id: "owner-1", email: "owner@example.test" });
+    expect(data).not.toHaveProperty("password_hash");
+    expect(db.sessionInserted).toBe(true);
+  });
+
+  it("does not create an admin session when password verification fails", async () => {
+    const db = loginDb({ id: "owner-1", email: "owner@example.test", password_hash: await testPasswordHash("a-very-long-test-password-12345"), status: "active" });
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/auth/login", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "owner@example.test", password: "a-different-long-password-67890" }),
+    }), { DB: db } as never);
+    expect(response.status).toBe(401);
+    expect(db.sessionInserted).toBe(false);
+  });
+
   it("serves a PDF only when it is referenced by a published certificate", async () => {
     const bytes = new Uint8Array([37, 80, 68, 70, 45, 49, 46, 52]);
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/media/certificate-pdf-1"), {
@@ -371,6 +484,59 @@ describe("production Worker security contract", () => {
     expect(listUsers.status).toBe(403);
     expect(deleteProject.status).toBe(403);
     expect(changeUser.status).toBe(403);
+  });
+
+  it("allows project CRUD only with the corresponding content permissions", async () => {
+    const token = "test-admin-session";
+    const read = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", {
+      headers: { Authorization: "Bearer " + token },
+    }), { DB: adminCrudDb(["content.read"]) } as never);
+    const create = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", {
+      method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ slug: "waynah", name: "WAYNAH", status: "Experimental" }),
+    }), { DB: adminCrudDb(["content.write"]) } as never);
+    const update = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects/project-1", {
+      method: "PATCH", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "Paused" }),
+    }), { DB: adminCrudDb(["content.write"]) } as never);
+    const remove = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects/project-1", {
+      method: "DELETE", headers: { Authorization: "Bearer " + token },
+    }), { DB: adminCrudDb(["content.delete"]) } as never);
+    const mediaDenied = await productionWorker.fetch(new Request("https://api.example.test/api/admin/media/media-1", {
+      method: "DELETE", headers: { Authorization: "Bearer " + token },
+    }), { DB: adminCrudDb(["content.write"]) } as never);
+    const mediaRemove = await productionWorker.fetch(new Request("https://api.example.test/api/admin/media/media-1", {
+      method: "DELETE", headers: { Authorization: "Bearer " + token },
+    }), { DB: adminCrudDb(["content.delete"]) } as never);
+    expect(read.status).toBe(200);
+    expect(create.status).toBe(201);
+    expect(update.status).toBe(200);
+    expect(remove.status).toBe(200);
+    expect(mediaDenied.status).toBe(403);
+    expect(mediaRemove.status).toBe(200);
+  });
+
+  it("assigns only the requested editor/analyst role when creating an admin user", async () => {
+    const token = "test-admin-session";
+    const db = adminUserCreateDb([1, 1]);
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/users", {
+      method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "editor@example.test", password: "a-very-long-test-password-12345", displayName: "Content Editor", role: "editor" }),
+    }), { DB: db } as never);
+    expect(response.status).toBe(201);
+    expect(await response.json()).toMatchObject({ email: "editor@example.test", displayName: "Content Editor", role: "editor" });
+  });
+
+  it("cleans up a newly inserted admin account if role assignment fails", async () => {
+    const token = "test-admin-session";
+    const db = adminUserCreateDb([1, 0]);
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/users", {
+      method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "editor@example.test", password: "a-very-long-test-password-12345", displayName: "Content Editor", role: "editor" }),
+    }), { DB: db } as never);
+    expect(response.status).toBe(409);
+    expect(await response.json()).toMatchObject({ error: { code: "USER_CREATE_FAILED" } });
+    expect(db.cleanup).toBe(true);
   });
 
   it("starts a private anonymous guest follow without publishing a name or recording public consent", async () => {
