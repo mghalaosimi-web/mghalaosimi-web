@@ -22,7 +22,6 @@ const copy:Record<string,{name?:string;label:string;summary:string;status:string
 'mghal-esdp':{label:'Private desktop application',summary:'A private Windows desktop application project; it is not publicly released and has no public download.',status:'PRIVATE · UNPUBLISHED',contribution:'Private project; no public source repository or downloadable build is available.'},
 'mghal-official-website':{label:'Professional digital identity hub',summary:'A bilingual professional identity and portfolio hub for M.GH.AL, bringing together profile, projects, credentials, and contact channels.',status:'ACTIVE DEVELOPMENT',contribution:'Personal website project; the current Render deployment is a preview, not the production release.'}
 };
-};
 export default function ProjectsExplorerEnglish(){
  const [filter,setFilter]=useState<typeof filters[number]['id']>('all'),[selected,setSelected]=useState<Project|null>(null);
  useEffect(()=>{if(!selected)return;const prev=document.body.style.overflow;document.body.style.overflow='hidden';const key=(e:KeyboardEvent)=>{if(e.key==='Escape')setSelected(null)};window.addEventListener('keydown',key);return()=>{document.body.style.overflow=prev;window.removeEventListener('keydown',key)}},[selected]);

@@ -30,6 +30,22 @@ const foreignBadgeIds = [
   "a370a36f-7ce1-4531-b44b-b909e56ee52d",
   "dd68b74c-65f9-468f-9a51-3bb78adad239",
 ];
+const ciscoBadges = {
+  "Hardware and Upgrade Support": { id: "926baf56-48f3-4f9d-b86d-77b2c538663c", date: "2026-08-02", ar: "2 أغسطس 2026", en: "2 Aug 2026", image: "https://images.credly.com/size/340x340/images/94cbdf0d-3e44-44b2-b213-866fe22aa7d5/blob" },
+  "Cybersecurity Defense Analyst Career Path": { id: "eaec19be-fa80-429e-8055-5bbd260b0776", date: "2026-07-29", ar: "29 يوليو 2026", en: "29 Jul 2026", image: "https://images.credly.com/size/340x340/images/a8d6cb9c-e0e3-4705-aab0-160cc9d10a11/blob" },
+  "Operating Systems Support": { id: "96acb061-5011-4c45-89e3-07f8bf43980c", date: "2026-07-29", ar: "29 يوليو 2026", en: "29 Jul 2026", image: "https://images.credly.com/size/340x340/images/70cc28ef-542c-4ce2-8bad-e8d95daf5138/blob" },
+  "English for IT 1": { id: "31c303bf-725d-4061-b6b1-2dfb76d6ad3f", date: "2026-07-27", ar: "27 يوليو 2026", en: "27 Jul 2026", image: "https://images.credly.com/size/340x340/images/77b1ea15-6287-4d97-8ecd-c5afa2d137ea/image.png" },
+  "Junior Cybersecurity Analyst Career Path": { id: "dd87ef5f-4c10-4d9d-928b-cf0a995c5ccb", date: "2026-07-27", ar: "27 يوليو 2026", en: "27 Jul 2026", image: "https://images.credly.com/size/340x340/images/441578ec-c0f3-46cc-95fc-86b27e90cf4f/image.png" },
+  "Networking Basics": { id: "6e1ad458-e752-4064-a997-27092902f884", date: "2026-07-27", ar: "27 يوليو 2026", en: "27 Jul 2026", image: "https://images.credly.com/size/340x340/images/5bdd6a39-3e03-4444-9510-ecff80c9ce79/image.png" },
+  "Security and Connectivity Support": { id: "327cec43-3807-4a02-b144-c72407bdc4f3", date: "2026-07-27", ar: "27 يوليو 2026", en: "27 Jul 2026", image: "https://images.credly.com/size/340x340/images/a42c5fcd-6617-429c-b4a9-8805310e0b10/blob" },
+  "Python Essentials 1": { id: "8d8f1cba-4a98-4cd5-b3b9-fe4233f085b1", date: "2026-07-26", ar: "26 يوليو 2026", en: "26 Jul 2026", image: "https://images.credly.com/size/340x340/images/68c0b94d-f6ac-40b1-a0e0-921439eb092e/image.png" },
+  "Operating Systems Basics": { id: "73d091cc-193d-4b57-b8e0-e64340df62c7", date: "2026-07-25", ar: "25 يوليو 2026", en: "25 Jul 2026", image: "https://images.credly.com/size/340x340/images/dcdf1a3c-2594-4f4c-a33a-050b4bca58b5/image.png" },
+  "IT Customer Support Basics": { id: "2319c9be-ea2f-44ff-a256-d431cd48404e", date: "2026-07-24", ar: "24 يوليو 2026", en: "24 Jul 2026", image: "https://images.credly.com/size/340x340/images/474a03c6-b5e1-44df-b313-adf0fed6c531/blob" },
+  "Introduction to Modern AI": { id: "35fadd6d-f9d6-4d4f-b151-464d30637bbb", date: "2026-07-23", ar: "23 يوليو 2026", en: "23 Jul 2026", image: "https://images.credly.com/size/340x340/images/e2d12302-10f9-40d4-8ff1-066a7008b61d/blob" },
+};
+const credentialsRoute = readFileSync(new URL("../app/credentials/page.tsx", import.meta.url), "utf8");
+assert.match(credentialsRoute, /redirect\(en \? '\/en\/certificates\.html' : '\/certificates\.html'\)/, "Next.js credentials route must redirect to the audited bilingual pages.");
+for (const id of foreignBadgeIds) assert.ok(!credentialsRoute.includes(id), "A reference-owner badge ID leaked into app/credentials/page.tsx: " + id);
 
 function extractSection(html, startId, endId) {
   const start = html.indexOf('id="' + startId + '"');
@@ -68,6 +84,19 @@ function inspectPage(path, language) {
   assert.deepEqual(counts, expected, language + ": credential issuer counts do not match the verified register.");
   assert.equal(Object.values(counts).reduce((sum, value) => sum + value, 0), 18, language + ": expected 18 credentials.");
 
+
+  for (const [title, badge] of Object.entries(ciscoBadges)) {
+    const titleIndex = html.indexOf("<h3>" + title + "</h3>");
+    assert.notEqual(titleIndex, -1, language + ": missing Cisco title " + title);
+    const cardStart = html.lastIndexOf("<article", titleIndex);
+    const cardEnd = html.indexOf("</article>", titleIndex);
+    const card = html.slice(cardStart, cardEnd);
+    assert.ok(card.includes("https://www.credly.com/badges/" + badge.id + "/public_url"), language + ": badge ID is not mapped to " + title);
+    assert.ok(card.includes(language === "ar" ? badge.ar : badge.en), language + ": issue date mismatch for " + title);
+    assert.ok(card.includes('src="' + badge.image + '"'), language + ": official Credly badge image mismatch for " + title);
+    assert.ok(card.includes(language === "ar" ? "شارة Credly الأصلية لاعتماد " + title : "Official Credly badge for " + title), language + ": badge alt text mismatch for " + title);
+  }
+
   for (const id of ownerBadgeIds) {
     assert.ok(html.includes("https://www.credly.com/badges/" + id + "/public_url"), language + ": missing owner-verified Credly badge " + id);
   }
@@ -98,6 +127,9 @@ const originalPdfs = [
   "/assets/certificates/IT_Customer_Support_Basics_certificate_m-gh-alaosimi-gmail-com_c21859f1-476d-49bb-a798-ac1479307855.pdf",
   "/assets/certificates/IntrotoModernAIUpdate20260723-21-kproqx.pdf",
   "/assets/certificates/uiux-v1_certificate.PDF",
+  "/assets/certificates/interactiondesign-v1_certificate.PDF",
+  "/assets/certificates/uxdesign-v1_certificate.PDF",
+  "/assets/certificates/uidesign-v1_certificate.PDF",
 ];
 const originalImages = [
   "/assets/issuers/cisco-logo.svg",
@@ -135,6 +167,7 @@ for (const page of pages) {
   assert.equal(json.hasCredential.filter(item => item.recognizedBy?.name === "Cisco Networking Academy").length, 11);
   assert.equal(json.hasCredential.filter(item => item.recognizedBy?.name === "Edraak").length, 6);
   assert.ok(json.hasCredential.some(item => item.identifier?.value === "JSNAD-ALOSEIMI-20241112"));
+  assert.ok(html.includes("https://training.linuxfoundation.org/certification/verify/"), page.language + ": official JSNAD verifier link is missing.");
   if (page.language === "en") assert.ok(!html.includes('alt="صورة أصلية لشهادة'), "English page has Arabic image alt text");
 }
 console.log("Extended credential checks passed: all Edraak IDs/dates, original PDF assets, 18-entry JSON-LD and English alt text.");
