@@ -30,7 +30,7 @@ export default function HomePageEnglish(){
     <h1 id="home-title">Mohammed Ghaleb <span>Alaosimi</span></h1>
     <a className="hv-hero-orcid" href="https://orcid.org/0009-0000-6007-3170" target="_blank" rel="noopener noreferrer"><span className="hv-orcid-mark">iD</span><span>ORCID researcher identifier</span><strong>0009-0000-6007-3170</strong><ArrowUpRight size={14}/></a>
     <h2>Building Systems.<br/><em>Engineering with Purpose.</em></h2>
-    <p className="hv-intro">Information Technology bachelor’s student at Al-Manar University College, Yemen, and Full-Stack Developer. I build web applications and enterprise-oriented systems, with interests in software architecture, databases, applied AI, user experience, and cybersecurity.</p>
+    <p className="hv-intro">Information Technology bachelor’s student at Al-Manar College for Science and Technology, Yemen, and Full-Stack Developer. I build web applications and enterprise-oriented systems, with interests in software architecture, databases, applied AI, user experience, and cybersecurity.</p>
     <div className="hv-actions">
      <Link href="/projects" className="hv-button hv-button-primary">Explore Projects <ArrowUpRight size={17}/></Link>
      <Link href="/about" className="hv-button hv-button-ghost">About My Journey <ArrowUpRight size={16}/></Link>
@@ -77,7 +77,7 @@ export default function HomePageEnglish(){
    <div className="hv-contact-orbit" aria-hidden="true"/>
    <div className="hv-contact-content"><p className="hv-kicker">04 / CONNECT & COLLABORATE</p><h2>Let’s build something<br/><em>worth building.</em></h2><p>For professional connections, software engineering discussions, project collaboration, and technical opportunities.</p><Link href="/contact" className="hv-button hv-button-primary">Get in Touch <ArrowUpRight size={17}/></Link></div>
    <div className="hv-social-links"><a href="https://orcid.org/0009-0000-6007-3170" target="_blank" rel="noopener noreferrer"><span className="hv-orcid-mark">iD</span><span>ORCID</span><small>0009-0000-6007-3170</small><ArrowUpRight size={14}/></a><a href="https://github.com/mghalaosimi-web" target="_blank" rel="noopener noreferrer"><Github size={18}/> GitHub <ArrowUpRight size={14}/></a><a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/" target="_blank" rel="noopener noreferrer"><Linkedin size={18}/> LinkedIn <ArrowUpRight size={14}/></a><a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi" target="_blank" rel="noopener noreferrer"><GraduationCap size={18}/> Credly <ArrowUpRight size={14}/></a></div>
-   <div className="hv-contact-index">AK<span> / 2026</span></div>
+   <div className="hv-contact-index">M.GH.AL<span> / 2026</span></div>
   </section>
  </main>;
 }
