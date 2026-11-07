@@ -359,9 +359,18 @@ describe("production Worker security contract", () => {
     const listUsers = await productionWorker.fetch(new Request("https://api.example.test/api/admin/users", {
       headers: { Authorization: "Bearer " + token },
     }), { DB: adminPermissionDb(["content.read", "content.write"]) } as never);
+    const deleteProject = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects/project-1", {
+      method: "DELETE", headers: { Authorization: "Bearer " + token },
+    }), { DB: adminPermissionDb(["content.read", "content.write"]) } as never);
+    const changeUser = await productionWorker.fetch(new Request("https://api.example.test/api/admin/users/user-2", {
+      method: "PATCH", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "disabled" }),
+    }), { DB: adminPermissionDb(["content.read", "content.write"]) } as never);
     expect(getProjects.status).toBe(403);
     expect(createProject.status).toBe(403);
     expect(listUsers.status).toBe(403);
+    expect(deleteProject.status).toBe(403);
+    expect(changeUser.status).toBe(403);
   });
 
   it("starts a private anonymous guest follow without publishing a name or recording public consent", async () => {
