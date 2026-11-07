@@ -1,9 +1,8 @@
 'use client';
 import {useEffect,useMemo,useState} from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {projects,Project,ProjectCategory} from '../../data/projects';
-import {ArrowUpRight,Code2,FolderGit2,GraduationCap,Layers3,ShieldCheck,Sparkles,X,ExternalLink,Terminal,GitBranch,FileText} from 'lucide-react';
+import {ArrowUpRight,Code2,FolderGit2,GraduationCap,Layers3,ShieldCheck,X,ExternalLink,Terminal,GitBranch,FileText} from 'lucide-react';
 import './projects.css';
 const filters:{id:'all'|ProjectCategory;label:string}[]=[{id:'all',label:'All projects'},{id:'cyber-defense',label:'Cybersecurity'},{id:'software',label:'Software engineering'},{id:'academic',label:'Academic & collaborative'}];
 const categoryMeta={
