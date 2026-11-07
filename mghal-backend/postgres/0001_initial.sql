@@ -1,7 +1,7 @@
 -- M.GH.AL PostgreSQL baseline schema.
 -- Source: verified live D1 schema on 2026-11-08.
 -- Compatibility policy: keep existing identifiers and ISO-8601 timestamp strings;
--- convert boolean-like flags to constrained SMALLINT values to preserve API semantics.
+-- convert boolean-like flags to constrained INTEGER values to preserve API semantics.
 -- This file is additive/idempotent and does not drop or rewrite existing data.
 
 CREATE TABLE IF NOT EXISTS _mghal_migrations (
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS projects (
   started_at TEXT,
   completed_at TEXT,
   sort_order INTEGER NOT NULL DEFAULT 0,
-  is_published SMALLINT NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
+  is_published INTEGER NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
   created_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
   updated_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
   name_ar TEXT,
@@ -137,7 +137,7 @@ CREATE TABLE IF NOT EXISTS achievements (
   achieved_at TEXT,
   related_project_id TEXT REFERENCES projects(id) ON DELETE SET NULL,
   media_id TEXT,
-  is_published SMALLINT NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
+  is_published INTEGER NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
   sort_order INTEGER NOT NULL DEFAULT 0
 );
 
@@ -155,7 +155,7 @@ CREATE TABLE IF NOT EXISTS certificates (
   pdf_media_id TEXT,
   qr_url TEXT,
   description TEXT,
-  is_published SMALLINT NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
+  is_published INTEGER NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
   sort_order INTEGER NOT NULL DEFAULT 0,
   created_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
   updated_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')
@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS education (
   status TEXT NOT NULL DEFAULT 'in_progress' CHECK (status IN ('in_progress','completed','paused')),
   description TEXT,
   sort_order INTEGER NOT NULL DEFAULT 0,
-  is_published SMALLINT NOT NULL DEFAULT 1 CHECK (is_published IN (0,1))
+  is_published INTEGER NOT NULL DEFAULT 1 CHECK (is_published IN (0,1))
 );
 
 CREATE TABLE IF NOT EXISTS followers (
@@ -208,7 +208,7 @@ CREATE TABLE IF NOT EXISTS identity_profiles (
   biography TEXT,
   location TEXT,
   avatar_media_id TEXT,
-  is_published SMALLINT NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
+  is_published INTEGER NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
   updated_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
   UNIQUE (locale)
 );
@@ -236,7 +236,7 @@ CREATE TABLE IF NOT EXISTS skills (
   category TEXT NOT NULL,
   proficiency TEXT CHECK (proficiency IN ('beginner','intermediate','advanced','not_specified')),
   sort_order INTEGER NOT NULL DEFAULT 0,
-  is_published SMALLINT NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
+  is_published INTEGER NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
   UNIQUE (name, locale)
 );
 
@@ -246,8 +246,8 @@ CREATE TABLE IF NOT EXISTS technologies (
   category TEXT,
   logo_url TEXT,
   website_url TEXT,
-  is_published SMALLINT NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
-  archived SMALLINT NOT NULL DEFAULT 0 CHECK (archived IN (0,1))
+  is_published INTEGER NOT NULL DEFAULT 1 CHECK (is_published IN (0,1)),
+  archived INTEGER NOT NULL DEFAULT 0 CHECK (archived IN (0,1))
 );
 CREATE INDEX IF NOT EXISTS idx_technologies_public ON technologies(is_published, archived, name);
 
@@ -297,7 +297,7 @@ CREATE TABLE IF NOT EXISTS follower_identities (
   provider TEXT NOT NULL CHECK (provider = 'google'),
   provider_subject TEXT NOT NULL,
   email TEXT NOT NULL,
-  email_verified SMALLINT NOT NULL DEFAULT 0 CHECK (email_verified IN (0,1)),
+  email_verified INTEGER NOT NULL DEFAULT 0 CHECK (email_verified IN (0,1)),
   display_name TEXT,
   created_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
   updated_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
