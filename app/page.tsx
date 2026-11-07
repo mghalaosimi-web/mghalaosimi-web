@@ -1,6 +1,15 @@
+import type {Metadata} from 'next';
 import Image from 'next/image';
 import {cookies} from 'next/headers';
 import HomePageEnglish from './HomePageEnglish';
+import {localizedAlternates} from '../lib/seo';
+
+export async function generateMetadata():Promise<Metadata>{
+ const en=(await cookies()).get('portfolio-locale')?.value==='en';
+ return en
+  ? {description:'The professional digital identity of Mohammed Ghaleb Alaosimi — Full-Stack Developer, Software Engineer and Information Technology student.',alternates:localizedAlternates('/','en')}
+  : {description:'الهوية الرقمية المهنية لمحمد غالب العصيمي — Full-Stack Developer | Software Engineer | IT Student.',alternates:localizedAlternates('/','ar')};
+}
 const projects=[
  {name:'WAYNAH | وَيْنَه؟',status:'قيد التطوير · إصدار v0.12.0',desc:'دليل محلي موثوق لاستكشاف الأماكن والمعلومات الجغرافية في اليمن، بتوجه Offline-first وبنية مكانية تعتمد PostGIS.',stack:'Next.js · TypeScript · PostGIS',href:'https://waynah.vercel.app',label:'LOCAL DISCOVERY'},
  {name:'Humanity System',status:'خاص · قيد التطوير',desc:'منظومة رقمية لإدارة البيانات والعمليات المؤسسية، مع اهتمام بالصلاحيات وسير العمل والتوثيق.',stack:'Full-Stack · Database · RBAC',href:'/projects/humanity-system',label:'ENTERPRISE SYSTEM'},

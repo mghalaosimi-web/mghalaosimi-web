@@ -1,7 +1,14 @@
 import type {Metadata} from 'next';
 import {cookies} from 'next/headers';
 import '../mghal-portfolio.css';
-export const metadata:Metadata={title:'الأبحاث والدراسات | Research',description:'الاهتمامات البحثية والأعمال الأكاديمية لمحمد غالب العصيمي.'};
+import {localizedAlternates} from '../../lib/seo';
+
+export async function generateMetadata():Promise<Metadata>{
+ const en=(await cookies()).get('portfolio-locale')?.value==='en';
+ return en
+  ? {title:'Research & Academic Directions | M.GH.AL',description:'Research interests and academic directions of Mohammed Ghaleb Alaosimi across software engineering, enterprise systems and applied AI.',alternates:localizedAlternates('/research','en')}
+  : {title:'الأبحاث والدراسات | M.GH.AL',description:'الاهتمامات البحثية والأعمال الأكاديمية لمحمد غالب العصيمي.',alternates:localizedAlternates('/research','ar')};
+}
 const items=[
 {title:'التفويض الواعي بالمعاملات والتنفيذ المقيّد للوكلاء الذكيين داخل أنظمة ERP',en:'Transaction-Aware Authorization and Bounded Execution for AI Agents in ERP Systems',status:'مسار بحثي قيد الإعداد · غير منشور',statusEn:'Research direction in preparation · Not published',summary:'استكشاف تصميم آليات تفويض وصلاحيات تراعي سياق المعاملة داخل أنظمة ERP، وتقيّد تنفيذ الوكلاء الذكيين بمبدأ أقل صلاحية وحدود تشغيل واضحة وموافقات بشرية عند الحاجة.',summaryEn:'Exploring authorization mechanisms that account for transaction context in ERP systems, constrain AI-agent execution through least privilege and bounded runtime policies, and require human approval for sensitive actions.'},
 {title:'تطبيقات الذكاء الاصطناعي في المعرفة والبحث',en:'Applied AI for Knowledge and Research',status:'استكشاف وتطوير',statusEn:'Exploration & development',summary:'دراسة تصميم منصات معرفية ثنائية اللغة تعتمد استرجاع المعلومات من المستندات وتقييم جودة الإجابات وإظهار مصادرها.',summaryEn:'Exploring bilingual knowledge systems that retrieve information from documents, evaluate answer quality, and expose supporting sources.'},
