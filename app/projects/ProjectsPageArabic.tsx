@@ -10,13 +10,13 @@ import './projects.css';
 
 const filters:{id:'all'|ProjectCategory;label:string}[]=[
   {id:'all',label:'جميع المشاريع'},
-  {id:'cyber-defense',label:'الأمن السيبراني'},
+  {id:'cyber-defense',label:'الأمن والتشفير'},
   {id:'software',label:'هندسة البرمجيات'},
   {id:'academic',label:'الأكاديمية والتعاونية'}
 ];
 
 const categoryMeta={
-  'cyber-defense':{label:'CYBERSECURITY',name:'الأمن السيبراني',Icon:ShieldCheck},
+  'cyber-defense':{label:'SECURITY & CRYPTOGRAPHY',name:'الأمن والتشفير',Icon:ShieldCheck},
   software:{label:'SOFTWARE ENGINEERING',name:'هندسة البرمجيات',Icon:Code2},
   academic:{label:'ACADEMIC / COLLABORATIVE',name:'أكاديمي وتعاوني',Icon:GraduationCap}
 };
@@ -37,7 +37,7 @@ export default function ProjectsPage(){
       <div className="portfolio-archive-hero-copy">
         <span className="portfolio-archive-eyebrow"><span/> ENGINEERING PORTFOLIO <i/> PROJECT ARCHIVE</span>
         <h1>هندسة الأفكار.<br/><em>بناء الأنظمة.</em></h1>
-        <p>مساحة تجمع مشاريع هندسية وتجارب تطبيقية في الأمن السيبراني وتطوير البرمجيات؛ من الرؤية المعمارية إلى بناء الحلول وتوثيقها.</p>
+        <p>مساحة تجمع أعمالاً في هندسة البرمجيات والأنظمة المؤسسية والذكاء الاصطناعي التطبيقي، إلى جانب تجارب تقنية موثقة.</p>
         <a className="portfolio-archive-explore" href="#project-collection">استكشف المشاريع <ArrowLeft size={16}/></a>
       </div>
       <div className="portfolio-archive-hero-mark" aria-hidden="true">
@@ -46,7 +46,7 @@ export default function ProjectsPage(){
         <div className="portfolio-archive-mark-core"><Layers3 size={42}/><b>BUILD</b><small>ENGINEERED SYSTEMS</small></div>
         <span className="portfolio-archive-mark-code">PA / 01</span>
       </div>
-      <div className="portfolio-archive-hero-foot"><span>DESIGN / ENGINEERING / SYSTEMS</span><span>BUILDING SYSTEMS. SECURING THE FUTURE.</span></div>
+      <div className="portfolio-archive-hero-foot"><span>DESIGN / ENGINEERING / SYSTEMS</span><span>BUILDING SYSTEMS. ENGINEERING WITH PURPOSE.</span></div>
     </section>
 
     <section className="portfolio-archive-metrics" aria-label="ملخص المشاريع">
@@ -84,7 +84,7 @@ export default function ProjectsPage(){
     </section>
 
     <section className="portfolio-archive-closing">
-      <span>BUILDING SYSTEMS. SECURING THE FUTURE.</span>
+      <span>BUILDING SYSTEMS. ENGINEERING WITH PURPOSE.</span>
       <p>كل مشروع خطوة في مسار هندسي يتطور بالتصميم والتجربة والتحسين.</p>
     </section>
 
