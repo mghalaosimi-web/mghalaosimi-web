@@ -13,6 +13,7 @@ export default {
   const constantTimeEqual=(a,b)=>{if(typeof a!=="string"||typeof b!=="string"||a.length!==b.length)return false;let difference=0;for(let i=0;i<a.length;i++)difference|=a.charCodeAt(i)^b.charCodeAt(i);return difference===0};
   const json=async()=>{try{return await request.json()}catch{return null}};
   const token=()=>[...crypto.getRandomValues(new Uint8Array(32))].map(x=>x.toString(16).padStart(2,"0")).join("");
+  const validVisitorToken=value=>typeof value==="string"&&value.length>=32&&value.length<=128;
   const base64url=bytes=>btoa(String.fromCharCode(...bytes)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
   const randomBytes=n=>crypto.getRandomValues(new Uint8Array(n));
   const followerByHash=async key=>{
@@ -20,7 +21,7 @@ export default {
    if(direct)return direct;
    return q("SELECT f.id,f.status,f.display_name,f.consent_at FROM follower_identity_sessions s JOIN followers f ON f.id=s.follower_id WHERE s.visitor_hash=? LIMIT 1",key).first();
   };
-  const followerForVisitor=async visitorToken=>followerByHash("visitor:"+await hash(visitorToken));
+  const followerForVisitor=async visitorToken=>validVisitorToken(visitorToken)?followerByHash("visitor:"+await hash(visitorToken)):null;
   const identityRedirect=(siteUrl,returnPath,status)=>{
    const base=new URL(siteUrl),safe=typeof returnPath==="string"&&returnPath.startsWith("/")&&!returnPath.startsWith("//")&&!returnPath.includes("\\\\")?returnPath:"/";
    const target=new URL(safe,base);if(target.origin!==base.origin)target.pathname="/";
@@ -95,7 +96,7 @@ export default {
   if(path==="/api/public/auth/google/start"&&method==="POST"){
    if(env.GOOGLE_AUTH_ENABLED!=="true"||!env.GOOGLE_CLIENT_ID||!env.GOOGLE_CLIENT_SECRET||!env.GOOGLE_REDIRECT_URI||!env.PUBLIC_SITE_URL)return fail(503,"GOOGLE_AUTH_NOT_CONFIGURED","Google sign-in is not enabled or configured yet");
    const b=await json();
-   if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32||b.visitorToken.length>128)return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
+   if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>!["visitorToken","returnPath"].includes(key)))return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
    const site=new URL(env.PUBLIC_SITE_URL);
    if(site.protocol!=="https:"||site.username||site.password)return fail(503,"GOOGLE_AUTH_CONFIG_INVALID","The public site URL must be a trusted HTTPS origin");
    const returnPath=typeof b.returnPath==="string"&&b.returnPath.startsWith("/")&&!b.returnPath.startsWith("//")&&!b.returnPath.includes("\\\\")&&b.returnPath.length<=500?b.returnPath:"/";
@@ -156,19 +157,19 @@ export default {
    }
   }
   if(path==="/api/public/auth/google/status"&&method==="POST"){
-   const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32||b.visitorToken.length>128)return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
+   const b=await json();if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>key!=="visitorToken"))return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
    const f=await followerForVisitor(b.visitorToken);if(!f)return out({connected:false});
    const identity=await q("SELECT email,email_verified,display_name FROM follower_identities WHERE follower_id=? AND provider='google' LIMIT 1",f.id).first();
    return out({connected:!!identity,email:identity?.email||null,emailVerified:!!identity?.email_verified,suggestedName:identity?.display_name||null});
   }
   if(path==="/api/public/visitors"&&method==="POST"){
-   const b=await json(),visitorToken=typeof b?.visitorToken==="string"&&b.visitorToken.length>=32?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
+   const b=await json();if(!b||Object.keys(b).some(key=>!["visitorToken","path"].includes(key))||(b.visitorToken!=null&&!validVisitorToken(b.visitorToken)))return fail(400,"VALIDATION_ERROR","Invalid visitor session payload");const visitorToken=validVisitorToken(b.visitorToken)?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
    let f=await followerByHash(key);let fresh=false;
    if(!f){f={id:crypto.randomUUID(),status:"active",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'active')",f.id,key).run();}
    else if(f.status==="unverified"){await q("UPDATE followers SET status='active' WHERE id=? AND status='unverified' AND consent_at IS NULL",f.id).run();f.status="active";}
    const page=typeof b?.path==="string"&&b.path.startsWith("/")?b.path.slice(0,500):"/";
    if(fresh)await q("INSERT INTO analytics_events(id,event_type,path,session_hash) VALUES(?,?,?,?)",crypto.randomUUID(),"visitor_start",page,await hash(visitorToken)).run();
-   return out({visitorToken,followerId:f.id,status:f.status,displayName:f.display_name||null,guestFollowing:f.status==="active"&&f.display_name===null},201);
+   return out({visitorToken,status:f.status,displayName:f.display_name||null,guestFollowing:f.status==="active"&&f.display_name===null},201);
   }
   if(path==="/api/public/followers/count"&&method==="GET"){
    const [row,guests]=await Promise.all([
@@ -178,12 +179,12 @@ export default {
    return out({count:Number(row?.count||0),guestCount:Number(guests?.count||0)});
   }
   if(path==="/api/public/followers/status"&&method==="POST"){
-   const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid visitor session");
+   const b=await json();if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>key!=="visitorToken"))return fail(400,"VALIDATION_ERROR","Invalid visitor session");
    const f=await followerForVisitor(b.visitorToken);
    return out({following:f?.status==="active",status:f?.status||"unknown",displayName:f?.display_name||null,consentAt:f?.consent_at||null});
   }
   if(path==="/api/public/followers"&&method==="POST"){
-   const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32||typeof b?.displayName!=="string"||b.displayName.trim().length<2||b.displayName.trim().length>80||b.consent!==true)return fail(400,"VALIDATION_ERROR","Provide a display name and explicit consent");
+   const b=await json();if(!validVisitorToken(b?.visitorToken)||typeof b?.displayName!=="string"||b.displayName.trim().length<2||b.displayName.trim().length>80||b.consent!==true||Object.keys(b||{}).some(key=>!["visitorToken","displayName","consent"].includes(key)))return fail(400,"VALIDATION_ERROR","Provide a display name and explicit consent");
    const f=await followerForVisitor(b.visitorToken);
    if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    if(f.status==="blocked")return fail(403,"FOLLOW_BLOCKED","This visitor cannot follow updates");
@@ -193,13 +194,13 @@ export default {
    return out({success:true,following:true,data:row},200);
   }
   if(path==="/api/public/followers"&&method==="DELETE"){
-   const b=await json();if(typeof b?.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid visitor session");
+   const b=await json();if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>key!=="visitorToken"))return fail(400,"VALIDATION_ERROR","Invalid visitor session");
    const f=await followerForVisitor(b.visitorToken),now=new Date().toISOString();
    const row=f?await q("UPDATE followers SET status='unsubscribed',unsubscribed_at=? WHERE id=? AND status='active' RETURNING id,status",now,f.id).first():null;
    return out({success:true,following:false,status:row?.status||"unsubscribed"});
   }
   if(path==="/api/public/events"&&method==="POST"){
-   const b=await json();if(!b||typeof b.visitorToken!=="string"||!["page_view","project_view","article_view","certificate_view","contact_click","share","follow","unfollow","reaction","comment_submitted"].includes(b.eventType)||typeof b.path!=="string"||!b.path.startsWith("/"))return fail(400,"VALIDATION_ERROR","Invalid event payload");
+   const b=await json();if(!b||!validVisitorToken(b.visitorToken)||!["page_view","project_view","article_view","certificate_view","contact_click","share","follow","unfollow","reaction","comment_submitted"].includes(b.eventType)||typeof b.path!=="string"||!b.path.startsWith("/"))return fail(400,"VALIDATION_ERROR","Invalid event payload");
    const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    let ref=null;try{ref=b.referrer?new URL(b.referrer).hostname:null}catch{}
    await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,referrer_host,session_hash) VALUES(?,?,?,?,?,?,?)",crypto.randomUUID(),b.eventType,b.path.slice(0,500),b.targetType||null,b.targetId||null,ref,await hash(b.visitorToken)).run();return out({success:true},202);
@@ -207,7 +208,7 @@ export default {
   if(path==="/api/public/articles"&&method==="GET"){const locale=url.searchParams.get("locale");const rows=locale?q("SELECT id,slug,locale,title,excerpt,category_id,cover_media_id,published_at FROM articles WHERE status='Published' AND published_at IS NOT NULL AND locale=? ORDER BY published_at DESC LIMIT 50",locale):q("SELECT id,slug,locale,title,excerpt,category_id,cover_media_id,published_at FROM articles WHERE status='Published' AND published_at IS NOT NULL ORDER BY published_at DESC LIMIT 50");return out({data:(await rows.all()).results});}
   if(path.startsWith("/api/public/articles/")&&method==="GET"){const slug=decodeURIComponent(path.split("/").pop());const row=await q("SELECT id,slug,locale,title,excerpt,body,category_id,cover_media_id,seo_title,seo_description,published_at FROM articles WHERE slug=? AND status='Published' AND published_at IS NOT NULL LIMIT 1",slug).first();return row?out(row):fail(404,"NOT_FOUND","Article not found");}
   if(path==="/api/public/comments"&&method==="POST"){
-   const b=await json();if(!b||typeof b.visitorToken!=="string"||typeof b.articleId!=="string"||typeof b.body!=="string"||b.body.trim().length<2||b.body.length>2000)return fail(400,"VALIDATION_ERROR","Invalid comment");
+   const b=await json();if(!b||!validVisitorToken(b.visitorToken)||typeof b.articleId!=="string"||typeof b.body!=="string"||b.body.trim().length<2||b.body.length>2000)return fail(400,"VALIDATION_ERROR","Invalid comment");
    const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const a=await q("SELECT id FROM articles WHERE id=? AND status='Published'",b.articleId).first();if(!a)return fail(404,"ARTICLE_NOT_FOUND","Published article not found");
    const id=crypto.randomUUID();await q("INSERT INTO comments(id,article_id,follower_id,body,status) VALUES(?,?,?,?,'pending')",id,b.articleId,f.id,b.body.trim()).run();return out({id,status:"pending"},201);
@@ -219,7 +220,7 @@ export default {
    const target=await q("SELECT id FROM "+table+" WHERE id=? AND "+where,targetId).first();if(!target)return fail(404,"TARGET_NOT_FOUND","Published target not found");
    const rows=await q("SELECT reaction,COUNT(*) count FROM reactions WHERE target_type=? AND target_id=? GROUP BY reaction",targetType,targetId).all();
    const counts={like:0,clap:0};for(const row of rows.results||[])if(row.reaction in counts)counts[row.reaction]=Number(row.count)||0;
-   let viewerReactions={like:false,clap:false};const visitorToken=url.searchParams.get("visitorToken");
+   let viewerReactions={like:false,clap:false};const visitorToken=url.searchParams.get("visitorToken");if(visitorToken&&!validVisitorToken(visitorToken))return fail(400,"VALIDATION_ERROR","Invalid visitor token");
    if(visitorToken&&visitorToken.length>=32){const f=await followerForVisitor(visitorToken);if(f){const [like,clap]=await Promise.all([
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first(),
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='clap' LIMIT 1",targetType,targetId,f.id).first()
@@ -233,14 +234,14 @@ export default {
    return out({data:rows.results});
   }
   if(path==="/api/public/reactions"&&method==="POST"){
-   const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||!["like","clap"].includes(b.reaction)||typeof b.visitorToken!=="string"||b.visitorToken.length<32)return fail(400,"VALIDATION_ERROR","Invalid reaction");
+   const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||b.targetId.length<1||b.targetId.length>100||!["like","clap"].includes(b.reaction)||!validVisitorToken(b.visitorToken)||Object.keys(b).some(key=>!["visitorToken","targetType","targetId","reaction"].includes(key)))return fail(400,"VALIDATION_ERROR","Invalid reaction");
    const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const table=b.targetType==="article"?"articles":"projects",where=b.targetType==="article"?"status='Published'":"is_published=1";const target=await q("SELECT id FROM "+table+" WHERE id=? AND "+where,b.targetId).first();if(!target)return fail(404,"TARGET_NOT_FOUND","Published target not found");
    const result=await q("INSERT INTO reactions(id,target_type,target_id,follower_id,reaction) VALUES(?,?,?,?,?) ON CONFLICT(target_type,target_id,follower_id,reaction) DO NOTHING",crypto.randomUUID(),b.targetType,b.targetId,f.id,b.reaction).run();
    return out({success:true,created:Number(result?.meta?.changes||0)===1},200);
   }
   if(path==="/api/public/reactions"&&method==="DELETE"){
-   const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||typeof b.visitorToken!=="string"||b.visitorToken.length<32||!["like","clap"].includes(b.reaction||"like"))return fail(400,"VALIDATION_ERROR","Invalid reaction removal");
+   const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||b.targetId.length<1||b.targetId.length>100||!validVisitorToken(b.visitorToken)||!["like","clap"].includes(b.reaction||"like")||Object.keys(b).some(key=>!["visitorToken","targetType","targetId","reaction"].includes(key)))return fail(400,"VALIDATION_ERROR","Invalid reaction removal");
    const f=await followerForVisitor(b.visitorToken);if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const result=await q("DELETE FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction=? RETURNING id",b.targetType,b.targetId,f.id,b.reaction||"like").first();
    return out({success:true,removed:!!result});

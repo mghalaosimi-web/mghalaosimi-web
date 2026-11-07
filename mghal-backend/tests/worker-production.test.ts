@@ -68,6 +68,29 @@ function engagementDb() {
   };
 }
 
+
+function idempotentReactionDb() {
+  const base = engagementDb();
+  let writes = 0;
+  return {
+    prepare(sql: string) {
+      const statement = base.prepare(sql);
+      return {
+        bind(...params: unknown[]) {
+          const bound = statement.bind(...params);
+          if (sql.includes("INSERT INTO reactions")) {
+            return { ...bound, async run() {
+              writes += 1;
+              return { success: true, meta: { changes: writes === 1 ? 1 : 0 } };
+            }};
+          }
+          return bound;
+        },
+      };
+    },
+  };
+}
+
 describe("production Worker security contract", () => {
   it("allows the official Vercel origin on preflight", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/dashboard", { method: "OPTIONS", headers: { Origin: "https://mghalaosimi-web.vercel.app" } }), {} as never);
@@ -206,6 +229,34 @@ describe("production Worker security contract", () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("Content-Type")).toBe("image/png");
     expect(new Uint8Array(await response.arrayBuffer())).toEqual(bytes);
+  });
+
+
+  it("rejects oversized visitor tokens and unknown identity fields", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/visitors", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(129), path: "/", email: "private@example.test" }),
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(400);
+  });
+
+  it("rejects unauthenticated dashboard and content administration requests", async () => {
+    const dashboard = await productionWorker.fetch(new Request("https://api.example.test/api/admin/dashboard"), { DB: engagementDb() } as never);
+    const projects = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", { method: "POST", body: JSON.stringify({ slug: "waynah" }) }), { DB: engagementDb() } as never);
+    expect(dashboard.status).toBe(401);
+    expect(projects.status).toBe(401);
+  });
+
+  it("deduplicates repeated reactions for one visitor, target, and reaction", async () => {
+    const makeRequest = () => new Request("https://api.example.test/api/public/reactions", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64), targetType: "project", targetId: "project-1", reaction: "like" }),
+    });
+    const db = idempotentReactionDb();
+    const first = await productionWorker.fetch(makeRequest(), { DB: db } as never);
+    const second = await productionWorker.fetch(makeRequest(), { DB: db } as never);
+    expect(await first.json()).toMatchObject({ success: true, created: true });
+    expect(await second.json()).toMatchObject({ success: true, created: false });
   });
 
   it("starts a private anonymous guest follow without publishing a name or recording public consent", async () => {
