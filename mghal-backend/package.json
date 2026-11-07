@@ -10,7 +10,7 @@
     "build": "wrangler deploy --dry-run --outdir dist",
     "check": "npm run typecheck && npm run lint && npm test && npm run build && npm run check:production",
     "check:production": "node --check worker.production.js && node --check ../public/assets/social-engagement.js && node --check ../public/assets/visitor-tracking.js",
-    "lint:frontend": "cd .. && ./mghal-backend/node_modules/.bin/eslint --config ./mghal-backend/eslint.frontend.config.js ./app/components/SiteHeader.tsx ./public/assets/social-engagement.js --max-warnings=0"
+    "lint:frontend": "cd .. && ./mghal-backend/node_modules/.bin/eslint --config ./mghal-backend/eslint.frontend.config.js ./app/components/SiteHeader.tsx './app/api/[...path]/route.ts' ./lib/api-proxy-policy.mjs ./public/assets/social-engagement.js --max-warnings=0"
   },
   "dependencies": {
     "zod": "^4.1.12"

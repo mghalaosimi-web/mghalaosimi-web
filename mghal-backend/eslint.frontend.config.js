@@ -4,11 +4,11 @@ import globals from "globals";
 
 export default [
   {
-    files: ["app/components/SiteHeader.tsx"],
+    files: ["app/components/SiteHeader.tsx", "app/api/[...path]/route.ts"],
     languageOptions: {
       parser: tsParser,
       parserOptions: { ecmaVersion: "latest", sourceType: "module", ecmaFeatures: { jsx: true } },
-      globals: { ...globals.browser, ...globals.es2022 },
+      globals: { ...globals.browser, ...globals.node, ...globals.es2022 },
     },
     plugins: { "@typescript-eslint": tsPlugin },
     rules: {
@@ -16,6 +16,17 @@ export default [
       "no-new-func": "error",
       "no-debugger": "error",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
+    },
+  },
+  {
+    files: ["lib/api-proxy-policy.mjs"],
+    languageOptions: { globals: { ...globals.node, ...globals.es2022 } },
+    rules: {
+      "no-eval": "error",
+      "no-new-func": "error",
+      "no-debugger": "error",
+      "no-undef": "error",
+      "no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
     },
   },
   {

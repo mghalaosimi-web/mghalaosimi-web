@@ -40,3 +40,13 @@ describe("public social client invariants",()=>{
   expect(source).toContain("/api/public/reactions?");
  });
 });
+
+describe("admin browser session resilience",()=>{
+ const adminSource=readFileSync("../public/assets/admin.js","utf8");
+ it("keeps login usable when sessionStorage is unavailable",()=>{
+  expect(adminSource).toContain("function readSessionToken()");
+  expect(adminSource).toContain("function writeSessionToken(value)");
+  expect(adminSource).toContain("function clearSessionToken()");
+  expect(adminSource).not.toContain("let token=sessionStorage.getItem(TOKEN_KEY)");
+ });
+});
