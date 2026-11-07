@@ -30,12 +30,12 @@ const env = {
   PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL
 };
 
-function getClientIp(headers) {
+function getClientIp(headers, socket) {
   // Render/Cloudflare append the connecting client address to this header.
   // Use the last entry rather than trusting a caller-supplied first entry.
   const forwarded = headers.get("x-forwarded-for");
   const forwardedIp = forwarded?.split(",").map((value) => value.trim()).filter(Boolean).at(-1);
-  return forwardedIp || headers.get("x-real-ip") || "unknown";
+  return forwardedIp || headers.get("x-real-ip") || socket?.remoteAddress || "unknown";
 }
 
 async function readRequestBody(request) {
@@ -79,9 +79,8 @@ const server = createServer(async (incoming, outgoing) => {
       }
     }
 
-    if (!headers.has("cf-connecting-ip")) {
-      headers.set("CF-Connecting-IP", getClientIp(headers));
-    }
+    // Never trust a client-supplied CF-Connecting-IP header on the Node service.
+    headers.set("CF-Connecting-IP", getClientIp(headers, incoming.socket));
 
     const host = headers.get("x-forwarded-host") || headers.get("host") || `localhost:${port}`;
     const protocol = headers.get("x-forwarded-proto")?.split(",")[0]?.trim() || "http";
