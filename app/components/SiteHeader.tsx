@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
+import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 
 type SiteHeaderProps = { isEn: boolean };
@@ -17,10 +18,11 @@ const links = [
 export default function SiteHeader({ isEn }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const navId = useId();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') { setOpen(false); menuButtonRef.current?.focus(); }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
@@ -28,19 +30,19 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
   const closeMenu = () => setOpen(false);
   return (
     <header className={`mghal-header${open ? ' is-menu-open' : ''}`}>
-      <a className="mghal-logo" href="/" aria-label="M.GH.AL home">M.GH.AL<span>.</span></a>
-      <button type="button" className="mghal-menu-toggle" aria-controls={navId} aria-expanded={open}
+      <Link className="mghal-logo" href="/" aria-label="M.GH.AL home">M.GH.AL<span>.</span></Link>
+      <button ref={menuButtonRef} type="button" className="mghal-menu-toggle" aria-controls={navId} aria-expanded={open}
         aria-label={open ? (isEn ? 'Close navigation menu' : 'إغلاق قائمة التنقل') : (isEn ? 'Open navigation menu' : 'فتح قائمة التنقل')}
         onClick={() => setOpen((value) => !value)}>
         {open ? <X size={21} aria-hidden="true" /> : <Menu size={21} aria-hidden="true" />}
       </button>
       <nav id={navId} className="mghal-primary-nav" aria-label={isEn ? 'Main navigation' : 'التنقل الرئيسي'}>
-        {links.map((item) => <a key={item.href} href={item.href} onClick={closeMenu}>{isEn ? item.en : item.ar}</a>)}
+        {links.map((item) => <Link key={item.href} href={item.href} onClick={closeMenu}>{isEn ? item.en : item.ar}</Link>)}
       </nav>
       <div className="mghal-language" aria-label={isEn ? 'Language' : 'اللغة'}>
-        <a href="/language/en?next=/" onClick={closeMenu} aria-current={isEn ? 'page' : undefined}>EN</a>
+        <Link href="/language/en?next=/" onClick={closeMenu} aria-current={isEn ? 'page' : undefined}>EN</Link>
         <span aria-hidden="true">/</span>
-        <a href="/language/ar?next=/" onClick={closeMenu} aria-current={!isEn ? 'page' : undefined}>AR</a>
+        <Link href="/language/ar?next=/" onClick={closeMenu} aria-current={!isEn ? 'page' : undefined}>AR</Link>
       </div>
       <a className="mghal-header-cta" href="https://github.com/mghalaosimi-web" target="_blank" rel="noreferrer">GitHub ↗</a>
     </header>
