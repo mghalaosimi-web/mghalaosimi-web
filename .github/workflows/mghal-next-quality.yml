@@ -15,6 +15,13 @@ jobs:
         with:
           node-version: 22
       - run: npm install --no-audit --no-fund
+      - name: Capture root npm lockfile for deterministic Vercel installs
+        uses: actions/upload-artifact@v4
+        with:
+          name: mghal-root-package-lock
+          path: package-lock.json
+          if-no-files-found: error
+          retention-days: 1
       - run: npm run audit:credentials
       - run: npm run test:certificates
       - run: npm run audit:profile
