@@ -27,7 +27,8 @@ for (const file of ["../public/certificates.html", "../public/en/certificates.ht
   const html = readFileSync(new URL(file, import.meta.url), "utf8");
   assert.match(html, /assets\/certificate-sync\.js/, file + ": certificate sync script is not loaded");
   assert.equal((html.match(/class=["'][^"']*\bcredential-card\b/g) || []).length, 18, file + ": expected 18 substantiated credential cards");
-  assert.equal((html.match(/href=["']https:\/\/www\.credly\.com\/badges\//g) || []).length, 11, file + ": all 11 Cisco badges need individual verification links");
+  const credlyLinks = [...html.matchAll(/href=["\']https:\/\/www\.credly\.com\/badges\/([0-9a-f-]+)\/public_url["\']/g)];
+  assert.equal(new Set(credlyLinks.map(match => match[1])).size, 11, file + ": all 11 Cisco badges need individual verification links");
   assert.equal((html.match(/href=["']https:\/\/programs\.edraak\.org\/learn\/verify-certificate\//g) || []).length, 6, file + ": all six Edraak records need individual verification links");
   assert.match(html, /assets\/certificates\//, file + ": original certificate assets must remain available");
   for (const id of foreignIds) assert.ok(!html.includes(id), file + ": reference-owner badge ID leaked: " + id);
