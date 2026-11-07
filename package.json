@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "audit:credentials": "node scripts/audit-credentials.mjs"
+    "audit:credentials": "node scripts/audit-credentials.mjs",
+    "test:certificates": "node scripts/test-certificate-sync.mjs"
   },
   "dependencies": {
     "next": "15.5.28",

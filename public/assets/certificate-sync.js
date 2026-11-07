@@ -21,9 +21,6 @@
     ["UX Research", "ux-research-16"],
     ["UX Design", "ux-design-17"],
     ["User Interface Design Principles", "user-interface-design-principles-18"],
-    ["Cisco Networking Academy — سجل اعتماد إضافي 12", "cisco-networking-academy-12-19"],
-    ["Cisco Networking Academy — سجل اعتماد إضافي 13", "cisco-networking-academy-13-20"],
-    ["Cisco Networking Academy — سجل اعتماد إضافي 14", "cisco-networking-academy-14-21"]
   ]);
   const labels = en
     ? { verify: "Verify credential ↗", pdf: "Open original PDF ↗", qr: "QR / verification ↗" }
@@ -46,6 +43,7 @@
     const payload = await response.json();
     if (!Array.isArray(payload.data)) throw new Error("Certificate API response has no data array");
     const records = new Map(payload.data.filter(x => x && x.slug).map(x => [x.slug, x]));
+    let matchedCount = 0;
     for (const card of cards) {
       const heading = card.querySelector("h2, h3");
       if (!heading) continue;
@@ -53,9 +51,10 @@
       if (!slug) continue;
       const record = records.get(slug);
       if (!record) {
-        card.hidden = true;
+        // The static portfolio record is already verified; an incomplete API must never hide it.
         continue;
       }
+      matchedCount += 1;
       card.dataset.certificateSlug = slug;
       if (record.title) heading.textContent = record.title;
       const issuer = card.querySelector(".cert-type");
@@ -64,11 +63,14 @@
       if (description && record.description) description.textContent = record.description;
       const actions = card.querySelector(".cert-actions");
       if (!actions) continue;
-      addLink(actions, record.verification_url, "cert-action", labels.verify);
+      const hasSpecificVerification = [...actions.querySelectorAll("a")].some(a =>
+        /credly\.com\/badges\/|programs\.edraak\.org\/learn\/verify-certificate\//i.test(a.href)
+      );
+      if (!hasSpecificVerification) addLink(actions, record.verification_url, "cert-action", labels.verify);
       if (record.pdf_media_id) addLink(actions, API + "/api/public/media/" + encodeURIComponent(record.pdf_media_id), "cert-action primary", labels.pdf);
       addLink(actions, record.qr_url, "cert-action", labels.qr);
     }
-    document.dispatchEvent(new CustomEvent("mghal:certificates-synced", { detail: { count: records.size } }));
+    document.dispatchEvent(new CustomEvent("mghal:certificates-synced", { detail: { count: matchedCount } }));
   }
   sync().catch(error => console.warn("Certificate API sync unavailable; original certificate content retained.", error));
 })();
