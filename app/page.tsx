@@ -3,15 +3,15 @@ import {cookies} from 'next/headers';
 import HomePageEnglish from './HomePageEnglish';
 const projects=[
  {name:'WAYNAH | وَيْنَه؟',status:'منتج قيد التطوير',desc:'دليل محلي موثوق لاستكشاف الأماكن والمعلومات الجغرافية في اليمن، بتوجه Offline-first وبنية مكانية تعتمد PostGIS.',stack:'Next.js · TypeScript · PostGIS',href:'https://waynah.vercel.app',label:'LOCAL DISCOVERY'},
- {name:'Humanity System',status:'قيد التطوير',desc:'منظومة رقمية لإدارة البيانات والعمليات المؤسسية، مع اهتمام بالصلاحيات وسير العمل والتوثيق.',stack:'Full-Stack · Database · RBAC',href:'/projects.html',label:'ENTERPRISE SYSTEM'},
- {name:'FocusFlow',status:'مشروع تطوير',desc:'تطبيق إنتاجية لتنظيم المهام وجلسات التركيز والعادات اليومية.',stack:'Flutter · Dart',href:'/projects.html',label:'PRODUCTIVITY'},
- {name:'M.GH.AL Content OS',status:'قيد التطوير',desc:'نظام لإدارة دورة إنتاج المحتوى وتخطيطه ومراجعته ونشره عبر القنوات المدعومة.',stack:'Next.js · TypeScript · Prisma',href:'/projects.html',label:'CONTENT OPERATIONS'},
+ {name:'Humanity System',status:'خاص · قيد التطوير',desc:'منظومة رقمية لإدارة البيانات والعمليات المؤسسية، مع اهتمام بالصلاحيات وسير العمل والتوثيق.',stack:'Full-Stack · Database · RBAC',href:'/projects',label:'ENTERPRISE SYSTEM'},
+ {name:'FocusFlow',status:'تجريبي · غير مكتمل',desc:'تطبيق إنتاجية لتنظيم المهام وجلسات التركيز والعادات اليومية.',stack:'Flutter · Dart',href:'/projects',label:'PRODUCTIVITY'},
+ {name:'M.GH.AL Content OS',status:'قيد التطوير',desc:'نظام لإدارة دورة إنتاج المحتوى وتخطيطه ومراجعته ونشره عبر القنوات المدعومة.',stack:'Next.js · TypeScript · Prisma',href:'/projects',label:'CONTENT OPERATIONS'},
  {name:'Manar Schedule System',status:'مشروع أكاديمي/تعاوني',desc:'نظام لتنظيم الجداول الأكاديمية وتدفقات العمل المرتبطة بها.',stack:'React · Node.js · PostgreSQL',href:'/projects/manar-schedule-system/',label:'ACADEMIC SYSTEM'},
- {name:'Al-Manar Schedule System',status:'نظام خاص بالكلية',desc:'نظام مستقل لإدارة الجداول الأكاديمية الخاصة بكلية المنار، ويُعرض بوصفه مشروعاً منفصلاً عن مشروع Manar Schedule System.',stack:'Academic Scheduling · Web',href:'/projects/almanar-schedule-system/',label:'COLLEGE SYSTEM'},
- {name:'Yemen AI Platform',status:'تجريبي',desc:'منصة معرفية ثنائية اللغة لاستكشاف تطبيقات الذكاء الاصطناعي والبحث في المستندات.',stack:'Python · AI · RAG',href:'/projects.html',label:'APPLIED AI'},
- {name:'CipherSphere',status:'تطوير/تجارب',desc:'مختبر تعليمي لتجربة مفاهيم التشفير والتحقق من سلامة البيانات.',stack:'Cryptography · Web',href:'/projects.html',label:'CRYPTOGRAPHY'},
- {name:'M.GH.AL ESDP',status:'خاص · غير منشور',desc:'مشروع تطبيق مكتبي خاص؛ لا يتوفر رابط عام للتنزيل.',stack:'Desktop Software',href:'/projects.html',label:'PRIVATE PROJECT'},
- {name:'M.GH.AL Official Website',status:'الموقع الرسمي',desc:'مركز الهوية الرقمية المهنية، ويجمع الملف الشخصي والمشاريع والشهادات والسيرة الذاتية والروابط.',stack:'Web · SEO · Identity',href:'/',label:'DIGITAL IDENTITY'}
+ {name:'Al-Manar Schedule System',status:'قيد التطوير',desc:'نظام مستقل لإدارة الجداول الأكاديمية الخاصة بكلية المنار، ويُعرض بوصفه مشروعاً منفصلاً عن مشروع Manar Schedule System.',stack:'Academic Scheduling · Web',href:'/projects/al-manar-schedule-system',label:'COLLEGE SYSTEM'},
+ {name:'Yemen AI Platform',status:'تجريبي',desc:'منصة معرفية ثنائية اللغة لاستكشاف تطبيقات الذكاء الاصطناعي والبحث في المستندات.',stack:'Python · AI · RAG',href:'/projects',label:'APPLIED AI'},
+ {name:'CipherSphere',status:'تطوير/تجارب',desc:'مختبر تعليمي لتجربة مفاهيم التشفير والتحقق من سلامة البيانات.',stack:'Cryptography · Web',href:'/projects',label:'CRYPTOGRAPHY'},
+ {name:'M.GH.AL ESDP',status:'خاص · غير منشور',desc:'مشروع تطبيق مكتبي خاص؛ لا يتوفر رابط عام للتنزيل.',stack:'Desktop Software',href:'/projects',label:'PRIVATE PROJECT'},
+ {name:'M.GH.AL Official Website',status:'نشط · قيد التطوير',desc:'مركز الهوية الرقمية المهنية، ويجمع الملف الشخصي والمشاريع والشهادات والسيرة الذاتية والروابط.',stack:'Web · SEO · Identity',href:'/',label:'DIGITAL IDENTITY'}
 ];
 const skills=[['Software Engineering','Architecture · Full-Stack · API Design · Testing'],['Web Development','JavaScript · TypeScript · React · Next.js · Node.js'],['Data & Persistence','PostgreSQL · SQLite · Prisma · Firebase · Supabase'],['Application Platforms','Flutter · Python · C# · Docker · Vercel · Render'],['Product Engineering','RTL Interfaces · RBAC · ERP · Offline-first systems']];
 function HomeArabic(){return <main id="main" className="home-v2">
