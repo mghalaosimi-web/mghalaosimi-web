@@ -32,6 +32,7 @@ for (const file of ["../public/certificates.html", "../public/en/certificates.ht
   assert.equal(new Set(credlyLinks.map(match => match[1])).size, 11, file + ": all 11 Cisco badges need individual verification links");
   assert.equal((html.match(/href=["']https:\/\/programs\.edraak\.org\/learn\/verify-certificate\//g) || []).length, 6, file + ": all six Edraak records need individual verification links");
   assert.match(html, /assets\/certificates\//, file + ": original certificate assets must remain available");
+  assert.ok(!html.includes('class="cert-logo-box"'), file + ": issuer logos must be kept within individual credential cards, not duplicated in group headers");
   for (const route of ["/projects", "/credentials", "/skills", "/about", "/contact"]) {
     assert.ok(html.includes('href="' + route + '"'), file + ": credential navigation must use the Next.js route " + route);
   }
