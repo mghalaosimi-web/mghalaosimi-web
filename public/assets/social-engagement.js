@@ -8,14 +8,14 @@ const words=en?{
  name:'Public display name',consent:'I agree to publish this display name in the M.GH.AL followers list.',
  follow:'Become a public follower',following:'You are following M.GH.AL.',notFollowing:'You are not following yet.',
  unfollow:'Stop following',privacy:'Guest following uses a random browser token. The site cannot read your email account automatically. Add a public name only with your consent.',
- count:'Public followers',guests:'Anonymous guest follows',like:'Like',clap:'Applaud',reactionHelp:'Like or applaud to record a reaction. Select the same action again to remove it; counts come from the server.',followActionHint:'This button publishes the display name above only after you check the consent box. Anonymous guest following does not publish your name.',unfollowHint:'Stop following to remove this browser session from active follower counts. Your public name is no longer shown.',saving:'Saving…',savingShort:'…',saved:'Reaction saved.',removed:'Reaction removed.',savedCountPending:'Reaction saved; the count could not be refreshed yet.',countUnavailable:'Counts are temporarily unavailable.',followSaved:'Your public follow is saved.',unfollowSaved:'You have stopped following M.GH.AL.',googleConnecting:'Connecting…',share:'Share',shared:'Link copied / ready to share',
+ count:'Public followers',guests:'Anonymous guest follows',like:'Like',clap:'Applaud',reactionHelp:'Like or applaud to record a reaction. Select the same action again to remove it; counts come from the server.',followActionHint:'This button publishes the display name above only after you check the consent box. Anonymous guest following does not publish your name.',unfollowHint:'Stop following to remove this browser session from active follower counts. Your public name is no longer shown.',saving:'Saving…',savingShort:'…',saved:'Reaction saved.',removed:'Reaction removed.',savedCountPending:'Reaction saved; the count could not be refreshed yet.',countUnavailable:'Counts are temporarily unavailable.',previewDisabled:'Preview interactions are disabled until an isolated preview API is configured.',followSaved:'Your public follow is saved.',unfollowSaved:'You have stopped following M.GH.AL.',googleConnecting:'Connecting…',share:'Share',shared:'Link copied / ready to share',
  google:'Continue with Google',googleConnected:'Google account verified. Your email remains private.',googleDisabled:'Google sign-in is not configured yet.', error:'Could not complete the action. Please try again.',liked:'Reaction updated.',comments:'Comments',noComments:'No approved comments yet.'
 }:{followTitle:'تابع M.GH.AL',followCopy:'أصبحت تتابع الموقع تلقائياً كزائر مجهول على هذا المتصفح.',
  guest:'أنت تتابع الآن كضيف مجهول. لا ننشر اسمك أو بريدك الإلكتروني، ولا نرسل إليك رسائل بريدية.',
  name:'الاسم الذي سيظهر علناً',consent:'أوافق على نشر هذا الاسم ضمن قائمة متابعي M.GH.AL.',
  follow:'حوّل المتابعة إلى متابعة باسمك',following:'أنت تتابع M.GH.AL حالياً.',notFollowing:'أنت لا تتابع الموقع حالياً.',
  unfollow:'إيقاف المتابعة',privacy:'تُحفظ متابعة الضيف بمعرّف عشوائي لهذا المتصفح. لا يستطيع الموقع قراءة بريدك تلقائياً. لن يظهر اسم علني إلا بموافقتك.',
- count:'المتابعون بأسماء معلنة',guests:'متابعات الضيوف المجهولة',like:'إعجاب',clap:'أعجبني جداً',reactionHelp:'يسجل الزر تفاعلك على هذا المحتوى، ويمكنك إلغاء التفاعل بالضغط عليه مجدداً. الأعداد المعروضة تأتي من الخادم.',followActionHint:'هذا الزر ينشر الاسم المكتوب أعلاه فقط بعد تحديد مربع الموافقة. متابعة الضيف المجهولة لا تنشر اسمك.',unfollowHint:'إيقاف المتابعة يزيل هذا المتصفح من عدد المتابعين النشطين، ولن يظهر اسمك ضمن القائمة العامة.',saving:'جارٍ الحفظ…',savingShort:'…',saved:'تم حفظ التفاعل.',removed:'تم إلغاء التفاعل.',savedCountPending:'تم حفظ التفاعل، لكن تعذر تحديث العداد حالياً.',countUnavailable:'العدادات غير متاحة مؤقتاً.',followSaved:'تم حفظ متابعتك بالاسم المعلن.',unfollowSaved:'تم إيقاف متابعة M.GH.AL.',googleConnecting:'جارٍ الاتصال…',share:'مشاركة',shared:'تم نسخ الرابط أو تجهيزه للمشاركة',
+ count:'المتابعون بأسماء معلنة',guests:'متابعات الضيوف المجهولة',like:'إعجاب',clap:'أعجبني جداً',reactionHelp:'يسجل الزر تفاعلك على هذا المحتوى، ويمكنك إلغاء التفاعل بالضغط عليه مجدداً. الأعداد المعروضة تأتي من الخادم.',followActionHint:'هذا الزر ينشر الاسم المكتوب أعلاه فقط بعد تحديد مربع الموافقة. متابعة الضيف المجهولة لا تنشر اسمك.',unfollowHint:'إيقاف المتابعة يزيل هذا المتصفح من عدد المتابعين النشطين، ولن يظهر اسمك ضمن القائمة العامة.',saving:'جارٍ الحفظ…',savingShort:'…',saved:'تم حفظ التفاعل.',removed:'تم إلغاء التفاعل.',savedCountPending:'تم حفظ التفاعل، لكن تعذر تحديث العداد حالياً.',countUnavailable:'العدادات غير متاحة مؤقتاً.',previewDisabled:'التفاعلات معطّلة في المعاينة حتى إعداد API وقاعدة بيانات منفصلين.',followSaved:'تم حفظ متابعتك بالاسم المعلن.',unfollowSaved:'تم إيقاف متابعة M.GH.AL.',googleConnecting:'جارٍ الاتصال…',share:'مشاركة',shared:'تم نسخ الرابط أو تجهيزه للمشاركة',
  google:'المتابعة باستخدام Google',googleConnected:'تم توثيق حساب Google. بريدك الإلكتروني خاص ولن يُنشر.',googleDisabled:'تسجيل Google غير مفعّل حالياً.',error:'تعذر تنفيذ العملية. حاول مرة أخرى.',liked:'تم تحديث التفاعل.',comments:'التعليقات',noComments:'لا توجد تعليقات منشورة بعد.'
 };
 let visitorPromise=window.__mghalVisitorPromise||null,googleEnabled=false;
@@ -29,7 +29,7 @@ async function visitor(){
   if(!current||current.length<32)current=null;
   const response=await fetch(API+'/api/public/visitors',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:current,path:location.pathname})});
   const data=await response.json().catch(()=>({}));
-  if(!response.ok||!data.visitorToken)throw new Error(data.error?.message||'Visitor session unavailable');
+  if(!response.ok||!data.visitorToken){const error=new Error(data.error?.message||'Visitor session unavailable');error.code=data.error?.code;throw error}
   try{localStorage.setItem(VISITOR_KEY,data.visitorToken)}catch{}
   window.dispatchEvent(new CustomEvent('mghal:visitor-ready',{detail:data}));
   return data.visitorToken;
@@ -37,7 +37,7 @@ async function visitor(){
  window.__mghalVisitorPromise=visitorPromise;
  try{return await visitorPromise}catch(error){visitorPromise=null;window.__mghalVisitorPromise=null;throw error}
 }
-async function json(path,options){const response=await fetch(API+path,options);const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error?.message||data.message||('HTTP '+response.status));return data}
+async function json(path,options){const response=await fetch(API+path,options);const data=await response.json().catch(()=>({}));if(!response.ok){const error=new Error(data.error?.message||data.message||('HTTP '+response.status));error.code=data.error?.code;throw error}return data}
 async function track(eventType,targetType,targetId){
  if(navigator.doNotTrack==='1')return;
  try{const token=await visitor();await json('/api/public/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token,eventType,path:location.pathname,targetType:targetType||undefined,targetId:targetId||undefined})})}catch{}
@@ -83,7 +83,7 @@ function reactionWidget(type,id){
    state=data.viewerReactions||{like:!!data.reacted,clap:false};
    like.textContent=words.like+' · '+Number(data.counts.like||0).toLocaleString(en?'en':'ar');clap.textContent=words.clap+' · '+Number(data.counts.clap||0).toLocaleString(en?'en':'ar');
    like.setAttribute('aria-pressed',String(!!state.like));clap.setAttribute('aria-pressed',String(!!state.clap));countsReady=true;return true;
-  }catch{if(!countsReady){like.textContent=words.like+' · —';clap.textContent=words.clap+' · —';feedback.textContent=words.countUnavailable;feedback.dataset.state='error'}return false}
+  }catch(error){if(error.code==='PREVIEW_API_NOT_CONFIGURED'){like.disabled=true;clap.disabled=true;feedback.textContent=words.previewDisabled;feedback.dataset.state='error'}else if(!countsReady){like.textContent=words.like+' · —';clap.textContent=words.clap+' · —';feedback.textContent=words.countUnavailable;feedback.dataset.state='error'}return false}
  }
  refresh();return box;
 }
@@ -106,7 +106,7 @@ function addFollowPanel(){
    if(publicFollowing){name.value=data.displayName;name.disabled=true;consent.checked=true;consent.disabled=true;submit.hidden=true;submit.textContent=words.follow;unfollow.hidden=false;hint.textContent=words.unfollowHint;$('.mghal-guest-notice',section).hidden=true;setStatus(words.following,'success')}
    else if(following){name.value='';name.disabled=false;consent.checked=false;consent.disabled=false;submit.hidden=false;submit.textContent=words.follow;unfollow.hidden=false;hint.textContent=words.followActionHint;$('.mghal-guest-notice',section).hidden=false;setStatus(words.guest,'idle')}
    else{name.disabled=false;consent.disabled=false;consent.checked=false;submit.hidden=false;submit.textContent=words.follow;unfollow.hidden=true;hint.textContent=words.followActionHint;$('.mghal-guest-notice',section).hidden=true;setStatus(words.notFollowing,'idle')}
-  }catch(error){setStatus(error.message||words.error,'error');$('.mghal-guest-notice',section).hidden=true}
+  }catch(error){if(error.code==='PREVIEW_API_NOT_CONFIGURED'){submit.disabled=true;unfollow.disabled=true;google.disabled=true;setStatus(words.previewDisabled,'error')}else setStatus(error.message||words.error,'error');$('.mghal-guest-notice',section).hidden=true}
  }
  form.addEventListener('submit',async event=>{
   event.preventDefault();if(actionInFlight||!form.reportValidity())return;

@@ -33,6 +33,8 @@ describe("public social client invariants",()=>{
  it("sends the viewer token in a request header rather than a query string",()=>{
   expect(source).toContain("X-Visitor-Token");
   expect(source).not.toContain("query.set('visitorToken'");
+  expect(source).toContain("PREVIEW_API_NOT_CONFIGURED");
+  expect(source).toContain("words.previewDisabled");
  });
  it("uses server-provided reaction counts",()=>{
   expect(source).toContain("data.counts.like");

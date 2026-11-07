@@ -4,7 +4,7 @@ import globals from "globals";
 
 export default [
   {
-    files: ["app/components/SiteHeader.tsx", "app/api/[...path]/route.ts"],
+    files: ["app/components/SiteHeader.tsx", "app/api/**/route.ts"],
     languageOptions: {
       parser: tsParser,
       parserOptions: { ecmaVersion: "latest", sourceType: "module", ecmaFeatures: { jsx: true } },
