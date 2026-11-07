@@ -4,7 +4,7 @@ import globals from "globals";
 
 export default [
   {
-    files: ["../app/components/SiteHeader.tsx"],
+    files: ["app/components/SiteHeader.tsx"],
     languageOptions: {
       parser: tsParser,
       parserOptions: { ecmaVersion: "latest", sourceType: "module", ecmaFeatures: { jsx: true } },
@@ -19,7 +19,7 @@ export default [
     },
   },
   {
-    files: ["../public/assets/social-engagement.js"],
+    files: ["public/assets/social-engagement.js"],
     languageOptions: { globals: { ...globals.browser, ...globals.es2022 } },
     rules: {
       "no-eval": "error",
