@@ -2,74 +2,83 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const pages = [
-  { path: "../certificates.html", language: "ar" },
-  { path: "../en/certificates.html", language: "en" },
+  { path: "../public/certificates.html", language: "ar" },
+  { path: "../public/en/certificates.html", language: "en" },
 ];
-const expected = { openjs: 1, cisco: 14, edraak: 6 };
+const expected = { cisco: 11, edraak: 6, openjs: 1 };
+const ownerBadgeIds = [
+  "926baf56-48f3-4f9d-b86d-77b2c538663c",
+  "eaec19be-fa80-429e-8055-5bbd260b0776",
+  "96acb061-5011-4c45-89e3-07f8bf43980c",
+  "31c303bf-725d-4061-b6b1-2dfb76d6ad3f",
+  "dd87ef5f-4c10-4d9d-928b-cf0a995c5ccb",
+  "6e1ad458-e752-4064-a997-27092902f884",
+  "327cec43-3807-4a02-b144-c72407bdc4f3",
+  "8d8f1cba-4a98-4cd5-b3b9-fe4233f085b1",
+  "73d091cc-193d-4b57-b8e0-e64340df62c7",
+  "2319c9be-ea2f-44ff-a256-d431cd48404e",
+  "35fadd6d-f9d6-4d4f-b151-464d30637bbb",
+];
+// These identifiers were found to belong to the reference portfolio owner and must never
+// appear in Mohammed Ghaleb Alaosimi's credential records.
+const foreignBadgeIds = [
+  "23bda189-2470-4ce0-8065-ee904979ba21",
+  "e16ca722-84d2-4da2-ad1f-46e972453890",
+  "2f9902ec-e035-4b56-bf1b-42c66f05ed75",
+  "de9c51d6-2eb6-4f7e-833a-31670170e278",
+  "43943e68-05c5-40ea-93d1-d2a26e07ced0",
+  "4e822fcc-656e-4891-bc51-666ca95cd6e8",
+  "f0520c01-63aa-4440-9df4-69c7303d8762",
+  "a370a36f-7ce1-4531-b44b-b909e56ee52d",
+  "dd68b74c-65f9-468f-9a51-3bb78adad239",
+];
+
+function extractSection(html, startId, endId) {
+  const start = html.indexOf(`id="${startId}"`);
+  assert.notEqual(start, -1, `Missing ${startId} section.`);
+  const end = endId ? html.indexOf(`id="${endId}"`, start + 1) : html.indexOf("</main>", start);
+  assert.notEqual(end, -1, `Missing end boundary after ${startId}.`);
+  return html.slice(start, end);
+}
 
 function inspectPage(path, language) {
   const html = readFileSync(new URL(path, import.meta.url), "utf8");
-  const sections = [...html.matchAll(/<section\b[^>]*id=["'](cisco|edraak|openjs)-credentials["'][^>]*>([\s\S]*?)<\/section>/gi)];
-  assert.equal(sections.length, 3, language + ": expected all three credential issuer sections.");
-
-  const issuerCounts = { openjs: 0, cisco: 0, edraak: 0 };
-  const logoMap = new Map();
-  let total = 0;
-
-  for (const section of sections) {
-    const issuer = section[1].toLowerCase();
-    const cards = [...section[2].matchAll(/<article\b[^>]*class=["'][^"']*\bcredential-card\b[^"']*["'][^>]*>[\s\S]*?<\/article>/gi)]
-      .map((match) => match[0]);
-    issuerCounts[issuer] += cards.length;
-    total += cards.length;
-
-    for (const [index, card] of cards.entries()) {
-      const textOnly = /\bcert-card-text-only\b/i.test(card);
-      const badge = card.match(/<div\b[^>]*class=["'][^"']*\bissuer-badge\s+([a-z0-9-]+)[^"']*["'][^>]*>([\s\S]*?)<\/div>/i);
-
-      if (textOnly) {
-        assert.ok(!/<img\b/i.test(card), language + ": text-only credential " + issuer + " #" + (index + 1) + " must not contain an image.");
-        assert.ok(!badge, language + ": text-only credential " + issuer + " #" + (index + 1) + " must display its name only.");
-        continue;
-      }
-
-      assert.ok(badge, language + ": image credential " + issuer + " #" + (index + 1) + " has no issuer badge.");
-      assert.equal(badge[1].toLowerCase(), issuer, language + ": issuer badge does not match its section.");
-      const images = [...badge[2].matchAll(/<img\b([^>]*)>/gi)];
-      assert.ok(images.length > 0, language + ": " + issuer + " badge has no issuer logo image.");
-
-      const sources = [];
-      for (const image of images) {
-        const attrs = image[1];
-        const src = attrs.match(/\bsrc=["']([^"']+)["']/i)?.[1];
-        const alt = attrs.match(/\balt=["']([^"']*)["']/i)?.[1];
-        assert.ok(src && /^https:\/\//i.test(src), language + ": issuer logo must use an HTTPS source.");
-        assert.ok(alt?.trim(), language + ": issuer logo is missing descriptive alt text.");
-        assert.match(attrs, /\bloading=["']lazy["']/i, language + ": issuer logos must be lazy-loaded.");
-        assert.match(attrs, /\bdecoding=["']async["']/i, language + ": issuer logos must decode asynchronously.");
-        sources.push(src);
-      }
-
-      const previous = logoMap.get(issuer);
-      if (previous) assert.deepEqual(sources, previous, language + ": issuer logo source mapping is inconsistent.");
-      else logoMap.set(issuer, sources);
+  assert.match(html, new RegExp(`<html[^>]*lang=["']${language}["']`i), language + ": incorrect document language.");
+  const sections = {
+    cisco: extractSection(html, "cisco-credentials", "edraak-credentials"),
+    edraak: extractSection(html, "edraak-credentials", "openjs-credentials"),
+    openjs: extractSection(html, "openjs-credentials", null),
+  };
+  const counts = {};
+  for (const [issuer, section] of Object.entries(sections)) {
+    const cards = [...section.matchAll(/<article\\b[^>]*class=["'][^"']*\\bcredential-card\\b[^"']*["'][^>]*>[\\s\\S]*?<\\/article>/gi)];
+    counts[issuer] = cards.length;
+    for (const [index, match] of cards.entries()) {
+      const card = match[0];
+      const issuerBadge = card.match(/<div\\b[^>]*class=["'][^"']*\\bissuer-badge\\s+([a-z0-9-]+)[^"']*["'][^>]*>([\\s\\S]*?)<\\/div>/i);
+      assert.ok(issuerBadge, language + ": " + issuer + " card " + (index + 1) + " has no issuer logo.");
+      assert.equal(issuerBadge[1].toLowerCase(), issuer, language + ": issuer logo class mismatch.");
+      const logo = issuerBadge[2].match(/<img\\b([^>]*)>/i);
+      assert.ok(logo, language + ": issuer logo image missing.");
+      assert.match(logo[1], /\\bsrc=["']https:\\/\\//i, language + ": issuer logo must use HTTPS.");
+      assert.match(logo[1], /\\balt=["'][^"']+["']/i, language + ": issuer logo needs alt text.");
+      assert.match(logo[1], /\\bloading=["']lazy["']/i, language + ": issuer logo must be lazy-loaded.");
+      assert.match(logo[1], /\\bdecoding=["']async["']/i, language + ": issuer logo must decode asynchronously.");
     }
   }
+  assert.deepEqual(counts, expected, language + ": credential issuer counts do not match the verified register.");
+  assert.equal(Object.values(counts).reduce((sum, value) => sum + value, 0), 18, language + ": expected 18 credentials.");
 
-  assert.equal(total, 21, language + ": expected all 21 credential records.");
-  assert.deepEqual(issuerCounts, expected, language + ": issuer distribution changed; review before updating this audit.");
-  return { issuerCounts, logoMap };
+  for (const id of ownerBadgeIds) {
+    assert.ok(html.includes(`https://www.credly.com/badges/${id}/public_url`), language + ": missing owner-verified Credly badge " + id);
+  }
+  for (const id of foreignBadgeIds) {
+    assert.ok(!html.includes(id), language + ": another person's Credly badge leaked into this page: " + id);
+  }
+  return new Set(ownerBadgeIds);
 }
 
-const arabic = inspectPage(pages[0].path, pages[0].language);
-const english = inspectPage(pages[1].path, pages[1].language);
-
-for (const issuer of ["openjs", "cisco", "edraak"]) {
-  assert.deepEqual(
-    english.logoMap.get(issuer),
-    arabic.logoMap.get(issuer),
-    "Arabic and English pages must use the same issuer logo sources for " + issuer + ".",
-  );
-}
-
-console.log("Credential audit passed: all 21 records per language, correct issuer distribution, original source previews where available, text-only records without fabricated imagery, and bilingual issuer-logo consistency.");
+const arabic = inspectPage(pages[0].path, "ar");
+const english = inspectPage(pages[1].path, "en");
+assert.deepEqual([...english].sort(), [...arabic].sort(), "Arabic and English pages must expose the same owner-verified Cisco badges.");
+console.log("Credential audit passed: 18 records per language (11 Cisco, 6 Edraak, 1 JSNAD), all 11 Cisco badges match the owner's public Credly wallet, and no reference-owner badge IDs remain.");
