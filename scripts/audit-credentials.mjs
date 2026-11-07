@@ -183,8 +183,8 @@ for (const page of achievementsPages) {
   assert.ok(html.includes(page.language === "ar" ? "18 سجلاً تعليمياً ومهنياً" : "18 recorded learning and professional credentials"), page.language + ": achievement total must be 18.");
   assert.ok(html.includes(page.language === "ar" ? "11 شارة رقمية موثقة الملكية" : "11 owner-verified Cisco digital badges"), page.language + ": Cisco total must be 11.");
   assert.ok(html.includes(page.language === "ar" ? "6 شهادات من إدراك" : "6 Edraak certificates"), page.language + ": Edraak total must be six.");
-  assert.doesNotMatch(html, /14\\s+(?:from Cisco|recorded Cisco|شهادة واعتماداً من Cisco|من Cisco)/i, page.language + ": stale 14-Cisco count remains.");
-  assert.doesNotMatch(html, /21\\s+(?:professional credentials|شهادة واعتماداً مهنياً)/i, page.language + ": stale 21-credential total remains.");
+  assert.ok(!html.includes("14 from Cisco") && !html.includes("14 recorded Cisco") && !html.includes("14 شهادة واعتماداً من Cisco"), page.language + ": stale 14-Cisco count remains.");
+  assert.ok(!html.includes("21 professional credentials") && !html.includes("21 شهادة واعتماداً مهنياً"), page.language + ": stale 21-credential total remains.");
 }
 console.log("Extended credential checks passed: all Edraak IDs/dates, original PDF assets, 18-entry JSON-LD and English alt text.");
 console.log("Credential audit passed: 18 records per language (11 Cisco, 6 Edraak, 1 JSNAD), all 11 Cisco badges match the owner's public Credly wallet, and no reference-owner badge IDs remain.");
