@@ -17,5 +17,6 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run audit:credentials
       - run: npm run test:certificates
+      - run: npm run audit:profile
       - run: npm run typecheck
       - run: npm run build
