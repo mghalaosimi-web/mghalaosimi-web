@@ -128,9 +128,9 @@ function addFollowPanel(){
   finally{actionInFlight=false;unfollow.disabled=false;submit.disabled=false;unfollow.setAttribute('aria-busy','false');unfollow.textContent=words.unfollow}
  });
  async function refreshCount(){
-  try{const data=await json('/api/public/followers/count');if(!Number.isFinite(Number(data.count))||!Number.isFinite(Number(data.guestCount)))return false;const target=$('.mghal-follower-counts',section);target.replaceChildren();
-   const publicCount=document.createElement('span');publicCount.textContent=words.count+': '+Number(data.count||0).toLocaleString(en?'en':'ar');
-   const guestCount=document.createElement('span');guestCount.textContent=words.guests+': '+Number(data.guestCount||0).toLocaleString(en?'en':'ar');target.append(publicCount,guestCount);
+  try{const data=await json('/api/public/followers/count'),publicTotal=Number(data.count);if(!Number.isFinite(publicTotal))return false;const target=$('.mghal-follower-counts',section);target.replaceChildren();
+   const publicCount=document.createElement('span');publicCount.textContent=words.count+': '+publicTotal.toLocaleString(en?'en':'ar');target.append(publicCount);
+   const guestTotal=Number(data.guestCount);if(Number.isFinite(guestTotal)){const guestCount=document.createElement('span');guestCount.textContent=words.guests+': '+guestTotal.toLocaleString(en?'en':'ar');target.append(guestCount);}
   }catch{return false}
   return true;
  }
