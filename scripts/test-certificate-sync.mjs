@@ -32,6 +32,12 @@ for (const file of ["../public/certificates.html", "../public/en/certificates.ht
   assert.equal(new Set(credlyLinks.map(match => match[1])).size, 11, file + ": all 11 Cisco badges need individual verification links");
   assert.equal((html.match(/href=["']https:\/\/programs\.edraak\.org\/learn\/verify-certificate\//g) || []).length, 6, file + ": all six Edraak records need individual verification links");
   assert.match(html, /assets\/certificates\//, file + ": original certificate assets must remain available");
+  for (const route of ["/projects", "/credentials", "/skills", "/about", "/contact"]) {
+    assert.ok(html.includes('href="' + route + '"'), file + ": credential navigation must use the Next.js route " + route);
+  }
+  if (file.includes("/en/")) assert.ok(html.includes('href="/language/ar?next=/credentials"'), "English page must switch language through the locale cookie route");
+  else assert.ok(html.includes('href="/language/en?next=/credentials"'), "Arabic page must switch language through the locale cookie route");
+  assert.ok(!html.includes('href="/en/projects.html"') && !html.includes('href="/projects.html"'), file + ": legacy projects navigation must not remain on the Next.js credential page");
   for (const id of foreignIds) assert.ok(!html.includes(id), file + ": reference-owner badge ID leaked: " + id);
   assert.doesNotMatch(html, /سجل اعتماد إضافي|additional Cisco record/i, file + ": unsubstantiated placeholder credential leaked");
 }
