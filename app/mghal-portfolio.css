@@ -128,3 +128,77 @@ body{margin:0;background:#f3f5f7;color:#202b38}
 @media(prefers-reduced-motion:reduce){
  .mghal-header nav a,.mghal-header-cta{transition:none!important;animation:none!important}
 }
+
+
+/* Internal-page parity with the colleague reference design system. */
+:root{color-scheme:dark}
+body{background:#070a10;color:#e7edf2}
+.mghal-archive{color:#eef4fa}
+.mghal-archive-hero{
+  border:1px solid rgba(183,155,104,.24);
+  background:radial-gradient(ellipse at 88% 15%,rgba(183,155,104,.12),transparent 42%),linear-gradient(125deg,#0b1117,#18232c 62%,#111b23);
+  box-shadow:0 18px 42px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.04);
+}
+.mghal-eyebrow{color:#c2a878}
+.mghal-archive h1,.mghal-section-head h2{color:#f1eee6}
+.mghal-archive-hero p{color:#aeb9b9}
+.mghal-stat,.mghal-card{
+  border:1px solid rgba(183,155,104,.2);
+  border-radius:12px;
+  background:linear-gradient(145deg,#111a23,#0c121b);
+  color:#e7edf2;
+  box-shadow:0 12px 28px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.035);
+}
+.mghal-stat strong{color:#d2bd91}
+.mghal-stat span,.mghal-muted{color:#9aa8b2}
+.mghal-card h3,.mghal-skill-group h3{color:#e8e4da}
+.mghal-card p{color:#aeb9ba}
+.mghal-card a,.mghal-text-link{color:#d2bd91}
+.mghal-tags span,.mghal-status{
+  border:1px solid rgba(183,155,104,.2);
+  background:rgba(183,155,104,.07);
+  color:#c2b99f;
+}
+.mghal-research-card{border-inline-start-color:#b69a62}
+.mghal-search{
+  border-color:rgba(183,155,104,.22);
+  background:#0c121b;
+  color:#9aa8b2;
+}
+.mghal-search input{color:#e7edf2}
+.mghal-filter-row button{
+  border-color:rgba(183,155,104,.22);
+  background:#111a23;
+  color:#aeb9ba;
+}
+.mghal-filter-row button.active{
+  border-color:#b79b68;
+  background:linear-gradient(180deg,#a98e60,#806b49);
+  color:#101820;
+}
+.mghal-skill-domain{border-color:rgba(183,155,104,.2);background:#0c121b}
+.mghal-skill-toggle{color:#e7edf2}
+.mghal-skill-icon{background:#18232c;color:#d2bd91}
+.mghal-skill-toggle small{color:#c2a878}
+.mghal-skill-toggle b{color:#f1eee6}
+.mghal-skill-toggle em,.mghal-skill-toggle>svg{color:#9aa8b2}
+.mghal-skill-list span{
+  border-color:rgba(183,155,104,.2);
+  background:rgba(183,155,104,.06);
+  color:#c2b99f;
+}
+.mghal-skill-note{
+  border-color:rgba(183,155,104,.2);
+  background:#111a23;
+  color:#d2bd91;
+}
+.mghal-skill-note p{color:#aeb9ba}
+.mghal-skill-note a{color:#d2bd91}
+.mghal-card a:hover,.mghal-skill-note a:hover{color:#fff}
+.mghal-archive a:focus-visible,.mghal-archive button:focus-visible,.mghal-archive input:focus-visible{
+  outline:2px solid #d2bd91;
+  outline-offset:3px;
+}
+@media(max-width:600px){
+ .mghal-archive-hero{background:radial-gradient(ellipse at 88% 15%,rgba(183,155,104,.1),transparent 42%),linear-gradient(125deg,#0b1117,#18232c)}
+}
