@@ -171,5 +171,20 @@ for (const page of pages) {
   assert.ok(html.includes("https://training.linuxfoundation.org/certification/verify/"), page.language + ": official JSNAD verifier link is missing.");
   if (page.language === "en") assert.ok(!html.includes('alt="صورة أصلية لشهادة'), "English page has Arabic image alt text");
 }
+const achievementsPages = [
+  { path: "../public/achievements.html", language: "ar" },
+  { path: "../public/en/achievements.html", language: "en" },
+];
+for (const page of achievementsPages) {
+  const html = readFileSync(new URL(page.path, import.meta.url), "utf8");
+  assert.ok(html.includes('lang="' + page.language + '"'), page.language + ": achievement page language mismatch.");
+  assert.ok(html.includes("JSNAD-ALOSEIMI-20241112"), page.language + ": JSNAD record ID is missing.");
+  assert.ok(html.includes("https://training.linuxfoundation.org/certification/verify/"), page.language + ": official JSNAD verification tool is missing.");
+  assert.ok(html.includes(page.language === "ar" ? "18 سجلاً تعليمياً ومهنياً" : "18 recorded learning and professional credentials"), page.language + ": achievement total must be 18.");
+  assert.ok(html.includes(page.language === "ar" ? "11 شارة رقمية موثقة الملكية" : "11 owner-verified Cisco digital badges"), page.language + ": Cisco total must be 11.");
+  assert.ok(html.includes(page.language === "ar" ? "6 شهادات من إدراك" : "6 Edraak certificates"), page.language + ": Edraak total must be six.");
+  assert.doesNotMatch(html, /14\\s+(?:from Cisco|recorded Cisco|شهادة واعتماداً من Cisco|من Cisco)/i, page.language + ": stale 14-Cisco count remains.");
+  assert.doesNotMatch(html, /21\\s+(?:professional credentials|شهادة واعتماداً مهنياً)/i, page.language + ": stale 21-credential total remains.");
+}
 console.log("Extended credential checks passed: all Edraak IDs/dates, original PDF assets, 18-entry JSON-LD and English alt text.");
 console.log("Credential audit passed: 18 records per language (11 Cisco, 6 Edraak, 1 JSNAD), all 11 Cisco badges match the owner's public Credly wallet, and no reference-owner badge IDs remain.");
