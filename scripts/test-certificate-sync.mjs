@@ -32,6 +32,7 @@ for (const file of ["../public/certificates.html", "../public/en/certificates.ht
   assert.equal(new Set(credlyLinks.map(match => match[1])).size, 11, file + ": all 11 Cisco badges need individual verification links");
   assert.equal((html.match(/href=["']https:\/\/programs\.edraak\.org\/learn\/verify-certificate\//g) || []).length, 6, file + ": all six Edraak records need individual verification links");
   assert.match(html, /assets\/certificates\//, file + ": original certificate assets must remain available");
+  for (const edraakAsset of ["/assets/certificates/uiux-v1_certificate.PDF", "/assets/certificates/interactiondesign-v1_certificate.png", "/assets/certificates/uxdesign-v1_certificate.png", "/assets/certificates/uidesign-v1_certificate.png"]) assert.ok(html.includes(edraakAsset), file + ": missing original Edraak asset " + edraakAsset);
   assert.ok(!html.includes('class="cert-logo-box"'), file + ": issuer logos must be kept within individual credential cards, not duplicated in group headers");
   const imageTags = [...html.matchAll(/<img\\b[^>]*>/gi)].map(match => match[0]);
   assert.ok(imageTags.length > 0, file + ": credential page must include issuer/certificate images");
