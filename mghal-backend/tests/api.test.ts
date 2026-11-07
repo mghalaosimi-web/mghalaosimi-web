@@ -19,7 +19,7 @@ describe("public social request contracts",()=>{
  });
 });
 describe("public social client invariants",()=>{
- const source=readFileSync(new URL("../../public/assets/social-engagement.js",import.meta.url),"utf8");
+ const source=readFileSync("../public/assets/social-engagement.js","utf8");
  it("does not infer email from browser identity or mailbox APIs",()=>{
   expect(source).not.toMatch(/navigator\\.email|localStorage\\.getItem\\(['"]email['"]\\)|document\\.cookie[^;]*email/i);
   expect(source).toContain("consent:consent.checked");

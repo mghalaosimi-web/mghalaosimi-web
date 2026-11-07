@@ -10,7 +10,7 @@
     "audit:credentials": "node scripts/audit-credentials.mjs",
     "test:certificates": "node scripts/test-certificate-sync.mjs",
     "audit:profile": "node scripts/audit-profile-content.mjs",
-    "lint": "eslint app/components/SiteHeader.tsx public/assets/social-engagement.js --max-warnings=0"
+    "lint": "npm --prefix mghal-backend run lint"
   },
   "dependencies": {
     "next": "15.5.28",
@@ -25,9 +25,6 @@
     "typescript": "^5.8.3",
     "tailwindcss": "^3.4.17",
     "postcss": "^8.5.6",
-    "autoprefixer": "^10.4.20",
-    "@eslint/eslintrc": "^3.3.1",
-    "eslint": "^9.39.0",
-    "eslint-config-next": "15.5.28"
+    "autoprefixer": "^10.4.20"
   }
 }
