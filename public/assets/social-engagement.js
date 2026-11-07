@@ -19,7 +19,7 @@ const words=en?{
  google:'المتابعة باستخدام Google',googleConnected:'تم توثيق حساب Google. بريدك الإلكتروني خاص ولن يُنشر.',googleDisabled:'تسجيل Google غير مفعّل حالياً.',error:'تعذر تنفيذ العملية. حاول مرة أخرى.',liked:'تم تحديث التفاعل.',comments:'التعليقات',noComments:'لا توجد تعليقات منشورة بعد.'
 };
 let visitorPromise=window.__mghalVisitorPromise||null,googleEnabled=false;
-function storedToken(){try{return localStorage.getItem(VISITOR_KEY)}catch{return null}}
+function storedToken(){try{const value=localStorage.getItem(VISITOR_KEY);return typeof value==='string'&&value.length>=32&&value.length<=128?value:null}catch{return null}}
 async function visitor(){
  if(!visitorPromise&&window.__mghalVisitorPromise)visitorPromise=window.__mghalVisitorPromise;
  if(visitorPromise)return visitorPromise;
@@ -67,6 +67,7 @@ function reactionWidget(type,id){
    try{
     const token=await visitor(),result=await json('/api/public/reactions',{method:wasActive?'DELETE':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token,targetType:type,targetId:id,reaction})});
     if(result.success!==true)throw new Error(words.error);
+    state[reaction]=!wasActive;button.setAttribute('aria-pressed',String(!!state[reaction]));
     const refreshed=await refresh();feedback.textContent=refreshed?(wasActive?words.removed:words.saved):words.savedCountPending;feedback.dataset.state='success';await track('reaction',type,id);
    }catch(error){feedback.textContent=error.message||words.error;feedback.dataset.state='error'}
    finally{Object.values(buttons).forEach(item=>{item.disabled=false});button.setAttribute('aria-busy','false');button.dataset.state='idle';inFlight=false}
@@ -127,7 +128,7 @@ function addFollowPanel(){
   finally{actionInFlight=false;unfollow.disabled=false;submit.disabled=false;unfollow.setAttribute('aria-busy','false');unfollow.textContent=words.unfollow}
  });
  async function refreshCount(){
-  try{const data=await json('/api/public/followers/count'),target=$('.mghal-follower-counts',section);target.replaceChildren();
+  try{const data=await json('/api/public/followers/count');if(!Number.isFinite(Number(data.count))||!Number.isFinite(Number(data.guestCount)))return false;const target=$('.mghal-follower-counts',section);target.replaceChildren();
    const publicCount=document.createElement('span');publicCount.textContent=words.count+': '+Number(data.count||0).toLocaleString(en?'en':'ar');
    const guestCount=document.createElement('span');guestCount.textContent=words.guests+': '+Number(data.guestCount||0).toLocaleString(en?'en':'ar');target.append(publicCount,guestCount);
   }catch{return false}

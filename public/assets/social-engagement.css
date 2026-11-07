@@ -2,7 +2,7 @@
 .mghal-google-login{background:#fff;border-color:#b8c5d3;color:#172b4d}.mghal-google-login[hidden]{display:none}.mghal-google-login:before{content:'G';display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font-weight:900;color:#315a85;background:#eef3f8}
 
 /* Accessible social actions: distinct affordances, descriptions, and async feedback. */
-.mghal-social-help,.mghal-follow-action-hint{display:block;grid-column:1/-1;margin:0;color:#64748b;font-size:12px;line-height:1.7}
+.mghal-social-help,.mghal-follow-action-hint{display:block;flex-basis:100%;grid-column:1/-1;margin:0;color:#64748b;font-size:12px;line-height:1.7}
 .mghal-reactions{align-items:flex-start}
 .mghal-reaction-btn{transition:background-color .16s,border-color .16s,color .16s}
 .mghal-reaction-like{border-color:#315a85;color:#315a85}

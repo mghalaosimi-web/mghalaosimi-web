@@ -1,9 +1,9 @@
 name: M.GH.AL Next.js quality checks
 on:
   pull_request:
-    branches: [main]
+    branches: [main, feature/mghal-arfat-full-integration]
   push:
-    branches: [feature/mghal-arfat-full-integration]
+    branches: [feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07]
 permissions:
   contents: read
 jobs:
@@ -18,5 +18,6 @@ jobs:
       - run: npm run audit:credentials
       - run: npm run test:certificates
       - run: npm run audit:profile
+      - run: npm run lint
       - run: npm run typecheck
       - run: npm run build
