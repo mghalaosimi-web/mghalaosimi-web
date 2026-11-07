@@ -60,3 +60,113 @@ body:not(.home-page) .site-footer-nav a:hover,body:not(.home-page) .site-footer-
 @media(max-width:900px){body:not(.home-page) .grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}body:not(.home-page) .top .nav{align-items:flex-start;flex-wrap:wrap}body:not(.home-page) .top .links{width:100%;overflow-x:auto;flex-wrap:nowrap;white-space:nowrap;padding-bottom:7px}}
 @media(max-width:640px){body:not(.home-page) .wrap{width:calc(100% - 32px)}body:not(.home-page) .wrap>.hero{min-height:240px;padding:48px 0 38px!important}body:not(.home-page) .wrap>.hero h1{font-size:clamp(34px,10vw,48px)!important}body:not(.home-page) .grid,body:not(.home-page) .list,body:not(.home-page) .credential-file-grid{grid-template-columns:minmax(0,1fr)!important}body:not(.home-page) .project-tools{grid-template-columns:minmax(0,1fr)}body:not(.home-page) .item-head{align-items:flex-start}body:not(.home-page) .credential-image-proof{grid-template-columns:minmax(0,1fr)}body:not(.home-page) footer.foot,body:not(.home-page) footer.footer{justify-content:center;text-align:center}}
 @media(prefers-reduced-motion:reduce){body:not(.home-page) .grid>.card,body:not(.home-page) .grid>.card:hover{transition:none!important;transform:none!important}}
+
+
+/* M.GH.AL official brand system override — Navy / Blue / White / Slate / Champagne Gold */
+:root{
+  --ref-bg:#F3F5F7;
+  --ref-panel:#FFFFFF;
+  --ref-panel-2:#F3F5F7;
+  --ref-line:#DCE2E8;
+  --ref-text:#172B4D;
+  --ref-muted:#64748B;
+  --ref-cyan:#315A85;
+  --ref-blue:#315A85;
+  --ref-gold:#B69A62;
+}
+html{background:#F3F5F7!important;color-scheme:light}
+body:not(.home-page){
+  background:radial-gradient(ellipse at 82% 0%,rgba(182,154,98,.10),transparent 38%),#F3F5F7!important;
+  color:#172B4D!important;
+}
+body:not(.home-page) .top,
+body:not(.home-page) header.top{
+  background:rgba(255,255,255,.96)!important;
+  border-bottom:1px solid #DCE2E8!important;
+  box-shadow:0 8px 26px rgba(23,43,77,.06)!important;
+}
+body:not(.home-page) .brand,
+body:not(.home-page) .hero h1,
+body:not(.home-page) h1,
+body:not(.home-page) h2,
+body:not(.home-page) h3,
+body:not(.home-page) .grid>.card h2,
+body:not(.home-page) .grid>.card h3,
+body:not(.home-page) .item-head h2{color:#172B4D!important}
+body:not(.home-page) .top .links a,
+body:not(.home-page) .top .navlinks a,
+body:not(.home-page) .muted,
+body:not(.home-page) p,
+body:not(.home-page) .detail,
+body:not(.home-page) .grid>.card p{color:#64748B!important}
+body:not(.home-page) a{color:#315A85}
+body:not(.home-page) a:hover{color:#B69A62!important}
+body:not(.home-page) .wrap>.hero:before,
+body:not(.home-page) main.wrap:before{
+  background-image:linear-gradient(rgba(23,43,77,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(23,43,77,.045) 1px,transparent 1px)!important;
+}
+body:not(.home-page) .wrap>.hero:after{color:#B69A62!important}
+body:not(.home-page) .wrap>.hero .eyebrow:before,
+body:not(.home-page) .section>h2:after,
+body:not(.home-page) .section-title:after{background:#B69A62!important}
+body:not(.home-page) .grid>.card,
+body:not(.home-page) .list>.item,
+body:not(.home-page) .credential-file,
+body:not(.home-page) .credential-detail{
+  background:linear-gradient(155deg,#FFFFFF,#F8FAFC)!important;
+  border:1px solid #DCE2E8!important;
+  box-shadow:0 14px 38px rgba(23,43,77,.07)!important;
+}
+body:not(.home-page) .grid>.card:before{border-color:rgba(182,154,98,.22)!important;box-shadow:0 0 0 18px rgba(182,154,98,.035),0 0 0 36px rgba(182,154,98,.02)!important}
+body:not(.home-page) .grid>.card:hover,
+body:not(.home-page) .list>.item:hover{border-color:rgba(182,154,98,.72)!important;box-shadow:0 20px 48px rgba(23,43,77,.12)!important}
+body:not(.home-page) .grid>.card .project-cover,
+body:not(.home-page) .grid>.card>img,
+body:not(.home-page) .credential-file-preview{background:#F3F5F7!important;border-color:#DCE2E8!important}
+body:not(.home-page) .grid>.card .tag,
+body:not(.home-page) .tag,
+body:not(.home-page) .type,
+body:not(.home-page) .status{
+  background:rgba(49,90,133,.07)!important;
+  border:1px solid rgba(49,90,133,.18)!important;
+  color:#315A85!important;
+}
+body:not(.home-page) .grid>.card .status,
+body:not(.home-page) .issuer,
+body:not(.home-page) .verify,
+body:not(.home-page) .project-count,
+body:not(.home-page) .original-files-heading>span,
+body:not(.home-page) .credential-number{color:#315A85!important}
+body:not(.home-page) .project-tools,
+body:not(.home-page) .project-filter-control{
+  background:#FFFFFF!important;
+  color:#172B4D!important;
+  border-color:#DCE2E8!important;
+}
+body:not(.home-page) .project-filter-field label{color:#64748B!important}
+body:not(.home-page) .project-reset,
+body:not(.home-page) .verify,
+body:not(.home-page) .credential-file-actions a{
+  background:#F3F5F7!important;
+  border-color:rgba(182,154,98,.55)!important;
+  color:#172B4D!important;
+}
+body:not(.home-page) .credential-icon,
+body:not(.home-page) .credential-number{
+  background:rgba(182,154,98,.13)!important;
+  border:1px solid rgba(182,154,98,.5)!important;
+  color:#80663C!important;
+}
+body:not(.home-page) .credential-image-proof,
+body:not(.home-page) .note{
+  background:#FFFFFF!important;
+  border-color:#DCE2E8!important;
+  color:#64748B!important;
+}
+body:not(.home-page) .note{border-right-color:#B69A62!important}
+body:not(.home-page) footer.foot,
+body:not(.home-page) footer.footer,
+body:not(.home-page) footer{color:#64748B!important;border-color:#DCE2E8!important}
+body:not(.home-page) .site-footer-nav a:hover,
+body:not(.home-page) .site-footer-social a:hover{color:#B69A62!important}
+body:not(.home-page) :focus-visible{outline:2px solid #B69A62!important;outline-offset:4px}
