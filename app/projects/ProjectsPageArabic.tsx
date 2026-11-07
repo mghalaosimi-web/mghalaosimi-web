@@ -62,7 +62,7 @@ export default function ProjectsPage(){
         <div className="portfolio-archive-count"><strong>{visible.length.toString().padStart(2,'0')}</strong><small>PROJECTS</small></div>
       </div>
       <div className="portfolio-archive-filters" role="group" aria-label="تصفية المشاريع">
-        {filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?archive.length:archive.filter(p=>p.category===f.id).length+(f.id==='cyber-defense'&&featured?1:0)}</span></button>)}
+        {filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?archive.length:archive.filter(p=>p.category===f.id).length}</span></button>)}
       </div>
       <div className="portfolio-archive-grid">
         {visible.map((p,i)=>{
