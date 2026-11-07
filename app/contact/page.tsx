@@ -9,7 +9,7 @@ import styles from './contact.module.css';
 export async function generateMetadata(): Promise<Metadata> {
  const en = (await cookies()).get('portfolio-locale')?.value === 'en';
  return en
-  ? { title:'Professional Contact | Mohammed Ghaleb Alaosimi', description:'Connect with Mohammed Ghaleb Alaosimi about cybersecurity engineering, security research, technical projects, and professional collaboration.', alternates:localizedAlternates('/contact','en') }
+  ? { title:'Professional Contact | Mohammed Ghaleb Alaosimi', description:'Connect with Mohammed Ghaleb Alaosimi about software engineering, enterprise systems, applied AI, and professional collaboration.', alternates:localizedAlternates('/contact','en') }
   : { title:'التواصل المهني | محمد غالب العصيمي', description:'تواصل مع محمد غالب العصيمي بشأن هندسة البرمجيات والأنظمة المؤسسية والذكاء الاصطناعي التطبيقي والتعاون المهني.', alternates:localizedAlternates('/contact','ar') };
 }
 
@@ -40,8 +40,8 @@ function ContactPageArabic(){
    </div>
    <div className={styles.heroMark} aria-label="رمز هوية M.GH.AL">
     <div className={`${styles.orbit} ${styles.orbitOne}`}/><div className={`${styles.orbit} ${styles.orbitTwo}`}/>
-    <div className={styles.markCore}><span>AK</span><small>CONNECT / 01</small></div>
-    <div className={styles.markFoot}>BUILDING SYSTEMS.<br/>SECURING THE FUTURE.</div>
+    <div className={styles.markCore}><span>M.GH.AL</span><small>CONNECT / 01</small></div>
+    <div className={styles.markFoot}>BUILDING SYSTEMS.<br/>ENGINEERING WITH PURPOSE.</div>
    </div>
    <div className={styles.heroFooter}><span>SOFTWARE ENGINEERING</span><span>ENTERPRISE SYSTEMS</span><span>APPLIED AI</span><span>COLLABORATION</span></div>
   </section>
