@@ -96,6 +96,12 @@ const originalPdfs = [
   "/assets/certificates/OperatingSystemsBasicsUpdate20260727-20-mcda4y.pdf",
   "/assets/certificates/IT_Customer_Support_Basics_certificate_m-gh-alaosimi-gmail-com_c21859f1-476d-49bb-a798-ac1479307855.pdf",
   "/assets/certificates/IntrotoModernAIUpdate20260723-21-kproqx.pdf",
+  "/assets/certificates/uiux-v1_certificate.PDF",
+];
+const originalImages = [
+  "/assets/certificates/interactiondesign-v1_certificate.png",
+  "/assets/certificates/uxdesign-v1_certificate.png",
+  "/assets/certificates/uidesign-v1_certificate.png",
 ];
 for (const page of pages) {
   const html = readFileSync(new URL(page.path, import.meta.url), "utf8");
@@ -110,6 +116,10 @@ for (const page of pages) {
   for (const pdf of originalPdfs) {
     assert.ok(html.includes(pdf), page.language + ": missing original PDF link " + pdf);
     assert.ok(existsSync(new URL("../public" + pdf, import.meta.url)), "Missing PDF asset " + pdf);
+  }
+  for (const image of originalImages) {
+    assert.ok(html.includes(image), page.language + ": missing original Edraak image " + image);
+    assert.ok(existsSync(new URL("../public" + image, import.meta.url)), "Missing Edraak image asset " + image);
   }
   const jsonOpen = '<script type="application/ld+json">';
   const jsonStart = html.indexOf(jsonOpen);
