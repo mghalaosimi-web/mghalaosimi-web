@@ -30,6 +30,10 @@ describe("public social client invariants",()=>{
   expect(source).toContain("aria-describedby");
   expect(source).toContain("words.reactionHelp");
  });
+ it("sends the viewer token in a request header rather than a query string",()=>{
+  expect(source).toContain("X-Visitor-Token");
+  expect(source).not.toContain("query.set('visitorToken'");
+ });
  it("uses server-provided reaction counts",()=>{
   expect(source).toContain("data.counts.like");
   expect(source).toContain("data.counts.clap");

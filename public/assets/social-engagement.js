@@ -78,8 +78,8 @@ function reactionWidget(type,id){
  async function refresh(){
   try{
    let token=null;if(navigator.doNotTrack!=='1'){try{token=await visitor()}catch{}}
-   const query=new URLSearchParams({targetType:type,targetId:id});if(token)query.set('visitorToken',token);
-   const data=await json('/api/public/reactions?'+query.toString());if(!data.counts||typeof data.counts!=='object')throw new Error(words.countUnavailable);
+   const query=new URLSearchParams({targetType:type,targetId:id}),options=token?{headers:{'X-Visitor-Token':token}}:{};
+   const data=await json('/api/public/reactions?'+query.toString(),options);if(!data.counts||typeof data.counts!=='object')throw new Error(words.countUnavailable);
    state=data.viewerReactions||{like:!!data.reacted,clap:false};
    like.textContent=words.like+' · '+Number(data.counts.like||0).toLocaleString(en?'en':'ar');clap.textContent=words.clap+' · '+Number(data.counts.clap||0).toLocaleString(en?'en':'ar');
    like.setAttribute('aria-pressed',String(!!state.like));clap.setAttribute('aria-pressed',String(!!state.clap));countsReady=true;return true;

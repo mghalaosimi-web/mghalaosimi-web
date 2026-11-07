@@ -69,6 +69,50 @@ function engagementDb() {
 }
 
 
+function googleIdentityDb() {
+  const base = engagementDb();
+  return {
+    prepare(sql: string) {
+      const statement = base.prepare(sql);
+      return {
+        bind(...params: unknown[]) {
+          const bound = statement.bind(...params);
+          return {
+            ...bound,
+            async first() {
+              if (sql.includes("SELECT email,email_verified,display_name FROM follower_identities")) {
+                return { email: "private@example.test", email_verified: 1, display_name: "Private Name" };
+              }
+              return bound.first();
+            },
+          };
+        },
+      };
+    },
+  };
+}
+
+function adminPermissionDb(permissions: string[] = []) {
+  return {
+    prepare(sql: string) {
+      return {
+        bind(...params: unknown[]) {
+          return {
+            async run() { return { success: true, meta: { changes: 1 } }; },
+            async first() {
+              if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
+              if (sql.includes("SELECT u.id,u.email FROM admin_sessions")) return { id: "admin-1", email: "admin@example.test" };
+              if (sql.includes("SELECT 1 FROM admin_user_roles")) return permissions.includes(String(params[1])) ? { ok: 1 } : null;
+              return null;
+            },
+            async all() { return { results: [] }; },
+          };
+        },
+      };
+    },
+  };
+}
+
 function idempotentReactionDb() {
   const base = engagementDb();
   let writes = 0;
@@ -96,6 +140,7 @@ describe("production Worker security contract", () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/dashboard", { method: "OPTIONS", headers: { Origin: "https://mghalaosimi-web.vercel.app" } }), {} as never);
     expect(response.status).toBe(204);
     expect(response.headers.get("Access-Control-Allow-Origin")).toBe("https://mghalaosimi-web.vercel.app");
+    expect(response.headers.get("Access-Control-Allow-Headers")).toContain("X-Visitor-Token");
   });
 
   it("allows only Vercel preview hostnames belonging to this project", async () => {
@@ -136,9 +181,33 @@ describe("production Worker security contract", () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token, email: "owner@example.test", displayName: "Platform Owner", password: "a-very-long-test-password-12345" }),
-    }), { DB: fakeDb(await digest(token)) } as never);
+    }), { DB: fakeDb(await digest(token)), OWNER_BOOTSTRAP_TOKEN: token } as never);
     expect(response.status).toBe(201);
     expect(await response.json()).toMatchObject({ success: true });
+  });
+
+  it("keeps first-owner bootstrap unavailable when the Worker secret is missing", async () => {
+    const token = "stored-bootstrap-token-with-enough-entropy-0001";
+    const status = await productionWorker.fetch(new Request("https://api.example.test/api/admin/bootstrap/status"), { DB: fakeDb(await digest(token)) } as never);
+    expect(status.status).toBe(200);
+    expect(await status.json()).toMatchObject({ available: false, ownerExists: false, rotationRequired: false });
+    const bootstrap = await productionWorker.fetch(new Request("https://api.example.test/api/admin/bootstrap", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, email: "owner@example.test", displayName: "Platform Owner", password: "a-very-long-test-password-12345" }),
+    }), { DB: fakeDb(await digest(token)) } as never);
+    expect(bootstrap.status).toBe(503);
+    expect(await bootstrap.json()).toMatchObject({ error: { code: "BOOTSTRAP_NOT_CONFIGURED" } });
+  });
+
+  it("requires the D1 bootstrap hash to match the configured Worker secret", async () => {
+    const configuredToken = "configured-bootstrap-secret-with-at-least-32-characters";
+    const staleToken = "stale-bootstrap-token-with-at-least-32-characters-0001";
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/bootstrap", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: configuredToken, email: "owner@example.test", displayName: "Platform Owner", password: "a-very-long-test-password-12345" }),
+    }), { DB: fakeDb(await digest(staleToken)), OWNER_BOOTSTRAP_TOKEN: configuredToken } as never);
+    expect(response.status).toBe(409);
+    expect(await response.json()).toMatchObject({ error: { code: "BOOTSTRAP_ROTATION_REQUIRED" } });
   });
 
   it("reports rotation required when the configured Worker secret does not match the stored hash", async () => {
@@ -247,6 +316,25 @@ describe("production Worker security contract", () => {
     expect(projects.status).toBe(401);
   });
 
+  it("returns reaction state using a visitor header instead of requiring a token in the URL", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/reactions?targetType=project&targetId=project-1", {
+      headers: { "X-Visitor-Token": "a".repeat(64) },
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ counts: { like: 2, clap: 1 }, viewerReactions: { like: false, clap: false } });
+  });
+
+  it("does not return a linked Google email to the public browser client", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/auth/google/status", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64) }),
+    }), { DB: googleIdentityDb() } as never);
+    expect(response.status).toBe(200);
+    const data = await response.json() as Record<string, unknown>;
+    expect(data).toMatchObject({ connected: true, emailVerified: true, suggestedName: "Private Name" });
+    expect(data).not.toHaveProperty("email");
+  });
+
   it("deduplicates repeated reactions for one visitor, target, and reaction", async () => {
     const makeRequest = () => new Request("https://api.example.test/api/public/reactions", {
       method: "POST", headers: { "Content-Type": "application/json" },
@@ -257,6 +345,23 @@ describe("production Worker security contract", () => {
     const second = await productionWorker.fetch(makeRequest(), { DB: db } as never);
     expect(await first.json()).toMatchObject({ success: true, created: true });
     expect(await second.json()).toMatchObject({ success: true, created: false });
+  });
+
+  it("enforces read, write, and user-management permissions after authentication", async () => {
+    const token = "test-admin-session";
+    const getProjects = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", {
+      headers: { Authorization: "Bearer " + token },
+    }), { DB: adminPermissionDb(["content.write"]) } as never);
+    const createProject = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", {
+      method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ slug: "waynah", name: "WAYNAH", status: "Experimental" }),
+    }), { DB: adminPermissionDb(["content.read"]) } as never);
+    const listUsers = await productionWorker.fetch(new Request("https://api.example.test/api/admin/users", {
+      headers: { Authorization: "Bearer " + token },
+    }), { DB: adminPermissionDb(["content.read", "content.write"]) } as never);
+    expect(getProjects.status).toBe(403);
+    expect(createProject.status).toBe(403);
+    expect(listUsers.status).toBe(403);
   });
 
   it("starts a private anonymous guest follow without publishing a name or recording public consent", async () => {

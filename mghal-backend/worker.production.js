@@ -3,7 +3,7 @@ export default {
   const url = new URL(request.url), path = url.pathname, method = request.method;
   const allowed = (env.ALLOWED_ORIGINS || "https://mghalaosimi-web.vercel.app,https://mghal-static.onrender.com,https://mghal-release.onrender.com,https://mghal-release-current.onrender.com,https://mghal.vercel.app").split(",").map(value => value.trim()).filter(Boolean);
   const origin = request.headers.get("Origin") || "";
-  const headers = new Headers({"Vary":"Origin","Access-Control-Allow-Methods":"GET,POST,PATCH,DELETE,OPTIONS","Access-Control-Allow-Headers":"Content-Type,Authorization","X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"strict-origin-when-cross-origin","Cache-Control":"no-store"});
+  const headers = new Headers({"Vary":"Origin","Access-Control-Allow-Methods":"GET,POST,PATCH,DELETE,OPTIONS","Access-Control-Allow-Headers":"Content-Type,Authorization,X-Visitor-Token","X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"strict-origin-when-cross-origin","Cache-Control":"no-store"});
   const previewOrigin=/^https:\/\/mghalaosimi-[a-z0-9-]+-mghalaosimi-webs-projects\.vercel\.app$/i.test(origin);
   if (allowed.includes(origin)||previewOrigin) headers.set("Access-Control-Allow-Origin",origin);
   const out=(data,status=200)=>Response.json(data,{status,headers});
@@ -49,8 +49,9 @@ export default {
   if(path==="/api/admin/bootstrap/status"&&method==="GET"){
    const [users,setup]=await Promise.all([q("SELECT COUNT(*) n FROM admin_users").first(),q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first()]);
    const ownerExists=Number(users?.n||0)>0,secret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"",secretHash=secret.length>=32?await hash(secret):null;
-   const rotationRequired=!ownerExists&&secret.length>0&&(secret.length<32||!setup?.value_json||setup.value_json!==secretHash);
-   return out({available:!ownerExists&&!!setup?.value_json&&!rotationRequired,ownerExists,rotationRequired});
+   const hashMatches=!!secretHash&&!!setup?.value_json&&constantTimeEqual(setup.value_json,secretHash);
+   const rotationRequired=!ownerExists&&secret.length>0&&(secret.length<32||!hashMatches);
+   return out({available:!ownerExists&&hashMatches,ownerExists,rotationRequired});
   }
   if(path==="/api/admin/bootstrap/rotate"&&method==="POST"){
    const secret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";
@@ -65,8 +66,13 @@ export default {
    return out({success:true,message:"One-time bootstrap token rotated. Use the configured token to create the first owner."});
   }
   if(path==="/api/admin/bootstrap"&&method==="POST"){
-   const b=await json();if(!b||typeof b.token!=="string"||typeof b.email!=="string"||typeof b.password!=="string"||typeof b.displayName!=="string"||b.password.length<12||b.password.length>200||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)||b.displayName.trim().length<2||b.displayName.length>120)return fail(400,"VALIDATION_ERROR","Provide a valid email, display name and password of at least 12 characters");
-   const supplied=await hash(b.token),configured=await q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first();const workerSecret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";if(workerSecret&&workerSecret.length<32)return fail(503,"BOOTSTRAP_SECRET_WEAK","OWNER_BOOTSTRAP_TOKEN must contain at least 32 characters");if(workerSecret&&(b.token.length!==workerSecret.length||!constantTimeEqual(b.token,workerSecret)))return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");if(!configured?.value_json||supplied!==configured.value_json)return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
+   const b=await json();if(!b||Object.keys(b).some(key=>!["token","email","password","displayName"].includes(key))||typeof b.token!=="string"||typeof b.email!=="string"||typeof b.password!=="string"||typeof b.displayName!=="string"||b.password.length<12||b.password.length>200||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)||b.displayName.trim().length<2||b.displayName.length>120)return fail(400,"VALIDATION_ERROR","Provide a valid email, display name and password of at least 12 characters");
+   const users=await q("SELECT COUNT(*) n FROM admin_users").first();if(Number(users?.n||0)>0)return fail(409,"BOOTSTRAP_ALREADY_USED","Owner bootstrap has already been completed");
+   const workerSecret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";if(workerSecret.length<32)return fail(503,"BOOTSTRAP_NOT_CONFIGURED","First-owner bootstrap is disabled until OWNER_BOOTSTRAP_TOKEN is configured as a Worker secret with at least 32 characters");
+   if(b.token.length!==workerSecret.length||!constantTimeEqual(b.token,workerSecret))return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
+   const configured=await q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first(),expectedHash=await hash(workerSecret);
+   if(!configured?.value_json||!constantTimeEqual(configured.value_json,expectedHash))return fail(409,"BOOTSTRAP_ROTATION_REQUIRED","The stored bootstrap hash does not match the Worker secret. Complete the protected rotation step first.");
+   const supplied=await hash(b.token);if(!constantTimeEqual(supplied,configured.value_json))return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
    const salt=crypto.getRandomValues(new Uint8Array(16)),key=await crypto.subtle.importKey("raw",new TextEncoder().encode(b.password),"PBKDF2",false,["deriveBits"]),bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt,iterations:210000},key,256),b64=x=>btoa(String.fromCharCode(...x));
    const passwordHash="pbkdf2-sha256$210000$"+b64(salt)+"$"+b64(new Uint8Array(bits)),id=crypto.randomUUID(),email=b.email.trim().toLowerCase();
    const batch=await env.DB.batch([
@@ -160,7 +166,7 @@ export default {
    const b=await json();if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>key!=="visitorToken"))return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
    const f=await followerForVisitor(b.visitorToken);if(!f)return out({connected:false});
    const identity=await q("SELECT email,email_verified,display_name FROM follower_identities WHERE follower_id=? AND provider='google' LIMIT 1",f.id).first();
-   return out({connected:!!identity,email:identity?.email||null,emailVerified:!!identity?.email_verified,suggestedName:identity?.display_name||null});
+   return out({connected:!!identity,emailVerified:!!identity?.email_verified,suggestedName:identity?.display_name||null});
   }
   if(path==="/api/public/visitors"&&method==="POST"){
    const b=await json();if(!b||Object.keys(b).some(key=>!["visitorToken","path"].includes(key))||(b.visitorToken!=null&&!validVisitorToken(b.visitorToken)))return fail(400,"VALIDATION_ERROR","Invalid visitor session payload");const visitorToken=validVisitorToken(b.visitorToken)?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
@@ -220,7 +226,7 @@ export default {
    const target=await q("SELECT id FROM "+table+" WHERE id=? AND "+where,targetId).first();if(!target)return fail(404,"TARGET_NOT_FOUND","Published target not found");
    const rows=await q("SELECT reaction,COUNT(*) count FROM reactions WHERE target_type=? AND target_id=? GROUP BY reaction",targetType,targetId).all();
    const counts={like:0,clap:0};for(const row of rows.results||[])if(row.reaction in counts)counts[row.reaction]=Number(row.count)||0;
-   let viewerReactions={like:false,clap:false};const visitorToken=url.searchParams.get("visitorToken");if(visitorToken&&!validVisitorToken(visitorToken))return fail(400,"VALIDATION_ERROR","Invalid visitor token");
+   let viewerReactions={like:false,clap:false};const visitorToken=request.headers.get("X-Visitor-Token")||url.searchParams.get("visitorToken");if(visitorToken&&!validVisitorToken(visitorToken))return fail(400,"VALIDATION_ERROR","Invalid visitor token");
    if(visitorToken&&visitorToken.length>=32){const f=await followerForVisitor(visitorToken);if(f){const [like,clap]=await Promise.all([
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first(),
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='clap' LIMIT 1",targetType,targetId,f.id).first()
