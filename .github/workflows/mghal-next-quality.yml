@@ -20,6 +20,7 @@ jobs:
       - run: npm run audit:profile
       - run: npm run test:api-proxy
       - run: npm run test:seo
+      - run: npm run test:sitemap
       - run: npm --prefix mghal-backend ci --no-audit --no-fund
       - run: npm run lint
       - run: npm run typecheck

@@ -12,7 +12,8 @@
     "audit:profile": "node scripts/audit-profile-content.mjs",
     "lint": "npm --prefix mghal-backend run lint",
     "test:api-proxy": "node --test scripts/test-api-proxy.test.mjs",
-    "test:seo": "node --test scripts/test-seo-alternates.test.mjs"
+    "test:seo": "node --test scripts/test-seo-alternates.test.mjs",
+    "test:sitemap": "node --test scripts/test-sitemap.test.mjs"
   },
   "dependencies": {
     "next": "15.5.28",

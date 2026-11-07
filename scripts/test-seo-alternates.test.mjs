@@ -3,8 +3,8 @@ import test from 'node:test';
 import {resolveLocalizedAlternates} from '../lib/seo-paths.mjs';
 
 test('home page exposes distinct Arabic and English canonical URLs',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/','ar'),{canonical:'/',languages:{ar:'/',en:'/en/index.html','x-default':'/'}});
- assert.deepEqual(resolveLocalizedAlternates('/','en'),{canonical:'/en/index.html',languages:{ar:'/',en:'/en/index.html','x-default':'/'}});
+ assert.deepEqual(resolveLocalizedAlternates('/','ar'),{canonical:'/',languages:{ar:'/',en:'/en/','x-default':'/'}});
+ assert.deepEqual(resolveLocalizedAlternates('/','en'),{canonical:'/en/',languages:{ar:'/',en:'/en/index.html','x-default':'/'}});
 });
 
 test('Next.js content routes map to their existing bilingual static counterparts',()=>{
@@ -27,8 +27,8 @@ test('Next.js content routes map to their existing bilingual static counterparts
 test('project detail pages pair the same slug across Arabic and English paths',()=>{
  const ar=resolveLocalizedAlternates('/projects/waynah/','ar');
  const en=resolveLocalizedAlternates('/projects/waynah?source=portfolio','en');
- assert.equal(ar.canonical,'/projects/waynah');
- assert.equal(en.canonical,'/en/projects/waynah/index.html');
+ assert.equal(ar.canonical,'/projects/waynah/');
+ assert.equal(en.canonical,'/en/projects/waynah/');
  assert.equal(ar.languages?.en,en.canonical);
  assert.equal(en.languages?.ar,ar.canonical);
 });
