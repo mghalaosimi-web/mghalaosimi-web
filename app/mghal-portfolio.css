@@ -37,3 +37,94 @@ body{margin:0;background:#f3f5f7;color:#202b38}
  .mghal-footer>*,.mghal-footer-nav,.mghal-footer>div{width:100%;justify-content:center}
 }
 @media(prefers-reduced-motion:reduce){.mghal-header nav a,.mghal-menu-toggle{transition:none!important}}
+
+
+/* Arafat-inspired shared shell parity: preserve M.GH.AL routes and behavior. */
+.mghal-header{
+  justify-content:space-between;
+  gap:24px;
+  min-height:68px;
+  padding:13px max(24px,calc((100vw - 1160px)/2));
+  border-bottom:1px solid rgba(183,155,104,.19);
+  background:rgba(11,17,23,.93);
+  backdrop-filter:blur(18px);
+  box-shadow:0 8px 24px rgba(0,0,0,.16);
+}
+.mghal-header .mghal-logo{
+  gap:10px;
+  color:#f1eee6;
+  font:700 10px/1.5 ui-monospace,monospace;
+  letter-spacing:.13em;
+}
+.mghal-header .mghal-logo::before{
+  content:"MG";
+  display:grid;
+  place-items:center;
+  width:37px;
+  height:37px;
+  border:1px solid rgba(183,155,104,.58);
+  border-radius:9px;
+  background:linear-gradient(145deg,#34414a,#18232c);
+  color:#d2bd91;
+  font:700 12px/1 ui-monospace,monospace;
+  box-shadow:inset 0 1px rgba(255,255,255,.1),0 3px 8px rgba(0,0,0,.28);
+}
+.mghal-header .mghal-logo span{display:none}
+.mghal-header nav{gap:5px}
+.mghal-header nav a{
+  position:relative;
+  isolation:isolate;
+  padding:8px 11px;
+  border:1px solid transparent;
+  border-radius:7px;
+  color:#aeb8bb;
+  font-size:12px;
+  transition:color .16s,border-color .16s,background .16s,transform .16s,box-shadow .16s;
+}
+.mghal-header nav a:hover,.mghal-header nav a:focus-visible{
+  border-color:rgba(210,189,145,.55);
+  background:linear-gradient(145deg,rgba(183,155,104,.18),rgba(183,155,104,.07));
+  color:#f1eee6;
+  box-shadow:0 0 0 1px rgba(210,189,145,.08),0 0 17px rgba(183,155,104,.17);
+  transform:translateY(-1px);
+}
+.mghal-header nav a[aria-current=page]{
+  border-color:rgba(183,155,104,.42);
+  background:linear-gradient(145deg,rgba(183,155,104,.2),rgba(183,155,104,.07));
+  color:#d2bd91;
+  box-shadow:inset 0 1px rgba(255,255,255,.05),0 0 13px rgba(183,155,104,.12);
+}
+.mghal-language{display:flex;align-items:center;gap:7px;color:#73818a;font:10px ui-monospace,monospace}
+.mghal-language a{color:#aeb8bb;text-decoration:none;font:700 10px ui-monospace,monospace}
+.mghal-language a[aria-current=page]{color:#d2bd91}
+.mghal-header-cta{
+  border:1px solid rgba(183,155,104,.55);
+  border-radius:8px;
+  background:linear-gradient(180deg,#a98e60,#806b49);
+  color:#101820;
+  box-shadow:0 4px 0 #4a3d2b,0 9px 18px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.25);
+}
+.mghal-header-cta:hover{background:linear-gradient(180deg,#c1a777,#967b52);color:#0c141a;transform:translateY(-1px)}
+.mghal-menu-toggle{border-color:rgba(183,155,104,.35);background:#18232c;color:#d2bd91}
+.mghal-primary-nav a[aria-current=page]{font-weight:700}
+.mghal-footer{
+  margin-top:90px;
+  border-top:1px solid rgba(183,155,104,.2);
+  background:#0b1117;
+  color:#829097;
+}
+.mghal-footer p,.mghal-footer>div a,.mghal-footer-nav a{color:#aab4b6}
+.mghal-footer>div a:hover,.mghal-footer-nav a:hover{color:#d2bd91}
+@media(max-width:1050px){
+ .mghal-header{flex-wrap:wrap;padding:12px 24px}
+ .mghal-header nav.mghal-primary-nav{border-top:1px solid rgba(183,155,104,.2);background:#0b1117}
+ .mghal-header nav.mghal-primary-nav a{color:#aeb8bb}
+ .mghal-header nav.mghal-primary-nav a:hover,.mghal-header nav.mghal-primary-nav a:focus-visible{background:rgba(183,155,104,.1)}
+}
+@media(max-width:600px){
+ .mghal-header{padding:11px 14px}
+ .mghal-header .mghal-logo{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .mghal-header nav a,.mghal-header-cta{transition:none!important;animation:none!important}
+}
