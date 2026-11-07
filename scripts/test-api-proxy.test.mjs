@@ -28,12 +28,14 @@ test('a preview may use only an explicit isolated HTTPS Worker origin', () => {
   );
 });
 
-test('rejects insecure, credentialed, path-based, or unknown preview upstreams', () => {
+test('rejects insecure, credentialed, path-based, non-Worker, or production preview upstreams', () => {
   const url = 'https://mghal-next-preview.onrender.com/api/health';
   for (const value of [
     'http://mghal-preview-api.example.workers.dev',
     'https://user:pass@mghal-preview-api.example.workers.dev',
     'https://mghal-preview-api.example.workers.dev/api',
+    'https://api.example.com',
+    'https://localhost:8787',
     'https://mghal-api.m-gh-alaosimi.workers.dev'
   ]) {
     assert.equal(resolveMghalApiUpstream(url, { MGHAL_PREVIEW_API_BASE: value }), null);
