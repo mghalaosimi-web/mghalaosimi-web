@@ -34,16 +34,16 @@ for (const file of ["../public/certificates.html", "../public/en/certificates.ht
   assert.match(html, /assets\/certificates\//, file + ": original certificate assets must remain available");
   for (const edraakAsset of ["/assets/certificates/uiux-v1_certificate.PDF", "/assets/certificates/interactiondesign-v1_certificate.png", "/assets/certificates/uxdesign-v1_certificate.png", "/assets/certificates/uidesign-v1_certificate.png"]) assert.ok(html.includes(edraakAsset), file + ": missing original Edraak asset " + edraakAsset);
   assert.ok(!html.includes('class="cert-logo-box"'), file + ": issuer logos must be kept within individual credential cards, not duplicated in group headers");
-  const imageTags = [...html.matchAll(/<img\\b[^>]*>/gi)].map(match => match[0]);
+  const imageTags = [...html.matchAll(/<img\b[^>]*>/gi)].map(match => match[0]);
   assert.ok(imageTags.length > 0, file + ": credential page must include issuer/certificate images");
   for (const imageTag of imageTags) {
-    assert.match(imageTag, /\\balt=["'][^"']*["']/i, file + ": every image needs alt text");
-    assert.match(imageTag, /\\bloading=["']lazy["']/i, file + ": images must lazy-load");
-    assert.match(imageTag, /\\bdecoding=["']async["']/i, file + ": images must use async decoding");
+    assert.match(imageTag, /\balt=["'][^"']*["']/i, file + ": every image needs alt text");
+    assert.match(imageTag, /\bloading=["']lazy["']/i, file + ": images must lazy-load");
+    assert.match(imageTag, /\bdecoding=["']async["']/i, file + ": images must use async decoding");
   }
   if (file.includes("/en/")) {
-    const paragraphText = [...html.matchAll(/<p\\b[^>]*>([\\s\\S]*?)<\\/p>/gi)].map(match => match[1].replace(/<[^>]*>/g, " ").replace(/\\s+/g, " ").trim());
-    assert.ok(paragraphText.every(value => !/[\\u0600-\\u06FF]/.test(value)), "English credential page must not contain Arabic descriptions.");
+    const paragraphText = [...html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map(match => match[1].replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim());
+    assert.ok(paragraphText.every(value => !/[\u0600-\u06FF]/.test(value)), "English credential page must not contain Arabic descriptions.");
   }
   for (const route of ["/projects", "/credentials", "/skills", "/about", "/contact"]) {
     assert.ok(html.includes('href="' + route + '"'), file + ": credential navigation must use the Next.js route " + route);
