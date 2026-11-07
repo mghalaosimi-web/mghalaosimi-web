@@ -5,12 +5,12 @@ import test from 'node:test';
 const sitemap=readFileSync(new URL('../public/sitemap.xml',import.meta.url),'utf8');
 const robots=readFileSync(new URL('../public/robots.txt',import.meta.url),'utf8');
 const base='https://mghalaosimi-web.vercel.app';
-const locations=new Set([...sitemap.matchAll(/<loc>([^<]+)<\\/loc>/g)].map(match=>match[1]));
+const locations=new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]));
 
 test('sitemap declares the required XML and XHTML namespaces',()=>{
- assert.match(sitemap,/xmlns="http:\\/\\/www\\.sitemaps\\.org\\/schemas\\/sitemap\\/0\\.9"/);
- assert.match(sitemap,/xmlns:xhtml="http:\\/\\/www\\.w3\\.org\\/1999\\/xhtml"/);
- assert.match(sitemap,/<urlset[\\s\\S]*<\\/urlset>$/);
+ assert.match(sitemap,/xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/);
+ assert.match(sitemap,/xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/);
+ assert.match(sitemap,/<urlset[\s\S]*<\/urlset>$/);
 });
 
 test('home and primary Next.js routes are discoverable',()=>{
