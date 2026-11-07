@@ -55,7 +55,7 @@ export default function HomePageEnglish(){
   <section className="hv-work" id="featured" aria-labelledby="work-title">
    <div className="hv-section-top"><span>02 / SELECTED WORK</span><span>ENGINEERING ARCHIVE</span></div>
    <div className="hv-section-intro"><div><p className="hv-kicker">BUILT WITH INTENT</p><h2 id="work-title">From concept<br/><em>to implementation.</em></h2></div><div className="hv-work-aside"><p>A selection of personal and academic projects. Each project has a defined scope, role, and supporting documentation.</p><Link href="/projects">Browse all projects <ArrowUpRight size={16}/></Link></div></div>
-   <div className="hv-project-grid">{featured.map((project,index)=><Link href={'/projects/'+project.slug} className={'hv-project-card hv-project-'+(index+1)} key={project.slug}>
+   <div className="hv-project-grid">{featured.map((project,index)=><Link href={'/en/projects/'+project.slug} className={'hv-project-card hv-project-'+(index+1)} key={project.slug}>
     <div className="hv-project-top"><span>0{index+1} / FEATURED</span><ArrowUpRight size={18}/></div>
     <div className="hv-project-art"><div className="hv-art-academic"><Layers3 size={48}/><span>{project.name}</span><small>{project.stack.slice(0,3).join(' · ')}</small></div></div>
     <div className="hv-project-copy"><span className="hv-project-label">{projectCopy[project.slug]?.label||'Personal & Academic Project'}</span><h3>{project.name}</h3><p>{projectCopy[project.slug]?.summary||'A technical project documented with its current scope and available evidence.'}</p></div>
