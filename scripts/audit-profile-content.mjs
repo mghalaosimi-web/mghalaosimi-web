@@ -48,6 +48,11 @@ const englishStatuses = [...enProjects.matchAll(/status:'([^']+)'/g)].map(match 
 assert.equal(englishStatuses.length, 10, "English project explorer must provide an explicit status for every project.");
 assert.ok(englishStatuses.every(status => !/[\u0600-\u06FF]/.test(status)), "English project statuses must not fall back to Arabic registry values.");
 assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'almanar-schedule-system'"), "The two academic scheduling projects must remain separate.");
+const publicRepositories = ["waynah","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-official-website"];
+for (const slug of publicRepositories) assert.ok(projects.includes("slug:'" + slug + "'") && projects.slice(projects.indexOf("slug:'" + slug + "'"), projects.indexOf("}", projects.indexOf("slug:'" + slug + "'"))).includes("repository:'https://github.com/mghalaosimi-web/"), "Missing verified public repository for " + slug);
+assert.equal((projects.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g) || []).length, 8, "Only the eight verified public projects should expose source repositories.");
+assert.ok(!projects.slice(projects.indexOf("slug:'humanity-system'"), projects.indexOf("}", projects.indexOf("slug:'humanity-system'"))).includes("repository:"), "Humanity System must not expose a private repository.");
+assert.ok(!projects.slice(projects.indexOf("slug:'mghal-esdp'"), projects.indexOf("}", projects.indexOf("slug:'mghal-esdp'"))).includes("repository:"), "ESDP must not expose a non-public repository.");
 for (const slug of expectedSlugs) {
   assert.ok(existsSync(new URL("../public/projects/" + slug + "/index.html", import.meta.url)), "Missing Arabic project detail route for " + slug);
   assert.ok(existsSync(new URL("../public/en/projects/" + slug + "/index.html", import.meta.url)), "Missing English project detail route for " + slug);
