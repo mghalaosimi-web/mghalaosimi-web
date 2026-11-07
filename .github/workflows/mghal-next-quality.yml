@@ -20,35 +20,9 @@ jobs:
       - run: npm run audit:profile
       - run: npm run test:api-proxy
       - run: npm run test:seo
-      - run: npm --prefix mghal-backend install --no-audit --no-fund
+      - run: npm --prefix mghal-backend ci --no-audit --no-fund
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run build
 
 
-  sync-backend-lockfile:
-    if: github.event_name == 'push'
-    needs: validate
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Regenerate the backend lockfile without executing package scripts
-        run: npm --prefix mghal-backend install --package-lock-only --ignore-scripts --no-audit --no-fund
-      - name: Commit the backend lockfile only when it is changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add mghal-backend/package-lock.json
-          if ! git diff --cached --quiet; then
-            git commit -m "chore(backend): sync npm lockfile with package manifest"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          else
-            echo "Backend package-lock.json is already current."
-          fi
