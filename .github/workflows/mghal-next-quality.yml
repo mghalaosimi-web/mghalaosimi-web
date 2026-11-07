@@ -19,6 +19,7 @@ jobs:
       - run: npm run test:certificates
       - run: npm run audit:profile
       - run: npm run test:api-proxy
+      - run: npm run test:seo
       - run: npm --prefix mghal-backend install --no-audit --no-fund
       - run: npm run lint
       - run: npm run typecheck
