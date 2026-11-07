@@ -34,6 +34,8 @@ for (const file of ["../public/certificates.html", "../public/en/certificates.ht
   assert.match(html, /assets\/certificates\//, file + ": original certificate assets must remain available");
   for (const edraakAsset of ["/assets/certificates/uiux-v1_certificate.PDF", "/assets/certificates/interactiondesign-v1_certificate.png", "/assets/certificates/uxdesign-v1_certificate.png", "/assets/certificates/uidesign-v1_certificate.png"]) assert.ok(html.includes(edraakAsset), file + ": missing original Edraak asset " + edraakAsset);
   assert.ok(!html.includes('class="cert-logo-box"'), file + ": issuer logos must be kept within individual credential cards, not duplicated in group headers");
+  assert.ok(html.includes('src="/assets/issuers/cisco-logo.svg"'), file + ": Cisco logo must use the repository-owned asset");
+  assert.ok(!html.includes("upload.wikimedia.org/wikipedia/commons/0/08/Cisco_logo_blue_2016.svg"), file + ": external Cisco logo URL must be removed");
   const imageTags = [...html.matchAll(/<img\b[^>]*>/gi)].map(match => match[0]);
   assert.ok(imageTags.length > 0, file + ": credential page must include issuer/certificate images");
   for (const imageTag of imageTags) {
