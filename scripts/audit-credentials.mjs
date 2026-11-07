@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 const pages = [
   { path: "../public/certificates.html", language: "ar" },
@@ -79,4 +79,47 @@ function inspectPage(path, language) {
 const arabic = inspectPage(pages[0].path, "ar");
 const english = inspectPage(pages[1].path, "en");
 assert.deepEqual([...english].sort(), [...arabic].sort(), "Arabic and English pages must expose the same owner-verified Cisco badges.");
+const edraakBadges = {
+  "UI/UX Design": ["6addfdb9d4ce42cbb6581c5ad7798421", "2026-08-02"],
+  "Communications Skills": ["e3d641d030654b5ea5a62a0011a80f41", "2026-07-29"],
+  "Interaction Design Fundamentals": ["b774c07893ef4cacb20a6271fcc126c3", "2026-08-02"],
+  "UX Research": ["528490ad79e14aefb6f42e361200d20d", "2026-07-29"],
+  "UX Design": ["261ba96416f847dea412232020b915ec", "2026-07-27"],
+  "User Interface Design Principles": ["39ab850762d242e4aba085047a34a440", "2026-08-02"],
+};
+const originalPdfs = [
+  "/assets/certificates/Hardware_and_Upgrade_Support_certificate_m-gh-alaosimi-gmail-com_bc68bb11-3b72-420d-877a-a92139aff2f6.pdf",
+  "/assets/certificates/JuniorCybersecurityAnalystUpdate20260727-21-iou924.pdf",
+  "/assets/certificates/NetworkingBasicsUpdate20260727-21-xz9ceq.pdf",
+  "/assets/certificates/SecurityandConnectivitySupportv120260727-21-51cp9q.pdf",
+  "/assets/certificates/PythonEssentials1Update20260727-20-xydgji.pdf",
+  "/assets/certificates/OperatingSystemsBasicsUpdate20260727-20-mcda4y.pdf",
+  "/assets/certificates/IT_Customer_Support_Basics_certificate_m-gh-alaosimi-gmail-com_c21859f1-476d-49bb-a798-ac1479307855.pdf",
+  "/assets/certificates/IntrotoModernAIUpdate20260723-21-kproqx.pdf",
+];
+for (const page of pages) {
+  const html = readFileSync(new URL(page.path, import.meta.url), "utf8");
+  for (const [title, [id, date]] of Object.entries(edraakBadges)) {
+    const start = html.indexOf("<h3>" + title + "</h3>");
+    assert.notEqual(start, -1, page.language + ": missing Edraak title " + title);
+    const end = html.indexOf("</article>", start);
+    const card = html.slice(start, end);
+    assert.ok(card.includes("https://programs.edraak.org/learn/verify-certificate/" + id + "/?lang=en"), page.language + ": missing Edraak verify URL for " + title);
+    assert.ok(card.includes(date), page.language + ": missing Edraak date for " + title);
+  }
+  for (const pdf of originalPdfs) {
+    assert.ok(html.includes(pdf), page.language + ": missing original PDF link " + pdf);
+    assert.ok(existsSync(new URL("../public" + pdf, import.meta.url)), "Missing PDF asset " + pdf);
+  }
+  const jsonMatch = html.match(/<script type="application\\/ld\\+json">([\\s\\S]*?)<\\/script>/i);
+  assert.ok(jsonMatch, page.language + ": JSON-LD missing");
+  const json = JSON.parse(jsonMatch[1]);
+  assert.equal(json["@type"], "Person");
+  assert.equal(json.hasCredential.length, 18);
+  assert.equal(json.hasCredential.filter(item => item.recognizedBy?.name === "Cisco Networking Academy").length, 11);
+  assert.equal(json.hasCredential.filter(item => item.recognizedBy?.name === "Edraak").length, 6);
+  assert.ok(json.hasCredential.some(item => item.identifier?.value === "JSNAD-ALOSEIMI-20241112"));
+  if (page.language === "en") assert.ok(!/<img\\b[^>]*alt=["\'][^"\']*[\\u0600-\\u06FF]/i.test(html), "English page has Arabic image alt text");
+}
+console.log("Extended credential checks passed: all Edraak IDs/dates, original PDF assets, 18-entry JSON-LD and English alt text.");
 console.log("Credential audit passed: 18 records per language (11 Cisco, 6 Edraak, 1 JSNAD), all 11 Cisco badges match the owner's public Credly wallet, and no reference-owner badge IDs remain.");
