@@ -139,6 +139,7 @@ const originalImages = [
 ];
 for (const page of pages) {
   const html = readFileSync(new URL(page.path, import.meta.url), "utf8");
+  assert.ok(!html.includes("/assets/certificates/1785613862401.png"), page.language + ": the unlabelled JSNAD archive image must not be presented as a verified credential.");
   for (const [title, [id, arDate, enDate]] of Object.entries(edraakBadges)) {
     const start = html.indexOf("<h3>" + title + "</h3>");
     assert.notEqual(start, -1, page.language + ": missing Edraak title " + title);
