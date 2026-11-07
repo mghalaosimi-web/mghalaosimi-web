@@ -99,6 +99,7 @@ const originalPdfs = [
   "/assets/certificates/uiux-v1_certificate.PDF",
 ];
 const originalImages = [
+  "/assets/issuers/cisco-logo.svg",
   "/assets/certificates/interactiondesign-v1_certificate.png",
   "/assets/certificates/uxdesign-v1_certificate.png",
   "/assets/certificates/uidesign-v1_certificate.png",
