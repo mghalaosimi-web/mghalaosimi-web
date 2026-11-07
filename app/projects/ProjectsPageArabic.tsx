@@ -26,10 +26,10 @@ export default function ProjectsPage(){
   const [filter,setFilter]=useState<typeof filters[number]['id']>('all');
   const [selectedProject,setSelectedProject]=useState<Project|null>(null);
   useEffect(()=>{if(!selectedProject)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape')setSelectedProject(null)};window.addEventListener('keydown',onKeyDown);return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKeyDown)}},[selectedProject]);
-  const featured:Project|undefined=projects.find(p=>p.slug==='__mghal_featured_disabled__');
+  
   const archive=projects;
   const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
-  const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
+  
   const repositoryCount=projects.filter(p=>p.repository).length;
   const collaborativeCount=projects.filter(p=>p.status.includes('تعاوني')).length;
 
@@ -47,7 +47,7 @@ export default function ProjectsPage(){
         <div className="portfolio-archive-mark-core"><Layers3 size={42}/><b>BUILD</b><small>ENGINEERED SYSTEMS</small></div>
         <span className="portfolio-archive-mark-code">PA / 01</span>
       </div>
-      <div className="portfolio-archive-hero-foot"><span>DESIGN / ENGINEERING / SECURITY</span><span>BUILDING SYSTEMS. SECURING THE FUTURE.</span></div>
+      <div className="portfolio-archive-hero-foot"><span>DESIGN / ENGINEERING / SYSTEMS</span><span>BUILDING SYSTEMS. SECURING THE FUTURE.</span></div>
     </section>
 
     <section className="portfolio-archive-metrics" aria-label="ملخص المشاريع">
@@ -56,51 +56,6 @@ export default function ProjectsPage(){
       <div><span className="portfolio-archive-metric-icon"><GraduationCap size={18}/></span><strong>{collaborativeCount.toString().padStart(2,'0')}</strong><small>مشاريع تعاونية</small></div>
       <div><span className="portfolio-archive-metric-icon"><ShieldCheck size={18}/></span><strong>03</strong><small>مجالات عمل رئيسية</small></div>
     </section>
-
-    {featuredVisible&&featured&&<section className="portfolio-featured-project">
-      <div className="portfolio-featured-visual">
-        <div className="portfolio-featured-visual-grid"/>
-        <div className="portfolio-featured-orbit featured-orbit-one"/>
-        <div className="portfolio-featured-orbit featured-orbit-two"/>
-        <div className="portfolio-featured-shield"><ShieldCheck size={74} strokeWidth={1}/><span>AEGIS</span><small>SOVEREIGN DEFENSE</small></div>
-        <span className="portfolio-featured-visual-index">AT / 09</span>
-        <span className="portfolio-featured-visual-caption">PRIVATE ENGINEERING ECOSYSTEM</span>
-      </div>
-      <div className="portfolio-featured-copy">
-        <div className="portfolio-featured-overline"><Sparkles size={14}/> FEATURED ENGINEERING SYSTEM <span>01 / 01</span></div>
-        <div className="portfolio-featured-status"><i/>{featured.status}</div>
-        <h2>{featured.name}</h2>
-        <h3>{featured.label}</h3>
-        <p>{featured.summary}</p>
-        <div className="portfolio-featured-tags">{featured.stack.slice(0,4).map(x=><span key={x}>{x}</span>)}</div>
-        <div className="portfolio-featured-footer">
-          <span>FOUNDER &amp; LEAD SYSTEMS ARCHITECT<br/><b>M.GH.AL</b></span>
-          <button type="button" onClick={()=>setSelectedProject(featured)}>استكشف المنظومة <ArrowUpLeft size={17}/></button>
-        </div>
-      </div>
-    </section>}
-
-    {featuredVisible&&<section className="portfolio-aegis-gallery" aria-labelledby="aegis-gallery-title">
-      <div className="portfolio-aegis-gallery-heading">
-        <div><span>AEGIS-TITAN / VISUAL ENGINEERING NOTES</span><h2 id="aegis-gallery-title">لمحة عن التصور الهندسي</h2><p>مخططات توضيحية عالية المستوى تساعد على فهم مجالات المنظومة؛ ولا تمثل واجهات تشغيل فعلية أو كشفًا للبنية الداخلية.</p></div>
-        <span className="portfolio-aegis-gallery-index">VISUAL ARCHIVE / 03</span>
-      </div>
-      <div className="portfolio-aegis-gallery-grid">
-        <article className="portfolio-aegis-visual-card">
-          <div className="portfolio-aegis-visual-frame"><Image src="/images/aegis/defensive-command-environment.svg" alt="تصور توضيحي لبيئة القيادة الدفاعية في AEGIS-TITAN" fill sizes="(max-width: 650px) 92vw, (max-width: 1000px) 45vw, 30vw" /></div>
-          <div><span>01 / COMMAND ENVIRONMENT</span><h3>بيئة القيادة الدفاعية</h3><p>تصور بصري لمشهد عمليات دفاعية ومتابعة الإشارات.</p></div>
-        </article>
-        <article className="portfolio-aegis-visual-card">
-          <div className="portfolio-aegis-visual-frame"><Image src="/images/aegis/defense-domain.svg" alt="مخطط توضيحي لمجالات الدفاع السيبراني" fill sizes="(max-width: 650px) 92vw, (max-width: 1000px) 45vw, 30vw" /></div>
-          <div><span>02 / DEFENSE DOMAINS</span><h3>مجالات الدفاع السيبراني</h3><p>عرض مفاهيمي للمجالات الدفاعية التي تتكامل ضمن الرؤية العامة.</p></div>
-        </article>
-        <article className="portfolio-aegis-visual-card">
-          <div className="portfolio-aegis-visual-frame"><Image src="/images/aegis/enterprise-operations.svg" alt="تصور توضيحي للعمليات المؤسسية" fill sizes="(max-width: 650px) 92vw, (max-width: 1000px) 45vw, 30vw" /></div>
-          <div><span>03 / ENTERPRISE OPERATIONS</span><h3>العمليات المؤسسية</h3><p>تصور للعلاقة بين الرؤية التشغيلية والتنظيم المؤسسي.</p></div>
-        </article>
-      </div>
-      <Link href="/projects/aegis-titan" className="portfolio-aegis-gallery-link">استعراض الملف الهندسي الكامل لـ AEGIS-TITAN <ArrowUpLeft size={16}/></Link>
-    </section>}
 
     <section className="portfolio-archive-collection" id="project-collection">
       <div className="portfolio-archive-section-heading">
