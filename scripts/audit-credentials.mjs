@@ -58,7 +58,8 @@ function inspectPage(path, language) {
       assert.equal(issuerBadge[1].toLowerCase(), issuer, language + ": issuer logo class mismatch.");
       const logo = issuerBadge[2].match(/<img\b([^>]*)>/i);
       assert.ok(logo, language + ": issuer logo image missing.");
-      assert.match(logo[1], /\bsrc=["']https:\/\//i, language + ": issuer logo must use HTTPS.");
+      if (issuer === "cisco") assert.match(logo[1], /\bsrc=["\']\/assets\/issuers\/cisco-logo\.svg["\']/i, language + ": Cisco issuer logo must use the repository asset.");
+      else assert.match(logo[1], /\bsrc=["\']https:\/\//i, language + ": external issuer logos must use HTTPS.");
       assert.match(logo[1], /\balt=["'][^"']+["']/i, language + ": issuer logo needs alt text.");
       assert.match(logo[1], /\bloading=["']lazy["']/i, language + ": issuer logo must be lazy-loaded.");
       assert.match(logo[1], /\bdecoding=["']async["']/i, language + ": issuer logo must decode asynchronously.");
