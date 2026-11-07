@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 const arAbout = read("../app/about/AboutTabs.tsx");
@@ -29,10 +29,14 @@ assert.ok(arAbout.includes("الأمن السيبراني اهتمام معرف�
 assert.ok(enAbout.includes("not as my academic degree specialization"), "English profile must distinguish cybersecurity interest from academic degree.");
 assert.ok(arAbout.includes("active==='learning'?<Learning/>") && enAbout.includes("active==='learning'?<Learning/>"), "Unverified leadership tab must be replaced by learning content.");
 
-const expectedSlugs = ["waynah","humanity-system","focusflow","mghal-content-os","manar-schedule-system","al-manar-schedule-system","yemen-ai-platform","ciphersphere","mghal-esdp","mghal-official-website"];
+const expectedSlugs = ["waynah","humanity-system","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-esdp","mghal-official-website"];
 const actualSlugs = [...projects.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
 assert.deepEqual(actualSlugs, expectedSlugs, "The project registry must contain exactly the ten owner-confirmed projects in the approved order.");
-assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'al-manar-schedule-system'"), "The two academic scheduling projects must remain separate.");
+assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'almanar-schedule-system'"), "The two academic scheduling projects must remain separate.");
+for (const slug of expectedSlugs) {
+  assert.ok(existsSync(new URL("../public/projects/" + slug + "/index.html", import.meta.url)), "Missing Arabic project detail route for " + slug);
+  assert.ok(existsSync(new URL("../public/en/projects/" + slug + "/index.html", import.meta.url)), "Missing English project detail route for " + slug);
+}
 assert.match(projects, /slug:'mghal-esdp'[^}]*status:'خاص · غير منشور'/, "ESDP must remain private and unpublished.");
 assert.ok(research.includes("Transaction-Aware Authorization and Bounded Execution for AI Agents in ERP Systems"), "Research page must reflect the selected AI/ERP research direction.");
 assert.ok(research.includes("Research direction in preparation · Not published"), "Research must not be represented as published.");
