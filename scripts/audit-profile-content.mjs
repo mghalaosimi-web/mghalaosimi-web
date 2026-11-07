@@ -14,6 +14,14 @@ const research = read("../app/research/page.tsx");
 const projects = read("../data/projects.ts");
 const arLabs = read("../app/labs/LabsExplorer.tsx");
 const enLabs = read("../app/labs/LabsExplorerEnglish.tsx");
+const contentOsAr = read("../public/projects/mghal-content-os/index.html");
+const contentOsEn = read("../public/en/projects/mghal-content-os/index.html");
+const esdpAr = read("../public/projects/mghal-esdp/index.html");
+const esdpEn = read("../public/en/projects/mghal-esdp/index.html");
+const manarAr = read("../public/projects/manar-schedule-system/index.html");
+const almanarAr = read("../public/projects/almanar-schedule-system/index.html");
+const manarEn = read("../public/en/projects/manar-schedule-system/index.html");
+const almanarEn = read("../public/en/projects/almanar-schedule-system/index.html");
 
 assert.ok(arAbout.includes("محمد غالب العصيمي"), "Arabic profile must use the owner's exact name.");
 assert.ok(arAbout.includes("بكالوريوس تقنية المعلومات"), "Arabic profile must state the confirmed IT degree.");
@@ -38,6 +46,11 @@ for (const slug of expectedSlugs) {
   assert.ok(existsSync(new URL("../public/en/projects/" + slug + "/index.html", import.meta.url)), "Missing English project detail route for " + slug);
 }
 assert.match(projects, /slug:'mghal-esdp'[^}]*status:'خاص · غير منشور'/, "ESDP must remain private and unpublished.");
+assert.ok(contentOsAr.includes("M.GH.AL Content OS") && contentOsEn.includes("M.GH.AL Content OS"), "The Content OS detail pages must use the approved project name.");
+assert.ok(!contentOsAr.includes("Content Studio") && !contentOsEn.includes("Content Studio"), "The outdated Content Studio label must not remain.");
+assert.ok(esdpAr.includes("مشروع خاص — غير منشور") && esdpEn.includes("Private project — not published"), "ESDP detail pages must preserve its private/unpublished status.");
+assert.ok(manarAr.includes("<h1>Manar Schedule System</h1>") && almanarAr.includes("<h1>Al-Manar Schedule System</h1>"), "Arabic project details must keep the two scheduling systems distinct.");
+assert.ok(manarEn.includes("<h1>Manar Schedule System</h1>") && almanarEn.includes("<h1>Al-Manar Schedule System</h1>"), "English project details must keep the two scheduling systems distinct.");
 assert.ok(research.includes("Transaction-Aware Authorization and Bounded Execution for AI Agents in ERP Systems"), "Research page must reflect the selected AI/ERP research direction.");
 assert.ok(research.includes("Research direction in preparation · Not published"), "Research must not be represented as published.");
 
