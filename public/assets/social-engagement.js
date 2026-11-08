@@ -183,4 +183,7 @@ async function projectDetail(){
 }
 function setup(){addHomeLikePanel();addFollowPanel();projectCards();projectDetail();const grid=$('main .grid');if(grid&&'MutationObserver'in window)new MutationObserver(()=>projectCards()).observe(grid,{childList:true,subtree:true})}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
+// Rebuild idempotent engagement widgets after browser back/forward cache restores or history navigation.
+window.addEventListener('pageshow',setup);
+window.addEventListener('popstate',()=>{window.setTimeout(setup,0)});
 })();
