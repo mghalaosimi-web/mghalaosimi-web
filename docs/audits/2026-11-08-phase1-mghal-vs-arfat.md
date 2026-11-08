@@ -81,7 +81,7 @@
 | Projects | مستكشف مشاريع وتفاصيل AEGIS-TITAN مع صفحات فرعية للمعمارية والوحدات والتشغيل وخارطة الطريق | 10 سجلات مشاريع في catalog، و20 صفحة تفاصيل عربية/إنجليزية مولّدة؛ كل صفحة تتضمن problem/goal/audience/value/features/stack/architecture/evidence/links وJSON-LD | موجود في M.GH.AL عبر static generated pages؛ مسار Next الديناميكي أبسط، وهناك ازدواج مصدر بيانات يجب حسمه. |
 | Footer | مكوّن SiteFooter مستقل | Footer ضمن shell/صفحات M.GH.AL | موجود في الطرفين؛ فصل مكوّن Footer في M.GH.AL تحسين صيانة لا شرط ميزة. |
 | Contact | API route، Google verification، Formspree، rate limiting | نموذج يتحقق من المدخلات ثم يفتح mailto؛ لا يرسل في الخلفية | جزئي في M.GH.AL؛ قرار منتج وليس سبباً لنسخ تدفق Google من المرجع. |
-| Search palette | لم يظهر command palette مماثل في المصدر المفحوص | SiteSearch مع اختصار لوحة مفاتيح وتطبيع عربي/لاتيني وفهرس ثابت | موجود في M.GH.AL؛ لا حاجة لإعادة بنائه. |
+| Search palette | لم يظهر command palette مماثل في المصدر المفحوص | تطبيقان منفصلان: `app/components/SiteSearch.tsx` في Next ونسخة داخل `public/assets/site.js` للصفحات الثابتة؛ كلاهما يقرأ فهرساً ثابتاً | موجود، لكن ازدواج التنفيذ مصدر drift؛ لا تنشئ ثالثاً، ووحّد السلوك لاحقاً. |
 | Admin / CMS | لا توجد لوحة محتوى مماثلة | لوحة إدارة للهوية والمشاريع والشهادات والمقالات والمهارات والتعليم والإنجازات والمتابعين والتعليقات والتحليلات والوسائط والمستخدمين | تفوق وظيفي لدى M.GH.AL. |
 | Auth / RBAC | Google auth لخدمة محددة | جلسات Bearer مجزأة، PBKDF2، bootstrap، permissions، أدوار، audit write path | موجود لدى M.GH.AL؛ يلزم اختبار runtime ومراجعة سياسات auth. |
 | API / DB | لا توجد طبقة PostgreSQL/Prisma مماثلة في المرجع | Cloudflare Worker/D1 هو خط الإنتاج الحالي؛ Node.js + pg + Neon معاينة منفصلة | موجود جزئياً؛ لا يوجد Prisma في هذا المستودع ولا `schema.prisma`. |
@@ -121,6 +121,13 @@
 | Broken links / 404 / hydration | غير قابل للتحقق حياً | لا يوجد Playwright E2E في CI؛ لا وصول إلى browser console في هذه الجولة | شرط قبول في المرحلة الثانية. |
 
 ## 6. التحقيقات الخاصة
+
+### ازدواج الواجهة بين Next والصفحات الثابتة
+
+- `app/layout.tsx` يحمّل `SiteHeader` و`SiteSearch` وvisitor/social scripts، لكنه لا يحمّل `/assets/site.js`.
+- `public/assets/site.js` يُحمّل في الصفحات الثابتة والمشاريع المولّدة؛ وهو ينشئ search overlay آخر، وشريط تقدم، وزر العودة للأعلى، ويسجل service worker، ثم يحمّل section rail.
+- لذلك search وnavigation وPWA ليست طبقة واحدة مشتركة حالياً؛ توجد نسختان من البحث ونسختان من shell، بينما progress/section rail وservice worker لا تعمل تلقائياً على Next routes.
+- service worker يطبّق network-first على navigation، وعند غياب الصفحة من cache offline قد يرجع إلى `/offline.html` ثم `/index.html` القديمة؛ لا أعتبر ذلك offline support مكتملاً لصفحات Next.
 
 ### UI وCSS والأصول
 
