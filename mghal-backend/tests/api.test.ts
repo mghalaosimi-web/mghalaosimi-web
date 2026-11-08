@@ -23,6 +23,9 @@ describe("public social client invariants",()=>{
  it("does not infer email from browser identity or mailbox APIs",()=>{
   expect(source).not.toMatch(/navigator\\.email|localStorage\\.getItem\\(['"]email['"]\\)|document\\.cookie[^;]*email/i);
   expect(source).toContain("consent:consent.checked");
+  expect(source).toContain("/api/public/followers/guest");
+  expect(source).toContain("guestFollow:'تابع كمستخدم مجهول'");
+  expect(source).toContain("guestFollow.hidden=false");
  });
  it("exposes accessible loading, pressed, status, and explanatory states",()=>{
   expect(source).toContain("aria-busy");
