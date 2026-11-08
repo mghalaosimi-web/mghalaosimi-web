@@ -28,3 +28,4 @@ assert.match(shell, /--mghal-color-gold:#B69A62/, "The central gold token is req
 assert.match(shell, /prefers-reduced-motion:reduce/, "Reduced-motion support is required.");
 assert.match(layout, /<SiteHeader isEn=\{isEn\}\/>/, "The shared navigation must be mounted globally.");
 console.log("Next.js navigation tests passed: 8 routes, sticky horizontal rail, RTL/LTR swipe, control guards, edge gestures, and shared brand tokens.");
+assert.match(header, /scrollIntoView/, "The active route must be brought into view inside the horizontal rail.");
