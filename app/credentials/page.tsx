@@ -1,7 +1,7 @@
 import type {Metadata} from 'next';
 import {cookies} from 'next/headers';
 import {localizedAlternates} from '../../lib/seo';
-import {ArrowUpRight,Award,BookOpenCheck,CheckCircle2,ExternalLink} from 'lucide-react';
+import {Award,ExternalLink} from 'lucide-react';
 
 export async function generateMetadata():Promise<Metadata>{
   const en=(await cookies()).get('portfolio-locale')?.value==='en';
