@@ -40,7 +40,7 @@ npm test
 npm start
 ```
 
-The health endpoint remains `GET /health`; all existing `/api/public/*` and `/api/admin/*` routes are dispatched through the same API handler.
+The existing `GET /health` API contract remains available. The Node runtime also exposes `GET /live` for process liveness and `GET /ready` for a PostgreSQL `SELECT 1` readiness probe (503 when the database is unavailable). All existing `/api/public/*` and `/api/admin/*` routes are still dispatched through the same API handler.
 
 ## Compatibility and rollout
 
