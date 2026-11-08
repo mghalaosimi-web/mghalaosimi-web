@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run audit:design && npm run test:navigation && npm run test:search && next build",
+    "build": "npm run audit:design && npm run audit:pwa && npm run test:navigation && npm run test:search && npm run test:project-case-studies && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "audit:credentials": "node scripts/audit-credentials.mjs",
@@ -16,7 +16,9 @@
     "test:sitemap": "node --test scripts/test-sitemap.test.mjs",
     "test:navigation": "node scripts/test-navigation.mjs",
     "audit:design": "node scripts/audit-design.mjs",
-    "test:search": "node scripts/test-search-palette.mjs"
+    "test:search": "node scripts/test-search-palette.mjs",
+    "audit:pwa": "node scripts/audit-pwa.mjs",
+    "test:project-case-studies": "node scripts/test-project-case-studies.mjs"
   },
   "dependencies": {
     "next": "15.5.28",
