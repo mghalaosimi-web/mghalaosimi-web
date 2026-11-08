@@ -20,6 +20,8 @@ const tokens = {
   "--mghal-dark-muted": "#AEB8BB",
   "--mghal-dark-surface-alt": "#1D2D3C",
   "--mghal-dark-surface-contrast": "#293F53",
+  "--mghal-dark-surface-deep": "#101922",
+  "--mghal-dark-border-cool": "rgba(174, 184, 187, .14)",
   "--mghal-dark-muted-strong": "#82929D",
   "--mghal-dark-text-soft": "#D5D0C6",
   "--mghal-dark-border-soft": "rgba(182, 154, 98, .14)",
@@ -29,6 +31,7 @@ const tokens = {
   "--mghal-state-danger": "#D06D6D",
   "--mghal-state-info": "#6EA0CF",
   "--mghal-state-disabled": "#7B8794",
+  "--mghal-shadow-raised": "0 5px 0 rgba(3, 8, 12, .62), 0 12px 24px rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .07)",
   "--mghal-light-bg": "#FFFFFF",
   "--mghal-light-surface": "#F3F5F7",
   "--mghal-light-text": "#202B38",
@@ -58,6 +61,11 @@ assert.ok(search.includes("<dialog") && search.includes("onCancel={close}"), "Se
 assert.ok(globals.includes("--brass:var(--mghal-brand-gold"), "Global gold aliases must use the shared brand token.");
 assert.ok(globals.includes("--copper:var(--mghal-brand-blue"), "Global accent aliases must use the shared blue token.");
 assert.ok(globals.includes("--ink-950:var(--mghal-dark-bg"), "Global backgrounds must use the shared background token.");
+assert.ok(globals.includes("--ink-800:var(--mghal-dark-surface-alt"), "Global graphite surfaces must use the shared token set.");
+assert.ok(globals.includes("--shadow-raised:var(--mghal-shadow-raised"), "Raised controls must use the shared elevation token.");
+for (const [index, style] of routeStyles.entries()) {
+  assert.ok(!/#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})(?![0-9a-fA-F])/.test(style), `Route stylesheet ${index + 1} must not reintroduce hard-coded colors.`);
+}
 assert.ok(layout.includes("<SiteHeader isEn={isEn}/>"), "The shared header must be mounted globally.");
 
 console.log("M.GH.AL design audit passed: shared brand/surface tokens, sticky horizontal navigation, RTL/LTR gesture guards, focus visibility and reduced motion.");
