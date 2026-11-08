@@ -2,22 +2,17 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { DEFAULT_MGHAL_API_UPSTREAM, resolveMghalApiUpstream } from '../lib/api-proxy-policy.mjs';
 
-test('only approved production hosts retain the production API origin', () => {
-  for (const host of [
-    'mghalaosimi-web.vercel.app',
-    'mghal.vercel.app',
-    'mghal-official.onrender.com'
-  ]) {
-    assert.equal(
-      resolveMghalApiUpstream(`https://${host}/api/health`, {}),
-      DEFAULT_MGHAL_API_UPSTREAM,
-      host + ' must resolve to the production API'
-    );
-  }
+test('only the official Vercel production host resolves to the production API', () => {
+  assert.equal(
+    resolveMghalApiUpstream('https://mghalaosimi-web.vercel.app/api/health', {}),
+    DEFAULT_MGHAL_API_UPSTREAM
+  );
 });
 
-test('all Render release and final-preview hosts fail closed by default', () => {
+test('legacy aliases and all Render hosts fail closed by default', () => {
   for (const host of [
+    'mghal.vercel.app',
+    'mghal-official.onrender.com',
     'mghal-static.onrender.com',
     'mghal-release.onrender.com',
     'mghal-release-current.onrender.com',
@@ -35,7 +30,7 @@ test('all Render release and final-preview hosts fail closed by default', () => 
   }
 });
 
-test('the final web preview can use only the explicitly configured isolated Node API', () => {
+test('the final Render web preview can use only the explicitly configured isolated Node API', () => {
   const url = 'https://mghal-final-web.onrender.com/api/health';
   assert.equal(
     resolveMghalApiUpstream(url, { MGHAL_PREVIEW_API_BASE: 'https://mghal-node-api-preview.onrender.com' }),
