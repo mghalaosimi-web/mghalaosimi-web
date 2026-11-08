@@ -21,7 +21,7 @@ const skillGroups=[
 ];
 export default function HomePageEnglish(){
  const featured=projects.filter(project=>project.featured).slice(0,3);
- return <main className="home-v2" dir="ltr">
+ return <main id="main" className="home-v2" dir="ltr">
   <section className="hv-hero" aria-labelledby="home-title">
    <div className="hv-hero-grid" aria-hidden="true"/>
    <div className="hv-hero-copy">
@@ -39,7 +39,7 @@ export default function HomePageEnglish(){
    </div>
    <div className="hv-hero-visual hv-portrait-visual" aria-label="Portrait of Mohammed Ghaleb Alaosimi">
     <div className="hv-portrait-grid" aria-hidden="true"/>
-    <Image src="/images/mghal-avatar.webp" alt="Mohammed Ghaleb Alaosimi" fill priority sizes="(max-width: 640px) 90vw, 42vw" className="hv-portrait-image"/>
+    <Image src="/assets/images/mghal-avatar.webp" alt="Mohammed Ghaleb Alaosimi" fill priority sizes="(max-width: 640px) 90vw, 42vw" className="hv-portrait-image"/>
     <div className="hv-portrait-shade"/>
     <div className="hv-visual-top"><span>M.GH.AL / 01</span><span>ENGINEERING PROFILE</span></div>
     <div className="hv-portrait-stamp"><Code2 size={18}/><span>DESIGN<br/>BUILD<br/>DELIVER</span></div>
