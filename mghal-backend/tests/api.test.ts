@@ -39,7 +39,8 @@ describe("public social client invariants",()=>{
  it("uses server-provided reaction counts",()=>{
   expect(source).toContain("data.counts.like");
   expect(source).toContain("data.counts.clap");
-  expect(source).toContain("/api/public/reactions?");
+  expect(source).toContain("type==='page'?'/api/public/site-reactions':'/api/public/reactions'");
+  expect(source).toContain("endpoint+'?'+query.toString()");
  });
 });
 
