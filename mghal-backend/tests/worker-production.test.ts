@@ -73,7 +73,7 @@ function siteReactionDb() {
   return {
     prepare(sql: string) {
       return {
-        bind(...params: unknown[]) {
+        bind() {
           return {
             async run() { return { success: true, meta: { changes: 1 } }; },
             async first() {
