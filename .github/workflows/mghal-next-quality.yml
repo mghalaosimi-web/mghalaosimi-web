@@ -20,6 +20,7 @@ jobs:
       - run: npm run audit:profile
       - run: npm run audit:design
       - run: npm run test:api-proxy
+      - run: npm run test:security-headers
       - run: npm run test:seo
       - run: npm run test:sitemap
       - run: npm run test:navigation
