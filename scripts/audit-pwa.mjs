@@ -32,6 +32,13 @@ assert.ok(cacheVersion && /^[0-9]+$/.test(cacheVersion), "Service worker cache v
 const coreCount = assertCachedFilesExist("CORE_ASSETS", "Core asset");
 const pageCount = assertCachedFilesExist("APP_PAGES", "Offline page");
 assert.ok(worker.includes('request.mode === "navigate"'), "Document requests must use the network-first strategy.");
+
+assert.ok(worker.includes('const CACHED_DOCUMENT_PATHS = new Set(["/index.html", ...APP_PAGES]);'), "Only locale-stable legacy pages may be cached as documents.");
+const coreStart = worker.indexOf("const CORE_ASSETS = [");
+const coreEnd = worker.indexOf("];", coreStart);
+assert.ok(!worker.slice(coreStart, coreEnd).includes('"/"'), "The cookie-localized Next.js homepage must not be pre-cached.");
+assert.ok(worker.includes("const cacheable = CACHED_DOCUMENT_PATHS.has(path);"), "Navigation caching must be restricted to the explicit static page allowlist.");
+assert.ok(worker.includes("const exact = cacheable ? await cache.match(request) : null;"), "Dynamic Next.js routes must not be served from a locale-ambiguous cache.");
 assert.ok(worker.includes('cache.match("/offline.html")'), "Failed navigations must have a local offline fallback.");
 assert.ok(site.includes('navigator.serviceWorker.register("/sw.js"'), "Legacy pages must register the service worker.");
 assert.ok(offline.includes('href="#main-content"'), "Offline page must provide keyboard skip navigation.");
