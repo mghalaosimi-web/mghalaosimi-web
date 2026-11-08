@@ -38,6 +38,7 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
         startTarget = null; return;
       }
       const touch = event.touches[0];
+      if (touch.clientX < 20 || touch.clientX > window.innerWidth - 20) { startTarget = null; return; }
       startX = touch.clientX;
       startY = touch.clientY;
       startedAt = Date.now();
@@ -59,11 +60,14 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
       router.push(links[nextIndex].href);
     };
 
+    const onTouchCancel = () => { startTarget = null; };
     document.addEventListener('touchstart', onTouchStart, { passive: true });
     document.addEventListener('touchend', onTouchEnd, { passive: true });
+    document.addEventListener('touchcancel', onTouchCancel, { passive: true });
     return () => {
       document.removeEventListener('touchstart', onTouchStart);
       document.removeEventListener('touchend', onTouchEnd);
+      document.removeEventListener('touchcancel', onTouchCancel);
     };
   }, [pathname, isEn, router]);
 
