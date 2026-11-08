@@ -1,3 +1,4 @@
+@import url('./design-tokens.css');
 /* Accessible project-catalog filters; all values are derived from existing project cards. */
 .project-tools {
   display: grid;
@@ -6,9 +7,9 @@
   gap: 12px;
   margin: 8px 0 0;
   padding: 18px;
-  border: 1px solid #DCE2E8;
+  border: 1px solid var(--mghal-light-border);
   border-radius: 16px;
-  background: #FFFFFF;
+  background: var(--mghal-light-bg);
   box-shadow: 0 12px 30px rgba(23, 43, 77, 0.05);
 }
 
@@ -21,7 +22,7 @@
 }
 
 .project-filter-field label {
-  color: #172B4D;
+  color: var(--mghal-brand-navy);
   font-size: 13px;
   font-weight: 700;
 }
@@ -31,50 +32,50 @@
   width: 100%;
   min-height: 46px;
   padding: 10px 12px;
-  border: 1px solid #DCE2E8;
+  border: 1px solid var(--mghal-light-border);
   border-radius: 10px;
-  background: #FFFFFF;
-  color: #202B38;
+  background: var(--mghal-light-bg);
+  color: var(--mghal-light-text);
   font: inherit;
 }
 
 .project-filter-control:focus-visible,
 .project-reset:focus-visible {
-  outline: 3px solid #315A85;
+  outline: 3px solid var(--mghal-brand-blue);
   outline-offset: 3px;
 }
 
 .project-reset {
   min-height: 46px;
   padding: 10px 16px;
-  border: 1px solid #172B4D;
+  border: 1px solid var(--mghal-brand-navy);
   border-radius: 10px;
-  background: #172B4D;
-  color: #FFFFFF;
+  background: var(--mghal-brand-navy);
+  color: var(--mghal-light-bg);
   font: inherit;
   font-weight: 700;
   cursor: pointer;
 }
 
 .project-reset:hover {
-  border-color: #315A85;
-  background: #315A85;
+  border-color: var(--mghal-brand-blue);
+  background: var(--mghal-brand-blue);
 }
 
 .project-count {
   min-height: 1.6em;
   margin: 12px 4px 0;
-  color: #64748B;
+  color: var(--mghal-light-muted);
   font-size: 13px;
 }
 
 .project-empty {
   margin: 0 0 70px;
   padding: 24px;
-  border: 1px dashed #B69A62;
+  border: 1px dashed var(--mghal-brand-gold);
   border-radius: 14px;
-  background: #FFFFFF;
-  color: #64748B;
+  background: var(--mghal-light-bg);
+  color: var(--mghal-light-muted);
   text-align: center;
 }
 
