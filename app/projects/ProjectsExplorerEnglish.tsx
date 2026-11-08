@@ -58,17 +58,17 @@ export default function ProjectsExplorerEnglish(){
     </div>
    </div>
   </section>}
-  {featuredVisible&&featured&&<section className="portfolio-aegis-gallery" aria-labelledby="waynah-gallery-title">
-   <div className="portfolio-aegis-gallery-heading">
+  {featuredVisible&&featured&&<section className="portfolio-waynah-gallery" aria-labelledby="waynah-gallery-title">
+   <div className="portfolio-waynah-gallery-heading">
     <div><span>WAYNAH / SYSTEM OVERVIEW</span><h2 id="waynah-gallery-title">A look at the engineering concept</h2><p>A high-level view of the product’s focus: spatial data, resilient access under limited connectivity, and trusted local discovery.</p></div>
-    <span className="portfolio-aegis-gallery-index">SYSTEM NOTES / 03</span>
+    <span className="portfolio-waynah-gallery-index">SYSTEM NOTES / 03</span>
    </div>
-   <div className="portfolio-aegis-gallery-grid">
-    <article className="portfolio-aegis-visual-card"><div className="portfolio-aegis-visual-frame"><div className="waynah-visual-art"><MapPin/><b>GEOGRAPHIC DATA</b><small>WGS84 · POSTGIS</small></div></div><div><span>01 / SPATIAL FOUNDATION</span><h3>Spatial foundation</h3><p>Representing places and geographic data through a spatial database.</p></div></article>
-    <article className="portfolio-aegis-visual-card"><div className="portfolio-aegis-visual-frame"><div className="waynah-visual-art"><WifiOff/><b>OFFLINE-FIRST</b><small>LOW CONNECTIVITY</small></div></div><div><span>02 / RESILIENT EXPERIENCE</span><h3>Resilient user experience</h3><p>Designing access flows that account for weak or intermittent connectivity.</p></div></article>
-    <article className="portfolio-aegis-visual-card"><div className="portfolio-aegis-visual-frame"><div className="waynah-visual-art"><Database/><b>TRUSTED DIRECTORY</b><small>LOCAL DISCOVERY</small></div></div><div><span>03 / LOCAL INFORMATION</span><h3>Trusted local directory</h3><p>Organizing place and service information according to documented evidence.</p></div></article>
+   <div className="portfolio-waynah-gallery-grid">
+    <article className="portfolio-waynah-visual-card"><div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><MapPin/><b>GEOGRAPHIC DATA</b><small>WGS84 · POSTGIS</small></div></div><div><span>01 / SPATIAL FOUNDATION</span><h3>Spatial foundation</h3><p>Representing places and geographic data through a spatial database.</p></div></article>
+    <article className="portfolio-waynah-visual-card"><div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><WifiOff/><b>OFFLINE-FIRST</b><small>LOW CONNECTIVITY</small></div></div><div><span>02 / RESILIENT EXPERIENCE</span><h3>Resilient user experience</h3><p>Designing access flows that account for weak or intermittent connectivity.</p></div></article>
+    <article className="portfolio-waynah-visual-card"><div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><Database/><b>TRUSTED DIRECTORY</b><small>LOCAL DISCOVERY</small></div></div><div><span>03 / LOCAL INFORMATION</span><h3>Trusted local directory</h3><p>Organizing place and service information according to documented evidence.</p></div></article>
    </div>
-   <Link href="/en/projects/waynah" className="portfolio-aegis-gallery-link">Explore the WAYNAH project profile <ArrowUpRight size={16}/></Link>
+   <Link href="/en/projects/waynah" className="portfolio-waynah-gallery-link">Explore the WAYNAH project profile <ArrowUpRight size={16}/></Link>
   </section>}
   <section className="portfolio-archive-collection" id="project-collection"><div className="portfolio-archive-section-heading"><div><span>THE WORK / SELECTED PROJECTS</span><h2>Projects & engineering work</h2><p>Browse by domain, with each project’s nature, current status, and available references clearly identified.</p></div><div className="portfolio-archive-count"><strong>{(visible.length+(featuredVisible?1:0)).toString().padStart(2,'0')}</strong><small>PROJECTS</small></div></div>
   <div className="portfolio-archive-filters" role="group" aria-label="Filter projects">{filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?projects.length:archive.filter(p=>p.category===f.id).length+(featured&&featured.category===f.id?1:0)}</span></button>)}</div>
