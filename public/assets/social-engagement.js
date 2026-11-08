@@ -84,7 +84,7 @@ function reactionWidget(type,id){
    const query=new URLSearchParams({targetType:type,targetId:id}),options=token?{headers:{'X-Visitor-Token':token}}:{};
    const data=await json('/api/public/reactions?'+query.toString(),options);if(!data.counts||typeof data.counts!=='object')throw new Error(words.countUnavailable);
    const localState=token?readLocalState(token):{like:false,clap:false};
-   state=data.viewerReactions||{like:!!data.reacted,clap:localState.clap};
+   state=data.viewerReactions||{like:localState.like||!!data.reacted,clap:localState.clap};
    if(token)saveLocalState(token);
    like.textContent=words.like+' · '+Number(data.counts.like||0).toLocaleString(en?'en':'ar');clap.textContent=words.clap+' · '+Number(data.counts.clap||0).toLocaleString(en?'en':'ar');
    like.setAttribute('aria-pressed',String(!!state.like));clap.setAttribute('aria-pressed',String(!!state.clap));countsReady=true;return true;
