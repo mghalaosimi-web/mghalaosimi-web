@@ -19,7 +19,7 @@ for (const project of catalog.projects) {
   assert.ok(project.summary?.ar && project.summary?.en && project.problem?.ar && project.problem?.en, "Bilingual summaries and problem statements are required.");
   assert.ok(Array.isArray(project.technologies) && Array.isArray(project.features) && Array.isArray(project.gallery), "Technology, feature and gallery arrays are required.");
   assert.ok(project.cover?.startsWith("/assets/projects/"), "Project covers must use local portfolio assets.");
-  assert.ok(existsSync(path.join(root, project.cover.slice(1))), "Missing project cover: " + project.cover);
+  assert.ok(existsSync(path.join(publicRoot, project.cover.slice(1))), "Missing project cover: " + project.cover);
   if (project.repository) assert.match(project.repository, /^https:\/\/github\.com\/mghalaosimi-web\//, "Repository links must point to the expected public owner.");
   if (project.visibility?.ar?.includes("خاص")) assert.equal(project.repository, null, "Private repositories must never be linked publicly.");
   for (const image of project.gallery) {
