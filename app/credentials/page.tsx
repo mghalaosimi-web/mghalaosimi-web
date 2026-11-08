@@ -1,4 +1,5 @@
 import type {Metadata} from 'next';
+import Image from 'next/image';
 import {cookies} from 'next/headers';
 import {localizedAlternates} from '../../lib/seo';
 import {Award,ExternalLink} from 'lucide-react';
@@ -112,7 +113,7 @@ function CredentialCard({credential,index,en}:{credential:Credential;index:numbe
         </div>
         <div className="certificate-document-preview">
           {credential.preview
-            ? <img src={'/assets/certificates/'+credential.preview} alt={(en?'Preview: ':'معاينة: ')+(en?credential.nameEn:credential.name)} loading="lazy" decoding="async"/>
+            ? <Image src={'/assets/certificates/'+credential.preview} alt={(en?'Preview: ':'معاينة: ')+(en?credential.nameEn:credential.name)} width={720} height={520} loading="lazy" unoptimized className="credential-preview-image"/>
             : <div className="credential-document-placeholder"><Award/><b>{credential.provider==='Cisco'?'CISCO':credential.provider==='Edraak'?'EDRAAK':'OpenJS'}</b><small>{credential.provider==='OpenJS'?'JSNAD':'DIGITAL CREDENTIAL'}</small></div>}
         </div>
         <div className="certificate-actions">
@@ -138,7 +139,7 @@ function CredentialCard({credential,index,en}:{credential:Credential;index:numbe
         <aside className="wallet-badge-column">
           <div className="wallet-badge-logo">
             <span className="credential-panel-label">M.GH.AL / CREDENTIAL</span>
-            <div className="credential-badge-placeholder">{credential.badgeImage?<img src={credential.badgeImage} alt={(en?"Official Credly badge for ":"شارة Credly الأصلية لاعتماد ")+(en?credential.nameEn:credential.name)} loading="lazy" decoding="async"/>:<Award/>}<b>{credential.provider==='OpenJS'?'JSNAD':credential.provider==='Edraak'?'EDRAAK':'CISCO'}</b><small>{String(index+1).padStart(2,'0')} / 18</small></div>
+            <div className="credential-badge-placeholder">{credential.badgeImage?<Image src={credential.badgeImage} alt={(en?"Official Credly badge for ":"شارة Credly الأصلية لاعتماد ")+(en?credential.nameEn:credential.name)} width={112} height={112} loading="lazy" unoptimized className="credential-badge-image"/>:<Award/>}<b>{credential.provider==='OpenJS'?'JSNAD':credential.provider==='Edraak'?'EDRAAK':'CISCO'}</b><small>{String(index+1).padStart(2,'0')} / 18</small></div>
           </div>
         </aside>
       </div>
