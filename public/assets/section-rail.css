@@ -17,7 +17,7 @@ body{padding:0!important}
   width:min(1200px,calc(100% - 32px));min-height:58px;margin-inline:auto;
 }
 .nav>.brand,.cert-nav>.brand,.cert-brand{
-  flex:0 0 auto;color:#fff!important;white-space:nowrap;
+  flex:0 0 auto;color:var(--mghal-light-bg)!important;white-space:nowrap;
 }
 .navlinks,.nav .navlinks,.cert-nav-links{
   display:flex!important;align-items:center!important;justify-content:flex-start!important;
@@ -35,18 +35,18 @@ body{padding:0!important}
   display:inline-flex!important;align-items:center;justify-content:center;
   flex:0 0 auto!important;min-width:max-content;min-height:40px;
   padding:8px 11px!important;border:1px solid transparent!important;border-radius:8px;
-  background:transparent!important;color:#d8e0e8!important;
+  background:transparent!important;color:var(--mghal-light-border-soft)!important;
   font-size:12px!important;font-weight:650;line-height:1.4;
   text-decoration:none!important;white-space:nowrap!important;
   scroll-snap-align:start;transition:background .15s,border-color .15s,color .15s;
 }
 .navlinks a:hover,.cert-nav-links a:hover{
   border-color:var(--mghal-brand-gold)!important;
-  background:rgba(182,154,98,.12)!important;color:#fff!important;
+  background:rgba(182,154,98,.12)!important;color:var(--mghal-light-bg)!important;
 }
 .navlinks a[aria-current=page],.cert-nav-links a[aria-current=page]{
   border-color:var(--mghal-brand-gold)!important;
-  background:rgba(182,154,98,.2)!important;color:#fff!important;
+  background:rgba(182,154,98,.2)!important;color:var(--mghal-light-bg)!important;
   box-shadow:inset 0 -2px var(--mghal-brand-gold);
 }
 .navlinks a:focus-visible,.cert-nav-links a:focus-visible,
@@ -59,7 +59,7 @@ body{padding:0!important}
 .site-controls .site-icon-button{
   display:inline-flex;align-items:center;justify-content:center;gap:7px;
   min-height:40px;padding:8px 11px;border:1px solid rgba(182,154,98,.4)!important;
-  border-radius:8px;background:rgba(255,255,255,.06)!important;color:#fff!important;
+  border-radius:8px;background:rgba(255,255,255,.06)!important;color:var(--mghal-light-bg)!important;
 }
 .site-controls .site-icon-button:hover{background:rgba(182,154,98,.15)!important}
 .site-controls .site-icon-button svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
