@@ -9,7 +9,7 @@ const channels = [
  {name:'WhatsApp · Primary',detail:'Direct WhatsApp messages',value:'+967 776 778 675',href:'https://wa.me/967776778675',icon:MessageCircle},
  {name:'Call · Primary',detail:'Direct phone call',value:'+967 776 778 675',href:'tel:+967776778675',icon:Phone},
  {name:'WhatsApp · Secondary',detail:'Alternative WhatsApp number',value:'+967 773 775 747',href:'https://wa.me/967773775747',icon:MessageCircle},
- {name:'Call · Secondary',detail:'Alternative phone number',value:'+967 773 775 747',href:'tel:+967773775747',icon:Phone}
+ {name:'Call · Secondary',detail:'Alternative phone number',value:'+967 773 775 747',href:'tel:+967773775747',icon:Phone},
  {name:'ORCID',detail:'Research identity and record',value:'0009-0000-6007-3170',href:'https://orcid.org/0009-0000-6007-3170',icon:Microscope},
  {name:'Credly',detail:'Verified digital badges and credentials',value:'View digital credentials',href:'https://www.credly.com/users/mohammed-ghaleb-al-aosimi',icon:Layers3},
  {name:'Instagram',detail:'Personal and professional updates',value:'@q_v94',href:'https://www.instagram.com/q_v94/',icon:Instagram},
