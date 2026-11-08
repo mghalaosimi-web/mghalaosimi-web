@@ -527,3 +527,28 @@ html[dir="rtl"] .mghal-search-results a{padding:10px 12px 10px 38px}
 @media(prefers-reduced-motion:reduce){
   .mghal-search-trigger,.mghal-search-results a{transition:none!important}
 }
+
+/* Shared reading progress for long Next.js routes. */
+.mghal-reading-progress{
+  position:fixed;
+  inset-block-start:0;
+  inset-inline-start:0;
+  z-index:120;
+  width:100%;
+  height:3px;
+  transform:scaleX(var(--mghal-reading-progress,0));
+  transform-origin:left;
+  background:linear-gradient(90deg,var(--mghal-color-blue),var(--mghal-color-gold));
+  pointer-events:none;
+}
+html[dir="rtl"] .mghal-reading-progress{transform-origin:right}
+@media(prefers-reduced-motion:reduce){
+  .mghal-reading-progress{transition:none!important;animation:none!important}
+}
+
+
+/* WCAG AA contrast overrides for the dark M.GH.AL surface system. */
+.mghal-card h3,.mghal-skill-group h3{color:var(--mghal-color-text)}
+.mghal-tags span,.mghal-status,.mghal-skill-list span,.mghal-skill-toggle>strong,.mghal-skill-icon,.mghal-research-card strong{color:var(--mghal-color-focus)}
+.mghal-skill-note{color:var(--mghal-color-text)}
+.mghal-filter-row button:not(.active){background:var(--mghal-color-surface-raised);color:var(--mghal-color-text);border-color:var(--mghal-color-border)}

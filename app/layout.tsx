@@ -4,6 +4,7 @@ import './globals.css';
 import './mghal-portfolio.css';
 import Script from 'next/script';
 import SiteHeader from './components/SiteHeader';
+import SiteExperience from './components/SiteExperience';
 import {siteJsonLd} from '../lib/structured-data';
 
 export const metadata: Metadata = {
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   title: { default: 'M.GH.AL | Mohammed Ghaleb Alaosimi', template: '%s | M.GH.AL' },
   description: 'الهوية الرقمية الرسمية لمحمد غالب العصيمي (M.GH.AL) — مطور Full-Stack وطالب تقنية معلومات، مع المشاريع والشهادات والسيرة الذاتية والروابط المهنية.',
   applicationName: 'M.GH.AL',
+  manifest: '/manifest.json',
   keywords: ['محمد غالب العصيمي','Mohammed Ghaleb Alaosimi','M.GH.AL','Full-Stack Developer','Software Engineer','Information Technology','Yemen'],
   authors: [{ name: 'Mohammed Ghaleb Alaosimi', url: 'https://mghalaosimi-web.vercel.app' }],
   alternates: { canonical: '/' },
@@ -44,7 +46,7 @@ export default async function RootLayout({children}:{children:React.ReactNode}) 
   const structuredData=JSON.stringify(siteJsonLd()).replace(/</g,'\\u003c');
 
   return (
-    <html lang={locale} dir={isEn?'ltr':'rtl'}>
+    <html lang={locale} dir={isEn?'ltr':'rtl'} data-mghal-theme="dark">
       <head>
         <link rel="stylesheet" href="/assets/design-tokens.css"/>
         <link rel="stylesheet" href="/assets/social-engagement.css"/>
@@ -52,6 +54,7 @@ export default async function RootLayout({children}:{children:React.ReactNode}) 
       </head>
       <body>
         <a className="skip-link" href="#main">{isEn?'Skip to content':'تجاوز إلى المحتوى'}</a>
+        <SiteExperience/>
         <SiteHeader isEn={isEn}/>
         {children}
         <footer className="mghal-footer">
