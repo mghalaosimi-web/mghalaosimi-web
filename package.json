@@ -15,7 +15,8 @@
     "test:seo": "node --test scripts/test-seo-alternates.test.mjs",
     "test:sitemap": "node --test scripts/test-sitemap.test.mjs",
     "test:navigation": "node scripts/test-navigation.mjs",
-    "audit:design": "node scripts/audit-design.mjs"
+    "audit:design": "node scripts/audit-design.mjs",
+    "test:search": "node scripts/test-search-palette.mjs"
   },
   "dependencies": {
     "next": "15.5.28",
