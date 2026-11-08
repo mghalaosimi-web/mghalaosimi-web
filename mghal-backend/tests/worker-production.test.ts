@@ -69,6 +69,30 @@ function engagementDb() {
 }
 
 
+function siteReactionDb() {
+  return {
+    prepare(sql: string) {
+      return {
+        bind(...params: unknown[]) {
+          return {
+            async run() { return { success: true, meta: { changes: 1 } }; },
+            async first() {
+              if (sql.includes("SELECT id,status,display_name,consent_at FROM followers")) {
+                return { id: "follower-1", status: "active", display_name: null, consent_at: null };
+              }
+              if (sql.includes("COUNT(DISTINCT session_hash)")) return { count: 9 };
+              if (sql.includes("SELECT id FROM analytics_events")) return { id: "site-like-1" };
+              if (sql.includes("DELETE FROM analytics_events")) return { id: "site-like-1" };
+              return null;
+            },
+            async all() { return { results: [] }; },
+          };
+        },
+      };
+    },
+  };
+}
+
 function googleIdentityDb() {
   const base = engagementDb();
   return {
@@ -610,6 +634,30 @@ describe("production Worker security contract", () => {
     }), { DB: engagementDb() } as never);
     expect(response.status).toBe(200);
     expect(await response.json()).toMatchObject({ success: true, following: false });
+  });
+
+  it("records and returns a durable homepage like for the visitor identity", async () => {
+    const token = "a".repeat(64);
+    const db = siteReactionDb();
+    const get = await productionWorker.fetch(new Request("https://api.example.test/api/public/site-reactions?targetId=mghal-home", {
+      headers: { "X-Visitor-Token": token },
+    }), { DB: db } as never);
+    expect(get.status).toBe(200);
+    expect(await get.json()).toMatchObject({ targetType: "page", targetId: "mghal-home", counts: { like: 9 }, viewerReactions: { like: true } });
+
+    const post = await productionWorker.fetch(new Request("https://api.example.test/api/public/site-reactions", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: token, targetId: "mghal-home", reaction: "like" }),
+    }), { DB: db } as never);
+    expect(post.status).toBe(200);
+    expect(await post.json()).toMatchObject({ success: true, created: false });
+
+    const remove = await productionWorker.fetch(new Request("https://api.example.test/api/public/site-reactions", {
+      method: "DELETE", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: token, targetId: "mghal-home", reaction: "like" }),
+    }), { DB: db } as never);
+    expect(remove.status).toBe(200);
+    expect(await remove.json()).toMatchObject({ success: true, removed: true });
   });
 
   it("returns viewer-specific like and clap state for a visitor", async () => {
