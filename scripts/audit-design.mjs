@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 const css = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
 const header = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
 const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
+const globals = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 
 const tokens = {
   "--mghal-color-navy": "#172B4D",
