@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 type SiteHeaderProps = { isEn: boolean };
 const links = [
-  { href: '/', ar: 'الرئيسية', en: 'الرئيسية' },
+  { href: '/', ar: 'الرئيسية', en: 'Home' },
   { href: '/about', ar: 'نبذة عني', en: 'About' },
   { href: '/skills', ar: 'المهارات', en: 'Skills' },
   { href: '/projects', ar: 'المشاريع', en: 'Projects' },
