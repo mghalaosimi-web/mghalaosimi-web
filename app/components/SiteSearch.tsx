@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import Link from 'next/link';
 
 type SearchRecord = {
@@ -166,7 +166,7 @@ export default function SiteSearch({ isEn }: { isEn: boolean }) {
 
   const close = () => setOpen(false);
 
-  const moveResultFocus = (event: React.KeyboardEvent<HTMLUListElement>) => {
+  const moveResultFocus = (event: ReactKeyboardEvent<HTMLUListElement>) => {
     if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
     const links = Array.from(event.currentTarget.querySelectorAll<HTMLAnchorElement>('a[href]'));
     if (!links.length) return;
