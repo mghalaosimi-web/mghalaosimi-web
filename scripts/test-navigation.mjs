@@ -32,6 +32,13 @@ assert.ok(shell.includes("overflow-x:auto"), "The navigation rail must scroll ho
 assert.ok(shell.includes("touch-action:pan-x"), "The rail must accept horizontal touch scrolling.");
 assert.ok(shell.includes("position:static!important"), "The mobile navigation must not become a floating drawer.");
 assert.ok(shell.includes("min-width:max-content!important"), "Navigation labels must retain intrinsic width.");
+
+assert.ok(shell.includes('grid-template-areas:"brand language search cta" "nav nav nav nav"'), "Mobile navigation must occupy a visible second row rather than a hidden drawer.");
+assert.ok(shell.includes("display:flex!important"), "The mobile navigation rail must remain visible.");
+assert.ok(shell.includes("flex-direction:row!important"), "The mobile navigation rail must stay horizontal.");
+assert.ok(shell.includes("overflow-y:hidden!important"), "The rail must not introduce vertical overflow.");
+assert.ok(header.includes("data-horizontal-scroll"), "The navigation rail must be identified as a native horizontal scroll surface.");
+assert.ok(layout.includes("dir={isEn?'ltr':'rtl'}"), "The global document direction must follow the selected locale.");
 assert.ok(shell.includes("prefers-reduced-motion:reduce"), "Reduced-motion support is required.");
 assert.ok(shell.includes(":focus-visible"), "Visible keyboard focus styling is required.");
 
