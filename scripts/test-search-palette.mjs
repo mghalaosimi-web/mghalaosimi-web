@@ -1,0 +1,29 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+
+const component = readFileSync(new URL("../app/components/SiteSearch.tsx", import.meta.url), "utf8");
+const header = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
+const css = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
+const index = JSON.parse(readFileSync(new URL("../public/assets/search-index.json", import.meta.url), "utf8"));
+
+assert.ok(header.includes("import SiteSearch from './SiteSearch'"), "The shared header must import the search component.");
+assert.ok(header.includes("<SiteSearch isEn={isEn}/>"), "The shared header must mount the bilingual search component.");
+assert.ok(component.includes("fetch('/assets/search-index.json'"), "Search must use the existing verified content index.");
+assert.ok(component.includes(".normalize('NFKD')"), "Search must normalize Unicode input.");
+assert.ok(component.includes(".replace(/[أإآ]/g, 'ا')"), "Arabic alef variants must normalize consistently.");
+assert.ok(component.includes(".replace(/ى/g, 'ي')"), "Arabic ya variants must normalize consistently.");
+assert.ok(component.includes("event.ctrlKey || event.metaKey") && component.includes("event.key.toLowerCase() === 'k'"), "Ctrl/Command+K must open search.");
+assert.ok(component.includes("<dialog") && component.includes("showModal()"), "Search must use a native modal dialog.");
+assert.ok(component.includes("aria-labelledby=\"mghal-search-title\""), "The dialog must have an accessible name.");
+assert.ok(component.includes("onCancel={close}"), "Escape must close the native dialog.");
+assert.ok(component.includes("requestAnimationFrame(() => triggerRef.current?.focus())"), "Closing search must restore focus to its trigger.");
+assert.ok(component.includes("ArrowDown") && component.includes("ArrowUp"), "Keyboard users must be able to navigate results.");
+assert.ok(component.includes("'/projects.html': '/projects'"), "Legacy project search results must map to the current Next.js route.");
+assert.ok(component.includes("'/certificates.html': '/credentials'"), "Legacy certificate results must map to the current credentials route.");
+assert.ok(component.includes("'/skills.html': '/skills'"), "Legacy skill results must map to the current Next.js route.");
+assert.ok(component.includes("'/contact.html': '/contact'"), "Legacy contact results must map to the current Next.js route.");
+assert.ok(!component.includes("href: record.url"), "Search must not navigate to stale legacy HTML paths.");
+assert.ok(css.includes(".mghal-search-dialog::backdrop"), "The search dialog must have a styled backdrop.");
+assert.ok(css.includes("prefers-reduced-motion:reduce"), "Search controls must respect reduced motion.");
+assert.ok(index.some((record) => record.title.includes("WAYNAH")), "The indexed project data must remain available to search.");
+console.log(`Search palette tests passed: ${index.length} indexed records, Arabic normalization, bilingual route mapping, modal accessibility and keyboard controls.`);
