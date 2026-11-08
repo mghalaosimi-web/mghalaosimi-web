@@ -20,7 +20,7 @@ const channels=[
  {name:'WhatsApp · Primary',detail:'مراسلة مباشرة عبر واتساب',value:'+967 776 778 675',href:'https://wa.me/967776778675',icon:MessageCircle,kind:'direct'},
  {name:'Call · Primary',detail:'اتصال هاتفي مباشر',value:'+967 776 778 675',href:'tel:+967776778675',icon:Phone,kind:'direct'},
  {name:'WhatsApp · Secondary',detail:'رقم واتساب بديل',value:'+967 773 775 747',href:'https://wa.me/967773775747',icon:MessageCircle,kind:'direct'},
- {name:'Call · Secondary',detail:'اتصال على الرقم البديل',value:'+967 773 775 747',href:'tel:+967773775747',icon:Phone,kind:'direct'}
+ {name:'Call · Secondary',detail:'اتصال على الرقم البديل',value:'+967 773 775 747',href:'tel:+967773775747',icon:Phone,kind:'direct'},
  {name:'ORCID',detail:'الهوية والسجل البحثي',value:'0009-0000-6007-3170',href:'https://orcid.org/0009-0000-6007-3170',icon:Microscope,kind:'research'},
  {name:'Credly',detail:'الشارات والاعتمادات المهنية',value:'عرض الشهادات الرقمية',href:'https://www.credly.com/users/mohammed-ghaleb-al-aosimi',icon:GraduationCap,kind:'credentials'},
  {name:'Instagram',detail:'التحديثات الشخصية والمهنية',value:'@q_v94',href:'https://www.instagram.com/q_v94/',icon:Instagram,kind:'social'},
