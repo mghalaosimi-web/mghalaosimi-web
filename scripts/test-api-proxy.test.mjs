@@ -28,6 +28,12 @@ test('a preview may use only an explicit isolated HTTPS Worker origin', () => {
   );
 });
 
+test('allows only the explicitly named isolated Render Node API host', () => {
+  const url = 'https://mghal-final-preview.onrender.com/api/health';
+  assert.equal(resolveMghalApiUpstream(url, { MGHAL_PREVIEW_API_BASE: 'https://mghal-node-api-preview.onrender.com' }), 'https://mghal-node-api-preview.onrender.com');
+  assert.equal(resolveMghalApiUpstream(url, { MGHAL_PREVIEW_API_BASE: 'https://other-api.onrender.com' }), null);
+});
+
 test('rejects insecure, credentialed, path-based, non-Worker, or production preview upstreams', () => {
   const url = 'https://mghal-next-preview.onrender.com/api/health';
   for (const value of [
