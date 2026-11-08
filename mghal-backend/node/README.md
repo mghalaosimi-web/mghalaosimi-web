@@ -1,14 +1,14 @@
 # M.GH.AL Node.js API runtime
 
-This is the standalone Node.js runtime for the existing M.GH.AL API contract. It reuses the reviewed API handler in `../worker.production.js` through a small D1-compatible PostgreSQL adapter, so the public/admin route contract is preserved while the runtime and database move to Node.js + PostgreSQL.
+This is the canonical API runtime for M.GH.AL. It reuses the reviewed API contract in `../worker.production.js` through a small D1-compatible PostgreSQL adapter, with **Neon PostgreSQL as the only application database**.
 
 ## Runtime
 
 - Node.js 22+
-- PostgreSQL 17 (Neon)
+- Neon PostgreSQL
 - Native Node HTTP server; no Express dependency
 - `pg` connection pool
-- Existing API handler reused as a compatibility bridge
+- Shared API handler with PostgreSQL compatibility adapter
 
 ## Environment
 
@@ -36,15 +36,20 @@ Never commit `DATABASE_URL`, OAuth secrets, or owner bootstrap tokens.
 ## Local commands
 
 ```bash
-npm install
+npm ci
 npm test
 npm start
 ```
 
-The existing `GET /health` API contract remains available. The Node runtime also exposes `GET /live` for process liveness and `GET /ready` for a PostgreSQL `SELECT 1` readiness probe (503 when the database is unavailable). All existing `/api/public/*` and `/api/admin/*` routes are still dispatched through the same API handler.
+The existing `GET /health` API contract remains available. The Node runtime also exposes `GET /live` for process liveness and `GET /ready` for a PostgreSQL `SELECT 1` readiness probe (503 when the database is unavailable). All existing `/api/public/*` and `/api/admin/*` routes are dispatched through the same API handler.
 
-## Compatibility and rollout
+## Production routing and data ownership
 
-The adapter translates positional `?` placeholders and SQLite `COLLATE NOCASE` email lookups. D1 `batch()` operations execute inside a PostgreSQL transaction. The API code still requires full integration testing against PostgreSQL before production cutover, especially media BLOB handling, owner bootstrap, Google OAuth, admin CRUD, and all multi-statement operations.
+- The official Vercel site routes API requests to this Render Node service.
+- The legacy Cloudflare Worker URL is a thin proxy to this same Node service; it does not access D1.
+- Neon PostgreSQL is the only database used by application reads and writes.
+- Cloudflare D1 is retained separately as a temporary backup. Do not attach it to the production proxy or delete it without a separate backup-retention review and explicit approval.
 
-This service must initially be deployed as an isolated preview. Keep the Cloudflare Worker and D1 production API active until parity tests pass and the frontend proxy is deliberately switched.
+The compatibility adapter translates positional `?` placeholders and SQLite `COLLATE NOCASE` email lookups. D1-style `batch()` operations execute inside a PostgreSQL transaction. The API implementation is covered by compatibility tests for PostgreSQL ordering, aggregation, timestamp grouping, and SQL translation.
+
+Media BLOB handling, owner bootstrap, Google OAuth, admin CRUD, and browser workflows still require end-to-end checks against the deployed service before the project can be called fully verified.
