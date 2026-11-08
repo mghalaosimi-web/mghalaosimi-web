@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import SiteSearch from './SiteSearch';
 
 type SiteHeaderProps = { isEn: boolean };
 const links = [
@@ -87,6 +88,7 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
           return <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined}>{isEn ? item.en : item.ar}</Link>;
         })}
       </nav>
+      <SiteSearch isEn={isEn}/>
       <div className="mghal-language" aria-label={isEn ? 'Language' : 'اللغة'}>
         <Link href={`/language/ar?next=${encodeURIComponent(pathname)}`} aria-current={!isEn ? 'page' : undefined}>AR</Link>
         <span aria-hidden="true">/</span>
