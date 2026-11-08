@@ -14,6 +14,8 @@ import {
   Linkedin,
   Mail,
   MapPin,
+  MessageCircle,
+  Phone,
 } from 'lucide-react';
 import HomePageEnglish from './HomePageEnglish';
 import './home.css';
@@ -131,7 +133,7 @@ function HomeArabic(){
         <div className="hv-hero-visual hv-portrait-visual" aria-label="الصورة الشخصية لمحمد غالب العصيمي">
           <div className="hv-portrait-grid" aria-hidden="true"/>
           <Image
-            src="/assets/images/mghal-avatar.webp"
+            src="/assets/images/b137e3a0-d49d-11f1-b3e9-03bf48951332.jpg"
             alt="محمد غالب العصيمي — M.GH.AL"
             fill
             priority
@@ -144,6 +146,26 @@ function HomeArabic(){
           <div className="hv-visual-foot"><span>MOHAMMED GHALEB ALAOSIMI</span><span>YEMEN · 2026</span></div>
         </div>
         <div className="hv-scroll-cue"><span/> SCROLL TO EXPLORE</div>
+      </section>
+
+      <section className="hv-biography" aria-labelledby="biography-title">
+        <div className="hv-section-top"><span>01 / PROFESSIONAL PROFILE</span><span>ABOUT THE ENGINEER</span></div>
+        <div className="hv-biography-grid">
+          <div className="hv-biography-heading">
+            <p className="hv-kicker">WHO I AM</p>
+            <h2 id="biography-title">أبني التقنية<br/><em>بعقلية هندسية.</em></h2>
+            <span className="hv-biography-signature">MOHAMMED GHALEB ALAOSIMI · M.GH.AL</span>
+          </div>
+          <div className="hv-biography-copy">
+            <p className="hv-biography-lead">أنا محمد غالب العصيمي، طالب بكالوريوس تقنية المعلومات في كلية المنار للعلوم والتكنولوجيا باليمن، ومطور برمجيات شامل أعمل على تحويل الأفكار والاحتياجات الواقعية إلى منتجات رقمية وأنظمة مترابطة قابلة للاستخدام والتطوير.</p>
+            <p>أتعامل مع تطوير البرمجيات باعتباره دورة هندسية متكاملة تبدأ بفهم المشكلة وتحليل المتطلبات، ثم تصميم تجربة الاستخدام وبنية النظام، وبناء الواجهات والخدمات وواجهات API، وربط قواعد البيانات، وضبط الصلاحيات، والاختبار، والنشر، ومراقبة الجودة. لا أركز على شكل الواجهة وحده؛ بل أهتم بما يحدث خلفها من منطق أعمال، واتساق بيانات، وأمان، وأداء، وقابلية للصيانة.</p>
+            <p>أهتم خصوصاً بالأنظمة المؤسسية وتطبيقات الإدارة وتخطيط موارد المؤسسات (ERP)، وبناء وحدات مترابطة لإدارة المستخدمين والأدوار والصلاحيات والعمليات والبيانات. كما أعمل على منتجات رقمية عربية تراعي اتجاه الكتابة من اليمين إلى اليسار (RTL)، وتدعم العربية والإنجليزية، وتضع سهولة الاستخدام وإمكانية الوصول في صميم التصميم.</p>
+            <p>تشمل أدوات عملي وتقنياتي JavaScript وTypeScript وReact وNext.js وNode.js، إلى جانب Python وC# وFlutter، وقواعد البيانات PostgreSQL وSQLite، وأدوات Prisma وFirebase وSupabase، وتقنيات Docker وGit وبيئات النشر السحابي. أختار التقنية وفق متطلبات المشروع، وأتعامل معها ضمن بنية واضحة واختبارات قابلة للتكرار، لا لمجرد إضافة أسماء إلى قائمة المهارات.</p>
+            <p>يمتد اهتمامي إلى الذكاء الاصطناعي التطبيقي وهندسة الأنظمة التي تستخدم الوكلاء الذكيين، خصوصاً في بيئات ERP التي تتطلب صلاحيات محدودة وتنفيذاً مضبوطاً ومراجعة بشرية للعمليات الحساسة. وأهتم كذلك بأمن التطبيقات، وتصميم قواعد البيانات، والأنظمة التي تعمل في ظروف اتصال محدودة، وتوثيق القرارات التقنية بصورة تساعد على فهم المشروع واستمراره.</p>
+            <p>أطوّر مشاريعي من خلال دورات قصيرة من التخطيط والتنفيذ والتحقق والتحسين، وأفضّل توثيق حالة كل ميزة بوضوح، والتمييز بين ما هو تجريبي وما هو منشور وما اكتمل اختباره. هدفي بناء حلول عملية موثوقة، وهوية تقنية تعكس العمل الحقيقي، وتعاون مهني قائم على الوضوح والجودة والتعلّم المستمر.</p>
+            <div className="hv-biography-tags"><span>FULL-STACK ENGINEERING</span><span>ERP & RBAC</span><span>APPLIED AI</span><span>ARABIC RTL</span><span>DATABASE DESIGN</span><span>CLOUD & DELIVERY</span></div>
+          </div>
+        </div>
       </section>
 
       <section className="hv-disciplines" aria-labelledby="disciplines-title">
@@ -248,6 +270,10 @@ function HomeArabic(){
           <a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/" target="_blank" rel="noopener noreferrer"><Linkedin size={18}/> LinkedIn <ArrowUpRight size={14}/></a>
           <a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi" target="_blank" rel="noopener noreferrer"><GraduationCap size={18}/> Credly <ArrowUpRight size={14}/></a>
           <a href="mailto:m.gh.alaosimi@gmail.com"><Mail size={18}/> Email <ArrowUpRight size={14}/></a>
+          <a href="https://wa.me/967776778675" target="_blank" rel="noopener noreferrer"><MessageCircle size={18}/> WhatsApp <small>+967 776 778 675</small><ArrowUpRight size={14}/></a>
+          <a href="tel:+967776778675"><Phone size={18}/> Call <small>+967 776 778 675</small><ArrowUpRight size={14}/></a>
+          <a href="https://wa.me/967773775747" target="_blank" rel="noopener noreferrer"><MessageCircle size={18}/> WhatsApp <small>+967 773 775 747</small><ArrowUpRight size={14}/></a>
+          <a href="tel:+967773775747"><Phone size={18}/> Call <small>+967 773 775 747</small><ArrowUpRight size={14}/></a>
         </div>
         <div className="hv-contact-index">M.GH.AL<span> / 2026</span></div>
       </section>
