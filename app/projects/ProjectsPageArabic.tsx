@@ -81,26 +81,26 @@ export default function ProjectsPage(){
       </div>
     </section>}
 
-    {featuredVisible&&featured&&<section className="portfolio-aegis-gallery" aria-labelledby="waynah-gallery-title">
-      <div className="portfolio-aegis-gallery-heading">
+    {featuredVisible&&featured&&<section className="portfolio-waynah-gallery" aria-labelledby="waynah-gallery-title">
+      <div className="portfolio-waynah-gallery-heading">
         <div><span>WAYNAH / SYSTEM OVERVIEW</span><h2 id="waynah-gallery-title">لمحة عن التصور الهندسي</h2><p>نظرة عالية المستوى على محاور المنتج: البيانات الجغرافية، تجربة الاستخدام في الاتصال المحدود، واستكشاف المعلومات المحلية الموثوقة.</p></div>
-        <span className="portfolio-aegis-gallery-index">SYSTEM NOTES / 03</span>
+        <span className="portfolio-waynah-gallery-index">SYSTEM NOTES / 03</span>
       </div>
-      <div className="portfolio-aegis-gallery-grid">
-        <article className="portfolio-aegis-visual-card">
-          <div className="portfolio-aegis-visual-frame"><div className="waynah-visual-art"><MapPin/><b>GEOGRAPHIC DATA</b><small>WGS84 · POSTGIS</small></div></div>
+      <div className="portfolio-waynah-gallery-grid">
+        <article className="portfolio-waynah-visual-card">
+          <div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><MapPin/><b>GEOGRAPHIC DATA</b><small>WGS84 · POSTGIS</small></div></div>
           <div><span>01 / SPATIAL FOUNDATION</span><h3>الأساس المكاني</h3><p>تمثيل المواقع والبيانات الجغرافية ضمن قاعدة بيانات مكانية.</p></div>
         </article>
-        <article className="portfolio-aegis-visual-card">
-          <div className="portfolio-aegis-visual-frame"><div className="waynah-visual-art"><WifiOff/><b>OFFLINE-FIRST</b><small>LOW CONNECTIVITY</small></div></div>
+        <article className="portfolio-waynah-visual-card">
+          <div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><WifiOff/><b>OFFLINE-FIRST</b><small>LOW CONNECTIVITY</small></div></div>
           <div><span>02 / RESILIENT EXPERIENCE</span><h3>تجربة تراعي الاتصال المحدود</h3><p>تصميم تدفقات استخدام تساعد على الوصول إلى المعلومات عند ضعف الشبكة.</p></div>
         </article>
-        <article className="portfolio-aegis-visual-card">
-          <div className="portfolio-aegis-visual-frame"><div className="waynah-visual-art"><Database/><b>TRUSTED DIRECTORY</b><small>LOCAL DISCOVERY</small></div></div>
+        <article className="portfolio-waynah-visual-card">
+          <div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><Database/><b>TRUSTED DIRECTORY</b><small>LOCAL DISCOVERY</small></div></div>
           <div><span>03 / LOCAL INFORMATION</span><h3>دليل محلي موثوق</h3><p>تنظيم بيانات الأماكن والخدمات وإظهار المعلومات بحسب ما تم توثيقه.</p></div>
         </article>
       </div>
-      <Link href="/projects/waynah" className="portfolio-aegis-gallery-link">استعراض ملف WAYNAH <ArrowUpLeft size={16}/></Link>
+      <Link href="/projects/waynah" className="portfolio-waynah-gallery-link">استعراض ملف WAYNAH <ArrowUpLeft size={16}/></Link>
     </section>}
 
     <section className="portfolio-archive-collection" id="project-collection">
