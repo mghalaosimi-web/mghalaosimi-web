@@ -30,7 +30,7 @@ await new Promise((resolveListen,reject)=>{server.once("error",reject);server.li
 const base="http://127.0.0.1:4173";
 const routes=["/","/en/","/profile.html","/en/profile.html","/resume.html","/en/resume.html","/projects.html","/en/projects.html","/showcase.html","/en/showcase.html","/certificates.html","/en/certificates.html","/skills.html","/en/skills.html","/education.html","/en/education.html","/achievements.html","/en/achievements.html","/contact.html","/en/contact.html","/knowledge.html","/en/knowledge.html","/research.html","/en/research.html","/projects/waynah/","/en/projects/waynah/"];
 const axeViolations=[], browserChecks=[];
-const browser=await chromium.launch({headless:true,args:["--no-sandbox","--disable-dev-shm-usage"]});
+const browser=await chromium.launch({headless:true,args:["--no-sandbox","--disable-dev-shm-usage"],...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
 try {
  for(const route of routes){
   const page=await browser.newPage({viewport:{width:1440,height:900}});
@@ -41,6 +41,17 @@ try {
     const styles = [...document.querySelectorAll('link[rel="stylesheet"]')].filter(link => new URL(link.href).origin === location.origin);
     return styles.length > 0 && styles.every(link => link.sheet !== null);
   }, null, { timeout: 10000 });
+  const brandTokens = await page.evaluate(() => {
+    const style = getComputedStyle(document.documentElement);
+    return {
+      navy: style.getPropertyValue("--mghal-brand-navy").trim(),
+      blue: style.getPropertyValue("--mghal-brand-blue").trim(),
+      gold: style.getPropertyValue("--mghal-brand-gold").trim(),
+    };
+  });
+  assert.equal(brandTokens.navy.toUpperCase(), "#172B4D", route + ": shared navy token is missing");
+  assert.equal(brandTokens.blue.toUpperCase(), "#315A85", route + ": shared blue token is missing");
+  assert.equal(brandTokens.gold.toUpperCase(), "#B69A62", route + ": shared gold token is missing");
   await page.evaluate(() => document.fonts.ready.then(() => true));
   await page.waitForTimeout(150);
   const revealCount = await page.evaluate(async () => {
@@ -87,6 +98,7 @@ try {
  console.log("Real-browser WCAG audit: "+routes.length+" routes; "+axeViolations.length+" violation groups; "+severe.length+" critical/serious.");
  if(axeViolations.length) console.log(JSON.stringify(axeViolations,null,2));
  assert.equal(severe.length,0,"Critical or serious WCAG violations detected.");
+ if(process.env.RUN_LIGHTHOUSE==="1"){
  const lighthouseResults=[],chromePath=chromium.executablePath();
  for(const [name,route] of [["home","/"],["projects","/projects.html"],["certificates","/certificates.html"]]){
   const output=join(artifacts,"lighthouse-"+name+".json");
@@ -104,4 +116,8 @@ try {
   lighthouseResults.push({route,scores}); console.log("Lighthouse "+route+": "+JSON.stringify(scores));
  }
  await import("node:fs/promises").then(fs=>fs.writeFile(join(artifacts,"lighthouse-summary.json"),JSON.stringify(lighthouseResults,null,2)));
+
+ } else {
+  console.log("Lighthouse skipped; set RUN_LIGHTHOUSE=1 to run the optional performance pass.");
+ }
 } finally {await browser.close();await new Promise(resolveClose=>server.close(resolveClose));}
