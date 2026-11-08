@@ -1,57 +1,58 @@
+@import url('./design-tokens.css');
 /* M.GH.AL unified homepage identity: Navy / White / Slate / Champagne Gold */
 body.home-page {
   color-scheme: light;
-  --bg: #FFFFFF;
-  --surface: #FFFFFF;
-  --surface-2: #F3F5F7;
-  --panel: #FFFFFF;
-  --line: #DCE2E8;
-  --text: #202B38;
-  --muted: #64748B;
-  --accent: #315A85;
-  --accent-soft: #315A85;
-  --accent2: #315A85;
-  --gold: #B69A62;
-  --gold-soft: #80663C;
-  background: #FFFFFF !important;
-  color: #202B38 !important;
+  --bg: var(--mghal-light-bg);
+  --surface: var(--mghal-light-bg);
+  --surface-2: var(--mghal-light-surface);
+  --panel: var(--mghal-light-bg);
+  --line: var(--mghal-light-border);
+  --text: var(--mghal-light-text);
+  --muted: var(--mghal-light-muted);
+  --accent: var(--mghal-brand-blue);
+  --accent-soft: var(--mghal-brand-blue);
+  --accent2: var(--mghal-brand-blue);
+  --gold: var(--mghal-brand-gold);
+  --gold-soft: var(--mghal-brand-gold-ink);
+  background: var(--mghal-light-bg) !important;
+  color: var(--mghal-light-text) !important;
 }
 
 body.home-page a:hover {
-  color: #315A85 !important;
+  color: var(--mghal-brand-blue) !important;
 }
 
 body.home-page .site-header,
 body.home-page .top {
   background: rgba(255, 255, 255, 0.96) !important;
-  border-bottom: 1px solid #DCE2E8 !important;
+  border-bottom: 1px solid var(--mghal-light-border) !important;
   box-shadow: 0 8px 26px rgba(23, 43, 77, 0.045);
   backdrop-filter: blur(16px);
 }
 
 body.home-page .brand,
 body.home-page .nav .brand {
-  color: #172B4D !important;
+  color: var(--mghal-brand-navy) !important;
 }
 
 body.home-page .brand span {
-  color: #B69A62 !important;
+  color: var(--mghal-brand-gold) !important;
 }
 
 body.home-page .main-nav a,
 body.home-page .navlinks,
 body.home-page .navlinks a {
-  color: #64748B !important;
+  color: var(--mghal-light-muted) !important;
 }
 
 body.home-page .main-nav a[aria-current="location"],
 body.home-page .navlinks a[aria-current="page"] {
-  color: #172B4D !important;
-  border-color: #B69A62 !important;
+  color: var(--mghal-brand-navy) !important;
+  border-color: var(--mghal-brand-gold) !important;
 }
 
 body.home-page .hero {
-  background: radial-gradient(ellipse at 16% 14%, rgba(182, 154, 98, 0.13), transparent 42%), #FFFFFF !important;
+  background: radial-gradient(ellipse at 16% 14%, rgba(182, 154, 98, 0.13), transparent 42%), var(--mghal-light-bg) !important;
 }
 
 body.home-page .hero h1,
@@ -59,13 +60,13 @@ body.home-page h1,
 body.home-page h2,
 body.home-page h3,
 body.home-page .section-title {
-  color: #172B4D !important;
+  color: var(--mghal-brand-navy) !important;
 }
 
 body.home-page .hero h1 span,
 body.home-page .hero h1 .accent,
 body.home-page .eyebrow {
-  color: #315A85 !important;
+  color: var(--mghal-brand-blue) !important;
 }
 
 body.home-page .hero-lead,
@@ -80,83 +81,83 @@ body.home-page .certificate-card small,
 body.home-page .contact-note,
 body.home-page footer,
 body.home-page .footer-inner p {
-  color: #64748B !important;
+  color: var(--mghal-light-muted) !important;
 }
 
 body.home-page .status-dot {
-  background: #0F766E !important;
+  background: var(--mghal-brand-blue) !important;
 }
 
 body.home-page .portrait-card img {
-  border-color: #DCE2E8 !important;
+  border-color: var(--mghal-light-border) !important;
   box-shadow: 0 0 0 10px rgba(182, 154, 98, 0.12) !important;
 }
 
 body.home-page .hero-portrait {
   border: 1px solid rgba(182, 154, 98, 0.48) !important;
-  background: linear-gradient(145deg, #FFFFFF, #F3F5F7) !important;
-  box-shadow: 0 24px 64px rgba(23, 43, 77, 0.12), inset 0 1px #FFFFFF !important;
+  background: linear-gradient(145deg, var(--mghal-light-bg), var(--mghal-light-surface)) !important;
+  box-shadow: 0 24px 64px rgba(23, 43, 77, 0.12), inset 0 1px var(--mghal-light-bg) !important;
   backdrop-filter: none !important;
 }
 
 body.home-page .hero-portrait figcaption {
-  color: #172B4D !important;
+  color: var(--mghal-brand-navy) !important;
 }
 
 body.home-page .hero-portrait figcaption span {
-  color: #64748B !important;
+  color: var(--mghal-light-muted) !important;
 }
 
 body.home-page .photo-tile {
-  border-color: #DCE2E8 !important;
-  background: #F3F5F7 !important;
+  border-color: var(--mghal-light-border) !important;
+  background: var(--mghal-light-surface) !important;
   box-shadow: 0 16px 40px rgba(23, 43, 77, 0.09) !important;
   backdrop-filter: none !important;
 }
 
 body.home-page .mark {
   border-color: rgba(182, 154, 98, 0.65) !important;
-  background: linear-gradient(145deg, #FFFFFF, #F3F5F7) !important;
-  color: #172B4D !important;
+  background: linear-gradient(145deg, var(--mghal-light-bg), var(--mghal-light-surface)) !important;
+  color: var(--mghal-brand-navy) !important;
 }
 
 body.home-page .button-primary,
 body.home-page .btn:not(.alt) {
-  background: #172B4D !important;
-  border: 1px solid #172B4D !important;
-  color: #FFFFFF !important;
+  background: var(--mghal-brand-navy) !important;
+  border: 1px solid var(--mghal-brand-navy) !important;
+  color: var(--mghal-light-bg) !important;
   box-shadow: 0 10px 24px rgba(23, 43, 77, 0.12) !important;
 }
 
 body.home-page .button-primary:hover,
 body.home-page .btn:not(.alt):hover {
-  background: #315A85 !important;
-  border-color: #315A85 !important;
-  color: #FFFFFF !important;
+  background: var(--mghal-brand-blue) !important;
+  border-color: var(--mghal-brand-blue) !important;
+  color: var(--mghal-light-bg) !important;
 }
 
 body.home-page .button-ghost,
 body.home-page .btn.alt {
-  background: #FFFFFF !important;
-  border: 1px solid #DCE2E8 !important;
-  color: #172B4D !important;
+  background: var(--mghal-light-bg) !important;
+  border: 1px solid var(--mghal-light-border) !important;
+  color: var(--mghal-brand-navy) !important;
   box-shadow: none !important;
 }
 
 body.home-page .button-ghost:hover,
 body.home-page .btn.alt:hover {
-  background: #F3F5F7 !important;
-  border-color: #B69A62 !important;
-  color: #172B4D !important;
+  background: var(--mghal-light-surface) !important;
+  border-color: var(--mghal-brand-gold) !important;
+  color: var(--mghal-brand-navy) !important;
 }
 
 body.home-page .section-shell,
 body.home-page section {
-  border-color: #DCE2E8 !important;
+  border-color: var(--mghal-light-border) !important;
 }
 
 body.home-page .section-tint {
-  background: #F3F5F7 !important;
+  background: var(--mghal-light-surface) !important;
 }
 
 body.home-page .path-card,
@@ -166,9 +167,9 @@ body.home-page .card,
 body.home-page .item,
 body.home-page .note,
 body.home-page .contact-panel {
-  background: #FFFFFF !important;
-  border: 1px solid #DCE2E8 !important;
-  color: #202B38 !important;
+  background: var(--mghal-light-bg) !important;
+  border: 1px solid var(--mghal-light-border) !important;
+  color: var(--mghal-light-text) !important;
   box-shadow: 0 12px 34px rgba(23, 43, 77, 0.065) !important;
 }
 
@@ -182,112 +183,112 @@ body.home-page .item:hover {
 
 body.home-page .icon-box {
   background: rgba(49, 90, 133, 0.09) !important;
-  color: #315A85 !important;
+  color: var(--mghal-brand-blue) !important;
 }
 
 body.home-page .project-image,
 body.home-page .project-cover {
-  background: #F3F5F7 !important;
-  border-color: #DCE2E8 !important;
+  background: var(--mghal-light-surface) !important;
+  border-color: var(--mghal-light-border) !important;
 }
 
 body.home-page .project-kicker,
 body.home-page .project-links a,
 body.home-page .text-link,
 body.home-page .links a {
-  color: #315A85 !important;
+  color: var(--mghal-brand-blue) !important;
 }
 
 body.home-page .links a,
 body.home-page .contact-links a {
-  background: #FFFFFF !important;
-  border: 1px solid #DCE2E8 !important;
+  background: var(--mghal-light-bg) !important;
+  border: 1px solid var(--mghal-light-border) !important;
 }
 
 body.home-page .links a:hover,
 body.home-page .contact-links a:hover {
-  background: #F3F5F7 !important;
-  border-color: #B69A62 !important;
-  color: #172B4D !important;
+  background: var(--mghal-light-surface) !important;
+  border-color: var(--mghal-brand-gold) !important;
+  color: var(--mghal-brand-navy) !important;
 }
 
 body.home-page .issuer-openjs {
-  background: #172B4D !important;
-  color: #FFFFFF !important;
+  background: var(--mghal-brand-navy) !important;
+  color: var(--mghal-light-bg) !important;
 }
 
 body.home-page .issuer-cisco {
-  background: #315A85 !important;
-  color: #FFFFFF !important;
+  background: var(--mghal-brand-blue) !important;
+  color: var(--mghal-light-bg) !important;
 }
 
 body.home-page .issuer-edraak {
-  background: #80663C !important;
-  color: #FFFFFF !important;
+  background: var(--mghal-brand-gold-ink) !important;
+  color: var(--mghal-light-bg) !important;
 }
 
 body.home-page .card-index,
 body.home-page .scroll-cue {
-  color: #64748B !important;
+  color: var(--mghal-light-muted) !important;
 }
 
 body.home-page .site-footer,
 body.home-page footer {
-  border-color: #DCE2E8 !important;
-  color: #64748B !important;
+  border-color: var(--mghal-light-border) !important;
+  color: var(--mghal-light-muted) !important;
 }
 
 body.home-page .skip-link {
-  background: #172B4D !important;
-  color: #FFFFFF !important;
+  background: var(--mghal-brand-navy) !important;
+  color: var(--mghal-light-bg) !important;
 }
 
 body.home-page :focus-visible {
-  outline: 3px solid #315A85 !important;
+  outline: 3px solid var(--mghal-brand-blue) !important;
   outline-offset: 4px;
 }
 
 body.home-page .site-icon-button {
-  background: #FFFFFF !important;
-  border-color: #DCE2E8 !important;
-  color: #172B4D !important;
+  background: var(--mghal-light-bg) !important;
+  border-color: var(--mghal-light-border) !important;
+  color: var(--mghal-brand-navy) !important;
 }
 
 body.home-page .site-progress {
-  background: linear-gradient(90deg, #315A85, #B69A62) !important;
+  background: linear-gradient(90deg, var(--mghal-brand-blue), var(--mghal-brand-gold)) !important;
 }
 
 body.home-page .site-to-top {
-  background: #172B4D !important;
-  border-color: #B69A62 !important;
-  color: #FFFFFF !important;
+  background: var(--mghal-brand-navy) !important;
+  border-color: var(--mghal-brand-gold) !important;
+  color: var(--mghal-light-bg) !important;
 }
 
 body.home-page .site-search {
-  background: #FFFFFF !important;
-  border-color: #DCE2E8 !important;
+  background: var(--mghal-light-bg) !important;
+  border-color: var(--mghal-light-border) !important;
 }
 
 body.home-page .site-search-title,
 body.home-page .site-search-result strong {
-  color: #172B4D !important;
+  color: var(--mghal-brand-navy) !important;
 }
 
 body.home-page .site-search-input {
-  background: #FFFFFF !important;
-  border-color: #DCE2E8 !important;
-  color: #202B38 !important;
+  background: var(--mghal-light-bg) !important;
+  border-color: var(--mghal-light-border) !important;
+  color: var(--mghal-light-text) !important;
 }
 
 body.home-page .site-search-result {
-  background: #F3F5F7 !important;
-  border-color: #DCE2E8 !important;
+  background: var(--mghal-light-surface) !important;
+  border-color: var(--mghal-light-border) !important;
 }
 
 body.home-page .site-search-result span,
 body.home-page .site-search-hint,
 body.home-page .site-empty {
-  color: #64748B !important;
+  color: var(--mghal-light-muted) !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
