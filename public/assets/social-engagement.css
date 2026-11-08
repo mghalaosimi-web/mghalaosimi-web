@@ -16,3 +16,58 @@
 .mghal-reaction-feedback[data-state=error],.mghal-follow-status[data-state=error]{color:var(--mghal-state-danger)}
 .mghal-reaction-feedback[data-state=pending],.mghal-follow-status[data-state=pending]{color:var(--mghal-light-muted)}
 @media(prefers-reduced-motion:reduce){.mghal-reaction-btn{transition:none}}
+
+/* The Next.js portfolio uses the dark M.GH.AL shell; legacy light pages keep the light variant above. */
+html[data-mghal-theme="dark"] .mghal-follow-panel,
+html[data-mghal-theme="dark"] .mghal-project-engagement{
+  border-color:var(--mghal-dark-border);
+  background:var(--mghal-dark-surface);
+  color:var(--mghal-dark-text);
+  box-shadow:var(--mghal-shadow-dark);
+}
+html[data-mghal-theme="dark"] .mghal-follow-panel h2,
+html[data-mghal-theme="dark"] .mghal-project-engagement h2,
+html[data-mghal-theme="dark"] .mghal-follow-form>label,
+html[data-mghal-theme="dark"] .mghal-approved-comment strong{
+  color:var(--mghal-dark-text);
+}
+html[data-mghal-theme="dark"] .mghal-follow-panel p,
+html[data-mghal-theme="dark"] .mghal-project-engagement p,
+html[data-mghal-theme="dark"] .mghal-follow-panel small,
+html[data-mghal-theme="dark"] .mghal-social-help,
+html[data-mghal-theme="dark"] .mghal-follow-action-hint,
+html[data-mghal-theme="dark"] .mghal-approved-comment time{
+  color:var(--mghal-dark-muted);
+}
+html[data-mghal-theme="dark"] .mghal-follow-form input:not([type=checkbox]){
+  border-color:var(--mghal-dark-border);
+  background:var(--mghal-dark-bg);
+  color:var(--mghal-dark-text);
+}
+html[data-mghal-theme="dark"] .mghal-social-btn,
+html[data-mghal-theme="dark"] .mghal-follower-counts span,
+html[data-mghal-theme="dark"] .mghal-approved-comment,
+html[data-mghal-theme="dark"] .mghal-google-login,
+html[data-mghal-theme="dark"] .mghal-unfollow{
+  border-color:var(--mghal-dark-border);
+  background:var(--mghal-dark-surface-raised);
+  color:var(--mghal-dark-text);
+}
+html[data-mghal-theme="dark"] .mghal-social-btn[aria-pressed=true],
+html[data-mghal-theme="dark"] .mghal-follow-submit{
+  border-color:var(--mghal-brand-gold);
+  background:var(--mghal-brand-navy);
+  color:var(--mghal-dark-text);
+}
+html[data-mghal-theme="dark"] .mghal-guest-notice{
+  border-inline-start-color:var(--mghal-state-success);
+  background:var(--mghal-dark-surface-raised);
+  color:var(--mghal-dark-muted);
+}
+html[data-mghal-theme="dark"] .mghal-reaction-like{border-color:var(--mghal-brand-blue);color:var(--mghal-brand-blue)}
+html[data-mghal-theme="dark"] .mghal-reaction-clap{border-color:var(--mghal-brand-gold);color:var(--mghal-brand-gold-soft)}
+html[data-mghal-theme="dark"] .mghal-social-btn:focus-visible,
+html[data-mghal-theme="dark"] .mghal-follow-form input:focus-visible{
+  outline:3px solid var(--mghal-focus-ring);
+  outline-offset:3px;
+}
