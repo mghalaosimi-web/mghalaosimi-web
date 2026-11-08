@@ -140,26 +140,26 @@
 
 
 /* AEGIS-TITAN visual archive — additive enhancement; existing project content remains intact. */
-.portfolio-aegis-gallery{margin:-28px 0 64px;padding:clamp(19px,3vw,30px);border:1px solid rgba(92,169,190,.2);border-radius:14px;background:linear-gradient(145deg,rgba(17,33,45,.82),rgba(9,19,28,.88))}
-.portfolio-aegis-gallery-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:18px}
-.portfolio-aegis-gallery-heading>div>span,.portfolio-aegis-visual-card>div:last-child>span{color:#7fc9d7;font:700 8px ui-monospace,monospace;letter-spacing:.12em}
-.portfolio-aegis-gallery-heading h2{margin:7px 0;color:#eaf0ee;font-size:clamp(18px,2.5vw,25px)}
-.portfolio-aegis-gallery-heading p{max-width:660px;margin:0;color:#96a9ae;font-size:11px;line-height:1.9}
-.portfolio-aegis-gallery-index{flex-shrink:0;color:#78949e;font:8px ui-monospace,monospace;letter-spacing:.1em}
-.portfolio-aegis-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.portfolio-aegis-visual-card{min-width:0;overflow:hidden;border:1px solid rgba(120,177,190,.17);border-radius:9px;background:rgba(4,14,22,.45)}
-.portfolio-aegis-visual-frame{position:relative;aspect-ratio:16/10;overflow:hidden;background:radial-gradient(ellipse at center,rgba(39,117,138,.2),rgba(4,13,21,.96))}
-.portfolio-aegis-visual-frame img{object-fit:contain;padding:8px;transition:transform .35s ease}
-.portfolio-aegis-visual-card:hover .portfolio-aegis-visual-frame img{transform:scale(1.035)}
-.portfolio-aegis-visual-card>div:last-child{padding:13px 14px 15px}
-.portfolio-aegis-visual-card h3{margin:6px 0;color:#e0e9e8;font-size:13px}
-.portfolio-aegis-visual-card p{margin:0;color:#91a3a9;font-size:10px;line-height:1.8}
-.portfolio-aegis-gallery-link{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:9px 12px;border:1px solid rgba(104,190,207,.3);border-radius:6px;background:rgba(44,120,140,.12);color:#ccecf0;font-size:10px;font-weight:700;text-decoration:none;transition:background .2s,border-color .2s,transform .2s}
-.portfolio-aegis-gallery-link:hover{transform:translateY(-2px);border-color:rgba(104,190,207,.6);background:rgba(44,120,140,.22)}
-.portfolio-aegis-gallery-link:focus-visible{outline:2px solid #75d2e2;outline-offset:3px}
-@media(max-width:760px){.portfolio-aegis-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.portfolio-aegis-visual-card:last-child{grid-column:1/-1}}
-@media(max-width:650px){.portfolio-aegis-gallery{margin:-18px 0 46px;padding:16px}.portfolio-aegis-gallery-heading{align-items:flex-start;flex-direction:column;gap:7px}.portfolio-aegis-gallery-grid{grid-template-columns:1fr}.portfolio-aegis-visual-card:last-child{grid-column:auto}.portfolio-aegis-visual-frame{aspect-ratio:16/9}}
-@media(prefers-reduced-motion:reduce){.portfolio-aegis-visual-frame img,.portfolio-aegis-gallery-link{transition:none!important}}
+.portfolio-waynah-gallery{margin:-28px 0 64px;padding:clamp(19px,3vw,30px);border:1px solid rgba(92,169,190,.2);border-radius:14px;background:linear-gradient(145deg,rgba(17,33,45,.82),rgba(9,19,28,.88))}
+.portfolio-waynah-gallery-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:18px}
+.portfolio-waynah-gallery-heading>div>span,.portfolio-waynah-visual-card>div:last-child>span{color:#7fc9d7;font:700 8px ui-monospace,monospace;letter-spacing:.12em}
+.portfolio-waynah-gallery-heading h2{margin:7px 0;color:#eaf0ee;font-size:clamp(18px,2.5vw,25px)}
+.portfolio-waynah-gallery-heading p{max-width:660px;margin:0;color:#96a9ae;font-size:11px;line-height:1.9}
+.portfolio-waynah-gallery-index{flex-shrink:0;color:#78949e;font:8px ui-monospace,monospace;letter-spacing:.1em}
+.portfolio-waynah-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.portfolio-waynah-visual-card{min-width:0;overflow:hidden;border:1px solid rgba(120,177,190,.17);border-radius:9px;background:rgba(4,14,22,.45)}
+.portfolio-waynah-visual-frame{position:relative;aspect-ratio:16/10;overflow:hidden;background:radial-gradient(ellipse at center,rgba(39,117,138,.2),rgba(4,13,21,.96))}
+.portfolio-waynah-visual-frame img{object-fit:contain;padding:8px;transition:transform .35s ease}
+.portfolio-waynah-visual-card:hover .portfolio-waynah-visual-frame img{transform:scale(1.035)}
+.portfolio-waynah-visual-card>div:last-child{padding:13px 14px 15px}
+.portfolio-waynah-visual-card h3{margin:6px 0;color:#e0e9e8;font-size:13px}
+.portfolio-waynah-visual-card p{margin:0;color:#91a3a9;font-size:10px;line-height:1.8}
+.portfolio-waynah-gallery-link{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:9px 12px;border:1px solid rgba(104,190,207,.3);border-radius:6px;background:rgba(44,120,140,.12);color:#ccecf0;font-size:10px;font-weight:700;text-decoration:none;transition:background .2s,border-color .2s,transform .2s}
+.portfolio-waynah-gallery-link:hover{transform:translateY(-2px);border-color:rgba(104,190,207,.6);background:rgba(44,120,140,.22)}
+.portfolio-waynah-gallery-link:focus-visible{outline:2px solid #75d2e2;outline-offset:3px}
+@media(max-width:760px){.portfolio-waynah-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.portfolio-waynah-visual-card:last-child{grid-column:1/-1}}
+@media(max-width:650px){.portfolio-waynah-gallery{margin:-18px 0 46px;padding:16px}.portfolio-waynah-gallery-heading{align-items:flex-start;flex-direction:column;gap:7px}.portfolio-waynah-gallery-grid{grid-template-columns:1fr}.portfolio-waynah-visual-card:last-child{grid-column:auto}.portfolio-waynah-visual-frame{aspect-ratio:16/9}}
+@media(prefers-reduced-motion:reduce){.portfolio-waynah-visual-frame img,.portfolio-waynah-gallery-link{transition:none!important}}
 
 
 /* WAYNAH featured project visual system */
