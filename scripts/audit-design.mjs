@@ -50,9 +50,9 @@ assert.ok(header.includes("scrollIntoView"), "The active navigation link must re
 assert.ok(header.includes("<SiteSearch isEn={isEn}/>"), "The shared header must expose the bilingual search palette.");
 assert.ok(search.includes("aria-keyshortcuts") && search.includes("Control+K Meta+K"), "The search palette must expose its keyboard shortcut.");
 assert.ok(search.includes("<dialog") && search.includes("onCancel={close}"), "Search must use a native accessible modal dialog.");
-assert.ok(globals.includes("--brass:var(--mghal-color-gold"), "Global gold aliases must use the shared brand token.");
-assert.ok(globals.includes("--copper:var(--mghal-color-blue"), "Global accent aliases must use the shared blue token.");
-assert.ok(globals.includes("--ink-950:var(--mghal-color-bg"), "Global backgrounds must use the shared background token.");
+assert.ok(globals.includes("--brass:var(--mghal-brand-gold"), "Global gold aliases must use the shared brand token.");
+assert.ok(globals.includes("--copper:var(--mghal-brand-blue"), "Global accent aliases must use the shared blue token.");
+assert.ok(globals.includes("--ink-950:var(--mghal-dark-bg"), "Global backgrounds must use the shared background token.");
 assert.ok(layout.includes("<SiteHeader isEn={isEn}/>"), "The shared header must be mounted globally.");
 
 console.log("M.GH.AL design audit passed: shared brand/surface tokens, sticky horizontal navigation, RTL/LTR gesture guards, focus visibility and reduced motion.");
