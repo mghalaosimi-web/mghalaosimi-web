@@ -48,7 +48,7 @@ export default function ProjectsExplorerEnglish(){
    <div className="portfolio-featured-copy">
     <div className="portfolio-featured-overline"><Sparkles size={14}/> FEATURED ENGINEERING PROJECT <span>01 / 01</span></div>
     <div className="portfolio-featured-status"><i/>{featuredInfo.status}</div>
-    <h2>{featuredInfo.name||featured.name}</h2>
+    <h2>{featured.name}</h2>
     <h3>{featuredInfo.label}</h3>
     <p>{featuredInfo.summary}</p>
     <div className="portfolio-featured-tags">{featured.stack.slice(0,4).map(item=><span key={item}>{item}</span>)}</div>
