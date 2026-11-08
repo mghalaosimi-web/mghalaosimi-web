@@ -133,7 +133,7 @@ function HomeArabic(){
         <div className="hv-hero-visual hv-portrait-visual" aria-label="الصورة الشخصية لمحمد غالب العصيمي">
           <div className="hv-portrait-grid" aria-hidden="true"/>
           <Image
-            src="/assets/images/b137e3a0-d49d-11f1-b3e9-03bf48951332.jpg"
+            src="/assets/images/mghal-profile-primary.jpg"
             alt="محمد غالب العصيمي — M.GH.AL"
             fill
             priority
