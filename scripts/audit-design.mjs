@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 
 const css = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
 const header = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
+const search = readFileSync(new URL("../app/components/SiteSearch.tsx", import.meta.url), "utf8");
 const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const globals = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 const tokensCss = readFileSync(new URL("../public/assets/design-tokens.css", import.meta.url), "utf8");
@@ -46,6 +47,9 @@ assert.ok(css.includes(":focus-visible"), "Visible keyboard focus styling is req
 assert.ok(header.includes("aria-current={active ? 'page' : undefined}"), "The current route must be exposed accessibly.");
 assert.ok(header.includes("touchcancel"), "Cancelled swipe gestures must reset.");
 assert.ok(header.includes("scrollIntoView"), "The active navigation link must remain in view.");
+assert.ok(header.includes("<SiteSearch isEn={isEn}/>"), "The shared header must expose the bilingual search palette.");
+assert.ok(search.includes("aria-keyshortcuts") && search.includes("Control+K Meta+K"), "The search palette must expose its keyboard shortcut.");
+assert.ok(search.includes("<dialog") && search.includes("onCancel={close}"), "Search must use a native accessible modal dialog.");
 assert.ok(globals.includes("--brass:var(--mghal-color-gold"), "Global gold aliases must use the shared brand token.");
 assert.ok(globals.includes("--copper:var(--mghal-color-blue"), "Global accent aliases must use the shared blue token.");
 assert.ok(globals.includes("--ink-950:var(--mghal-color-bg"), "Global backgrounds must use the shared background token.");
