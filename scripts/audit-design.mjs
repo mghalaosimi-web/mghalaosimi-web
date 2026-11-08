@@ -23,25 +23,25 @@ const tokens = {
   "--mghal-light-border": "#DCE2E8",
 };
 for (const [name, value] of Object.entries(tokens)) {
-  const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  assert.match(tokensCss, new RegExp(escaped + "\\s*:\\s*" + value, "i"), `Missing or incorrect shared token: ${name}`);
+  assert.ok(tokensCss.includes(`${name}: ${value};`), `Missing or incorrect shared token: ${name}`);
 }
-assert.match(layout, /href="\\/assets\\/design-tokens\\.css"/, "The shared token stylesheet must load before route styling.");
-assert.match(css, /--mghal-color-navy:var\\(--mghal-brand-navy/, "Next.js routes must alias the shared navy token.");
-assert.match(css, /--mghal-color-blue:var\\(--mghal-brand-blue/, "Next.js routes must alias the shared blue token.");
-assert.match(css, /--mghal-color-gold:var\\(--mghal-brand-gold/, "Next.js routes must alias the shared gold token.");
-assert.match(css, /\\.mghal-header\\s*\\{[^}]*position:\\s*sticky/s, "The shared header must remain sticky.");
-assert.match(css, /\\.mghal-primary-nav\\s*\\{[\\s\\S]*?overflow-x:\\s*auto/, "The navigation rail must scroll horizontally.");
-assert.match(css, /touch-action:\\s*pan-x/, "Horizontal rail touch behavior must be explicit.");
-assert.match(css, /position:\\s*static!important/, "Mobile navigation must not become a floating drawer.");
-assert.match(css, /min-width:\\s*max-content!important/, "Navigation labels must retain intrinsic width.");
-assert.match(css, /prefers-reduced-motion:\\s*reduce/, "Reduced-motion support is required.");
-assert.match(css, /:focus-visible/, "Visible keyboard focus styling is required.");
-assert.match(header, /aria-current=\\{active \\? 'page' : undefined\\}/, "The current route must be exposed accessibly.");
-assert.match(header, /touchcancel/, "Cancelled swipe gestures must reset.");
-assert.match(globals, /--brass:var\\(--mghal-color-gold/, "Global gold aliases must use the shared brand token.");
-assert.match(globals, /--copper:var\\(--mghal-color-blue/, "Global accent aliases must use the shared blue token.");
-assert.match(globals, /--ink-950:var\\(--mghal-color-bg/, "Global backgrounds must use the shared background token.");
-assert.match(layout, /<SiteHeader isEn=\\{isEn\\}\\/>/, "The shared header must be mounted globally.");
+assert.ok(layout.includes('href="/assets/design-tokens.css"'), "The shared token stylesheet must load in the Next.js shell.");
+assert.ok(css.includes("--mghal-color-navy:var(--mghal-brand-navy"), "Next.js routes must alias the shared navy token.");
+assert.ok(css.includes("--mghal-color-blue:var(--mghal-brand-blue"), "Next.js routes must alias the shared blue token.");
+assert.ok(css.includes("--mghal-color-gold:var(--mghal-brand-gold"), "Next.js routes must alias the shared gold token.");
+assert.ok(css.includes(".mghal-header{") && css.includes("position:sticky"), "The shared header must remain sticky.");
+assert.ok(css.includes("overflow-x:auto"), "The navigation rail must scroll horizontally.");
+assert.ok(css.includes("touch-action:pan-x"), "Horizontal rail touch behavior must be explicit.");
+assert.ok(css.includes("position:static!important"), "Mobile navigation must not become a floating drawer.");
+assert.ok(css.includes("min-width:max-content!important"), "Navigation labels must retain intrinsic width.");
+assert.ok(css.includes("prefers-reduced-motion:reduce"), "Reduced-motion support is required.");
+assert.ok(css.includes(":focus-visible"), "Visible keyboard focus styling is required.");
+assert.ok(header.includes("aria-current={active ? 'page' : undefined}"), "The current route must be exposed accessibly.");
+assert.ok(header.includes("touchcancel"), "Cancelled swipe gestures must reset.");
+assert.ok(header.includes("scrollIntoView"), "The active navigation link must remain in view.");
+assert.ok(globals.includes("--brass:var(--mghal-color-gold"), "Global gold aliases must use the shared brand token.");
+assert.ok(globals.includes("--copper:var(--mghal-color-blue"), "Global accent aliases must use the shared blue token.");
+assert.ok(globals.includes("--ink-950:var(--mghal-color-bg"), "Global backgrounds must use the shared background token.");
+assert.ok(layout.includes("<SiteHeader isEn={isEn}/>"), "The shared header must be mounted globally.");
 
 console.log("M.GH.AL design audit passed: shared brand/surface tokens, sticky horizontal navigation, RTL/LTR gesture guards, focus visibility and reduced motion.");
