@@ -49,6 +49,8 @@ assert.ok(layout.includes('<SiteHeader isEn={isEn}/>'), "The shared navigation m
 assert.ok(legacyNav.includes("nav.querySelector('.navlinks, .links, .cert-nav-links')"), "Legacy Arabic/English pages must reuse their existing header navigation.");
 assert.ok(legacyNav.includes("aria-current"), "Legacy routes must expose the active navigation item.");
 assert.ok(legacyNav.includes("scrollIntoView"), "Legacy active navigation items must remain visible.");
+assert.ok(legacyNav.includes(`nav.querySelector(".nav-resume")?.remove()`), "Legacy resume links must not be duplicated outside the horizontal rail.");
+assert.ok(legacyNav.includes("anchor.remove()"), "Legacy locale links must be normalized into the shared rail.");
 assert.ok(legacyNav.includes("mghalHorizontalNav"), "Legacy pages must mark the horizontal navigation adapter.");
 assert.ok(!legacyNav.includes("document.body.append(rail,mobile)"), "The former fixed sidebar must not be recreated.");
 assert.ok(legacyCss.includes("position:sticky!important"), "Legacy page headers must remain sticky.");
