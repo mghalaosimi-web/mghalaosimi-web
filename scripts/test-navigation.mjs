@@ -5,6 +5,8 @@ const header = readFileSync(new URL("../app/components/SiteHeader.tsx", import.m
 const shell = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
 const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const tokens = readFileSync(new URL("../public/assets/design-tokens.css", import.meta.url), "utf8");
+const legacyNav = readFileSync(new URL("../public/assets/section-rail.js", import.meta.url), "utf8");
+const legacyCss = readFileSync(new URL("../public/assets/section-rail.css", import.meta.url), "utf8");
 
 const routes = ["/", "/about", "/skills", "/projects", "/labs", "/research", "/credentials", "/contact"];
 for (const route of routes) {
@@ -41,5 +43,16 @@ for (const [name, value] of [
   assert.ok(tokens.includes(`${name}: ${value};`), `The shared ${name} token is required.`);
 }
 assert.ok(layout.includes('<SiteHeader isEn={isEn}/>'), "The shared navigation must be mounted globally.");
+
+assert.ok(legacyNav.includes("nav.querySelector('.navlinks, .links, .cert-nav-links')"), "Legacy Arabic/English pages must reuse their existing header navigation.");
+assert.ok(legacyNav.includes("aria-current"), "Legacy routes must expose the active navigation item.");
+assert.ok(legacyNav.includes("scrollIntoView"), "Legacy active navigation items must remain visible.");
+assert.ok(legacyNav.includes("mghalHorizontalNav"), "Legacy pages must mark the horizontal navigation adapter.");
+assert.ok(!legacyNav.includes("document.body.append(rail,mobile)"), "The former fixed sidebar must not be recreated.");
+assert.ok(legacyCss.includes("position:sticky!important"), "Legacy page headers must remain sticky.");
+assert.ok(legacyCss.includes("overflow-x:auto!important"), "Legacy section navigation must scroll horizontally.");
+assert.ok(legacyCss.includes("touch-action:pan-x"), "Legacy navigation must support horizontal touch scrolling.");
+assert.ok(legacyCss.includes("prefers-reduced-motion:reduce"), "Legacy navigation must respect reduced motion.");
+assert.ok(legacyCss.includes(".site-menu-button") && legacyCss.includes("display:none!important"), "The expanding mobile menu must remain disabled.");
 
 console.log("Next.js navigation tests passed: 8 routes, sticky horizontal rail, RTL/LTR swipe, control guards, edge gestures, and shared brand tokens.");
