@@ -75,7 +75,11 @@ assert.ok(enContact.includes("https://www.credly.com/users/mohammed-ghaleb-al-ao
 assert.ok(arContact.includes("https://www.linkedin.com/in/mohammed-alaosimi-038155443/"), "Arabic contact must use the verified LinkedIn URL.");
 assert.ok(arContact.includes("https://www.credly.com/users/mohammed-ghaleb-al-aosimi"), "Arabic contact must use the owner's Credly profile.");
 for (const [name, source] of [["Arabic contact", arContact], ["English contact", enContact]]) {
-  for (const term of ["wa.me/","A_AB_ALK","users/mghalaosimi-web","mghalaosimi-web-399676409","Arfat"]) assert.ok(!source.includes(term), name + ": unverified reference contact detail leaked: " + term);
+  assert.ok(source.includes("https://wa.me/967776778675") && source.includes("tel:+967776778675"), name + ": primary owner-provided WhatsApp and phone links must be present.");
+  assert.ok(source.includes("https://wa.me/967773775747") && source.includes("tel:+967773775747"), name + ": secondary owner-provided WhatsApp and phone links must be present.");
+}
+for (const [name, source] of [["Arabic contact", arContact], ["English contact", enContact]]) {
+  for (const term of ["A_AB_ALK","users/mghalaosimi-web","mghalaosimi-web-399676409","Arfat"]) assert.ok(!source.includes(term), name + ": unverified reference contact detail leaked: " + term);
 }
 for (const [name, source] of [["English about", enAbout], ["English home", enHome], ["English projects", enProjects], ["English contact", enContact]]) {
   assert.ok(!/href=["\']\/en\/(?!projects\/)/.test(source), name + ": only the explicit /en/projects/:slug static detail route is allowed; other English navigation must use locale-cookie root routes.");
