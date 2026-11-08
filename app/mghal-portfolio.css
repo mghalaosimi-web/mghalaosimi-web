@@ -4,13 +4,13 @@
 
 /* Shared M.GH.AL shell — single source of truth for navigation and footer. */
 :root{
-  --mghal-navy:#172B4D;
-  --mghal-blue:#315A85;
-  --mghal-gold:#B69A62;
-  --mghal-ink:#0b1117;
-  --mghal-ivory:#eee9df;
-  --mghal-muted:#aeb8bb;
-  --mghal-shell-line:rgba(183,155,104,.22);
+  --mghal-navy:var(--mghal-brand-navy,#172B4D);
+  --mghal-blue:var(--mghal-brand-blue,#315A85);
+  --mghal-gold:var(--mghal-brand-gold,#B69A62);
+  --mghal-ink:var(--mghal-dark-bg,#0B1117);
+  --mghal-ivory:var(--mghal-dark-text,#EEE9DF);
+  --mghal-muted:var(--mghal-dark-muted,#AEB8BB);
+  --mghal-shell-line:var(--mghal-dark-border,rgba(182,154,98,.24));
 }
 body{margin:0;background:var(--mghal-ink);color:var(--mghal-ivory)}
 .mghal-header{
@@ -255,17 +255,17 @@ body{background:#0b1117;color:#eee9df}
 /* M.GH.AL design tokens — shared across every route and interactive state. */
 :root{
   color-scheme:dark;
-  --mghal-color-navy:#172B4D;
-  --mghal-color-blue:#315A85;
-  --mghal-color-gold:#B69A62;
-  --mghal-color-bg:#0B1117;
-  --mghal-color-surface:#111B26;
-  --mghal-color-surface-raised:#172431;
-  --mghal-color-text:#EEE9DF;
-  --mghal-color-muted:#AEB8BB;
-  --mghal-color-border:rgba(182,154,98,.24);
-  --mghal-color-focus:#D2BD91;
-  --mghal-shadow:0 14px 34px rgba(0,0,0,.22);
+  --mghal-color-navy:var(--mghal-brand-navy,#172B4D);
+  --mghal-color-blue:var(--mghal-brand-blue,#315A85);
+  --mghal-color-gold:var(--mghal-brand-gold,#B69A62);
+  --mghal-color-bg:var(--mghal-dark-bg,#0B1117);
+  --mghal-color-surface:var(--mghal-dark-surface,#111B26);
+  --mghal-color-surface-raised:var(--mghal-dark-surface-raised,#172431);
+  --mghal-color-text:var(--mghal-dark-text,#EEE9DF);
+  --mghal-color-muted:var(--mghal-dark-muted,#AEB8BB);
+  --mghal-color-border:var(--mghal-dark-border,rgba(182,154,98,.24));
+  --mghal-color-focus:var(--mghal-brand-gold-soft,#D2BD91);
+  --mghal-shadow:var(--mghal-shadow-dark,0 14px 34px rgba(0,0,0,.22));
 }
 html{scroll-padding-top:112px;scroll-behavior:smooth}
 body{background:var(--mghal-color-bg);color:var(--mghal-color-text)}

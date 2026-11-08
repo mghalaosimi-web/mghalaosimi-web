@@ -1,5 +1,5 @@
 /* Homepage-only visual system. Kept separate to avoid changing other routes. */
-.home-v2{--hv-bg:#172B4D;--hv-panel:#0c121b;--hv-line:rgba(155,180,205,.16);--hv-muted:#8997a8;--hv-text:#eef4fa;--hv-cyan:#B69A62;--hv-blue:#315A85;background:var(--hv-bg);color:var(--hv-text);overflow:hidden}
+.home-v2{--hv-bg:var(--mghal-brand-navy);--hv-panel:var(--mghal-dark-surface);--hv-line:var(--mghal-dark-border);--hv-muted:var(--mghal-dark-muted);--hv-text:var(--mghal-dark-text);--hv-cyan:var(--mghal-brand-gold);--hv-blue:var(--mghal-brand-blue);background:var(--hv-bg);color:var(--hv-text);overflow:hidden}
 .home-v2 *{box-sizing:border-box}
 .home-v2 a{color:inherit;text-decoration:none}
 .home-v2 .hv-hero{min-height:690px;max-width:1440px;margin:auto;padding:112px clamp(24px,7vw,108px) 78px;display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:5vw;position:relative;isolation:isolate}

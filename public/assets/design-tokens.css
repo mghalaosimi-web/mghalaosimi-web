@@ -1,0 +1,27 @@
+/* M.GH.AL shared design tokens — brand accents with accessible light/dark surfaces. */
+:root {
+  --mghal-brand-navy: #172B4D;
+  --mghal-brand-blue: #315A85;
+  --mghal-brand-gold: #B69A62;
+  --mghal-brand-gold-ink: #806333;
+  --mghal-brand-gold-soft: #D2BD91;
+
+  --mghal-dark-bg: #0B1117;
+  --mghal-dark-surface: #111B26;
+  --mghal-dark-surface-raised: #172431;
+  --mghal-dark-text: #EEE9DF;
+  --mghal-dark-muted: #AEB8BB;
+  --mghal-dark-border: rgba(182, 154, 98, .24);
+
+  --mghal-light-bg: #FFFFFF;
+  --mghal-light-surface: #F3F5F7;
+  --mghal-light-text: #202B38;
+  --mghal-light-muted: #64748B;
+  --mghal-light-border: #DCE2E8;
+
+  --mghal-focus-ring: #D2BD91;
+  --mghal-content-width: 1180px;
+  --mghal-radius: 14px;
+  --mghal-shadow-dark: 0 14px 34px rgba(0, 0, 0, .22);
+  --mghal-shadow-light: 0 8px 24px rgba(23, 43, 77, .07);
+}

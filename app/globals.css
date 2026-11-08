@@ -94,29 +94,29 @@
    ========================================================= */
 :root{
   color-scheme:dark;
-  /* Shared M.GH.AL palette: one source of truth for all page components. */
-  --ink-950:var(--mghal-color-bg,#0B1117);
-  --ink-900:var(--mghal-color-surface,#111B26);
-  --ink-850:var(--mghal-color-surface-raised,#172431);
+  /* Semantic aliases point to the shared M.GH.AL token file. */
+  --ink-950:var(--mghal-dark-bg,#0B1117);
+  --ink-900:var(--mghal-dark-surface,#111B26);
+  --ink-850:var(--mghal-dark-surface-raised,#172431);
   --ink-800:#1D2D3C;
   --ink-700:#293F53;
   --slate-500:#82929D;
-  --slate-300:var(--mghal-color-muted,#AEB8BB);
-  --ivory:var(--mghal-color-text,#EEE9DF);
+  --slate-300:var(--mghal-dark-muted,#AEB8BB);
+  --ivory:var(--mghal-dark-text,#EEE9DF);
   --ivory-dim:#D5D0C6;
-  --brass:var(--mghal-color-gold,#B69A62);
-  --brass-light:var(--mghal-color-focus,#D2BD91);
-  --copper:var(--mghal-color-blue,#315A85);
-  --line:var(--mghal-color-border,rgba(182,154,98,.24));
+  --brass:var(--mghal-brand-gold,#B69A62);
+  --brass-light:var(--mghal-brand-gold-soft,#D2BD91);
+  --copper:var(--mghal-brand-blue,#315A85);
+  --line:var(--mghal-dark-border,rgba(182,154,98,.24));
   --line-cool:rgba(174,184,187,.14);
   --panel:linear-gradient(145deg,rgba(23,36,49,.97),rgba(17,27,38,.99));
   --panel-soft:rgba(23,43,77,.22);
-  --accent:var(--mghal-color-blue,#315A85);
-  --accent-strong:var(--mghal-color-navy,#172B4D);
-  --shadow-soft:0 12px 32px rgba(0,0,0,.22);
+  --accent:var(--mghal-brand-blue,#315A85);
+  --accent-strong:var(--mghal-brand-navy,#172B4D);
+  --shadow-soft:var(--mghal-shadow-dark,0 14px 34px rgba(0,0,0,.22));
   --shadow-raised:0 5px 0 rgba(3,8,12,.62),0 12px 24px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.07);
   --shadow-pressed:0 1px 0 rgba(3,8,12,.7),0 3px 8px rgba(0,0,0,.2),inset 0 2px 5px rgba(0,0,0,.24);
-  --radius:13px;
+  --radius:var(--mghal-radius,13px);
   --ease-out:cubic-bezier(.2,.75,.25,1);
 }
 *{box-sizing:border-box}
