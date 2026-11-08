@@ -172,8 +172,7 @@ export default {
   if(path==="/api/public/visitors"&&method==="POST"){
    const b=await json();if(!b||Object.keys(b).some(key=>!["visitorToken","path"].includes(key))||(b.visitorToken!=null&&!validVisitorToken(b.visitorToken)))return fail(400,"VALIDATION_ERROR","Invalid visitor session payload");const visitorToken=validVisitorToken(b.visitorToken)?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
    let f=await followerByHash(key);let fresh=false;
-   if(!f){f={id:crypto.randomUUID(),status:"active",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'active')",f.id,key).run();}
-   else if(f.status==="unverified"){await q("UPDATE followers SET status='active' WHERE id=? AND status='unverified' AND consent_at IS NULL",f.id).run();f.status="active";}
+   if(!f){f={id:crypto.randomUUID(),status:"unsubscribed",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'unsubscribed')",f.id,key).run();}
    const page=typeof b?.path==="string"&&b.path.startsWith("/")?b.path.slice(0,500):"/";
    if(fresh)await q("INSERT INTO analytics_events(id,event_type,path,session_hash) VALUES(?,?,?,?)",crypto.randomUUID(),"visitor_start",page,await hash(visitorToken)).run();
    return out({visitorToken,status:f.status,displayName:f.display_name||null,guestFollowing:f.status==="active"&&f.display_name===null},201);
@@ -189,6 +188,12 @@ export default {
    const b=await json();if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>key!=="visitorToken"))return fail(400,"VALIDATION_ERROR","Invalid visitor session");
    const f=await followerForVisitor(b.visitorToken);
    return out({following:f?.status==="active",status:f?.status||"unknown",displayName:f?.display_name||null,consentAt:f?.consent_at||null});
+  }
+  if(path==="/api/public/followers/guest"&&method==="POST"){
+   const b=await json();if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>key!=="visitorToken"))return fail(400,"VALIDATION_ERROR","Invalid visitor session");
+   const f=await followerForVisitor(b.visitorToken);if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");if(f.status==="blocked")return fail(403,"FOLLOW_BLOCKED","This visitor cannot follow updates");
+   const row=await q("UPDATE followers SET status='active',display_name=NULL,consent_at=NULL,unsubscribed_at=NULL WHERE id=? RETURNING id,status",f.id).first();if(!row)return fail(409,"FOLLOW_FAILED","Unable to activate anonymous following");
+   return out({success:true,following:true,anonymous:true});
   }
   if(path==="/api/public/followers"&&method==="POST"){
    const b=await json();if(!validVisitorToken(b?.visitorToken)||typeof b?.displayName!=="string"||b.displayName.trim().length<2||b.displayName.trim().length>80||b.consent!==true||Object.keys(b||{}).some(key=>!["visitorToken","displayName","consent"].includes(key)))return fail(400,"VALIDATION_ERROR","Provide a display name and explicit consent");
@@ -208,7 +213,7 @@ export default {
   }
   if(path==="/api/public/events"&&method==="POST"){
    const b=await json();if(!b||!validVisitorToken(b.visitorToken)||!["page_view","project_view","article_view","certificate_view","contact_click","share","follow","unfollow","reaction","comment_submitted"].includes(b.eventType)||typeof b.path!=="string"||!b.path.startsWith("/"))return fail(400,"VALIDATION_ERROR","Invalid event payload");
-   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified","unsubscribed"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    let ref=null;try{ref=b.referrer?new URL(b.referrer).hostname:null}catch{}
    await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,referrer_host,session_hash) VALUES(?,?,?,?,?,?,?)",crypto.randomUUID(),b.eventType,b.path.slice(0,500),b.targetType||null,b.targetId||null,ref,await hash(b.visitorToken)).run();return out({success:true},202);
   }
@@ -223,13 +228,13 @@ export default {
   if(path==="/api/public/site-reactions"&&method==="GET"){
    const targetId=url.searchParams.get("targetId")||"mghal-home";if(targetId!=="mghal-home")return fail(404,"TARGET_NOT_FOUND","Unknown site reaction target");
    const visitorToken=request.headers.get("X-Visitor-Token")||url.searchParams.get("visitorToken");if(visitorToken&&!validVisitorToken(visitorToken))return fail(400,"VALIDATION_ERROR","Invalid visitor token");
-   let viewerLiked=false;if(visitorToken){const f=await followerForVisitor(visitorToken);if(f){const identityHash=await hash(f.id);viewerLiked=!!(await q("SELECT id FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash=? LIMIT 1",targetId,identityHash).first());}}
+   let viewerLiked=false;if(visitorToken){const f=await followerForVisitor(visitorToken);if(f&&f.status!=="blocked"){const identityHash=await hash(f.id);viewerLiked=!!(await q("SELECT id FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash=? LIMIT 1",targetId,identityHash).first());}}
    const count=await q("SELECT COUNT(DISTINCT session_hash) count FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash IS NOT NULL",targetId).first();
    return out({targetType:"page",targetId,counts:{like:Number(count?.count||0)},viewerReactions:{like:viewerLiked},reacted:viewerLiked});
   }
   if(path==="/api/public/site-reactions"&&method==="POST"){
    const b=await json();if(!b||b.targetId!=="mghal-home"||b.reaction!=="like"||!validVisitorToken(b.visitorToken)||Object.keys(b).some(key=>!["visitorToken","targetId","reaction"].includes(key)))return fail(400,"VALIDATION_ERROR","Invalid site reaction");
-   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified","unsubscribed"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const identityHash=await hash(f.id),existing=await q("SELECT id FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash=? LIMIT 1",b.targetId,identityHash).first();
    if(existing)return out({success:true,created:false});
    await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,session_hash) VALUES(?,'reaction','/','page',?,?)",crypto.randomUUID(),b.targetId,identityHash).run();
@@ -249,7 +254,7 @@ export default {
    const rows=await q("SELECT reaction,COUNT(*) count FROM reactions WHERE target_type=? AND target_id=? GROUP BY reaction",targetType,targetId).all();
    const counts={like:0,clap:0};for(const row of rows.results||[])if(row.reaction in counts)counts[row.reaction]=Number(row.count)||0;
    let viewerReactions={like:false,clap:false};const visitorToken=request.headers.get("X-Visitor-Token")||url.searchParams.get("visitorToken");if(visitorToken&&!validVisitorToken(visitorToken))return fail(400,"VALIDATION_ERROR","Invalid visitor token");
-   if(visitorToken&&visitorToken.length>=32){const f=await followerForVisitor(visitorToken);if(f){const [like,clap]=await Promise.all([
+   if(visitorToken&&visitorToken.length>=32){const f=await followerForVisitor(visitorToken);if(f&&f.status!=="blocked"){const [like,clap]=await Promise.all([
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first(),
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='clap' LIMIT 1",targetType,targetId,f.id).first()
    ]);viewerReactions={like:!!like,clap:!!clap};}}
