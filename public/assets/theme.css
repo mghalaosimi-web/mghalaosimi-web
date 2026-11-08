@@ -196,7 +196,7 @@ img{max-width:100%;height:auto}
 /* M.GH.AL Corporate UI System v2 */
 
 html{background:var(--mghal-light-bg)!important;scroll-padding-block-start:6rem}
-body{min-width:320px;background:linear-gradient(180deg,var(--mghal-light-bg),#fbfcfd 65%,#f7f9fb)!important;color:var(--mghal-text)!important;line-height:1.8}
+body{min-width:320px;background:linear-gradient(180deg,var(--mghal-light-bg),var(--mghal-light-surface-subtle) 65%,var(--mghal-light-surface-alt))!important;color:var(--mghal-text)!important;line-height:1.8}
 .wrap{width:min(var(--mghal-content),calc(100% - 48px))!important;margin-inline:auto}
 .top,header.top{position:sticky!important;top:0;z-index:80;padding-block:12px!important;background:rgba(255,255,255,.97)!important;border-bottom:1px solid var(--mghal-border)!important;box-shadow:0 3px 16px rgba(23,43,77,.045)!important;backdrop-filter:blur(16px)}
 .nav{min-height:48px;gap:18px}.brand{font-size:22px!important;font-weight:850!important;letter-spacing:1.7px;color:var(--mghal-navy)!important}
@@ -207,7 +207,7 @@ section{min-width:0;padding-block:clamp(30px,4.5vw,52px)!important;border-top:1p
 .section-title,h1,h2,h3{color:var(--mghal-text)!important}.section-title{font-weight:800}.section-title small{color:var(--mghal-gold-ink)!important}
 .grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:18px}
 .card,.item,.note,.metric-card,.engineering-card,.credential-card{min-width:0;border:1px solid var(--mghal-border)!important;border-radius:var(--mghal-radius)!important;background:var(--mghal-light-bg)!important;color:var(--mghal-text)!important;box-shadow:var(--mghal-shadow)!important}
-.card,.item,.credential-card{padding:clamp(17px,2.2vw,23px)!important;transition:transform .2s,border-color .2s,box-shadow .2s}.card:hover,.item:hover,.credential-card:hover{transform:translateY(-3px);border-color:#b8c7d8!important;box-shadow:0 14px 36px rgba(23,43,77,.1)!important}
+.card,.item,.credential-card{padding:clamp(17px,2.2vw,23px)!important;transition:transform .2s,border-color .2s,box-shadow .2s}.card:hover,.item:hover,.credential-card:hover{transform:translateY(-3px);border-color:var(--mghal-light-border-strong)!important;box-shadow:0 14px 36px rgba(23,43,77,.1)!important}
 .card h2,.card h3,.item h2,.item h3,.credential-card h2,.credential-card h3{color:var(--mghal-navy)!important}.card p,.item p,.credential-card p,.metric-label{color:var(--mghal-muted)!important}
 .project-cover{display:block;width:100%!important;aspect-ratio:16/8;object-fit:cover;border:1px solid var(--mghal-border)!important;border-radius:12px!important;background:var(--mghal-surface)!important;box-shadow:none!important}
 .tag,.skill,.type,.status{display:inline-flex;align-items:center;min-height:28px;padding:4px 10px!important;border:1px solid var(--mghal-border)!important;border-radius:999px!important;background:var(--mghal-surface)!important;color:var(--mghal-blue)!important;font-size:12px;font-weight:700}
