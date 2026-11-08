@@ -2,6 +2,7 @@ import { createServer } from "node:http";
 import { Pool } from "pg";
 import worker from "../worker.production.js";
 import { PgD1Database } from "./postgres-adapter.mjs";
+import { checkReadiness } from "./health.mjs";
 
 const port = Number(process.env.PORT || 3001);
 const maxBodyBytes = Number(process.env.MAX_BODY_BYTES || 2_500_000);
@@ -85,6 +86,18 @@ const server = createServer(async (incoming, outgoing) => {
     const host = headers.get("x-forwarded-host") || headers.get("host") || `localhost:${port}`;
     const protocol = headers.get("x-forwarded-proto")?.split(",")[0]?.trim() || "http";
     const url = new URL(incoming.url || "/", `${protocol}://${host}`);
+
+    if (incoming.method === "GET" && url.pathname === "/live") {
+      sendJson(outgoing, 200, { status: "ok", runtime: "node" });
+      return;
+    }
+
+    if (incoming.method === "GET" && url.pathname === "/ready") {
+      const readiness = await checkReadiness(pool);
+      sendJson(outgoing, readiness.statusCode, readiness.body);
+      return;
+    }
+
     const body = await readRequestBody(incoming);
 
     const request = new Request(url, {
