@@ -23,6 +23,7 @@ jobs:
       - run: npm run test:seo
       - run: npm run test:sitemap
       - run: npm run test:navigation
+      - run: npm run test:search
       - run: npm --prefix mghal-backend ci --no-audit --no-fund
       - run: npm run lint
       - run: npm run typecheck
