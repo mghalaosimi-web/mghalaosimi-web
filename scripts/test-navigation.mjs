@@ -1,82 +1,30 @@
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { readFileSync } from "node:fs";
 
-const script = readFileSync(new URL("../assets/site.js", import.meta.url), "utf8");
-const css = readFileSync(new URL("../assets/theme.css", import.meta.url), "utf8");
-const detailCss = readFileSync(new URL("../public/assets/project-detail.css", import.meta.url), "utf8");
-const railCss = readFileSync(new URL("../public/assets/section-rail.css", import.meta.url), "utf8");
-const railScript = readFileSync(new URL("../public/assets/section-rail.js", import.meta.url), "utf8");
-assert.match(script, /\.navlinks, \.links/, "Legacy header links must be normalized into the shared navigation.");
-assert.match(script, /classList\.remove\("links"\)/, "Legacy navigation class must be removed after normalization.");
-assert.match(script, /classList\.add\("navlinks"\)/, "Shared navigation class must be applied.");
-assert.match(script, /Primary navigation/, "English navigation must receive a localized accessible label.");
-assert.match(script, /التنقل الرئيسي/, "Arabic navigation must receive a localized accessible label.");
-assert.ok(script.includes("Search M.GH.AL"), "English search dialog must be localized.");
-assert.ok(script.includes("البحث في M.GH.AL"), "Arabic search dialog must be localized.");
-assert.match(css, /\.nav-open \.navlinks\{display:flex!important\}/, "Mobile navigation open state is missing.");
-assert.match(css, /--mghal-touch-target:44px/, "Touch target token is missing.");
-assert.match(css, /@media\(max-width:390px\)/, "Small mobile breakpoint is missing.");
-assert.match(detailCss, /var\(--mghal-navy/, "Project detail pages must use the shared corporate design tokens.");
-assert.doesNotMatch(detailCss, /linear-gradient\(145deg,#070d18/, "Legacy dark project detail theme must be removed.");
-assert.match(detailCss, /@media\(max-width:760px\)/, "Project detail responsive layout is missing.");
-assert.match(script, /section-rail\.js/, "The persistent rail must load independently of the main site runtime.");
-assert.match(railScript, /mghal-rail\-mobile/, "The persistent section rail must include its mobile launcher.");
-assert.match(railScript, /locale\.href=localizedPath\+location\.search\+location\.hash/, "Locale switching must preserve article slugs and URL fragments.");
-assert.ok(railScript.includes("path.replace(/^\\/en(?=\\/|$)/"), "English locale prefix must be removed only at a path boundary.");
-assert.match(script, /isCertificatePage/, "Certificate pages must retain their dedicated styling while receiving the shared rail.");
-assert.match(railScript, /\['الرئيسية والهوية',[\s\S]*?\['المحتوى والتواصل'/, "Arabic rail groups must cover the full public site navigation.");
-assert.match(railScript, /\['OVERVIEW',[\s\S]*?\['CONTENT & CONNECT'/, "English rail groups must cover the full public site navigation.");
-for (const href of ["/profile.html", "/resume.html", "/projects.html", "/showcase.html", "/certificates.html", "/skills.html", "/education.html", "/achievements.html", "/knowledge.html", "/contact.html"]) {
-  assert.ok(railScript.includes(href), `Persistent rail is missing public destination: ${href}`);
+const header = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
+const shell = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
+const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
+
+const routes = ["/", "/about", "/skills", "/projects", "/labs", "/research", "/credentials", "/contact"];
+for (const route of routes) {
+  assert.ok(header.includes(`href: '${route}'`), `Navigation is missing route ${route}`);
 }
-assert.match(railCss, /position:fixed/, "The section rail must remain fixed while scrolling.");
-assert.match(railCss, /\.mghal-rail\{position:fixed;z-index:100;/, "Desktop rail must stay above the sticky masthead.");
-assert.match(railCss, /\.mghal-rail-overlay\.is-visible\{display:block;position:fixed;z-index:98;/, "Mobile rail overlay must cover the sticky masthead.");
-assert.match(railCss, /\.mghal-rail-mobile\{display:inline-flex;position:fixed;z-index:99;/, "Mobile rail launcher must remain above the overlay.");
-assert.match(railCss, /body\{padding-inline-start:278px;padding-inline-end:0\}/, "Desktop content must reserve the rail gutter at inline-start in both RTL and LTR.");
-assert.match(railCss, /html\[dir="ltr"\] \.mghal-rail\{inset-inline:16px auto/, "LTR rail must be positioned at inline-start to match its content gutter.");
-assert.match(railCss, /\.nav \.links,/, "Legacy header link groups must be hidden when the persistent rail is active.");
-assert.match(railCss, /body\.mghal-rail-collapsed\{padding-inline-start:90px;padding-inline-end:0\}/, "Collapsed rail must reserve its reduced logical width.");
-assert.match(railCss, /@media\(max-width:760px\)/, "The rail must switch to a mobile drawer at the mobile breakpoint.");
-assert.match(railCss, /focus-visible/, "Rail controls must expose visible keyboard focus.");
-assert.match(railScript, /querySelector\('.mghal-rail-link'\)\?\.focus\(\)/, "Opening the mobile rail must move focus into the navigation.");
-assert.match(railScript, /e.key==='Tab' && rail.classList.contains\('is-open'\)/, "Mobile drawer must contain keyboard focus while open.");
-assert.match(railScript, /Expand sidebar.*توسيع الشريط الجانبي/, "Collapsed rail toggle must announce the expanded state in both languages.");
-assert.match(railScript, /Close sections menu.*إغلاق قائمة الأقسام/, "Mobile drawer launcher must announce its open state in both languages.");
-assert.match(railScript, /Open sections menu.*فتح قائمة الأقسام/, "Mobile drawer launcher must announce its closed state in both languages.");
-assert.ok(railScript.includes("target.endsWith('knowledge.html')") && railScript.includes("article\\.html$"), "Article detail pages must mark the knowledge section as active.");
-assert.match(railCss, /font:700 12px\/1.2 Inter,system-ui,sans-serif/, "Mobile section launcher must use a valid font declaration.");
-assert.match(railCss, /body\.mghal-rail-collapsed \.mghal-rail-label,body\.mghal-rail-collapsed \.mghal-rail-foot\{display:initial\}/, "Mobile drawer must restore full labels after desktop collapse.");
-
-
-const htmlFiles = [];
-function walk(dir) {
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === "node_modules" || entry.name === "public" || entry.name === ".git") continue;
-    const path = join(dir, entry.name);
-    if (entry.isDirectory()) walk(path);
-    else if (entry.name.endsWith(".html")) htmlFiles.push(path);
-  }
-}
-walk(".");
-assert.ok(htmlFiles.length >= 40, "Expected the full bilingual public page set to be present.");
-console.log(`Navigation UX tests passed: localized shared navigation, mobile menu, search, touch targets and ${htmlFiles.length} HTML documents retained.`);
-
-const nextHeader = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
-const nextShell = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
-assert.match(nextHeader, /useRouter/, "Next.js navigation must support touch-swipe route changes.");
-assert.match(nextHeader, /touchstart[\s\S]*touchend/, "Touch navigation must track horizontal gestures.");
-assert.match(nextHeader, /Math\.abs\(dx\) < 72/, "Swipe navigation must enforce a deliberate horizontal threshold.");
-assert.match(nextHeader, /Math\.abs\(dx\) < Math\.abs\(dy\) \* 1\.35/, "Vertical scrolling must not trigger route changes.");
-assert.match(nextHeader, /isEn \? dx < 0 : dx > 0/, "Swipe direction must respect RTL and LTR reading direction.");
-assert.match(nextHeader, /a,button,input,textarea,select/, "Interactive controls must be excluded from swipe navigation.");
-assert.match(nextHeader, /aria-current/, "The active route must be exposed accessibly.");
-assert.doesNotMatch(nextHeader, /mghal-menu-toggle|<Menu|<X/, "The mobile navigation must not collapse into the old full-screen menu.");
-assert.match(nextShell, /\.mghal-header\{[\s\S]*?position:sticky/, "The shared header must remain pinned during scrolling.");
-assert.match(nextShell, /\.mghal-primary-nav\{[\s\S]*?overflow-x:auto/, "Mobile navigation must be a horizontally scrollable fixed rail.");
-assert.match(nextShell, /touch-action:pan-x/, "The navigation rail must support native horizontal touch scrolling.");
-assert.match(nextShell, /--mghal-color-navy:#172B4D/, "The central navy design token is required.");
-assert.match(nextShell, /--mghal-color-blue:#315A85/, "The central blue design token is required.");
-assert.match(nextShell, /--mghal-color-gold:#B69A62/, "The central gold design token is required.");
-assert.match(nextShell, /prefers-reduced-motion:reduce/, "Reduced-motion preferences must be respected.");
+assert.match(header, /aria-current=\{active \? 'page' : undefined\}/, "The active route must be exposed accessibly.");
+assert.match(header, /useRouter/, "Swipe navigation must use Next.js client routing.");
+assert.match(header, /touchstart[\s\S]*touchend/, "Horizontal swipe listeners are required.");
+assert.match(header, /Math\.abs\(dx\) < 72/, "A deliberate horizontal swipe threshold is required.");
+assert.match(header, /Math\.abs\(dx\) < Math\.abs\(dy\) \* 1\.35/, "Vertical scrolling must not trigger route navigation.");
+assert.match(header, /isEn \? dx < 0 : dx > 0/, "Swipe direction must respect RTL/LTR reading direction.");
+assert.match(header, /a,button,input,textarea,select/, "Interactive controls must be excluded from swipe navigation.");
+assert.match(header, /touch\.clientX < 20/, "System edge-swipe gestures must be preserved.");
+assert.match(header, /touchcancel/, "Cancelled touch gestures must reset swipe state.");
+assert.doesNotMatch(header, /mghal-menu-toggle|<Menu|<X/, "The old expanding mobile menu must not return.");
+assert.match(shell, /\.mghal-header\{[\s\S]*?position:sticky/, "The site header must remain pinned while scrolling.");
+assert.match(shell, /\.mghal-primary-nav\{[\s\S]*?overflow-x:auto/, "The navigation rail must scroll horizontally.");
+assert.match(shell, /touch-action:pan-x/, "The rail must accept horizontal touch scrolling.");
+assert.match(shell, /--mghal-color-navy:#172B4D/, "The central navy token is required.");
+assert.match(shell, /--mghal-color-blue:#315A85/, "The central blue token is required.");
+assert.match(shell, /--mghal-color-gold:#B69A62/, "The central gold token is required.");
+assert.match(shell, /prefers-reduced-motion:reduce/, "Reduced-motion support is required.");
+assert.match(layout, /<SiteHeader isEn=\{isEn\}\/>/, "The shared navigation must be mounted globally.");
+console.log("Next.js navigation tests passed: 8 routes, sticky horizontal rail, RTL/LTR swipe, control guards, edge gestures, and shared brand tokens.");
