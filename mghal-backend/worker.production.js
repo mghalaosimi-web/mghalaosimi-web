@@ -220,6 +220,27 @@ export default {
    const a=await q("SELECT id FROM articles WHERE id=? AND status='Published'",b.articleId).first();if(!a)return fail(404,"ARTICLE_NOT_FOUND","Published article not found");
    const id=crypto.randomUUID();await q("INSERT INTO comments(id,article_id,follower_id,body,status) VALUES(?,?,?,?,'pending')",id,b.articleId,f.id,b.body.trim()).run();return out({id,status:"pending"},201);
   }
+  if(path==="/api/public/site-reactions"&&method==="GET"){
+   const targetId=url.searchParams.get("targetId")||"mghal-home";if(targetId!=="mghal-home")return fail(404,"TARGET_NOT_FOUND","Unknown site reaction target");
+   const visitorToken=request.headers.get("X-Visitor-Token")||url.searchParams.get("visitorToken");if(visitorToken&&!validVisitorToken(visitorToken))return fail(400,"VALIDATION_ERROR","Invalid visitor token");
+   let viewerLiked=false;if(visitorToken){const f=await followerForVisitor(visitorToken);if(f){const identityHash=await hash(f.id);viewerLiked=!!(await q("SELECT id FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash=? LIMIT 1",targetId,identityHash).first());}}
+   const count=await q("SELECT COUNT(DISTINCT session_hash) count FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash IS NOT NULL",targetId).first();
+   return out({targetType:"page",targetId,counts:{like:Number(count?.count||0)},viewerReactions:{like:viewerLiked},reacted:viewerLiked});
+  }
+  if(path==="/api/public/site-reactions"&&method==="POST"){
+   const b=await json();if(!b||b.targetId!=="mghal-home"||b.reaction!=="like"||!validVisitorToken(b.visitorToken)||Object.keys(b).some(key=>!["visitorToken","targetId","reaction"].includes(key)))return fail(400,"VALIDATION_ERROR","Invalid site reaction");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const identityHash=await hash(f.id),existing=await q("SELECT id FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash=? LIMIT 1",b.targetId,identityHash).first();
+   if(existing)return out({success:true,created:false});
+   await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,session_hash) VALUES(?,'reaction','/','page',?,?)",crypto.randomUUID(),b.targetId,identityHash).run();
+   return out({success:true,created:true});
+  }
+  if(path==="/api/public/site-reactions"&&method==="DELETE"){
+   const b=await json();if(!b||b.targetId!=="mghal-home"||!validVisitorToken(b.visitorToken)||Object.keys(b).some(key=>!["visitorToken","targetId","reaction"].includes(key))||(b.reaction!==undefined&&b.reaction!=="like"))return fail(400,"VALIDATION_ERROR","Invalid site reaction removal");
+   const f=await followerForVisitor(b.visitorToken);if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const identityHash=await hash(f.id),removed=await q("DELETE FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash=? RETURNING id",b.targetId,identityHash).first();
+   return out({success:true,removed:!!removed});
+  }
   if(path==="/api/public/reactions"&&method==="GET"){
    const targetType=url.searchParams.get("targetType"),targetId=url.searchParams.get("targetId");
    if(!["article","project"].includes(targetType)||!targetId||targetId.length>100)return fail(400,"VALIDATION_ERROR","Invalid reaction target");
