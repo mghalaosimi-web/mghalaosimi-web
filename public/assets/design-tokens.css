@@ -1,24 +1,39 @@
-/* M.GH.AL shared design tokens — brand accents with accessible light/dark surfaces. */
+/* M.GH.AL design system — shared brand, surface, semantic and motion tokens. */
 :root {
+  /* Brand */
   --mghal-brand-navy: #172B4D;
   --mghal-brand-blue: #315A85;
   --mghal-brand-gold: #B69A62;
   --mghal-brand-gold-ink: #806333;
   --mghal-brand-gold-soft: #D2BD91;
 
+  /* Dark surfaces (Next.js application and dark components) */
   --mghal-dark-bg: #0B1117;
   --mghal-dark-surface: #111B26;
   --mghal-dark-surface-raised: #172431;
   --mghal-dark-text: #EEE9DF;
   --mghal-dark-muted: #AEB8BB;
   --mghal-dark-border: rgba(182, 154, 98, .24);
+  --mghal-dark-border-soft: rgba(182, 154, 98, .14);
+  --mghal-dark-border-strong: rgba(182, 154, 98, .48);
+  --mghal-dark-hover: rgba(182, 154, 98, .11);
 
+  /* Light surfaces (legacy/static routes) */
   --mghal-light-bg: #FFFFFF;
   --mghal-light-surface: #F3F5F7;
   --mghal-light-text: #202B38;
   --mghal-light-muted: #64748B;
   --mghal-light-border: #DCE2E8;
 
+  /* Semantic feedback */
+  --mghal-state-success: #5AAB84;
+  --mghal-state-warning: #D0A05A;
+  --mghal-state-danger: #D06D6D;
+  --mghal-state-info: #6EA0CF;
+  --mghal-state-disabled: #7B8794;
+  --mghal-disabled-surface: rgba(174, 184, 187, .08);
+
+  /* Focus, geometry and elevation */
   --mghal-focus-ring: #D2BD91;
   --mghal-content-width: 1180px;
   --mghal-radius: 14px;
