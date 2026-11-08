@@ -62,10 +62,10 @@ function ContactPageArabic(){
     <div className={styles.messageIcon}><MessageSquareText size={22}/></div>
     <h2>لديك فكرة أو<br/><em>موضوع للنقاش؟</em></h2>
     <p>اكتب تفاصيل رسالتك وسأطّلع عليها. يُرجى توضيح موضوع التواصل وإضافة المعلومات الضرورية فقط.</p>
-    <div className={styles.privacyNote}><LockKeyhole size={17}/><span><b>خصوصية وأمان</b><small>يُستخدم التحقق من Google لتقليل الرسائل المزعجة. لا نطلب صلاحية الوصول إلى بريدك أو ملفاتك.</small></span></div>
+    <div className={styles.privacyNote}><LockKeyhole size={17}/><span><b>خصوصية وأمان</b><small>لا نطلب صلاحية الوصول إلى بريدك أو ملفاتك. عند الإرسال يُجهّز تطبيق البريد رسالة لتراجعها وترسلها بنفسك.</small></span></div>
     <div className={styles.messageTopics}><span><Code2 size={14}/> Software Engineering</span><span><Layers3 size={14}/> Enterprise Systems</span><span><BrainCircuit size={14}/> Applied AI</span><span><Microscope size={14}/> Research</span></div>
    </div>
-   <div className={styles.formPanel}><div className={styles.formPanelHead}><span>CONTACT FORM</span><span><i/> ENCRYPTED SESSION</span></div><ContactForm locale="ar"/></div>
+   <div className={styles.formPanel}><div className={styles.formPanelHead}><span>CONTACT FORM</span><span><i/> EMAIL DRAFT</span></div><ContactForm locale="ar"/></div>
   </section>
 
   <footer className={styles.footer}><span>M.GH.AL</span><span>Building Systems. Engineering with Purpose.</span><a href="/">العودة إلى الرئيسية <ArrowLeft size={14}/></a></footer>
