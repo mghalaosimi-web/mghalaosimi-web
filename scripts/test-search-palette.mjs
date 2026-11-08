@@ -12,6 +12,7 @@ assert.ok(component.includes("fetch('/assets/search-index.json'"), "Search must 
 assert.ok(component.includes(".normalize('NFKD')"), "Search must normalize Unicode input.");
 assert.ok(component.includes(".replace(/[أإآ]/g, 'ا')"), "Arabic alef variants must normalize consistently.");
 assert.ok(component.includes(".replace(/ى/g, 'ي')"), "Arabic ya variants must normalize consistently.");
+assert.ok(component.includes(".replace(/[^\\p{L}\\p{N}\\s]/gu, ' ')"), "Brand punctuation must normalize for indexed project deep links.");
 assert.ok(component.includes("event.ctrlKey || event.metaKey") && component.includes("event.key.toLowerCase() === 'k'"), "Ctrl/Command+K must open search.");
 assert.ok(component.includes("<dialog") && component.includes("showModal()"), "Search must use a native modal dialog.");
 assert.ok(component.includes("aria-labelledby=\"mghal-search-title\""), "The dialog must have an accessible name.");
