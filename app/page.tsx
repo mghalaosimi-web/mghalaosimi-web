@@ -8,7 +8,6 @@ import {
   Award,
   BrainCircuit,
   Code2,
-  Database,
   Github,
   GraduationCap,
   Layers3,
