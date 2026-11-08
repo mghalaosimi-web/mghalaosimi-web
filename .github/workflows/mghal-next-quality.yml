@@ -18,6 +18,7 @@ jobs:
       - run: npm run audit:credentials
       - run: npm run test:certificates
       - run: npm run audit:profile
+      - run: npm run audit:design
       - run: npm run test:api-proxy
       - run: npm run test:seo
       - run: npm run test:sitemap
