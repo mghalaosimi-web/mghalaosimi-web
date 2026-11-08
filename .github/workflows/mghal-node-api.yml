@@ -23,10 +23,12 @@ jobs:
       run:
         working-directory: mghal-backend/node
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
+          package-manager-cache: false
       - run: npm install --no-audit --no-fund
+      - run: npm audit --omit=dev --audit-level=moderate
       - run: npm run check
       - run: node --check ../worker.production.js
