@@ -78,8 +78,9 @@ function siteReactionDb() {
             async run() { return { success: true, meta: { changes: 1 } }; },
             async first() {
               if (sql.includes("SELECT id,status,display_name,consent_at FROM followers")) {
-                return { id: "follower-1", status: "active", display_name: null, consent_at: null };
+                return { id: "follower-1", status: "unsubscribed", display_name: null, consent_at: null };
               }
+              if (sql.includes("UPDATE followers SET status='active',display_name=NULL")) return { id: "follower-1", status: "active" };
               if (sql.includes("COUNT(DISTINCT session_hash)")) return { count: 9 };
               if (sql.includes("SELECT id FROM analytics_events")) return { id: "site-like-1" };
               if (sql.includes("DELETE FROM analytics_events")) return { id: "site-like-1" };
@@ -601,12 +602,21 @@ describe("production Worker security contract", () => {
     expect(db.cleanup).toBe(true);
   });
 
-  it("starts a private anonymous guest follow without publishing a name or recording public consent", async () => {
+  it("creates a visitor session without silently following the site", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/visitors", {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ path: "/projects/waynah/" }),
     }), { DB: engagementDb() } as never);
     expect(response.status).toBe(201);
-    expect(await response.json()).toMatchObject({ status: "active", displayName: null, guestFollowing: true });
+    expect(await response.json()).toMatchObject({ status: "unsubscribed", displayName: null, guestFollowing: false });
+  });
+
+  it("activates anonymous following only after the visitor chooses the follow action", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/followers/guest", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64) }),
+    }), { DB: siteReactionDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ success: true, following: true, anonymous: true });
   });
 
   it("requires explicit consent before following", async () => {
