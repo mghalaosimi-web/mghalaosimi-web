@@ -59,6 +59,9 @@ function reactionWidget(type,id){
  const help=document.createElement('small');help.className='mghal-social-help';help.id='mghal-reaction-help-'+(++reactionWidgetSequence);help.textContent=words.reactionHelp;
  const feedback=document.createElement('span');feedback.className='mghal-reaction-feedback';feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');feedback.dataset.state='idle';
  let state={like:false,clap:false},countsReady=false,inFlight=false;const buttons={};
+ const localStateKey=token=>'mghal_reactions_v1:'+type+':'+id+':'+token;
+ const readLocalState=token=>{try{const value=JSON.parse(localStorage.getItem(localStateKey(token))||'{}');return {like:!!value.like,clap:!!value.clap}}catch{return {like:false,clap:false}}};
+ const saveLocalState=token=>{try{localStorage.setItem(localStateKey(token),JSON.stringify(state))}catch{}};
  const make=(reaction,label)=>{
   const button=document.createElement('button');button.type='button';button.className='mghal-social-btn mghal-reaction-btn mghal-reaction-'+reaction;button.dataset.reaction=reaction;button.dataset.state='idle';button.setAttribute('aria-describedby',help.id);button.setAttribute('aria-pressed','false');button.setAttribute('aria-busy','false');button.textContent=label+' · …';
   button.addEventListener('click',async()=>{
@@ -67,7 +70,7 @@ function reactionWidget(type,id){
    try{
     const token=await visitor(),result=await json('/api/public/reactions',{method:wasActive?'DELETE':'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorToken:token,targetType:type,targetId:id,reaction})});
     if(result.success!==true)throw new Error(words.error);
-    state[reaction]=!wasActive;button.setAttribute('aria-pressed',String(!!state[reaction]));
+    state[reaction]=!wasActive;saveLocalState(token);button.setAttribute('aria-pressed',String(!!state[reaction]));
     const refreshed=await refresh();feedback.textContent=refreshed?(wasActive?words.removed:words.saved):words.savedCountPending;feedback.dataset.state='success';await track('reaction',type,id);
    }catch(error){feedback.textContent=error.message||words.error;feedback.dataset.state='error'}
    finally{Object.values(buttons).forEach(item=>{item.disabled=false});button.setAttribute('aria-busy','false');button.dataset.state='idle';inFlight=false}
@@ -79,8 +82,11 @@ function reactionWidget(type,id){
   try{
    let token=null;if(navigator.doNotTrack!=='1'){try{token=await visitor()}catch{}}
    const query=new URLSearchParams({targetType:type,targetId:id}),options=token?{headers:{'X-Visitor-Token':token}}:{};
+   if(token)query.set('visitorToken',token);
    const data=await json('/api/public/reactions?'+query.toString(),options);if(!data.counts||typeof data.counts!=='object')throw new Error(words.countUnavailable);
-   state=data.viewerReactions||{like:!!data.reacted,clap:false};
+   const localState=token?readLocalState(token):{like:false,clap:false};
+   state=data.viewerReactions||{like:!!data.reacted,clap:localState.clap};
+   if(token)saveLocalState(token);
    like.textContent=words.like+' · '+Number(data.counts.like||0).toLocaleString(en?'en':'ar');clap.textContent=words.clap+' · '+Number(data.counts.clap||0).toLocaleString(en?'en':'ar');
    like.setAttribute('aria-pressed',String(!!state.like));clap.setAttribute('aria-pressed',String(!!state.clap));countsReady=true;return true;
   }catch(error){if(error.code==='PREVIEW_API_NOT_CONFIGURED'){like.disabled=true;clap.disabled=true;feedback.textContent=words.previewDisabled;feedback.dataset.state='error'}else if(!countsReady){like.textContent=words.like+' · —';clap.textContent=words.clap+' · —';feedback.textContent=words.countUnavailable;feedback.dataset.state='error'}return false}
