@@ -11,6 +11,7 @@ const routeStyles = ["../app/home.css", "../app/contact/contact.module.css", "..
 const engagementCss = readFileSync(new URL("../public/assets/social-engagement.css", import.meta.url), "utf8");
 const adminCss = readFileSync(new URL("../public/assets/admin.css", import.meta.url), "utf8");
 const legacyExperienceCss = readFileSync(new URL("../public/assets/mghal-experience.css", import.meta.url), "utf8");
+const legacyThemeCss = readFileSync(new URL("../public/assets/theme.css", import.meta.url), "utf8");
 const adminHtml = readFileSync(new URL("../public/admin/index.html", import.meta.url), "utf8");
 
 const tokens = {
@@ -70,10 +71,40 @@ assert.ok(globals.includes("--shadow-raised:var(--mghal-shadow-raised"), "Raised
 for (const [index, style] of routeStyles.entries()) {
   assert.ok(!/#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})(?![0-9a-fA-F])/.test(style), `Route stylesheet ${index + 1} must not reintroduce hard-coded colors.`);
 }
+
+assert.ok(legacyThemeCss.includes("--text:var(--mghal-dark-text)"), "Legacy dark routes must alias the shared text token.");
+assert.ok(legacyThemeCss.includes("--accent:var(--mghal-brand-blue)"), "Legacy dark routes must alias the shared brand accent.");
+assert.ok(legacyThemeCss.includes("background:var(--mghal-dark-bg)!important"), "Legacy dark routes must use the shared dark background.");
+assert.ok(layout.includes('data-mghal-theme="dark"'), "Next.js must declare its dark theme for shared components.");
 assert.ok(engagementCss.includes("var(--mghal-state-success)") && engagementCss.includes("var(--mghal-state-danger)"), "Follow/reaction feedback must use semantic state tokens.");
+assert.ok(engagementCss.includes('html[data-mghal-theme="dark"] .mghal-follow-panel'), "Social engagement must render a dark token variant inside the Next.js shell.");
 assert.ok(adminCss.includes("--success:var(--mghal-state-success)") && adminCss.includes("--danger:var(--mghal-state-danger)"), "The owner portal must use shared semantic states.");
 assert.ok(adminHtml.includes('href="/assets/design-tokens.css"'), "The owner portal must load shared tokens before its stylesheet.");
 assert.ok(legacyExperienceCss.includes("--mx-navy:var(--mghal-brand-navy)"), "Legacy public routes must use the shared brand palette.");
 assert.ok(layout.includes("<SiteHeader isEn={isEn}/>"), "The shared header must be mounted globally.");
 
+function tokenValue(name){
+  const match=tokensCss.match(new RegExp(name+":\\s*([^;]+);"));
+  assert.ok(match,"Missing contrast token: "+name);
+  return match[1].trim();
+}
+function channel(value){const v=value/255;return v<=0.04045?v/12.92:((v+0.055)/1.055)**2.4}
+function luminance(hex){
+  assert.match(hex,/^#[0-9A-Fa-f]{6}$/,"Contrast tokens must be six-digit hex colors.");
+  const rgb=[0,2,4].map(offset=>parseInt(hex.slice(offset+1,offset+3),16));
+  return 0.2126*channel(rgb[0])+0.7152*channel(rgb[1])+0.0722*channel(rgb[2]);
+}
+function contrast(foreground,background){const values=[luminance(foreground),luminance(background)].sort((a,b)=>b-a);return (values[0]+0.05)/(values[1]+0.05)}
+const accessibleTextTokens=["--mghal-dark-text","--mghal-dark-muted","--mghal-brand-gold","--mghal-focus-ring"];
+const darkSurfaceTokens=["--mghal-dark-bg","--mghal-dark-surface","--mghal-dark-surface-raised","--mghal-dark-surface-alt"];
+for(const foreground of accessibleTextTokens){
+  for(const background of darkSurfaceTokens){
+    const ratio=contrast(tokenValue(foreground),tokenValue(background));
+    assert.ok(ratio>=4.5,foreground+" on "+background+" must meet WCAG AA (4.5:1); got "+ratio.toFixed(2)+":1");
+  }
+}
+assert.ok(css.includes(".mghal-card h3,.mghal-skill-group h3{color:var(--mghal-color-text)}"),"Archive and skill headings must not use low-contrast navy text on dark surfaces.");
+assert.ok(css.includes(".mghal-tags span,.mghal-status,.mghal-skill-list span,.mghal-skill-toggle>strong,.mghal-skill-icon,.mghal-research-card strong{color:var(--mghal-color-focus)}"),"Badges, skill labels and research values must use a readable foreground token.");
+assert.ok(css.includes(".mghal-filter-row button:not(.active){background:var(--mghal-color-surface-raised);color:var(--mghal-color-text)"),"Inactive filter controls must use readable dark-surface styling.");
+assert.ok(legacyThemeCss.includes("a:not(.btn)"),"Legacy text links must use the accessible focus/gold token instead of low-contrast brand blue.");
 console.log("M.GH.AL design audit passed: shared brand/surface tokens, sticky horizontal navigation, RTL/LTR gesture guards, focus visibility and reduced motion.");
