@@ -43,6 +43,7 @@ assert.ok(worker.includes('cache.match("/offline.html")'), "Failed navigations m
 assert.ok(site.includes('navigator.serviceWorker.register("/sw.js"'), "Legacy pages must register the service worker.");
 assert.ok(offline.includes('href="#main-content"'), "Offline page must provide keyboard skip navigation.");
 assert.equal(manifest.display, "standalone", "PWA display mode should remain standalone.");
+assert.equal(manifest.background_color, "#0B1117", "Installed app background must use the shared M.GH.AL dark surface.");
 assert.ok(manifest.start_url && manifest.scope === "/", "PWA start_url and scope are required.");
 
 assert.ok(layout.includes("manifest: '/manifest.json'"), "The Next.js shell must expose the PWA manifest.");
