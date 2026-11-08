@@ -29,6 +29,7 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [open]);
+  useEffect(() => { setOpen(false); }, [pathname]);
   const closeMenu = () => setOpen(false);
   return (
     <header className={`mghal-header${open ? ' is-menu-open' : ''}`}>
