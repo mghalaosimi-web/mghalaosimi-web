@@ -51,6 +51,12 @@
   }
 
   links.replaceChildren();
+  nav.querySelector(".nav-resume")?.remove();
+  nav.querySelectorAll(':scope > a').forEach((anchor) => {
+    if (anchor.classList.contains('brand')) return;
+    const href = new URL(anchor.href, location.origin).pathname;
+    if (href === '/en' || href.startsWith('/en/') || href.startsWith('/language/')) anchor.remove();
+  });
   links.classList.remove('links');
   links.classList.add('navlinks', 'mghal-horizontal-links');
   links.id = links.id || 'site-navigation';
