@@ -1,35 +1,262 @@
 import type {Metadata} from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import {cookies} from 'next/headers';
+import {
+  ArrowUpLeft,
+  ArrowUpRight,
+  Award,
+  BrainCircuit,
+  Code2,
+  Database,
+  Github,
+  GraduationCap,
+  Layers3,
+  Linkedin,
+  Mail,
+  MapPin,
+} from 'lucide-react';
 import HomePageEnglish from './HomePageEnglish';
+import './home.css';
+import {projects} from '../data/projects';
 import {localizedAlternates} from '../lib/seo';
 
 export async function generateMetadata():Promise<Metadata>{
- const en=(await cookies()).get('portfolio-locale')?.value==='en';
- return en
-  ? {description:'The professional digital identity of Mohammed Ghaleb Alaosimi — Full-Stack Developer, Software Engineer and Information Technology student.',alternates:localizedAlternates('/','en')}
-  : {description:'الهوية الرقمية المهنية لمحمد غالب العصيمي — Full-Stack Developer | Software Engineer | IT Student.',alternates:localizedAlternates('/','ar')};
+  const en=(await cookies()).get('portfolio-locale')?.value==='en';
+  return en
+    ? {
+        title:'M.GH.AL | Full-Stack Developer & Software Engineer',
+        description:'The professional digital identity of Mohammed Ghaleb Alaosimi — Full-Stack Developer, Software Engineer and Information Technology student.',
+        alternates:localizedAlternates('/','en'),
+      }
+    : {
+        title:'محمد غالب العصيمي | M.GH.AL',
+        description:'الهوية الرقمية المهنية لمحمد غالب العصيمي — مطور Full-Stack ومهندس برمجيات وطالب تقنية معلومات في كلية المنار باليمن.',
+        alternates:localizedAlternates('/','ar'),
+      };
 }
-const projects=[
- {name:'WAYNAH | وَيْنَه؟',status:'قيد التطوير · إصدار v0.12.0',desc:'دليل محلي موثوق لاستكشاف الأماكن والمعلومات الجغرافية في اليمن، بتوجه Offline-first وبنية مكانية تعتمد PostGIS.',stack:'Next.js · TypeScript · PostGIS',href:'https://waynah.vercel.app',label:'LOCAL DISCOVERY'},
- {name:'Humanity System',status:'خاص · قيد التطوير',desc:'منظومة رقمية لإدارة البيانات والعمليات المؤسسية، مع اهتمام بالصلاحيات وسير العمل والتوثيق.',stack:'Full-Stack · Database · RBAC',href:'/projects/humanity-system',label:'ENTERPRISE SYSTEM'},
- {name:'FocusFlow',status:'تجريبي · غير مكتمل',desc:'تطبيق إنتاجية لتنظيم المهام وجلسات التركيز والعادات اليومية.',stack:'Flutter · Dart',href:'/projects/focusflow',label:'PRODUCTIVITY'},
- {name:'M.GH.AL Content OS',status:'قيد التطوير',desc:'نظام لإدارة دورة إنتاج المحتوى وتخطيطه ومراجعته ونشره عبر القنوات المدعومة.',stack:'Next.js · TypeScript · Prisma',href:'/projects/mghal-content-os',label:'CONTENT OPERATIONS'},
- {name:'Manar Schedule System',status:'مشروع تعاوني',desc:'نظام لتنظيم الجداول الأكاديمية وتدفقات العمل المرتبطة بها.',stack:'React · Node.js · PostgreSQL',href:'/projects/manar-schedule-system/',label:'ACADEMIC SYSTEM'},
- {name:'Al-Manar Schedule System',status:'قيد التطوير',desc:'نظام مستقل لإدارة الجداول الأكاديمية الخاصة بكلية المنار، ويُعرض بوصفه مشروعاً منفصلاً عن مشروع Manar Schedule System.',stack:'Academic Scheduling · Web',href:'/projects/almanar-schedule-system',label:'COLLEGE SYSTEM'},
- {name:'Yemen AI Platform',status:'تجريبي',desc:'منصة معرفية ثنائية اللغة لاستكشاف تطبيقات الذكاء الاصطناعي والبحث في المستندات.',stack:'Python · AI · RAG',href:'/projects/yemen-ai',label:'APPLIED AI'},
- {name:'CipherSphere',status:'تجارب وتطوير',desc:'مختبر تعليمي لتجربة مفاهيم التشفير والتحقق من سلامة البيانات.',stack:'Cryptography · Web',href:'/projects/ciphersphere',label:'CRYPTOGRAPHY'},
- {name:'M.GH.AL ESDP',status:'خاص · غير منشور',desc:'مشروع تطبيق مكتبي خاص؛ لا يتوفر رابط عام للتنزيل.',stack:'Desktop Software',href:'/projects/mghal-esdp',label:'PRIVATE PROJECT'},
- {name:'M.GH.AL Official Website',status:'نشط · قيد التطوير',desc:'مركز الهوية الرقمية المهنية، ويجمع الملف الشخصي والمشاريع والشهادات والسيرة الذاتية والروابط.',stack:'Web · SEO · Identity',href:'/',label:'DIGITAL IDENTITY'}
-];
-const skills=[['Software Engineering','Architecture · Full-Stack · API Design · Testing'],['Web Development','JavaScript · TypeScript · React · Next.js · Node.js'],['Data & Persistence','PostgreSQL · SQLite · Prisma · Firebase · Supabase'],['Application Platforms','Flutter · Python · C# · Docker · Vercel · Render'],['Product Engineering','RTL Interfaces · RBAC · ERP · Offline-first systems']];
-function HomeArabic(){return <main id="main" className="home-v2">
-<section className="hv-hero"><div className="hv-hero-grid" aria-hidden="true"/><div className="hv-hero-copy"><div className="hv-overline"><span className="hv-live-dot"/> OFFICIAL DIGITAL IDENTITY <span className="hv-overline-line"/></div><p className="hv-role">FULL-STACK DEVELOPMENT <i>×</i> SOFTWARE ENGINEERING</p><h1>محمد غالب <span>العصيمي</span></h1><p className="hv-intro">Mohammed Ghaleb Alaosimi · M.GH.AL</p><h2>Building Systems.<br/><em>Engineering with Purpose.</em></h2><p className="hv-intro">مطور برمجيات شامل وطالب بكالوريوس تقنية معلومات في كلية المنار للعلوم والتكنولوجيا باليمن. أعمل على بناء تطبيقات ويب وأنظمة مؤسسية ومنتجات رقمية، مع اهتمام بهندسة البرمجيات والذكاء الاصطناعي وقواعد البيانات وتجربة المستخدم.</p><div className="hv-actions"><a className="hv-button hv-button-primary" href="/projects">استكشف المشاريع ↗</a><a className="hv-button hv-button-ghost" href="/resume.html">السيرة الذاتية ↗</a></div><div className="hv-hero-meta"><span>YEMEN</span><b/><span>INFORMATION TECHNOLOGY</span><b/><span>M.GH.AL</span></div><div className="hv-hero-meta"><a href="https://orcid.org/0009-0000-6007-3170">ORCID · 0009-0000-6007-3170 ↗</a></div></div><div className="hv-hero-visual hv-portrait-visual"><div className="hv-portrait-grid" aria-hidden="true"/><Image src="/assets/images/mghal-avatar.webp" alt="الصورة الشخصية لمحمد غالب العصيمي" fill priority sizes="(max-width: 760px) 90vw, 42vw" className="hv-portrait-image"/><div className="hv-portrait-shade"/><div className="hv-visual-top"><span>M.GH.AL / 01</span><span>ENGINEERING PROFILE</span></div><div className="hv-portrait-stamp"><strong>M.GH.AL</strong><span>DESIGN<br/>BUILD<br/>DELIVER</span></div><div className="hv-visual-foot"><span>MOHAMMED GHALEB ALAOSIMI</span><span>YEMEN</span></div></div><div className="hv-scroll-cue"><span/> SCROLL TO EXPLORE</div></section>
-<section className="hv-disciplines"><div className="hv-section-top"><span>01 / PROFESSIONAL FOCUS</span><span>CORE DISCIPLINES</span></div><div className="hv-section-intro"><div><p className="hv-kicker">WHAT I BUILD</p><h2>هندسة عملية،<br/><em>وأثر قابل للتطوير.</em></h2></div><p>أجمع بين تصميم الأنظمة وتنفيذ البرمجيات وتجربة المستخدم لبناء حلول قابلة للصيانة والتوسع.</p></div><div className="hv-discipline-grid"><article className="hv-discipline-card"><div className="hv-card-head"><span>01</span><b>01</b></div><h3>هندسة البرمجيات</h3><p>تصميم تطبيقات واضحة البنية، قابلة للاختبار والصيانة والتوسع.</p></article><article className="hv-discipline-card"><div className="hv-card-head"><span>02</span><b>02</b></div><h3>الأنظمة المؤسسية</h3><p>بناء حلول ERP وإدارة البيانات والصلاحيات وسير العمل بين الوحدات.</p></article><article className="hv-discipline-card"><div className="hv-card-head"><span>03</span><b>03</b></div><h3>تجربة المستخدم</h3><p>واجهات عربية RTL متجاوبة، مع عناية بالوضوح وإمكانية الوصول.</p></article></div></section>
-<section className="hv-work" id="projects"><div className="hv-section-top"><span>02 / SELECTED WORK</span><span>PROJECT ARCHIVE</span></div><div className="hv-section-intro"><div><p className="hv-kicker">BUILT WITH INTENT</p><h2>مشاريع<br/><em>M.GH.AL</em></h2></div><div className="hv-work-aside"><p>نماذج من المشاريع الشخصية والأكاديمية والتجريبية. حالة كل مشروع موضحة دون الإيحاء بأن جميعها منشورة أو مكتملة.</p><a href="/projects">قائمة المشاريع الكاملة ↗</a></div></div><div className="hv-project-grid">{projects.map((p,i)=><a className={'hv-project-card hv-project-'+(i+1)} href={p.href} key={p.name}><div className="hv-project-top"><span>0{i+1} / {p.label}</span><span>↗</span></div><div className="hv-project-art"><div className="hv-art-academic"><b>{p.name}</b><small>{p.stack}</small></div></div><div className="hv-project-copy"><span className="hv-project-label">{p.status}</span><h3>{p.name}</h3><p>{p.desc}</p></div><div className="hv-project-bottom"><span>{p.stack}</span><b>EXPLORE ↗</b></div></a>)}</div></section>
-<section className="hv-capabilities"><div className="hv-section-top"><span>03 / TECHNICAL CAPABILITIES</span><span>TOOLS & METHODS</span></div><div className="hv-cap-layout"><div><p className="hv-kicker">TECHNICAL FOUNDATION</p><h2>مهارات تقنية<br/><em>تتحول إلى ممارسة.</em></h2><p className="hv-cap-intro">مجالات وتقنيات أستخدمها أو أعمل على تطويرها ضمن المشاريع والتعلم المستمر.</p><a className="hv-text-link" href="/skills">استعراض المهارات والتقنيات ↗</a></div><div className="hv-skill-list">{skills.map((s,i)=><div className="hv-skill-row" key={s[0]}><span>0{i+1}</span><div><h3>{s[0]}</h3><p>{s[1]}</p></div><b>↗</b></div>)}</div></div></section>
-<section className="hv-credentials"><div className="hv-credential-icon">✦</div><div><p className="hv-kicker">LEARNING / VALIDATION</p><h2>التعلّم المستمر، <em>والتوثيق المهني.</em></h2><p>سجل الشهادات التقنية والتعليمية والاعتمادات المهنية، مع روابط التحقق المتاحة.</p></div><a className="hv-button hv-button-ghost" href="/credentials">عرض الشهادات ↗</a></section>
-<section className="hv-contact"><div className="hv-contact-content"><p className="hv-kicker">04 / CONNECT & COLLABORATE</p><h2>لنتواصل،<br/><em>ونبني قيمة حقيقية.</em></h2><p>للتواصل المهني ومناقشة المشاريع التقنية والبحث وفرص التعاون.</p><a className="hv-button hv-button-primary" href="/contact">ابدأ التواصل ↗</a></div><div className="hv-social-links"><a href="https://orcid.org/0009-0000-6007-3170">ORCID ↗</a><a href="https://github.com/mghalaosimi-web">GitHub ↗</a><a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/">LinkedIn ↗</a><a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi">Credly ↗</a><a href="mailto:m.gh.alaosimi@gmail.com">Email ↗</a></div><div className="hv-contact-index">M.GH.AL<span> / 2026</span></div></section>
-</main>}
 
-export default async function Home(){const locale=(await cookies()).get('portfolio-locale')?.value;return locale==='en'?<HomePageEnglish/>:<HomeArabic/>}
+const disciplines=[
+  {
+    icon:Code2,
+    number:'01',
+    title:'هندسة البرمجيات',
+    text:'تصميم تطبيقات واضحة البنية، قابلة للاختبار والصيانة والتوسع، من واجهات الاستخدام إلى الخدمات وقواعد البيانات.',
+  },
+  {
+    icon:Layers3,
+    number:'02',
+    title:'الأنظمة المؤسسية',
+    text:'بناء حلول ERP وإدارة البيانات والصلاحيات وسير العمل، وربط الوحدات والعمليات ضمن منظومات متكاملة.',
+  },
+  {
+    icon:BrainCircuit,
+    number:'03',
+    title:'الذكاء الاصطناعي وتجربة المستخدم',
+    text:'تطوير تطبيقات معرفية وتجارب عربية ثنائية اللغة، مع اهتمام بالذكاء الاصطناعي التطبيقي وواجهات RTL.',
+  },
+];
+
+const skillGroups=[
+  {
+    title:'Software Engineering',
+    detail:'Architecture · Full-Stack · API Design · Testing · TypeScript',
+  },
+  {
+    title:'Web & Application Development',
+    detail:'JavaScript · React · Next.js · Node.js · Flutter · Python · C#',
+  },
+  {
+    title:'Data & Cloud Systems',
+    detail:'PostgreSQL · SQLite · Prisma · Firebase · Supabase · Docker · Vercel · Render',
+  },
+];
+
+function ProjectArtwork({slug,name,stack}:{slug:string;name:string;stack:string[]}){
+  if(slug==='waynah'){
+    return <div className="hv-art-academic">
+      <MapPin size={48}/>
+      <span>WAYNAH / YEMEN</span>
+      <small>LOCAL DISCOVERY · OFFLINE-FIRST</small>
+    </div>;
+  }
+  if(slug==='humanity-system'){
+    return <div className="hv-art-code">
+      <span>ENTERPRISE SYSTEM / 02</span>
+      <b>RBAC</b>
+      <small>DATA · WORKFLOW · ACCESS</small>
+    </div>;
+  }
+  return <div className="hv-art-academic">
+    <Layers3 size={48}/>
+    <span>{name}</span>
+    <small>{stack.slice(0,3).join(' · ')}</small>
+  </div>;
+}
+
+function HomeArabic(){
+  const featured=projects.filter(project=>project.featured).slice(0,3);
+  return (
+    <main id="main" className="home-v2">
+      <section className="hv-hero" aria-labelledby="home-title">
+        <div className="hv-hero-grid" aria-hidden="true"/>
+        <div className="hv-hero-copy">
+          <div className="hv-overline">
+            <span className="hv-live-dot"/>
+            OFFICIAL DIGITAL IDENTITY
+            <span className="hv-overline-line"/>
+          </div>
+          <p className="hv-role">FULL-STACK DEVELOPMENT <i>×</i> SOFTWARE ENGINEERING</p>
+          <h1 id="home-title">محمد غالب <span>العصيمي</span></h1>
+          <a className="hv-hero-orcid" href="https://orcid.org/0009-0000-6007-3170" target="_blank" rel="noopener noreferrer">
+            <span className="hv-orcid-mark">iD</span>
+            <span>المعرّف الأكاديمي الدولي للباحث</span>
+            <strong>0009-0000-6007-3170</strong>
+            <ArrowUpRight size={14}/>
+          </a>
+          <h2>Building Systems.<br/><em>Engineering with Purpose.</em></h2>
+          <p className="hv-intro">
+            مطور برمجيات شامل وطالب بكالوريوس تقنية معلومات في كلية المنار للعلوم والتكنولوجيا باليمن. أعمل على بناء تطبيقات ويب وأنظمة مؤسسية ومنتجات رقمية، مع اهتمام بهندسة البرمجيات والذكاء الاصطناعي وقواعد البيانات وتجربة المستخدم.
+          </p>
+          <div className="hv-actions">
+            <Link href="/projects" className="hv-button hv-button-primary">استكشف المشاريع <ArrowUpLeft size={17}/></Link>
+            <Link href="/about" className="hv-button hv-button-ghost">اكتشف مساري <ArrowUpRight size={16}/></Link>
+          </div>
+          <div className="hv-hero-meta">
+            <span>YEMEN</span><b/>
+            <span>INFORMATION TECHNOLOGY</span><b/>
+            <span>SOFTWARE ENGINEERING</span>
+          </div>
+        </div>
+
+        <div className="hv-hero-visual hv-portrait-visual" aria-label="الصورة الشخصية لمحمد غالب العصيمي">
+          <div className="hv-portrait-grid" aria-hidden="true"/>
+          <Image
+            src="/assets/images/mghal-avatar.webp"
+            alt="محمد غالب العصيمي — M.GH.AL"
+            fill
+            priority
+            sizes="(max-width: 640px) 90vw, 42vw"
+            className="hv-portrait-image"
+          />
+          <div className="hv-portrait-shade"/>
+          <div className="hv-visual-top"><span>M.GH.AL / 01</span><span>ENGINEERING PROFILE</span></div>
+          <div className="hv-portrait-stamp"><Code2 size={18}/><span>DESIGN<br/>BUILD<br/>DELIVER</span></div>
+          <div className="hv-visual-foot"><span>MOHAMMED GHALEB ALAOSIMI</span><span>YEMEN · 2026</span></div>
+        </div>
+        <div className="hv-scroll-cue"><span/> SCROLL TO EXPLORE</div>
+      </section>
+
+      <section className="hv-disciplines" aria-labelledby="disciplines-title">
+        <div className="hv-section-top"><span>01 / PROFESSIONAL FOCUS</span><span>CORE DISCIPLINES</span></div>
+        <div className="hv-section-intro">
+          <div>
+            <p className="hv-kicker">WHAT I BUILD</p>
+            <h2 id="disciplines-title">ثلاثة مسارات،<br/><em>رؤية هندسية واحدة.</em></h2>
+          </div>
+          <p>أجمع بين هندسة البرمجيات والأنظمة المؤسسية وتجربة المستخدم لبناء حلول تقنية عملية، واضحة البنية، وقابلة للتطوير.</p>
+        </div>
+        <div className="hv-discipline-grid">
+          {disciplines.map(item=>{
+            const Icon=item.icon;
+            return <article className="hv-discipline-card" key={item.number}>
+              <div className="hv-card-head"><Icon size={23} strokeWidth={1.5}/><span>{item.number}</span></div>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+              <div className="hv-card-rule"/>
+            </article>;
+          })}
+        </div>
+      </section>
+
+      <section className="hv-work" id="featured" aria-labelledby="work-title">
+        <div className="hv-section-top"><span>02 / SELECTED WORK</span><span>M.GH.AL PROJECT ARCHIVE</span></div>
+        <div className="hv-section-intro">
+          <div>
+            <p className="hv-kicker">BUILT WITH INTENT</p>
+            <h2 id="work-title">من الفكرة<br/><em>إلى التنفيذ.</em></h2>
+          </div>
+          <div className="hv-work-aside">
+            <p>نماذج مختارة من المشاريع الشخصية والأكاديمية والتعاونية. لكل مشروع نطاقه ودوره وحالته الحالية، دون الإيحاء بأن جميعها منشورة أو مكتملة.</p>
+            <Link href="/projects">عرض جميع المشاريع <ArrowUpLeft size={16}/></Link>
+          </div>
+        </div>
+        <div className="hv-project-grid">
+          {featured.map((project,index)=>(
+            <Link href={'/projects/'+project.slug} className={'hv-project-card hv-project-'+(index+1)} key={project.slug}>
+              <div className="hv-project-top"><span>0{index+1} / FEATURED</span><ArrowUpLeft size={18}/></div>
+              <div className="hv-project-art">
+                <ProjectArtwork slug={project.slug} name={project.name} stack={project.stack}/>
+              </div>
+              <div className="hv-project-copy">
+                <span className="hv-project-label">{project.label}</span>
+                <h3>{project.name}</h3>
+                <p>{project.summary}</p>
+              </div>
+              <div className="hv-project-bottom">
+                <span>{project.stack.slice(0,3).join(' / ')}</span>
+                <b>EXPLORE <ArrowUpLeft size={14}/></b>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="hv-capabilities" aria-labelledby="capabilities-title">
+        <div className="hv-section-top"><span>03 / TECHNICAL CAPABILITIES</span><span>TOOLS & METHODS</span></div>
+        <div className="hv-cap-layout">
+          <div>
+            <p className="hv-kicker">TECHNICAL FOUNDATION</p>
+            <h2 id="capabilities-title">معرفة تقنية<br/><em>تتحول إلى ممارسة.</em></h2>
+            <p className="hv-cap-intro">مجالات وتقنيات أعمل على توظيفها في المشاريع والتطبيق العملي، مع تطوير مستمر للمهارات.</p>
+            <Link href="/skills" className="hv-text-link">استعراض المهارات والتقنيات <ArrowUpLeft size={16}/></Link>
+          </div>
+          <div className="hv-skill-list">
+            {skillGroups.map((group,index)=>(
+              <div className="hv-skill-row" key={group.title}>
+                <span>0{index+1}</span>
+                <div><h3>{group.title}</h3><p>{group.detail}</p></div>
+                <ArrowUpLeft size={17}/>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="hv-credentials" aria-labelledby="credentials-title">
+        <div className="hv-credential-icon"><Award size={29}/></div>
+        <div>
+          <p className="hv-kicker">LEARNING / VALIDATION</p>
+          <h2 id="credentials-title">التعلّم المستمر، <em>والتوثيق المهني.</em></h2>
+          <p>السجل الأكاديمي والشهادات التقنية والاعتمادات المهنية، مع روابط التحقق المتاحة.</p>
+        </div>
+        <Link href="/credentials" className="hv-button hv-button-ghost">الشهادات والمؤهلات <ArrowUpLeft size={16}/></Link>
+      </section>
+
+      <section className="hv-contact" aria-labelledby="contact-title">
+        <div className="hv-contact-orbit" aria-hidden="true"/>
+        <div className="hv-contact-content">
+          <p className="hv-kicker">04 / CONNECT & COLLABORATE</p>
+          <h2 id="contact-title">لنبنِ شيئًا<br/><em>يستحق أن يُبنى.</em></h2>
+          <p>للتواصل المهني، ومناقشة هندسة البرمجيات والأنظمة المؤسسية والذكاء الاصطناعي وفرص التعاون التقني.</p>
+          <Link href="/contact" className="hv-button hv-button-primary">ابدأ التواصل <ArrowUpLeft size={17}/></Link>
+        </div>
+        <div className="hv-social-links">
+          <a href="https://orcid.org/0009-0000-6007-3170" target="_blank" rel="noopener noreferrer">
+            <span className="hv-orcid-mark">iD</span><span>ORCID</span><small>0009-0000-6007-3170</small><ArrowUpRight size={14}/>
+          </a>
+          <a href="https://github.com/mghalaosimi-web" target="_blank" rel="noopener noreferrer"><Github size={18}/> GitHub <ArrowUpRight size={14}/></a>
+          <a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/" target="_blank" rel="noopener noreferrer"><Linkedin size={18}/> LinkedIn <ArrowUpRight size={14}/></a>
+          <a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi" target="_blank" rel="noopener noreferrer"><GraduationCap size={18}/> Credly <ArrowUpRight size={14}/></a>
+          <a href="mailto:m.gh.alaosimi@gmail.com"><Mail size={18}/> Email <ArrowUpRight size={14}/></a>
+        </div>
+        <div className="hv-contact-index">M.GH.AL<span> / 2026</span></div>
+      </section>
+    </main>
+  );
+}
+
+export default async function Home(){
+  const locale=(await cookies()).get('portfolio-locale')?.value;
+  return locale==='en' ? <HomePageEnglish/> : <HomeArabic/>;
+}
