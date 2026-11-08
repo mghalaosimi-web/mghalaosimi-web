@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run audit:design && npm run test:navigation && npm run test:search && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "audit:credentials": "node scripts/audit-credentials.mjs",
