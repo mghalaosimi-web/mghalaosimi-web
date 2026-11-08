@@ -22,6 +22,7 @@ Optional:
 - `PG_POOL_MAX` (default 5)
 - `PGSSLMODE=disable` only for local development; production uses TLS verification.
 - `ALLOWED_ORIGINS`
+- `RATE_LIMIT_PER_MINUTE` (positive integer; defaults to 120 when omitted or invalid)
 - `OWNER_BOOTSTRAP_TOKEN`
 - `GOOGLE_AUTH_ENABLED`
 - `GOOGLE_CLIENT_ID`

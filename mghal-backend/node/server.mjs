@@ -23,6 +23,7 @@ const pool = new Pool({
 const env = {
   DB: new PgD1Database(pool),
   ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS,
+  RATE_LIMIT_PER_MINUTE: process.env.RATE_LIMIT_PER_MINUTE,
   OWNER_BOOTSTRAP_TOKEN: process.env.OWNER_BOOTSTRAP_TOKEN,
   GOOGLE_AUTH_ENABLED: process.env.GOOGLE_AUTH_ENABLED,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,

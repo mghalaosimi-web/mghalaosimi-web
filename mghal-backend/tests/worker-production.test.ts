@@ -263,6 +263,44 @@ describe("production Worker security contract", () => {
     expect(await response.json()).toMatchObject({ status: "ok", database: "connected" });
   });
 
+  it("honors RATE_LIMIT_PER_MINUTE from the Worker environment", async () => {
+    const counts = new Map<string, number>();
+    const DB = {
+      prepare(sql: string) {
+        return {
+          bind(...params: unknown[]) {
+            return {
+              async run() {
+                if (sql.startsWith("INSERT INTO site_settings(key,value_json)")) {
+                  const key = String(params[0] ?? "");
+                  counts.set(key, (counts.get(key) ?? 0) + 1);
+                }
+                return { success: true, meta: { changes: 1 } };
+              },
+              async first() {
+                if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) {
+                  return { value_json: String(counts.get(String(params[0] ?? "")) ?? 0) };
+                }
+                if (sql.includes("SELECT COUNT(*) count FROM followers")) return { count: 0 };
+                return null;
+              },
+              async all() { return { results: [] }; },
+            };
+          },
+        };
+      },
+    };
+    const request = () => productionWorker.fetch(new Request("https://api.example.test/api/public/followers/count", {
+      headers: { "CF-Connecting-IP": "203.0.113.42" },
+    }), { DB, RATE_LIMIT_PER_MINUTE: "2" } as never);
+
+    expect((await request()).status).toBe(200);
+    expect((await request()).status).toBe(200);
+    const blocked = await request();
+    expect(blocked.status).toBe(429);
+    expect(await blocked.json()).toMatchObject({ error: { code: "RATE_LIMITED" } });
+  });
+
   it("creates the first owner only through the one-time bootstrap token", async () => {
     const token = "test-bootstrap-token-with-enough-entropy-0001";
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/bootstrap", {
