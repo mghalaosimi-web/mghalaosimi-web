@@ -182,7 +182,7 @@ function HomeArabic(){
         </div>
         <div className="hv-project-grid">
           {featured.map((project,index)=>(
-            <Link href={'/projects/'+project.slug} className={'hv-project-card home-project-card hv-project-'+(index+1)} data-project-slug={project.slug} key={project.slug}>
+            <div className="home-project-card" data-project-slug={project.slug} key={project.slug}><Link href={'/projects/'+project.slug} className={'hv-project-card hv-project-'+(index+1)}>
               <div className="hv-project-top"><span>0{index+1} / FEATURED</span><ArrowUpLeft size={18}/></div>
               <div className="hv-project-art">
                 <ProjectArtwork slug={project.slug} name={project.name} stack={project.stack}/>
@@ -196,7 +196,7 @@ function HomeArabic(){
                 <span>{project.stack.slice(0,3).join(' / ')}</span>
                 <b>EXPLORE <ArrowUpLeft size={14}/></b>
               </div>
-            </Link>
+            </Link></div>
           ))}
         </div>
       </section>
