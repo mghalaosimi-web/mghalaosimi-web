@@ -42,7 +42,7 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
       if (event.touches.length !== 1) { startTarget = null; return; }
       const target = event.target as HTMLElement | null;
       if (!target || !target.closest('main, #main, [data-swipe-page]')) { startTarget = null; return; }
-      if (target.closest('a,button,input,textarea,select,[contenteditable="true"],[data-no-swipe],.mghal-primary-nav,[data-horizontal-scroll]')) {
+      if (target.closest('a,button,input,textarea,select,video,audio,canvas,img,dialog,[role="dialog"],[contenteditable="true"],[data-no-swipe],[data-horizontal-scroll],.mghal-primary-nav,.project-modal-backdrop,.project-modal,.portfolio-archive-filters,.portfolio-waynah-gallery')) {
         startTarget = null; return;
       }
       const touch = event.touches[0];
