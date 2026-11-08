@@ -21,8 +21,11 @@ jobs:
       - run: npm run audit:design
       - run: npm run audit:pwa
       - run: npm run test:api-proxy
+      - run: npm run test:security-headers
+      - run: npm run test:structured-data
       - run: npm run test:seo
       - run: npm run test:sitemap
+      - run: npm run test:project-pages
       - run: npm run test:navigation
       - run: npm run test:search
       - run: npm run test:project-case-studies
