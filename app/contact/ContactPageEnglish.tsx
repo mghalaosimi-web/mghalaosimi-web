@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowUpLeft, ArrowUpRight, BrainCircuit, Code2, Github, Instagram, Layers3, Linkedin, LockKeyhole, Mail, MessageSquareText, Microscope, Video } from 'lucide-react';
+import { ArrowLeft, ArrowUpLeft, ArrowUpRight, BrainCircuit, Code2, Github, Instagram, Layers3, Linkedin, LockKeyhole, Mail, MessageSquareText, Microscope, Video, MessageCircle, Phone } from 'lucide-react';
 import ContactForm from '../../components/ContactForm';
 import styles from './contact.module.css';
 
@@ -6,6 +6,10 @@ const channels = [
  {name:'LinkedIn',detail:'Professional networking and opportunities',value:'Mohammed Ghaleb Alaosimi',href:'https://www.linkedin.com/in/mohammed-alaosimi-038155443/',icon:Linkedin},
  {name:'GitHub',detail:'Projects and source code',value:'mghalaosimi-web',href:'https://github.com/mghalaosimi-web',icon:Github},
  {name:'Email',detail:'Inquiries and direct messages',value:'m.gh.alaosimi@gmail.com',href:'mailto:m.gh.alaosimi@gmail.com',icon:Mail},
+ {name:'WhatsApp · Primary',detail:'Direct WhatsApp messages',value:'+967 776 778 675',href:'https://wa.me/967776778675',icon:MessageCircle},
+ {name:'Call · Primary',detail:'Direct phone call',value:'+967 776 778 675',href:'tel:+967776778675',icon:Phone},
+ {name:'WhatsApp · Secondary',detail:'Alternative WhatsApp number',value:'+967 773 775 747',href:'https://wa.me/967773775747',icon:MessageCircle},
+ {name:'Call · Secondary',detail:'Alternative phone number',value:'+967 773 775 747',href:'tel:+967773775747',icon:Phone}
  {name:'ORCID',detail:'Research identity and record',value:'0009-0000-6007-3170',href:'https://orcid.org/0009-0000-6007-3170',icon:Microscope},
  {name:'Credly',detail:'Verified digital badges and credentials',value:'View digital credentials',href:'https://www.credly.com/users/mohammed-ghaleb-al-aosimi',icon:Layers3},
  {name:'Instagram',detail:'Personal and professional updates',value:'@q_v94',href:'https://www.instagram.com/q_v94/',icon:Instagram},
@@ -29,7 +33,7 @@ export default function ContactPageEnglish(){
   </section>
   <section className={styles.channelsSection} aria-labelledby="channels-title">
    <div className={styles.sectionHeading}><div><span className={styles.sectionIndex}>01 / PROFESSIONAL & SOCIAL CHANNELS</span><h2 id="channels-title">Choose your preferred channel</h2><p>Professional, research, and social profiles published by M.GH.AL.</p></div><span className={styles.headingCode}>CONNECT · 07</span></div>
-   <div className={styles.channelGrid}>{channels.map((item,index)=>{const Icon=item.icon;return <a className={styles.channelCard} href={item.href} key={item.name} target={item.href.startsWith('mailto:')?'_self':'_blank'} rel={item.href.startsWith('mailto:')?undefined:'noopener noreferrer'}><div className={styles.cardTop}><span className={styles.cardNumber}>0{index+1}</span><span className={styles.cardIcon}><Icon size={19}/></span><ArrowUpRight className={styles.cardArrow} size={16}/></div><div className={styles.cardText}><h3>{item.name}</h3><p>{item.detail}</p><strong>{item.value}</strong></div></a>})}</div>
+   <div className={styles.channelGrid}>{channels.map((item,index)=>{const Icon=item.icon;return <a className={styles.channelCard} href={item.href} key={item.name} target={item.href.startsWith('https://')?'_blank':'_self'} rel={item.href.startsWith('https://')?'noopener noreferrer':undefined}><div className={styles.cardTop}><span className={styles.cardNumber}>0{index+1}</span><span className={styles.cardIcon}><Icon size={19}/></span><ArrowUpRight className={styles.cardArrow} size={16}/></div><div className={styles.cardText}><h3>{item.name}</h3><p>{item.detail}</p><strong>{item.value}</strong></div></a>})}</div>
   </section>
   <section className={styles.messageSection} id="send-message">
    <div className={styles.messageIntro}><span className={styles.sectionIndex}>02 / SEND A MESSAGE</span><div className={styles.messageIcon}><MessageSquareText size={22}/></div><h2>Have an idea or<br/><em>something to discuss?</em></h2><p>Share the details of your message. Please clarify the topic and include only the information needed to respond.</p><div className={styles.privacyNote}><LockKeyhole size={17}/><span><b>Privacy & security</b><small>We do not request access to your email or files. Your default email application opens with a draft for you to review and send.</small></span></div><div className={styles.messageTopics}><span><Code2 size={14}/> Software Engineering</span><span><Layers3 size={14}/> Enterprise Systems</span><span><BrainCircuit size={14}/> Applied AI</span><span><Microscope size={14}/> Research</span></div></div>
