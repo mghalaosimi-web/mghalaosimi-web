@@ -62,3 +62,21 @@ function walk(dir) {
 walk(".");
 assert.ok(htmlFiles.length >= 40, "Expected the full bilingual public page set to be present.");
 console.log(`Navigation UX tests passed: localized shared navigation, mobile menu, search, touch targets and ${htmlFiles.length} HTML documents retained.`);
+
+const nextHeader = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
+const nextShell = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
+assert.match(nextHeader, /useRouter/, "Next.js navigation must support touch-swipe route changes.");
+assert.match(nextHeader, /touchstart[\s\S]*touchend/, "Touch navigation must track horizontal gestures.");
+assert.match(nextHeader, /Math\.abs\(dx\) < 72/, "Swipe navigation must enforce a deliberate horizontal threshold.");
+assert.match(nextHeader, /Math\.abs\(dx\) < Math\.abs\(dy\) \* 1\.35/, "Vertical scrolling must not trigger route changes.");
+assert.match(nextHeader, /isEn \? dx < 0 : dx > 0/, "Swipe direction must respect RTL and LTR reading direction.");
+assert.match(nextHeader, /a,button,input,textarea,select/, "Interactive controls must be excluded from swipe navigation.");
+assert.match(nextHeader, /aria-current/, "The active route must be exposed accessibly.");
+assert.doesNotMatch(nextHeader, /mghal-menu-toggle|<Menu|<X/, "The mobile navigation must not collapse into the old full-screen menu.");
+assert.match(nextShell, /\.mghal-header\{[\s\S]*?position:sticky/, "The shared header must remain pinned during scrolling.");
+assert.match(nextShell, /\.mghal-primary-nav\{[\s\S]*?overflow-x:auto/, "Mobile navigation must be a horizontally scrollable fixed rail.");
+assert.match(nextShell, /touch-action:pan-x/, "The navigation rail must support native horizontal touch scrolling.");
+assert.match(nextShell, /--mghal-color-navy:#172B4D/, "The central navy design token is required.");
+assert.match(nextShell, /--mghal-color-blue:#315A85/, "The central blue design token is required.");
+assert.match(nextShell, /--mghal-color-gold:#B69A62/, "The central gold design token is required.");
+assert.match(nextShell, /prefers-reduced-motion:reduce/, "Reduced-motion preferences must be respected.");
