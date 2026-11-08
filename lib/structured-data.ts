@@ -10,7 +10,7 @@ const person={
   alternateName:['محمد غالب العصيمي','M.GH.AL'],
   identifier:{'@type':'PropertyValue',propertyID:'ORCID',value:'0009-0000-6007-3170'},
   url:siteUrl,
-  image:siteUrl+'/assets/images/mghal-avatar.webp',
+  image:siteUrl+'/assets/images/mghal-profile-primary.jpg',
   jobTitle:'Full-Stack Developer | Software Engineer | IT Student',
   description:'Mohammed Ghaleb Alaosimi (M.GH.AL) is an Information Technology bachelor’s student at Al-Manar College for Science and Technology in Yemen and a Full-Stack Developer focused on software engineering, React, Next.js, Node.js, TypeScript, enterprise and ERP systems, role-based access control, databases, applied AI, and bilingual Arabic-English digital products.',
   affiliation:{
