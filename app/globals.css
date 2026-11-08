@@ -1908,3 +1908,10 @@ a:active {
   .credential-reference-list a>svg{grid-column:3;grid-row:1 / span 2}
   .credential-document-placeholder{min-height:180px}
 }
+
+.credential-badge-placeholder img{
+  width:min(112px,70%);height:auto;max-height:112px;object-fit:contain;
+  border-radius:9px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.22));
+}
+.credential-badge-placeholder:has(img){padding:12px 8px}
+.credential-badge-placeholder:has(img) b{font-size:11px}
