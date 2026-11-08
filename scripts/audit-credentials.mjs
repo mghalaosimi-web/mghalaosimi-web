@@ -45,9 +45,9 @@ const ciscoBadges = {
 };
 const credentialsRoute = readFileSync(new URL("../app/credentials/page.tsx", import.meta.url), "utf8");
 assert.ok(credentialsRoute.includes("export default async function CredentialsPage"), "Next.js credentials route must render the native credential archive.");
-assert.equal((credentialsRoute.match(/id:'cisco-\\d+'/g)||[]).length,11,"Native archive must include all eleven owner-verified Cisco records.");
-assert.equal((credentialsRoute.match(/id:'edraak-\\d+'/g)||[]).length,6,"Native archive must include all six Edraak certificates.");
-assert.equal((credentialsRoute.match(/id:'jsnad-\\d+'/g)||[]).length,1,"Native archive must include the JSNAD credential.");
+assert.equal(Array.from({length:11},(_,i)=>"id:'cisco-"+String(i+1).padStart(2,'0')+"'").filter(marker=>credentialsRoute.includes(marker)).length,11,"Native archive must include all eleven owner-verified Cisco records.");
+assert.equal(Array.from({length:6},(_,i)=>"id:'edraak-"+String(i+1).padStart(2,'0')+"'").filter(marker=>credentialsRoute.includes(marker)).length,6,"Native archive must include all six Edraak certificates.");
+assert.ok(credentialsRoute.includes("id:'jsnad-01'"),"Native archive must include the JSNAD credential.");
 for (const [title,badge] of Object.entries(ciscoBadges)) {
   assert.ok(credentialsRoute.includes("name:'"+title+"'"),"Native archive is missing Cisco title "+title);
   assert.ok(credentialsRoute.includes(badge.id),"Native archive is missing the owner's Credly badge ID for "+title);
