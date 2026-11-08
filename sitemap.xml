@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://mghal.vercel.app/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url><loc>https://mghal.vercel.app/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>1.0</priority><image:image><image:loc>https://mghal.vercel.app/assets/images/mghal-profile-primary.jpg</image:loc><image:caption>محمد غالب العصيمي — الصورة الشخصية الرسمية لـ M.GH.AL</image:caption><image:title>محمد غالب العصيمي — الصورة الشخصية الرسمية لـ M.GH.AL</image:title></image:image></url>
   <url><loc>https://mghal.vercel.app/projects.html</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://mghal.vercel.app/certificates.html</loc><lastmod>2026-10-31</lastmod><changefreq>yearly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mghal.vercel.app/profile.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://mghal.vercel.app/profile.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority><image:image><image:loc>https://mghal.vercel.app/assets/images/mghal-profile-primary.jpg</image:loc><image:caption>الملف الشخصي الرسمي لمحمد غالب العصيمي</image:caption><image:title>الملف الشخصي الرسمي لمحمد غالب العصيمي</image:title></image:image></url>
   <url><loc>https://mghal.vercel.app/education.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://mghal.vercel.app/skills.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://mghal.vercel.app/achievements.html</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -11,10 +11,10 @@
   <url><loc>https://mghal.vercel.app/contact.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://mghal.vercel.app/showcase.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://mghal.vercel.app/resume.html</loc><lastmod>2026-10-31</lastmod><changefreq>yearly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://mghal.vercel.app/en/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://mghal.vercel.app/en/</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.8</priority><image:image><image:loc>https://mghal.vercel.app/assets/images/mghal-profile-primary.jpg</image:loc><image:caption>Mohammed Ghaleb Alaosimi — official profile portrait</image:caption><image:title>Mohammed Ghaleb Alaosimi — official profile portrait</image:title></image:image></url>
   <url><loc>https://mghal.vercel.app/en/projects.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://mghal.vercel.app/en/certificates.html</loc><lastmod>2026-10-31</lastmod><changefreq>yearly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://mghal.vercel.app/en/profile.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://mghal.vercel.app/en/profile.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority><image:image><image:loc>https://mghal.vercel.app/assets/images/mghal-profile-primary.jpg</image:loc><image:caption>Mohammed Ghaleb Alaosimi — professional profile</image:caption><image:title>Mohammed Ghaleb Alaosimi — professional profile</image:title></image:image></url>
   <url><loc>https://mghal.vercel.app/en/education.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://mghal.vercel.app/en/skills.html</loc><lastmod>2026-10-30</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://mghal.vercel.app/en/achievements.html</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
