@@ -94,22 +94,25 @@
    ========================================================= */
 :root{
   color-scheme:dark;
-  --ink-950:#0b1117;
-  --ink-900:#101922;
-  --ink-850:#15212b;
-  --ink-800:#1b2a35;
-  --ink-700:#293b47;
-  --slate-500:#7f8d96;
-  --slate-300:#b7c0c2;
-  --ivory:#eee9df;
-  --ivory-dim:#d5d0c6;
-  --brass:#b79b68;
-  --brass-light:#d2bd91;
-  --copper:#a87558;
-  --line:rgba(183,155,104,.22);
-  --line-cool:rgba(180,195,198,.13);
-  --panel:linear-gradient(145deg,rgba(27,42,53,.96),rgba(16,25,34,.98));
-  --panel-soft:rgba(24,37,47,.78);
+  /* Shared M.GH.AL palette: one source of truth for all page components. */
+  --ink-950:var(--mghal-color-bg,#0B1117);
+  --ink-900:var(--mghal-color-surface,#111B26);
+  --ink-850:var(--mghal-color-surface-raised,#172431);
+  --ink-800:#1D2D3C;
+  --ink-700:#293F53;
+  --slate-500:#82929D;
+  --slate-300:var(--mghal-color-muted,#AEB8BB);
+  --ivory:var(--mghal-color-text,#EEE9DF);
+  --ivory-dim:#D5D0C6;
+  --brass:var(--mghal-color-gold,#B69A62);
+  --brass-light:var(--mghal-color-focus,#D2BD91);
+  --copper:var(--mghal-color-blue,#315A85);
+  --line:var(--mghal-color-border,rgba(182,154,98,.24));
+  --line-cool:rgba(174,184,187,.14);
+  --panel:linear-gradient(145deg,rgba(23,36,49,.97),rgba(17,27,38,.99));
+  --panel-soft:rgba(23,43,77,.22);
+  --accent:var(--mghal-color-blue,#315A85);
+  --accent-strong:var(--mghal-color-navy,#172B4D);
   --shadow-soft:0 12px 32px rgba(0,0,0,.22);
   --shadow-raised:0 5px 0 rgba(3,8,12,.62),0 12px 24px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.07);
   --shadow-pressed:0 1px 0 rgba(3,8,12,.7),0 3px 8px rgba(0,0,0,.2),inset 0 2px 5px rgba(0,0,0,.24);
