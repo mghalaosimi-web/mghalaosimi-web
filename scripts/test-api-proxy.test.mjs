@@ -2,18 +2,48 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { DEFAULT_MGHAL_API_UPSTREAM, resolveMghalApiUpstream } from '../lib/api-proxy-policy.mjs';
 
-test('approved production hosts retain the existing API origin', () => {
+test('only approved production hosts retain the production API origin', () => {
+  for (const host of [
+    'mghalaosimi-web.vercel.app',
+    'mghal.vercel.app',
+    'mghal-official.onrender.com'
+  ]) {
+    assert.equal(
+      resolveMghalApiUpstream(`https://${host}/api/health`, {}),
+      DEFAULT_MGHAL_API_UPSTREAM,
+      host + ' must resolve to the production API'
+    );
+  }
+});
+
+test('all Render release and final-preview hosts fail closed by default', () => {
+  for (const host of [
+    'mghal-static.onrender.com',
+    'mghal-release.onrender.com',
+    'mghal-release-current.onrender.com',
+    'mghal-final-web.onrender.com',
+    'mghal-final-site.onrender.com',
+    'mghal-final-preview.onrender.com'
+  ]) {
+    const url = `https://${host}/api/health`;
+    assert.equal(resolveMghalApiUpstream(url, {}), null, host + ' must not inherit production');
+    assert.equal(
+      resolveMghalApiUpstream(url, { MGHAL_API_BASE: DEFAULT_MGHAL_API_UPSTREAM }),
+      null,
+      host + ' must ignore the production override'
+    );
+  }
+});
+
+test('the final web preview can use only the explicitly configured isolated Node API', () => {
+  const url = 'https://mghal-final-web.onrender.com/api/health';
   assert.equal(
-    resolveMghalApiUpstream('https://mghalaosimi-web.vercel.app/api/health', {}),
-    DEFAULT_MGHAL_API_UPSTREAM
+    resolveMghalApiUpstream(url, { MGHAL_PREVIEW_API_BASE: 'https://mghal-node-api-preview.onrender.com' }),
+    'https://mghal-node-api-preview.onrender.com'
   );
   assert.equal(
-    resolveMghalApiUpstream('https://mghal-release-current.onrender.com/api/health', {}),
-    DEFAULT_MGHAL_API_UPSTREAM
-  );
-  assert.equal(
-    resolveMghalApiUpstream('https://mghal-final-web.onrender.com/api/health', { MGHAL_PREVIEW_API_BASE: 'https://mghal-node-api-preview.onrender.com' }),
-    DEFAULT_MGHAL_API_UPSTREAM
+    resolveMghalApiUpstream(url, { MGHAL_PREVIEW_API_BASE: DEFAULT_MGHAL_API_UPSTREAM }),
+    null
   );
 });
 
