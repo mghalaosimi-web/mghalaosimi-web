@@ -1,79 +1,91 @@
-:root{--rail-width:246px}
-.mghal-rail{position:fixed;z-index:100;inset:16px 16px 16px auto;width:var(--rail-width);display:flex;flex-direction:column;background:#fff;border:1px solid #DCE2E8;border-radius:18px;box-shadow:0 12px 36px rgba(23,43,77,.10);overflow:hidden;direction:rtl;text-align:right;color:#202B38}
-html[dir="ltr"] .mghal-rail{inset-inline:auto 16px;direction:ltr;text-align:left}
-.mghal-rail-head{position:relative;padding:20px 18px 16px;border-bottom:1px solid #DCE2E8;display:grid;gap:2px}
-.mghal-rail-brand{font:850 22px/1.2 Inter,system-ui,sans-serif;letter-spacing:2px;color:#172B4D!important}
-.mghal-rail-head>span{font-size:9px;letter-spacing:1.5px;color:#806333;font-weight:800}
-.mghal-rail-collapse{position:absolute;inset-block-start:17px;inset-inline-end:12px;width:30px;height:30px;border:1px solid #DCE2E8;border-radius:8px;background:#F3F5F7;color:#172B4D;font-size:20px;cursor:pointer}
-.mghal-rail-body{overflow:auto;padding:8px 12px;scrollbar-width:thin;flex:1}
-.mghal-rail-group{padding:9px 0 12px;border-bottom:1px solid #edf0f3}
-.mghal-rail-group:last-child{border:0}
-.mghal-rail-group h2{margin:0 8px 7px;color:#806333!important;font-size:10px!important;letter-spacing:.5px;font-weight:800}
-.mghal-rail-link{min-height:40px;display:flex;align-items:center;gap:11px;padding:7px 9px;border-radius:9px;color:#475569!important;font-size:12px;font-weight:650;transition:background .15s,color .15s}
-.mghal-rail-link:hover{background:#F3F5F7;color:#172B4D!important}
-.mghal-rail a:focus-visible,.mghal-rail button:focus-visible,.mghal-rail-mobile:focus-visible{outline:3px solid #B69A62;outline-offset:2px}
-.mghal-rail-link.is-active{background:#172B4D;color:#fff!important;box-shadow:0 4px 12px #172b4d20}
-.mghal-rail-icon{width:24px;height:24px;flex:0 0 24px;display:grid;place-items:center;border-radius:7px;background:#F3F5F7;color:#315A85;font-size:14px}
-.mghal-rail-link.is-active .mghal-rail-icon{background:#ffffff20;color:#E7D8B7}
-.mghal-rail-foot{padding:12px 16px;border-top:1px solid #DCE2E8;display:flex;justify-content:space-between;gap:8px;font-size:10px}
-.mghal-rail-foot a{color:#315A85!important;font-weight:700}
-.mghal-rail-mobile,.mghal-rail-overlay{display:none}
-body{padding-right:278px}
-body.mghal-rail-collapsed{padding-right:88px}
-body.mghal-rail-collapsed .mghal-rail{width:58px}
-body.mghal-rail-collapsed .mghal-rail-head{padding:16px 7px}
-body.mghal-rail-collapsed .mghal-rail-brand{font-size:0;letter-spacing:0}
-body.mghal-rail-collapsed .mghal-rail-brand:after{content:'M';font-size:20px}
-body.mghal-rail-collapsed .mghal-rail-head>span,body.mghal-rail-collapsed .mghal-rail-group h2,body.mghal-rail-collapsed .mghal-rail-label,body.mghal-rail-collapsed .mghal-rail-foot{display:none}
-body.mghal-rail-collapsed .mghal-rail-collapse{position:static;margin-top:8px}
-body.mghal-rail-collapsed .mghal-rail-body{padding:8px 6px}
-body.mghal-rail-collapsed .mghal-rail-link{justify-content:center;padding:7px 2px}
-@media(max-width:1100px){:root{--rail-width:220px}body{padding-inline-end:252px}}
-@media(max-width:760px){
- body,body.mghal-rail-collapsed{padding-right:0}
- .mghal-rail{inset:0 0 0 auto!important;width:min(300px,86vw)!important;border-radius:0 16px 16px 0;transform:translateX(110%);transition:transform .22s ease;box-shadow:0 18px 50px #172b4d25}
- html[dir="ltr"] .mghal-rail{inset:0 auto 0 0!important;transform:translateX(-110%);border-radius:16px 0 0 16px}
- .mghal-rail.is-open{transform:translateX(0)}
- body.mghal-rail-collapsed .mghal-rail{width:min(300px,86vw)!important}
- body.mghal-rail-collapsed .mghal-rail-brand{font-size:22px;letter-spacing:2px}
- body.mghal-rail-collapsed .mghal-rail-head>span,body.mghal-rail-collapsed .mghal-rail-group h2,body.mghal-rail-collapsed .mghal-rail-label,body.mghal-rail-collapsed .mghal-rail-foot{display:initial}
- body.mghal-rail-collapsed .mghal-rail-head{padding:20px 18px 16px}
- body.mghal-rail-collapsed .mghal-rail-collapse{display:none}
- .mghal-rail-mobile{display:inline-flex;position:fixed;z-index:99;inset:auto 14px 14px auto;min-height:46px;padding:0 16px;border:1px solid #B69A62;border-radius:999px;background:#172B4D;color:#fff;font:700 12px/1.2 Inter,system-ui,sans-serif;box-shadow:0 8px 24px #172b4d30}
- html[dir="ltr"] .mghal-rail-mobile{inset:auto auto 14px 14px}
- .mghal-rail-overlay.is-visible{display:block;position:fixed;z-index:98;inset:0;width:100%;height:100%;border:0;background:#172b4d66}
+@import url('./design-tokens.css');
+
+/* Legacy public HTML routes share the same compact sticky horizontal navigation contract. */
+html,body{width:100%;max-width:100%;overflow-x:clip}
+html{scroll-padding-block-start:100px}
+body{padding:0!important}
+.top,header.top,.cert-top{
+  position:sticky!important;inset-block-start:0!important;z-index:100!important;
+  width:100%;padding:8px 0!important;
+  background:var(--mghal-brand-navy)!important;
+  border-bottom:1px solid var(--mghal-brand-gold)!important;
+  box-shadow:0 6px 22px rgba(23,43,77,.16)!important;
+  backdrop-filter:blur(16px);
 }
-@media(prefers-reduced-motion:reduce){.mghal-rail,.mghal-rail-link{transition:none}}
-@media print{.mghal-rail,.mghal-rail-mobile,.mghal-rail-overlay{display:none!important}body,body.mghal-rail-collapsed{padding:0!important}}
-
-
-/* Unified navigation contract: one section rail, one compact identity masthead. */
-.nav .navlinks,
-.nav .cert-nav-links,
-.nav .site-menu-button{display:none!important}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.nav .site-controls{display:flex;align-items:center;gap:8px}
-body{padding-inline-end:278px;padding-right:0}
-body.mghal-rail-collapsed{padding-inline-end:88px;padding-right:0}
-@media(max-width:1100px){body{padding-inline-end:252px;padding-right:0}}
-@media(max-width:760px){
- body,body.mghal-rail-collapsed{padding-inline-end:0;padding-right:0}
- .nav{min-height:62px}
+.nav,.cert-nav{
+  display:flex!important;align-items:center;gap:10px!important;
+  width:min(1200px,calc(100% - 32px));min-height:58px;margin-inline:auto;
 }
-
-
-/* Final direction-aware layout contract: the rail and reserved content gutter
-   must occupy the same inline-start side in both RTL and LTR documents. */
-html[dir="ltr"] .mghal-rail{inset-inline:16px auto;direction:ltr;text-align:left}
-.nav .navlinks,
-.nav .links,
-.nav .cert-nav-links,
-.nav .site-menu-button{display:none!important}
-body{padding-inline-start:278px;padding-inline-end:0}
-body.mghal-rail-collapsed{padding-inline-start:90px;padding-inline-end:0}
-@media(max-width:1100px){
-  body{padding-inline-start:252px;padding-inline-end:0}
+.nav>.brand,.cert-nav>.brand,.cert-brand{
+  flex:0 0 auto;color:#fff!important;white-space:nowrap;
 }
-@media(max-width:760px){
-  body,body.mghal-rail-collapsed{padding-inline-start:0;padding-inline-end:0}
+.navlinks,.nav .navlinks,.cert-nav-links{
+  display:flex!important;align-items:center!important;justify-content:flex-start!important;
+  flex:1 1 auto!important;min-width:0!important;max-width:100%;
+  flex-direction:row!important;flex-wrap:nowrap!important;gap:5px!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;touch-action:pan-x;white-space:nowrap!important;
+  padding:5px 2px!important;margin:0!important;
+  border:0!important;background:transparent!important;box-shadow:none!important;
+  scroll-snap-type:inline proximity;
+}
+.navlinks::-webkit-scrollbar,.cert-nav-links::-webkit-scrollbar{display:none}
+.navlinks a,.cert-nav-links a{
+  display:inline-flex!important;align-items:center;justify-content:center;
+  flex:0 0 auto!important;min-width:max-content;min-height:40px;
+  padding:8px 11px!important;border:1px solid transparent!important;border-radius:8px;
+  background:transparent!important;color:#d8e0e8!important;
+  font-size:12px!important;font-weight:650;line-height:1.4;
+  text-decoration:none!important;white-space:nowrap!important;
+  scroll-snap-align:start;transition:background .15s,border-color .15s,color .15s;
+}
+.navlinks a:hover,.cert-nav-links a:hover{
+  border-color:var(--mghal-brand-gold)!important;
+  background:rgba(182,154,98,.12)!important;color:#fff!important;
+}
+.navlinks a[aria-current=page],.cert-nav-links a[aria-current=page]{
+  border-color:var(--mghal-brand-gold)!important;
+  background:rgba(182,154,98,.2)!important;color:#fff!important;
+  box-shadow:inset 0 -2px var(--mghal-brand-gold);
+}
+.navlinks a:focus-visible,.cert-nav-links a:focus-visible,
+.nav .brand:focus-visible,.nav-resume:focus-visible,.site-controls button:focus-visible{
+  outline:3px solid var(--mghal-focus-ring)!important;outline-offset:2px!important;
+}
+.nav .nav-resume{flex:0 0 auto;white-space:nowrap}
+.nav .site-controls{display:flex!important;align-items:center;gap:6px!important;flex:0 0 auto;margin:0!important}
+.nav .site-menu-button,.nav .mghal-rail-mobile,.mghal-rail,.mghal-rail-overlay{display:none!important}
+.site-controls .site-icon-button{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-height:40px;padding:8px 11px;border:1px solid rgba(182,154,98,.4)!important;
+  border-radius:8px;background:rgba(255,255,255,.06)!important;color:#fff!important;
+}
+.site-controls .site-icon-button:hover{background:rgba(182,154,98,.15)!important}
+.site-controls .site-icon-button svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
+body.nav-open .navlinks{display:flex!important;flex-direction:row!important}
+@media(max-width:900px){
+  .nav,.cert-nav{
+    display:grid!important;grid-template-columns:minmax(0,1fr) auto auto;
+    grid-template-areas:"brand controls resume" "links links links";
+    gap:7px 9px!important;width:calc(100% - 24px);padding-block:2px;
+  }
+  .nav>.brand,.cert-nav>.brand{grid-area:brand}
+  .nav>.navlinks,.nav>.links,.cert-nav>.cert-nav-links{grid-area:links;width:100%!important}
+  .nav>.site-controls{grid-area:controls;justify-self:end}
+  .nav>.nav-resume{grid-area:resume}
+  .navlinks,.cert-nav-links{min-height:42px;justify-content:flex-start!important}
+  .site-controls .site-menu-button{display:none!important}
+  .site-controls .site-icon-button span{display:none}
+}
+@media(max-width:480px){
+  .nav,.cert-nav{width:calc(100% - 18px);gap:6px!important}
+  .nav>.nav-resume{display:none!important}
+  .navlinks a,.cert-nav-links a{min-height:38px;padding:7px 10px!important;font-size:11px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .navlinks a,.cert-nav-links a,.site-controls .site-icon-button{transition:none!important}
+}
+@media print{
+  .top,header.top,.cert-top,.site-controls{display:none!important}
 }
