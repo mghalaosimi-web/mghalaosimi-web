@@ -4,7 +4,7 @@ import { join } from "node:path";
 
 const script = readFileSync(new URL("../assets/site.js", import.meta.url), "utf8");
 const css = readFileSync(new URL("../assets/theme.css", import.meta.url), "utf8");
-const detailCss = readFileSync(new URL("../assets/project-detail.css", import.meta.url), "utf8");
+const detailCss = readFileSync(new URL("../public/assets/project-detail.css", import.meta.url), "utf8");
 const railCss = readFileSync(new URL("../assets/section-rail.css", import.meta.url), "utf8");
 const railScript = readFileSync(new URL("../assets/section-rail.js", import.meta.url), "utf8");
 assert.match(script, /\.navlinks, \.links/, "Legacy header links must be normalized into the shared navigation.");
