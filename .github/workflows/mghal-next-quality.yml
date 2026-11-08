@@ -23,7 +23,7 @@ jobs:
           node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('package-lock.json','utf8'));console.log('lockfileVersion='+p.lockfileVersion)"
           npm config get package-lock
         working-directory: ${{ github.workspace }}
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --no-audit --no-fund
         working-directory: ${{ github.workspace }}
       - run: npm audit --omit=dev --audit-level=moderate
       - run: npm run audit:credentials
