@@ -268,12 +268,12 @@ body{background:var(--mghal-color-bg);color:var(--mghal-color-text)}
   --mghal-color-border-strong:var(--mghal-dark-border-strong,rgba(182,154,98,.48));
   --mghal-color-hover:var(--mghal-dark-hover,rgba(182,154,98,.11));
   --mghal-color-focus:var(--mghal-focus-ring,#D2BD91);
-  --mghal-state-success:var(--mghal-state-success,#5AAB84);
-  --mghal-state-warning:var(--mghal-state-warning,#D0A05A);
-  --mghal-state-danger:var(--mghal-state-danger,#D06D6D);
-  --mghal-state-info:var(--mghal-state-info,#6EA0CF);
-  --mghal-state-disabled:var(--mghal-state-disabled,#7B8794);
-  --mghal-disabled-surface:var(--mghal-disabled-surface,rgba(174,184,187,.08));
+  --mghal-color-success:var(--mghal-state-success,#5AAB84);
+  --mghal-color-warning:var(--mghal-state-warning,#D0A05A);
+  --mghal-color-danger:var(--mghal-state-danger,#D06D6D);
+  --mghal-color-info:var(--mghal-state-info,#6EA0CF);
+  --mghal-color-disabled:var(--mghal-state-disabled,#7B8794);
+  --mghal-color-disabled-surface:var(--mghal-disabled-surface,rgba(174,184,187,.08));
   --mghal-shadow:var(--mghal-shadow-dark,0 14px 34px rgba(0,0,0,.22));
 }
 html{scroll-padding-top:112px;scroll-behavior:smooth;max-width:100%;overflow-x:clip}
