@@ -5,11 +5,7 @@ import {
   ArrowUpLeft,
   ArrowUpRight,
   BrainCircuit,
-  Code2,
   Fingerprint,
-  Layers3,
-  ShieldCheck,
-  Workflow,
 } from 'lucide-react';
 import {localizedAlternates} from '../../lib/seo';
 
