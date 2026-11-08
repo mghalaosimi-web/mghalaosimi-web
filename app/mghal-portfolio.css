@@ -412,3 +412,12 @@ body{background:var(--mghal-color-bg);color:var(--mghal-color-text)}
     gap:6px!important;
   }
 }
+@media(max-width:1050px){
+  .mghal-primary-nav a{
+    flex:0 0 auto!important;
+    min-width:max-content!important;
+    min-height:38px!important;
+    white-space:nowrap!important;
+    justify-content:center!important;
+  }
+}
