@@ -8,8 +8,8 @@ type SiteHeaderProps = { isEn: boolean };
 const links = [
   { href: '/', ar: 'الرئيسية', en: 'Home' },
   { href: '/about', ar: 'نبذة عني', en: 'About' },
-  { href: '/projects', ar: 'المشاريع', en: 'Projects' },
   { href: '/skills', ar: 'المهارات', en: 'Skills' },
+  { href: '/projects', ar: 'المشاريع', en: 'Projects' },
   { href: '/labs', ar: 'المعامل', en: 'Labs' },
   { href: '/research', ar: 'الأبحاث', en: 'Research' },
   { href: '/credentials', ar: 'الشهادات', en: 'Credentials' },
