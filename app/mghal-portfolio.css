@@ -545,3 +545,69 @@ html[dir="rtl"] .mghal-reading-progress{transform-origin:right}
 @media(prefers-reduced-motion:reduce){
   .mghal-reading-progress{transition:none!important;animation:none!important}
 }
+
+/* Evidence-aware project case studies — shared with the M.GH.AL archive. */
+.mghal-case-study{max-width:1180px}
+.mghal-case-breadcrumb{margin:0 0 14px}
+.mghal-case-breadcrumb a,.mghal-case-back a{
+  color:var(--mghal-color-focus);
+  font-size:13px;
+  font-weight:700;
+  text-decoration:none;
+}
+.mghal-case-breadcrumb a:hover,.mghal-case-back a:hover{text-decoration:underline}
+.mghal-case-category{
+  margin:14px 0 0;
+  color:var(--mghal-color-focus);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+.mghal-case-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:18px}
+.mghal-case-slug{color:var(--mghal-color-muted);font:11px ui-monospace,monospace}
+.mghal-case-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:18px;
+}
+.mghal-case-section{min-width:0}
+.mghal-case-section h2{
+  margin:0 0 12px;
+  color:var(--mghal-color-text);
+  font-size:clamp(18px,2.5vw,24px);
+}
+.mghal-case-section p{margin:0;color:var(--mghal-color-muted);line-height:2}
+.mghal-case-tags{margin-top:16px}
+.mghal-case-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.mghal-case-actions a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  padding:9px 13px;
+  border:1px solid var(--mghal-color-border);
+  border-radius:8px;
+  background:var(--mghal-color-surface-raised);
+  color:var(--mghal-color-text);
+  font-size:12px;
+  font-weight:700;
+  text-decoration:none;
+}
+.mghal-case-actions a:hover{
+  border-color:var(--mghal-color-gold);
+  color:var(--mghal-color-focus);
+  background:var(--mghal-color-hover);
+}
+.mghal-case-actions a:focus-visible,.mghal-case-breadcrumb a:focus-visible,.mghal-case-back a:focus-visible{
+  outline:3px solid var(--mghal-color-focus);
+  outline-offset:3px;
+}
+.mghal-case-no-link{color:var(--mghal-color-muted);font-size:13px;line-height:1.8}
+.mghal-case-note{border-inline-start:3px solid var(--mghal-color-gold)}
+.mghal-case-back{margin-top:24px}
+@media(max-width:760px){
+  .mghal-case-study{padding:30px 16px 60px}
+  .mghal-case-grid{grid-template-columns:1fr}
+  .mghal-case-hero{padding:clamp(24px,7vw,42px)}
+}
