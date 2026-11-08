@@ -13,6 +13,7 @@ assert.ok(component.includes(".normalize('NFKD')"), "Search must normalize Unico
 assert.ok(component.includes(".replace(/[أإآ]/g, 'ا')"), "Arabic alef variants must normalize consistently.");
 assert.ok(component.includes(".replace(/ى/g, 'ي')"), "Arabic ya variants must normalize consistently.");
 assert.ok(component.includes(".replace(/[^\\p{L}\\p{N}\\s]/gu, ' ')"), "Brand punctuation must normalize for indexed project deep links.");
+assert.ok(component.includes(".replace(/\\bm\\s+gh\\s+al\\b/g, 'mghal')"), "Dotted M.GH.AL names must normalize to the brand token.");
 assert.ok(component.includes("event.ctrlKey || event.metaKey") && component.includes("event.key.toLowerCase() === 'k'"), "Ctrl/Command+K must open search.");
 assert.ok(component.includes("<dialog") && component.includes("showModal()"), "Search must use a native modal dialog.");
 assert.ok(component.includes("aria-labelledby=\"mghal-search-title\""), "The dialog must have an accessible name.");
