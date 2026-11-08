@@ -1,71 +1,72 @@
+@import url('./design-tokens.css');
 /* M.GH.AL bilingual CV theme and mobile navigation */
 body.resume-page {
   color-scheme: light;
-  color: #202B38;
-  background: linear-gradient(145deg, #FFFFFF 0%, #F3F5F7 100%);
+  color: var(--mghal-light-text);
+  background: linear-gradient(145deg, var(--mghal-light-bg) 0%, var(--mghal-light-surface) 100%);
 }
-body.resume-page a { color: #315A85; }
-body.resume-page a:hover { color: #172B4D; }
+body.resume-page a { color: var(--mghal-brand-blue); }
+body.resume-page a:hover { color: var(--mghal-brand-navy); }
 body.resume-page .top {
   background: rgba(255, 255, 255, 0.96);
-  border-bottom: 1px solid #DCE2E8;
+  border-bottom: 1px solid var(--mghal-light-border);
   box-shadow: 0 8px 26px rgba(23, 43, 77, 0.045);
   backdrop-filter: blur(14px);
 }
-body.resume-page .brand { color: #172B4D; }
-body.resume-page .navlinks, body.resume-page .navlinks a { color: #64748B; }
-body.resume-page .navlinks a:hover { color: #315A85; }
+body.resume-page .brand { color: var(--mghal-brand-navy); }
+body.resume-page .navlinks, body.resume-page .navlinks a { color: var(--mghal-light-muted); }
+body.resume-page .navlinks a:hover { color: var(--mghal-brand-blue); }
 body.resume-page .sheet {
-  color: #202B38;
-  background: #FFFFFF;
-  border: 1px solid #DCE2E8;
+  color: var(--mghal-light-text);
+  background: var(--mghal-light-bg);
+  border: 1px solid var(--mghal-light-border);
   box-shadow: 0 24px 64px rgba(23, 43, 77, 0.10);
 }
-body.resume-page .hero { border-color: #DCE2E8; }
-body.resume-page .hero h1 { color: #172B4D; }
-body.resume-page .eyebrow { color: #80663C; }
-body.resume-page .role { color: #315A85; }
-body.resume-page .summary { color: #64748B; }
+body.resume-page .hero { border-color: var(--mghal-light-border); }
+body.resume-page .hero h1 { color: var(--mghal-brand-navy); }
+body.resume-page .eyebrow { color: var(--mghal-brand-gold-ink); }
+body.resume-page .role { color: var(--mghal-brand-blue); }
+body.resume-page .summary { color: var(--mghal-light-muted); }
 body.resume-page .portrait {
-  border-color: #B69A62;
+  border-color: var(--mghal-brand-gold);
   box-shadow: 0 12px 30px rgba(23, 43, 77, 0.10);
 }
 body.resume-page .section h2 {
-  color: #172B4D;
-  border-color: #DCE2E8;
+  color: var(--mghal-brand-navy);
+  border-color: var(--mghal-light-border);
 }
-body.resume-page .item h3 { color: #202B38; }
-body.resume-page .meta { color: #315A85; }
+body.resume-page .item h3 { color: var(--mghal-light-text); }
+body.resume-page .meta { color: var(--mghal-brand-blue); }
 body.resume-page .item p,
 body.resume-page .list,
 body.resume-page .contact,
 body.resume-page .foot,
-body.resume-page .note { color: #64748B; }
-body.resume-page .contact a { color: #315A85; }
+body.resume-page .note { color: var(--mghal-light-muted); }
+body.resume-page .contact a { color: var(--mghal-brand-blue); }
 body.resume-page .tag {
-  color: #315A85;
-  background: #F3F5F7;
-  border-color: #DCE2E8;
+  color: var(--mghal-brand-blue);
+  background: var(--mghal-light-surface);
+  border-color: var(--mghal-light-border);
 }
 body.resume-page .btn {
-  background: #172B4D;
-  border-color: #172B4D;
-  color: #FFFFFF;
+  background: var(--mghal-brand-navy);
+  border-color: var(--mghal-brand-navy);
+  color: var(--mghal-light-bg);
   box-shadow: 0 10px 24px rgba(23, 43, 77, 0.12);
 }
 body.resume-page .btn:hover {
-  background: #315A85;
-  border-color: #315A85;
-  color: #FFFFFF;
+  background: var(--mghal-brand-blue);
+  border-color: var(--mghal-brand-blue);
+  color: var(--mghal-light-bg);
 }
 body.resume-page .btn.alt {
-  background: #FFFFFF;
-  border-color: #DCE2E8;
-  color: #172B4D;
+  background: var(--mghal-light-bg);
+  border-color: var(--mghal-light-border);
+  color: var(--mghal-brand-navy);
 }
-body.resume-page .foot { border-top-color: #DCE2E8; }
+body.resume-page .foot { border-top-color: var(--mghal-light-border); }
 body.resume-page :focus-visible {
-  outline: 3px solid #315A85;
+  outline: 3px solid var(--mghal-brand-blue);
   outline-offset: 4px;
 }
 @media (max-width: 700px) {
@@ -88,35 +89,35 @@ body.resume-page :focus-visible {
 }
 @media print {
   body.resume-page {
-    background: #FFFFFF !important;
-    color: #202B38 !important;
+    background: var(--mghal-light-bg) !important;
+    color: var(--mghal-light-text) !important;
   }
   body.resume-page .sheet {
-    background: #FFFFFF !important;
-    color: #202B38 !important;
+    background: var(--mghal-light-bg) !important;
+    color: var(--mghal-light-text) !important;
     border: 0 !important;
     box-shadow: none !important;
   }
-  body.resume-page .hero { border-color: #DCE2E8 !important; }
+  body.resume-page .hero { border-color: var(--mghal-light-border) !important; }
   body.resume-page .hero h1,
   body.resume-page .section h2,
-  body.resume-page .meta { color: #172B4D !important; }
+  body.resume-page .meta { color: var(--mghal-brand-navy) !important; }
   body.resume-page .role,
   body.resume-page .eyebrow,
-  body.resume-page .contact a { color: #315A85 !important; }
+  body.resume-page .contact a { color: var(--mghal-brand-blue) !important; }
   body.resume-page .summary,
   body.resume-page .item p,
   body.resume-page .list,
   body.resume-page .contact,
   body.resume-page .foot,
-  body.resume-page .note { color: #64748B !important; }
+  body.resume-page .note { color: var(--mghal-light-muted) !important; }
   body.resume-page .tag {
-    border-color: #DCE2E8 !important;
-    background: #FFFFFF !important;
-    color: #315A85 !important;
+    border-color: var(--mghal-light-border) !important;
+    background: var(--mghal-light-bg) !important;
+    color: var(--mghal-brand-blue) !important;
   }
   body.resume-page .portrait {
-    border-color: #B69A62 !important;
+    border-color: var(--mghal-brand-gold) !important;
     box-shadow: none !important;
   }
 }
