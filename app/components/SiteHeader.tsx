@@ -20,6 +20,13 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
   const router = useRouter();
 
   useEffect(() => {
+    const activeLink = document.querySelector<HTMLElement>('.mghal-primary-nav a[aria-current="page"]');
+    if (!activeLink) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    activeLink.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reducedMotion ? 'auto' : 'smooth' });
+  }, [pathname]);
+
+  useEffect(() => {
     const currentIndex = links.findIndex((item) =>
       item.href === '/' ? pathname === '/' : pathname === item.href || pathname.startsWith(item.href + '/')
     );
