@@ -20,6 +20,7 @@ assert.ok(header.includes("a,button,input,textarea,select"), "Interactive contro
 assert.ok(header.includes("touch.clientX < 20"), "System edge-swipe gestures must be preserved.");
 assert.ok(header.includes("touchcancel"), "Cancelled touch gestures must reset swipe state.");
 assert.ok(header.includes("scrollIntoView"), "The active route must be brought into view inside the horizontal rail.");
+assert.ok(header.includes("<SiteSearch isEn={isEn}/>"), "The shared shell must expose site search.");
 assert.ok(!header.includes("mghal-menu-toggle"), "The old expanding mobile menu must not return.");
 
 assert.ok(shell.includes("position:sticky"), "The site header must remain pinned while scrolling.");
