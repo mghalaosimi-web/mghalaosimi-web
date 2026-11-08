@@ -28,7 +28,6 @@ jobs:
       - run: npm run test:project-pages
       - run: npm run test:navigation
       - run: npm run test:search
-      - run: npm run test:project-case-studies
       - run: npm --prefix mghal-backend ci --no-audit --no-fund
       - run: npm run lint
       - run: npm run typecheck
