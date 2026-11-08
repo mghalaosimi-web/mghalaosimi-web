@@ -36,7 +36,7 @@ const researchPrograms=[
     title:'التفويض الواعي بالمعاملات والتنفيذ المقيّد للوكلاء الذكيين داخل أنظمة ERP',
     titleEn:'Transaction-Aware Authorization and Bounded Execution for AI Agents in ERP Systems',
     status:'مسار بحثي رئيسي قيد الإعداد · غير منشور',
-    statusEn:'Primary research direction · In preparation',
+    statusEn:'Research direction in preparation · Not published',
     tone:'active',
     summary:'استكشاف تصميم آليات تفويض تراعي سياق المعاملة داخل أنظمة ERP، وتقيّد تنفيذ الوكلاء الذكيين بمبدأ أقل صلاحية وحدود تشغيل واضحة وموافقات بشرية عند الحاجة.',
     summaryEn:'Exploring authorization mechanisms that account for transaction context in ERP systems and constrain AI-agent execution through least privilege, bounded runtime policies, and human approval for sensitive actions.',
