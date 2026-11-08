@@ -105,11 +105,11 @@ body {
 .skip-link{
  position:fixed;z-index:1000;inset-block-start:12px;inset-inline-start:12px;
  display:inline-flex;align-items:center;justify-content:center;
- padding:11px 16px;border:2px solid #B69A62;border-radius:10px;
- background:#172B4D;color:#FFFFFF!important;font-weight:750;
+ padding:11px 16px;border:2px solid var(--mghal-brand-gold);border-radius:10px;
+ background:var(--mghal-brand-navy);color:var(--mghal-light-bg)!important;font-weight:750;
  box-shadow:0 8px 24px rgba(23,43,77,.2);
  transform:translateY(calc(-100% - 18px));transition:transform .18s ease;
 }
-.skip-link:focus{transform:translateY(0);outline:3px solid #806333;outline-offset:3px}
+.skip-link:focus{transform:translateY(0);outline:3px solid var(--mghal-brand-gold-ink);outline-offset:3px}
 main:focus{scroll-margin-block-start:6rem}
 @media(prefers-reduced-motion:reduce){.skip-link{transition:none}}
