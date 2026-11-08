@@ -120,7 +120,7 @@ body{margin:0;background:var(--mghal-ink);color:var(--mghal-ivory)}
 
 /* Internal-page parity with the colleague reference design system. */
 :root{color-scheme:dark}
-body{background:#070a10;color:#e7edf2}
+body{background:#0b1117;color:#eee9df}
 .mghal-archive{color:#eef4fa}
 .mghal-archive-hero{
   border:1px solid rgba(183,155,104,.24);
