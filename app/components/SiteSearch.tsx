@@ -55,6 +55,7 @@ function normalize(value: string): string {
     .replace(/ى/g, 'ي')
     .replace(/ة/g, 'ه')
     .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\bm\s+gh\s+al\b/g, 'mghal')
     .replace(/\s+/g, ' ')
     .trim();
 }
