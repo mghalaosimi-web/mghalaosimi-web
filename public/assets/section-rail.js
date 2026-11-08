@@ -14,7 +14,6 @@
   const isEn = document.documentElement.lang.toLowerCase().startsWith('en');
   const path = location.pathname.replace(/\/+$/, '') || '/';
   const currentPath = isEn ? (path.replace(/^\/en(?=\/|$)/, '') || '/') : path;
-  const prefix = isEn ? '/en' : '';
 
   const items = isEn ? [
     ['home', 'Home', '/en/'],
