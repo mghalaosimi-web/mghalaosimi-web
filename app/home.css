@@ -128,3 +128,7 @@
   .home-v2 .hv-actions .hv-button,
   .home-v2 .hv-actions .hv-button::after{animation:none!important}
 }
+
+.hv-project-grid>.home-project-card{display:flex;flex-direction:column;min-width:0;height:100%}
+.hv-project-grid>.home-project-card>.hv-project-card{width:100%;height:100%;flex:1}
+.hv-project-grid>.home-project-card>.mghal-card-social{margin-top:10px}
