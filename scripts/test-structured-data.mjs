@@ -23,7 +23,7 @@ for(const marker of [
   assert.ok(schema.includes(marker),'Missing or incorrect structured-data field: '+marker);
 }
 
-assert.ok(schema.includes('https://mghalaosimi-web.vercel.app/#person'),'Person @id must use the canonical site origin.');
+assert.ok(schema.includes("const siteUrl='https://mghalaosimi-web.vercel.app'")&&schema.includes("const personId=siteUrl+'/#person'"),'Person @id must be built from the canonical site origin.');
 assert.ok(schema.includes('https://orcid.org/0009-0000-6007-3170'),'The academic identifier must be linked in sameAs.');
 assert.ok(schema.includes('https://github.com/mghalaosimi-web'),'The official GitHub organization must be linked in sameAs.');
 assert.ok(schema.includes('Al-Manar College for Science and Technology'),'The confirmed academic affiliation must be represented accurately.');
