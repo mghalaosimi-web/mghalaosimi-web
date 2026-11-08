@@ -11,6 +11,10 @@ test('approved production hosts retain the existing API origin', () => {
     resolveMghalApiUpstream('https://mghal-release-current.onrender.com/api/health', {}),
     DEFAULT_MGHAL_API_UPSTREAM
   );
+  assert.equal(
+    resolveMghalApiUpstream('https://mghal-final-web.onrender.com/api/health', { MGHAL_PREVIEW_API_BASE: 'https://mghal-node-api-preview.onrender.com' }),
+    DEFAULT_MGHAL_API_UPSTREAM
+  );
 });
 
 test('preview hosts never inherit the production API through the default or MGHAL_API_BASE', () => {
