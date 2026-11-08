@@ -190,3 +190,64 @@ body{background:#0b1117;color:#eee9df}
 @media(max-width:600px){
  .mghal-archive-hero{background:radial-gradient(ellipse at 88% 15%,rgba(183,155,104,.1),transparent 42%),linear-gradient(125deg,#0b1117,#18232c)}
 }
+
+/* Mobile navigation: keep the site header pinned and show the menu as an overlay,
+   never as a tall block that pushes the page content down. */
+@media(max-width:1050px){
+  .mghal-header{
+    position:sticky;
+    top:env(safe-area-inset-top,0px);
+    isolation:isolate;
+  }
+  .mghal-primary-nav,
+  .mghal-header.is-menu-open .mghal-primary-nav{
+    position:absolute;
+    top:calc(100% + 8px);
+    inset-inline:14px;
+    z-index:70;
+    display:none;
+    width:auto;
+    max-height:calc(100dvh - 104px);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    flex:initial;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:stretch;
+    justify-content:stretch;
+    gap:7px;
+    padding:12px;
+    border:1px solid rgba(183,155,104,.32);
+    border-radius:12px;
+    background:rgba(11,17,23,.985);
+    box-shadow:0 18px 42px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.045);
+    backdrop-filter:blur(18px);
+  }
+  .mghal-header.is-menu-open .mghal-primary-nav{display:flex}
+  .mghal-primary-nav a{
+    flex:1 1 calc(50% - 7px);
+    min-width:calc(50% - 7px);
+    min-height:44px;
+    justify-content:center;
+    padding:10px 12px;
+    border:1px solid rgba(183,155,104,.13);
+    border-radius:8px;
+    background:rgba(255,255,255,.018);
+    text-align:center;
+    white-space:normal;
+  }
+  .mghal-primary-nav a[aria-current=page]{
+    border-color:rgba(183,155,104,.52);
+    background:rgba(183,155,104,.13);
+  }
+}
+@media(max-width:600px){
+  .mghal-header{min-height:62px}
+  .mghal-primary-nav,
+  .mghal-header.is-menu-open .mghal-primary-nav{
+    inset-inline:10px;
+    gap:6px;
+    padding:10px;
+  }
+  .mghal-primary-nav a{min-height:42px;font-size:13px}
+}
