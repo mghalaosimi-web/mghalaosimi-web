@@ -1,3 +1,4 @@
+@import url('./design-tokens.css');
 @import url('./foundation.css');
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0!important;min-height:100vh;color:var(--text)!important;background:radial-gradient(ellipse at 78% -8%,#0f766e33,transparent 36%),radial-gradient(ellipse at 8% 22%,#c6a66d14,transparent 30%),linear-gradient(145deg,#07110f,#0a1714 52%,#09120f)!important;font-family:"IBM Plex Sans Arabic",Inter,system-ui,sans-serif!important;line-height:1.85;overflow-x:hidden}
 a{color:inherit;text-decoration:none;transition:color .22s,border-color .22s,background .22s,transform .22s}a:hover{color:var(--gold-soft)!important}button,input{font:inherit}button{cursor:pointer}::selection{background:#0f766e88;color:white}:focus-visible{outline:2px solid var(--gold);outline-offset:4px}.wrap{width:min(1120px,calc(100% - 40px));margin-inline:auto}
@@ -37,49 +38,24 @@ main .item.engineering-card{padding:22px;border:1px solid var(--border-subtle);b
 
 
 :root{
-  --bg:#FFFFFF;
-  --bg-primary:#FFFFFF;
-  --bg-secondary:#F3F5F7;
-  --bg-card:#FFFFFF;
-  --panel:#FFFFFF;
-  --line:#DCE2E8;
-  --border-subtle:#DCE2E8;
-  --border-hover:#315A85;
-  --text:#202B38;
-  --text-primary:#202B38;
-  --muted:#5B6678;
-  --text-secondary:#5B6678;
-  --text-muted:#5B6678;
-  --accent:#315A85;
-  --accent-primary:#315A85;
-  --accent2:#172B4D;
-  --accent-secondary:#315A85;
-  --gold:#B69A62;
-  --gold-soft:#B69A62;
-  --shadow:0 12px 34px rgba(23,43,77,.07);
-  --surface:#F3F5F7;
-  --navy:#172B4D;
-  --blue:#315A85;
-  --gold-ink:#806333;
-  --mghal-navy:#172B4D;
-  --mghal-blue:#315A85;
-  --mghal-white:#fff;
-  --mghal-surface:#F3F5F7;
-  --mghal-text:#202B38;
-  --mghal-muted:#5B6678;
-  --mghal-border:#DCE2E8;
-  --mghal-gold:#B69A62;
-  --mghal-gold-ink:#806333;
-  --mghal-radius:14px;
-  --mghal-content:1180px;
-  --mghal-shadow:0 8px 28px rgba(23,43,77,.07);
-  --mghal-font-ar:"IBM Plex Sans Arabic",system-ui,sans-serif;
-  --mghal-font-en:Inter,system-ui,sans-serif;
-  --mghal-space-1:4px; --mghal-space-2:8px; --mghal-space-3:12px;
-  --mghal-space-4:16px; --mghal-space-5:24px; --mghal-space-6:32px;
-  --mghal-space-7:48px; --mghal-space-8:64px; --mghal-space-9:80px;
-  --mghal-radius-sm:8px; --mghal-radius-md:12px; --mghal-radius-lg:14px; --mghal-radius-xl:20px;
-  --mghal-content-reading:72ch; --mghal-touch-target:44px;
+  --bg:var(--mghal-light-bg);--bg-primary:var(--mghal-light-bg);--bg-secondary:var(--mghal-light-surface);
+  --bg-card:var(--mghal-light-bg);--panel:var(--mghal-light-bg);--line:var(--mghal-light-border);
+  --border-subtle:var(--mghal-light-border);--border-hover:var(--mghal-brand-blue);
+  --text:var(--mghal-light-text);--text-primary:var(--mghal-light-text);
+  --muted:var(--mghal-light-muted);--text-secondary:var(--mghal-light-muted);--text-muted:var(--mghal-light-muted);
+  --accent:var(--mghal-brand-blue);--accent-primary:var(--mghal-brand-blue);--accent2:var(--mghal-brand-navy);
+  --accent-secondary:var(--mghal-brand-blue);--gold:var(--mghal-brand-gold);--gold-soft:var(--mghal-brand-gold-ink);
+  --shadow:var(--mghal-shadow-light);--surface:var(--mghal-light-surface);--navy:var(--mghal-brand-navy);
+  --blue:var(--mghal-brand-blue);--gold-ink:var(--mghal-brand-gold-ink);
+  --mghal-navy:var(--mghal-brand-navy);--mghal-blue:var(--mghal-brand-blue);--mghal-white:var(--mghal-light-bg);
+  --mghal-surface:var(--mghal-light-surface);--mghal-text:var(--mghal-light-text);--mghal-muted:var(--mghal-light-muted);
+  --mghal-border:var(--mghal-light-border);--mghal-gold:var(--mghal-brand-gold);--mghal-gold-ink:var(--mghal-brand-gold-ink);
+  --mghal-content:var(--mghal-content-width);--mghal-shadow:var(--mghal-shadow-light);
+  --mghal-font-ar:"IBM Plex Sans Arabic",system-ui,sans-serif;--mghal-font-en:Inter,system-ui,sans-serif;
+  --mghal-space-1:4px;--mghal-space-2:8px;--mghal-space-3:12px;--mghal-space-4:16px;--mghal-space-5:24px;
+  --mghal-space-6:32px;--mghal-space-7:48px;--mghal-space-8:64px;--mghal-space-9:80px;
+  --mghal-radius-sm:8px;--mghal-radius-md:12px;--mghal-radius-lg:var(--mghal-radius);--mghal-radius-xl:20px;
+  --mghal-content-reading:72ch;--mghal-touch-target:44px;
 }
 /* M.GH.AL Corporate Visual Identity — Navy / White / Slate / Champagne */
 

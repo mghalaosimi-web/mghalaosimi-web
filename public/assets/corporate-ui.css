@@ -1,8 +1,9 @@
+@import url('./design-tokens.css');
 /* M.GH.AL Premium Corporate UI — unified visual layer */
 :root{
- --mghal-navy:#172B4D;--mghal-blue:#315A85;--mghal-white:#FFFFFF;--mghal-surface:#F3F5F7;
- --mghal-text:#202B38;--mghal-muted:#64748B;--mghal-border:#DCE2E8;--mghal-gold:#B69A62;
- --mghal-gold-ink:#806333;--mghal-radius:14px;--mghal-shadow:0 8px 24px rgba(23,43,77,.07);
+ --mghal-navy:var(--mghal-brand-navy);--mghal-blue:var(--mghal-brand-blue);--mghal-white:var(--mghal-light-bg);--mghal-surface:var(--mghal-light-surface);
+ --mghal-text:var(--mghal-light-text);--mghal-muted:var(--mghal-light-muted);--mghal-border:var(--mghal-light-border);
+ --mghal-gold:var(--mghal-brand-gold);--mghal-gold-ink:var(--mghal-brand-gold-ink);--mghal-shadow:var(--mghal-shadow-light);
  color-scheme:light;
 }
 html{background:#fff!important;color:var(--mghal-text)!important;scroll-behavior:smooth}
@@ -257,3 +258,6 @@ html,body{width:100%;max-width:100%;overflow-x:clip!important}
  .cert-hero{padding:38px 0 26px!important}
 }
 @media(prefers-reduced-motion:reduce){.home-facts-grid>a{transition:none}}
+
+/* Static pages use the shared official light surface; the brand accents remain navy/blue/gold. */
+body:not(.home-page){background:var(--mghal-light-bg)!important;color:var(--mghal-light-text)!important}
