@@ -66,4 +66,6 @@ assert.ok(legacyCss.includes("touch-action:pan-x"), "Legacy navigation must supp
 assert.ok(legacyCss.includes("prefers-reduced-motion:reduce"), "Legacy navigation must respect reduced motion.");
 assert.ok(legacyCss.includes(".site-menu-button") && legacyCss.includes("display:none!important"), "The expanding mobile menu must remain disabled.");
 
+assert.ok(header.includes("const currentIndex = links.findIndex((item) => pathname === item.href)"), "Page swipes must be limited to top-level routes and not exit nested project details.");
+assert.ok(header.includes("window.getComputedStyle(ancestor)") && header.includes("ancestor.scrollWidth > ancestor.clientWidth + 1"), "Nested horizontal scrollers must not be intercepted by page-swipe navigation.");
 console.log("Next.js navigation tests passed: 8 routes, sticky horizontal rail, RTL/LTR swipe, control guards, edge gestures, and shared brand tokens.");

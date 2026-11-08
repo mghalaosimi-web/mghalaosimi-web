@@ -28,9 +28,8 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
   }, [pathname]);
 
   useEffect(() => {
-    const currentIndex = links.findIndex((item) =>
-      item.href === '/' ? pathname === '/' : pathname === item.href || pathname.startsWith(item.href + '/')
-    );
+    // Page swipes are limited to top-level routes; nested project/detail pages keep their context.
+    const currentIndex = links.findIndex((item) => pathname === item.href);
     if (currentIndex < 0) return;
 
     let startX = 0;
@@ -44,6 +43,15 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
       if (!target || !target.closest('main, #main, [data-swipe-page]')) { startTarget = null; return; }
       if (target.closest('a,button,input,textarea,select,video,audio,canvas,img,dialog,[role="dialog"],[contenteditable="true"],[data-no-swipe],[data-horizontal-scroll],.mghal-primary-nav,.project-modal-backdrop,.project-modal,.portfolio-archive-filters,.portfolio-waynah-gallery')) {
         startTarget = null; return;
+      }
+      let ancestor: HTMLElement | null = target;
+      while (ancestor && !ancestor.matches('main, #main, [data-swipe-page]')) {
+        const style = window.getComputedStyle(ancestor);
+        if ((style.overflowX === 'auto' || style.overflowX === 'scroll') && ancestor.scrollWidth > ancestor.clientWidth + 1) {
+          startTarget = null;
+          return;
+        }
+        ancestor = ancestor.parentElement;
       }
       const touch = event.touches[0];
       if (touch.clientX < 20 || touch.clientX > window.innerWidth - 20) { startTarget = null; return; }
