@@ -375,3 +375,40 @@ body{background:var(--mghal-color-bg);color:var(--mghal-color-text)}
   html{scroll-behavior:auto}
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Final mobile rail reset: override the former floating-menu geometry completely. */
+@media(max-width:1050px){
+  .mghal-primary-nav,
+  .mghal-header.is-menu-open .mghal-primary-nav{
+    position:static!important;
+    inset:auto!important;
+    top:auto!important;
+    z-index:auto!important;
+    display:flex!important;
+    width:100%!important;
+    max-height:none!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    flex:0 0 auto!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    gap:7px!important;
+    padding:3px 0 5px!important;
+    border:0!important;
+    border-top:1px solid var(--mghal-color-border)!important;
+    border-radius:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+  }
+}
+@media(max-width:600px){
+  .mghal-primary-nav,
+  .mghal-header.is-menu-open .mghal-primary-nav{
+    inset:auto!important;
+    padding:3px 0 5px!important;
+    gap:6px!important;
+  }
+}
