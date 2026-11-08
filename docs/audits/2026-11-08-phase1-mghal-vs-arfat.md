@@ -49,7 +49,7 @@
 | Render `mghal-final-site` | Build failed | سجل البناء يظهر `eslint: not found` أثناء lint في `mghal-backend`؛ إعداد هذه الخدمة لا يطابق إعداد `mghal-final-web`. لم أغير إعداد الخدمة. |
 | Vercel `mghal` و`mghalaosimi-web` و`mghal-next-validation` | آخر deployments المعروضة READY، لكن target ليس Production | حالات Vercel المرتبطة بالـ commit فشلت بسبب build-rate-limit؛ لا يوجد دليل على ترقية commit الحالي إلى Production. |
 | GitHub CI على رأس `0e13a95` | Backend CI وNext quality وNode API CI ناجحة | ثلاث workflows؛ فحوص Vercel الخارجية منفصلة عن GitHub Actions. |
-| GitHub CI على فرع التدقيق | **الثلاثة ناجحة** على رأس `a6eff7b6`: Next.js quality وBackend CI وNode API CI | Next quality شغّل audit:credentials/certificates/profile/design/API proxy/SEO/sitemap/project pages/navigation/search/lint/typecheck/build؛ Backend CI شغّل `npm run check`؛ Node API CI شغّل `npm run check` و`node --check`. |
+| GitHub CI على فرع التدقيق | **الثلاثة ناجحة** على رأس `a5286456`: Next.js quality وBackend CI وNode API CI | Next quality شغّل audit:credentials/certificates/profile/design/API proxy/SEO/sitemap/project pages/navigation/search/lint/typecheck/build؛ Backend CI شغّل `npm run check`؛ Node API CI شغّل `npm run check` و`node --check`. |
 
 روابط تشغيل GitHub Actions:
 - [Next.js quality — run 42440967303](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42440967303)
@@ -60,14 +60,14 @@
 
 ### نتائج CI النهائية لفرع التدقيق
 
-- [Next.js quality — run 42441152089](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42441152089): success، job `validate` وجميع الخطوات ناجحة، بما فيها `test:project-pages` و`npm run build`.
-- [Backend CI — run 42441170639](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42441170639): success، job `validate` و`npm run check`.
-- [Node API CI — run 42441170669](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42441170669): success، job `validate` و`npm run check` و`node --check ../worker.production.js`.
+- [Next.js quality — run 42441400490](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42441400490): success، job `validate` وجميع الخطوات ناجحة، بما فيها `test:project-pages` و`npm run build`.
+- [Backend CI — run 42441403395](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42441403395): success، job `validate` و`npm run check`.
+- [Node API CI — run 42441403424](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42441403424): success، job `validate` و`npm run check` و`node --check ../worker.production.js`.
 - كان أول تشغيل لـNext quality يفشل عند cover `mghal-official-website.svg` لأن الاختبار يبحث في root `assets/` بينما الملف الفعلي في `public/assets/`. عُدّل الاختبار إلى public output وأعيد التشغيل بنجاح؛ لم تُغيّر صورة أو بيانات مشروع.
 
 ### PR التدقيق
 
-- [PR #26 — audit: phase-one comparison and low-risk fixes](https://github.com/mghalaosimi-web/mghalaosimi-web/pull/26) — Draft، base هو `feat/node-postgres-backend-2026-11-08`، head هو فرع التدقيق، 12 commits و11 ملفاً، 281 إضافة و16 حذفاً. لم يُدمج.
+- [PR #26 — audit: phase-one comparison and low-risk fixes](https://github.com/mghalaosimi-web/mghalaosimi-web/pull/26) — Draft، base هو `feat/node-postgres-backend-2026-11-08`، head هو فرع التدقيق، 14 commits و11 ملفاً، 322 إضافة و16 حذفاً. لم يُدمج.
 
 ## 4. المقارنة المعمارية
 
