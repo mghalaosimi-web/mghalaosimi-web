@@ -29,6 +29,9 @@ assert.match(css, /prefers-reduced-motion:\s*reduce/, "Reduced-motion support is
 assert.match(css, /:focus-visible/, "Visible keyboard focus styling is required.");
 assert.match(header, /aria-current=\{active \? 'page' : undefined\}/, "The current route must be exposed accessibly.");
 assert.match(header, /touchcancel/, "Cancelled swipe gestures must reset.");
+assert.match(globals, /--brass:var\(--mghal-color-gold/, "Global gold aliases must use the shared brand token.");
+assert.match(globals, /--copper:var\(--mghal-color-blue/, "Global accent aliases must use the shared blue token.");
+assert.match(globals, /--ink-950:var\(--mghal-color-bg/, "Global backgrounds must use the shared background token.");
 assert.match(layout, /<SiteHeader isEn=\{isEn\}\/>/, "The shared header must be mounted globally.");
 
 console.log("M.GH.AL design audit passed: approved palette tokens, sticky horizontal navigation, RTL/LTR gesture guards, focus visibility and reduced motion.");
