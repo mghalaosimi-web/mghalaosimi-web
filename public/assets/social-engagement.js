@@ -82,7 +82,6 @@ function reactionWidget(type,id){
   try{
    let token=null;if(navigator.doNotTrack!=='1'){try{token=await visitor()}catch{}}
    const query=new URLSearchParams({targetType:type,targetId:id}),options=token?{headers:{'X-Visitor-Token':token}}:{};
-   if(token)query.set('visitorToken',token);
    const data=await json('/api/public/reactions?'+query.toString(),options);if(!data.counts||typeof data.counts!=='object')throw new Error(words.countUnavailable);
    const localState=token?readLocalState(token):{like:false,clap:false};
    state=data.viewerReactions||{like:!!data.reacted,clap:localState.clap};
