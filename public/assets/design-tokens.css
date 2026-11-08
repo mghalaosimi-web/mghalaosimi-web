@@ -30,6 +30,10 @@
   --mghal-light-text: #202B38;
   --mghal-light-muted: #64748B;
   --mghal-light-border: #DCE2E8;
+  --mghal-light-surface-raised: #F8FAFC;
+  --mghal-light-muted-strong: #475569;
+  --mghal-light-border-soft: #E4E9EF;
+  --mghal-light-border-strong: #B9C8D8;
 
   /* Semantic feedback */
   --mghal-state-success: #5AAB84;
