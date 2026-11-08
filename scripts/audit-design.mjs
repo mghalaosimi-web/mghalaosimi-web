@@ -7,6 +7,7 @@ const search = readFileSync(new URL("../app/components/SiteSearch.tsx", import.m
 const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const globals = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 const tokensCss = readFileSync(new URL("../public/assets/design-tokens.css", import.meta.url), "utf8");
+const routeStyles = ["../app/home.css", "../app/contact/contact.module.css", "../app/projects/projects.css", "../app/language/language.css"].map((path) => readFileSync(new URL(path, import.meta.url), "utf8"));
 
 const tokens = {
   "--mghal-brand-navy": "#172B4D",
@@ -17,6 +18,10 @@ const tokens = {
   "--mghal-dark-surface-raised": "#172431",
   "--mghal-dark-text": "#EEE9DF",
   "--mghal-dark-muted": "#AEB8BB",
+  "--mghal-dark-surface-alt": "#1D2D3C",
+  "--mghal-dark-surface-contrast": "#293F53",
+  "--mghal-dark-muted-strong": "#82929D",
+  "--mghal-dark-text-soft": "#D5D0C6",
   "--mghal-dark-border-soft": "rgba(182, 154, 98, .14)",
   "--mghal-dark-border-strong": "rgba(182, 154, 98, .48)",
   "--mghal-state-success": "#5AAB84",
