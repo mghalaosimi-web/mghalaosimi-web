@@ -8,6 +8,9 @@ const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8
 const globals = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 const tokensCss = readFileSync(new URL("../public/assets/design-tokens.css", import.meta.url), "utf8");
 const routeStyles = ["../app/home.css", "../app/contact/contact.module.css", "../app/projects/projects.css", "../app/language/language.css"].map((path) => readFileSync(new URL(path, import.meta.url), "utf8"));
+const engagementCss = readFileSync(new URL("../public/assets/social-engagement.css", import.meta.url), "utf8");
+const adminCss = readFileSync(new URL("../public/assets/admin.css", import.meta.url), "utf8");
+const legacyExperienceCss = readFileSync(new URL("../public/assets/mghal-experience.css", import.meta.url), "utf8");
 
 const tokens = {
   "--mghal-brand-navy": "#172B4D",
@@ -66,6 +69,9 @@ assert.ok(globals.includes("--shadow-raised:var(--mghal-shadow-raised"), "Raised
 for (const [index, style] of routeStyles.entries()) {
   assert.ok(!/#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})(?![0-9a-fA-F])/.test(style), `Route stylesheet ${index + 1} must not reintroduce hard-coded colors.`);
 }
+assert.ok(engagementCss.includes("var(--mghal-state-success)") && engagementCss.includes("var(--mghal-state-danger)"), "Follow/reaction feedback must use semantic state tokens.");
+assert.ok(adminCss.includes("--success:var(--mghal-state-success)") && adminCss.includes("--danger:var(--mghal-state-danger)"), "The owner portal must use shared semantic states.");
+assert.ok(legacyExperienceCss.includes("--mx-navy:var(--mghal-brand-navy)"), "Legacy public routes must use the shared brand palette.");
 assert.ok(layout.includes("<SiteHeader isEn={isEn}/>"), "The shared header must be mounted globally.");
 
 console.log("M.GH.AL design audit passed: shared brand/surface tokens, sticky horizontal navigation, RTL/LTR gesture guards, focus visibility and reduced motion.");
