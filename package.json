@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run audit:design && npm run test:navigation && npm run test:search && npm run test:security-headers && next build",
+    "build": "npm run audit:design && npm run test:navigation && npm run test:search && npm run test:security-headers && npm run test:structured-data && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "audit:credentials": "node scripts/audit-credentials.mjs",
@@ -17,7 +17,8 @@
     "test:navigation": "node scripts/test-navigation.mjs",
     "audit:design": "node scripts/audit-design.mjs",
     "test:search": "node scripts/test-search-palette.mjs",
-    "test:security-headers": "node scripts/test-security-headers.mjs"
+    "test:security-headers": "node scripts/test-security-headers.mjs",
+    "test:structured-data": "node scripts/test-structured-data.mjs"
   },
   "dependencies": {
     "next": "15.5.28",
