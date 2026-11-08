@@ -49,13 +49,25 @@
 | Render `mghal-final-site` | Build failed | سجل البناء يظهر `eslint: not found` أثناء lint في `mghal-backend`؛ إعداد هذه الخدمة لا يطابق إعداد `mghal-final-web`. لم أغير إعداد الخدمة. |
 | Vercel `mghal` و`mghalaosimi-web` و`mghal-next-validation` | آخر deployments المعروضة READY، لكن target ليس Production | حالات Vercel المرتبطة بالـ commit فشلت بسبب build-rate-limit؛ لا يوجد دليل على ترقية commit الحالي إلى Production. |
 | GitHub CI على رأس `0e13a95` | Backend CI وNext quality وNode API CI ناجحة | ثلاث workflows؛ فحوص Vercel الخارجية منفصلة عن GitHub Actions. |
-| GitHub CI على فرع التدقيق | Node API CI نجح؛ Next quality أعاد فشلاً أولياً في اختبار صفحات المشاريع ثم أُصلح مسار الأصول | إعادة تشغيل Next quality بعد آخر إصلاح كانت قيد التنفيذ عند كتابة هذا التقرير؛ لا أصفها بأنها ناجحة قبل ظهور النتيجة النهائية. |
+| GitHub CI على فرع التدقيق | **الثلاثة ناجحة** على رأس `a6eff7b6`: Next.js quality وBackend CI وNode API CI | Next quality شغّل audit:credentials/certificates/profile/design/API proxy/SEO/sitemap/project pages/navigation/search/lint/typecheck/build؛ Backend CI شغّل `npm run check`؛ Node API CI شغّل `npm run check` و`node --check`. |
 
 روابط تشغيل GitHub Actions:
 - [Next.js quality — run 42440967303](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42440967303)
 - [Node API CI — run 42440967338](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42440967338)
 
 سجلات Render للفترة التي فُحصت لم تعرض سجلات طلبات 4xx/5xx لخدمتي الواجهة وNode API، ولم يظهر خطأ تطبيق Node؛ ظهرت تحذيرات من pg بشأن aliases الخاصة بـ SSL mode. غياب سجلات الأخطاء في نافذة الاستعلام لا يثبت خلو الموقع من 404 أو أخطاء متصفح.
+
+
+### نتائج CI النهائية لفرع التدقيق
+
+- [Next.js quality — run 42441152089](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42441152089): success، job `validate` وجميع الخطوات ناجحة، بما فيها `test:project-pages` و`npm run build`.
+- [Backend CI — run 42441170639](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42441170639): success، job `validate` و`npm run check`.
+- [Node API CI — run 42441170669](https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/42441170669): success، job `validate` و`npm run check` و`node --check ../worker.production.js`.
+- كان أول تشغيل لـNext quality يفشل عند cover `mghal-official-website.svg` لأن الاختبار يبحث في root `assets/` بينما الملف الفعلي في `public/assets/`. عُدّل الاختبار إلى public output وأعيد التشغيل بنجاح؛ لم تُغيّر صورة أو بيانات مشروع.
+
+### PR التدقيق
+
+- [PR #26 — audit: phase-one comparison and low-risk fixes](https://github.com/mghalaosimi-web/mghalaosimi-web/pull/26) — Draft، base هو `feat/node-postgres-backend-2026-11-08`، head هو فرع التدقيق، 12 commits و11 ملفاً، 281 إضافة و16 حذفاً. لم يُدمج.
 
 ## 4. المقارنة المعمارية
 
@@ -209,6 +221,28 @@
 5. مراجعة CSS tokens على مستوى الصفحات والمكونات، مع contrast tests.
 6. بعد ثبات الواجهة، اختبار Neon على قاعدة معزولة ومقارنة schema/data counts، ثم قرار مستقل بشأن cutover.
 7. تسوية PR stack وإعداد release PR صغير مبني على main. لا دمج آلي للـ306 commits.
+
+
+## ملحق A: جرد الفروع وPRs عند الالتقاط
+
+### فروع M.GH.AL (31 بعد إنشاء فرع التدقيق)
+
+`audit/phase1-mghal-arfat-2026-11-08`, `backup/pre-credential-audit-2026-11-07`, `backup/pre-static-credential-project-audit-2026-11-07`, `chore/unify-public-identity-2026-11-06`, `design/arfat-inspired-ui-2026-11-07`, `design/complete-reference-parity-2026-11-07`, `design/extra-reference-styling-2026-11-07`, `design/reference-details-followup-2026-11-07`, `feat/mghal-ai-platform-free-tier-2026-11-06`, `feat/mghal-complete-platform-2026-11-01`, `feat/mghal-credentials-projects-expansion-2026-11-05`, `feat/mghal-google-identity-linking-2026-11-07`, `feat/mghal-social-engagement-2026-11-07`, `feat/mghal-visual-redesign-2026-11-03`, `feat/mghal-visual-redesign-completion-2026-11-04`, `feat/node-postgres-backend-2026-11-08`, `feat/platform-phases-1-3-2026-11-01`, `feat/profile-media-and-credentials`, `feat/render-project-page-tracking-2026-11-01`, `feat/verified-project-portfolio-2026-10-31`, `feature/digital-identity-hub-v2-completion`, `feature/digital-identity-hub-v2`, `feature/mghal-arfat-full-integration`, `feature/portfolio-expansion`, `fix/credentials-owner-audit-2026-11-07`, `fix/mghal-dual-deploy-hardening-2026-11-05`, `fix/mghal-official-light-brand-system-2026-11-07`, `fix/owner-bootstrap-proxy-2026-11-06`, `fix/site-quality-audit-2026-10-31`, `fix/social-admin-mobile-ux-2026-11-07`, `main`.
+
+### جرد PRs في M.GH.AL
+
+- **مفتوحة (16):** #25 Node.js/Neon؛ #24 UX/credentials/SEO hardening؛ #22 official brand system؛ #17 portfolio integration؛ #21 reference styling؛ #16 Google identity linking؛ #15 anonymous follow/reactions؛ #14 AI provider foundation؛ #13 public identity؛ #12 credentials/projects/research؛ #11 dual-deploy hardening؛ #10 bilingual homepage؛ #9 visual redesign؛ #8 complete platform؛ #5 portfolio/credentials hub؛ #4 profile imagery/credentials.
+- **مغلقة (9):** #23 credential-owner audit (merged)؛ #20 reference detail styling (merged)؛ #19 design parity (merged)؛ #18 reference-inspired redesign (merged)؛ #7 Render bilingual pages (closed without merge)؛ #6 backend/visitor tracking foundation (merged)؛ #3 V2.1 identity (merged)؛ #2 V2.0 hub (merged)؛ #1 portfolio expansion (merged).
+- **PR #26** أُنشئ بعد الالتقاط الأساسي كـDraft منفصل على فرع التدقيق، ولا يغير إحصاء الـ25 PRs الأصلية في لقطة البداية.
+
+### فروع المرجع (12)
+
+`about-page-tabbed-profile`, `credentials-cisco-badges`, `feature/aegis-proof-of-work`, `feature/bilingual-ar-en`, `fix/skills-build-syntax`, `homepage-visual-refresh`, `portfolio`, `professional-portfolio-upgrade`, `public-certificates-upload`, `seo-internationalization-audit`, `skills-page-expansion`, `vercel/react-server-components-cve-vu-eb33c1`.
+
+### جرد PRs في المرجع
+
+- **مفتوح (1):** #1 Fix React Server Components CVE vulnerabilities — Draft.
+- **مغلقة ومندمجة (9):** #10 structured data للمشاريع والشهادات؛ #9 bilingual release؛ #8 AEGIS proof of work؛ #7 skills build fix؛ #6 interactive skills explorer؛ #5 about tabs؛ #4 homepage refresh؛ #3 Cisco badges؛ #2 visual upgrade.
 
 ## 10. القيود
 
