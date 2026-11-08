@@ -5,12 +5,21 @@ const css = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url),
 const header = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
 const search = readFileSync(new URL("../app/components/SiteSearch.tsx", import.meta.url), "utf8");
 const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
+const progress = readFileSync(new URL("../app/components/ReadingProgress.tsx", import.meta.url), "utf8");
 const globals = readFileSync(new URL("../app/globals.css", import.meta.url), "utf8");
 const tokensCss = readFileSync(new URL("../public/assets/design-tokens.css", import.meta.url), "utf8");
 const routeStyles = ["../app/home.css", "../app/contact/contact.module.css", "../app/projects/projects.css", "../app/language/language.css"].map((path) => readFileSync(new URL(path, import.meta.url), "utf8"));
 const engagementCss = readFileSync(new URL("../public/assets/social-engagement.css", import.meta.url), "utf8");
 const adminCss = readFileSync(new URL("../public/assets/admin.css", import.meta.url), "utf8");
 const legacyExperienceCss = readFileSync(new URL("../public/assets/mghal-experience.css", import.meta.url), "utf8");
+const legacyThemeCss = readFileSync(new URL("../public/assets/theme.css", import.meta.url), "utf8");
+const legacyCredentialsCss = readFileSync(new URL("../public/assets/credentials.css", import.meta.url), "utf8");
+const legacyTokenStyles = [
+  "brand-home.css", "brand-resume.css", "certificates-page.css", "corporate-ui.css",
+  "foundation.css", "home.css", "mghal-experience.css", "project-detail.css",
+  "project-library.css", "projects.css", "research-hub.css", "section-rail.css",
+  "social-engagement.css", "admin.css", "credentials.css", "theme.css"
+].map((name) => readFileSync(new URL("../public/assets/" + name, import.meta.url), "utf8"));
 const adminHtml = readFileSync(new URL("../public/admin/index.html", import.meta.url), "utf8");
 
 const tokens = {
@@ -41,6 +50,22 @@ const tokens = {
   "--mghal-light-text": "#202B38",
   "--mghal-light-muted": "#64748B",
   "--mghal-light-border": "#DCE2E8",
+  "--mghal-light-surface-raised": "#F8FAFC",
+  "--mghal-light-surface-subtle": "#FBFCFD",
+  "--mghal-light-surface-alt": "#F7F9FB",
+  "--mghal-light-surface-warm": "#FBFAF7",
+  "--mghal-light-surface-warm-alt": "#F8F7F3",
+  "--mghal-light-muted-strong": "#475569",
+  "--mghal-light-border-soft": "#E4E9EF",
+  "--mghal-light-border-strong": "#B9C8D8",
+  "--mghal-state-success-bg": "rgba(90, 171, 132, .12)",
+  "--mghal-state-success-border": "rgba(90, 171, 132, .42)",
+  "--mghal-state-warning-bg": "rgba(208, 160, 90, .12)",
+  "--mghal-state-warning-border": "rgba(208, 160, 90, .42)",
+  "--mghal-state-danger-bg": "rgba(208, 109, 109, .12)",
+  "--mghal-state-danger-border": "rgba(208, 109, 109, .42)",
+  "--mghal-state-info-bg": "rgba(110, 160, 207, .12)",
+  "--mghal-state-info-border": "rgba(110, 160, 207, .42)",
 };
 for (const [name, value] of Object.entries(tokens)) {
   assert.ok(tokensCss.includes(`${name}: ${value};`), `Missing or incorrect shared token: ${name}`);
@@ -74,6 +99,17 @@ assert.ok(engagementCss.includes("var(--mghal-state-success)") && engagementCss.
 assert.ok(adminCss.includes("--success:var(--mghal-state-success)") && adminCss.includes("--danger:var(--mghal-state-danger)"), "The owner portal must use shared semantic states.");
 assert.ok(adminHtml.includes('href="/assets/design-tokens.css"'), "The owner portal must load shared tokens before its stylesheet.");
 assert.ok(legacyExperienceCss.includes("--mx-navy:var(--mghal-brand-navy)"), "Legacy public routes must use the shared brand palette.");
+assert.ok(layout.includes("<ReadingProgress isEn={isEn}/>"), "The Next.js shell must mount the route-aware progress indicator.");
+assert.ok(progress.includes('role="progressbar"') && progress.includes("aria-valuenow={progress}"), "Reading progress must expose an accessible live value.");
+assert.ok(progress.includes("usePathname") && progress.includes("ResizeObserver"), "Reading progress must recalculate on route and content-size changes.");
+assert.ok(css.includes(".mghal-reading-progress{") && css.includes("html[dir=\"rtl\"] .mghal-reading-progress"), "Progress styling must respect the document direction.");
+assert.ok(layout.includes('social-engagement.js" strategy="lazyOnload"'), "DOM-enhancing social widgets must wait until after initial hydration.");
+assert.ok(legacyThemeCss.includes("var(--mghal-light-bg)") && legacyThemeCss.includes("var(--mghal-brand-navy)"), "Legacy theme surfaces must resolve through the shared palette.");
+assert.ok(legacyCredentialsCss.includes("var(--mghal-brand-blue)") && legacyCredentialsCss.includes("var(--mghal-light-border)"), "Credential cards must resolve through the shared palette.");
+for (const [index, style] of legacyTokenStyles.entries()) {
+  assert.ok(style.includes("design-tokens.css") || style.includes("var(--mghal-brand-navy)"), `Public stylesheet ${index + 1} must consume the shared token system.`);
+}
+assert.ok(!/#(?:0f766e|155e56|16877d|a5b4fc)\b/i.test(legacyTokenStyles.slice(0, 13).join("\n")), "Legacy green/indigo brand accents must not reappear in public brand styles.");
 assert.ok(layout.includes("<SiteHeader isEn={isEn}/>"), "The shared header must be mounted globally.");
 
 console.log("M.GH.AL design audit passed: shared brand/surface tokens, sticky horizontal navigation, RTL/LTR gesture guards, focus visibility and reduced motion.");
