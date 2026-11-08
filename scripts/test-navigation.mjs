@@ -31,3 +31,5 @@ console.log("Next.js navigation tests passed: 8 routes, sticky horizontal rail, 
 assert.match(header, /scrollIntoView/, "The active route must be brought into view inside the horizontal rail.");
 assert.match(shell, /position:static!important/, "The mobile navigation must occupy its header row, not float as a drawer.");
 assert.match(shell, /max-height:none!important/, "The old menu panel height limit must not affect the horizontal rail.");
+assert.match(shell, /min-width:max-content!important/, "Navigation items must retain their intrinsic width in the horizontal rail.");
+assert.match(shell, /white-space:nowrap!important/, "Navigation labels must stay on one line while swiping.");
