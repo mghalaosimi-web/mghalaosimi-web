@@ -3,14 +3,14 @@ if(window.__mghalSocialEngagement)return;window.__mghalSocialEngagement=true;
 const API='',VISITOR_KEY='mghal_visitor_v1';
 const en=document.documentElement.lang.toLowerCase().startsWith('en'),$=(s,r=document)=>r.querySelector(s);
 const words=en?{
- followTitle:'Follow M.GH.AL',followCopy:'You are automatically following as an anonymous guest on this browser.',
+ followTitle:'Follow M.GH.AL',followCopy:'Follow M.GH.AL to stay connected with new projects and updates.',
  guest:'You are following as an anonymous guest. Your name and email are not published, and no email notifications are sent.',
  name:'Public display name',consent:'I agree to publish this display name in the M.GH.AL followers list.',
  follow:'Become a public follower',following:'You are following M.GH.AL.',notFollowing:'You are not following yet.',
  unfollow:'Stop following',privacy:'Guest following uses a random browser token. The site cannot read your email account automatically. Add a public name only with your consent.',
  count:'Public followers',guests:'Anonymous guest follows',like:'Like',clap:'Applaud',reactionHelp:'Like or applaud to record a reaction. Select the same action again to remove it; counts come from the server.',followActionHint:'This button publishes the display name above only after you check the consent box. Anonymous guest following does not publish your name.',unfollowHint:'Stop following to remove this browser session from active follower counts. Your public name is no longer shown.',saving:'Saving…',savingShort:'…',saved:'Reaction saved.',removed:'Reaction removed.',savedCountPending:'Reaction saved; the count could not be refreshed yet.',countUnavailable:'Counts are temporarily unavailable.',previewDisabled:'Preview interactions are disabled until an isolated preview API is configured.',followSaved:'Your public follow is saved.',unfollowSaved:'You have stopped following M.GH.AL.',googleConnecting:'Connecting…',share:'Share',shared:'Link copied / ready to share',
  google:'Continue with Google',googleConnected:'Google account verified. Your email remains private.',googleDisabled:'Google sign-in is not configured yet.', error:'Could not complete the action. Please try again.',liked:'Reaction updated.',comments:'Comments',noComments:'No approved comments yet.'
-}:{followTitle:'تابع M.GH.AL',followCopy:'أصبحت تتابع الموقع تلقائياً كزائر مجهول على هذا المتصفح.',
+}:{followTitle:'تابع M.GH.AL',followCopy:'تابع M.GH.AL لتبقى على اطلاع بالمشاريع والتحديثات الجديدة.',
  guest:'أنت تتابع الآن كضيف مجهول. لا ننشر اسمك أو بريدك الإلكتروني، ولا نرسل إليك رسائل بريدية.',
  name:'الاسم الذي سيظهر علناً',consent:'أوافق على نشر هذا الاسم ضمن قائمة متابعي M.GH.AL.',
  follow:'حوّل المتابعة إلى متابعة باسمك',following:'أنت تتابع M.GH.AL حالياً.',notFollowing:'أنت لا تتابع الموقع حالياً.',
