@@ -33,15 +33,25 @@
   --mghal-light-surface-raised: #F8FAFC;
   --mghal-light-surface-subtle: #FBFCFD;
   --mghal-light-surface-alt: #F7F9FB;
+  --mghal-light-surface-warm: #FBFAF7;
+  --mghal-light-surface-warm-alt: #F8F7F3;
   --mghal-light-muted-strong: #475569;
   --mghal-light-border-soft: #E4E9EF;
   --mghal-light-border-strong: #B9C8D8;
 
   /* Semantic feedback */
   --mghal-state-success: #5AAB84;
+  --mghal-state-success-bg: rgba(90, 171, 132, .12);
+  --mghal-state-success-border: rgba(90, 171, 132, .42);
   --mghal-state-warning: #D0A05A;
+  --mghal-state-warning-bg: rgba(208, 160, 90, .12);
+  --mghal-state-warning-border: rgba(208, 160, 90, .42);
   --mghal-state-danger: #D06D6D;
+  --mghal-state-danger-bg: rgba(208, 109, 109, .12);
+  --mghal-state-danger-border: rgba(208, 109, 109, .42);
   --mghal-state-info: #6EA0CF;
+  --mghal-state-info-bg: rgba(110, 160, 207, .12);
+  --mghal-state-info-border: rgba(110, 160, 207, .42);
   --mghal-state-disabled: #7B8794;
   --mghal-disabled-surface: rgba(174, 184, 187, .08);
 
