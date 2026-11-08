@@ -19,6 +19,8 @@ assert.ok(header.includes("Math.abs(dx) < 72"), "A deliberate horizontal swipe t
 assert.ok(header.includes("Math.abs(dx) < Math.abs(dy) * 1.35"), "Vertical scrolling must not trigger route navigation.");
 assert.ok(header.includes("isEn ? dx < 0 : dx > 0"), "Swipe direction must respect RTL/LTR reading direction.");
 assert.ok(header.includes("a,button,input,textarea,select"), "Interactive controls must be excluded from swipe navigation.");
+assert.ok(header.includes("dialog,[role=\"dialog\"]") && header.includes(".project-modal"), "Dialogs and project detail overlays must be excluded from swipe navigation.");
+assert.ok(header.includes("video,audio,canvas,img"), "Media surfaces must not trigger page swipes.");
 assert.ok(header.includes("touch.clientX < 20"), "System edge-swipe gestures must be preserved.");
 assert.ok(header.includes("touchcancel"), "Cancelled touch gestures must reset swipe state.");
 assert.ok(header.includes("scrollIntoView"), "The active route must be brought into view inside the horizontal rail.");
