@@ -7,7 +7,7 @@ const schema=readFileSync(new URL('../lib/structured-data.ts',import.meta.url),'
 assert.match(layout,/import \{siteJsonLd\} from '\.\.\/lib\/structured-data'/,'The shared Next.js shell must import the site JSON-LD graph.');
 assert.match(layout,/type="application\/ld\+json"/,'The shared shell must emit structured data as JSON-LD.');
 assert.match(layout,/JSON\.stringify\(siteJsonLd\(\)\)/,'The JSON-LD graph must be serialized into the page.');
-assert.match(layout,/replace\(\/</g/,'JSON-LD serialization must escape less-than characters.');
+assert.ok(layout.includes('replace(/</g'),'JSON-LD serialization must escape less-than characters.');
 
 for(const marker of [
   "'@type':'Person'",
