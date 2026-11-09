@@ -100,7 +100,7 @@ function addHomeLikePanel(){
  const title=document.createElement('strong');title.textContent=en?'Support this professional identity':'ادعم الهوية الرقمية المهنية';
  const detail=document.createElement('small');detail.textContent=en?'One like for the main page, recorded with your visitor session.':'إعجاب واحد بالصفحة الرئيسية يُسجّل عبر جلسة الزائر.';
  copy.append(eyebrow,title,detail);section.append(copy,reactionWidget('page','mghal-home'));
- main.insertBefore(section,main.firstElementChild);
+ const mount=$('#mghal-engagement-slot')||main;mount.append(section);
 }
 function addFollowPanel(){
  const main=$('main');if(!main||$('#mghal-follow-panel'))return;
@@ -158,13 +158,13 @@ function addFollowPanel(){
   }catch{return false}
   return true;
  }
- const hero=$('.hv-hero',main);if(hero)hero.after(section);else main.append(section);configureGoogle();state();refreshCount();
+ const mount=$('#mghal-engagement-slot')||main;mount.append(section);configureGoogle();state();refreshCount();
  const identityResult=new URLSearchParams(location.search).get('identity');if(identityResult){const messages={connected:words.googleConnected,cancelled:en?'Google sign-in was cancelled.':'تم إلغاء تسجيل Google.',expired:en?'The sign-in link expired. Please try again.':'انتهت صلاحية رابط تسجيل الدخول. حاول مجدداً.',blocked:en?'This follower account is blocked and cannot be linked.':'حساب المتابعة هذا محظور ولا يمكن ربطه.',unverified:en?'Google did not return a verified email.':'لم يُرجع Google بريداً موثقاً.', 'account-conflict':en?'This email is linked to a different Google identity.':'هذا البريد مرتبط بهوية Google مختلفة.',failed:words.error};status.textContent=messages[identityResult]||words.error;const clean=new URL(location.href);clean.searchParams.delete('identity');history.replaceState({},'',clean.pathname+clean.search+clean.hash);state()}
  window.addEventListener('mghal:visitor-ready',state);
 }
 function getProjects(){if(!window.__mghalProjectIndex)window.__mghalProjectIndex=json('/api/public/projects?locale='+(en?'en':'ar')).then(data=>data.data||[]);return window.__mghalProjectIndex}
 function projectCards(){
- const cards=[...document.querySelectorAll('main .grid .card[data-project-slug],main .grid .card,main .home-project-card')];
+ const cards=[...document.querySelectorAll('main:not(.home-v2) .grid .card[data-project-slug],main:not(.home-v2) .grid .card')];
  for(const card of cards){
   if(card.dataset.socialReady==='1')continue;
   const link=card.querySelector('a.project-detail-link,a[href*="/projects/"]'),path=link?new URL(link.href,location.origin).pathname:'';
