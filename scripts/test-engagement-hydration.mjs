@@ -35,6 +35,9 @@ assert.ok(engagement.includes('main:not(.home-v2) .grid .card[data-project-slug]
   engagement.includes('main:not(.home-v2) .grid .card') &&
   engagement.includes('main:not(.home-v2) .home-project-card'),
   'The legacy project enhancer must exclude React-owned homepage cards.');
+assert.ok(legacyArabicHome.includes('class="home-project-card"') && legacyEnglishHome.includes('class="home-project-card"'),
+  'Both legacy homepages must retain their project-card markup.');
+assert.ok(nextHome.includes('className="home-v2"'), 'The React homepage must remain identifiable for the exclusion guard.');
 assert.ok(engagement.includes('if(window.__mghalSocialEngagement)return;'),
   'The engagement script must be idempotent across repeated loads.');
 assert.ok(tracking.includes('window.__mghalVisitorPromise') || tracking.includes('__mghalVisitor'),
