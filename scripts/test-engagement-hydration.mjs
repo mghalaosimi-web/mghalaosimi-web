@@ -6,6 +6,9 @@ const layout = read('../app/layout.tsx');
 const experience = read('../app/components/SiteExperience.tsx');
 const engagement = read('../public/assets/social-engagement.js');
 const tracking = read('../public/assets/visitor-tracking.js');
+const legacyArabicHome = read('../public/index.html');
+const legacyEnglishHome = read('../public/en/index.html');
+const nextHome = read('../app/page.tsx');
 
 // React must own a stable, empty mount point; legacy scripts must not be injected
 // by Next Script during the initial server render.
