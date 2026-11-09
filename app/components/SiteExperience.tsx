@@ -5,6 +5,38 @@ import { useEffect } from 'react';
 export default function SiteExperience() {
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') return;
+
+    const loadScript = (src: string) => new Promise<void>((resolve) => {
+      const existing = document.querySelector<HTMLScriptElement>(`script[data-mghal-experience="${src}"]`);
+      if (existing) {
+        if (existing.dataset.loaded === 'true') resolve();
+        else {
+          existing.addEventListener('load', () => resolve(), { once: true });
+          existing.addEventListener('error', () => resolve(), { once: true });
+        }
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = src;
+      script.defer = true;
+      script.dataset.mghalExperience = src;
+      script.addEventListener('load', () => {
+        script.dataset.loaded = 'true';
+        resolve();
+      }, { once: true });
+      script.addEventListener('error', () => resolve(), { once: true });
+      document.body.appendChild(script);
+    });
+
+    void (async () => {
+      await loadScript('/assets/visitor-tracking.js');
+      await loadScript('/assets/social-engagement.js');
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') return;
     if (!('serviceWorker' in navigator) || window.location.protocol !== 'https:') return;
 
     void navigator.serviceWorker
