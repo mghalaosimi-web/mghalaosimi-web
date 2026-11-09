@@ -29,7 +29,8 @@ assert.ok(experience.includes("document.body.appendChild(script)"), 'Scripts mus
 assert.ok(engagement.includes("const main=$('main.home-v2')"), 'The homepage like panel must target the current homepage shell.');
 assert.ok(engagement.includes("$('#mghal-engagement-slot')||main"), 'Engagement panels must prefer the stable external mount point.');
 assert.ok(engagement.includes('main:not(.home-v2) .grid .card[data-project-slug]') &&
-  engagement.includes('main:not(.home-v2) .grid .card'),
+  engagement.includes('main:not(.home-v2) .grid .card') &&
+  engagement.includes('main:not(.home-v2) .home-project-card'),
   'The legacy project enhancer must exclude React-owned homepage cards.');
 assert.ok(engagement.includes('if(window.__mghalSocialEngagement)return;'),
   'The engagement script must be idempotent across repeated loads.');
