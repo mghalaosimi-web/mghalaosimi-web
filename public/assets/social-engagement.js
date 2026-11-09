@@ -164,7 +164,7 @@ function addFollowPanel(){
 }
 function getProjects(){if(!window.__mghalProjectIndex)window.__mghalProjectIndex=json('/api/public/projects?locale='+(en?'en':'ar')).then(data=>data.data||[]);return window.__mghalProjectIndex}
 function projectCards(){
- const cards=[...document.querySelectorAll('main:not(.home-v2) .grid .card[data-project-slug],main:not(.home-v2) .grid .card')];
+ const cards=[...document.querySelectorAll('main:not(.home-v2) .grid .card[data-project-slug],main:not(.home-v2) .grid .card,main:not(.home-v2) .home-project-card')];
  for(const card of cards){
   if(card.dataset.socialReady==='1')continue;
   const link=card.querySelector('a.project-detail-link,a[href*="/projects/"]'),path=link?new URL(link.href,location.origin).pathname:'';
