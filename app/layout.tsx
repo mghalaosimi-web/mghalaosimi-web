@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import {cookies} from 'next/headers';
 import './globals.css';
 import './mghal-portfolio.css';
-import Script from 'next/script';
 import SiteHeader from './components/SiteHeader';
 import SiteExperience from './components/SiteExperience';
 import {siteJsonLd} from '../lib/structured-data';
@@ -57,6 +56,7 @@ export default async function RootLayout({children}:{children:React.ReactNode}) 
         <SiteExperience/>
         <SiteHeader isEn={isEn}/>
         {children}
+        <div id="mghal-engagement-slot" suppressHydrationWarning />
         <footer className="mghal-footer">
           <a className="mghal-logo" href="/">M.GH.AL<span>.</span></a>
           <p>© {new Date().getFullYear()} Mohammed Ghaleb Alaosimi · {isEn?'All rights reserved':'جميع الحقوق محفوظة'}</p>
@@ -76,8 +76,6 @@ export default async function RootLayout({children}:{children:React.ReactNode}) 
             <a href="mailto:m.gh.alaosimi@gmail.com">Email</a>
           </div>
         </footer>
-        <Script src="/assets/visitor-tracking.js" strategy="afterInteractive"/>
-        <Script src="/assets/social-engagement.js" strategy="afterInteractive"/>
       </body>
     </html>
   );

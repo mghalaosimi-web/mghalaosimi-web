@@ -1921,3 +1921,7 @@ a:active {
 
 .certificate-document-preview .credential-preview-image{display:block;width:100%;height:auto;max-height:520px;object-fit:contain}
 .credential-badge-placeholder .credential-badge-image{width:112px;height:112px;max-width:70%;object-fit:contain}
+
+
+/* External engagement widgets mount into this stable post-hydration slot. */
+#mghal-engagement-slot{display:contents}
