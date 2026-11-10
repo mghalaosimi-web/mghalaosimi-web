@@ -172,3 +172,8 @@ D1 mghal-db is populated. The inspected mghal-api Worker source forwards request
 - Render runtime verification: BLOCKED. D1 restoration: NOT RUN / NOT VERIFIED. Image publication approval: BLOCKED. Browser/device E2E, full CRUD/auth/RBAC, AI E2E, load/pressure, failover and restoration tests: NOT RUN.
 
 No production code, runtime configuration, secret, DNS, deployment, or production database rows were changed. Phase 2 remains unauthorized.
+
+
+## PR #31 check-state correction — final documentation commit
+
+The previously reported successful PR #31 run #548 and three successful Vercel contexts applied to the earlier head 1d60838d537f3181bded9d148ca0b066881ec583. Subsequent evidence additions advanced the recovery branch to 8 commits / 8 files. At the latest poll, the then-current head dc59b7abc2d4fea6ca7563b8be07f6f6a0b0a6ad had all three Vercel contexts PENDING and no GitHub Actions workflow run returned. Therefore do not carry forward the earlier PASS as the status of the newest documentation commit. The final report update itself creates another documentation-only commit; its checks must be polled after this write. No browser or runtime test was performed.
