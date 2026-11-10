@@ -171,3 +171,8 @@ Phase 1 is PARTIALLY COMPLETED and Phase 2 is NOT AUTHORIZED.
 Immediate blocker: explicit confirmation to inspect Render workspace My Workspace (read-only). After confirmation, verify service IDs, deployment SHAs, health/readiness and DATABASE_URL target without exposing secrets. Owner must also confirm image publication rights before PR #29 can be considered for release.
 
 Stop here and await owner approval before Phase 2.
+
+
+## Latest-head check-state correction
+
+The successful run #548 and three successful Vercel contexts cited above were for earlier PR #31 head 1d60838d537f3181bded9d148ca0b066881ec583. Later documentation-only updates advanced the branch. The latest checked head before this report update was dc59b7abc2d4fea6ca7563b8be07f6f6a0b0a6ad; its three Vercel contexts were PENDING and no GitHub Actions run was returned. This final report update creates a new documentation-only commit, so the newest head's checks are not yet established by the evidence in this report. Treat newest-head checks as PENDING until GitHub reports otherwise. This does not change the Phase 1 decision: PARTIALLY COMPLETED; Phase 2 remains unauthorized.
