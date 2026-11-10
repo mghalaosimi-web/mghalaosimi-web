@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test tests/*.node-test.mjs",
-    "check": "node --check server.mjs && node --check postgres-adapter.mjs && node --check health.mjs && node --test tests/*.node-test.mjs"
+    "check": "node --check server.mjs && node --check postgres-adapter.mjs && node --check health.mjs && node --check ../api-handler.mjs && node --test tests/*.node-test.mjs"
   },
   "dependencies": {
     "pg": "^8.16.3"

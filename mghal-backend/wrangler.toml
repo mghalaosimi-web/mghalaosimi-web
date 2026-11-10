@@ -1,8 +1,0 @@
-name = "mghal-api"
-main = "worker.proxy.js"
-compatibility_date = "2026-11-01"
-workers_dev = true
-preview_urls = false
-
-[vars]
-NODE_API_ORIGIN = "https://mghal-node-api-preview.onrender.com"

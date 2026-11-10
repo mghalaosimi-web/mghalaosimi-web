@@ -7,23 +7,21 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests --max-warnings=0 && npm run lint:frontend",
     "test": "vitest run",
-    "build": "wrangler deploy --dry-run --outdir dist",
+    "build": "node --check api-handler.mjs && node --check node/server.mjs && node --check node/postgres-adapter.mjs",
     "check": "npm run typecheck && npm run lint && npm test && npm run build && npm run check:production",
-    "check:production": "node --check worker.production.js && node --check ../public/assets/social-engagement.js && node --check ../public/assets/visitor-tracking.js",
-    "lint:frontend": "cd .. && ./mghal-backend/node_modules/.bin/eslint --config ./mghal-backend/eslint.frontend.config.js ./app/components/SiteHeader.tsx './app/api/[...path]/route.ts' ./lib/api-proxy-policy.mjs ./public/assets/social-engagement.js --max-warnings=0"
+    "check:production": "node --check api-handler.mjs && node --check ../lib/mghal-api-runtime.mjs && node --check ../public/assets/social-engagement.js && node --check ../public/assets/visitor-tracking.js",
+    "lint:frontend": "cd .. && ./mghal-backend/node_modules/.bin/eslint --config ./mghal-backend/eslint.frontend.config.js ./app/components/SiteHeader.tsx './app/api/[...path]/route.ts' ./lib/mghal-api-runtime.mjs ./public/assets/social-engagement.js --max-warnings=0"
   },
   "dependencies": {
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20261031.1",
+    "@types/node": "^24.10.0",
     "@typescript-eslint/eslint-plugin": "^8.46.4",
     "@typescript-eslint/parser": "^8.46.4",
     "eslint": "^9.39.0",
+    "globals": "^16.5.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.8",
-    "wrangler": "^4.45.0",
-    "@types/node": "^24.10.0",
-    "globals": "^16.5.0"
+    "vitest": "^4.0.8"
   }
 }

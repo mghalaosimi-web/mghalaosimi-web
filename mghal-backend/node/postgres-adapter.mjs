@@ -1,9 +1,9 @@
 /**
- * Minimal Cloudflare D1-compatible adapter backed by PostgreSQL.
+ * Small PostgreSQL adapter exposing the prepared-query interface used by the shared API handler.
  *
- * This compatibility layer lets the existing, security-reviewed API contract
- * run in Node.js while SQL is migrated incrementally. It is deliberately small:
- * only prepare/bind, first, all, run, and transactional batch are implemented.
+ * This adapter keeps the existing API query contract while executing every statement
+ * directly against PostgreSQL. It implements prepare/bind, first, all, run, and
+ * transactional batch without a Cloudflare runtime or database binding.
  */
 export function translateSqliteSql(sql) {
   let translated = String(sql);
@@ -70,7 +70,7 @@ class PgPreparedStatement {
   }
 }
 
-export class PgD1Database {
+export class PgPreparedDatabase {
   constructor(pool) {
     this.pool = pool;
   }

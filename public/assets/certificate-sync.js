@@ -1,6 +1,6 @@
 "use strict";
 (() => {
-  const API = "https://mghal-api.m-gh-alaosimi.workers.dev";
+  const API = "";
   const en = document.documentElement.lang.toLowerCase().startsWith("en");
   const slugByTitle = new Map([
     ["OpenJS Node.js Application Developer (JSNAD)", "jsnad-node-js-application-developer-01"],

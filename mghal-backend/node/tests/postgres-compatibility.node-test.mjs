@@ -2,10 +2,10 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 
-const workerUrl = new URL("../../worker.production.js", import.meta.url);
+const workerUrl = new URL("../../api-handler.mjs", import.meta.url);
 const workerSource = await readFile(workerUrl, "utf8");
 
-test("worker SQL no longer depends on SQLite rowid ordering", () => {
+test("API handler SQL no longer depends on SQLite rowid ordering", () => {
   assert.doesNotMatch(workerSource, /\browid\b/i);
 });
 

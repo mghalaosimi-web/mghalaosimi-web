@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import { Pool } from "pg";
-import worker from "../worker.production.js";
-import { PgD1Database } from "./postgres-adapter.mjs";
+import apiHandler from "../api-handler.mjs";
+import { PgPreparedDatabase } from "./postgres-adapter.mjs";
 import { checkReadiness } from "./health.mjs";
 
 const port = Number(process.env.PORT || 3001);
@@ -21,7 +21,7 @@ const pool = new Pool({
 });
 
 const env = {
-  DB: new PgD1Database(pool),
+  DB: new PgPreparedDatabase(pool),
   ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS,
   RATE_LIMIT_PER_MINUTE: process.env.RATE_LIMIT_PER_MINUTE,
   OWNER_BOOTSTRAP_TOKEN: process.env.OWNER_BOOTSTRAP_TOKEN,
@@ -33,8 +33,7 @@ const env = {
 };
 
 function getClientIp(headers, socket) {
-  // Render/Cloudflare append the connecting client address to this header.
-  // Use the last entry rather than trusting a caller-supplied first entry.
+  // The platform appends the connecting client address; use the last entry.
   const forwarded = headers.get("x-forwarded-for");
   const forwardedIp = forwarded?.split(",").map((value) => value.trim()).filter(Boolean).at(-1);
   return forwardedIp || headers.get("x-real-ip") || socket?.remoteAddress || "unknown";
@@ -82,7 +81,7 @@ const server = createServer(async (incoming, outgoing) => {
     }
 
     // Never trust a client-supplied CF-Connecting-IP header on the Node service.
-    headers.set("CF-Connecting-IP", getClientIp(headers, incoming.socket));
+    headers.set("X-Client-IP", getClientIp(headers, incoming.socket));
 
     const host = headers.get("x-forwarded-host") || headers.get("host") || `localhost:${port}`;
     const protocol = headers.get("x-forwarded-proto")?.split(",")[0]?.trim() || "http";
@@ -107,7 +106,7 @@ const server = createServer(async (incoming, outgoing) => {
       ...(body ? { body } : {})
     });
 
-    const response = await worker.fetch(request, env);
+    const response = await apiHandler.fetch(request, env);
     outgoing.statusCode = response.status;
 
     response.headers.forEach((value, name) => {
