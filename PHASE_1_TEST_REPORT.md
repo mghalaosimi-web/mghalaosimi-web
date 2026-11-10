@@ -7,7 +7,7 @@
 
 | Area | Status | Evidence |
 |---|---|---|
-| Repository/branch/PR metadata | VERIFIED | GitHub API; 36 branches, 30 PRs |
+| Repository/branch/PR metadata | VERIFIED | GitHub API; baseline 36 branches/30 PRs; handoff 37 branches/31 PRs including recovery branch and PR #31 |
 | Commit history pagination | VERIFIED | main 132 commits; operational Node branch 442 commits |
 | Vercel deployment | VERIFIED | Production-target deployment READY at SHA 7de53f6 |
 | Vercel API environment metadata | VERIFIED | Production target has MGHAL_API_BASE; hostname retained only |
@@ -56,6 +56,13 @@ The combined commit status also returned SUCCESS for Vercel projects mghalaosimi
 - Vercel status contexts: SUCCESS.
 - PR is CLOSED/MERGED into the operational Node branch.
 - Its merge/result SHA 7de53f6 is the current Vercel production-target deployment revision.
+
+### PR #31 — recovery reports
+
+- PR #31 is OPEN and Draft, with one commit and seven documentation files.
+- Its base is the operational Node branch at 7de53f6; its head is 09b1c546ca0c11168cc36fbd5ecb61e8fbdbbc46.
+- At the last status poll, all three Vercel status contexts were PENDING. The latest deployment-list query did not return a matching deployment for this head. GitHub Actions returned no workflow run for the recovery head at that poll. Do not treat these checks as passed; re-check the exact PR head before review/merge.
+- No PR #31 production deployment or promotion was performed.
 
 ## 4. Database read-only checks
 

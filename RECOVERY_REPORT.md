@@ -33,8 +33,8 @@ No Prisma schema, Prisma runtime dependency, Render YAML, or Vercel JSON configu
 |---|---|---|
 | Official repository | VERIFIED | mghalaosimi-web/mghalaosimi-web |
 | GitHub default branch | VERIFIED | main at fdfea351455227f44e7f92e82166bfa7bdc5e1fe |
-| Branch inventory | VERIFIED | 36 branches returned by GitHub API |
-| PR inventory | VERIFIED | 30 pull requests returned by GitHub API |
+| Branch inventory | VERIFIED | Baseline snapshot returned 36 pre-recovery branches; the recovery branch was then created and verified (37 total at handoff) |
+| PR inventory | VERIFIED | Baseline snapshot returned 30 pre-recovery PRs; recovery PR #31 was then opened and verified (31 total at handoff) |
 | Standalone issues | VERIFIED | No non-PR issues returned by the repository issues endpoint |
 | Tags and releases | VERIFIED | No matching tag refs and no GitHub releases returned |
 | Current operational Vercel revision | VERIFIED | Deployment dpl_4yAphXBXu4wHVqvzvpBpSp6AkSZJ, READY, target production, branch feat/node-postgres-backend-2026-11-08, SHA 7de53f6... |
@@ -125,7 +125,9 @@ A Neon child branch named mghal-release-e2e-2026-11-10 exists and is READY. Its 
 
 ## 7. Changes implemented in this phase
 
-**IMPLEMENTED:** created these seven reports on the dedicated branch:
+**IMPLEMENTED:** created these seven reports on the dedicated branch, then opened [Draft PR #31](https://github.com/mghalaosimi-web/mghalaosimi-web/pull/31) for review. At handoff the repository contains the 37 baseline branches plus the recovery branch (37 total) and 31 PRs total.
+
+The PR #31 head is `09b1c546ca0c11168cc36fbd5ecb61e8fbdbbc46`; its base is the operational Vercel commit `7de53f6becabee1dfaab4fa328d3cb9131ecebcf`. The PR has one documentation-only commit and seven changed files. Its Vercel status contexts were still PENDING at the last check; no matching preview deployment was confirmed in the latest deployment-list query. Do not claim preview readiness.
 - RECOVERY_REPORT.md
 - ARCHITECTURE_AUDIT.md
 - BRANCH_AND_PR_INVENTORY.md
@@ -134,7 +136,7 @@ A Neon child branch named mghal-release-e2e-2026-11-10 exists and is READY. Its 
 - PHASE_1_TEST_REPORT.md
 - PHASE_1_BLOCKERS.md
 
-No application source, production runtime configuration, domain, DNS record, secret, environment value or database row was changed. No production merge or deployment was initiated.
+No application source, production runtime configuration, domain, DNS record, secret, environment value or database row was changed. No production merge or manual production deployment was initiated. Automatic preview checks were left to the PR integration and are not production promotions.
 
 ## 8. Test and validation summary
 

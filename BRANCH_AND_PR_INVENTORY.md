@@ -7,14 +7,34 @@
 
 - GitHub default branch: main.
 - Current main head: fdfea351455227f44e7f92e82166bfa7bdc5e1fe.
-- Branches returned: 36.
-- Pull requests returned: 30.
+- Baseline inventory before creating the recovery artifacts: 36 branches and 30 PRs.
+- Handoff inventory after creating the recovery artifacts: 37 branches and 31 PRs (one dedicated recovery branch and PR #31 added by this phase).
 - Non-PR issues returned: 0.
 - Matching tag refs: 0.
 - GitHub releases: 0.
 - Commit pagination: main returned 132 commits (100 on page 1, 32 on page 2, 0 on page 3). The current Node/Neon branch returned 442 commits (100 each on pages 1–4, 42 on page 5, 0 on page 6).
 
-## 2. All current branches
+## 2. Baseline branches and recovery branch
+
+The 36 branches listed below are the complete pre-recovery inventory returned during discovery. Phase 1 then created one additional branch:
+
+| Added branch | Head SHA at handoff | Purpose |
+|---|---|---|
+| recovery/phase1-history-architecture-2026-11-10 | 09b1c546ca0c11168cc36fbd5ecb61e8fbdbbc46 | Seven Phase 1 reports; created from current Vercel operational SHA 7de53f6 |
+
+This makes 37 branches at handoff. All 36 pre-existing branches were returned as unprotected; the new recovery branch was not modified by force push.
+
+## 3. Baseline pull requests and recovery PR #31
+
+The 30 PRs below are the complete pre-recovery inventory. Phase 1 opened the following additional Draft PR:
+
+| PR | State | Draft | Head branch | Base branch | Summary |
+|---:|---|---|---|---|---|
+| 31 | OPEN | Yes | recovery/phase1-history-architecture-2026-11-10 | feat/node-postgres-backend-2026-11-08 | Seven evidence-based Phase 1 recovery reports; documentation-only; 1 commit, 7 files, 825 additions |
+
+[PR #31](https://github.com/mghalaosimi-web/mghalaosimi-web/pull/31) head is `09b1c546ca0c11168cc36fbd5ecb61e8fbdbbc46`; base is `7de53f6becabee1dfaab4fa328d3cb9131ecebcf`. It remains Draft and unmerged. The handoff total is 31 PRs.
+
+## 4. Baseline branch list
 
 | Branch | Current head SHA |
 |---|---|
@@ -57,7 +77,7 @@
 
 All 36 existing branches were returned by the API as unprotected. No branch was deleted, renamed, force-updated or rewritten in this phase.
 
-## 3. All pull requests
+## 5. Baseline PR list (PR #1–#30)
 
 | PR | State | Draft | Head branch | Base branch | Summary |
 |---:|---|---|---|---|---|
@@ -92,7 +112,7 @@ All 36 existing branches were returned by the API as unprotected. No branch was 
 | 2 | CLOSED / MERGED | No | feature/digital-identity-hub-v2 | main | Digital Identity Hub V2.0 |
 | 1 | CLOSED / MERGED | No | feature/portfolio-expansion | main | Portfolio and digital identity pages |
 
-## 4. Detailed ancestry and changed-file findings
+## 6. Detailed ancestry and changed-file findings
 
 ### PR #25
 
@@ -117,15 +137,15 @@ All 36 existing branches were returned by the API as unprotected. No branch was 
 - The merge result is the current Vercel production revision.
 - Preserve the hydration test and changes; do not reapply them from the closed PR.
 
-## 5. Existing recovery/audit work
+## 7. Existing recovery/audit work
 
 PR #26 is a separate earlier Phase 1 audit branch and remains OPEN/Draft. It contains 11 changed files and previous low-risk code/test changes. It diverged from the current production Node branch after that earlier audit. This recovery branch does not overwrite PR #26 or duplicate its older report; it records the current 2026-11-10 state in seven new requested files.
 
-## 6. Integration base decision
+## 8. Integration base decision
 
 The GitHub default branch main is not the revision currently aliased to the official Vercel production hostname. The actual production alias is attached to 7de53f6 on feat/node-postgres-backend-2026-11-08. The dedicated Phase 1 recovery branch was therefore created from that exact operational commit. This does not retarget main, change GitHub default settings, merge PR #25, or imply that main can be discarded.
 
-## 7. Historical preservation rules
+## 9. Historical preservation rules
 
 - Preserve every listed branch and PR; no historical branch or PR was deleted or rewritten.
 - Do not close Draft PRs merely to simplify the list.
