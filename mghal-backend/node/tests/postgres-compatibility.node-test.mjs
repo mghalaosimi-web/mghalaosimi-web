@@ -27,7 +27,7 @@ test("public resource ordering is explicit for every supported resource", () => 
 });
 
 test("Google identity merge avoids SQLite-only UPDATE OR IGNORE syntax", () => {
-  assert.doesNotMatch(workerSource, /UPDATE\\s+OR\\s+IGNORE/i);
-  assert.match(workerSource, /DELETE FROM reactions WHERE follower_id=\\? AND EXISTS/);
-  assert.match(workerSource, /UPDATE reactions SET follower_id=\\? WHERE follower_id=\\?/);
+  assert.doesNotMatch(workerSource, /UPDATE\s+OR\s+IGNORE/i);
+  assert.match(workerSource, /DELETE FROM reactions WHERE follower_id=\? AND EXISTS/);
+  assert.match(workerSource, /UPDATE reactions SET follower_id=\? WHERE follower_id=\?/);
 });
