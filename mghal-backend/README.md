@@ -14,7 +14,7 @@ The API handler is a standard Web Request/Response module. It does not require a
 
 ## Database
 
-The only production database is Neon project `billowing-snow-49569906`, branch `br-morning-cherry-b9l25msz`, database `mghal_portfolio`. Vercel receives its pooled connection string through the encrypted `DATABASE_URL` production environment variable.
+The intended production database is Neon project `billowing-snow-49569906`, branch `br-morning-cherry-b9l25msz`, database `mghal_portfolio`. **Deployment status (2026-11-12): Vercel Production does not currently have a `DATABASE_URL` variable.** Do not claim that the deployed Production API is connected to Neon until the encrypted variable is provisioned through an approved secure path and the deployed API passes database readiness checks.
 
 The compatibility adapter exposes the existing prepared-query interface while executing SQL against PostgreSQL. It does not connect to D1 or SQLite.
 
