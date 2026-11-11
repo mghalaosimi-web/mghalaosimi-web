@@ -1,5 +1,8 @@
 # M.GH.AL production release gates — 2026-11-10
 
+
+> **Historical gate snapshot:** This checklist predates the 2026-11-12 infrastructure reconciliation. Its references to production Cloudflare Worker/D1 are no longer current: M.GH.AL D1 was deleted, and the current target is Vercel + Neon. Vercel Production still lacks `DATABASE_URL`; the Render API reference remains configured. Use [`PHASE_1_LATEST_RECONCILIATION.md`](../PHASE_1_LATEST_RECONCILIATION.md) for current blockers. Do not follow historical D1 migration or cutover instructions below.
+
 ## Release objective
 
 Ship a stable, secure, accessible, bilingual digital-identity platform. A successful deployment is not sufficient by itself: the release must preserve the current production API/data path, prove the public visitor flows, and provide a tested rollback route.
