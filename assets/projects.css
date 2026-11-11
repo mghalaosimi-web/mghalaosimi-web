@@ -94,3 +94,13 @@
 @media (prefers-reduced-motion: reduce) {
   .project-reset { transition: none; }
 }
+
+/* Dark cyan filter controls matching the portfolio reference */
+.project-tools{border:1px solid rgba(155,180,205,.16)!important;border-radius:4px!important;background:#0c121b!important;box-shadow:none!important}
+.project-filter-field label{color:#dce8f2!important}
+.project-filter-control{background:#080f18!important;color:#eef4fa!important;border:1px solid rgba(155,180,205,.22)!important;border-radius:3px!important}
+.project-filter-control:focus-visible,.project-reset:focus-visible{outline:2px solid #62d8ef!important}
+.project-reset{background:#62d8ef!important;color:#071018!important;border:1px solid #62d8ef!important;border-radius:3px!important}
+.project-reset:hover{background:#a1edfa!important;border-color:#a1edfa!important}
+.project-count{color:#8997a8!important}
+.project-empty{background:#0c121b!important;border:1px dashed rgba(98,216,239,.4)!important;color:#9aa9b8!important;border-radius:4px!important}
