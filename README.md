@@ -31,7 +31,7 @@
 ## 👨‍💻 About Me | نبذة عني
 
 <p align="center">
-  I'm <b>Mohammed Ghaleb Alaosimi</b>, known as <b>M.GH.AL</b> — a Full-Stack Developer, Software Engineer, and Information Technology student at Al-Manar University College, Yemen.
+  I'm <b>Mohammed Ghaleb Alaosimi</b>, known as <b>M.GH.AL</b> — a Full-Stack Developer, Software Engineer, and Information Technology student at Al-Manar College for Science and Technology, Yemen.
   <br><br>
   I focus on building practical software solutions, full-stack web applications, business management systems, and modern digital experiences. My work combines frontend engineering, backend development, database design, API architecture, and thoughtful user experience.
   <br><br>
@@ -53,7 +53,7 @@
 </p>
 
 - **Degree:** Bachelor's degree in Information Technology — in progress.
-- **Institution:** Al-Manar University College.
+- **Institution:** Al-Manar College for Science and Technology.
 - **Focus:** Full-Stack Development, Software Engineering, Databases, and Modern Application Architecture.
 
 ---
