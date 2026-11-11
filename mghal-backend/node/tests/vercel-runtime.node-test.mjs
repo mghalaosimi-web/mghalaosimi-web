@@ -124,3 +124,42 @@ test('rejects oversized request bodies before dispatch', async () => {
     error: { code: 'PAYLOAD_TOO_LARGE', message: 'Request body is too large.' },
   });
 });
+
+
+test('stops reading an oversized streaming request body as soon as the limit is crossed', async () => {
+  let pulls = 0;
+  let cancelled = false;
+  const stream = new ReadableStream({
+    pull(controller) {
+      pulls += 1;
+      if (pulls === 1) controller.enqueue(new Uint8Array(1_500_000));
+      else if (pulls === 2) controller.enqueue(new Uint8Array(1_000_001));
+      else controller.enqueue(new Uint8Array(1));
+    },
+    cancel() {
+      cancelled = true;
+    },
+  }, { highWaterMark: 0 });
+
+  const response = await handleMghalApiRequest(
+    new Request('https://mghalaosimi-web.vercel.app/api/public/comments', {
+      method: 'POST',
+      headers: { 'content-type': 'application/octet-stream' },
+      body: stream,
+      duplex: 'half',
+    }),
+    { path: ['public', 'comments'] },
+    {
+      environment: { DATABASE_URL: 'configured' },
+      getPool: () => ({ query: async () => ({ rows: [{ ok: 1 }] }) }),
+      apiHandler: { fetch: async () => { throw new Error('must not dispatch'); } },
+    },
+  );
+
+  assert.equal(response.status, 413);
+  assert.deepEqual(await response.json(), {
+    error: { code: 'PAYLOAD_TOO_LARGE', message: 'Request body is too large.' },
+  });
+  assert.equal(cancelled, true);
+  assert.equal(pulls, 2);
+});
