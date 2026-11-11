@@ -1,5 +1,8 @@
 # M.GH.AL — MASTER PROJECT STATE
 
+
+> **SUPERSEDED SNAPSHOT:** The body below was last verified on 2026-11-06 and is retained for history. It is not the current architecture or deployment state. Use [`PHASE_1_LATEST_RECONCILIATION.md`](PHASE_1_LATEST_RECONCILIATION.md) for the authoritative 2026-11-12 provider state. Current target: Vercel + Neon; the Production cutover is still blocked because Vercel Production has no `DATABASE_URL`, and the legacy `MGHAL_API_BASE` still references Render. M.GH.AL's Cloudflare D1 database was deleted after this snapshot. Do not act on the historical D1/Worker instructions below.
+
 > **Purpose:** Single concise source of truth for project continuation. This document records verified state, not assumptions.
 > **Last verified:** 2026-11-06 (Asia/Aden, UTC+03:00)
 > **Repository:** https://github.com/mghalaosimi-web/mghalaosimi-web
