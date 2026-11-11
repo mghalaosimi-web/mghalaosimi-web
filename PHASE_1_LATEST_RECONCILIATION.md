@@ -49,6 +49,21 @@ These are candidates for archival deletion after a final reachability/backup che
 
 These branches contain histories not wholly represented by the current operational branch. Deleting them now risks losing unique work. They require path-level diff classification and explicit preservation before cleanup.
 
+A tree-level comparison was also completed for all 16 diverged branches against `fix/vercel-native-neon-api` (the trees were not truncated). This confirms that several contain branch-only files:
+- `backup/pre-static-credential-project-audit-2026-11-07`: 2 branch-only files — `assets/brand-page-extras.css` and `assets/projects/mghal-website.svg`.
+- `design/complete-reference-parity-2026-11-07` and `design/extra-reference-styling-2026-11-07`: each has the unique `assets/brand-page-extras.css`.
+- `feat/mghal-phase2-experience-2026-11-08`: 6 branch-only files, including the former Worker/Wrangler backend and proxy policy/tests.
+- `feat/phase2-ux-design-system-2026-11-08`: 9 branch-only files, including the former Worker/Wrangler backend, proxy tests, browser audit, and reading-progress component.
+- `feat/platform-phases-1-3-2026-11-01`: 42 branch-only files, including project catalogs, accessibility/credential modules, and PWA assets.
+- `feat/render-project-page-tracking-2026-11-01`: 44 branch-only files, including the same catalog/accessibility/PWA feature family.
+- `feat/verified-project-portfolio-2026-10-31`: 19 branch-only files, including project catalog, PWA manifest, and portfolio audit.
+- `fix/credentials-owner-audit-2026-11-07`: 4 branch-only files, including legacy Worker/Wrangler source and tests.
+- `fix/mghal-hydration-engagement-2026-11-09`: 8 branch-only files, including legacy Worker/proxy implementations and tests.
+- `fix/owner-bootstrap-proxy-2026-11-06`: 80 branch-only files, including a legacy static admin UI, Worker/proxy code, and older credential/media assets.
+
+The other diverged branches have no branch-only paths relative to the current operational tree, but still modify shared files and remain unsuitable for blind deletion/merge. The legacy Worker/Wrangler files identified above exist only in historical divergent branches; they are not part of the current PR #32 operational tree. Preserve their history but do not reintroduce them into the current Vercel + Neon runtime.
+
+
 ### Vercel deployment hygiene — 2026-11-12
 
 - A READY Preview deployment exists for the documentation branch at an earlier commit, but there is **no Vercel deployment record for PR #33's current head** `e10d18020b323cc4739c51e98d2891172a9b7d38` at the time of this check. GitHub CI is green; that is not the same as a Vercel build/deployment verification.
