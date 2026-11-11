@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=0F766E&center=true&vCenter=true&width=650&lines=Full-Stack+Developer;Software+Engineer+%7C+IT+Student;Building+Real-World+Software+Solutions;Next.js+%7C+Node.js+%7C+TypeScript;Engineering+with+Purpose+%26+Precision" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=315A85&center=true&vCenter=true&width=650&lines=Full-Stack+Developer;Software+Engineer+%7C+IT+Student;Building+Real-World+Software+Solutions;Next.js+%7C+Node.js+%7C+TypeScript;Engineering+with+Purpose+%26+Precision" alt="Typing SVG" />
 </p>
 
 <p align="center">
@@ -14,7 +14,7 @@
   <a href="https://github.com/mghalaosimi-web?tab=repositories">
     <img src="https://img.shields.io/github/stars/mghalaosimi-web?label=Total%20Stars&style=social" alt="GitHub Stars" />
   </a>
-  <img src="https://komarev.com/ghpvc/?username=mghalaosimi-web&label=Profile%20Views&color=0F766E&style=flat" alt="Profile Views" />
+  <img src="https://komarev.com/ghpvc/?username=mghalaosimi-web&label=Profile%20Views&color=315A85&style=flat" alt="Profile Views" />
   <a href="https://www.credly.com/">
     <img src="https://img.shields.io/badge/Credentials-Credly-FF6B00?style=social&logo=credly" alt="Credly" />
   </a>
@@ -47,7 +47,7 @@
 ## 🎓 Education | التعليم
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Al--Manar%20University%20College-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Al--Manar%20University%20College-315A85?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Information%20Technology-134E4A?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Yemen-1F2937?style=for-the-badge" />
 </p>
@@ -162,7 +162,7 @@ Each link opens the public Credly badge record:
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
   <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
-  <img src="https://img.shields.io/badge/Responsive_UI-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Responsive_UI-315A85?style=for-the-badge" />
   <img src="https://img.shields.io/badge/RTL_Interfaces-134E4A?style=for-the-badge" />
 </p>
 
@@ -170,7 +170,7 @@ Each link opens the public Credly badge record:
 
 <p>
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
-  <img src="https://img.shields.io/badge/REST_APIs-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/REST_APIs-315A85?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" />
   <img src="https://img.shields.io/badge/Zod-3068B7?style=for-the-badge" />
 </p>
@@ -233,7 +233,7 @@ Each link opens the public Credly badge record:
 ## 🎯 Current Focus | مجالات التركيز
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Full--Stack%20Engineering-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Full--Stack%20Engineering-315A85?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Software%20Architecture-134E4A?style=for-the-badge" />
   <img src="https://img.shields.io/badge/AI%20Integration-7C3AED?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Database%20Engineering-2563EB?style=for-the-badge" />
@@ -254,15 +254,15 @@ Each link opens the public Credly badge record:
 ## 📊 GitHub Analytics | إحصائيات GitHub
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=mghalaosimi-web&show_icons=true&theme=transparent&hide_border=true&bg_color=0D1117&title_color=8DD9C9&text_color=9BB2AB&icon_color=32A895&include_all_commits=true" alt="GitHub Statistics" />
+  <img src="https://github-readme-stats.vercel.app/api?username=mghalaosimi-web&show_icons=true&theme=transparent&hide_border=true&bg_color=0D1117&title_color=B69A62&text_color=DCE2E8&icon_color=315A85&include_all_commits=true" alt="GitHub Statistics" />
 </p>
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=mghalaosimi-web&theme=transparent&hide_border=true&bg_color=0D1117&title_color=8DD9C9&text_color=9BB2AB&icon_color=32A895" alt="GitHub Contribution Streak" />
+  <img src="https://streak-stats.demolab.com?user=mghalaosimi-web&theme=transparent&hide_border=true&bg_color=0D1117&title_color=B69A62&text_color=DCE2E8&icon_color=315A85" alt="GitHub Contribution Streak" />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mghalaosimi-web&layout=compact&theme=transparent&hide_border=true&bg_color=0D1117&title_color=8DD9C9&text_color=9BB2AB&icon_color=32A895" alt="Most Used Languages" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mghalaosimi-web&layout=compact&theme=transparent&hide_border=true&bg_color=0D1117&title_color=B69A62&text_color=DCE2E8&icon_color=315A85" alt="Most Used Languages" />
 </p>
 
 ---
@@ -271,7 +271,7 @@ Each link opens the public Credly badge record:
 
 <p align="center">
   <a href="https://mghalaosimi-web.vercel.app/">
-    <img src="https://img.shields.io/badge/Official%20Website-M.GH.AL-0F766E?style=for-the-badge" alt="Official Website" />
+    <img src="https://img.shields.io/badge/Official%20Website-M.GH.AL-315A85?style=for-the-badge" alt="Official Website" />
   </a>
   <a href="https://github.com/mghalaosimi-web">
     <img src="https://img.shields.io/badge/GitHub-M.GH.AL-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
@@ -299,7 +299,7 @@ Each link opens the public Credly badge record:
 ---
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0F766E&height=120&section=footer" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=315A85&height=120&section=footer" />
 </p>
 
 <p align="center">
