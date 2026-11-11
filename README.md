@@ -24,7 +24,7 @@
 
 ## 🌐 Official Website | الموقع الرسمي
 
-[https://mghal.vercel.app](https://mghal.vercel.app) — the Arabic and English portfolio, project catalog, and credential record.
+[https://mghalaosimi-web.vercel.app](https://mghalaosimi-web.vercel.app) — the Arabic and English portfolio, project catalog, and credential record.
 
 ---
 
@@ -86,7 +86,7 @@
   </a>
 </p>
 
-### Cisco Networking Academy — 14 recorded badges
+### Cisco Networking Academy — 11 recorded badges
 
 1. Hardware and Upgrade Support — August 2, 2026
 2. Cybersecurity Defense Analyst Career Path — July 29, 2026
@@ -100,7 +100,7 @@
 10. IT Customer Support Basics — July 24, 2026
 11. Introduction to Modern AI — July 23, 2026
 
-The current credential record totals 21 entries: one JSNAD credential, 14 Cisco Networking Academy records, and 6 Edraak certificates. The 11 Cisco titles listed above are the entries currently itemized by name; three additional records are not named here until their exact titles and verification references are matched.
+The verified credential inventory contains 18 credentials: 1 JSNAD credential, 11 Cisco Networking Academy badges, and 6 Edraak certificates. Each item should be displayed only when its title and verification reference have been matched to the original issuer record.
 
 [Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
 
@@ -197,7 +197,6 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
   <img src="https://img.shields.io/badge/pnpm-F69220?style=for-the-badge&logo=pnpm&logoColor=white" />
   <img src="https://img.shields.io/badge/Turborepo-EF4444?style=for-the-badge&logo=turborepo&logoColor=white" />
   <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
-  <img src="https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black" />
   <img src="https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" />
 </p>
 
@@ -266,7 +265,7 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 ## 📫 Connect With Me | تواصل معي
 
 <p align="center">
-  <a href="https://mghal.vercel.app/">
+  <a href="https://mghalaosimi-web.vercel.app/">
     <img src="https://img.shields.io/badge/Official%20Website-M.GH.AL-0F766E?style=for-the-badge" alt="Official Website" />
   </a>
   <a href="https://github.com/mghalaosimi-web">
