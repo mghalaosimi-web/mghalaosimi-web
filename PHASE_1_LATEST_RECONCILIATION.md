@@ -17,6 +17,29 @@
 - PR #33 is a new Draft documentation-only cleanup based on PR #32 head. It corrects the public credential count and removes the obsolete Render technology badge. It is not merged.
 - PR #31 remains Draft and documentation-only, but its recovery branch is now 16 commits ahead and 85 behind `fix/vercel-native-neon-api`; it is divergent and is not a safe integration path. It is explicitly marked superseded by PR #33 and must not be merged wholesale. Do not treat historical snapshots in its reports as current provider state.
 
+
+### Open pull-request inventory — 2026-11-12
+
+The repository currently has 20 open PRs. They are grouped below by their current role; open does not mean ready to merge.
+
+| PR | Branch / purpose | Current handling |
+|---|---|---|
+| #33 | Documentation and Phase 1 source-of-truth cleanup, based on #32 head | Current documentation cleanup; Draft; CI under final-head verification |
+| #32 | Vercel-native API + Neon runtime | Main operational integration candidate; open, unmerged; Production cutover not verified |
+| #31 | Historical recovery / architecture reports | Draft, divergent (16 ahead / 85 behind operational base); superseded by #33; do not merge wholesale |
+| #29 | Profile photo archive and image SEO | Open; publication consent and release checks remain separate gates |
+| #26 | Phase 1 comparison / low-risk audit fixes | Draft; overlaps other integration work; preserve pending review |
+| #25 | Node.js + Neon backend foundation | Draft; upstream dependency in the current API chain |
+| #24 | UX, credentials, SEO and release hardening | Draft; upstream dependency in the current integration chain |
+| #22 | Interior-page brand system | Draft; diverged from current integration line and overlaps #17/#32; only unique assets should be considered after review |
+| #17 | Digital identity hub design integration | Draft; upstream base for #24/#25 chain |
+| #16 / #15 / #14 | Google identity linking, social engagement, AI provider foundation | Draft nested feature branches; preserve until their work is reconciled against the current backend |
+| #13 | Public identity and official links | Draft; overlaps later identity work; verify before closure |
+| #12 / #11 / #10 / #9 / #8 | Earlier platform expansion, dual deploy, redesign and platform build | Historical integration chain; not safe to merge independently into the current release |
+| #5 / #4 | Earlier quality audit and profile media / credential gallery | Old base; overlapping or superseded portions require file-level archival review |
+
+No PR was merged or closed in this reconciliation. No branch was deleted. This is intentional: the current connector does not expose a safe branch-deletion operation, and several older PRs contain unique files or nested feature work that must be preserved until an explicit archival plan is approved.
+
 ## 3. Credential and public README correction
 
 The verified public credential inventory is **18 total**:
