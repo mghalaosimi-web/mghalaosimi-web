@@ -1,4 +1,7 @@
 # M.GH.AL — Engineering Release & Operations Report
+
+> **Historical snapshot (2026-11-05):** All provider statuses, D1 counts, Render deployment statements, and credential counts below describe the environment at that date and have been superseded. Cloudflare D1 was later deleted; current target is Vercel + Neon. See [`PHASE_1_LATEST_RECONCILIATION.md`](../PHASE_1_LATEST_RECONCILIATION.md) before acting on any operational instruction.
+
 **Snapshot:** 2026-11-05  
 **Repository:** `mghalaosimi-web/mghalaosimi-web`  
 **Working branch:** `feat/mghal-credentials-projects-expansion-2026-11-05`  
