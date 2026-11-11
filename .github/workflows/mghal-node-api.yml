@@ -28,6 +28,8 @@ jobs:
         with:
           node-version: 22
           package-manager-cache: false
+      - run: npm ci --no-audit --no-fund
+        working-directory: .
       - run: npm install --no-audit --no-fund
       - run: npm audit --omit=dev --audit-level=moderate
       - run: npm run check
