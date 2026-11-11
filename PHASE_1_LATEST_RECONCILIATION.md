@@ -15,7 +15,7 @@
 - The latest returned Vercel READY deployments are on older SHAs, including `c6d6c5f41497fe496b2fa163e1254aa0bba3906d`; no deployment for PR #32 head `ac21c3d...` was found in the checked deployment page.
 - GitHub `main` is an ancestor of the operational branch. Current comparison: operational branch is 377 commits ahead and 0 behind main. The operational line is therefore the appropriate review base for the current release work; do not wholesale merge it into main.
 - PR #33 is a new Draft documentation-only cleanup based on PR #32 head. It corrects the public credential count and removes the obsolete Render technology badge. It is not merged.
-- PR #31 remains a Draft documentation/recovery PR and was retargeted to the current operational branch `fix/vercel-native-neon-api`; its files are documentation-only. Do not treat historical snapshots in its earlier reports as current provider state.
+- PR #31 remains Draft and documentation-only, but its recovery branch is now 16 commits ahead and 85 behind `fix/vercel-native-neon-api`; it is divergent and is not a safe integration path. It is explicitly marked superseded by PR #33 and must not be merged wholesale. Do not treat historical snapshots in its reports as current provider state.
 
 ## 3. Credential and public README correction
 
