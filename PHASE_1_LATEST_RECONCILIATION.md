@@ -15,7 +15,7 @@
 - The latest returned Vercel READY deployments are on older SHAs, including `c6d6c5f41497fe496b2fa163e1254aa0bba3906d`; no deployment for PR #32 head `ac21c3d...` was found in the checked deployment page.
 - GitHub `main` is an ancestor of the operational branch. Current comparison: operational branch is 377 commits ahead and 0 behind main. The operational line is therefore the appropriate review base for the current release work; do not wholesale merge it into main.
 - PR #33 is a new Draft documentation-only cleanup based on PR #32 head. It corrects the public credential count and removes the obsolete Render technology badge. It is not merged.
-- PR #31 remains a Draft documentation/recovery PR. Do not treat historical snapshots in its earlier reports as current provider state.
+- PR #31 remains a Draft documentation/recovery PR and was retargeted to the current operational branch `fix/vercel-native-neon-api`; its files are documentation-only. Do not treat historical snapshots in its earlier reports as current provider state.
 
 ## 3. Credential and public README correction
 
@@ -107,4 +107,6 @@ The legacy Vercel project `mghal` still exists and `mghal.vercel.app` remains at
 - Read-only refreshed GitHub PR, branch, deployment, and environment metadata.
 - Created a documentation cleanup branch and Draft PR #33 for the operational release line.
 - Corrected the operational README to show the verified 18-credential inventory, remove the unsupported three-record statement, and remove the obsolete Render badge.
+- Corrected backend and architecture documentation to distinguish the intended Neon/Vercel target from the currently missing Production `DATABASE_URL` and remaining Render upstream setting.
+- PR #33 now contains five documentation files and remains Draft; Backend CI and Node API CI passed on the prior documentation commit, while the latest architecture-doc-only commit has not yet received a new workflow run.
 - No application runtime code, production database, secret, domain, DNS, production environment, or Render service was changed.
