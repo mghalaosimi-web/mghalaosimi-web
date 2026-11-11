@@ -2,10 +2,11 @@ import type {Metadata} from 'next';
 import {cookies} from 'next/headers';
 import '../mghal-portfolio.css';
 import {localizedAlternates} from '../../lib/seo';
+
 export async function generateMetadata():Promise<Metadata>{
  const en=(await cookies()).get('portfolio-locale')?.value==='en';
  return en
-  ? {title:'Research & Academic Work | M.GH.AL',description:'Research interests and academic directions by Mohammed Ghaleb Alaosimi.',alternates:localizedAlternates('/research','en')}
+  ? {title:'Research & Academic Directions | M.GH.AL',description:'Research interests and academic directions of Mohammed Ghaleb Alaosimi across software engineering, enterprise systems and applied AI.',alternates:localizedAlternates('/research','en')}
   : {title:'الأبحاث والدراسات | M.GH.AL',description:'الاهتمامات البحثية والأعمال الأكاديمية لمحمد غالب العصيمي.',alternates:localizedAlternates('/research','ar')};
 }
 const items=[
