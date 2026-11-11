@@ -1,3 +1,17 @@
+export function safeIdentityReturnPath(siteUrl, returnPath) {
+ const base = new URL(siteUrl);
+ const candidate = typeof returnPath === "string" &&
+  returnPath.startsWith("/") &&
+  !returnPath.startsWith("//") &&
+  !returnPath.includes("\\") &&
+  returnPath.length <= 500
+  ? returnPath
+  : "/";
+ const target = new URL(candidate, base);
+ if (target.origin !== base.origin) return "/";
+ return target.pathname + target.search + target.hash;
+}
+
 export default {
  async fetch(request, env) {
   const url = new URL(request.url), path = url.pathname, method = request.method;
@@ -23,8 +37,7 @@ export default {
   };
   const followerForVisitor=async visitorToken=>validVisitorToken(visitorToken)?followerByHash("visitor:"+await hash(visitorToken)):null;
   const identityRedirect=(siteUrl,returnPath,status)=>{
-   const base=new URL(siteUrl),safe=typeof returnPath==="string"&&returnPath.startsWith("/")&&!returnPath.startsWith("//")&&!returnPath.includes("\\\\")?returnPath:"/";
-   const target=new URL(safe,base);if(target.origin!==base.origin)target.pathname="/";
+   const base=new URL(siteUrl),target=new URL(safeIdentityReturnPath(siteUrl,returnPath),base);
    target.searchParams.set("identity",status);
    return Response.redirect(target.toString(),302);
   };
@@ -106,7 +119,7 @@ export default {
    if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>!["visitorToken","returnPath"].includes(key)))return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
    const site=new URL(env.PUBLIC_SITE_URL);
    if(site.protocol!=="https:"||site.username||site.password)return fail(503,"GOOGLE_AUTH_CONFIG_INVALID","The public site URL must be a trusted HTTPS origin");
-   const returnPath=typeof b.returnPath==="string"&&b.returnPath.startsWith("/")&&!b.returnPath.startsWith("//")&&!b.returnPath.includes("\\\\")&&b.returnPath.length<=500?b.returnPath:"/";
+   const returnPath=typeof b.returnPath==="string"&&b.returnPath.startsWith("/")&&!b.returnPath.startsWith("//")&&!b.returnPath.includes("\\")&&b.returnPath.length<=500?b.returnPath:"/";
    const state=base64url(randomBytes(32)),verifier=base64url(randomBytes(48)),challenge=base64url(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(verifier))));
    const now=new Date().toISOString(),expires=new Date(Date.now()+10*60*1000).toISOString(),visitorHash="visitor:"+await hash(b.visitorToken);
    await q("DELETE FROM oauth_transactions WHERE expires_at<=?",now).run();
