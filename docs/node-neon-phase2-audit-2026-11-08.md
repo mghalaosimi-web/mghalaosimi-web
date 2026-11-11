@@ -1,5 +1,8 @@
 # M.GH.AL Node / Neon preview audit — 2026-11-08
 
+> **Historical snapshot:** The production boundary and infrastructure changed after this audit. Cloudflare D1 was subsequently deleted, and the current target is Vercel + Neon. The Vercel Production environment still lacks `DATABASE_URL`; do not interpret this older audit's D1 production boundary as current. See [`PHASE_1_LATEST_RECONCILIATION.md`](../PHASE_1_LATEST_RECONCILIATION.md).
+
+
 ## Scope and production boundary
 
 This review covers the isolated Node.js + PostgreSQL adapter preview only. The production D1 / Cloudflare Worker path remains unchanged. No production database, credentials, secrets, DNS, or Vercel production target was modified, and no migration or cutover was attempted.
