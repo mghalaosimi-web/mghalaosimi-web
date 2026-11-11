@@ -11,7 +11,7 @@ Production API requests run inside the Next.js Node.js Route Handler on Vercel. 
 
 ## Environment
 
-The local harness requires `DATABASE_URL`. Production Vercel uses an encrypted Neon pooled connection string. Never commit database URLs, OAuth secrets, or owner bootstrap tokens.
+The local harness requires `DATABASE_URL`. The intended Vercel Production runtime also requires an encrypted Neon pooled connection string, but the Vercel environment audit on 2026-11-12 found no Production `DATABASE_URL`. Production database connectivity is therefore not yet verified. Never commit database URLs, OAuth secrets, or owner bootstrap tokens.
 
 Optional local settings include `PORT`, `PG_POOL_MAX`, `ALLOWED_ORIGINS`, `RATE_LIMIT_PER_MINUTE`, `OWNER_BOOTSTRAP_TOKEN`, `GOOGLE_AUTH_ENABLED`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`, and `PUBLIC_SITE_URL`.
 
