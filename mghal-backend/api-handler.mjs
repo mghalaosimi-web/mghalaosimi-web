@@ -150,7 +150,7 @@ export default {
      await q("INSERT INTO follower_identities(id,follower_id,provider,provider_subject,email,email_verified,display_name,created_at,updated_at) VALUES(?,?,'google',?,?,1,?,?,?)",crypto.randomUUID(),targetFollowerId,profile.sub,email,displayName,now,now).run();
     }else if(current&&current.id!==targetFollowerId){
      await q("UPDATE followers SET display_name=COALESCE(display_name,?),consent_at=COALESCE(consent_at,?) WHERE id=?",current.display_name||null,current.consent_at||null,targetFollowerId).run();
-     await q("UPDATE OR IGNORE reactions SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id).run();
+     await env.DB.batch([q("DELETE FROM reactions WHERE follower_id=? AND EXISTS (SELECT 1 FROM reactions target WHERE target.follower_id=? AND target.target_type=reactions.target_type AND target.target_id=reactions.target_id AND target.reaction=reactions.reaction)",current.id,targetFollowerId),q("UPDATE reactions SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id)]);
      await q("DELETE FROM reactions WHERE follower_id=?",current.id).run();
      await q("UPDATE comments SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id).run();
      await q("UPDATE followers SET email_hash=?,status='unsubscribed',unsubscribed_at=COALESCE(unsubscribed_at,?) WHERE id=?", "merged:"+token(),now,current.id).run();
