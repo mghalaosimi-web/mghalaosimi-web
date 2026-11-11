@@ -18,6 +18,37 @@
 - PR #31 remains Draft and documentation-only, but its recovery branch is now 16 commits ahead and 85 behind `fix/vercel-native-neon-api`; it is divergent and is not a safe integration path. It is explicitly marked superseded by PR #33 and must not be merged wholesale. Do not treat historical snapshots in its reports as current provider state.
 
 
+### Branch inventory without an open PR — 2026-11-12
+
+The GitHub repository currently has 40 branches and 20 open PRs. Nineteen non-main branches are not the head of an open PR; this does **not** mean they are disposable.
+
+**Branches fully contained in the current operational history** (comparison against `fix/vercel-native-neon-api`: operational branch is ahead, branch is 0 commits ahead of operational):
+- `backup/pre-credential-audit-2026-11-07`
+- `design/arfat-inspired-ui-2026-11-07`
+- `design/reference-details-followup-2026-11-07`
+
+These are candidates for archival deletion after a final reachability/backup check. No branch-delete operation is available through the connected GitHub tools, so none was deleted.
+
+**Branches that have diverged and must be preserved pending file-level review:**
+- `backup/pre-static-credential-project-audit-2026-11-07`
+- `chore/main-phase1-cleanup-2026-11-12` (static HTML snapshot; its Vercel Preview build failed due Next.js framework mismatch)
+- `content/profile-photo-library-2026-11`
+- `design/complete-reference-parity-2026-11-07`
+- `design/extra-reference-styling-2026-11-07`
+- `feat/mghal-phase2-experience-2026-11-08`
+- `feat/phase2-ux-design-system-2026-11-08`
+- `feat/platform-phases-1-3-2026-11-01`
+- `feat/render-project-page-tracking-2026-11-01`
+- `feat/verified-project-portfolio-2026-10-31`
+- `feature/digital-identity-hub-v2-completion`
+- `feature/digital-identity-hub-v2`
+- `feature/portfolio-expansion`
+- `fix/credentials-owner-audit-2026-11-07`
+- `fix/mghal-hydration-engagement-2026-11-09`
+- `fix/owner-bootstrap-proxy-2026-11-06`
+
+These branches contain histories not wholly represented by the current operational branch. Deleting them now risks losing unique work. They require path-level diff classification and explicit preservation before cleanup.
+
 ### Vercel deployment hygiene — 2026-11-12
 
 - A READY Preview deployment exists for the documentation branch at an earlier commit, but there is **no Vercel deployment record for PR #33's current head** `e10d18020b323cc4739c51e98d2891172a9b7d38` at the time of this check. GitHub CI is green; that is not the same as a Vercel build/deployment verification.
