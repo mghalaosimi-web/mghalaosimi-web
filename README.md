@@ -86,7 +86,7 @@
   </a>
 </p>
 
-### Cisco Networking Academy — 14 owner-confirmed credentials
+### Cisco Networking Academy — 11 verified credentials
 
 1. Hardware and Upgrade Support — August 2, 2026
 2. Cybersecurity Defense Analyst Career Path — July 29, 2026
@@ -100,9 +100,11 @@
 10. IT Customer Support Basics — July 24, 2026
 11. Introduction to Modern AI — July 23, 2026
 
-12. Three additional Cisco credential records are confirmed by the owner; their exact official badge titles are not yet included in this public catalogue.\n\n[Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
+[Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
 
 ### Edraak — 6 recorded certificates
+
+**Verified inventory total: 18 credentials** — 11 Cisco badges, 6 Edraak certificates, and 1 JSNAD credential.
 
 - UI/UX Design
 - Communications Skills
