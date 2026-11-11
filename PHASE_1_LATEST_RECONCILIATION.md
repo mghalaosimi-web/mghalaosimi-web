@@ -18,6 +18,12 @@
 - PR #31 remains Draft and documentation-only, but its recovery branch is now 16 commits ahead and 85 behind `fix/vercel-native-neon-api`; it is divergent and is not a safe integration path. It is explicitly marked superseded by PR #33 and must not be merged wholesale. Do not treat historical snapshots in its reports as current provider state.
 
 
+### Vercel deployment hygiene — 2026-11-12
+
+- A READY Preview deployment exists for the documentation branch at an earlier commit, but there is **no Vercel deployment record for PR #33's current head** `e10d18020b323cc4739c51e98d2891172a9b7d38` at the time of this check. GitHub CI is green; that is not the same as a Vercel build/deployment verification.
+- An unrelated/orphan branch `chore/main-phase1-cleanup-2026-11-12` produced a failed Preview deployment (`dpl_4S5X6V6CNEFw9p5FcGmuoXiWMdn6`). Its build log shows Vercel invoking `next build` and failing because the branch contains a static HTML root without a Next.js `app` or `pages` directory and has no root `package.json`. This is a project/branch framework mismatch, not a failure in PR #32's Next.js application branch. Do not change the official project's framework settings to accommodate this orphan snapshot.
+- The failed branch has no open PR found by the branch-name search. Preserve it until its historical content is classified; no branch deletion is performed.
+
 ### Open pull-request inventory — 2026-11-12
 
 The repository currently has 20 open PRs. They are grouped below by their current role; open does not mean ready to merge.
