@@ -1,5 +1,8 @@
 # M.GH.AL platform completion — phases 4–8
 
+> **Historical implementation snapshot:** This document contains earlier D1/Worker/Render deployment details and is not the current infrastructure source of truth. M.GH.AL's D1 database was later deleted. The current target is Vercel + Neon, with Production cutover still blocked pending secure `DATABASE_URL` configuration and release verification. See [`PHASE_1_LATEST_RECONCILIATION.md`](../PHASE_1_LATEST_RECONCILIATION.md). Keep the historical feature descriptions for audit only; do not execute the old infrastructure instructions.
+
+
 ## Phase 4 — Admin console
 
 Static, noindex console at `/admin/` with responsive Navy/White/Gray/Champagne-Gold design. It includes owner bootstrap/login, dashboard, bilingual identity, project/certificate/article/skill/technology/education/achievement CRUD, follower status controls, comment moderation, analytics, media library and user-role management. Admin UI never embeds credentials; it stores a short-lived bearer token in sessionStorage and the API stores only hashed session tokens.
