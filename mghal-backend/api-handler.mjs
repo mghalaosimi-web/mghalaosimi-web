@@ -90,7 +90,7 @@ export default {
    const [kind,n,salt,expected]=(u.password_hash||"").split("$");if(kind!=="pbkdf2-sha256"||!salt||!expected)return fail(401,"INVALID_CREDENTIALS","Invalid credentials");
    const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(b.password),"PBKDF2",false,["deriveBits"]);
    const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:Uint8Array.from(atob(salt),c=>c.charCodeAt(0)),iterations:Number(n)},key,256);
-   const actual=btoa(String.fromCharCode(...new Uint8Array(bits)));if(actual!==expected)return fail(401,"INVALID_CREDENTIALS","Invalid credentials");
+   const actual=btoa(String.fromCharCode(...new Uint8Array(bits)));if(!constantTimeEqual(actual,expected))return fail(401,"INVALID_CREDENTIALS","Invalid credentials");
    const t=token(),expires=new Date(Date.now()+28800000).toISOString();await q("INSERT INTO admin_sessions(id,user_id,token_hash,expires_at) VALUES(?,?,?,?)",crypto.randomUUID(),u.id,await hash(t),expires).run();await q("UPDATE admin_users SET last_login_at=?,updated_at=? WHERE id=?",new Date().toISOString(),new Date().toISOString(),u.id).run();return out({token:t,expiresAt:expires,user:{id:u.id,email:u.email}});
   }
   let current=null;if(admin&&!setupRoute){current=await actor();if(!current)return fail(401,"UNAUTHENTICATED","Authentication required");}
