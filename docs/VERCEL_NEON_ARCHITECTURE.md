@@ -11,6 +11,10 @@ One repository, one Vercel project, one primary public domain, and one Neon prod
 - Neon branch: `br-morning-cherry-b9l25msz`
 - Neon database: `mghal_portfolio`
 
+## Verified deployment status — 2026-11-12
+
+The architecture above describes the intended target, not a completed Production cutover. The current Vercel environment inventory shows `DATABASE_URL` only for the Preview target on branch `fix/vercel-native-neon-api`; no Production `DATABASE_URL` is present. Production still has the legacy `MGHAL_API_BASE` variable pointing to the Render API hostname. The Vercel-native API has not yet been verified on a READY deployment of the current PR #32 head. Do not mark the cutover complete or retire Render until the Production secret is securely configured and end-to-end Production readiness is proven.
+
 ## Request path
 
 Browser → Vercel Next.js Route Handler → shared API handler → PostgreSQL adapter → Neon PostgreSQL.
