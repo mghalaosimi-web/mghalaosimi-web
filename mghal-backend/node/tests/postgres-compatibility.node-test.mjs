@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { safeIdentityReturnPath } from "../../api-handler.mjs";
 
 const workerUrl = new URL("../../api-handler.mjs", import.meta.url);
 const workerSource = await readFile(workerUrl, "utf8");
@@ -30,4 +31,13 @@ test("Google identity merge avoids SQLite-only UPDATE OR IGNORE syntax", () => {
   assert.doesNotMatch(workerSource, /UPDATE\s+OR\s+IGNORE/i);
   assert.match(workerSource, /DELETE FROM reactions WHERE follower_id=\? AND EXISTS/);
   assert.match(workerSource, /UPDATE reactions SET follower_id=\? WHERE follower_id=\?/);
+});
+
+
+test("OAuth return paths reject backslash and cross-origin redirect forms", () => {
+  const origin = "https://mghalaosimi-web.vercel.app";
+  assert.equal(safeIdentityReturnPath(origin, "/projects?lang=ar#top"), "/projects?lang=ar#top");
+  assert.equal(safeIdentityReturnPath(origin, "//attacker.example/path"), "/");
+  assert.equal(safeIdentityReturnPath(origin, "/\\attacker.example/path"), "/");
+  assert.equal(safeIdentityReturnPath(origin, "https://attacker.example/path"), "/");
 });
