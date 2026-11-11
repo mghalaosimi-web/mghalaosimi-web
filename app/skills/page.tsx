@@ -2,7 +2,6 @@ import type {Metadata} from 'next';
 import {cookies} from 'next/headers';
 import SkillsExplorer from './SkillsExplorer';
 import {localizedAlternates} from '../../lib/seo';
-
 export async function generateMetadata():Promise<Metadata>{
  const en=(await cookies()).get('portfolio-locale')?.value==='en';
  return en

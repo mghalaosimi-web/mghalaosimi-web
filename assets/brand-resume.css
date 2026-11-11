@@ -120,3 +120,25 @@ body.resume-page :focus-visible {
     box-shadow: none !important;
   }
 }
+
+/* Premium dark CV surface */
+body.resume-page{color-scheme:dark!important;background:radial-gradient(ellipse at 82% -10%,rgba(56,188,208,.12),transparent 36%),#05070d!important;color:#edf4f8!important}
+body.resume-page .top{background:rgba(5,7,13,.90)!important;border-color:rgba(119,153,177,.18)!important}
+body.resume-page .brand,body.resume-page .hero h1,body.resume-page .section h2,body.resume-page .item h3{color:#edf4f8!important}
+body.resume-page .navlinks,body.resume-page .navlinks a,body.resume-page .summary,body.resume-page .item p,body.resume-page .list,body.resume-page .contact,body.resume-page .foot,body.resume-page .note{color:#9aabb8!important}
+body.resume-page .eyebrow,body.resume-page .role,body.resume-page .meta,body.resume-page .contact a{color:#74dbea!important}
+body.resume-page .sheet{background:linear-gradient(145deg,#0f1924,#080d15)!important;border:1px solid rgba(119,153,177,.20)!important;box-shadow:0 24px 64px rgba(0,0,0,.32)!important;color:#edf4f8!important}
+body.resume-page .section h2,body.resume-page .hero{border-color:rgba(119,153,177,.18)!important}
+body.resume-page .tag{background:rgba(56,188,208,.09)!important;border-color:rgba(56,188,208,.20)!important;color:#a9e7ef!important}
+body.resume-page .btn{background:linear-gradient(135deg,#087f91,#126477)!important;border-color:rgba(116,219,234,.36)!important;color:#fff!important}
+body.resume-page .btn.alt{background:#101b27!important;border-color:rgba(119,153,177,.24)!important;color:#dce8ef!important}
+@media print{body.resume-page{background:#fff!important;color:#202b38!important}body.resume-page .sheet{background:#fff!important;color:#202b38!important;box-shadow:none!important}}
+
+body.resume-page{--bg:#070a10!important;--text:#eef4fa!important;--muted:#8997a8!important;--accent:#62d8ef!important}
+body.resume-page .btn{background:#62d8ef!important;border-color:#62d8ef!important;color:#071018!important}
+body.resume-page .btn:hover{background:#a1edfa!important;color:#071018!important}
+
+/* Resume page visual alignment */
+body.resume-page{background:#070a10!important;color:#eef4fa!important}
+body.resume-page .sheet{border-radius:4px!important;background:linear-gradient(145deg,#111d2a,#0a1018)!important}
+body.resume-page .btn{border-radius:3px!important}
