@@ -49,7 +49,7 @@ test('root and public sitemap copies stay byte-for-byte synchronized',()=>{
 });
 
 test('sitemap locations are unique and use only the official canonical host',()=>{
- const urls=[...sitemap.matchAll(/<loc>([^<]+)<\\/loc>/g)].map(match=>match[1]);
+ const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]);
  assert.equal(urls.length,new Set(urls).size,'duplicate sitemap URL entries found');
  assert.ok(urls.every(url=>url.startsWith(base+'/')),'every sitemap URL must use the official canonical domain');
  assert.ok(!sitemap.includes('mghal.vercel.app'),'legacy domain must not appear in the public sitemap');
