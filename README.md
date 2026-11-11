@@ -123,17 +123,22 @@ Individual verification references:
 
 The names above follow the saved credential record. The six verification URLs are listed separately because an exact URL-to-title mapping has not been independently confirmed.
 
-### Additional Credly references
+### Cisco badge verification links — 11 badges
 
-1. [Badge reference 1](https://www.credly.com/badges/35fadd6d-f9d6-4d4f-b151-464d30637bbb)
-2. [Badge reference 2](https://www.credly.com/badges/2319c9be-ea2f-44ff-a256-d431cd48404e)
-3. [Badge reference 3](https://www.credly.com/badges/dd87ef5f-4c10-4d9d-928b-cf0a995c5ccb)
-4. [Badge reference 4](https://www.credly.com/badges/6e1ad458-e752-4064-a997-27092902f884)
-5. [Badge reference 5](https://www.credly.com/badges/73d091cc-193d-4b57-b8e0-e64340df62c7)
-6. [Badge reference 6](https://www.credly.com/badges/8d8f1cba-4a98-4cd5-b3b9-fe4233f085b1/public_url)
-7. [Badge reference 7](https://www.credly.com/badges/327cec43-3807-4a02-b144-c72407bdc4f3)
+Each link opens the public Credly badge record:
 
-Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a798-ac1479307855`, `bc68bb11-3b72-420d-877a-a92139aff2f6`. These identifiers are not presented as direct Credly links.
+1. [Hardware and Upgrade Support](https://www.credly.com/badges/926baf56-48f3-4f9d-b86d-77b2c538663c/public_url)
+2. [Cybersecurity Defense Analyst Career Path](https://www.credly.com/badges/eaec19be-fa80-429e-8055-5bbd260b0776/public_url)
+3. [Operating Systems Support](https://www.credly.com/badges/96acb061-5011-4c45-89e3-07f8bf43980c/public_url)
+4. [English for IT 1](https://www.credly.com/badges/31c303bf-725d-4061-b6b1-2dfb76d6ad3f/public_url)
+5. [Junior Cybersecurity Analyst Career Path](https://www.credly.com/badges/dd87ef5f-4c10-4d9d-928b-cf0a995c5ccb/public_url)
+6. [Networking Basics](https://www.credly.com/badges/6e1ad458-e752-4064-a997-27092902f884/public_url)
+7. [Security and Connectivity Support](https://www.credly.com/badges/327cec43-3807-4a02-b144-c72407bdc4f3/public_url)
+8. [Python Essentials 1](https://www.credly.com/badges/8d8f1cba-4a98-4cd5-b3b9-fe4233f085b1/public_url)
+9. [Operating Systems Basics](https://www.credly.com/badges/73d091cc-193d-4b57-b8e0-e64340df62c7/public_url)
+10. [IT Customer Support Basics](https://www.credly.com/badges/2319c9be-ea2f-44ff-a256-d431cd48404e/public_url)
+11. [Introduction to Modern AI](https://www.credly.com/badges/35fadd6d-f9d6-4d4f-b151-464d30637bbb/public_url)
+
 
 ---
 
