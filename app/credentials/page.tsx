@@ -3,27 +3,32 @@ import Image from 'next/image';
 import {cookies} from 'next/headers';
 import {localizedAlternates} from '../../lib/seo';
 import {Award,ExternalLink} from 'lucide-react';
+import {getPublishedCertificates,type PublicCertificateRow,safePublicHttpsUrl} from '../../lib/public-content';
 
 export async function generateMetadata():Promise<Metadata>{
   const en=(await cookies()).get('portfolio-locale')?.value==='en';
   return en
     ? {
         title:'Digital Credentials | Mohammed Ghaleb Alaosimi',
-        description:'Eighteen recorded credentials: eleven Cisco Networking Academy records, six Edraak certificates, and the OpenJS Node.js Application Developer credential.',
+        description:'Eighteen recorded credentials: Cisco Networking Academy, Edraak, OpenJS, and other verified issuer records.',
         alternates:localizedAlternates('/credentials','en'),
       }
     : {
         title:'الشهادات والاعتمادات | M.GH.AL',
-        description:'سجل 18 شهادة واعتماداً لمحمد غالب العصيمي: 11 من Cisco Networking Academy، و6 من إدراك، واعتماد JSNAD من OpenJS وThe Linux Foundation.',
+        description:'سجل الشهادات والاعتمادات المهنية والتعليمية لمحمد غالب العصيمي.',
         alternates:localizedAlternates('/credentials','ar'),
       };
 }
 
 type Credential={
   id:string;
+  slug?:string;
+  issuer?:string;
+  fileUrl?:string;
+  previewUrl?:string;
   referenceId?:string;
   badgeImage?:string;
-  provider:'Cisco'|'Edraak'|'OpenJS';
+  provider:'Cisco'|'Edraak'|'OpenJS'|'Other';
   name:string;
   nameEn:string;
   date:string;
@@ -63,6 +68,77 @@ const credentials:Credential[]=[
   {id:'jsnad-01',referenceId:'JSNAD-ALOSEIMI-20241112',provider:'OpenJS',name:'OpenJS Node.js Application Developer (JSNAD)',nameEn:'OpenJS Node.js Application Developer (JSNAD)',date:'12 نوفمبر 2024',dateEn:'12 Nov 2024',description:'اعتماد مهني في تطوير تطبيقات Node.js صادر ضمن منظومة OpenJS Foundation وThe Linux Foundation.',descriptionEn:'A professional Node.js application-development credential issued through the OpenJS Foundation and The Linux Foundation.',tags:['Node.js','JavaScript','Application Development'],tagsEn:['Node.js','JavaScript','Application Development']},
 ];
 
+const credentialSlugById:Record<string,string>={
+ 'cisco-01':'hardware-and-upgrade-support-02',
+ 'cisco-02':'cybersecurity-defense-analyst-career-path-03',
+ 'cisco-03':'operating-systems-support-04',
+ 'cisco-04':'english-for-it-1-05',
+ 'cisco-05':'junior-cybersecurity-analyst-career-path-06',
+ 'cisco-06':'networking-basics-07',
+ 'cisco-07':'security-and-connectivity-support-08',
+ 'cisco-08':'python-essentials-1-09',
+ 'cisco-09':'operating-systems-basics-10',
+ 'cisco-10':'it-customer-support-basics-11',
+ 'cisco-11':'introduction-to-modern-ai-12',
+ 'edraak-01':'ui-ux-design-13',
+ 'edraak-02':'communications-skills-14',
+ 'edraak-03':'interaction-design-fundamentals-15',
+ 'edraak-04':'ux-research-16',
+ 'edraak-05':'ux-design-17',
+ 'edraak-06':'user-interface-design-principles-18',
+ 'jsnad-01':'jsnad-node-js-application-developer-01'
+};
+const curatedCredentials=credentials.map(item=>({...item,slug:credentialSlugById[item.id]}));
+function issuedDate(value:string|null,locale:'ar'|'en',fallback:string){
+ if(!value)return fallback;
+ const date=new Date(value.slice(0,10)+'T12:00:00Z');
+ return new Intl.DateTimeFormat(locale==='ar'?'ar-YE':'en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(date);
+}
+function providerFromIssuer(issuer:string):Credential['provider']{
+ if(/cisco/i.test(issuer))return 'Cisco';
+ if(/edraak|إدراك/i.test(issuer))return 'Edraak';
+ if(/openjs|linux foundation/i.test(issuer))return 'OpenJS';
+ return 'Other';
+}
+function mergePublishedCredentials(rows:PublicCertificateRow[]|null,locale:'ar'|'en'):Credential[]{
+ if(rows===null)return curatedCredentials;
+ const bySlug=new Map(rows.map(row=>[row.slug,row]));
+ const merged=curatedCredentials.filter(item=>!item.slug||bySlug.has(item.slug)).map(item=>{
+  const row=item.slug?bySlug.get(item.slug):undefined;
+  if(!row)return item;
+  return {
+   ...item,
+   name:row.title||item.name,
+   nameEn:row.title||item.nameEn,
+   date:issuedDate(row.issued_at,'ar',item.date),
+   dateEn:issuedDate(row.issued_at,'en',item.dateEn),
+   descriptionEn:row.description||item.descriptionEn,
+   referenceId:row.credential_id||item.referenceId,
+   issuer:row.issuer||item.issuer,
+   verification:item.verification||safePublicHttpsUrl(row.verification_url),
+   badgeImage:row.image_media_id?'/api/public/media/'+encodeURIComponent(row.image_media_id):item.badgeImage,
+   fileUrl:row.pdf_media_id?'/api/public/media/'+encodeURIComponent(row.pdf_media_id):item.fileUrl
+  };
+ });
+ const curatedSlugs=new Set(curatedCredentials.map(item=>item.slug).filter(Boolean));
+ const additions=rows.filter(row=>!curatedSlugs.has(row.slug)).map(row=>{
+  const dateAr=issuedDate(row.issued_at,'ar','غير محدد');
+  const dateEn=issuedDate(row.issued_at,'en','Not recorded');
+  const provider=providerFromIssuer(row.issuer||'');
+  const description=row.description||'لم تُوثّق تفاصيل إضافية لهذا الاعتماد.';
+  const descriptionEn=row.description||'No additional credential details have been documented.';
+  return {
+   id:row.slug,slug:row.slug,referenceId:row.credential_id||undefined,provider,issuer:row.issuer,
+   name:row.title,nameEn:row.title,date:dateAr,dateEn,
+   description,descriptionEn,tags:[],tagsEn:[],
+   verification:safePublicHttpsUrl(row.verification_url),
+   badgeImage:row.image_media_id?'/api/public/media/'+encodeURIComponent(row.image_media_id):undefined,
+   fileUrl:row.pdf_media_id?'/api/public/media/'+encodeURIComponent(row.pdf_media_id):undefined
+  } satisfies Credential;
+ });
+ return [...merged,...additions];
+}
+
 const edraakVerificationRefs=[
   '6addfdb9d4ce42cbb6581c5ad7798421',
   'e3d641d030654b5ea5a62a0011a80f41',
@@ -87,15 +163,18 @@ function CiscoMark(){
   </div>;
 }
 
-function IssuerMark({provider}:{provider:Credential['provider']}){
-  if(provider==='Cisco')return <div className="wallet-issuer-logo"><CiscoMark/><small>CISCO · NETWORKING ACADEMY</small></div>;
-  if(provider==='Edraak')return <div className="wallet-partner-mark"><strong>إدراك</strong><small>EDRAAK · LEARNING</small></div>;
-  return <div className="wallet-partner-mark openedg-mark"><strong>OpenJS</strong><small>OPENJS FOUNDATION</small></div>;
+function IssuerMark({credential}:{credential:Credential}){
+  if(credential.provider==='Cisco')return <div className="wallet-issuer-logo"><CiscoMark/><small>CISCO · NETWORKING ACADEMY</small></div>;
+  if(credential.provider==='Edraak')return <div className="wallet-partner-mark"><strong>إدراك</strong><small>EDRAAK · LEARNING</small></div>;
+  if(credential.provider==='OpenJS')return <div className="wallet-partner-mark openedg-mark"><strong>OpenJS</strong><small>OPENJS FOUNDATION</small></div>;
+  return <div className="wallet-partner-mark"><strong>{credential.issuer||'Issuer'}</strong><small>PROFESSIONAL CREDENTIAL</small></div>;
 }
 
 function CredentialCard({credential,index,en}:{credential:Credential;index:number;en:boolean}){
-  const verify=credential.verification||(credential.provider==='Cisco'?credlyProfile:credential.provider==='Edraak'?'https://programs.edraak.org/':'https://openjsf.org/');
-  const verifyLabel=credential.provider==='Cisco'?(en?'Credly badge':'شارة Credly'):credential.provider==='Edraak'?(en?'Edraak verification':'التحقق عبر إدراك'):(en?'OpenJS Foundation':'OpenJS Foundation');
+  const verify=credential.verification||(credential.provider==='Cisco'?credlyProfile:credential.provider==='Edraak'?'https://programs.edraak.org/':credential.provider==='OpenJS'?'https://openjsf.org/':undefined);
+  const verifyLabel=credential.provider==='Cisco'?(en?'Credly badge':'شارة Credly'):credential.provider==='Edraak'?(en?'Edraak verification':'التحقق عبر إدراك'):credential.provider==='OpenJS'?'OpenJS Foundation':(en?'Issuer verification':'التحقق من الجهة');
+  const pdfUrl=credential.file?'/assets/certificates/'+credential.file:credential.fileUrl;
+  const previewUrl=credential.preview?'/assets/certificates/'+credential.preview:credential.previewUrl;
   return <article className="credential-showcase credential-wallet" key={credential.id}>
     <div className="credential-showcase-head credential-wallet-head">
       <div className="credential-title-block">
@@ -108,33 +187,33 @@ function CredentialCard({credential,index,en}:{credential:Credential;index:numbe
     <div className="credential-wallet-grid credential-wallet-grid-v3">
       <section className="credential-wallet-document" aria-label={en?'Credential document':'وثيقة الاعتماد'}>
         <div className="wallet-document-heading">
-          <span>{credential.file?(en?'CERTIFICATE FILE':'ملف الشهادة'):(en?'CREDENTIAL RECORD':'سجل الاعتماد')}</span>
-          <span>{credential.file?'PDF / IMAGE':'ISSUER RECORD'}</span>
+          <span>{pdfUrl?(en?'CERTIFICATE FILE':'ملف الشهادة'):(en?'CREDENTIAL RECORD':'سجل الاعتماد')}</span>
+          <span>{pdfUrl?'PDF / IMAGE':'ISSUER RECORD'}</span>
         </div>
         <div className="certificate-document-preview">
-          {credential.preview
-            ? <Image src={'/assets/certificates/'+credential.preview} alt={(en?'Preview: ':'معاينة: ')+(en?credential.nameEn:credential.name)} width={720} height={520} loading="lazy" unoptimized className="credential-preview-image"/>
-            : <div className="credential-document-placeholder"><Award/><b>{credential.provider==='Cisco'?'CISCO':credential.provider==='Edraak'?'EDRAAK':'OpenJS'}</b><small>{credential.provider==='OpenJS'?'JSNAD':'DIGITAL CREDENTIAL'}</small></div>}
+          {previewUrl
+            ? <Image src={previewUrl} alt={(en?'Preview: ':'معاينة: ')+(en?credential.nameEn:credential.name)} width={720} height={520} loading="lazy" unoptimized className="credential-preview-image"/>
+            : <div className="credential-document-placeholder"><Award/><b>{credential.provider==='Cisco'?'CISCO':credential.provider==='Edraak'?'EDRAAK':credential.provider==='OpenJS'?'OpenJS':'CREDENTIAL'}</b><small>{credential.provider==='OpenJS'?'JSNAD':credential.provider==='Other'?'ISSUER RECORD':'DIGITAL CREDENTIAL'}</small></div>}
         </div>
         <div className="certificate-actions">
-          {credential.file&&<a href={'/assets/certificates/'+credential.file} target="_blank" rel="noopener noreferrer">{en?'Open original PDF':'فتح ملف PDF الأصلي'} ↗</a>}
-          <a href={verify} target="_blank" rel="noopener noreferrer">{en?verifyLabel:'التحقق من الجهة المانحة'} ↗</a>
+          {pdfUrl&&<a href={pdfUrl} target="_blank" rel="noopener noreferrer">{en?'Open original PDF':'فتح ملف PDF الأصلي'} ↗</a>}
+          {verify&&<a href={verify} target="_blank" rel="noopener noreferrer">{en?verifyLabel:'التحقق من الجهة المانحة'} ↗</a>}
         </div>
       </section>
       <div className="wallet-detail-row">
         <aside className="wallet-issuer-column">
           <div className="wallet-panel-heading"><span>01 / ISSUER</span><h4>{en?'Issuing organization':'الجهة المانحة'}</h4></div>
-          <div className="wallet-issuer-logos wallet-issuer-logos-v3"><IssuerMark provider={credential.provider}/></div>
+          <div className="wallet-issuer-logos wallet-issuer-logos-v3"><IssuerMark credential={credential}/></div>
         </aside>
         <section className="credential-wallet-verification">
           <div className="wallet-panel-heading"><span>02 / CREDENTIAL RECORD</span><h4>{en?'Credential details':'بيانات الاعتماد'}</h4></div>
           <div className="wallet-facts">
-            <div><span>{en?'Provider':'الجهة'}</span><strong>{credential.provider==='Cisco'?'Cisco Networking Academy':credential.provider==='Edraak'?'Edraak':'OpenJS Foundation · The Linux Foundation'}</strong></div>
+            <div><span>{en?'Provider':'الجهة'}</span><strong>{credential.issuer||(credential.provider==='Cisco'?'Cisco Networking Academy':credential.provider==='Edraak'?'Edraak':credential.provider==='OpenJS'?'OpenJS Foundation · The Linux Foundation':'Credential issuer not recorded')}</strong></div>
             <div><span>{en?'Issue date':'تاريخ الإصدار'}</span><strong>{en?credential.dateEn:credential.date}</strong></div>
             <div><span>{en?'Record':'حالة السجل'}</span><strong>{en?'Recorded credential':'شهادة مدرجة في السجل'}</strong></div>
             <div><span>{en?'Credential identifier':'معرّف الشهادة'}</span><code>{credential.referenceId||(en?'Not supplied in the current record':'غير متاح في السجل الحالي')}</code></div>
           </div>
-          <a className="wallet-verify-button" href={verify} target="_blank" rel="noopener noreferrer">{en?'Open verification source':'فتح مصدر التحقق'} ↗</a>
+          {verify&&<a className="wallet-verify-button" href={verify} target="_blank" rel="noopener noreferrer">{en?'Open verification source':'فتح مصدر التحقق'} ↗</a>}
         </section>
         <aside className="wallet-badge-column">
           <div className="wallet-badge-logo">
@@ -162,9 +241,12 @@ function CredentialCard({credential,index,en}:{credential:Credential;index:numbe
 
 export default async function CredentialsPage(){
   const en=(await cookies()).get('portfolio-locale')?.value==='en';
-  const cisco=credentials.filter(item=>item.provider==='Cisco');
-  const edraak=credentials.filter(item=>item.provider==='Edraak');
-  const openjs=credentials.filter(item=>item.provider==='OpenJS');
+  const rows=await getPublishedCertificates();
+  const credentialList=mergePublishedCredentials(rows,en?'en':'ar');
+  const cisco=credentialList.filter(item=>item.provider==='Cisco');
+  const edraak=credentialList.filter(item=>item.provider==='Edraak');
+  const openjs=credentialList.filter(item=>item.provider==='OpenJS');
+  const other=credentialList.filter(item=>item.provider==='Other');
   return <main className="content-page credentials-page">
     <header className="credentials-hero">
       <div className="credentials-brand"><div className="credential-hero-mark"><Award/><b>M.GH.AL</b></div><span/></div>
@@ -172,16 +254,16 @@ export default async function CredentialsPage(){
         <span className="eyebrow">VERIFIABLE LEARNING & PROFESSIONAL CREDENTIALS</span>
         <h1>{en?'Digital credentials & certificates':'الشهادات والاعتمادات الرقمية'}</h1>
         <p>{en
-          ?'A structured record of eighteen credentials: eleven Cisco Networking Academy records, six Edraak certificates, and the OpenJS Node.js Application Developer credential. Original files and verification sources are shown when available.'
-          :'سجل منظم يضم 18 شهادة واعتماداً: 11 من Cisco Networking Academy، و6 من إدراك، واعتماد JSNAD من OpenJS. تُعرض الملفات الأصلية وروابط التحقق حيث تتوفر.'}</p>
+          ?'A structured record of published professional credentials with original files and issuer verification sources where available.'
+          :'سجل منظم يضم سجل منشور للشهادات والاعتمادات من الجهات المانحة. تُعرض الملفات الأصلية وروابط التحقق حيث تتوفر.'}</p>
       </div>
-      <div className="credentials-verified"><span>✓</span> {en?'18 recorded credentials':'18 شهادة واعتماداً مسجلاً'}</div>
+      <div className="credentials-verified"><span>✓</span> {en?'{credentialList.length} recorded credentials':'{credentialList.length} شهادة واعتماداً مسجلاً'}</div>
     </header>
 
     <section className="credentials-section" aria-labelledby="cisco-credentials-title">
       <div className="credentials-section-heading">
         <div><span className="eyebrow">CISCO NETWORKING ACADEMY · CREDLY</span><h2 id="cisco-credentials-title">{en?'Cisco professional credentials':'شهادات Cisco المهنية'}</h2></div>
-        <span className="credentials-count">11 CREDENTIALS</span>
+        <span className="credentials-count">{cisco.length.toString().padStart(2,'0')} CREDENTIALS</span>
       </div>
       <div className="credentials-list credentials-wallet-list">
         {cisco.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index} en={en}/>)}
@@ -191,7 +273,7 @@ export default async function CredentialsPage(){
     <section className="credentials-section" aria-labelledby="edraak-credentials-title">
       <div className="credentials-section-heading">
         <div><span className="eyebrow">EDRAAK · DIGITAL CERTIFICATES</span><h2 id="edraak-credentials-title">{en?'Edraak learning certificates':'شهادات إدراك التعليمية'}</h2></div>
-        <span className="credentials-count">06 CERTIFICATES</span>
+        <span className="credentials-count">{edraak.length.toString().padStart(2,'0')} CERTIFICATES</span>
       </div>
       <div className="credentials-list credentials-wallet-list">
         {edraak.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index+11} en={en}/>)}
@@ -200,7 +282,7 @@ export default async function CredentialsPage(){
         <div className="wallet-panel-heading"><span>EDRAAK / VERIFICATION REFERENCES</span><h4>{en?'Stored verification links':'روابط التحقق المحفوظة'}</h4></div>
         <p>{en?'These six verification references are preserved from the certificate record. Individual reference-to-title mapping is shown only where it is confirmed.':'روابط التحقق الستة محفوظة من سجل الشهادات. لم تُربط كل وصلة بعنوان شهادة إلا حيث تتوفر مطابقة مؤكدة.'}</p>
         <div className="credential-reference-list">
-          {edraakVerificationRefs.map((ref,index)=>(
+          {edraakVerificationRefs.filter(ref=>edraak.some(item=>item.referenceId===ref)).map((ref,index)=>(
             <a key={ref} href={edraakVerifyBase+ref+'/?lang=en'} target="_blank" rel="noopener noreferrer">
               <span>0{index+1}</span><b>{en?'Open verification reference':'فتح مرجع التحقق'}</b><code>{ref}</code><ExternalLink size={14}/>
             </a>
@@ -212,12 +294,17 @@ export default async function CredentialsPage(){
     <section className="credentials-section" aria-labelledby="openjs-credentials-title">
       <div className="credentials-section-heading">
         <div><span className="eyebrow">OPENJS FOUNDATION · THE LINUX FOUNDATION</span><h2 id="openjs-credentials-title">{en?'Node.js professional credential':'اعتماد Node.js المهني'}</h2></div>
-        <span className="credentials-count">01 CREDENTIAL</span>
+        <span className="credentials-count">{openjs.length.toString().padStart(2,'0')} CREDENTIAL</span>
       </div>
       <div className="credentials-list credentials-wallet-list">
         {openjs.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index+17} en={en}/>)}
       </div>
     </section>
+
+    {other.length>0&&<section className="credentials-section" aria-labelledby="other-credentials-title">
+      <div className="credentials-section-heading"><div><span className="eyebrow">OTHER ISSUERS · DIGITAL CREDENTIALS</span><h2 id="other-credentials-title">{en?'Other published credentials':'اعتمادات من جهات أخرى'}</h2></div><span className="credentials-count">{other.length.toString().padStart(2,'0')} CREDENTIALS</span></div>
+      <div className="credentials-list credentials-wallet-list">{other.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index} en={en}/>)}</div>
+    </section>}
 
     <p className="disclaimer">{en
       ?'Credential records reflect the information available in the M.GH.AL archive. A verification link is provided only to the issuer or profile source currently recorded; the presence of a local file does not replace issuer-side verification.'
