@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import {projects} from '../../data/projects';
 import PrintButton from './PrintButton';
-import type {PublicEducationRow} from '../../lib/public-content';
+import type {PublicEducationRow,PublicCertificateRow} from '../../lib/public-content';
 import './content-pages.css';
 
 type Locale='ar'|'en';
@@ -21,7 +21,7 @@ const copy={
  }
 };
 const skills=[['Languages','JavaScript · TypeScript · Python · C# · Dart'],['Frontend','React · Next.js · HTML · CSS · Tailwind CSS'],['Backend & data','Node.js · REST APIs · PostgreSQL · SQLite · Prisma'],['Platforms & tools','Git · GitHub · Docker Compose · Vercel · Firebase · Supabase · Flutter']];
-export default function ContentPages({kind,locale,educationRows=null}:{kind:PageKind;locale:Locale;educationRows?:PublicEducationRow[]|null}){
+export default function ContentPages({kind,locale,educationRows=null,credentialRows=null}:{kind:PageKind;locale:Locale;educationRows?:PublicEducationRow[]|null;credentialRows?:PublicCertificateRow[]|null}){
  const en=locale==='en';
  const selected=projects.filter(p=>['waynah','mghal-content-os','mghal-digital-os','abdulmalik-store-management','abdulmalik-store-pro','debwan-live','ciphersphere'].includes(p.slug));
  if(kind==='resume'){
@@ -38,7 +38,7 @@ export default function ContentPages({kind,locale,educationRows=null}:{kind:Page
  const c=copy[locale][kind] as {eyebrow:string;title:string;intro:string;items:string[][]};
  return <main className="mghal-document" dir={en?'ltr':'rtl'}>
   <header className="document-heading"><span>{c.eyebrow}</span><h1>{c.title}</h1><p>{c.intro}</p></header>
-  <section className="document-list">{kind==='education'&&educationRows!==null?<>
+  <section className="document-list">{kind==='achievements'&&credentialRows!==null?credentialRows.length?Array.from(new Set(credentialRows.map(row=>row.issuer))).map(issuer=>{const total=credentialRows.filter(row=>row.issuer===issuer).length;return <article className="document-item" key={issuer}><h2>{issuer}</h2><strong>{total} {en?'published credentials':'اعتمادات منشورة'}</strong><p>{en?'Open the credential archive for individual records, issue dates, and verification sources.':'افتح سجل الشهادات للاطلاع على كل اعتماد وتاريخ الإصدار وروابط التحقق.'}</p><Link href={(en?'/en':'')+'/credentials'}>{en?'View credential archive':'عرض سجل الشهادات'} ↗</Link></article>}):<article className="document-item"><h2>{en?'No published credentials':'لا توجد اعتمادات منشورة حالياً'}</h2><p>{en?'No credential record is currently published.':'لا يوجد سجل اعتماد منشور حالياً.'}</p></article>:kind==='education'&&educationRows!==null?<>
    {educationRows.map(row=><article className="document-item" key={row.id}>
     <h2>{en?row.degree:(row.degree==="Bachelor's Degree"?'درجة البكالوريوس':row.degree)}</h2>
     <strong>{en?row.institution:(row.id==='almanar-it-bachelor'?'كلية المنار الجامعية':row.institution)} · {en?row.field_of_study:(row.field_of_study==='Information Technology'?'تقنية المعلومات':row.field_of_study)}</strong>
