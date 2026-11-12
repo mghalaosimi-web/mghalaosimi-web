@@ -38,6 +38,11 @@ assert.match(listing,/catalog\.projects\.map/,"Project explorer must derive from
 const sitemap=readFileSync(path.join(root,"app/sitemap.ts"),"utf8");
 assert.match(sitemap,/catalog\.projects/,"Sitemap must generate project URLs from the canonical catalogue.");
 assert.match(sitemap,/alternates:\{languages:/,"Sitemap must expose bilingual alternates.");
+assert.ok(!existsSync(path.join(publicRoot,"admin","index.html")),"Legacy admin HTML must be removed.");
+assert.ok(!existsSync(path.join(publicRoot,"assets","admin.js")),"Legacy admin JavaScript must be removed.");
+assert.ok(existsSync(path.join(root,"app","admin","page.tsx")),"Administration must be implemented as a React route.");
+assert.ok(!existsSync(path.join(publicRoot,"offline.html")),"Legacy offline HTML must be removed.");
+assert.ok(existsSync(path.join(root,"app","offline","page.tsx")),"Offline fallback must be a React route.");
 assert.ok(!existsSync(path.join(publicRoot,"projects.html")),"Legacy project listing HTML must be removed.");
 assert.ok(!existsSync(path.join(publicRoot,"en/projects.html")),"Legacy English project listing HTML must be removed.");
 for(const project of catalog.projects){
