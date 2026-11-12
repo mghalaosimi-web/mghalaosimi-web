@@ -167,7 +167,8 @@
         "ar": "مساهمة تطويرية ضمن فريق المشروع؛ لا تُنسب ملكية المنصة أو كامل تنفيذها إلى فرد واحد.",
         "en": "Development contribution within the project team; the platform and its full implementation are not attributed to one individual."
       },
-      "collaborative": true
+      "collaborative": true,
+      "contentSource": "database"
     },
     {
       "id": "humanity-system",
@@ -284,7 +285,8 @@
       "contribution": {
         "ar": "مشروع خاص. تُعرض المعلومات العامة فقط، ويُحدد نطاق المساهمة التفصيلي بعد مراجعة سجل العمل دون كشف تفاصيل داخلية.",
         "en": "Private project. Only public-level information is shown; the exact contribution scope remains subject to work-history review without exposing internal details."
-      }
+      },
+      "contentSource": "database"
     },
     {
       "id": "yemen-ai",
@@ -431,7 +433,8 @@
       "contribution": {
         "ar": "مشروع تطوير لمنصة معرفية ثنائية اللغة؛ تُعرض الوظائف والتقنيات وفق توثيق المستودع، دون ادعاء نتائج تشغيلية غير متحقق منها.",
         "en": "Development of a bilingual knowledge platform; capabilities and technologies are presented from repository documentation without unverified operational claims."
-      }
+      },
+      "contentSource": "database"
     },
     {
       "id": "mghal-content-os",
@@ -595,7 +598,8 @@
       "contribution": {
         "ar": "تصميم وتطوير نظام إدارة المحتوى ومكوناته الأساسية؛ تبقى حالة كل تكامل مرتبطة بما يثبته الكود والاختبارات.",
         "en": "Designed and developed the content-management system and its core components; each integration's status is limited to what code and tests substantiate."
-      }
+      },
+      "contentSource": "database"
     },
     {
       "id": "manar-schedule-system",
@@ -747,7 +751,8 @@
         "ar": "مساهمة ضمن مشروع أكاديمي تعاوني؛ يجري فصل نطاق مساهمة كل عضو عن وظائف النظام العامة.",
         "en": "Contribution to a collaborative academic project; individual work is distinguished from the system's overall capabilities."
       },
-      "collaborative": true
+      "collaborative": true,
+      "contentSource": "database"
     },
     {
       "id": "ciphersphere",
@@ -871,7 +876,8 @@
         "ar": "مشروع جماعي موثق بأسماء مطورين اثنين؛ تُعرض المساهمة باعتبارها عملاً تعاونياً ولا تُنسب ملكية فردية كاملة.",
         "en": "A team project documenting two developers; it is presented as collaborative work, not as sole individual ownership."
       },
-      "collaborative": true
+      "collaborative": true,
+      "contentSource": "database"
     },
     {
       "id": "focusflow",
@@ -975,7 +981,8 @@
       "contribution": {
         "ar": "مستودع عام يحتوي حالياً على README فقط؛ لا يمكن إثبات تنفيذ التطبيق أو نسبة مساهمة برمجية من محتواه الحالي.",
         "en": "The public repository currently contains only a README; implementation or a specific code contribution cannot be verified from its current contents."
-      }
+      },
+      "contentSource": "database"
     },
     {
       "id": "mghal-esdp",
@@ -1075,7 +1082,8 @@
       "contribution": {
         "ar": "مشروع مسجل ضمن الأعمال، لكن لم يُعثر على مستودع عام أو أدلة مصدر قابلة للفحص؛ تفاصيل المساهمة غير منشورة.",
         "en": "A recorded project, but no public repository or inspectable source evidence was found; contribution details are not published."
-      }
+      },
+      "contentSource": "database"
     },
     {
       "id": "mghal-official-website",
@@ -1193,7 +1201,8 @@
       "contribution": {
         "ar": "تصميم وتطوير الهوية الرقمية والموقع ومكوناته؛ تُفصل حالة النشر والإنتاج عن حالة التطوير على الفرع.",
         "en": "Designed and developed the digital identity website and its components; deployment status is distinguished from branch development status."
-      }
+      },
+      "contentSource": "database"
     },
     {
       "id": "almanar-schedule-system",
@@ -1341,7 +1350,8 @@
         "ar": "مستودع مستقل لنظام الجداول؛ تُراجع مساهمة المطورين من سجل الالتزامات قبل نشر نسبة فردية.",
         "en": "A separate scheduling-system repository; individual contribution attribution is pending commit-history review."
       },
-      "collaborative": true
+      "collaborative": true,
+      "contentSource": "database"
     },
     {
       "id": "mghal-digital-os",
@@ -1479,7 +1489,8 @@
       "contribution": {
         "ar": "صاحب المستودع والمطور الرئيسي للتطبيق؛ سجل GitHub يعرض التزامات مباشرة في بناء الوظائف والاختبارات والتقوية الأمنية. لا تُنسب إليه مكونات Postiz المدمجة كمصدر مستقل.",
         "en": "Repository owner and primary application developer; GitHub history records direct implementation, testing and security-hardening work. The integrated Postiz source is not claimed as independently authored."
-      }
+      },
+      "contentSource": "catalog"
     },
     {
       "id": "abdulmalik-store-management",
@@ -1604,7 +1615,8 @@
       "contribution": {
         "ar": "مطور المستودع وصاحب الالتزامات الحديثة المسجلة باسم MHAMMED AL-AOSIMI؛ سجل العمل يثبت تطوير مسارات المنتجات وصورها والمبيعات المحلية والإيصالات. لا يُعرض المشروع كمنتج مكتمل أو معتمد للإنتاج.",
         "en": "Repository developer with recent commits recorded under MHAMMED AL-AOSIMI; the history evidences work on products, product images, offline sales and receipts. The project is not presented as complete or production-approved."
-      }
+      },
+      "contentSource": "catalog"
     },
     {
       "id": "debwan-live",
@@ -1743,7 +1755,8 @@
         "ar": "صيانة وتطوير توزيعة مشتقة؛ سجل GitHub يوثق مساهمات مباشرة في تقوية الأمان وإخفاء بيانات اعتماد البث وتحسين Football Hub والاختبارات. لا تُنسب الشيفرة الأصلية لمنصة TIVIFY إلى المطور.",
         "en": "Maintainer and contributor to a derivative distribution; GitHub history documents security hardening, stream-credential redaction, Football Hub improvements and tests. Original TIVIFY source code is not claimed as authored by this developer."
       },
-      "collaborative": true
+      "collaborative": true,
+      "contentSource": "catalog"
     }
   ]
 }
