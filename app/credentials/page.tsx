@@ -304,7 +304,7 @@ export default async function CredentialsPage(){
 
     {other.length>0&&<section className="credentials-section" aria-labelledby="other-credentials-title">
       <div className="credentials-section-heading"><div><span className="eyebrow">OTHER ISSUERS · DIGITAL CREDENTIALS</span><h2 id="other-credentials-title">{en?'Other published credentials':'اعتمادات من جهات أخرى'}</h2></div><span className="credentials-count">{other.length.toString().padStart(2,'0')} CREDENTIALS</span></div>
-      <div className="credentials-list credentials-wallet-list">{other.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index} en={en}/>)}</div>
+      <div className="credentials-list credentials-wallet-list">{other.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index+cisco.length+edraak.length+openjs.length} en={en} total={credentialList.length}/>)}</div>
     </section>}
 
     <p className="disclaimer">{en
