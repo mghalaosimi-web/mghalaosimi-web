@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import {projects} from '../../data/projects';
 import PrintButton from './PrintButton';
+import type {PublicEducationRow} from '../../lib/public-content';
 import './content-pages.css';
 
 type Locale='ar'|'en';
@@ -20,7 +21,7 @@ const copy={
  }
 };
 const skills=[['Languages','JavaScript · TypeScript · Python · C# · Dart'],['Frontend','React · Next.js · HTML · CSS · Tailwind CSS'],['Backend & data','Node.js · REST APIs · PostgreSQL · SQLite · Prisma'],['Platforms & tools','Git · GitHub · Docker Compose · Vercel · Firebase · Supabase · Flutter']];
-export default function ContentPages({kind,locale}:{kind:PageKind;locale:Locale}){
+export default function ContentPages({kind,locale,educationRows=null}:{kind:PageKind;locale:Locale;educationRows?:PublicEducationRow[]|null}){
  const en=locale==='en';
  const selected=projects.filter(p=>['waynah','mghal-content-os','mghal-digital-os','abdulmalik-store-management','abdulmalik-store-pro','debwan-live','ciphersphere'].includes(p.slug));
  if(kind==='resume'){
@@ -37,7 +38,15 @@ export default function ContentPages({kind,locale}:{kind:PageKind;locale:Locale}
  const c=copy[locale][kind] as {eyebrow:string;title:string;intro:string;items:string[][]};
  return <main className="mghal-document" dir={en?'ltr':'rtl'}>
   <header className="document-heading"><span>{c.eyebrow}</span><h1>{c.title}</h1><p>{c.intro}</p></header>
-  <section className="document-list">{c.items.map(([title,subtitle,detail])=><article className="document-item" key={title}><h2>{title}</h2><strong>{subtitle}</strong><p>{detail}</p></article>)}
+  <section className="document-list">{kind==='education'&&educationRows!==null?<>
+   {educationRows.map(row=><article className="document-item" key={row.id}>
+    <h2>{en?row.degree:(row.degree==="Bachelor's Degree"?'درجة البكالوريوس':row.degree)}</h2>
+    <strong>{en?row.institution:(row.id==='almanar-it-bachelor'?'كلية المنار الجامعية':row.institution)} · {en?row.field_of_study:(row.field_of_study==='Information Technology'?'تقنية المعلومات':row.field_of_study)}</strong>
+    <p>{en?row.description||'Academic record published by the profile owner.':row.status==='in_progress'?'قيد الدراسة.':row.description||'سجل أكاديمي منشور.'}</p>
+    {(row.start_date||row.end_date)&&<small>{row.start_date||''}{row.start_date&&row.end_date?' — ':''}{row.end_date||''}</small>}
+   </article>)}
+   {c.items.slice(1).map(([title,subtitle,detail])=><article className="document-item" key={title}><h2>{title}</h2><strong>{subtitle}</strong><p>{detail}</p></article>)}
+  </>:c.items.map(([title,subtitle,detail])=><article className="document-item" key={title}><h2>{title}</h2><strong>{subtitle}</strong><p>{detail}</p></article>)}
    {kind==='achievements'&&<p className="document-note">{en?'Credential verification links are available from the issuing organizations.':'روابط التحقق متاحة من الجهات المصدرة، ولا نربط رابطاً فردياً بشهادة دون مطابقة موثقة.'} <a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi" target="_blank" rel="noreferrer">Credly ↗</a> · <a href="https://openjsf.org/" target="_blank" rel="noreferrer">OpenJS ↗</a></p>}
    {kind==='education'&&<p className="document-note">{en?'The academic specialization is Information Technology, not Cybersecurity.':'التخصص الأكاديمي هو تقنية المعلومات، وليس الأمن السيبراني.'}</p>}
   </section>
