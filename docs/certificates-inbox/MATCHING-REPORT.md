@@ -31,7 +31,7 @@ The credentials page now displays these 26 records. No second Cybersecurity Defe
 | Endpoint Security | `Screenshot_٢٠٢٦١١١٣_٠٠٥٦٠٤_OneDrive.jpg` |
 | IT Support Specialist Career Path | `Screenshot_٢٠٢٦١١١٣_٠١٠٠٤٠_OneDrive.jpg` |
 
-Two existing Cisco records do not yet have a confidently identified image: Operating Systems Support and English for IT 1.
+All Cisco records now have a visual asset: full certificate previews where available, otherwise the issuer's Credly badge image. The unassigned screenshot `Screenshot_٢٠٢٦١١١٣_٠٠٥٤٠٨_OneDrive.jpg` was visually checked and is a duplicate of the Cybersecurity Defense Analyst certificate already represented by `Screenshot_٢٠٢٦١١١٣_٠٠٤٧٢٣_OneDrive.jpg`; it is not assigned to another credential.
 
 ### Edraak
 
@@ -44,7 +44,7 @@ Two existing Cisco records do not yet have a confidently identified image: Opera
 
 ### OpenJS
 
-- OpenJS Node.js Application Developer (JSNAD) — `1785613862401.png`
+- OpenJS Node.js Application Developer (JSNAD) — no certificate image is linked yet. The PNG `1785613862401.png` is not confidently identified as the JSNAD certificate, so the page uses the OpenJS issuer placeholder rather than misrepresenting it.
 
 ### EMC Shiraa 2026
 
@@ -82,7 +82,7 @@ The following records currently have no confidently matched PDF in the uploaded 
 
 ## Unassigned or alternate files — do not auto-link
 
-- `Screenshot_٢٠٢٦١١١٣_٠٠٥٤٠٨_OneDrive.jpg` — Cisco image; title-to-record mapping is not yet certain.
+- `Screenshot_٢٠٢٦١١١٣_٠٠٥٤٠٨_OneDrive.jpg` — visually confirmed duplicate of the Cybersecurity Defense Analyst certificate image already used; not assigned twice.
 - `Screenshot_٢٠٢٦١١١٣_٠١٠٧٥٦_OneDrive.jpg` — alternate IT Customer Support Basics image; the 010522 image is used as the primary preview.
 - `CybersecurityDefenseAnalystCareerPathv120261112-20-hshmai.pdf` — same Git blob as the selected `...as0po8.pdf`; duplicate copy.
 - `DataScienceEssentialswithPythonv120261112-20-o5zlo3.pdf` — badge-style export; the full course-completion PDF is linked instead.
@@ -91,5 +91,7 @@ The following records currently have no confidently matched PDF in the uploaded 
 - `SHIRAA_Certificate_SHR-2026-WS01-0330 (1).pdf` — second WS01 copy; the canonical filename without the suffix is linked.
 
 ## Publication note
+
+Certificate cards use lazy-loaded images. Local previews are served through Next.js image optimization at quality 75; remote Credly badge and the WS05 preview are loaded unoptimized from their source URLs. This keeps local full-size certificate screenshots out of the initial eager-loading path.
 
 The update is on the working feature branch only. It has not been merged or deployed to Production. This report deliberately preserves unresolved assets instead of guessing their credential associations.
