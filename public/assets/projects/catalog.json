@@ -1789,7 +1789,7 @@
         "ar": "التشفير وأمن المعلومات",
         "en": "Cryptography & information security"
       },
-      "categoryKey": "security",
+      "categoryKey": "cybersecurity",
       "status": {
         "ar": "مشروع مكتبي مستقل — التوثيق العام ولقطات التشغيل غير متاحة حالياً",
         "en": "Standalone desktop project — public documentation and runtime screenshots are not currently available"
