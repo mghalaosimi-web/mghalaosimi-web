@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "siteOrigin": "https://mghalaosimi-web.vercel.app",
-  "reviewedAt": "2026-11-02",
+  "reviewedAt": "2026-11-12",
   "projects": [
     {
       "id": "waynah",
@@ -1337,6 +1337,586 @@
       "contribution": {
         "ar": "مستودع مستقل لنظام الجداول؛ تُراجع مساهمة المطورين من سجل الالتزامات قبل نشر نسبة فردية.",
         "en": "A separate scheduling-system repository; individual contribution attribution is pending commit-history review."
+      }
+    },
+    {
+      "id": "mghal-digital-os",
+      "slug": "mghal-digital-os",
+      "title": {
+        "ar": "M.GH.AL Digital OS | منظومة التشغيل الرقمية",
+        "en": "M.GH.AL Digital OS"
+      },
+      "summary": {
+        "ar": "منظومة تشغيل رقمية لإدارة المشاريع والمهام والمعرفة والمحتوى وسير العمل، مع مصادقة للمالك وسجل تدقيق وتوليد مسودات مدعوم بالذكاء الاصطناعي.",
+        "en": "A personal digital operations workspace for projects, tasks, knowledge, content and workflows, with owner authentication, audit events and AI-assisted draft generation."
+      },
+      "problem": {
+        "ar": "تتوزع إدارة العمل الشخصي والمشاريع والمعرفة والمحتوى بين أدوات متعددة، ما يصعّب توحيد السياق وتتبع النشاط وحالة التنفيذ.",
+        "en": "Personal operations, projects, knowledge and content often live in disconnected tools, making context, activity and delivery status difficult to track."
+      },
+      "goal": {
+        "ar": "بناء مساحة تشغيل موحدة تربط سجلات العمل والمحتوى والمعرفة مع ضوابط وصول وسجل نشاط قابل للمراجعة.",
+        "en": "Build a unified workspace connecting operational records, content and knowledge with controlled access and reviewable activity history."
+      },
+      "audience": {
+        "ar": "مالك مساحة العمل والمطورون الذين يحتاجون إلى إدارة المشاريع والمهام والمعرفة والمحتوى من لوحة موحدة.",
+        "en": "A workspace owner and developers who need a unified interface for projects, tasks, knowledge and content operations."
+      },
+      "value": {
+        "ar": "تجميع CRUD وسير العمل والتقويم التحريري والتصدير وتوليد المسودات في تطبيق واحد مع توضيح الميزات غير المكتملة.",
+        "en": "Brings CRUD workflows, an editorial calendar, data export and AI draft generation into one application while explicitly identifying unfinished capabilities."
+      },
+      "category": {
+        "ar": "أنظمة تشغيل وإدارة مؤسسية",
+        "en": "Enterprise operations systems"
+      },
+      "categoryKey": "enterprise",
+      "status": {
+        "ar": "تطوير نشط — تطبيق موثق المنشأ والوظائف",
+        "en": "Active development — documented application and capabilities"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/mghal-digital-os",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/digital-os.svg",
+      "coverAlt": {
+        "ar": "غلاف تعريفي لمنظومة M.GH.AL Digital OS، وليس لقطة شاشة من الواجهة.",
+        "en": "M.GH.AL Digital OS project artwork, not an application screenshot."
+      },
+      "technologies": [
+        "Next.js 16.4.5",
+        "React 19.3.1",
+        "TypeScript 5.9",
+        "Prisma 6.19.0",
+        "PostgreSQL",
+        "Upstash Redis",
+        "Zod 4",
+        "OpenAI-compatible AI API",
+        "GitHub Actions"
+      ],
+      "features": [
+        {
+          "ar": "إدارة مساحات العمل والمشاريع والمهام مع عمليات الإنشاء والعرض والتعديل والحذف.",
+          "en": "Create, view, update and delete workspaces, projects and tasks."
+        },
+        {
+          "ar": "إدارة عناصر المعرفة مع البحث والتعديل والحذف.",
+          "en": "Manage knowledge records with search, editing and deletion."
+        },
+        {
+          "ar": "إدارة المحتوى وحالات دورة العمل والتقويم التحريري.",
+          "en": "Manage content workflow states and an editorial calendar."
+        },
+        {
+          "ar": "مصادقة مالك عبر رمز خادمي وجلسة HttpOnly موقعة مع تحديد معدل الدخول عبر Redis.",
+          "en": "Owner authentication using a server-side token, signed HttpOnly session and Redis-backed login rate limiting."
+        },
+        {
+          "ar": "سجل تدقيق وتصدير بيانات مساحة العمل بصيغة JSON ضمن حدود معلنة.",
+          "en": "Audit events and bounded JSON workspace export."
+        },
+        {
+          "ar": "توليد مسودات AI؛ لا ينشر المحتوى تلقائياً.",
+          "en": "AI draft generation; content is not published automatically."
+        }
+      ],
+      "architecture": {
+        "ar": "تطبيق Next.js App Router مع React وTypeScript، يستخدم Prisma للوصول إلى PostgreSQL، وUpstash Redis لتحديد معدل محاولات الدخول، وZod للتحقق من المدخلات. يتصل مولد المسودات بمزود متوافق مع OpenAI، دون تنفيذ نشر تلقائي.",
+        "en": "A Next.js App Router application using React and TypeScript, Prisma for PostgreSQL access, Upstash Redis for login rate limiting and Zod for input validation. Draft generation uses an OpenAI-compatible provider without automatic publishing."
+      },
+      "gallery": [],
+      "docs": "https://github.com/mghalaosimi-web/mghal-digital-os/blob/main/README.md",
+      "deploymentReference": {
+        "url": "https://mghal-digital-os.onrender.com",
+        "label": {
+          "ar": "رابط نشر مذكور في README — لم يتم تأكيد التشغيل الحي هنا",
+          "en": "Deployment URL listed in README — live operation was not verified here"
+        }
+      },
+      "evidence": {
+        "ar": [
+          "README.md يوثق الوظائف الحالية وحدود المنتج.",
+          "package.json يثبت إصدارات Next.js وReact وPrisma وZod.",
+          "اختبارات المستودع وملفات API وPrisma توضح مسارات المصادقة وسجل التدقيق وتوليد المسودات.",
+          "سجل GitHub يتضمن التزامات تطوير واختبارات وأعمال تقوية أمنية باسم Mohammed Ghaleb Alaosimi."
+        ],
+        "en": [
+          "README.md documents current capabilities and product limits.",
+          "package.json records Next.js, React, Prisma and Zod versions.",
+          "Repository tests, API files and Prisma schema document authentication, audit events and AI draft generation.",
+          "GitHub history includes implementation, test and security-hardening commits under Mohammed Ghaleb Alaosimi."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "توليد AI ينتج مسودة فقط؛ لا يوجد نشر اجتماعي تلقائي أو ناشر خلفي مكتمل.",
+          "تدفق المستخدمين المتعددين والدعوات وRBAC لم يكتمل؛ الدخول الحالي للمالك.",
+          "README يذكر نشر Render، لكن الرابط لم يخضع لفحص حي في هذا التدقيق.",
+          "مصدر Postiz مدمج كـ Git submodule بترخيص AGPL-3.0؛ لا يعني ذلك أن تطبيق MGHAL الأصلي مرخص بالترخيص نفسه."
+        ],
+        "en": [
+          "AI generates drafts only; automatic social publishing and a background publisher are not complete.",
+          "Multi-user onboarding, invitations and RBAC are unfinished; current access is owner-only.",
+          "The README documents a Render deployment, but live availability was not checked in this audit.",
+          "Postiz is included as an AGPL-3.0 Git submodule; this does not imply that the original MGHAL application uses the same license."
+        ]
+      },
+      "operatingSystem": "Web browser",
+      "brand": {
+        "logo": "/assets/projects/logos/digital-os.svg",
+        "primary": "#0F766E",
+        "secondary": "#9CE7DC",
+        "accent": "#E4B86B"
+      },
+      "contribution": {
+        "ar": "صاحب المستودع والمطور الرئيسي للتطبيق؛ سجل GitHub يعرض التزامات مباشرة في بناء الوظائف والاختبارات والتقوية الأمنية. لا تُنسب إليه مكونات Postiz المدمجة كمصدر مستقل.",
+        "en": "Repository owner and primary application developer; GitHub history records direct implementation, testing and security-hardening work. The integrated Postiz source is not claimed as independently authored."
+      }
+    },
+    {
+      "id": "abdulmalik-store-management",
+      "slug": "abdulmalik-store-management",
+      "title": {
+        "ar": "نظام عبد الملك لإدارة المتجر",
+        "en": "Abdulmalik Store Management System"
+      },
+      "summary": {
+        "ar": "تطبيق مكتبي عربي أولاً لإدارة متجر اتصالات وإلكترونيات، مبني على React وTypeScript وTauri مع SQLite محلية وتشغيل يستهدف العمل دون اتصال.",
+        "en": "An Arabic-first desktop management application for a telecommunications and electronics store, built with React, TypeScript, Tauri and local SQLite for offline-first operation."
+      },
+      "problem": {
+        "ar": "تحتاج المتاجر الصغيرة إلى إدارة المنتجات والمبيعات والمخزون محلياً، مع استمرار العمل عند انقطاع الإنترنت وتقليل الاعتماد على خادم بعيد.",
+        "en": "Small retail shops need local product and sales workflows that remain usable during internet outages without depending on a remote server."
+      },
+      "goal": {
+        "ar": "تأسيس تطبيق Windows محلي بحدود معمارية تفصل واجهة React عن خدمات التطبيق وطبقة SQLite والمضيف الأصلي.",
+        "en": "Establish a local Windows application with clear boundaries between the React interface, application services, SQLite persistence and native host."
+      },
+      "audience": {
+        "ar": "متاجر الاتصالات والإلكترونيات التي تحتاج إلى إدارة محلية للمنتجات والمبيعات والعمليات اليومية.",
+        "en": "Telecommunications and electronics retailers that need local management of products, sales and daily operations."
+      },
+      "value": {
+        "ar": "قاعدة تقنية محلية قابلة للتوسع، مع معاملات مبيعات محلية ومعلومات منتجات وصور وإيصالات قابلة للطباعة ضمن مرحلة تأسيسية.",
+        "en": "A scalable local foundation with offline sales transactions, product records and images, and printable receipts during the foundation phase."
+      },
+      "category": {
+        "ar": "أنظمة مؤسسية وإدارة متاجر",
+        "en": "Enterprise & retail management"
+      },
+      "categoryKey": "enterprise",
+      "status": {
+        "ar": "مرحلة تأسيسية نشطة — غير جاهز للإنتاج",
+        "en": "Active foundation phase — not production-ready"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/abdulmalik-store-management",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/abdulmalik-store.svg",
+      "coverAlt": {
+        "ar": "غلاف تعريفي لمشروع عبد الملك لإدارة المتجر، وليس لقطة من التطبيق.",
+        "en": "Abdulmalik Store Management project artwork, not an application screenshot."
+      },
+      "technologies": [
+        "React 19",
+        "TypeScript 5.8.3",
+        "Vite 6.3.5",
+        "Tauri 2.8",
+        "Rust",
+        "SQLite",
+        "Tauri SQL Plugin",
+        "Vitest",
+        "pnpm"
+      ],
+      "features": [
+        {
+          "ar": "واجهة React وTypeScript ضمن تطبيق سطح مكتب Tauri 2.",
+          "en": "React and TypeScript interface hosted in a Tauri 2 desktop application."
+        },
+        {
+          "ar": "قاعدة SQLite محلية مع بنية migrations وإعدادات حفظ البيانات.",
+          "en": "Local SQLite database with migration structure and persistence configuration."
+        },
+        {
+          "ar": "مسار أولي لإنشاء وعرض سجلات المنتجات.",
+          "en": "Initial product create and list workflow."
+        },
+        {
+          "ar": "رفع صور المنتجات ومعاينتها وحفظها محلياً.",
+          "en": "Product image upload, preview and local persistence."
+        },
+        {
+          "ar": "مسارات مبيعات محلية وإيصالات قابلة للطباعة موثقة في سجل التطوير.",
+          "en": "Local sales workflows and printable receipts documented in the development history."
+        }
+      ],
+      "architecture": {
+        "ar": "واجهة React/Vite تتصل بخدمات تطبيق منفصلة، وتستخدم إضافة Tauri SQL للوصول إلى SQLite، بينما يتولى مضيف Tauri 2 وRust تشغيل التطبيق وترحيلات قاعدة البيانات. يحدد التوثيق أن العمليات الأساسية يجب ألا تعتمد على API بعيد.",
+        "en": "A React/Vite interface connects to application services and the Tauri SQL plugin for SQLite, while the Tauri 2/Rust host runs the desktop application and database migrations. The architecture requires core workflows to remain independent of remote APIs."
+      },
+      "gallery": [],
+      "docs": "https://github.com/mghalaosimi-web/abdulmalik-store-management/blob/main/README.md",
+      "evidence": {
+        "ar": [
+          "README.md يحدد حالة Foundation phase — not production-ready.",
+          "package.json وsrc-tauri/Cargo.toml يثبتان React وTypeScript وTauri وRust وSQLite.",
+          "docs/ARCHITECTURE.md وdocs/ROADMAP.md يحددان حدود المعمارية والوظائف المكتملة والمفتوحة.",
+          "سجل الالتزامات يوثق إضافة صور المنتجات وحفظها محلياً والتحقق من معاملات المبيعات وطباعة الإيصالات."
+        ],
+        "en": [
+          "README.md explicitly marks the project as foundation phase and not production-ready.",
+          "package.json and src-tauri/Cargo.toml verify React, TypeScript, Tauri, Rust and SQLite.",
+          "ARCHITECTURE.md and ROADMAP.md define architectural boundaries and completed/open work.",
+          "Commit history records product-image handling, local persistence, sales validation and receipt printing."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "لا توجد لقطات شاشة فعلية منشورة في شجرة المستودع التي تمت مراجعتها؛ الغلاف أعلاه رسم تعريفي فقط.",
+          "إدارة الموردين والمشتريات والمخزون المتقدم والمحاسبة والإصلاحات والصلاحيات ما زالت ضمن خارطة الطريق.",
+          "اختبارات وبناء Windows وقبول التشغيل داخل متجر حقيقي لم تثبت في هذا التدقيق."
+        ],
+        "en": [
+          "No actual application screenshots were found in the inspected repository tree; the cover is illustrative artwork only.",
+          "Suppliers, purchasing, advanced inventory, accounting, repairs and access control remain on the roadmap.",
+          "Windows build, full test acceptance and real-shop operation were not verified in this audit."
+        ]
+      },
+      "operatingSystem": "Windows desktop",
+      "brand": {
+        "logo": "/assets/projects/logos/abdulmalik-store.svg",
+        "primary": "#526B35",
+        "secondary": "#D8E6B4",
+        "accent": "#E6B65B"
+      },
+      "contribution": {
+        "ar": "مطور المستودع وصاحب الالتزامات الحديثة المسجلة باسم MHAMMED AL-AOSIMI؛ سجل العمل يثبت تطوير مسارات المنتجات وصورها والمبيعات المحلية والإيصالات. لا يُعرض المشروع كمنتج مكتمل أو معتمد للإنتاج.",
+        "en": "Repository developer with recent commits recorded under MHAMMED AL-AOSIMI; the history evidences work on products, product images, offline sales and receipts. The project is not presented as complete or production-approved."
+      }
+    },
+    {
+      "id": "abdulmalik-store-pro",
+      "slug": "abdulmalik-store-pro",
+      "title": {
+        "ar": "ABDULMALIK ERP | نظام إدارة متاجر وصيانة الهواتف",
+        "en": "ABDULMALIK ERP | Phone Retail & Repair Management"
+      },
+      "summary": {
+        "ar": "نظام مكتبي محلي لإدارة متاجر بيع وصيانة الهواتف على Windows، يجمع نقاط البيع والمخزون وأجهزة IMEI والإصلاحات والعملاء والتقارير ضمن تطبيق Flutter وSQLite.",
+        "en": "A local Windows desktop ERP for phone retail and repair shops, combining POS, inventory, IMEI-tracked devices, repairs, customers and reporting in a Flutter/SQLite application."
+      },
+      "problem": {
+        "ar": "تتوزع عمليات متجر الهواتف بين المبيعات والمخزون والصيانة والأجهزة ذات الأرقام التسلسلية والعملاء والضمان، ما يجعل تتبع العمليات والمحاسبة اليومية أكثر تعقيداً.",
+        "en": "Phone shops manage sales, inventory, repairs, serialized devices, customers and warranties across disconnected workflows, complicating daily operations and traceability."
+      },
+      "goal": {
+        "ar": "توحيد عمليات المتجر في تطبيق محلي يعمل دون اتصال للعمليات الأساسية، مع سجل بيانات ومعاملات ومراجعة وصيانة قابلة للتتبع.",
+        "en": "Unify store operations in a local application that supports offline core workflows with traceable records, transactions and service history."
+      },
+      "audience": {
+        "ar": "متاجر بيع وصيانة الهواتف والإلكترونيات التي تعمل على جهاز Windows محلي وشبكة متجر موثوقة.",
+        "en": "Phone and electronics retail/repair shops operating a local Windows host and trusted shop network."
+      },
+      "value": {
+        "ar": "تجميع البيع والصيانة والمخزون والملحقات والهواتف بالـIMEI والعملاء والتقارير والنسخ الاحتياطي في واجهة واحدة.",
+        "en": "Brings POS, repairs, inventory, accessories, IMEI-tracked phones, customers, reporting and backup into one application."
+      },
+      "category": {
+        "ar": "أنظمة ERP وإدارة متاجر",
+        "en": "Retail ERP & store management"
+      },
+      "categoryKey": "enterprise",
+      "status": {
+        "ar": "نسخة تطويرية مستقلة — فحوص محلية موثقة؛ تشغيل Windows الإنتاجي غير متحقق",
+        "en": "Independent development snapshot — local checks documented; production Windows operation unverified"
+      },
+      "statusKey": "prototype",
+      "visibility": {
+        "ar": "مستودع عام — حالة الترخيص والحقوق تتطلب مراجعة",
+        "en": "Public repository — licensing and rights status requires review"
+      },
+      "repository": "https://github.com/mghalaosimi-web/ABDULMALIK-STORE-PRO",
+      "relatedRepositories": [
+        "https://github.com/mghalaosimi-web/ABDULMALIK-ERP"
+      ],
+      "cover": "/assets/projects/abdulmalik-store-pro.svg",
+      "coverAlt": {
+        "ar": "غلاف تعريفي لمشروع ABDULMALIK ERP، وليس لقطة شاشة من التطبيق.",
+        "en": "ABDULMALIK ERP project artwork, not an application screenshot."
+      },
+      "technologies": [
+        "Flutter",
+        "Dart 3.13.4",
+        "Riverpod 3.4",
+        "SQLite",
+        "Shelf",
+        "Shelf Router",
+        "PDF & Printing",
+        "Barcode",
+        "Image Picker",
+        "Firebase/Firestore (disabled by default)"
+      ],
+      "features": [
+        {
+          "ar": "نقطة بيع وفواتير ومرتجعات وجلسات درج نقدي ضمن الشيفرة.",
+          "en": "POS, invoices, returns and cash-drawer sessions represented in source."
+        },
+        {
+          "ar": "إدارة مخزون ومنتجات ومشتريات وملصقات باركود واستيراد جداول.",
+          "en": "Inventory, products, purchasing, barcode labels and spreadsheet import."
+        },
+        {
+          "ar": "إدارة هواتف جديدة بأرقام IMEI وسجلات شراء الأجهزة المستعملة.",
+          "en": "New phones tracked by IMEI and used-device purchase records."
+        },
+        {
+          "ar": "تذاكر صيانة ومراحل إصلاح وقطع غيار وضمان وسجل خدمة.",
+          "en": "Repair tickets, repair stages, parts, warranty and service history."
+        },
+        {
+          "ar": "إدارة العملاء والمستخدمين والأدوار وسجل التدقيق والتقارير.",
+          "en": "Customer, user and role management, audit history and reports."
+        },
+        {
+          "ar": "تطبيق محلي بقاعدة SQLite وخدمة HTTP محلية لأجهزة شبكة المتجر.",
+          "en": "Local SQLite application with a local HTTP service for shop-network devices."
+        }
+      ],
+      "architecture": {
+        "ar": "تطبيق Flutter/Dart يعمل على Windows x64، يستخدم Riverpod لإدارة الحالة وSQLite للتخزين المحلي، ويضم Shelf/Shelf Router لخدمة HTTP محلية. يحتفظ المستودع بقاعدة تطوير Firebase معطلة افتراضياً. يتطلب نقل الخدمة إلى شبكة غير موثوقة مراجعة أمنية إضافية.",
+        "en": "A Flutter/Dart Windows x64 application using Riverpod for state management and SQLite for local persistence, with Shelf/Shelf Router for a local HTTP service. The repository retains a Firebase development base that is disabled by default. Exposure beyond a trusted LAN requires further security review."
+      },
+      "gallery": [
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/ABDULMALIK-STORE-PRO/main/source/test_visual/shots/dashboard_desktop.png",
+          "alt": {
+            "ar": "لوحة تحكم ABDULMALIK ERP من لقطات الاختبار البصري بالمستودع.",
+            "en": "ABDULMALIK ERP dashboard from repository visual-test screenshots."
+          },
+          "caption": {
+            "ar": "لوحة التحكم — لقطة فعلية من المستودع.",
+            "en": "Dashboard — actual repository screenshot."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/ABDULMALIK-STORE-PRO/main/source/test_visual/shots/pos_desktop.png",
+          "alt": {
+            "ar": "واجهة نقطة البيع في ABDULMALIK ERP.",
+            "en": "ABDULMALIK ERP point-of-sale interface."
+          },
+          "caption": {
+            "ar": "نقطة البيع — لقطة فعلية من المستودع.",
+            "en": "Point of sale — actual repository screenshot."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/ABDULMALIK-STORE-PRO/main/source/test_visual/shots/products_desktop.png",
+          "alt": {
+            "ar": "إدارة المنتجات والمخزون في ABDULMALIK ERP.",
+            "en": "ABDULMALIK ERP product and inventory interface."
+          },
+          "caption": {
+            "ar": "المنتجات والمخزون — لقطة فعلية من المستودع.",
+            "en": "Products and inventory — actual repository screenshot."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/ABDULMALIK-STORE-PRO/main/source/test_visual/shots/repairs_desktop.png",
+          "alt": {
+            "ar": "واجهة إدارة الصيانة في ABDULMALIK ERP.",
+            "en": "ABDULMALIK ERP repair management interface."
+          },
+          "caption": {
+            "ar": "إدارة الصيانة — لقطة فعلية من المستودع.",
+            "en": "Repair management — actual repository screenshot."
+          }
+        }
+      ],
+      "docs": "https://github.com/mghalaosimi-web/ABDULMALIK-STORE-PRO/blob/main/README.md",
+      "evidence": {
+        "ar": [
+          "README.md وARCHITECTURE.md وROADMAP.md توثق الوحدات وحدود الإصدار.",
+          "source/pubspec.yaml يثبت Flutter/Dart وRiverpod وSQLite ومكتبات PDF والطباعة والباركود.",
+          "source/test_visual/shots يحتوي لقطات فعلية للوحة التحكم ونقطة البيع والمنتجات والصيانة.",
+          "MIGRATION_REPORT.md يسجل flutter analyze دون أخطاء و86 اختبار Flutter ناجحاً في بيئة التحضير؛ لم ينفذ بناء Windows أو اختبار قبول حي."
+        ],
+        "en": [
+          "README.md, ARCHITECTURE.md and ROADMAP.md document modules and release boundaries.",
+          "source/pubspec.yaml verifies Flutter/Dart, Riverpod, SQLite, PDF/printing and barcode dependencies.",
+          "source/test_visual/shots contains actual dashboard, POS, products and repair screenshots.",
+          "MIGRATION_REPORT.md records a clean flutter analyze and 86 passing Flutter tests in the preparation environment; Windows build and live acceptance were not run."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "PROVENANCE.md يذكر أن النسخة مستوردة من ABDULMALIK-ERP عند commit 7b3489d، وسجل المصدر يضم 236 التزاماً باسم MHAMMED AL-AOSIMI و8 التزامات لمساهمين آخرين؛ لا يُدعى التأليف الفردي الكامل.",
+          "LICENSE_STATUS.md يوضح عدم وجود LICENSE أو NOTICE في المصدر المفحوص، وأن إذن التكييف لم يكن مرفقاً؛ لا يجوز استنتاج حق إعادة التوزيع أو الترخيص من غياب الملف.",
+          "إشعار Copyright الأصلي FixTrack محفوظ في مورد Windows ولم يُحذف؛ يلزم التحقق من الحقوق المكتوبة قبل التوزيع التجاري أو تغيير الإسناد.",
+          "Android تجريبي وغير معلن جاهزاً للإنتاج، وFirebase معطل افتراضياً، ونقل الخدمة المحلية خارج LAN موثوق يحتاج مراجعة أمنية."
+        ],
+        "en": [
+          "PROVENANCE.md records an import from ABDULMALIK-ERP at commit 7b3489d; the source history contains 236 commits under MHAMMED AL-AOSIMI and 8 commits from other contributors. Sole authorship is not claimed.",
+          "LICENSE_STATUS.md records no LICENSE or NOTICE in the inspected source and says the written single-shop permission was not included; redistribution or licensing rights must not be inferred.",
+          "The original FixTrack copyright notice remains in the Windows resource; written rights must be verified before commercial distribution or attribution changes.",
+          "Android is experimental and not production-ready, Firebase is disabled by default, and exposing the local service beyond a trusted LAN requires security review."
+        ]
+      },
+      "operatingSystem": "Windows x64; Android experimental",
+      "brand": {
+        "logo": "/assets/projects/logos/abdulmalik-store-pro.svg",
+        "primary": "#1D5A8A",
+        "secondary": "#B6D5F5",
+        "accent": "#D99A54"
+      },
+      "contribution": {
+        "ar": "تاريخ المصدر يثبت 236 التزاماً باسم MHAMMED AL-AOSIMI إلى جانب مساهمات مطورين آخرين. شملت الأعمال تجهيز مستودع مستقل وتوثيقاً وصيانة واختبارات؛ لا تُنسب ملكية الشيفرة الأصلية أو حقوقها حصرياً إلى صاحب المحفظة.",
+        "en": "The source history records 236 commits under MHAMMED AL-AOSIMI alongside contributions from other developers. Work included independent repository preparation, documentation, maintenance and testing; original source authorship and rights are not claimed exclusively."
+      }
+    },
+    {
+      "id": "debwan-live",
+      "slug": "debwan-live",
+      "title": {
+        "ar": "Debwan Live | ديوان لايف",
+        "en": "Debwan Live"
+      },
+      "summary": {
+        "ar": "توزيعة مستقلة لمنصة بث تلفزيوني ومكتبة فيديو حسب الطلب، تجمع واجهة ويب وتطبيق Android وخدمات Go للبث وإدارة القنوات والمحتوى.",
+        "en": "An independent distribution of a live-TV and video-on-demand platform combining a web interface, Android client and Go services for streaming, channels and media management."
+      },
+      "problem": {
+        "ar": "تحتاج بيئات الوسائط الذاتية الاستضافة إلى إدارة القنوات والبث المباشر ومكتبات الفيديو والدليل البرامجي والمستخدمين من منصة موحدة.",
+        "en": "Self-hosted media environments need unified management of live channels, streaming, video libraries, program guides and users."
+      },
+      "goal": {
+        "ar": "صيانة وتوسيع توزيعة مشتقة من TIVIFY مع الحفاظ على إشعارات المصدر وترخيص MIT وإضافة تحسينات تشغيلية وأمنية وميزات موثقة.",
+        "en": "Maintain and extend a derivative TIVIFY distribution while preserving upstream attribution and MIT notices and adding documented operational, security and product changes."
+      },
+      "audience": {
+        "ar": "مشغلو خوادم الوسائط الذاتية الاستضافة والمستخدمون المصرح لهم بمصادر البث والمحتوى.",
+        "en": "Operators of self-hosted media servers and users with authorized streaming and content sources."
+      },
+      "value": {
+        "ar": "تجميع إدارة Live TV وVOD والمسلسلات وEPG والمستخدمين وتطبيق Android وواجهات Xtream Codes ضمن نشر ذاتي الاستضافة.",
+        "en": "Combines Live TV, VOD, series, EPG, user management, an Android client and Xtream Codes-compatible APIs in a self-hosted deployment."
+      },
+      "category": {
+        "ar": "منصات بث وتطبيقات متعددة المنصات",
+        "en": "Streaming & cross-platform applications"
+      },
+      "categoryKey": "web",
+      "status": {
+        "ar": "تطوير وصيانة نشطان — توزيعة مشتقة",
+        "en": "Active maintenance and development — derivative distribution"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام مع ترخيص MIT وإسناد المصدر",
+        "en": "Public repository with MIT license and upstream attribution"
+      },
+      "repository": "https://github.com/mghalaosimi-web/debwan-live",
+      "relatedRepositories": [
+        "https://github.com/AntonioVVilla/tivify"
+      ],
+      "cover": "/assets/projects/debwan-live.svg",
+      "coverAlt": {
+        "ar": "غلاف تعريفي لـ Debwan Live، وليس لقطة شاشة من واجهة التطبيق.",
+        "en": "Debwan Live project artwork, not an application screenshot."
+      },
+      "technologies": [
+        "Go 1.22",
+        "Fiber v2",
+        "GORM",
+        "PostgreSQL 16",
+        "Redis 7",
+        "Next.js 14.2.15",
+        "React 18.3",
+        "Kotlin 2.0",
+        "Jetpack Compose",
+        "ExoPlayer",
+        "FFmpeg",
+        "Docker Compose",
+        "Nginx",
+        "Tailscale"
+      ],
+      "features": [
+        {
+          "ar": "إدارة قنوات IPTV والبث بصيغ HLS وRTMP وMPEG-TS مع مصادر احتياطية.",
+          "en": "Manage IPTV channels and HLS, RTMP and MPEG-TS streams with fallback sources."
+        },
+        {
+          "ar": "مكتبة VOD مع رفع الملفات والتحويل إلى HLS وتتبع التقدم وإثراء TMDB.",
+          "en": "VOD library with uploads, HLS transcoding, progress tracking and TMDB enrichment."
+        },
+        {
+          "ar": "مسلسلات ومواسم وحلقات ودليل برامج EPG بصيغة XMLTV.",
+          "en": "Series, seasons, episodes and XMLTV-based EPG."
+        },
+        {
+          "ar": "إدارة مستخدمين وأدوار وسجل مشاهدة ومفضلة ومصادقة JWT.",
+          "en": "User roles, watch history, favorites and JWT authentication."
+        },
+        {
+          "ar": "تطبيق Android أصلي باستخدام Kotlin وJetpack Compose وExoPlayer.",
+          "en": "Native Android client using Kotlin, Jetpack Compose and ExoPlayer."
+        },
+        {
+          "ar": "واجهات Xtream Codes متوافقة وإدارة مكتبة الوسائط عبر لوحة تحكم.",
+          "en": "Xtream Codes-compatible endpoints and media-library administration."
+        }
+      ],
+      "architecture": {
+        "ar": "Backend مبني بـ Go/Fiber وGORM، وقاعدة PostgreSQL مع Redis، وواجهة Next.js/React، وتطبيق Android أصلي، مع FFmpeg لمعالجة الوسائط وNginx وDocker Compose للتشغيل. المستودع يحتفظ ببنية TIVIFY الأصلية وإسنادها.",
+        "en": "A Go/Fiber and GORM backend with PostgreSQL and Redis, a Next.js/React web frontend, native Android application, FFmpeg media processing, and Nginx/Docker Compose deployment. The repository retains TIVIFY's upstream structure and attribution."
+      },
+      "gallery": [],
+      "docs": "https://github.com/mghalaosimi-web/debwan-live/blob/main/README.md",
+      "evidence": {
+        "ar": [
+          "README.md يوثق الميزات والبنية التقنية وتطبيق Android وواجهات API.",
+          "frontend/package.json وbackend/go.mod وandroid/app/build.gradle.kts تثبت تقنيات الويب وGo وAndroid.",
+          "سجل الالتزامات يتضمن تحسينات أمنية لحجب بيانات اعتماد البث وتحسينات Football Hub واختبارات المسارات.",
+          "README وLICENSE يحددان المشروع كتوزيعة مشتقة من TIVIFY بترخيص MIT مع الحفاظ على إشعار المصدر."
+        ],
+        "en": [
+          "README.md documents product capabilities, architecture, Android client and APIs.",
+          "frontend/package.json, backend/go.mod and android/app/build.gradle.kts verify the web, Go and Android stacks.",
+          "Commit history records stream-credential redaction, Football Hub improvements and route-security tests.",
+          "README and LICENSE identify the project as a derivative TIVIFY distribution under MIT with upstream notice preserved."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "المشروع عمل مشتق من TIVIFY بواسطة AntonioVVilla؛ لا يُنسب تطوير المنصة الأصلية بالكامل إلى M.GH.AL.",
+          "لا توجد لقطات واجهة تطبيق فعلية ضمن شجرة الملفات التي تمت مراجعتها في هذا التدقيق؛ الغلاف Artwork توضيحي.",
+          "يجب إعداد مصادر القنوات والمحتوى من مصادر يملك المستخدم حق الوصول إليها وتوزيعها؛ لا يتضمن المستودع اشتراكات أو قوائم بث مدفوعة.",
+          "هذا المشروع مستقل عن موقع M.GH.AL ولا تُستخدم موارده التشغيلية في تطوير الموقع."
+        ],
+        "en": [
+          "This is a derivative work based on TIVIFY by AntonioVVilla; the original platform is not attributed entirely to M.GH.AL.",
+          "No actual application screenshots were found in the inspected repository tree during this audit; the cover is illustrative artwork.",
+          "Channels and media must come from sources the operator is authorized to access and distribute; no paid subscriptions or playlists are bundled.",
+          "This project is independent of the M.GH.AL website and its operational resources are not used by the portfolio."
+        ]
+      },
+      "operatingSystem": "Linux/Docker server; Android client; web browser",
+      "brand": {
+        "logo": "/assets/projects/logos/debwan-live.svg",
+        "primary": "#51408F",
+        "secondary": "#B9B1FF",
+        "accent": "#F1B85C"
+      },
+      "contribution": {
+        "ar": "صيانة وتطوير توزيعة مشتقة؛ سجل GitHub يوثق مساهمات مباشرة في تقوية الأمان وإخفاء بيانات اعتماد البث وتحسين Football Hub والاختبارات. لا تُنسب الشيفرة الأصلية لمنصة TIVIFY إلى المطور.",
+        "en": "Maintainer and contributor to a derivative distribution; GitHub history documents security hardening, stream-credential redaction, Football Hub improvements and tests. Original TIVIFY source code is not claimed as authored by this developer."
       }
     }
   ]
