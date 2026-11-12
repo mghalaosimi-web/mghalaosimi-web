@@ -9,16 +9,20 @@ import {
 import './projects.css';
 
 const filters:{id:'all'|ProjectCategory;label:string}[]=[
-  {id:'all',label:'جميع المشاريع'},
-  {id:'cyber-defense',label:'الأمن والتشفير'},
-  {id:'software',label:'هندسة البرمجيات'},
-  {id:'academic',label:'الأكاديمية والتعاونية'}
+  {id:'all',label:'جميع المشاريع'},{id:'web',label:'منصات الويب'},
+  {id:'enterprise',label:'الأنظمة المؤسسية'},{id:'ai',label:'الذكاء الاصطناعي'},
+  {id:'cybersecurity',label:'الأمن السيبراني والتشفير'},{id:'academic',label:'المشاريع الأكاديمية'},
+  {id:'mobile',label:'تطبيقات الجوال'},{id:'desktop',label:'تطبيقات سطح المكتب'}
 ];
 
 const categoryMeta={
-  'cyber-defense':{label:'SECURITY & CRYPTOGRAPHY',name:'الأمن والتشفير',Icon:ShieldCheck},
-  software:{label:'SOFTWARE ENGINEERING',name:'هندسة البرمجيات',Icon:Code2},
-  academic:{label:'ACADEMIC / COLLABORATIVE',name:'أكاديمي وتعاوني',Icon:GraduationCap}
+  web:{label:'WEB PLATFORMS',name:'منصات الويب',Icon:Layers3},
+  enterprise:{label:'ENTERPRISE SYSTEMS',name:'الأنظمة المؤسسية',Icon:Database},
+  ai:{label:'ARTIFICIAL INTELLIGENCE',name:'الذكاء الاصطناعي',Icon:Sparkles},
+  cybersecurity:{label:'CYBERSECURITY',name:'الأمن السيبراني والتشفير',Icon:ShieldCheck},
+  academic:{label:'ACADEMIC SYSTEMS',name:'المشاريع الأكاديمية',Icon:GraduationCap},
+  mobile:{label:'MOBILE APPLICATIONS',name:'تطبيقات الجوال',Icon:MapPin},
+  desktop:{label:'DESKTOP SOFTWARE',name:'تطبيقات سطح المكتب',Icon:Code2}
 };
 
 export default function ProjectsPage(){
@@ -115,15 +119,15 @@ export default function ProjectsPage(){
         {visible.map((p,i)=>{
           const meta=categoryMeta[p.category];
           const Icon=meta.Icon;
-          return <button type="button" className="portfolio-project-card" onClick={()=>setSelectedProject(p)} key={p.slug} aria-haspopup="dialog" aria-label={'عرض تفاصيل '+p.name}>
-            <div className="portfolio-project-card-top"><span className="portfolio-project-icon"><Icon size={19}/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div>
+          return <Link href={'/projects/'+p.slug} className="portfolio-project-card" key={p.slug} aria-label={'عرض تفاصيل '+p.name} style={{'--project-primary':p.brand.primary} as React.CSSProperties}>
+            <div className="portfolio-project-card-top"><span className="portfolio-project-icon"><img src={p.brand.logo} alt="" loading="lazy"/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div>
             <div className="portfolio-project-status"><i/>{p.status}</div>
             <h3>{p.name}</h3>
             <b className="portfolio-project-label">{p.label}</b>
             <p>{p.summary}</p>
             <div className="portfolio-project-stack">{p.stack.slice(0,4).map(x=><span key={x}>{x}</span>)}</div>
             <div className="portfolio-project-bottom"><span>{p.repository?'REPOSITORY LINKED':'PROJECT PROFILE'}</span><strong>التفاصيل <ArrowUpLeft size={15}/></strong></div>
-          </button>;
+          </Link>;
         })}
       </div>
       {visible.length===0&&<div className="portfolio-archive-empty">لا توجد مشاريع ضمن هذا التصنيف حاليًا.</div>}
