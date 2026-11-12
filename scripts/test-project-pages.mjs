@@ -46,7 +46,7 @@ assert.match(detail,/resolveProject/,"Project detail route must resolve database
 assert.ok(detail.includes("contentSource"),"Database-managed details must respect publication state.");
 assert.ok(existsSync(defaultLogo),"Admin-created records need a neutral brand mark.");
 assert.equal(catalog.projects.filter(p=>p.contentSource==="database").length,10,"The ten original projects remain managed by the database publication set.");
-assert.equal(catalog.projects.filter(p=>p.contentSource==="catalog").length,3,"Three additional verified projects remain Git-curated.");
+assert.equal(catalog.projects.filter(p=>p.contentSource==="catalog").length,5,"Five additional curated projects remain Git-managed, including the newly documented CryptoLab-X and AL-NASR entries.");
 const sitemap=readFileSync(path.join(root,"app/sitemap.ts"),"utf8");
 assert.match(sitemap,/catalog\.projects/,"Sitemap must generate project URLs from the canonical catalogue.");
 assert.match(sitemap,/alternates:\{languages:/,"Sitemap must expose bilingual alternates.");
