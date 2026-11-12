@@ -662,3 +662,47 @@ button,.portfolio-project-card,.mghal-card,.content-panel{transition:background-
  html{scroll-behavior:auto!important}
  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+
+/* Light visual treatment for project archive and project profiles. */
+.portfolio-archive-hero,.portfolio-featured-project,.portfolio-project-card,.project-detail-hero,.project-detail-cover,.project-detail-gallery figure{
+ background:var(--mghal-color-surface)!important;
+ border-color:var(--mghal-color-border)!important;
+ box-shadow:var(--mghal-shadow)!important;
+}
+.portfolio-archive-hero{background:linear-gradient(125deg,#fff,var(--mghal-color-surface-raised))!important}
+.portfolio-archive-hero h1,.portfolio-archive-section-heading h2,.portfolio-project-card h3,.project-detail-brand h1,.project-detail-section h2{color:var(--mghal-color-navy)!important}
+.portfolio-archive-hero h1 em,.portfolio-project-open,.project-detail-breadcrumb a,.project-detail-footer a{color:var(--mghal-color-blue)!important}
+.portfolio-archive-hero-copy>p,.portfolio-archive-section-heading p,.portfolio-project-card>p,.project-detail-brand p,.project-detail-section p,.project-detail-feature-list,.project-detail-evidence{color:var(--mghal-color-muted)!important}
+.portfolio-archive-eyebrow,.portfolio-project-label,.project-detail-kicker,.project-detail-section-heading>span{color:var(--mghal-brand-gold-ink,#806333)!important}
+.portfolio-archive-metrics>div,.portfolio-archive-filters,.portfolio-project-icon,.portfolio-project-stack span,.project-detail-meta span,.project-detail-tags span{
+ background:var(--mghal-color-surface-raised)!important;border-color:var(--mghal-color-border)!important;
+}
+.portfolio-archive-metrics strong{color:var(--mghal-color-navy)!important}
+.portfolio-archive-metrics small,.portfolio-project-number,.portfolio-project-bottom>span{color:var(--mghal-color-muted)!important}
+.portfolio-archive-metric-icon{background:var(--mghal-color-surface-raised)!important;border-color:var(--mghal-color-border)!important;color:var(--mghal-color-blue)!important}
+.portfolio-archive-filters button{color:var(--mghal-color-muted)!important}
+.portfolio-archive-filters button.selected{background:var(--mghal-color-hover)!important;border-color:var(--mghal-color-border-strong)!important;color:var(--mghal-color-navy)!important}
+.portfolio-project-card:hover{background:#fff!important;border-color:var(--mghal-color-border-strong)!important;transform:translateY(-3px)}
+.portfolio-project-icon img{width:100%;height:100%;object-fit:contain;padding:3px}
+.portfolio-project-stack span{color:var(--mghal-color-blue)!important}
+.portfolio-project-bottom{border-top-color:var(--mghal-color-border)!important}
+.portfolio-project-bottom strong{color:var(--mghal-color-blue)!important}
+.portfolio-featured-visual{background:linear-gradient(145deg,var(--mghal-color-surface-raised),var(--mghal-color-surface))!important}
+.portfolio-featured-visual-grid{opacity:.18!important}
+.portfolio-featured-orbit{border-color:var(--mghal-color-border-strong)!important}
+.portfolio-featured-shield{background:linear-gradient(145deg,#fff,var(--mghal-color-surface-raised))!important;border-color:var(--mghal-color-border-strong)!important;color:var(--mghal-color-blue)!important}
+.portfolio-featured-shield span,.portfolio-featured-copy h2{color:var(--mghal-color-navy)!important}
+.portfolio-featured-shield small,.portfolio-featured-overline{color:var(--mghal-brand-gold-ink,#806333)!important}
+.portfolio-featured-copy h3,.portfolio-featured-copy>p,.portfolio-featured-footer>span b{color:var(--mghal-color-muted)!important}
+.portfolio-featured-tags span,.portfolio-project-stack span{background:var(--mghal-color-surface-raised)!important;border-color:var(--mghal-color-border)!important}
+.portfolio-featured-footer{border-top-color:var(--mghal-color-border)!important}
+.portfolio-featured-footer>a,.portfolio-featured-footer>button{background:var(--mghal-color-hover)!important;border-color:var(--mghal-color-border)!important;color:var(--mghal-color-blue)!important}
+.project-detail-hero{background:linear-gradient(135deg,#fff,var(--mghal-color-surface-raised))!important}
+.project-detail-brand h1{color:var(--mghal-color-navy)!important}
+.project-detail-meta span,.project-detail-tags span{color:var(--mghal-color-blue)!important}
+.project-detail-actions a{background:var(--mghal-color-hover)!important;border-color:var(--mghal-color-border)!important;color:var(--mghal-color-blue)!important}
+.project-detail-section{border-bottom-color:var(--mghal-color-border)!important}
+.project-detail-gallery img{background:var(--mghal-color-surface-raised)!important}
+.project-detail-disclaimer{background:var(--mghal-color-surface-raised)!important}
+@media(max-width:650px){.portfolio-featured-project{grid-template-columns:1fr!important}.portfolio-featured-visual{min-height:260px!important}}
