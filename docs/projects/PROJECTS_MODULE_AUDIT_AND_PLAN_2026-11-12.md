@@ -85,7 +85,7 @@ The project work must preserve the existing generated static routes and their cu
 - Project covers, gallery images and alt text are valid and accessible.
 - Detail routes work for all catalogue slugs; unknown slugs return 404.
 - SEO metadata, canonical URLs, language alternates, structured data and sitemap remain correct.
-- Existing static project pages and generator tests continue to pass until migration is explicitly approved.
+- Public project pages are served through Next.js React routes; legacy .html URLs permanently redirect to canonical routes, and no public static HTML pages remain.
 - No production domain, deployment, database, secret, Render resource, D1 resource, or unrelated project is modified.
 
 ## 6. Current branch status
@@ -95,7 +95,7 @@ This audit documents the starting point only. It does not claim that the catalog
 
 ## 7. Implementation progress — 2026-11-12
 
-The following changes have been committed to `feature/projects-catalog` after the initial audit:
+The following changes have been committed to `feature/projects-catalog` after the initial audit. The catalogue now contains the ten original projects plus three additional verified entries:
 
 - Added a bilingual project brand definition to every existing catalogue record: a dedicated SVG logo path and distinct primary/secondary/accent colors.
 - Added explicit bilingual contribution statements. Collaborative work, private work, and projects with insufficient public implementation evidence are not presented as sole-authored or production-ready.
@@ -104,13 +104,13 @@ The following changes have been committed to `feature/projects-catalog` after th
 - Updated Arabic and English project explorers to use the expanded categories, per-project brand marks, and independent project-profile links.
 - Replaced the hard-coded detail-page array with a bilingual detail view sourced from the rich catalogue. The page includes overview, problem, goal, audience, value, documented features, technology stack, architecture, contribution, gallery, evidence, and verification notes.
 - Added project-page tests for logo existence, valid and distinct primary brand colors, bilingual contribution statements, supported categories, and canonical data-source usage.
-- Added the ten initial project brand marks under `public/assets/projects/logos/`.
+- Added dedicated SVG brand marks for all 13 published catalogue projects under `public/assets/projects/logos/`.
 
 ### Verification and deployment state
 
-- The first Vercel build exposed a design-audit failure caused by hard-coded color literals in the project stylesheet; those literals were replaced with shared M.GH.AL design tokens.
+- The first build exposed a design-audit failure caused by hard-coded color literals in the project stylesheet; those literals were replaced with shared M.GH.AL design tokens.
 - A subsequent build exposed an incorrect relative import for the shared project stylesheet; the import was corrected.
-- A later deployment attempt was blocked by Vercel's build rate limit (retry window reported as 24 hours). Therefore the latest branch head has **not** received a successful full Vercel build in this work session.
+- GitHub Actions completed the full quality workflow successfully on commit 5dd4f631c4890290335025cef4a5ba45f481144e: dependency audits, credential/profile/design/HTML/PWA audits, API tests, SEO/sitemap/project/admin/navigation tests, ESLint, TypeScript typecheck, and next build all passed. This is CI verification, not a Vercel deployment.
 - No production deployment, merge, PR merge, database change, secret change, Render change, or deletion was performed.
 - The latest verified branch head at the time of this progress note is recorded in the branch history; inspect the live branch head before making subsequent edits.
 
@@ -121,17 +121,34 @@ The organization inventory contains additional repositories that should be asses
 1. `abdulmalik-store-management`: active foundation-stage project with React, TypeScript, Vite, Tauri 2, Rust and SQLite. Repository history includes user-authored implementation commits for product records, local product images, offline POS/sales validation and printable receipts. Its README explicitly states that it is not production-ready. No screenshot assets were found in its repository tree.
 2. `mghal-digital-os`: active Next.js 16 / React 19 / TypeScript application using Prisma, PostgreSQL and Upstash Redis. Its README documents implemented workspace/project/task/knowledge/content CRUD, owner authentication, audit events, an editorial calendar and AI draft generation. AI does not publish automatically; multi-user authorization, workers and social publishing are not complete. No screenshot assets were found in its repository tree.
 3. `debwan-live`: an independent product distribution derived from TIVIFY under the preserved MIT attribution. The user's repository history documents subsequent modifications including security hardening, football-hub work and release/CI changes. Any portfolio entry must explicitly identify it as derivative work and must not claim sole authorship of the upstream platform. The repository contains a real product logo but no application screenshot assets in the inspected tree.
-4. `ABDULMALIK-STORE-PRO`: a separately prepared repository containing a source snapshot from `ABDULMALIK-ERP`. Its `PROVENANCE.md` records 236 upstream commits under the MHAMMED AL-AOSIMI identity, plus commits from other contributors, and explicitly warns that repository rebranding is not proof of a rights transfer. The inspected source snapshot had no root open-source license, and the written single-shop permission referenced by its README was not included. If shown, it must be described with precise source attribution and legal-status caveats; do not imply an independent clean-room implementation.
+4. `ABDULMALIK-STORE-PRO`: explicitly excluded from the public catalogue pending written rights and licensing evidence. Its PROVENANCE.md records 236 upstream commits under the MHAMMED AL-AOSIMI identity plus commits from other contributors; the inspected snapshot had no root open-source license, and the written single-shop permission referenced by its README was not included. Repository rebranding does not establish a rights transfer. Its catalogue entry and artwork were removed; do not restore it until rights are verified.
 5. `ABDULMALIK-ERP`: related upstream/source repository for the Store Pro snapshot. Its history includes other contributors; do not represent the complete product as solely authored by the portfolio owner.
 6. `mghal-digital-automation`: README and recent commit history identify it as the upstream Postiz codebase; it should not be represented as an original M.GH.AL product. M.GH.AL Content OS and MGHAL Digital OS are separate projects and should remain distinct.
 7. `ramzei.ERP`: repository was empty in the inspected inventory; do not create a portfolio entry without source evidence.
 
 Before adding these candidates, inspect their repository trees, exact screenshot paths, relevant manifests and commit attribution. A missing screenshot must be stated honestly; do not substitute illustrative cover artwork and label it as an application screenshot.
 
-### Remaining work
+### Remaining work — updated after the successful CI build
 
-1. Confirm the corrected detail route builds after the Vercel rate limit clears; inspect any new build errors rather than assuming success.
-2. Confirm whether generated public HTML project pages shadow the new Next.js detail route. Keep generated Arabic/English static pages, sitemap and canonical/alternate URLs consistent.
-3. Finish parity between the catalogue, generated pages and Next.js explorer without reintroducing duplicate project data.
-4. Add the verified repository candidates above with individual bilingual descriptions, evidence-backed technology lists, truthful contribution attribution, project-specific logos/colors and real screenshots where available.
-5. Run the complete project-page tests, typecheck, design audit and production build before requesting review. Do not merge or deploy Production without the owner's separate approval.
+1. Verify the current branch head and retain the successful GitHub Actions result after the latest documentation-only update.
+2. Complete a browser-level visual and interaction review of Arabic/English routes, mobile navigation, project detail pages, admin login/bootstrap states, and offline behavior. CI currently verifies source/build contracts, not full cross-device visual acceptance.
+3. Resolve the public-content source-of-truth boundary: the project explorer and detail pages currently use the checked-in bilingual catalogue; the admin API can edit database-backed records. Define and implement a safe publication/synchronization path so approved admin edits appear publicly without allowing an empty/unconfigured database to erase the curated catalogue.
+4. Review whether certificates, education, skills and achievements should be published from the database or remain Git-managed. Do not leave the admin UI implying that a database edit changes a public page when the page is still statically driven.
+5. Continue source verification for any future portfolio additions. Keep mghal-digital-automation, empty ramzei.ERP, ABDULMALIK-ERP, and ABDULMALIK-STORE-PRO excluded unless new provenance, source evidence and rights support a public entry.
+6. Do not merge, deploy Production, change production secrets, apply Neon migrations, or modify Render/other project resources without the owner's separate approval.
+
+### 8. React / Next.js migration — 2026-11-12
+
+- Removed every public .html file from the repository. The Next.js App Router now owns the home, profile, projects, credentials, education, achievements, knowledge, résumé, contact, admin, and offline surfaces.
+- Added permanent redirects in next.config.ts for the old public .html paths so existing inbound links resolve to their modern route equivalents.
+- Converted the administration and offline fallback surfaces to React/Next.js routes; removed the old public/admin/index.html, admin JavaScript/CSS bundle, and public/offline.html.
+- Removed ten orphaned legacy DOM scripts that only enhanced the retired static pages: accessibility.js, article-feed.js, article-page.js, database-content.js, home.js, project-cards.js, project-listing.js, projects.js, section-rail.js, and site.js.
+- The remaining public JavaScript assets are limited to the active visitor-tracking module, social-engagement module, and the PWA service worker. These remain JavaScript runtime modules; the page UI and route composition are implemented in React/TypeScript.
+- Updated PWA routing and tests to use the React /offline route, and added a regression audit that rejects reintroduced public HTML and retired DOM scripts.
+- Replaced outdated admin/engagement/navigation assertions that still depended on deleted static HTML with assertions against the current React route tree and typed catalogue.
+- Removed the unreachable project-detail modal from both project explorers. Every project card and the featured WAYNAH call-to-action now navigates directly to its dedicated bilingual detail route.
+- Expanded the catalogue from ten to thirteen projects by adding mghal-digital-os, abdulmalik-store-management, and debwan-live, with truthful contribution/provenance notes. The two academic scheduling repositories remain distinct.
+- Excluded abdulmalik-store-pro from the public catalogue and removed its logo/cover assets until written redistribution/licensing rights are verified.
+- Confirmed from the Git tree that no .html files remain and only the three active public JavaScript assets listed above remain.
+- Successful full GitHub Actions workflow: https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/43277988189, commit 5dd4f631c4890290335025cef4a5ba45f481144e.
+- This branch remains unmerged and undeployed. The production domain, Neon production schema/data, environment secrets, Render services, and unrelated projects were not changed.
