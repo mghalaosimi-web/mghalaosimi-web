@@ -15,8 +15,8 @@ assert.match(config, /async headers\(\)/, 'Next.js must expose a response-header
 assert.match(config, /source:\s*'\/:path\*'/, 'Security headers must cover every route and static asset.');
 
 for (const [name, value] of Object.entries(requiredHeaders)) {
-  assert.ok(config.includes("key: '" + name + "'"), 'Missing security header: ' + name);
-  assert.ok(config.includes("value: '" + value + "'"), 'Incorrect security-header value: ' + name);
+  assert.ok(new RegExp("key:\\s*['\"]" + name + "['\"]").test(config), 'Missing security header: ' + name);
+  assert.ok(new RegExp("value:\\s*['\"]" + value.replace(/[.*+?^${}()|[\]\\]/g, "\\assert.ok(config.includes("value: '" + value + "'"), 'Incorrect security-header value: ' + name);") + "['\"]").test(config), 'Incorrect security-header value: ' + name);
 }
 
 console.log('Security-header tests passed: HSTS, MIME sniffing protection, clickjacking protection, referrer policy, and restricted browser capabilities.');
