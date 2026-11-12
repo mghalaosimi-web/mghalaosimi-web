@@ -95,3 +95,30 @@ The following records currently have no confidently matched PDF in the uploaded 
 Certificate cards use lazy-loaded images. Local previews are served through Next.js image optimization at quality 75; remote Credly badge and the WS05 preview are loaded unoptimized from their source URLs. This keeps local full-size certificate screenshots out of the initial eager-loading path.
 
 The JSNAD preview association is based on the credential owner's explicit confirmation. Its verification link opens the public Credly record for the exact badge and shows The Linux Foundation as issuer; this link is a source record, not a claim that a separate manual verification query has been completed. The update is on the working feature branch only. It has not been merged or deployed to Production. Other unresolved assets remain unassigned rather than guessed.
+
+
+## Publication reconciliation — 2026-11-13
+
+This section supersedes the earlier publication-status statements in this report.
+
+### Current repository and live-site state
+
+- The immutable asset upload commit `f71427766ef253271121310e5069e7744e9faa52` is an ancestor of the current `main` branch; the certificate inbox assets and the credential-page implementation are present in `main`.
+- `app/credentials/page.tsx` contains 26 records: 14 Cisco, 6 Edraak, 1 OpenJS JSNAD, and 5 EMC Shiraa workshops.
+- The official Production route `https://mghalaosimi-web.vercel.app/credentials` returned HTTP 200 on 2026-11-13, and its rendered HTML reported all 26 records.
+- The JSNAD preview `1785613862401.png` remains linked to the JSNAD record, based on the credential owner's explicit confirmation. Its verification action points to the exact public Credly badge record.
+- All 14 Cisco records have a visual asset. The three newest Cisco records (Data Science Essentials With Python, Endpoint Security, and IT Support Specialist Career Path) each have their matched certificate preview and selected original PDF linked.
+
+### Remaining evidence gaps
+
+- No confidently matched PDF is available for Communications Skills (Edraak), UX Research (Edraak), Operating Systems Support (Cisco), English for IT 1 (Cisco), or JSNAD. Do not invent a PDF or replace the JSNAD image with an unrelated file.
+- The three newest Cisco records do not yet have individually matched holder-specific Credly badge URLs in the current source. Their action therefore opens the owner's public Credly profile, not an individual badge record. The UI label now says “Credly profile” for these fallback links and reserves “Credly badge” for records with an individual badge URL.
+- The Edraak verification references remain attached to the six records in the current page; the record-level mapping is based on the existing source data. Do not reorder these references without fresh issuer-side evidence.
+
+### Asset publication and performance
+
+- Certificate preview images are lazy-loaded. Local images use Next.js image optimization at quality 75; remote badge art and the WS05 preview remain unoptimized at their source.
+- Original PDFs are opened only when a visitor selects the PDF action; they are not loaded as page previews.
+- Duplicate and alternate source files listed above remain unassigned. No credential count was inflated by duplicates.
+
+No Production database, migration, environment secret, DNS, or hosting configuration was changed as part of this reconciliation.
