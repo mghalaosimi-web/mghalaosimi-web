@@ -5,7 +5,7 @@ import {cookies} from 'next/headers';
 import {notFound} from 'next/navigation';
 import catalog from '../../../public/assets/projects/catalog.json';
 import '../../mghal-portfolio.css';
-import './projects.css';
+import '../projects.css';
 import {localizedAlternates} from '../../../lib/seo';
 
 type Locale='ar'|'en';
