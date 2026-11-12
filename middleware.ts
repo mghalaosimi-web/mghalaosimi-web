@@ -3,7 +3,7 @@ import {NextRequest,NextResponse} from 'next/server';
 export function middleware(request:NextRequest){
   const requestHeaders=new Headers(request.headers);
   const cookieHeader=requestHeaders.get('cookie')??'';
-  const withoutLocale=cookieHeader.replace(/(?:^|;\\s*)portfolio-locale=(?:ar|en)(?=;|$)/g,'').replace(/^;\\s*|;\\s*$/g,'');
+  const withoutLocale=cookieHeader.replace(/(?:^|;\s*)portfolio-locale=(?:ar|en)(?=;|$)/g,'').replace(/^;\s*|;\s*$/g,'');
   requestHeaders.set('cookie',[withoutLocale,'portfolio-locale=en'].filter(Boolean).join('; '));
   const response=NextResponse.next({request:{headers:requestHeaders}});
   response.cookies.set('portfolio-locale','en',{
