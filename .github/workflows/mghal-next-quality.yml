@@ -1,9 +1,9 @@
 name: M.GH.AL Next.js quality checks
 on:
   pull_request:
-    branches: [main, feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
+    branches: [main, feature/projects-catalog, feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
   push:
-    branches: [feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
+    branches: [feature/projects-catalog, feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
 permissions:
   contents: read
 jobs:
@@ -30,6 +30,7 @@ jobs:
       - run: npm run test:certificates
       - run: npm run audit:profile
       - run: npm run audit:design
+      - run: npm run audit:legacy-html
       - run: npm run audit:pwa
       - run: npm run test:api-runtime
       - run: npm run test:security-headers
@@ -37,6 +38,7 @@ jobs:
       - run: npm run test:seo
       - run: npm run test:sitemap
       - run: npm run test:project-pages
+      - run: npm run test:admin
       - run: npm run test:navigation
       - run: npm run test:search
       - run: npm --prefix mghal-backend ci --no-audit --no-fund
