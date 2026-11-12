@@ -3,6 +3,7 @@ import {existsSync,readFileSync} from 'node:fs';
 
 const admin=readFileSync('app/admin/page.tsx','utf8');
 const adminCss=readFileSync('app/admin/admin.css','utf8');
+const adminLayout=readFileSync('app/admin/layout.tsx','utf8');
 const apiHandler=readFileSync('mghal-backend/api-handler.mjs','utf8');
 const migration=readFileSync('mghal-backend/migrations/0002_admin_permissions.sql','utf8');
 const localization=readFileSync('mghal-backend/migrations/0003_project_localization.sql','utf8');
@@ -44,7 +45,9 @@ assert.match(databaseContent,/project\.name \|\| staticRecord/);
 assert.match(databaseContent,/querySelectorAll\('\.tag'\)/);
 assert.ok(adminCss.includes('--navy:var(--mghal-brand-navy)'));
 assert.ok(adminCss.includes('.editor-card'));
-assert.ok(existsSync('app/admin/page.tsx')&&existsSync('app/admin/admin.css'));
+assert.ok(existsSync('app/admin/page.tsx')&&existsSync('app/admin/admin.css')&&existsSync('app/admin/layout.tsx'));
+assert.match(adminLayout,/index:false/,'Owner administration must be excluded from search indexing.');
+assert.match(adminLayout,/follow:false/,'Owner administration must not expose crawlable links.');
 assert.ok(!existsSync('public/admin/index.html'));
 assert.ok(!existsSync('public/assets/admin.js'));
 assert.ok(!existsSync('public/assets/admin.css'));
