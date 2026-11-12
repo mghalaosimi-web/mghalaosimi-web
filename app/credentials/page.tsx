@@ -117,6 +117,7 @@ function mergePublishedCredentials(rows:PublicCertificateRow[]|null,locale:'ar'|
    descriptionEn:row.description&&!/[\u0600-\u06FF]/.test(row.description)?row.description:item.descriptionEn,
    referenceId:row.credential_id||item.referenceId,
    issuer:row.issuer||item.issuer,
+   provider:providerFromIssuer(row.issuer||item.issuer||''),
    verification:item.verification||safePublicHttpsUrl(row.verification_url),
    badgeImage:row.image_media_id?'/api/public/media/'+encodeURIComponent(row.image_media_id):item.badgeImage,
    fileUrl:row.pdf_media_id?'/api/public/media/'+encodeURIComponent(row.pdf_media_id):item.fileUrl
