@@ -34,7 +34,7 @@ export default function ContentPages({kind,locale}:{kind:PageKind;locale:Locale}
    <footer className="document-footer"><Link href={en?'/en':'/'}>{en?'Home':'الرئيسية'}</Link><span>M.GH.AL · {en?'Mohammed Ghaleb Alaosimi':'محمد غالب العصيمي'}</span></footer>
   </main>;
  }
- const c=copy[locale][kind] as typeof copy.ar.education;
+ const c=copy[locale][kind] as {eyebrow:string;title:string;intro:string;items:string[][]};
  return <main className="mghal-document" dir={en?'ltr':'rtl'}>
   <header className="document-heading"><span>{c.eyebrow}</span><h1>{c.title}</h1><p>{c.intro}</p></header>
   <section className="document-list">{c.items.map(([title,subtitle,detail])=><article className="document-item" key={title}><h2>{title}</h2><strong>{subtitle}</strong><p>{detail}</p></article>)}
