@@ -1,12 +1,299 @@
-'use client';
+"use client";
+
 import {useMemo,useState} from 'react';
-import {Code2,Database,Workflow,Server,Search,ShieldCheck,Layers3,ChevronDown,ArrowUpRight} from 'lucide-react';
+import Link from 'next/link';
+import {
+  Activity,
+  ArrowUpLeft,
+  ArrowUpRight,
+  Braces,
+  CheckCircle2,
+  ChevronDown,
+  Code2,
+  Database,
+  FileCheck2,
+  Layers3,
+  Network,
+  Search,
+  Server,
+  Workflow,
+} from 'lucide-react';
+import type {LucideIcon} from 'lucide-react';
+import {projects} from '../../data/projects';
+
 type Locale='ar'|'en';
-const groups=[
-{id:'engineering',icon:Code2,ar:'لغات البرمجة وهندسة البرمجيات',en:'Programming & Software Engineering',descAr:'بناء تطبيقات عملية، تنظيم الشيفرة، وتصميم حلول قابلة للصيانة.',descEn:'Building practical applications, structuring code, and designing maintainable solutions.',items:['JavaScript','TypeScript','Python','C#','Dart','React','Next.js','Node.js','Flutter','Tailwind CSS']},
-{id:'data',icon:Database,ar:'قواعد البيانات وإدارة البيانات',en:'Databases & Data Management',descAr:'تصميم مخططات البيانات والتعامل مع التخزين والاستعلامات وطبقة الوصول.',descEn:'Designing data schemas and working with storage, queries, and data-access layers.',items:['PostgreSQL','SQLite','Prisma','Firebase','Supabase','SQL']},
-{id:'systems',icon:Workflow,ar:'هندسة الأنظمة والتطبيقات',en:'Systems & Application Architecture',descAr:'بناء أنظمة مؤسسية وتطبيق صلاحيات المستخدمين وتدفقات العمل.',descEn:'Building enterprise systems, access control, and workflow-oriented applications.',items:['REST APIs','RBAC','ERP Systems','Offline-First','Arabic RTL','System Design','UI/UX']},
-{id:'tooling',icon:Server,ar:'الأدوات والبنية التحتية',en:'Tooling & Infrastructure',descAr:'إدارة الشيفرة والتبعيات والحاويات والنشر المستمر.',descEn:'Managing source control, dependencies, containers, and deployments.',items:['Git','GitHub','Docker Compose','pnpm','Turborepo','Vercel','Render']},
-{id:'interests',icon:ShieldCheck,ar:'مجالات الاهتمام والتوسع',en:'Areas of Interest & Growth',descAr:'مجالات أتعلمها وأطبق مفاهيمها ضمن مشاريع وتجارب محددة.',descEn:'Areas whose concepts I continue to study and apply in scoped projects.',items:['Applied AI','RAG','Cybersecurity Fundamentals','Software Testing','Secure Development']}
+type SkillDomain={
+  id:string;
+  title:string;
+  en:string;
+  description:string;
+  descriptionEn:string;
+  Icon:LucideIcon;
+  items:string[];
+  note:string;
+  noteEn:string;
+  learning?:boolean;
+};
+
+const domains:SkillDomain[]=[
+  {
+    id:'engineering',
+    title:'البرمجة وتطوير التطبيقات',
+    en:'PROGRAMMING & APPLICATION DEVELOPMENT',
+    description:'لغات وأطر العمل المستخدمة في بناء تطبيقات الويب والواجهات والمنطق البرمجي.',
+    descriptionEn:'Languages and frameworks used to build web applications, interfaces, and application logic.',
+    Icon:Code2,
+    items:['JavaScript','TypeScript','Python','C#','Dart','React','Next.js','Node.js','Flutter','Tailwind CSS'],
+    note:'تقنيات تظهر ضمن المشاريع والتطوير البرمجي المستمر.',
+    noteEn:'Technologies used across projects and ongoing software development.',
+  },
+  {
+    id:'data',
+    title:'قواعد البيانات وإدارة البيانات',
+    en:'DATABASES & DATA MANAGEMENT',
+    description:'تقنيات تخزين البيانات ونمذجتها والاستعلام عنها وربطها بطبقات التطبيق.',
+    descriptionEn:'Technologies for storing, modelling, querying, and integrating application data.',
+    Icon:Database,
+    items:['PostgreSQL','SQLite','Prisma','Firebase','Supabase','SQL'],
+    note:'مرتبطة ببناء التطبيقات والأنظمة التي تتعامل مع البيانات.',
+    noteEn:'Applied in application and enterprise-system data workflows.',
+  },
+  {
+    id:'systems',
+    title:'هندسة الأنظمة وتجربة المستخدم',
+    en:'SYSTEMS ENGINEERING & USER EXPERIENCE',
+    description:'مفاهيم معمارية وتشغيلية لتنظيم الخدمات والصلاحيات وسير العمل والواجهات العربية.',
+    descriptionEn:'Architecture and product practices for services, permissions, workflows, and Arabic interfaces.',
+    Icon:Workflow,
+    items:['REST APIs','RBAC','ERP Systems','Offline-First','Arabic RTL','System Design','UI/UX'],
+    note:'مفاهيم مطبقة في تصميم الأنظمة والمنتجات الرقمية.',
+    noteEn:'Concepts applied in the design of systems and digital products.',
+  },
+  {
+    id:'tooling',
+    title:'الأدوات والبنية التحتية',
+    en:'TOOLING & INFRASTRUCTURE',
+    description:'أدوات إدارة الشيفرة والتبعيات والحاويات وعمليات البناء والنشر.',
+    descriptionEn:'Tools for source control, dependencies, containers, builds, and deployment.',
+    Icon:Server,
+    items:['Git','GitHub','Docker Compose','pnpm','Turborepo','Vercel'],
+    note:'أدوات مستخدمة في بيئات التطوير والتعاون والنشر.',
+    noteEn:'Tools used in development, collaboration, and deployment environments.',
+  },
+  {
+    id:'interests',
+    title:'مجالات الاهتمام والتوسع',
+    en:'AREAS OF INTEREST & CONTINUOUS LEARNING',
+    description:'مجالات أواصل دراستها وتوسيع تطبيقاتها من خلال التجارب والمشاريع.',
+    descriptionEn:'Areas whose concepts and applications I continue to explore through study and projects.',
+    Icon:Activity,
+    items:['Applied AI','RAG','Cybersecurity Fundamentals','Software Testing','Secure Development'],
+    note:'مجالات اهتمام وتعلّم؛ لا تعني ادعاء تخصص أو اعتماد مهني.',
+    noteEn:'Areas of interest and learning, not claims of specialist or certified status.',
+    learning:true,
+  },
 ];
-export default function SkillsExplorer({locale='ar'}:{locale?:Locale}){const en=locale==='en';const [query,setQuery]=useState(''),[active,setActive]=useState('all'),[expanded,setExpanded]=useState<string[]>(['engineering']);const filtered=useMemo(()=>groups.filter(g=>(active==='all'||g.id===active)&&[g.ar,g.en,g.descAr,g.descEn,...g.items].join(' ').toLowerCase().includes(query.toLowerCase())),[active,query]);const count=groups.reduce((n,g)=>n+g.items.length,0);return <main className="mghal-archive"><section className="mghal-archive-hero"><span className="mghal-eyebrow">M.GH.AL / TECHNICAL CAPABILITIES</span><h1>{en?<>Skills built<br/>through practice.</>:<>مهارات تُترجم<br/>إلى أنظمة.</>}</h1><p>{en?'A practical map of technologies and disciplines used across my software projects and continued learning. Listing a technology does not imply expert-level proficiency.':'خريطة عملية للتقنيات والمجالات التي أستخدمها في مشاريعي وأواصل تطويرها. إدراج التقنية لا يعني ادعاء مستوى خبير فيها.'}</p></section><section className="mghal-archive-stats"><div className="mghal-stat"><strong>{groups.length.toString().padStart(2,'0')}</strong><span>{en?'Skill domains':'مجالات تقنية'}</span></div><div className="mghal-stat"><strong>{count.toString().padStart(2,'0')}</strong><span>{en?'Technologies & methods':'تقنية ومنهجية'}</span></div><div className="mghal-stat"><strong>01</strong><span>{en?'Continuous learning':'تعلّم مستمر'}</span></div></section><div className="mghal-section-head"><div><span className="mghal-eyebrow">SKILL DIRECTORY</span><h2>{en?'Explore capabilities':'استكشف المهارات'}</h2></div><label className="mghal-search"><Search size={17}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder={en?'Search technologies...':'ابحث عن تقنية أو مجال...'}/></label></div><div className="mghal-filter-row"><button className={active==='all'?'active':''} onClick={()=>setActive('all')}>{en?'All domains':'كل المجالات'}</button>{groups.map(g=><button key={g.id} className={active===g.id?'active':''} onClick={()=>setActive(g.id)}>{en?g.en:g.ar}</button>)}</div><section className="mghal-skill-domains">{filtered.map((g,i)=>{const Icon=g.icon,open=expanded.includes(g.id)||!!query;return <article className="mghal-card mghal-skill-domain" key={g.id}><button className="mghal-skill-toggle" onClick={()=>setExpanded(v=>v.includes(g.id)?v.filter(x=>x!==g.id):[...v,g.id])} aria-expanded={open}><span className="mghal-skill-icon"><Icon size={20}/></span><span><small>{String(i+1).padStart(2,'0')} / {g.id.toUpperCase()}</small><b>{en?g.en:g.ar}</b><em>{en?g.descEn:g.descAr}</em></span><strong>{g.items.length}</strong><ChevronDown className={open?'rotated':''}/></button>{open&&<div className="mghal-skill-list">{g.items.filter(x=>!query||x.toLowerCase().includes(query.toLowerCase())||[g.ar,g.en].join(' ').toLowerCase().includes(query.toLowerCase())).map(x=><span key={x}>{x}</span>)}</div>}</article>})}{filtered.length===0&&<p className="mghal-muted">{en?'No matching skills found.':'لا توجد مهارات مطابقة.'}</p>}</section><section className="mghal-skill-note"><Layers3/><div><b>{en?'Professional transparency':'الشفافية المهنية'}</b><p>{en?'Skill names describe technologies and areas of practice, not proficiency percentages or claims of expertise. Practical depth varies by project and continues to evolve.':'أسماء المهارات تصف التقنيات ومجالات الممارسة، ولا تمثل نسب إتقان أو ادعاء خبرة. يختلف مستوى التطبيق بحسب المشروع ويتطور باستمرار.'}</p></div><a href="/projects">{en?'See projects':'استعرض المشاريع'} <ArrowUpRight size={15}/></a></section></main>}
+
+const filters=[
+  {id:'all',ar:'كل المجالات',en:'All domains'},
+  {id:'engineering',ar:'البرمجة',en:'Development'},
+  {id:'data',ar:'قواعد البيانات',en:'Data'},
+  {id:'systems',ar:'هندسة الأنظمة',en:'Systems'},
+  {id:'tooling',ar:'الأدوات والبنية',en:'Tooling'},
+  {id:'interests',ar:'الاهتمامات',en:'Interests'},
+];
+
+const pathways=[
+  {Icon:Braces,title:'BUILD',ar:'البناء والتطوير',en:'Build & develop',detail:'تصميم البرمجيات، كتابة الشيفرات، بناء الواجهات وربط البيانات.',detailEn:'Design software, implement application logic, build interfaces, and connect data.',tools:'TypeScript · React · Next.js · Node.js'},
+  {Icon:Layers3,title:'INTEGRATE',ar:'التكامل والأنظمة',en:'Integrate systems',detail:'ربط الخدمات وقواعد البيانات والصلاحيات وتدفقات العمل المؤسسية.',detailEn:'Connect services, databases, access control, and enterprise workflows.',tools:'PostgreSQL · Prisma · REST APIs · RBAC'},
+  {Icon:CheckCircle2,title:'DELIVER',ar:'التحقق والتسليم',en:'Validate & deliver',detail:'اختبار الحلول، تنظيم الإصدارات، وتجهيز التطبيقات للنشر والتشغيل.',detailEn:'Test solutions, manage releases, and prepare applications for deployment.',tools:'Git · Docker · Vercel'},
+];
+
+const workflow=[
+  {Icon:Network,t:'Understand',ar:'فهم المتطلبات والسياق',en:'Understand requirements'},
+  {Icon:Layers3,t:'Design',ar:'تصميم البنية والتدفق',en:'Design architecture'},
+  {Icon:Code2,t:'Build',ar:'التطوير والتكامل',en:'Build & integrate'},
+  {Icon:FileCheck2,t:'Validate',ar:'الاختبار والتحقق',en:'Test & validate'},
+];
+
+export default function SkillsExplorer({locale='ar'}:{locale?:Locale}){
+  const en=locale==='en';
+  const [active,setActive]=useState('all');
+  const [query,setQuery]=useState('');
+  const [expanded,setExpanded]=useState<string[]>(['engineering','systems']);
+  const visible=useMemo(()=>{
+    const term=query.trim().toLowerCase();
+    return domains
+      .filter(domain=>active==='all'||domain.id===active)
+      .map(domain=>({...domain,items:domain.items.filter(item=>!term||[
+        item,domain.title,domain.en,domain.description,domain.descriptionEn,
+      ].join(' ').toLowerCase().includes(term))}))
+      .filter(domain=>domain.items.length>0);
+  },[active,query]);
+  const total=domains.reduce((sum,domain)=>sum+domain.items.length,0);
+  const toggle=(id:string)=>setExpanded(previous=>previous.includes(id)?previous.filter(value=>value!==id):[...previous,id]);
+  const featured=projects.filter(project=>project.featured).slice(0,3);
+
+  return <main className="content-page skills-page sk-page">
+    <div className="sk-topline">
+      <span>CAPABILITY MAP / 2026</span>
+      <span>M.GH.AL <i/> TECHNICAL PROFILE</span>
+    </div>
+
+    <section className="sk-hero">
+      <div className="sk-hero-copy">
+        <span className="sk-kicker">SOFTWARE ENGINEERING · ENTERPRISE SYSTEMS · APPLIED AI</span>
+        <h1>{en?<>Skills &amp; <em>capabilities</em></>:<>المهارات <em>والقدرات</em></>}</h1>
+        <p>{en
+          ?'A practical map of the technologies and engineering practices I use across full-stack development, enterprise-oriented systems, data, and digital products. Listing a technology does not imply expert-level proficiency.'
+          :'خريطة عملية للتقنيات والممارسات الهندسية التي أستخدمها في تطوير Full-Stack والأنظمة المؤسسية والبيانات والمنتجات الرقمية. إدراج التقنية لا يعني ادعاء مستوى خبير فيها.'}</p>
+        <div className="sk-hero-tags">
+          <span><Code2/> Software Engineering</span>
+          <span><Layers3/> Enterprise Systems</span>
+          <span><Activity/> Applied AI</span>
+        </div>
+      </div>
+      <div className="sk-hero-aside">
+        <div className="sk-orbit">
+          <div className="sk-orbit-core"><Code2/><b>MG</b><small>ENGINEERING</small></div>
+          <i/><i/><i/>
+        </div>
+        <span>DESIGN / BUILD / DELIVER</span>
+      </div>
+    </section>
+
+    <section className="sk-snapshot" aria-label={en?'Skills summary':'ملخص المهارات'}>
+      <article><b>{total}</b><span>{en?'Technologies & practices':'تقنية وممارسة موثقة'}</span></article>
+      <article><b>{domains.length}</b><span>{en?'Technical domains':'مجالات تقنية'}</span></article>
+      <article><b>03</b><span>{en?'Engineering pathways':'مسارات هندسية'}</span></article>
+      <article><b>AR / EN</b><span>{en?'Bilingual product work':'تطوير ثنائي اللغة'}</span></article>
+    </section>
+
+    <section className="sk-pathways">
+      <div className="sk-extra-heading">
+        <span>01 / ENGINEERING PILLARS</span>
+        <h2>{en?'Three connected engineering pillars':'ثلاثة مسارات مترابطة في العمل الهندسي'}</h2>
+        <p>{en?'The work moves from building software, through integrating systems, to validating and delivering reliable products.':'يمتد العمل من بناء البرمجيات، إلى تكامل الأنظمة، ثم التحقق من الحلول وتسليم منتجات قابلة للاستخدام والتطوير.'}</p>
+      </div>
+      <div className="sk-pathway-grid">
+        {pathways.map(({Icon,title,ar,en:english,detail,detailEn,tools},index)=>(
+          <article key={title}>
+            <span className="sk-pathway-index">0{index+1} / {title}</span>
+            <Icon/>
+            <h3>{en?english:ar}</h3>
+            <p>{en?detailEn:detail}</p>
+            <small>{tools}</small>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section className="sk-section-head">
+      <div>
+        <span>02 / CAPABILITY DIRECTORY</span>
+        <h2>{en?'Technical skills directory':'دليل المهارات والتقنيات'}</h2>
+        <p>{en?'Search for a technology or select a domain. Expand any group to review its skills and the context in which they are used.':'ابحث باسم التقنية أو اختر مجالاً محدداً. افتح أي مجموعة لمراجعة المهارات والسياق العام لاستخدامها.'}</p>
+      </div>
+      <label className="sk-search">
+        <Search/>
+        <input value={query} onChange={event=>setQuery(event.target.value)} placeholder={en?'Search technologies or domains...':'ابحث عن تقنية أو مجال...'} aria-label={en?'Search skills':'ابحث عن مهارة أو أداة'}/>
+      </label>
+    </section>
+
+    <div className="sk-filters" role="group" aria-label={en?'Filter skill domains':'تصفية مجالات المهارات'}>
+      {filters.map(filter=>(
+        <button key={filter.id} type="button" className={active===filter.id?'active':''} aria-pressed={active===filter.id} onClick={()=>setActive(filter.id)}>
+          {en?filter.en:filter.ar}
+        </button>
+      ))}
+    </div>
+
+    <section className="sk-domain-list">
+      {visible.map((domain,index)=>{
+        const Icon=domain.Icon;
+        const isOpen=expanded.includes(domain.id)||query.length>0;
+        return <article className="sk-domain" key={domain.id}>
+          <button className="sk-domain-toggle" type="button" aria-expanded={isOpen} onClick={()=>toggle(domain.id)}>
+            <span className="sk-domain-icon"><Icon/></span>
+            <span className="sk-domain-title">
+              <small>{String(index+1).padStart(2,'0')} / {domain.en}</small>
+              <b>{en?domain.en:domain.title}</b>
+              <em>{en?domain.descriptionEn:domain.description}</em>
+            </span>
+            <span className="sk-domain-count">{domain.items.length} {en?'skills':'مهارة'}</span>
+            <ChevronDown className={isOpen?'rotated':''}/>
+          </button>
+          {isOpen&&<div className="sk-skill-grid">
+            {domain.items.map(skill=>(
+              <div className="sk-skill" key={skill}>
+                <div>
+                  <b>{skill}</b>
+                  <span className={'sk-level '+(domain.learning?'is-learning':'is-practical')}>{domain.learning?(en?'Learning focus':'مجال تعلّم'):(en?'Project practice':'ضمن المشاريع')}</span>
+                </div>
+                <small>{en?domain.noteEn:domain.note}</small>
+              </div>
+            ))}
+          </div>}
+        </article>;
+      })}
+      {visible.length===0&&<div className="sk-empty">{en?'No matching skills. Try another search or select all domains.':'لا توجد نتائج مطابقة. جرّب كلمة بحث أخرى أو اختر كل المجالات.'}</div>}
+    </section>
+
+    <section className="sk-method">
+      <div>
+        <span>03 / ENGINEERING WORKFLOW</span>
+        <h2>{en?'A workflow before choosing a tool.':'منهجية العمل قبل اختيار الأداة.'}</h2>
+        <p>{en?'The process starts with understanding the problem and constraints, then designing the system, implementing the solution, and validating the result.':'تبدأ العملية بفهم المشكلة والقيود، ثم تصميم النظام، وتنفيذ الحل، وأخيراً اختبار النتائج والتحقق منها.'}</p>
+        <Link href="/research" className="sk-inline-link">{en?'Research & engineering directions':'مسارات البحث والتطوير'} <ArrowUpLeft/></Link>
+      </div>
+      <div className="sk-method-flow">
+        {workflow.map(({Icon,t,ar,en:english},index)=>(
+          <article key={t}><span>0{index+1}</span><Icon/><b>{t}</b><small>{en?english:ar}</small></article>
+        ))}
+      </div>
+    </section>
+
+    <section className="sk-projects">
+      <div className="sk-project-head">
+        <div>
+          <span>04 / SKILLS IN PRACTICE</span>
+          <h2>{en?'Skills across projects':'المهارات داخل المشاريع'}</h2>
+          <p>{en?'Projects provide context for the technologies and practices listed above. Each project is presented with its current scope and status.':'المشاريع هي السياق العملي للتقنيات والممارسات المذكورة، ويُعرض كل مشروع وفق نطاقه وحالته الحالية.'}</p>
+        </div>
+        <Link href="/projects">{en?'Browse all projects':'استعراض جميع المشاريع'} <ArrowUpLeft/></Link>
+      </div>
+      <div className="sk-project-grid">
+        {featured.map(project=>(
+          <Link href={'/projects/'+project.slug} className="sk-project-card" key={project.slug}>
+            <span>ENGINEERING PROJECT</span>
+            <b>{project.name}</b>
+            <small>{project.summary}</small>
+            <em>{en?'Project details':'تفاصيل المشروع'} <ArrowUpRight/></em>
+          </Link>
+        ))}
+      </div>
+    </section>
+
+    <section className="sk-proof">
+      <div><CheckCircle2/><div>
+        <span>05 / VERIFIABLE LEARNING</span>
+        <h2>{en?'Learning and verifiable credentials':'التعلّم والشهادات القابلة للتحقق'}</h2>
+        <p>{en?'Credentials document completed learning. Projects remain separate evidence of practical implementation.':'توثّق الشهادات مسارات التعلّم المكتملة، بينما تظل المشاريع دليلاً مستقلاً على التطبيق العملي.'}</p>
+      </div></div>
+      <Link href="/credentials">{en?'View credentials':'عرض الشهادات والاعتمادات'} <ArrowUpLeft/></Link>
+    </section>
+
+    <aside className="sk-note">
+      <CheckCircle2/>
+      <p><b>{en?'Professional transparency:':'الشفافية المهنية:'}</b> {en
+        ?'Skill labels describe technologies and areas of practice, not proficiency percentages or professional certifications. Practical depth varies by project and continues to evolve.'
+        :'أسماء المهارات تصف التقنيات ومجالات الممارسة، ولا تمثل نسب إتقان أو شهادات مهنية. يختلف مستوى التطبيق بحسب المشروع ويتطور باستمرار.'}</p>
+    </aside>
+
+    <footer className="sk-footer">
+      <span>M.GH.AL / SKILLS DIRECTORY</span>
+      <b>Building Systems. Engineering with Purpose.</b>
+      <Link href="/contact">{en?'Professional contact':'تواصل مهني'} <ArrowUpLeft/></Link>
+    </footer>
+  </main>;
+}

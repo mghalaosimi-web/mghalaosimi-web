@@ -1,6 +1,5 @@
-const CACHE_NAME = "mghal-pwa-v5";
+const CACHE_NAME = "mghal-pwa-v6";
 const CORE_ASSETS = [
-  "/",
   "/index.html",
   "/offline.html",
   "/favicon.svg",
@@ -20,6 +19,9 @@ const APP_PAGES = [
   "/en/skills.html", "/en/education.html", "/en/achievements.html",
   "/en/knowledge.html", "/en/contact.html"
 ];
+
+// Only cache locale-stable legacy documents; Next.js pages vary by a locale cookie.
+const CACHED_DOCUMENT_PATHS = new Set(["/index.html", ...APP_PAGES]);
 
 self.addEventListener("install", (event) => {
   event.waitUntil((async () => {
@@ -42,17 +44,18 @@ self.addEventListener("activate", (event) => {
 
 async function networkFirst(request) {
   const cache = await caches.open(CACHE_NAME);
+  const path = new URL(request.url).pathname;
+  const cacheable = CACHED_DOCUMENT_PATHS.has(path);
   try {
     const response = await fetch(request);
-    if (response && response.ok) await cache.put(request, response.clone());
+    if (response && response.ok && cacheable) await cache.put(request, response.clone());
     return response;
   } catch {
-    const exact = await cache.match(request);
+    const exact = cacheable ? await cache.match(request) : null;
     if (exact) return exact;
-    const pathMatch = await cache.match(new URL(request.url).pathname, { ignoreSearch: true });
+    const pathMatch = cacheable ? await cache.match(path, { ignoreSearch: true }) : null;
     if (pathMatch) return pathMatch;
-    return (await cache.match("/offline.html")) ||
-      (await cache.match("/index.html")) || Response.error();
+    return (await cache.match("/offline.html")) || Response.error();
   }
 }
 

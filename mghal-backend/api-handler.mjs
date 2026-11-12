@@ -1,10 +1,24 @@
+export function safeIdentityReturnPath(siteUrl, returnPath) {
+ const base = new URL(siteUrl);
+ const candidate = typeof returnPath === "string" &&
+  returnPath.startsWith("/") &&
+  !returnPath.startsWith("//") &&
+  !returnPath.includes("\\") &&
+  returnPath.length <= 500
+  ? returnPath
+  : "/";
+ const target = new URL(candidate, base);
+ if (target.origin !== base.origin) return "/";
+ return target.pathname + target.search + target.hash;
+}
+
 export default {
  async fetch(request, env) {
   const url = new URL(request.url), path = url.pathname, method = request.method;
-  const allowed = (env.ALLOWED_ORIGINS || "https://mghalaosimi-web.vercel.app,https://mghal-static.onrender.com,https://mghal-release.onrender.com,https://mghal-release-current.onrender.com,https://mghal.vercel.app").split(",").map(value => value.trim()).filter(Boolean);
+  const allowed = (env.ALLOWED_ORIGINS || "https://mghalaosimi-web.vercel.app").split(",").map(value => value.trim()).filter(Boolean);
   const origin = request.headers.get("Origin") || "";
   const headers = new Headers({"Vary":"Origin","Access-Control-Allow-Methods":"GET,POST,PATCH,DELETE,OPTIONS","Access-Control-Allow-Headers":"Content-Type,Authorization,X-Visitor-Token","X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"strict-origin-when-cross-origin","Cache-Control":"no-store"});
-  const previewOrigin=/^https:\/\/mghalaosimi-[a-z0-9-]+-mghalaosimi-webs-projects\.vercel\.app$/i.test(origin);
+  const previewOrigin = env.VERCEL_ENV === "preview" && typeof env.VERCEL_URL === "string" && origin === `https://${env.VERCEL_URL}`;
   if (allowed.includes(origin)||previewOrigin) headers.set("Access-Control-Allow-Origin",origin);
   const out=(data,status=200)=>Response.json(data,{status,headers});
   const fail=(status,code,message)=>out({error:{code,message}},status);
@@ -23,8 +37,7 @@ export default {
   };
   const followerForVisitor=async visitorToken=>validVisitorToken(visitorToken)?followerByHash("visitor:"+await hash(visitorToken)):null;
   const identityRedirect=(siteUrl,returnPath,status)=>{
-   const base=new URL(siteUrl),safe=typeof returnPath==="string"&&returnPath.startsWith("/")&&!returnPath.startsWith("//")&&!returnPath.includes("\\\\")?returnPath:"/";
-   const target=new URL(safe,base);if(target.origin!==base.origin)target.pathname="/";
+   const base=new URL(siteUrl),target=new URL(safeIdentityReturnPath(siteUrl,returnPath),base);
    target.searchParams.set("identity",status);
    return Response.redirect(target.toString(),302);
   };
@@ -45,7 +58,8 @@ export default {
   if(origin&&!allowed.includes(origin)&&!previewOrigin) return fail(403,"ORIGIN_DENIED","Origin is not allowed");
   if(path==="/health"&&method==="GET"){const r=await q("SELECT 1 AS ok").first();return out({status:r?.ok===1?"ok":"degraded",database:r?.ok===1?"connected":"unavailable"});}
   if(!path.startsWith("/api/"))return fail(404,"NOT_FOUND","Route not found");
-  const minute=Math.floor(Date.now()/60000),ip=request.headers.get("CF-Connecting-IP")||"unknown",rateKey="rl:"+await hash(ip+":"+minute);try{await q("INSERT INTO site_settings(key,value_json) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value_json=CAST(CAST(site_settings.value_json AS INTEGER)+1 AS TEXT)",rateKey,"1").run();const count=await q("SELECT value_json FROM site_settings WHERE key=?",rateKey).first();if(Number(count?.value_json||0)>120)return fail(429,"RATE_LIMITED","Too many requests");}catch{return fail(503,"RATE_LIMIT_UNAVAILABLE","Request protection is temporarily unavailable");}
+  const configuredRateLimit=Number(env.RATE_LIMIT_PER_MINUTE),rateLimit=Number.isSafeInteger(configuredRateLimit)&&configuredRateLimit>0?configuredRateLimit:120;
+  const minute=Math.floor(Date.now()/60000),ip=request.headers.get("X-Client-IP")||"unknown",rateKey="rl:"+await hash(ip+":"+minute);try{await q("INSERT INTO site_settings(key,value_json) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value_json=CAST(CAST(site_settings.value_json AS INTEGER)+1 AS TEXT)",rateKey,"1").run();const count=await q("SELECT value_json FROM site_settings WHERE key=?",rateKey).first();if(Number(count?.value_json||0)>rateLimit)return fail(429,"RATE_LIMITED","Too many requests");}catch{return fail(503,"RATE_LIMIT_UNAVAILABLE","Request protection is temporarily unavailable");}
   if(path==="/api/admin/bootstrap/status"&&method==="GET"){
    const [users,setup]=await Promise.all([q("SELECT COUNT(*) n FROM admin_users").first(),q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first()]);
    const ownerExists=Number(users?.n||0)>0,secret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"",secretHash=secret.length>=32?await hash(secret):null;
@@ -55,7 +69,7 @@ export default {
   }
   if(path==="/api/admin/bootstrap/rotate"&&method==="POST"){
    const secret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";
-   if(secret.length<32)return fail(503,"BOOTSTRAP_ROTATION_NOT_CONFIGURED","Configure OWNER_BOOTSTRAP_TOKEN as a Worker secret with at least 32 characters");
+   if(secret.length<32)return fail(503,"BOOTSTRAP_ROTATION_NOT_CONFIGURED","Configure OWNER_BOOTSTRAP_TOKEN as a protected server-side secret with at least 32 characters");
    const authorization=request.headers.get("Authorization")||"",supplied=authorization.startsWith("Bearer ")?authorization.slice(7):"";
    if(supplied.length!==secret.length||!constantTimeEqual(supplied,secret))return fail(403,"BOOTSTRAP_ROTATION_UNAUTHORIZED","Bootstrap rotation authorization failed");
    const users=await q("SELECT COUNT(*) n FROM admin_users").first();
@@ -68,10 +82,10 @@ export default {
   if(path==="/api/admin/bootstrap"&&method==="POST"){
    const b=await json();if(!b||Object.keys(b).some(key=>!["token","email","password","displayName"].includes(key))||typeof b.token!=="string"||typeof b.email!=="string"||typeof b.password!=="string"||typeof b.displayName!=="string"||b.password.length<12||b.password.length>200||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)||b.displayName.trim().length<2||b.displayName.length>120)return fail(400,"VALIDATION_ERROR","Provide a valid email, display name and password of at least 12 characters");
    const users=await q("SELECT COUNT(*) n FROM admin_users").first();if(Number(users?.n||0)>0)return fail(409,"BOOTSTRAP_ALREADY_USED","Owner bootstrap has already been completed");
-   const workerSecret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";if(workerSecret.length<32)return fail(503,"BOOTSTRAP_NOT_CONFIGURED","First-owner bootstrap is disabled until OWNER_BOOTSTRAP_TOKEN is configured as a Worker secret with at least 32 characters");
-   if(b.token.length!==workerSecret.length||!constantTimeEqual(b.token,workerSecret))return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
-   const configured=await q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first(),expectedHash=await hash(workerSecret);
-   if(!configured?.value_json||!constantTimeEqual(configured.value_json,expectedHash))return fail(409,"BOOTSTRAP_ROTATION_REQUIRED","The stored bootstrap hash does not match the Worker secret. Complete the protected rotation step first.");
+   const bootstrapSecret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"";if(bootstrapSecret.length<32)return fail(503,"BOOTSTRAP_NOT_CONFIGURED","First-owner bootstrap is disabled until OWNER_BOOTSTRAP_TOKEN is configured as a server-side secret with at least 32 characters");
+   if(b.token.length!==bootstrapSecret.length||!constantTimeEqual(b.token,bootstrapSecret))return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
+   const configured=await q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first(),expectedHash=await hash(bootstrapSecret);
+   if(!configured?.value_json||!constantTimeEqual(configured.value_json,expectedHash))return fail(409,"BOOTSTRAP_ROTATION_REQUIRED","The stored bootstrap hash does not match the server-side secret. Complete the protected rotation step first.");
    const supplied=await hash(b.token);if(!constantTimeEqual(supplied,configured.value_json))return fail(403,"BOOTSTRAP_TOKEN_INVALID","Bootstrap token is invalid or expired");
    const salt=crypto.getRandomValues(new Uint8Array(16)),key=await crypto.subtle.importKey("raw",new TextEncoder().encode(b.password),"PBKDF2",false,["deriveBits"]),bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt,iterations:210000},key,256),b64=x=>btoa(String.fromCharCode(...x));
    const passwordHash="pbkdf2-sha256$210000$"+b64(salt)+"$"+b64(new Uint8Array(bits)),id=crypto.randomUUID(),email=b.email.trim().toLowerCase();
@@ -89,7 +103,7 @@ export default {
    const [kind,n,salt,expected]=(u.password_hash||"").split("$");if(kind!=="pbkdf2-sha256"||!salt||!expected)return fail(401,"INVALID_CREDENTIALS","Invalid credentials");
    const key=await crypto.subtle.importKey("raw",new TextEncoder().encode(b.password),"PBKDF2",false,["deriveBits"]);
    const bits=await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:Uint8Array.from(atob(salt),c=>c.charCodeAt(0)),iterations:Number(n)},key,256);
-   const actual=btoa(String.fromCharCode(...new Uint8Array(bits)));if(actual!==expected)return fail(401,"INVALID_CREDENTIALS","Invalid credentials");
+   const actual=btoa(String.fromCharCode(...new Uint8Array(bits)));if(!constantTimeEqual(actual,expected))return fail(401,"INVALID_CREDENTIALS","Invalid credentials");
    const t=token(),expires=new Date(Date.now()+28800000).toISOString();await q("INSERT INTO admin_sessions(id,user_id,token_hash,expires_at) VALUES(?,?,?,?)",crypto.randomUUID(),u.id,await hash(t),expires).run();await q("UPDATE admin_users SET last_login_at=?,updated_at=? WHERE id=?",new Date().toISOString(),new Date().toISOString(),u.id).run();return out({token:t,expiresAt:expires,user:{id:u.id,email:u.email}});
   }
   let current=null;if(admin&&!setupRoute){current=await actor();if(!current)return fail(401,"UNAUTHENTICATED","Authentication required");}
@@ -105,7 +119,7 @@ export default {
    if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>!["visitorToken","returnPath"].includes(key)))return fail(400,"VALIDATION_ERROR","A valid visitor session is required");
    const site=new URL(env.PUBLIC_SITE_URL);
    if(site.protocol!=="https:"||site.username||site.password)return fail(503,"GOOGLE_AUTH_CONFIG_INVALID","The public site URL must be a trusted HTTPS origin");
-   const returnPath=typeof b.returnPath==="string"&&b.returnPath.startsWith("/")&&!b.returnPath.startsWith("//")&&!b.returnPath.includes("\\\\")&&b.returnPath.length<=500?b.returnPath:"/";
+   const returnPath=typeof b.returnPath==="string"&&b.returnPath.startsWith("/")&&!b.returnPath.startsWith("//")&&!b.returnPath.includes("\\")&&b.returnPath.length<=500?b.returnPath:"/";
    const state=base64url(randomBytes(32)),verifier=base64url(randomBytes(48)),challenge=base64url(new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(verifier))));
    const now=new Date().toISOString(),expires=new Date(Date.now()+10*60*1000).toISOString(),visitorHash="visitor:"+await hash(b.visitorToken);
    await q("DELETE FROM oauth_transactions WHERE expires_at<=?",now).run();
@@ -149,7 +163,7 @@ export default {
      await q("INSERT INTO follower_identities(id,follower_id,provider,provider_subject,email,email_verified,display_name,created_at,updated_at) VALUES(?,?,'google',?,?,1,?,?,?)",crypto.randomUUID(),targetFollowerId,profile.sub,email,displayName,now,now).run();
     }else if(current&&current.id!==targetFollowerId){
      await q("UPDATE followers SET display_name=COALESCE(display_name,?),consent_at=COALESCE(consent_at,?) WHERE id=?",current.display_name||null,current.consent_at||null,targetFollowerId).run();
-     await q("UPDATE OR IGNORE reactions SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id).run();
+     await env.DB.batch([q("DELETE FROM reactions WHERE follower_id=? AND EXISTS (SELECT 1 FROM reactions target WHERE target.follower_id=? AND target.target_type=reactions.target_type AND target.target_id=reactions.target_id AND target.reaction=reactions.reaction)",current.id,targetFollowerId),q("UPDATE reactions SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id)]);
      await q("DELETE FROM reactions WHERE follower_id=?",current.id).run();
      await q("UPDATE comments SET follower_id=? WHERE follower_id=?",targetFollowerId,current.id).run();
      await q("UPDATE followers SET email_hash=?,status='unsubscribed',unsubscribed_at=COALESCE(unsubscribed_at,?) WHERE id=?", "merged:"+token(),now,current.id).run();
@@ -171,8 +185,7 @@ export default {
   if(path==="/api/public/visitors"&&method==="POST"){
    const b=await json();if(!b||Object.keys(b).some(key=>!["visitorToken","path"].includes(key))||(b.visitorToken!=null&&!validVisitorToken(b.visitorToken)))return fail(400,"VALIDATION_ERROR","Invalid visitor session payload");const visitorToken=validVisitorToken(b.visitorToken)?b.visitorToken:token(),key="visitor:"+await hash(visitorToken);
    let f=await followerByHash(key);let fresh=false;
-   if(!f){f={id:crypto.randomUUID(),status:"active",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'active')",f.id,key).run();}
-   else if(f.status==="unverified"){await q("UPDATE followers SET status='active' WHERE id=? AND status='unverified' AND consent_at IS NULL",f.id).run();f.status="active";}
+   if(!f){f={id:crypto.randomUUID(),status:"unsubscribed",display_name:null};fresh=true;await q("INSERT INTO followers(id,email_hash,status) VALUES(?,?,'unsubscribed')",f.id,key).run();}
    const page=typeof b?.path==="string"&&b.path.startsWith("/")?b.path.slice(0,500):"/";
    if(fresh)await q("INSERT INTO analytics_events(id,event_type,path,session_hash) VALUES(?,?,?,?)",crypto.randomUUID(),"visitor_start",page,await hash(visitorToken)).run();
    return out({visitorToken,status:f.status,displayName:f.display_name||null,guestFollowing:f.status==="active"&&f.display_name===null},201);
@@ -188,6 +201,12 @@ export default {
    const b=await json();if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>key!=="visitorToken"))return fail(400,"VALIDATION_ERROR","Invalid visitor session");
    const f=await followerForVisitor(b.visitorToken);
    return out({following:f?.status==="active",status:f?.status||"unknown",displayName:f?.display_name||null,consentAt:f?.consent_at||null});
+  }
+  if(path==="/api/public/followers/guest"&&method==="POST"){
+   const b=await json();if(!validVisitorToken(b?.visitorToken)||Object.keys(b||{}).some(key=>key!=="visitorToken"))return fail(400,"VALIDATION_ERROR","Invalid visitor session");
+   const f=await followerForVisitor(b.visitorToken);if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");if(f.status==="blocked")return fail(403,"FOLLOW_BLOCKED","This visitor cannot follow updates");
+   const row=await q("UPDATE followers SET status='active',display_name=NULL,consent_at=NULL,unsubscribed_at=NULL WHERE id=? RETURNING id,status",f.id).first();if(!row)return fail(409,"FOLLOW_FAILED","Unable to activate anonymous following");
+   return out({success:true,following:true,anonymous:true});
   }
   if(path==="/api/public/followers"&&method==="POST"){
    const b=await json();if(!validVisitorToken(b?.visitorToken)||typeof b?.displayName!=="string"||b.displayName.trim().length<2||b.displayName.trim().length>80||b.consent!==true||Object.keys(b||{}).some(key=>!["visitorToken","displayName","consent"].includes(key)))return fail(400,"VALIDATION_ERROR","Provide a display name and explicit consent");
@@ -207,7 +226,7 @@ export default {
   }
   if(path==="/api/public/events"&&method==="POST"){
    const b=await json();if(!b||!validVisitorToken(b.visitorToken)||!["page_view","project_view","article_view","certificate_view","contact_click","share","follow","unfollow","reaction","comment_submitted"].includes(b.eventType)||typeof b.path!=="string"||!b.path.startsWith("/"))return fail(400,"VALIDATION_ERROR","Invalid event payload");
-   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified","unsubscribed"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    let ref=null;try{ref=b.referrer?new URL(b.referrer).hostname:null}catch{}
    await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,referrer_host,session_hash) VALUES(?,?,?,?,?,?,?)",crypto.randomUUID(),b.eventType,b.path.slice(0,500),b.targetType||null,b.targetId||null,ref,await hash(b.visitorToken)).run();return out({success:true},202);
   }
@@ -219,6 +238,27 @@ export default {
    const a=await q("SELECT id FROM articles WHERE id=? AND status='Published'",b.articleId).first();if(!a)return fail(404,"ARTICLE_NOT_FOUND","Published article not found");
    const id=crypto.randomUUID();await q("INSERT INTO comments(id,article_id,follower_id,body,status) VALUES(?,?,?,?,'pending')",id,b.articleId,f.id,b.body.trim()).run();return out({id,status:"pending"},201);
   }
+  if(path==="/api/public/site-reactions"&&method==="GET"){
+   const targetId=url.searchParams.get("targetId")||"mghal-home";if(targetId!=="mghal-home")return fail(404,"TARGET_NOT_FOUND","Unknown site reaction target");
+   const visitorToken=request.headers.get("X-Visitor-Token")||url.searchParams.get("visitorToken");if(visitorToken&&!validVisitorToken(visitorToken))return fail(400,"VALIDATION_ERROR","Invalid visitor token");
+   let viewerLiked=false;if(visitorToken){const f=await followerForVisitor(visitorToken);if(f&&f.status!=="blocked"){const identityHash=await hash(f.id);viewerLiked=!!(await q("SELECT id FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash=? LIMIT 1",targetId,identityHash).first());}}
+   const count=await q("SELECT COUNT(DISTINCT session_hash) count FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash IS NOT NULL",targetId).first();
+   return out({targetType:"page",targetId,counts:{like:Number(count?.count||0)},viewerReactions:{like:viewerLiked},reacted:viewerLiked});
+  }
+  if(path==="/api/public/site-reactions"&&method==="POST"){
+   const b=await json();if(!b||b.targetId!=="mghal-home"||b.reaction!=="like"||!validVisitorToken(b.visitorToken)||Object.keys(b).some(key=>!["visitorToken","targetId","reaction"].includes(key)))return fail(400,"VALIDATION_ERROR","Invalid site reaction");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified","unsubscribed"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const identityHash=await hash(f.id),existing=await q("SELECT id FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash=? LIMIT 1",b.targetId,identityHash).first();
+   if(existing)return out({success:true,created:false});
+   await q("INSERT INTO analytics_events(id,event_type,path,target_type,target_id,session_hash) VALUES(?,'reaction','/','page',?,?)",crypto.randomUUID(),b.targetId,identityHash).run();
+   return out({success:true,created:true});
+  }
+  if(path==="/api/public/site-reactions"&&method==="DELETE"){
+   const b=await json();if(!b||b.targetId!=="mghal-home"||!validVisitorToken(b.visitorToken)||Object.keys(b).some(key=>!["visitorToken","targetId","reaction"].includes(key))||(b.reaction!==undefined&&b.reaction!=="like"))return fail(400,"VALIDATION_ERROR","Invalid site reaction removal");
+   const f=await followerForVisitor(b.visitorToken);if(!f)return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const identityHash=await hash(f.id),removed=await q("DELETE FROM analytics_events WHERE event_type='reaction' AND target_type='page' AND target_id=? AND session_hash=? RETURNING id",b.targetId,identityHash).first();
+   return out({success:true,removed:!!removed});
+  }
   if(path==="/api/public/reactions"&&method==="GET"){
    const targetType=url.searchParams.get("targetType"),targetId=url.searchParams.get("targetId");
    if(!["article","project"].includes(targetType)||!targetId||targetId.length>100)return fail(400,"VALIDATION_ERROR","Invalid reaction target");
@@ -227,7 +267,7 @@ export default {
    const rows=await q("SELECT reaction,COUNT(*) count FROM reactions WHERE target_type=? AND target_id=? GROUP BY reaction",targetType,targetId).all();
    const counts={like:0,clap:0};for(const row of rows.results||[])if(row.reaction in counts)counts[row.reaction]=Number(row.count)||0;
    let viewerReactions={like:false,clap:false};const visitorToken=request.headers.get("X-Visitor-Token")||url.searchParams.get("visitorToken");if(visitorToken&&!validVisitorToken(visitorToken))return fail(400,"VALIDATION_ERROR","Invalid visitor token");
-   if(visitorToken&&visitorToken.length>=32){const f=await followerForVisitor(visitorToken);if(f){const [like,clap]=await Promise.all([
+   if(visitorToken&&visitorToken.length>=32){const f=await followerForVisitor(visitorToken);if(f&&f.status!=="blocked"){const [like,clap]=await Promise.all([
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='like' LIMIT 1",targetType,targetId,f.id).first(),
     q("SELECT 1 FROM reactions WHERE target_type=? AND target_id=? AND follower_id=? AND reaction='clap' LIMIT 1",targetType,targetId,f.id).first()
    ]);viewerReactions={like:!!like,clap:!!clap};}}
@@ -241,7 +281,7 @@ export default {
   }
   if(path==="/api/public/reactions"&&method==="POST"){
    const b=await json();if(!b||!["article","project"].includes(b.targetType)||typeof b.targetId!=="string"||b.targetId.length<1||b.targetId.length>100||!["like","clap"].includes(b.reaction)||!validVisitorToken(b.visitorToken)||Object.keys(b).some(key=>!["visitorToken","targetType","targetId","reaction"].includes(key)))return fail(400,"VALIDATION_ERROR","Invalid reaction");
-   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
+   const f=await followerForVisitor(b.visitorToken);if(!f||!["active","unverified","unsubscribed"].includes(f.status))return fail(401,"VISITOR_SESSION_REQUIRED","Register visitor session first");
    const table=b.targetType==="article"?"articles":"projects",where=b.targetType==="article"?"status='Published'":"is_published=1";const target=await q("SELECT id FROM "+table+" WHERE id=? AND "+where,b.targetId).first();if(!target)return fail(404,"TARGET_NOT_FOUND","Published target not found");
    const result=await q("INSERT INTO reactions(id,target_type,target_id,follower_id,reaction) VALUES(?,?,?,?,?) ON CONFLICT(target_type,target_id,follower_id,reaction) DO NOTHING",crypto.randomUUID(),b.targetType,b.targetId,f.id,b.reaction).run();
    return out({success:true,created:Number(result?.meta?.changes||0)===1},200);
@@ -254,7 +294,7 @@ export default {
   }
   if(admin&&path==="/api/admin/users"&&method==="GET"){
    if(!(await can("users.manage")))return fail(403,"FORBIDDEN","Missing users.manage permission");
-   const rows=await q("SELECT u.id,u.email,u.display_name,u.status,u.created_at,u.last_login_at,GROUP_CONCAT(r.name,', ') roles FROM admin_users u LEFT JOIN admin_user_roles ur ON ur.user_id=u.id LEFT JOIN roles r ON r.id=ur.role_id GROUP BY u.id ORDER BY u.created_at DESC").all();return out({data:rows.results});
+   const rows=await q("SELECT u.id,u.email,u.display_name,u.status,u.created_at,u.last_login_at,STRING_AGG(r.name, ', ') roles FROM admin_users u LEFT JOIN admin_user_roles ur ON ur.user_id=u.id LEFT JOIN roles r ON r.id=ur.role_id GROUP BY u.id ORDER BY u.created_at DESC").all();return out({data:rows.results});
   }
   if(admin&&path==="/api/admin/users"&&method==="POST"){
    if(!(await can("users.manage")))return fail(403,"FORBIDDEN","Missing users.manage permission");const b=await json();if(!b||Object.keys(b).some(key=>!["email","password","displayName","role"].includes(key))||typeof b.email!=="string"||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)||typeof b.password!=="string"||b.password.length<12||b.password.length>200||typeof b.displayName!=="string"||b.displayName.trim().length<2||b.displayName.length>120||! ["editor","analyst"].includes(b.role))return fail(400,"VALIDATION_ERROR","Invalid user payload");
@@ -265,7 +305,7 @@ export default {
    if(!(await can("users.manage")))return fail(403,"FORBIDDEN","Missing users.manage permission");const id=path.split("/").pop(),b=await json();if(id===current.id)return fail(409,"SELF_STATUS_CHANGE_DENIED","You cannot change your own account status");if(!["active","disabled","locked"].includes(b?.status))return fail(400,"VALIDATION_ERROR","Invalid account status");const target=await q("SELECT u.id,r.name role FROM admin_users u LEFT JOIN admin_user_roles ur ON ur.user_id=u.id LEFT JOIN roles r ON r.id=ur.role_id WHERE u.id=?",id).first();if(!target)return fail(404,"NOT_FOUND","User not found");if(target.role==="owner"&&b.status!=="active"){const count=await q("SELECT COUNT(*) n FROM admin_users u JOIN admin_user_roles ur ON ur.user_id=u.id JOIN roles r ON r.id=ur.role_id WHERE r.name='owner' AND u.status='active'").first();if(Number(count?.n||0)<=1)return fail(409,"LAST_OWNER_PROTECTED","Cannot disable the last active owner");}await q("UPDATE admin_users SET status=?,updated_at=? WHERE id=?",b.status,new Date().toISOString(),id).run();return out({success:true,id,status:b.status});
   }
   if(admin&&path.startsWith("/api/admin/")&&method==="GET"&&resources[path.split("/")[3]]){
-   if(!(await can("content.read")))return fail(403,"FORBIDDEN","Missing content.read permission");const name=path.split("/")[3],c=resources[name],rows=await q("SELECT "+c.cols.join(",")+" FROM "+c.table+" ORDER BY rowid DESC LIMIT 200").all();return out({data:rows.results,total:rows.results.length});
+   if(!(await can("content.read")))return fail(403,"FORBIDDEN","Missing content.read permission");const name=path.split("/")[3],c=resources[name],orderBy=c.cols.includes("created_at")?"created_at DESC":c.cols.includes("sort_order")?"sort_order ASC":c.cols.includes("updated_at")?"updated_at DESC":"id ASC",rows=await q("SELECT "+c.cols.join(",")+" FROM "+c.table+" ORDER BY "+orderBy+" LIMIT 200").all();return out({data:rows.results,total:rows.results.length});
   }
   if(admin&&path.startsWith("/api/admin/")&&["POST","PATCH","DELETE"].includes(method)&&resources[path.split("/")[3]]){
    const name=path.split("/")[3],c=resources[name],id=path.split("/")[4];if(method==="DELETE"){if(!(await can("content.delete")))return fail(403,"FORBIDDEN","Missing content.delete permission");if(!id)return fail(400,"INVALID_ID","Record id required");const before=await q("SELECT "+c.cols.join(",")+" FROM "+c.table+" WHERE id=?",id).first();if(!before)return fail(404,"NOT_FOUND","Record not found");await q("DELETE FROM "+c.table+" WHERE id=?",id).run();await q("INSERT INTO audit_logs(id,actor_user_id,action,resource_type,resource_id,before_json) VALUES(?,?,?,?,?,?)",crypto.randomUUID(),current.id,"delete",c.table,id,JSON.stringify(before)).run();return out({success:true,id});}
@@ -275,7 +315,7 @@ export default {
    if(method==="PATCH"){if(!id)return fail(400,"INVALID_ID","Record id required");const before=await q("SELECT "+c.cols.join(",")+" FROM "+c.table+" WHERE id=?",id).first();if(!before)return fail(404,"NOT_FOUND","Record not found");const data={...b};if(name==="articles"&&data.status==="Published"&&!data.published_at)data.published_at=new Date().toISOString();if(c.cols.includes("updated_at"))data.updated_at=new Date().toISOString();const updateKeys=Object.keys(data);const row=await q("UPDATE "+c.table+" SET "+updateKeys.map(k=>k+"=?").join(",")+" WHERE id=? RETURNING "+c.cols.join(","),...updateKeys.map(k=>data[k]),id).first();await q("INSERT INTO audit_logs(id,actor_user_id,action,resource_type,resource_id,before_json,after_json) VALUES(?,?,?,?,?,?,?)",crypto.randomUUID(),current.id,"update",c.table,id,JSON.stringify(before),JSON.stringify(row)).run();return out(row);}
   }
   if(admin&&path==="/api/admin/media"&&method==="GET"){if(!(await can("content.read")))return fail(403,"FORBIDDEN","Missing content.read permission");const rows=await q("SELECT id,storage_provider,storage_key,public_url,original_name,mime_type,size_bytes,alt_ar,alt_en,created_at FROM media ORDER BY created_at DESC LIMIT 200").all();return out({data:rows.results});}
-  if(admin&&path==="/api/admin/media"&&method==="POST"){if(!(await can("content.write")))return fail(403,"FORBIDDEN","Missing content.write permission");const form=await request.formData(),file=form.get("file");if(!(file instanceof File)||file.size<1||file.size>1572864||!["image/jpeg","image/png","image/webp","image/svg+xml","application/pdf"].includes(file.type))return fail(400,"INVALID_MEDIA","Allowed files: JPEG, PNG, WebP, SVG or PDF up to 1.5 MB");const id=crypto.randomUUID(),bytes=new Uint8Array(await file.arrayBuffer()),publicUrl=file.type.startsWith("image/")?"https://mghal-api.m-gh-alaosimi.workers.dev/api/public/media/"+id:null;const row=await q("INSERT INTO media(id,storage_provider,storage_key,public_url,original_name,mime_type,size_bytes,alt_ar,alt_en,uploaded_by,blob_data) VALUES(? ,'d1',?,?,?,?,?,?,?,?,?) RETURNING id,storage_provider,storage_key,public_url,original_name,mime_type,size_bytes,created_at",id,"d1:"+id,publicUrl,file.name.slice(0,255),file.type,file.size,String(form.get("alt_ar")||"").slice(0,250),String(form.get("alt_en")||"").slice(0,250),current.id,bytes).first();return out(row,201);}
+  if(admin&&path==="/api/admin/media"&&method==="POST"){if(!(await can("content.write")))return fail(403,"FORBIDDEN","Missing content.write permission");const form=await request.formData(),file=form.get("file");if(!(file instanceof File)||file.size<1||file.size>1572864||!["image/jpeg","image/png","image/webp","image/svg+xml","application/pdf"].includes(file.type))return fail(400,"INVALID_MEDIA","Allowed files: JPEG, PNG, WebP, SVG or PDF up to 1.5 MB");const id=crypto.randomUUID(),bytes=new Uint8Array(await file.arrayBuffer()),siteUrl=(env.PUBLIC_SITE_URL||(env.VERCEL_ENV==="preview"&&env.VERCEL_URL?"https://"+env.VERCEL_URL:"https://mghalaosimi-web.vercel.app")).replace(/\/+$/,""),publicUrl=file.type.startsWith("image/")?siteUrl+"/api/public/media/"+id:null;const row=await q("INSERT INTO media(id,storage_provider,storage_key,public_url,original_name,mime_type,size_bytes,alt_ar,alt_en,uploaded_by,blob_data) VALUES(? ,'postgres',?,?,?,?,?,?,?,?,?) RETURNING id,storage_provider,storage_key,public_url,original_name,mime_type,size_bytes,created_at",id,"postgres:"+id,publicUrl,file.name.slice(0,255),file.type,file.size,String(form.get("alt_ar")||"").slice(0,250),String(form.get("alt_en")||"").slice(0,250),current.id,bytes).first();return out(row,201);}
   if(admin&&path.startsWith("/api/admin/media/")&&method==="DELETE"){if(!(await can("content.delete")))return fail(403,"FORBIDDEN","Missing content.delete permission");const id=path.split("/").pop(),row=await q("SELECT id,original_name FROM media WHERE id=? LIMIT 1",id).first();if(!row)return fail(404,"MEDIA_NOT_FOUND","Media not found");await q("DELETE FROM media WHERE id=?",id).run();await q("INSERT INTO audit_logs(id,actor_user_id,action,resource_type,resource_id,before_json) VALUES(?,?,?,?,?,?)",crypto.randomUUID(),current.id,"delete","media",id,JSON.stringify(row)).run();return out({success:true,id});}
   if(admin&&path.startsWith("/api/admin/media/")&&method==="GET"){if(!(await can("content.read")))return fail(403,"FORBIDDEN","Missing content.read permission");const id=path.split("/").pop(),row=await q("SELECT blob_data,mime_type,original_name FROM media WHERE id=? LIMIT 1",id).first();if(!row||!row.blob_data)return fail(404,"MEDIA_NOT_FOUND","Media not found");const h=new Headers({"Content-Type":row.mime_type,"Content-Disposition":"attachment; filename*=UTF-8''"+encodeURIComponent(row.original_name),"Content-Length":String(row.blob_data.byteLength),"Cache-Control":"private, no-store","X-Content-Type-Options":"nosniff"});return new Response(row.blob_data,{headers:h});}
   if(path.startsWith("/api/public/media/")&&method==="GET"){const id=path.split("/").pop(),row=await q("SELECT m.blob_data,m.mime_type FROM media m WHERE m.id=? AND (m.mime_type LIKE 'image/%' OR (m.mime_type='application/pdf' AND EXISTS (SELECT 1 FROM certificates c WHERE c.pdf_media_id=m.id AND c.is_published=1))) LIMIT 1",id).first();if(!row||!row.blob_data)return fail(404,"MEDIA_NOT_FOUND","Public media not found");const isPdf=row.mime_type==="application/pdf";if(!isPdf&&!row.mime_type.startsWith("image/"))return fail(404,"MEDIA_NOT_FOUND","Public media not found");const headers={"Content-Type":row.mime_type,"Content-Length":String(row.blob_data.byteLength),"Cache-Control":"public, max-age=86400","X-Content-Type-Options":"nosniff","Content-Security-Policy":"default-src 'none'; sandbox"};if(isPdf)headers["Content-Disposition"]="inline";return new Response(row.blob_data,{headers:new Headers(headers)});}
@@ -289,12 +329,13 @@ export default {
   }
   if(admin&&path==="/api/admin/comments"&&method==="GET"){if(!(await can("comments.read"))&&!(await can("content.read")))return fail(403,"FORBIDDEN","Missing comments.read permission");const rows=await q("SELECT c.id,c.article_id,c.follower_id,c.body,c.status,c.created_at,a.title article_title FROM comments c JOIN articles a ON a.id=c.article_id ORDER BY c.created_at DESC LIMIT 100").all();return out({data:rows.results});}
   if(admin&&path.startsWith("/api/admin/comments/")&&method==="PATCH"){if(!(await can("comments.moderate")))return fail(403,"FORBIDDEN","Missing comments.moderate permission");const id=path.split("/").pop(),b=await json();if(!["approved","rejected","spam"].includes(b?.status))return fail(400,"VALIDATION_ERROR","Invalid moderation status");const r=await q("UPDATE comments SET status=? WHERE id=? AND status='pending' RETURNING id,status",b.status,id).first();return r?out(r):fail(404,"NOT_FOUND","Pending comment not found");}
-  if(admin&&path==="/api/admin/analytics"&&method==="GET"){if(!(await can("analytics.read")))return fail(403,"FORBIDDEN","Missing analytics.read permission");const days=Math.max(1,Math.min(90,Number(url.searchParams.get("days")||30)));const rows=await q("SELECT date(created_at) day,event_type,COUNT(*) count,COUNT(DISTINCT session_hash) visitors FROM analytics_events WHERE created_at>=? GROUP BY date(created_at),event_type ORDER BY day DESC",new Date(Date.now()-days*86400000).toISOString()).all();return out({days,data:rows.results});}
+  if(admin&&path==="/api/admin/analytics"&&method==="GET"){if(!(await can("analytics.read")))return fail(403,"FORBIDDEN","Missing analytics.read permission");const days=Math.max(1,Math.min(90,Number(url.searchParams.get("days")||30)));const rows=await q("SELECT CAST(CAST(created_at AS TIMESTAMPTZ) AS DATE) AS event_day,event_type,COUNT(*) count,COUNT(DISTINCT session_hash) visitors FROM analytics_events WHERE created_at>=? GROUP BY CAST(CAST(created_at AS TIMESTAMPTZ) AS DATE),event_type ORDER BY event_day DESC",new Date(Date.now()-days*86400000).toISOString()).all();return out({days,data:rows.results});}
   if(path.startsWith("/api/public/")&&method==="GET"){
    const name=path.split("/")[3],tables={identity:["identity_profiles","is_published=1"],education:["education","is_published=1"],skills:["skills","is_published=1"],projects:["projects","is_published=1 AND status!='Archived'"],certificates:["certificates","is_published=1"],achievements:["achievements","is_published=1"],technologies:["technologies","is_published=1 AND archived=0"]};
    const cfg=tables[name];if(!cfg)return fail(404,"RESOURCE_NOT_FOUND","Unknown resource");const cols={identity:"id,locale,full_name,professional_title,headline,biography,location,avatar_media_id,updated_at",education:"id,institution,degree,field_of_study,location,start_date,end_date,status,description,sort_order",skills:"id,name,locale,category,proficiency,sort_order",technologies:"id,name,category,logo_url,website_url",projects:"id,slug,name,locale,short_description,description,status,repository_url,live_url,cover_media_id,started_at,completed_at,sort_order,created_at,updated_at",certificates:"id,slug,title,issuer,category,credential_id,issued_at,expires_at,verification_url,image_media_id,pdf_media_id,qr_url,description,sort_order,created_at,updated_at",achievements:"id,slug,title,description,achieved_at,related_project_id,media_id,sort_order"};
    const locale=url.searchParams.get("locale")==="ar"?"ar":"en";
-   const sql=name==="projects"?"SELECT id,slug,CASE WHEN ?='ar' THEN COALESCE(NULLIF(name_ar,''),name) ELSE name END AS name,locale,CASE WHEN ?='ar' THEN COALESCE(NULLIF(short_description_ar,''),short_description) ELSE short_description END AS short_description,CASE WHEN ?='ar' THEN COALESCE(NULLIF(description_ar,''),description) ELSE description END AS description,status,repository_url,live_url,cover_media_id,started_at,completed_at,sort_order,created_at,updated_at FROM projects WHERE is_published=1 AND status!='Archived' ORDER BY sort_order ASC LIMIT 100":"SELECT "+cols[name]+" FROM "+cfg[0]+" WHERE "+cfg[1]+" ORDER BY "+(name==="certificates"?"sort_order ASC":"rowid DESC")+" LIMIT 100";
+   const publicOrder={identity:"updated_at DESC",education:"sort_order ASC",skills:"sort_order ASC",projects:"sort_order ASC",certificates:"sort_order ASC",achievements:"sort_order ASC",technologies:"name ASC"};
+   const sql=name==="projects"?"SELECT id,slug,CASE WHEN ?='ar' THEN COALESCE(NULLIF(name_ar,''),name) ELSE name END AS name,locale,CASE WHEN ?='ar' THEN COALESCE(NULLIF(short_description_ar,''),short_description) ELSE short_description END AS short_description,CASE WHEN ?='ar' THEN COALESCE(NULLIF(description_ar,''),description) ELSE description END AS description,status,repository_url,live_url,cover_media_id,started_at,completed_at,sort_order,created_at,updated_at FROM projects WHERE is_published=1 AND status!='Archived' ORDER BY sort_order ASC LIMIT 100":"SELECT "+cols[name]+" FROM "+cfg[0]+" WHERE "+cfg[1]+" ORDER BY "+publicOrder[name]+" LIMIT 100";
    const rows=name==="projects"?await q(sql,locale,locale,locale).all():await q(sql).all();return out({data:rows.results,total:rows.results.length,locale:name==="projects"?locale:undefined});
   }
   return fail(404,"NOT_FOUND","Route not found");

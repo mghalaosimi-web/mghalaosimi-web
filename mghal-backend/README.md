@@ -1,75 +1,47 @@
 # M.GH.AL Backend API
 
-Cloudflare Worker API backed by the existing `mghal-db` D1 database.
+## Production architecture
 
-## Runtime
+- Hosting and API execution: **Vercel only**.
+- Application database: **Neon PostgreSQL only**.
+- Vercel Next.js Route Handler: `app/api/[...path]/route.ts`.
+- Shared API contract: `mghal-backend/api-handler.mjs`.
+- PostgreSQL query adapter: `mghal-backend/node/postgres-adapter.mjs`.
+- Production API and frontend share the same Vercel project and origin.
+- Production API requests are dispatched in-process; no external API proxy is used.
 
-- Worker: `mghal-api`
-- Public endpoint: `https://mghal-api.m-gh-alaosimi.workers.dev`
-- Canonical deployment entrypoint: `worker.production.js`
-- D1 binding: `DB`
-- Database ID: `1e5682c3-6a68-4fe5-b2c5-01f9fbe1aabd`
-- CORS origins: official Vercel site and the configured Render site.
-- Rate limit: 120 API requests per IP/minute; the limiter fails closed if D1 protection storage is unavailable.
+The API handler is a standard Web Request/Response module. It does not require a Cloudflare Worker runtime, a Worker binding, a separate Node HTTP service, or a second database.
 
-## Public API
+## Database
 
-- `GET /health`
-- `GET /api/public/identity`
-- `GET /api/public/education`
-- `GET /api/public/skills`
-- `GET /api/public/technologies`
-- `GET /api/public/projects`
-- `GET /api/public/certificates`
-- `GET /api/public/achievements`
-- `GET /api/public/articles?locale=ar|en`
-- `GET /api/public/articles/:slug`
-- `POST /api/public/visitors` — creates/reuses an anonymous visitor-follower identity.
-- `POST /api/public/events` — records allow-listed page and content events.
-- `POST /api/public/comments` — submits a comment for moderation.
-- `GET /api/public/reactions?targetType=project|article&targetId=...` — returns server-side counts; the optional `X-Visitor-Token` header returns the current browser's own reaction state without placing its opaque token in the URL.
-- `POST /api/public/reactions` — records a like/clap on a published article or project.
+The only production database is Neon project `billowing-snow-49569906`, branch `br-morning-cherry-b9l25msz`, database `mghal_portfolio`. Vercel receives its pooled connection string through the encrypted `DATABASE_URL` production environment variable.
 
-Visitor tokens are opaque random values held by the browser; only SHA-256 hashes are stored in D1. The anonymous visitor identity does not collect an email address and is not an email-marketing subscription or a record of explicit marketing consent. Browser tracking respects Do Not Track.
+The compatibility adapter exposes the existing prepared-query interface while executing SQL against PostgreSQL. It does not connect to D1 or SQLite.
 
-## Admin API
+## Runtime configuration
 
-All admin routes require a valid Bearer session. Password hashes use PBKDF2-SHA256. Permissions are checked through the D1 role/permission tables.
+Required in Vercel Production:
 
-- `GET /api/admin/bootstrap/status`, `POST /api/admin/bootstrap/rotate` and `POST /api/admin/bootstrap` (first-owner creation is unavailable unless a matching `OWNER_BOOTSTRAP_TOKEN` Worker secret of at least 32 characters is configured and its SHA-256 digest matches the D1 setup hash; rotation also requires that secret)
-- `POST /api/admin/auth/login`
-- `POST /api/admin/auth/logout`
-- `GET /api/admin/dashboard`
-- `GET /api/admin/followers`
-- `GET /api/admin/comments`
-- `PATCH /api/admin/comments/:id` with `approved|rejected|spam`
-- `GET /api/admin/analytics?days=30`
-- `GET|POST|PATCH|DELETE /api/admin/{projects|certificates|articles|identity|education|skills|technologies|achievements}`
-- `GET|POST /api/admin/media` and authenticated `GET /api/admin/media/:id`
-- `GET|POST|PATCH /api/admin/users` (owner-only user administration)
-- `PATCH /api/admin/followers/:id` (owner/editor follower moderation)
+- `DATABASE_URL` — encrypted Neon pooled connection string.
+- `PUBLIC_SITE_URL` — `https://mghalaosimi-web.vercel.app`.
+- `ALLOWED_ORIGINS` — `https://mghalaosimi-web.vercel.app`.
 
-No default owner account or password is created. First-owner bootstrap fails closed with HTTP 503 unless `OWNER_BOOTSTRAP_TOKEN` is configured as a Worker secret with at least 32 characters. The submitted token must constant-time match that secret, and its SHA-256 digest must also match `site_settings.owner_bootstrap_hash`; a missing or stale hash requires the protected rotation route first. Bootstrap accepts only the first account while `admin_users` is empty, hashes the password with PBKDF2-SHA256, assigns the owner role and consumes the token. The recovery route `POST /api/admin/bootstrap/rotate` refuses rotation after any admin exists and stores only the SHA-256 digest. Configure the secret outside source control, rotate, create the owner, then remove the secret binding. Do not expose the token in source code.
+Optional server-only settings:
 
-## Imported content
+- `RATE_LIMIT_PER_MINUTE`
+- `OWNER_BOOTSTRAP_TOKEN` — needed only for a not-yet-bootstrapped owner; never expose it.
+- `GOOGLE_AUTH_ENABLED`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_REDIRECT_URI`
 
-The first content synchronization inserted:
+Preview deployments do not receive the production database URL. Without a dedicated isolated database, API routes fail closed with HTTP 503.
 
-- 10 project records from the reviewed project catalogue.
-- 21 certificate records (6 Edraak, 14 Cisco, 1 JSNAD).
-- 2 published identity profiles (Arabic and English).
-- 1 current Information Technology bachelor education record.
-- 21 published skill records with proficiency left as `not_specified`.
+## Health endpoints
 
-The public static website remains the SEO-friendly presentation layer. D1 is now populated for the API/admin platform. No article content, media objects, or unverified certificate-to-QR mappings were fabricated. Published articles are exposed only when `status=Published` and `published_at` is set; the bilingual knowledge page renders the public feed.
+- `GET /api/health` — shared API handler and database check.
+- `GET /api/ready` — PostgreSQL `SELECT 1` readiness probe.
 
-## Local validation
+## Local Node adapter
 
-From this directory:
-
-```bash
-npm ci
-npm run check
-```
-
-The check runs strict TypeScript, ESLint, Vitest (including production Worker CORS/health/bootstrap contract tests), a Wrangler dry-run of `worker.production.js`, and JavaScript syntax validation. The live Worker is deployed through Cloudflare; production D1 schema changes remain additive-only and require a numbered migration.
+`mghal-backend/node/server.mjs` remains only as a local compatibility/test harness. It is not a production service and must not be deployed as a separate API host.

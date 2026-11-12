@@ -23,6 +23,9 @@ describe("public social client invariants",()=>{
  it("does not infer email from browser identity or mailbox APIs",()=>{
   expect(source).not.toMatch(/navigator\\.email|localStorage\\.getItem\\(['"]email['"]\\)|document\\.cookie[^;]*email/i);
   expect(source).toContain("consent:consent.checked");
+  expect(source).toContain("/api/public/followers/guest");
+  expect(source).toContain("guestFollow:'تابع كمستخدم مجهول'");
+  expect(source).toContain("guestFollow.hidden=false");
  });
  it("exposes accessible loading, pressed, status, and explanatory states",()=>{
   expect(source).toContain("aria-busy");
@@ -39,7 +42,8 @@ describe("public social client invariants",()=>{
  it("uses server-provided reaction counts",()=>{
   expect(source).toContain("data.counts.like");
   expect(source).toContain("data.counts.clap");
-  expect(source).toContain("/api/public/reactions?");
+  expect(source).toContain("type==='page'?'/api/public/site-reactions':'/api/public/reactions'");
+  expect(source).toContain("endpoint+'?'+query.toString()");
  });
 });
 

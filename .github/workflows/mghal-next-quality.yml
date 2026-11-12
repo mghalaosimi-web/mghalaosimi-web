@@ -1,27 +1,46 @@
 name: M.GH.AL Next.js quality checks
 on:
   pull_request:
-    branches: [main, feature/mghal-arfat-full-integration]
+    branches: [main, feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
   push:
-    branches: [feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07]
+    branches: [feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
 permissions:
   contents: read
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
+          package-manager-cache: false
+      - name: Verify workspace lockfiles
+        run: |
+          pwd
+          git ls-files package-lock.json
+          ls -l package-lock.json
+          node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('package-lock.json','utf8'));console.log('lockfileVersion='+p.lockfileVersion)"
+          npm config get package-lock
+        working-directory: ${{ github.workspace }}
       - run: npm ci --no-audit --no-fund
+        working-directory: ${{ github.workspace }}
+      - run: npm audit --omit=dev --audit-level=moderate
       - run: npm run audit:credentials
       - run: npm run test:certificates
       - run: npm run audit:profile
-      - run: npm run test:api-proxy
+      - run: npm run audit:design
+      - run: npm run audit:pwa
+      - run: npm run test:api-runtime
+      - run: npm run test:security-headers
+      - run: npm run test:structured-data
       - run: npm run test:seo
       - run: npm run test:sitemap
+      - run: npm run test:project-pages
+      - run: npm run test:navigation
+      - run: npm run test:search
       - run: npm --prefix mghal-backend ci --no-audit --no-fund
+      - run: npm --prefix mghal-backend audit --omit=dev --audit-level=moderate
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run build

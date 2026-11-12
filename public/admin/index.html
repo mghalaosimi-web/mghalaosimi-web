@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive"><meta name="description" content="لوحة الإدارة الآمنة لمنصة M.GH.AL لإدارة المحتوى والمشاريع والشهادات والمتابعين والتحليلات."><meta name="theme-color" content="#172b4d">
-<title>إدارة M.GH.AL</title><link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/assets/admin.css">
+<title>إدارة M.GH.AL</title><link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/assets/design-tokens.css"><link rel="stylesheet" href="/assets/admin.css">
 </head>
 <body>
 <div class="admin-shell">
@@ -34,7 +34,7 @@
       <div class="auth-card">
         <div class="auth-mark">M.GH.AL</div><span class="eyebrow">SECURE ACCESS</span><h2 id="auth-title">تسجيل دخول الإدارة</h2><p id="auth-copy">استخدم حساب الإدارة المعتمد للوصول إلى لوحة التحكم.</p>
         <form id="login-form"><label>البريد الإلكتروني<input name="email" type="email" autocomplete="username" required maxlength="254"></label><label>كلمة المرور<input name="password" type="password" autocomplete="current-password" required minlength="12"></label><button class="btn btn-primary" type="submit">دخول آمن</button></form>
-        <form id="bootstrap-rotate-form" class="hidden"><label>رمز التهيئة الجديد الذي أعددته في Cloudflare<input name="token" type="password" autocomplete="off" required minlength="32"></label><p class="api-state">أدخل الرمز الذي حفظته كسر Worker باسم OWNER_BOOTSTRAP_TOKEN. لا ترسله في المحادثة أو عبر رابط.</p><button class="btn btn-primary" type="submit">تدوير الرمز وتجهيز التهيئة</button></form>
+        <form id="bootstrap-rotate-form" class="hidden"><label>رمز التهيئة الجديد الذي أعددته في إعدادات Vercel<input name="token" type="password" autocomplete="off" required minlength="32"></label><p class="api-state">أدخل الرمز الذي حفظته كسر Worker باسم OWNER_BOOTSTRAP_TOKEN. لا ترسله في المحادثة أو عبر رابط.</p><button class="btn btn-primary" type="submit">تدوير الرمز وتجهيز التهيئة</button></form>
         <form id="bootstrap-form" class="hidden"><label>رمز التهيئة لمرة واحدة<input name="token" type="password" autocomplete="off" required></label><label>اسم مالك المنصة<input name="displayName" required maxlength="120"></label><label>البريد الإلكتروني<input name="email" type="email" required maxlength="254"></label><label>كلمة مرور (12 حرفاً على الأقل)<input name="password" type="password" required minlength="12" autocomplete="new-password"></label><button class="btn btn-primary" type="submit">إنشاء حساب المالك</button></form>
         <div id="auth-message" class="message" role="status"></div>
       </div>

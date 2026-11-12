@@ -8,14 +8,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const en = (await cookies()).get('portfolio-locale')?.value === 'en';
   return en
     ? {
-        title: 'Applied Security Labs',
+        title: 'Applied Engineering Labs',
         alternates: localizedAlternates('/labs','en'),
-        description: 'Explore structured cybersecurity lab tracks for network defense, penetration testing, digital forensics, malware analysis, application security, cryptography, cloud security, and AI security.',
+        description: 'Explore structured engineering and learning labs. Security topics are presented as an additional area of interest and study, within isolated and authorized environments.',
       }
     : {
-        title: 'المعامل التطبيقية',
+        title: 'المعامل الهندسية التطبيقية',
         alternates: localizedAlternates('/labs','ar'),
-        description: 'معامل الأمن السيبراني التطبيقية: اختبار أمن الويب، Active Directory، تحليل حركة الشبكة، أمن الشبكات اللاسلكية، وتحليل البرمجيات الخبيثة ضمن بيئات معزولة ومصرح بها.',
+        description: 'معامل ومسارات تعلم تطبيقية لفهم الأنظمة واختبار الضوابط وتحليل السلوك وتوثيق النتائج. موضوعات الأمن السيبراني مجال اهتمام وتعلم إضافي، وليست التخصص الأكاديمي للدرجة.',
       };
 }
 

@@ -3,7 +3,8 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
-const catalog = JSON.parse(readFileSync(path.join(root, "assets/projects/catalog.json"), "utf8"));
+const publicRoot = path.join(root, "public");
+const catalog = JSON.parse(readFileSync(path.join(publicRoot, "assets/projects/catalog.json"), "utf8"));
 assert.ok(Array.isArray(catalog.projects) && catalog.projects.length > 0, "The project catalogue must contain records.");
 assert.match(catalog.siteOrigin, /^https:\/\//, "A canonical site origin is required.");
 
@@ -18,7 +19,7 @@ for (const project of catalog.projects) {
   assert.ok(project.summary?.ar && project.summary?.en && project.problem?.ar && project.problem?.en, "Bilingual summaries and problem statements are required.");
   assert.ok(Array.isArray(project.technologies) && Array.isArray(project.features) && Array.isArray(project.gallery), "Technology, feature and gallery arrays are required.");
   assert.ok(project.cover?.startsWith("/assets/projects/"), "Project covers must use local portfolio assets.");
-  assert.ok(existsSync(path.join(root, project.cover.slice(1))), "Missing project cover: " + project.cover);
+  assert.ok(existsSync(path.join(publicRoot, project.cover.slice(1))), "Missing project cover: " + project.cover);
   if (project.repository) assert.match(project.repository, /^https:\/\/github\.com\/mghalaosimi-web\//, "Repository links must point to the expected public owner.");
   if (project.visibility?.ar?.includes("خاص")) assert.equal(project.repository, null, "Private repositories must never be linked publicly.");
   for (const image of project.gallery) {
@@ -29,7 +30,7 @@ for (const project of catalog.projects) {
   if (project.deploymentReference?.url) assert.match(project.deploymentReference.url, /^https:\/\//, "Deployment references must use HTTPS.");
   for (const language of ["ar", "en"]) {
     const relative = path.join(language === "en" ? "en" : "", "projects", project.slug, "index.html");
-    const file = path.join(root, relative);
+    const file = path.join(publicRoot, relative);
     assert.ok(existsSync(file), "Generated page missing: " + relative);
     const html = readFileSync(file, "utf8");
     assert.match(html, new RegExp("<html lang='" + language + "'"));
@@ -52,14 +53,14 @@ for (const project of catalog.projects) {
   }
 }
 
-const sitemap = readFileSync(path.join(root, "sitemap.xml"), "utf8");
+const sitemap = readFileSync(path.join(publicRoot, "sitemap.xml"), "utf8");
 for (const route of expectedRoutes) assert.ok(sitemap.includes("<loc>" + route + "</loc>"), "Sitemap entry missing: " + route);
 const sitemapRoutes = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
 assert.equal(new Set(sitemapRoutes).size, sitemapRoutes.length, "Sitemap URLs must be unique.");
 console.log("Project portfolio tests passed: " + catalog.projects.length + " records, " + expectedRoutes.length + " bilingual routes, covers, gallery metadata, private-source guard, SEO, JSON-LD, accessibility and sitemap.");
 for (const project of catalog.projects) {
   for (const language of ["ar", "en"]) {
-    const file = path.join(root, language === "en" ? "en" : "", "projects", project.slug, "index.html");
+    const file = path.join(publicRoot, language === "en" ? "en" : "", "projects", project.slug, "index.html");
     const html = readFileSync(file, "utf8");
     assert.ok(html.includes("class='navlinks'"), "Project details must use the shared primary navigation: " + file);
     assert.ok(html.includes('nav-resume'), "Project details must expose the résumé action: " + file);
@@ -67,5 +68,5 @@ for (const project of catalog.projects) {
   }
 }
 
-const projectDetailCss = readFileSync(new URL("../assets/project-detail.css", import.meta.url), "utf8");
+const projectDetailCss = readFileSync(new URL("../public/assets/project-detail.css", import.meta.url), "utf8");
 assert.match(projectDetailCss, /\.evidence-list li[^}]*overflow-wrap:anywhere/, "Long evidence paths and unbroken tokens must wrap on narrow screens.");

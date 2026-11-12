@@ -45,7 +45,7 @@ document.querySelectorAll(projectSelector).forEach((card) => {
     actions.className = "engineering-actions";
     links.forEach((anchor) => {
         const href = anchor.href;
-        const preview = href.includes("vercel.app") || href.includes("onrender.com");
+        const preview = href.includes("vercel.app");
         anchor.textContent = href.includes("github.com")
             ? (isEnglish ? "GitHub repository ↗" : "المستودع على GitHub ↗")
             : preview

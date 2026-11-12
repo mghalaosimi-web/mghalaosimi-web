@@ -115,7 +115,7 @@ const labs: Lab[] = [
   },
   {
     id: 'ics', name: 'أمن الأنظمة الصناعية والبنية التحتية', en: 'ICS / SCADA & OT SECURITY', category: 'الأجهزة والأنظمة المتخصصة',
-    status: 'مسار تخصصي مخطط', summary: 'فهم مخاطر OT وSCADA وتقسيم الشبكات الصناعية ومراقبة البروتوكولات التشغيلية.',
+    status: 'مسار تعلم مخطط', summary: 'فهم مخاطر OT وSCADA وتقسيم الشبكات الصناعية ومراقبة البروتوكولات التشغيلية.',
     goal: 'دراسة حماية أنظمة التحكم الصناعي مع إعطاء الأولوية للسلامة والتوافر واستمرارية التشغيل.',
     environment: 'محاكيات PLC وHMI · شبكة OT افتراضية منفصلة · بيانات تشغيلية اصطناعية.',
     tools: ['OpenPLC', 'Factory I/O', 'Wireshark', 'Conpot', 'MITRE ATT&CK for ICS', 'OPC UA'],
@@ -175,7 +175,7 @@ const labs: Lab[] = [
   },
   {
     id: 'identity', name: 'أمن الهوية وإدارة الوصول', en: 'IDENTITY, IAM & ZERO TRUST', category: 'أمن البيانات والهوية',
-    status: 'مسار تخصصي', summary: 'إدارة دورة حياة الحسابات والمصادقة متعددة العوامل والامتيازات والوصول المشروط.',
+    status: 'مسار تعلم متقدم', summary: 'إدارة دورة حياة الحسابات والمصادقة متعددة العوامل والامتيازات والوصول المشروط.',
     goal: 'تصميم نموذج هوية يقلل الامتيازات الدائمة ويجعل الوصول قائمًا على السياق والحاجة.',
     environment: 'Active Directory تجريبي · Keycloak · حسابات اختبار · تطبيقات محلية.',
     tools: ['Keycloak', 'LDAP', 'OAuth 2.0', 'OpenID Connect', 'FIDO2 concepts', 'BloodHound CE (تحليل مختبر)'],
@@ -241,7 +241,7 @@ export default function LabsExplorer() {
     const label=englishLabels[l.id];
     return (category === 'All' || label?.category === category) &&
     ((label?.title ?? l.name) + ' ' + l.en + ' ' + (label?.summary ?? l.summary) + ' ' + l.tools.join(' ')).toLowerCase().includes(query.trim().toLowerCase());
-  }).map(l=>({...l,name:englishLabels[l.id]?.title ?? l.name,category:englishLabels[l.id]?.category ?? l.category,summary:englishLabels[l.id]?.summary ?? l.summary,goal:'Define a controlled scope, establish clear objectives, and validate the relevant security controls using repeatable procedures.',environment:'A dedicated virtual or isolated test environment using the listed tools and synthetic test data.',objectives:['Define scope, assets, and security requirements','Apply the relevant assessment and validation techniques','Record observations and verify security controls','Document limitations and actionable recommendations'],workflow:['Prepare the authorized test environment','Perform controlled assessment and collect evidence','Review findings and validate results','Document recommendations and next steps'],safety:'Use owned systems, synthetic data, and isolated environments only. Testing requires explicit authorization; never target third-party systems.',outputs:['Scope and environment record','Technical observations and supporting evidence','Risk and control assessment','Documented remediation recommendations'],tools:l.tools.map(tool=>tool.replace(' (تحليل مختبر)',' (lab analysis)').replace(' (أساسيات)',' (fundamentals)').replace(' (عينات تعليمية)',' (training samples)')),status:({ 'مسار تعلم وتطبيق':'Learning & practice track','مسار تعلم':'Learning track','بيئة معزولة مخططة':'Planned isolated environment','مسار بحث وتطبيق':'Research & practice track','مسار تخصصي مخطط':'Planned specialist track','تصميم مسار متقدم':'Advanced track design','مسار تخصصي':'Specialist learning track','مسار بحث وتعلم':'Research & learning track' } as Record<string,string>)[l.status] ?? 'Learning track'})), [category, query]);
+  }).map(l=>({...l,name:englishLabels[l.id]?.title ?? l.name,category:englishLabels[l.id]?.category ?? l.category,summary:englishLabels[l.id]?.summary ?? l.summary,goal:'Define a controlled scope, establish clear objectives, and validate the relevant security controls using repeatable procedures.',environment:'A dedicated virtual or isolated test environment using the listed tools and synthetic test data.',objectives:['Define scope, assets, and security requirements','Apply the relevant assessment and validation techniques','Record observations and verify security controls','Document limitations and actionable recommendations'],workflow:['Prepare the authorized test environment','Perform controlled assessment and collect evidence','Review findings and validate results','Document recommendations and next steps'],safety:'Use owned systems, synthetic data, and isolated environments only. Testing requires explicit authorization; never target third-party systems.',outputs:['Scope and environment record','Technical observations and supporting evidence','Risk and control assessment','Documented remediation recommendations'],tools:l.tools.map(tool=>tool.replace(' (تحليل مختبر)',' (lab analysis)').replace(' (أساسيات)',' (fundamentals)').replace(' (عينات تعليمية)',' (training samples)')),status:({ 'مسار تعلم وتطبيق':'Learning & practice track','مسار تعلم':'Learning track','بيئة معزولة مخططة':'Planned isolated environment','مسار بحث وتطبيق':'Research & practice track','مسار تعلم مخطط':'Planned specialist track','تصميم مسار متقدم':'Advanced track design','مسار تعلم متقدم':'Specialist learning track','مسار بحث وتعلم':'Research & learning track' } as Record<string,string>)[l.status] ?? 'Learning track'})), [category, query]);
   const current = visible.find(l => l.id === selected) ?? visible[0];
   const CurrentIcon = current?.Icon ?? FlaskConical;
   const index = current ? labs.findIndex(l => l.id === current.id) + 1 : 0;
@@ -377,9 +377,9 @@ export default function LabsExplorer() {
     <div className="lx-mast"><span>M.GH.AL <b>/</b> ENGINEERING DIVISION</span><span className="lx-live"><i/> LAB SYSTEM <b>·</b> CONTROLLED ENVIRONMENTS</span></div>
     <section className="lx-hero">
       <div>
-        <span className="lx-eyebrow"><FlaskConical/> RESEARCH · VALIDATION · SECURITY ENGINEERING</span>
+        <span className="lx-eyebrow"><FlaskConical/> SOFTWARE ENGINEERING · ENTERPRISE SYSTEMS · SECURITY LEARNING</span>
         <h1>Engineering <em>Labs</em></h1>
-        <p>Structured environments for building labs, validating controls, analyzing systems, and documenting findings. Select a domain, then open a track to explore its technical profile.</p>
+        <p>Structured learning and applied environments for understanding systems, validating controls, analyzing behavior, and documenting results. Security topics are presented as areas of interest and ongoing study, with exercises limited to isolated, authorized environments. Select a domain, then open a track to explore its technical profile.</p>
         <div className="lx-tags"><span>LAB OPERATIONS</span><span>RESEARCH & DEVELOPMENT</span><span>AUTHORIZED TESTING</span></div>
       </div>
       <div className="lx-architecture" aria-label="Laboratory ecosystem reference architecture">

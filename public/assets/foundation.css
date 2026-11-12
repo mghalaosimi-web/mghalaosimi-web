@@ -1,13 +1,14 @@
+@import url('./design-tokens.css');
 /* M.GH.AL — progressive enhancement and accessibility foundation.
    Uses standards-based features with fallbacks; no framework/runtime dependency. */
 :root {
-  --site-content-width: 1180px;
-  --site-focus-ring: 3px solid #806333;
+  --site-content-width: var(--mghal-content-width);
+  --site-focus-ring: 3px solid var(--mghal-brand-gold-ink);
   --site-radius-control: 10px;
   text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
   font-synthesis: none;
-  scrollbar-color: #315A85 #F3F5F7;
+  scrollbar-color: var(--mghal-brand-blue) var(--mghal-light-surface);
 }
 html {
   scroll-padding-block-start: 6rem;

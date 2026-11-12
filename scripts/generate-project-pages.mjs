@@ -1,7 +1,8 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 const root=process.cwd();
-const catalog=JSON.parse(readFileSync(path.join(root,"assets/projects/catalog.json"),"utf8"));
+const publicRoot=path.join(root,"public");
+const catalog=JSON.parse(readFileSync(path.join(publicRoot,"assets/projects/catalog.json"),"utf8"));
 const origin=catalog.siteOrigin.replace(/\/$/,"");
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const tx=(v,l)=>typeof v==="string"?v:(v?.[l]??"");
@@ -50,15 +51,15 @@ function render(p,l){
  "<section class='detail-section links-section' aria-labelledby='links-title'>"+heading("07","الروابط","Links")+"<h2 id='links-title'>"+(ar?"روابط المشروع":"Project links")+"</h2><div class='project-actions'>"+links.join("")+"</div></section></main>"+
  "<footer class='project-footer'><div class='project-shell'><span>M.GH.AL — "+(ar?"محمد غالب العصيمي":"Mohammed Ghaleb Alaosimi")+"</span><a href='"+(ar?"/projects.html":"/en/projects.html")+"'>"+(ar?"العودة إلى محفظة المشاريع":"Back to project portfolio")+"</a></div></footer><script src='/assets/site.js' defer></script><script src='/assets/visitor-tracking.js' defer></script></body></html>";
 }
-let sitemap=readFileSync(path.join(root,"sitemap.xml"),"utf8");
+let sitemap=readFileSync(path.join(publicRoot,"sitemap.xml"),"utf8");
 for(const p of catalog.projects){
  for(const l of ["ar","en"]){
-  const dest=path.join(root,l==="en"?"en":"", "projects",p.slug);
+  const dest=path.join(publicRoot,l==="en"?"en":"", "projects",p.slug);
   mkdirSync(dest,{recursive:true});
   writeFileSync(path.join(dest,"index.html"),render(p,l),"utf8");
   const u=url(p,l);
   if(!sitemap.includes("<loc>"+u+"</loc>"))sitemap=sitemap.replace("</urlset>","  <url><loc>"+u+"</loc><lastmod>"+catalog.reviewedAt+"</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>\n</urlset>");
  }
 }
-writeFileSync(path.join(root,"sitemap.xml"),sitemap,"utf8");
+writeFileSync(path.join(publicRoot,"sitemap.xml"),sitemap,"utf8");
 console.log("Generated "+(catalog.projects.length*2)+" bilingual project detail pages and updated sitemap.xml.");
