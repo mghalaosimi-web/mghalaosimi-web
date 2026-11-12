@@ -113,7 +113,8 @@ function mergePublishedCredentials(rows:PublicCertificateRow[]|null,locale:'ar'|
    nameEn:row.title||item.nameEn,
    date:issuedDate(row.issued_at,'ar',item.date),
    dateEn:issuedDate(row.issued_at,'en',item.dateEn),
-   descriptionEn:row.description||item.descriptionEn,
+   description:/[\u0600-\u06FF]/.test(row.description||'')?row.description||item.description:item.description,
+   descriptionEn:row.description&&!/[\u0600-\u06FF]/.test(row.description)?row.description:item.descriptionEn,
    referenceId:row.credential_id||item.referenceId,
    issuer:row.issuer||item.issuer,
    verification:item.verification||safePublicHttpsUrl(row.verification_url),
@@ -126,8 +127,9 @@ function mergePublishedCredentials(rows:PublicCertificateRow[]|null,locale:'ar'|
   const dateAr=issuedDate(row.issued_at,'ar','غير محدد');
   const dateEn=issuedDate(row.issued_at,'en','Not recorded');
   const provider=providerFromIssuer(row.issuer||'');
-  const description=row.description||'لم تُوثّق تفاصيل إضافية لهذا الاعتماد.';
-  const descriptionEn=row.description||'No additional credential details have been documented.';
+  const hasArabicDescription=/[\u0600-\u06FF]/.test(row.description||'');
+  const description=hasArabicDescription?row.description||'لم تُوثّق تفاصيل إضافية لهذا الاعتماد.':'لم تُوثّق تفاصيل إضافية لهذا الاعتماد.';
+  const descriptionEn=hasArabicDescription?'No additional credential details have been documented.':row.description||'No additional credential details have been documented.';
   return {
    id:row.slug,slug:row.slug,referenceId:row.credential_id||undefined,provider,issuer:row.issuer,
    name:row.title,nameEn:row.title,date:dateAr,dateEn,
