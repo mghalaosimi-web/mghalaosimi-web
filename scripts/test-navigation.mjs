@@ -45,8 +45,8 @@ for (const [name, value] of [
   ["--mghal-brand-navy", "#172B4D"],
   ["--mghal-brand-blue", "#315A85"],
   ["--mghal-brand-gold", "#B69A62"],
-  ["--mghal-state-success", "#5AAB84"],
-  ["--mghal-state-danger", "#D06D6D"],
+  ["--mghal-state-success", "#17623D"],
+  ["--mghal-state-danger", "#A43131"],
 ]) {
   assert.ok(tokens.includes(`${name}: ${value};`), `The shared ${name} token is required.`);
 }
