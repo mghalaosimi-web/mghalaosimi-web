@@ -1757,6 +1757,251 @@
       },
       "collaborative": true,
       "contentSource": "catalog"
+    },
+    {
+      "id": "cryptolab-x",
+      "slug": "cryptolab-x",
+      "title": {
+        "ar": "CryptoLab-X | مختبر التشفير",
+        "en": "CryptoLab-X | Cryptography Lab"
+      },
+      "summary": {
+        "ar": "تطبيق مكتبي مستقل يركز على تطبيق وتحليل خوارزميات التشفير الكلاسيكية والحديثة، بواجهة Windows مبنية باستخدام C# و.NET 8 وWindows Forms.",
+        "en": "A standalone desktop application for applying and analyzing classical and modern cryptographic algorithms, built for Windows with C#, .NET 8 and Windows Forms."
+      },
+      "problem": {
+        "ar": "تحتاج دراسة التشفير إلى بيئة عملية تتيح تجربة الخوارزميات وملاحظة سلوكها بدلاً من الاكتفاء بالشرح النظري.",
+        "en": "Cryptography study benefits from a practical environment where algorithms can be exercised and analyzed rather than studied only in theory."
+      },
+      "goal": {
+        "ar": "تقديم مختبر مكتبي للتعلم والتجربة في مجال التشفير، يجمع تطبيق الخوارزميات الكلاسيكية والحديثة ضمن تطبيق واحد.",
+        "en": "Provide a desktop learning and experimentation lab that brings classical and modern cryptographic algorithms into one application."
+      },
+      "audience": {
+        "ar": "طلاب تقنية المعلومات والمهتمون بأساسيات التشفير وأمن المعلومات.",
+        "en": "Information technology students and learners interested in cryptography and information security."
+      },
+      "value": {
+        "ar": "تحويل المفاهيم والخوارزميات التشفيرية إلى تجارب عملية داخل تطبيق Windows مستقل.",
+        "en": "Turn cryptographic concepts and algorithms into hands-on experiments in a standalone Windows application."
+      },
+      "category": {
+        "ar": "التشفير وأمن المعلومات",
+        "en": "Cryptography & information security"
+      },
+      "categoryKey": "security",
+      "status": {
+        "ar": "مشروع مكتبي مستقل — التوثيق العام ولقطات التشغيل غير متاحة حالياً",
+        "en": "Standalone desktop project — public documentation and runtime screenshots are not currently available"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "لا يوجد مستودع عام موثق",
+        "en": "No verified public repository"
+      },
+      "repository": null,
+      "relatedRepositories": [],
+      "cover": "/assets/projects/cryptolab-x.svg",
+      "coverAlt": {
+        "ar": "رسم تعريفي خاص بـ CryptoLab-X، وليس لقطة شاشة فعلية من التطبيق.",
+        "en": "CryptoLab-X project artwork, not an actual application screenshot."
+      },
+      "technologies": [
+        "C#",
+        ".NET 8",
+        "Windows Forms (WinForms)"
+      ],
+      "features": [
+        {
+          "ar": "تطبيق مكتبي لتجربة خوارزميات التشفير الكلاسيكية والحديثة.",
+          "en": "Desktop workflows for experimenting with classical and modern cryptographic algorithms."
+        },
+        {
+          "ar": "تطبيق الخوارزميات وملاحظة نتائجها لأغراض التعلم والتحليل.",
+          "en": "Apply algorithms and inspect their outputs for learning and analysis."
+        }
+      ],
+      "architecture": {
+        "ar": "تطبيق Windows مكتبي مبني باستخدام C# و.NET 8 وWindows Forms. لا تتوفر حالياً ملفات مصدر عامة أو وثائق تقنية كافية لتأكيد تفاصيل الوحدات والخوارزميات المنفذة.",
+        "en": "A Windows desktop application built with C#, .NET 8 and Windows Forms. Public source files and technical documentation are not currently available to verify individual modules or implemented algorithms."
+      },
+      "gallery": [],
+      "docs": null,
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "وصف المشروع وتقنياته وردا في معلومات المشروع السابقة بتاريخ أغسطس 2026.",
+          "لا يوجد مستودع عام أو سجل التزامات أو لقطات شاشة متاحة للتحقق المستقل من تفاصيل التنفيذ."
+        ],
+        "en": [
+          "The project description and technology stack were recorded in prior project information dated August 2026.",
+          "No public repository, commit history or screenshots are available for independent verification of implementation details."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "الغلاف رسم تعريفي وليس صورة من واجهة التطبيق.",
+          "لم تُدرج أسماء خوارزميات بعينها أو ميزات إضافية لعدم توفر دليل تقني يمكن التحقق منه.",
+          "حالة البناء والتشغيل والاختبارات تحتاج إلى توثيق أو مصدر مشروع قابل للمراجعة."
+        ],
+        "en": [
+          "The cover is illustrative artwork, not an application screenshot.",
+          "Specific algorithm names and additional features are omitted because verifiable technical evidence is unavailable.",
+          "Build, runtime and test status require documentation or a reviewable project source."
+        ]
+      },
+      "operatingSystem": "Windows desktop",
+      "brand": {
+        "logo": "/assets/projects/logos/cryptolab-x.svg",
+        "primary": "#172B4D",
+        "secondary": "#315A85",
+        "accent": "#B69A62"
+      },
+      "contribution": {
+        "ar": "مشروع من أعمال المطور وفق معلوماته السابقة. لا يتوفر مستودع عام أو سجل تغييرات يتيح تحديد نطاق المساهمة التقنية بالتفصيل.",
+        "en": "A project identified by the developer as part of his work. No public repository or change history is available to detail the exact implementation contribution."
+      },
+      "contentSource": "catalog"
+    },
+    {
+      "id": "alnasr-supermarket-erp",
+      "slug": "alnasr-supermarket-erp",
+      "title": {
+        "ar": "النصر | نظام إدارة السوبرماركت",
+        "en": "AL-NASR | Supermarket & Retail ERP"
+      },
+      "summary": {
+        "ar": "مشروع نظام لإدارة السوبرماركت وتجارة التجزئة والجملة، بهوية مستقلة لصاحبه نصر عثمان عبدالله العصيمي، ويستهدف توحيد نقاط البيع والمخزون والمشتريات والمبيعات والمحاسبة والفروع.",
+        "en": "A supermarket and retail/wholesale management system with an independent AL-NASR identity for its owner, Nasr Othman Abdullah Al-Aosimi, targeting unified POS, inventory, purchasing, sales, accounting and branch operations."
+      },
+      "problem": {
+        "ar": "تحتاج أعمال السوبرماركت إلى إدارة مترابطة لنقاط البيع والمخزون والمشتريات والعملاء والموردين والحسابات والفروع، مع دعم العمل المحلي عند ضعف الاتصال.",
+        "en": "Supermarkets need connected workflows for POS, inventory, purchasing, customers, suppliers, accounting and branches, including local operation during connectivity interruptions."
+      },
+      "goal": {
+        "ar": "تأسيس منتج ERP مستقل بعلامة النصر، مع الاستفادة من مكونات مفتوحة المصدر قابلة للتوسعة وتقليل التعديلات المباشرة على الأنظمة الأصلية.",
+        "en": "Establish an independently branded AL-NASR ERP product using extensible open-source foundations while minimizing direct modifications to upstream systems."
+      },
+      "audience": {
+        "ar": "إدارة السوبرماركت والمتاجر وفرق المبيعات والمخزون والمشتريات والمحاسبة.",
+        "en": "Supermarket owners and teams responsible for sales, inventory, purchasing and accounting."
+      },
+      "value": {
+        "ar": "خطة منتج موحدة لتغطية عمليات البيع بالتجزئة والجملة والفروع مع واجهات عربية وإنجليزية.",
+        "en": "A unified product plan for retail, wholesale and multi-branch operations with Arabic and English interfaces."
+      },
+      "category": {
+        "ar": "أنظمة مؤسسية وتجارة التجزئة",
+        "en": "Enterprise systems & retail commerce"
+      },
+      "categoryKey": "enterprise",
+      "status": {
+        "ar": "مرحلة تأسيس وتقييم الأساس التقني — غير جاهز للإنتاج",
+        "en": "Foundation and technical-baseline evaluation — not production-ready"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/alnasr-supermarket-erp",
+      "relatedRepositories": [
+        "https://github.com/frappe/erpnext",
+        "https://github.com/kodlyft/xpos"
+      ],
+      "cover": "/assets/projects/alnasr-supermarket-erp.svg",
+      "coverAlt": {
+        "ar": "غلاف تعريفي لهوية النصر، وليس لقطة شاشة فعلية من النظام.",
+        "en": "AL-NASR identity artwork, not an actual system screenshot."
+      },
+      "technologies": [
+        "ERPNext / Frappe v16 (candidate baseline)",
+        "X POS v16 (candidate POS)",
+        "Custom Frappe application (planned)",
+        "Python / Frappe Framework (platform foundation)"
+      ],
+      "features": [
+        {
+          "ar": "النطاق المستهدف: نقاط البيع والورديات والإيصالات والباركود والمرتجعات والعروض.",
+          "en": "Planned scope: POS, cashier shifts, receipts, barcode scanning, returns and promotions."
+        },
+        {
+          "ar": "النطاق المستهدف: دليل المنتجات والمجموعات والأصناف والوحدات والباركودات المتعددة.",
+          "en": "Planned scope: product catalogue, item groups, variants, units of measure and multiple barcodes."
+        },
+        {
+          "ar": "النطاق المستهدف: المخزون والمستودعات والتحويلات والتشغيل بالدفعات والأرقام التسلسلية.",
+          "en": "Planned scope: inventory, warehouses, transfers, batches and serial numbers."
+        },
+        {
+          "ar": "النطاق المستهدف: المشتريات والموردون وأوامر الشراء واستلام البضائع وفواتير الموردين.",
+          "en": "Planned scope: purchasing, suppliers, purchase orders, goods receipt and supplier invoices."
+        },
+        {
+          "ar": "النطاق المستهدف: المبيعات والعملاء والائتمان والأرصدة وبرامج الولاء.",
+          "en": "Planned scope: sales, customers, credit limits, balances and loyalty."
+        },
+        {
+          "ar": "النطاق المستهدف: المحاسبة وإدارة النقد والتسويات والتقارير المالية.",
+          "en": "Planned scope: accounting, cash management, reconciliation and financial reports."
+        },
+        {
+          "ar": "النطاق المستهدف: الفروع المتعددة والصلاحيات وواجهات عربية RTL وإنجليزية LTR.",
+          "en": "Planned scope: multi-branch operations, role-based access and Arabic RTL/English LTR interfaces."
+        },
+        {
+          "ar": "النطاق المستهدف: تشغيل محلي وشبكي مع مزامنة مضبوطة بعد انقطاع الاتصال.",
+          "en": "Planned scope: local/LAN operation with controlled synchronization after connectivity loss."
+        }
+      ],
+      "architecture": {
+        "ar": "يحدد README خط أساس مرشحاً يعتمد ERPNext/Frappe v16 لوظائف ERP والمخزون والمشتريات والمحاسبة والصلاحيات، مع تقييم X POS v16 كنقطة بيع، وتطبيق Frappe مخصص لهوية النصر واحتياجات السوبرماركت. هذا اختيار معماري قيد التحقق وليس دليلاً على تنفيذ الوحدات أو جاهزيتها.",
+        "en": "The README identifies ERPNext/Frappe v16 as the candidate ERP foundation and X POS v16 as the POS candidate, with a custom Frappe app for AL-NASR-specific workflows and branding. This is an architecture under evaluation, not evidence that the modules are implemented or production-ready."
+      },
+      "gallery": [],
+      "docs": "https://github.com/mghalaosimi-web/alnasr-supermarket-erp/blob/main/README.md",
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "README.md في المستودع يحدد نطاق المنتج وخط الأساس التقني المرشح ومبادئ المعمارية.",
+          "README يصرح بأن المستودع في مرحلة Foundation evaluation وغير جاهز للإنتاج.",
+          "README يحدد متطلبات التكامل والاختبار المفتوحة، ومنها التشغيل دون اتصال ومزامنة عدة نقاط بيع والطباعة والأجهزة والتدفقات المحاسبية."
+        ],
+        "en": [
+          "The repository README documents product scope, candidate technical baseline and architecture principles.",
+          "The README explicitly marks the repository as foundation evaluation and not production-ready.",
+          "The README lists open integration and testing requirements including offline recovery, multi-terminal synchronization, printing, hardware and accounting workflows."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "المشروع مخصص لصاحبه نصر عثمان عبدالله العصيمي؛ هوية النصر مستقلة عن العلامة المهنية M.GH.AL.",
+          "جميع الوظائف المذكورة هنا نطاق مستهدف وليست وظائف مكتملة مثبتة.",
+          "ERPNext/Frappe وX POS خيارات تقنية قيد التحقق، ولم يُثبت بعد تثبيت تكامل نهائي أو توافق الإصدارات.",
+          "لا توجد لقطات شاشة فعلية أو نسخة منشورة تم التحقق من تشغيلها؛ الغلاف رسم تعريفي فقط.",
+          "يجب الحفاظ على تراخيص وإشعارات ومساهمات المشاريع مفتوحة المصدر وعدم نسب مكوناتها الأصلية إلى مطور المنتج."
+        ],
+        "en": [
+          "The product is for its owner, Nasr Othman Abdullah Al-Aosimi; AL-NASR has an identity separate from the M.GH.AL professional brand.",
+          "All listed functions are planned scope, not verified completed features.",
+          "ERPNext/Frappe and X POS are candidate technologies under evaluation; a final integrated installation and compatibility matrix have not yet been verified.",
+          "No actual screenshots or verified live deployment are available; the cover is illustrative artwork only.",
+          "Upstream licenses, notices and contributions must be preserved; original upstream components are not attributed to the product developer."
+        ]
+      },
+      "operatingSystem": "Planned web, desktop and mobile access",
+      "brand": {
+        "logo": "/assets/projects/logos/alnasr-supermarket-erp.svg",
+        "primary": "#315A85",
+        "secondary": "#172B4D",
+        "accent": "#B69A62"
+      },
+      "contribution": {
+        "ar": "صاحب المستودع والمشرف على تأسيس المنتج وتحديد نطاقه وخط أساسه التقني. لا يُعرض المشروع على أنه نظام مكتمل؛ وتُفصل مساهمات التطوير المخصصة عن مكونات ERPNext وFrappe وX POS الأصلية.",
+        "en": "Repository owner overseeing product establishment, scope definition and technical-baseline evaluation. The project is not presented as a completed system; custom development is distinguished from original ERPNext, Frappe and X POS components."
+      },
+      "collaborative": true,
+      "contentSource": "catalog"
     }
   ]
 }
