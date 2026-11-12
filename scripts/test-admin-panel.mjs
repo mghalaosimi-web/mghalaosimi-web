@@ -9,7 +9,6 @@ const localization=readFileSync('mghal-backend/migrations/0003_project_localizat
 const mediaMigration=readFileSync('mghal-backend/migrations/0004_d1_media_storage.sql','utf8');
 const technologyMigration=readFileSync('mghal-backend/migrations/0005_technology_visibility.sql','utf8');
 const databaseContent=readFileSync('public/assets/database-content.js','utf8');
-const certificateSync=readFileSync('public/assets/certificate-sync.js','utf8');
 assert.match(apiHandler,/https:\/\/mghalaosimi-web\.vercel\.app/);
 assert.doesNotMatch(apiHandler,/onrender\.com|workers\.dev|CF-Connecting-IP|['"]d1['"]|d1:/);
 assert.match(apiHandler,/env\.ALLOWED_ORIGINS/);
