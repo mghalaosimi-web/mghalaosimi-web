@@ -8,21 +8,21 @@
   --mghal-brand-gold-soft: #D2BD91;
 
   /* Dark surfaces (Next.js application and dark components) */
-  --mghal-dark-bg: #0B1117;
-  --mghal-dark-surface: #111B26;
-  --mghal-dark-surface-raised: #172431;
-  --mghal-dark-surface-deep: #101922;
-  --mghal-dark-surface-alt: #1D2D3C;
-  --mghal-dark-surface-contrast: #293F53;
-  --mghal-dark-text: #EEE9DF;
-  --mghal-dark-muted: #AEB8BB;
-  --mghal-dark-muted-strong: #82929D;
-  --mghal-dark-text-soft: #D5D0C6;
-  --mghal-dark-border-cool: rgba(174, 184, 187, .14);
-  --mghal-dark-border: rgba(182, 154, 98, .24);
-  --mghal-dark-border-soft: rgba(182, 154, 98, .14);
-  --mghal-dark-border-strong: rgba(182, 154, 98, .48);
-  --mghal-dark-hover: rgba(182, 154, 98, .11);
+  --mghal-dark-bg: #F4F7FB;
+  --mghal-dark-surface: #FFFFFF;
+  --mghal-dark-surface-raised: #F8FAFD;
+  --mghal-dark-surface-deep: #EEF3F8;
+  --mghal-dark-surface-alt: #EDF2F8;
+  --mghal-dark-surface-contrast: #E2EAF3;
+  --mghal-dark-text: #172B4D;
+  --mghal-dark-muted: #52647A;
+  --mghal-dark-muted-strong: #64748B;
+  --mghal-dark-text-soft: #31445E;
+  --mghal-dark-border-cool: rgba(23, 43, 77, .12);
+  --mghal-dark-border: rgba(49, 90, 133, .18);
+  --mghal-dark-border-soft: rgba(49, 90, 133, .10);
+  --mghal-dark-border-strong: rgba(49, 90, 133, .34);
+  --mghal-dark-hover: rgba(49, 90, 133, .07);
 
   /* Light surfaces (legacy/static routes) */
   --mghal-light-bg: #FFFFFF;
@@ -32,19 +32,19 @@
   --mghal-light-border: #DCE2E8;
 
   /* Semantic feedback */
-  --mghal-state-success: #5AAB84;
-  --mghal-state-warning: #D0A05A;
-  --mghal-state-danger: #D06D6D;
-  --mghal-state-info: #6EA0CF;
-  --mghal-state-disabled: #7B8794;
-  --mghal-disabled-surface: rgba(174, 184, 187, .08);
+  --mghal-state-success: #17623D;
+  --mghal-state-warning: #73551D;
+  --mghal-state-danger: #A43131;
+  --mghal-state-info: #245A88;
+  --mghal-state-disabled: #64748B;
+  --mghal-disabled-surface: rgba(23, 43, 77, .05);
 
   /* Focus, geometry and elevation */
-  --mghal-focus-ring: #D2BD91;
+  --mghal-focus-ring: #315A85;
   --mghal-content-width: 1180px;
   --mghal-radius: 14px;
-  --mghal-shadow-dark: 0 14px 34px rgba(0, 0, 0, .22);
+  --mghal-shadow-dark: 0 12px 30px rgba(23, 43, 77, .07);
   --mghal-shadow-light: 0 8px 24px rgba(23, 43, 77, .07);
-  --mghal-shadow-raised: 0 5px 0 rgba(3, 8, 12, .62), 0 12px 24px rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .07);
-  --mghal-shadow-pressed: 0 1px 0 rgba(3, 8, 12, .7), 0 3px 8px rgba(0, 0, 0, .2), inset 0 2px 5px rgba(0, 0, 0, .24);
+  --mghal-shadow-raised: 0 5px 0 rgba(23, 43, 77, .05), 0 12px 24px rgba(23, 43, 77, .08), inset 0 1px rgba(255, 255, 255, .85);
+  --mghal-shadow-pressed: 0 1px 0 rgba(23, 43, 77, .08), 0 3px 8px rgba(23, 43, 77, .08), inset 0 2px 5px rgba(23, 43, 77, .04);
 }
