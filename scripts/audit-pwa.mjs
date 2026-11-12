@@ -13,8 +13,10 @@ for(const route of pages){const routeFile=route==='/en'?'../app/en/page.tsx':'..
 const version=worker.match(/mghal-pwa-v(\d+)/)?.[1];assert.ok(version,'Service worker cache version is required');
 assert.ok(worker.includes('const CACHED_DOCUMENT_PATHS = new Set(APP_PAGES);'),'Only explicit locale-stable React routes may be cached.');
 assert.ok(worker.includes('request.mode === "navigate"'),'Document requests must use network-first.');
-assert.ok(worker.includes('cache.match("/offline.html")'),'Offline fallback must remain available.');
+assert.ok(worker.includes('cache.match("/offline")'),'React offline fallback must remain available.');
+assert.ok(pages.includes("/offline"));
 assert.ok(!worker.includes('.html", "/projects.html'),'Old static pages must not be cached.');
+assert.ok(pages.includes("/")&&pages.includes("/projects")&&pages.includes("/en/projects"),'Both Arabic and English React pages must be precached.');
 assert.ok(offline.includes('id="main-content"'),'React offline page must expose a focusable main landmark.');
 assert.ok(!existsSync(new URL("../public/offline.html",import.meta.url)),'Legacy offline HTML must be removed.');
 assert.equal(manifest.display,"standalone");assert.equal(manifest.background_color,"#0B1117");
