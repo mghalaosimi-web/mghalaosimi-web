@@ -31,8 +31,8 @@
         "en": "Turn “Where is it?” into structured discovery that explains a place, its context, how to reach it and how trustworthy its data is."
       },
       "category": {
-        "ar": "منصة ويب جغرافية",
-        "en": "Geospatial web platform"
+        "ar": "منصة جغرافية",
+        "en": "Geospatial platform"
       },
       "categoryKey": "web",
       "status": {
@@ -156,7 +156,17 @@
           "The deployment URL is documented in the repository, but live availability could not be confirmed with the available browser check; it is not represented as a verified live demo."
         ]
       },
-      "operatingSystem": "Web browser"
+      "operatingSystem": "Web browser",
+      "brand": {
+        "logo": "/assets/projects/logos/waynah.svg",
+        "primary": "#0F766E",
+        "secondary": "#B9D7C9",
+        "accent": "#C6A66D"
+      },
+      "contribution": {
+        "ar": "مساهمة تطويرية ضمن فريق المشروع؛ لا تُنسب ملكية المنصة أو كامل تنفيذها إلى فرد واحد.",
+        "en": "Development contribution within the project team; the platform and its full implementation are not attributed to one individual."
+      }
     },
     {
       "id": "humanity-system",
@@ -186,10 +196,10 @@
         "en": "Bring institutional workflows into a responsive Arabic experience with a web path and a Capacitor-based Android shell."
       },
       "category": {
-        "ar": "نظام ويب مؤسسي",
-        "en": "Institutional web system"
+        "ar": "أنظمة مؤسسية",
+        "en": "Enterprise systems"
       },
-      "categoryKey": "web",
+      "categoryKey": "enterprise",
       "status": {
         "ar": "تطوير نشط — مستودع خاص",
         "en": "Active development — private repository"
@@ -263,7 +273,17 @@
           "The public description is intentionally high-level and omits internal operational details."
         ]
       },
-      "operatingSystem": "Web browser and Android"
+      "operatingSystem": "Web browser and Android",
+      "brand": {
+        "logo": "/assets/projects/logos/humanity-system.svg",
+        "primary": "#A34E63",
+        "secondary": "#F0B7C4",
+        "accent": "#E7C98B"
+      },
+      "contribution": {
+        "ar": "مشروع خاص. تُعرض المعلومات العامة فقط، ويُحدد نطاق المساهمة التفصيلي بعد مراجعة سجل العمل دون كشف تفاصيل داخلية.",
+        "en": "Private project. Only public-level information is shown; the exact contribution scope remains subject to work-history review without exposing internal details."
+      }
     },
     {
       "id": "yemen-ai",
@@ -293,8 +313,8 @@
         "en": "Unify knowledge assistance, document management, model controls and access management in one platform."
       },
       "category": {
-        "ar": "منصة ذكاء اصطناعي",
-        "en": "AI platform"
+        "ar": "ذكاء اصطناعي",
+        "en": "Artificial intelligence"
       },
       "categoryKey": "ai",
       "status": {
@@ -400,7 +420,17 @@
           "Default credentials were found exposed in the public README. Their values are intentionally omitted from this site and audit; rotate them and remove defaults from public documentation before production use."
         ]
       },
-      "operatingSystem": "Windows, Linux or Docker host"
+      "operatingSystem": "Windows, Linux or Docker host",
+      "brand": {
+        "logo": "/assets/projects/logos/yemen-ai.svg",
+        "primary": "#6554C0",
+        "secondary": "#B8AEFF",
+        "accent": "#65D6C4"
+      },
+      "contribution": {
+        "ar": "مشروع تطوير لمنصة معرفية ثنائية اللغة؛ تُعرض الوظائف والتقنيات وفق توثيق المستودع، دون ادعاء نتائج تشغيلية غير متحقق منها.",
+        "en": "Development of a bilingual knowledge platform; capabilities and technologies are presented from repository documentation without unverified operational claims."
+      }
     },
     {
       "id": "mghal-content-os",
@@ -430,8 +460,8 @@
         "en": "Generate platform-specific variants from one idea, render Arabic RTL visuals and manage approvals and integrations in one workspace."
       },
       "category": {
-        "ar": "منصة أتمتة محتوى بالذكاء الاصطناعي",
-        "en": "AI content automation platform"
+        "ar": "أتمتة المحتوى والذكاء الاصطناعي",
+        "en": "AI & content automation"
       },
       "categoryKey": "ai",
       "status": {
@@ -554,7 +584,17 @@
           "Integrations are documented in the repository; connected Meta/TikTok accounts and live publishing were not tested during this audit."
         ]
       },
-      "operatingSystem": "Web browser"
+      "operatingSystem": "Web browser",
+      "brand": {
+        "logo": "/assets/projects/logos/content-studio.svg",
+        "primary": "#C56A22",
+        "secondary": "#FFD09A",
+        "accent": "#7C4DFF"
+      },
+      "contribution": {
+        "ar": "تصميم وتطوير نظام إدارة المحتوى ومكوناته الأساسية؛ تبقى حالة كل تكامل مرتبطة بما يثبته الكود والاختبارات.",
+        "en": "Designed and developed the content-management system and its core components; each integration's status is limited to what code and tests substantiate."
+      }
     },
     {
       "id": "manar-schedule-system",
@@ -584,8 +624,8 @@
         "en": "Combines timetable management and academic portals with identity, synchronization, and mobile-app release capabilities."
       },
       "category": {
-        "ar": "نظام أكاديمي متعدد الواجهات",
-        "en": "Multi-surface academic system"
+        "ar": "مشاريع أكاديمية",
+        "en": "Academic projects"
       },
       "categoryKey": "academic",
       "status": {
@@ -695,7 +735,17 @@
           "ALMANAR_PROJECT_CONTEXT.md appears with identical content in both repositories and describes an Al-Manar College portal, conflicting with the platform registry's Yemen University College attribution. The project owner should confirm the institution before this attribution is treated as definitive."
         ]
       },
-      "operatingSystem": "Web browser"
+      "operatingSystem": "Web browser",
+      "brand": {
+        "logo": "/assets/projects/logos/manar-schedule.svg",
+        "primary": "#2563EB",
+        "secondary": "#A9C8FF",
+        "accent": "#F0B44C"
+      },
+      "contribution": {
+        "ar": "مساهمة ضمن مشروع أكاديمي تعاوني؛ يجري فصل نطاق مساهمة كل عضو عن وظائف النظام العامة.",
+        "en": "Contribution to a collaborative academic project; individual work is distinguished from the system's overall capabilities."
+      }
     },
     {
       "id": "ciphersphere",
@@ -725,10 +775,10 @@
         "en": "Make algorithm behavior inspectable through a GUI and separated cipher modules."
       },
       "category": {
-        "ar": "تطبيق سطح مكتب",
-        "en": "Desktop application"
+        "ar": "أمن سيبراني وتشفير",
+        "en": "Cybersecurity & cryptography"
       },
-      "categoryKey": "desktop",
+      "categoryKey": "cybersecurity",
       "status": {
         "ar": "نموذج تطبيقي تعليمي",
         "en": "Educational application prototype"
@@ -808,7 +858,17 @@
           "No published or signed executable release was verified; the project is not labelled completed."
         ]
       },
-      "operatingSystem": "Windows desktop"
+      "operatingSystem": "Windows desktop",
+      "brand": {
+        "logo": "/assets/projects/logos/ciphersphere.svg",
+        "primary": "#7C3AED",
+        "secondary": "#C4B5FD",
+        "accent": "#22D3EE"
+      },
+      "contribution": {
+        "ar": "مشروع جماعي موثق بأسماء مطورين اثنين؛ تُعرض المساهمة باعتبارها عملاً تعاونياً ولا تُنسب ملكية فردية كاملة.",
+        "en": "A team project documenting two developers; it is presented as collaborative work, not as sole individual ownership."
+      }
     },
     {
       "id": "focusflow",
@@ -838,8 +898,8 @@
         "en": "Bring daily productivity tools into one experience, according to the published project description."
       },
       "category": {
-        "ar": "مشروع تطبيق جوال",
-        "en": "Mobile app project"
+        "ar": "تطبيقات الجوال",
+        "en": "Mobile applications"
       },
       "categoryKey": "mobile",
       "status": {
@@ -902,7 +962,17 @@
           "The cover is illustrative artwork; the repository contains no real screenshots."
         ]
       },
-      "operatingSystem": "Mobile (intended; not verified)"
+      "operatingSystem": "Mobile (intended; not verified)",
+      "brand": {
+        "logo": "/assets/projects/logos/focusflow.svg",
+        "primary": "#0284C7",
+        "secondary": "#A5E4FA",
+        "accent": "#F59E0B"
+      },
+      "contribution": {
+        "ar": "مستودع عام يحتوي حالياً على README فقط؛ لا يمكن إثبات تنفيذ التطبيق أو نسبة مساهمة برمجية من محتواه الحالي.",
+        "en": "The public repository currently contains only a README; implementation or a specific code contribution cannot be verified from its current contents."
+      }
     },
     {
       "id": "mghal-esdp",
@@ -932,8 +1002,8 @@
         "en": "Provide a desktop experience that does not depend on continuous internet connectivity."
       },
       "category": {
-        "ar": "تطبيق سطح مكتب",
-        "en": "Desktop application"
+        "ar": "تطبيقات سطح المكتب",
+        "en": "Desktop applications"
       },
       "categoryKey": "desktop",
       "status": {
@@ -992,7 +1062,17 @@
           "No GitHub link, screenshots or live demo are available; unverified technical details are not asserted."
         ]
       },
-      "operatingSystem": "Windows"
+      "operatingSystem": "Windows",
+      "brand": {
+        "logo": "/assets/projects/logos/esdp.svg",
+        "primary": "#64748B",
+        "secondary": "#CBD5E1",
+        "accent": "#38BDF8"
+      },
+      "contribution": {
+        "ar": "مشروع مسجل ضمن الأعمال، لكن لم يُعثر على مستودع عام أو أدلة مصدر قابلة للفحص؛ تفاصيل المساهمة غير منشورة.",
+        "en": "A recorded project, but no public repository or inspectable source evidence was found; contribution details are not published."
+      }
     },
     {
       "id": "mghal-official-website",
@@ -1022,8 +1102,8 @@
         "en": "Unify identity, résumé, skills, credentials and projects in one official reference with RTL and LTR support."
       },
       "category": {
-        "ar": "موقع ويب شخصي ثنائي اللغة",
-        "en": "Bilingual personal website"
+        "ar": "مواقع ومنصات ويب",
+        "en": "Web platforms"
       },
       "categoryKey": "web",
       "status": {
@@ -1100,7 +1180,17 @@
           "No separate demo URL is listed because the website is the official destination itself."
         ]
       },
-      "operatingSystem": "Web browser"
+      "operatingSystem": "Web browser",
+      "brand": {
+        "logo": "/assets/projects/logos/mghal.svg",
+        "primary": "#315A85",
+        "secondary": "#9BB7D4",
+        "accent": "#B69A62"
+      },
+      "contribution": {
+        "ar": "تصميم وتطوير الهوية الرقمية والموقع ومكوناته؛ تُفصل حالة النشر والإنتاج عن حالة التطوير على الفرع.",
+        "en": "Designed and developed the digital identity website and its components; deployment status is distinguished from branch development status."
+      }
     },
     {
       "id": "almanar-schedule-system",
@@ -1130,8 +1220,8 @@
         "en": "Manage weekly timetables, overrides and notifications in one system with separate student, admin and super-admin access."
       },
       "category": {
-        "ar": "نظام إدارة أكاديمي",
-        "en": "Academic management system"
+        "ar": "أنظمة أكاديمية",
+        "en": "Academic systems"
       },
       "categoryKey": "academic",
       "status": {
@@ -1237,7 +1327,17 @@
           "The live service and WhatsApp integration were not tested as part of this documentation."
         ]
       },
-      "operatingSystem": "Web browser"
+      "operatingSystem": "Web browser",
+      "brand": {
+        "logo": "/assets/projects/logos/almanar-academic.svg",
+        "primary": "#0F766E",
+        "secondary": "#99E2D0",
+        "accent": "#E5B85C"
+      },
+      "contribution": {
+        "ar": "مستودع مستقل لنظام الجداول؛ تُراجع مساهمة المطورين من سجل الالتزامات قبل نشر نسبة فردية.",
+        "en": "A separate scheduling-system repository; individual contribution attribution is pending commit-history review."
+      }
     }
   ]
 }
