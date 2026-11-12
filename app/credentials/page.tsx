@@ -109,7 +109,6 @@ function mergePublishedCredentials(rows:PublicCertificateRow[]|null,locale:'ar'|
   if(!row)return item;
   return {
    ...item,
-   name:row.title||item.name,
    nameEn:row.title||item.nameEn,
    date:issuedDate(row.issued_at,'ar',item.date),
    dateEn:issuedDate(row.issued_at,'en',item.dateEn),
