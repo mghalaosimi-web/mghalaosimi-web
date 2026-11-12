@@ -185,3 +185,39 @@ The legacy Vercel project `mghal` still exists and `mghal.vercel.app` remains at
 - Corrected backend and architecture documentation to distinguish the intended Neon/Vercel target from the currently missing Production `DATABASE_URL` and remaining Render upstream setting.
 - PR #33 now contains five documentation files and remains Draft; Backend CI and Node API CI passed on the prior documentation commit, while the latest architecture-doc-only commit has not yet received a new workflow run.
 - No application runtime code, production database, secret, domain, DNS, production environment, or Render service was changed.
+
+
+---
+
+## Current release update — 2026-11-13 (supersedes conflicting deployment and PR statements above)
+
+The owner authorized publication of the accumulated Phase 1 work. The following integration PRs have now been merged into `main` in dependency order:
+
+- PR #17 — digital identity hub integration — merge commit `299b29cc99f3a49cae34fd3b3d453c5dc40cc6d9`.
+- PR #24 — UX, credentials, SEO and release hardening — merge commit `85173abdae4ecd65a94dc1b0536ec3d2cc31d4ab`.
+- PR #25 — Node.js + Neon backend and UI parity — merge commit `cac9c768f64bba5466615512edc5d40560df2b42`. This line includes the Vercel-native API integration from PR #32, which had previously been merged into the feature branch.
+- PR #29 — 12-image profile archive and `/photos` SEO page — merge commit `6a72000af22bab1cd3552ce2cdbcbdee826419c1`.
+- PR #33 — Phase 1 documentation/source-of-truth cleanup — merge commit `9e12f510554abe4d66f873d484a1d2bab3d9916f`.
+
+Current `main` is `9e12f510554abe4d66f873d484a1d2bab3d9916f`. GitHub Actions Backend CI, Node API CI, and Next.js quality workflows passed on the corresponding integration heads before merge. The final `main` merge commit has Vercel status checks failing due to the account/project deployment build-rate limit; this is not a source-code CI failure.
+
+### Current Vercel/Production facts (read-only check)
+
+- Official Vercel project: `mghalaosimi-web`; official hostname: `https://mghalaosimi-web.vercel.app`.
+- Production `DATABASE_URL` is now present as an encrypted Production-only environment variable. Its value was not read or exposed.
+- Production `MGHAL_API_BASE` remains configured to the Render Node API preview hostname. Keep it until the Vercel-native Production deployment is READY and its API/database checks pass; remove it only after that cutover.
+- The latest Production deployment still serves commit `7de53f6becabee1dfaab4fa328d3cb9131ecebcf`, not the new `main` commit.
+- The latest READY Preview is an older commit `74949bfff0272b5d8ffca7d54111a88995bdcca2`; it is not a deployment of current `main`.
+- Live checks against the official Production hostname: `/` returns HTTP 200; `/api/health` returns HTTP 200 with database connected through the currently configured legacy upstream; `/photos` returns HTTP 404. Therefore the newly merged photo archive and current application changes are **not yet live on Production**.
+- Vercel's current Git status for `main` reports `build-rate-limit`. No deployment ID was created for the new main commit. Do not claim the production release is complete or retry deployment until the rate-limit window clears.
+
+### Database and infrastructure boundary
+
+- Neon Production `DATABASE_URL` exists, but this does not by itself prove the Vercel-native Production runtime has been deployed or exercised.
+- The Vercel-native API code reads `process.env.DATABASE_URL` directly and does not use `MGHAL_API_BASE`; the legacy variable is retained only until the new Production deployment is confirmed.
+- Cloudflare D1 remains deleted by the owner's explicit decision. Do not recreate it or attempt restoration.
+- No Neon Production migration/ledger mutation, owner bootstrap, OAuth secret change, domain detachment, Render deletion, or Render suspension was performed during this release attempt.
+
+### Remaining open integration work
+
+The core release chain above is now in `main`. Older branches/PRs are not to be blindly merged: PR #31 is explicitly superseded by #33; PR #21/#22 contain older static-page styling snapshots; PR #26 contains legacy Worker-oriented backend files; PR #14/#15/#16 contain Worker/D1-era AI/social/auth implementations that require selective porting if still desired. Preserve their histories until each unique feature is classified. Main Phase 1 remains open until the official Production deployment, live route/API/database/auth checks, and final mobile/browser verification succeed.
