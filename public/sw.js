@@ -8,7 +8,7 @@ const CORE_ASSETS = [
   "/assets/search-index.json"
 ];
 const APP_PAGES = [
-  "/offline",
+  "/offline", "/en/offline",
   "/", "/about", "/projects", "/skills", "/labs", "/research", "/credentials",
   "/education", "/achievements", "/knowledge", "/resume", "/contact",
   "/en", "/en/about", "/en/projects", "/en/skills", "/en/labs", "/en/research",
@@ -45,7 +45,8 @@ async function networkFirst(request) {
     if (exact) return exact;
     const pathMatch = cacheable ? await cache.match(path, { ignoreSearch: true }) : null;
     if (pathMatch) return pathMatch;
-    return (await cache.match("/offline")) || Response.error();
+    const fallbackPath = path.startsWith("/en/") ? "/en/offline" : "/offline";
+    return (await cache.match(fallbackPath)) || (await cache.match("/offline")) || Response.error();
   }
 }
 async function staleWhileRevalidate(request) {
