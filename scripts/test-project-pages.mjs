@@ -11,6 +11,7 @@ assert.match(catalog.siteOrigin, /^https:\/\//, "A canonical site origin is requ
 const ids = new Set();
 const slugs = new Set();
 const expectedRoutes = [];
+const brandColors = new Set();
 for (const project of catalog.projects) {
   assert.ok(project.id && project.slug && project.title?.ar && project.title?.en, "Stable ids, slugs and bilingual titles are required.");
   assert.ok(!ids.has(project.id) && !slugs.has(project.slug), "Project ids and slugs must be unique.");
@@ -20,6 +21,13 @@ for (const project of catalog.projects) {
   assert.ok(Array.isArray(project.technologies) && Array.isArray(project.features) && Array.isArray(project.gallery), "Technology, feature and gallery arrays are required.");
   assert.ok(project.cover?.startsWith("/assets/projects/"), "Project covers must use local portfolio assets.");
   assert.ok(existsSync(path.join(publicRoot, project.cover.slice(1))), "Missing project cover: " + project.cover);
+  assert.ok(project.brand?.logo?.startsWith("/assets/projects/logos/"), "Every project needs a dedicated brand logo.");
+  assert.ok(existsSync(path.join(publicRoot, project.brand.logo.slice(1))), "Missing project logo: " + project.brand.logo);
+  for (const color of [project.brand.primary, project.brand.secondary, project.brand.accent]) assert.match(color, /^#[0-9A-Fa-f]{6}$/, "Project brand colors must be valid hex values.");
+  assert.ok(!brandColors.has(project.brand.primary.toLowerCase()), "Each project must have a distinct primary brand color.");
+  brandColors.add(project.brand.primary.toLowerCase());
+  assert.ok(project.contribution?.ar && project.contribution?.en, "Contribution statements must be bilingual and explicit.");
+  assert.ok(["web","enterprise","ai","cybersecurity","academic","mobile","desktop"].includes(project.categoryKey), "Every project needs a supported domain classification.");
   if (project.repository) assert.match(project.repository, /^https:\/\/github\.com\/mghalaosimi-web\//, "Repository links must point to the expected public owner.");
   if (project.visibility?.ar?.includes("خاص")) assert.equal(project.repository, null, "Private repositories must never be linked publicly.");
   for (const image of project.gallery) {
@@ -52,6 +60,12 @@ for (const project of catalog.projects) {
     expectedRoutes.push(canonical);
   }
 }
+
+const detailRoute = readFileSync(path.join(root, "app/projects/[slug]/page.tsx"), "utf8");
+assert.match(detailRoute, /assets\/projects\/catalog\.json/, "Dynamic project pages must use the canonical catalogue.");
+assert.doesNotMatch(detailRoute, /const items\s*=\s*\[/, "Project detail data must not be duplicated in the route.");
+const listSource = readFileSync(path.join(root, "data/projects.ts"), "utf8");
+assert.match(listSource, /catalog\.projects\.map/, "The project explorer must derive from the canonical catalogue.");
 
 const sitemap = readFileSync(path.join(publicRoot, "sitemap.xml"), "utf8");
 for (const route of expectedRoutes) assert.ok(sitemap.includes("<loc>" + route + "</loc>"), "Sitemap entry missing: " + route);
