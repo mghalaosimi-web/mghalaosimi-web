@@ -44,7 +44,7 @@ All Cisco records now have a visual asset: full certificate previews where avail
 
 ### OpenJS
 
-- OpenJS Node.js Application Developer (JSNAD) — `1785613862401.png` is linked as the JSNAD preview based on the credential owner's explicit confirmation in this conversation. This is a user-confirmed asset match, not an independent visual/authenticity determination by the audit. The official Linux Foundation verification portal is linked; verification requires entering the family name and credential ID.
+- OpenJS Node.js Application Developer (JSNAD) — `1785613862401.png` is linked as the JSNAD preview based on the credential owner's explicit confirmation in this conversation. This is a user-confirmed asset match, not an independent visual/authenticity determination by the audit. The verification action now opens the public Credly credential record for this exact JSNAD badge, which identifies The Linux Foundation as the issuer.
 
 ### EMC Shiraa 2026
 
@@ -94,4 +94,4 @@ The following records currently have no confidently matched PDF in the uploaded 
 
 Certificate cards use lazy-loaded images. Local previews are served through Next.js image optimization at quality 75; remote Credly badge and the WS05 preview are loaded unoptimized from their source URLs. This keeps local full-size certificate screenshots out of the initial eager-loading path.
 
-The JSNAD preview association is based on the credential owner's explicit confirmation; issuer-side verification remains available through the official Linux Foundation portal and is not represented as completed by this repository update. The update is on the working feature branch only. It has not been merged or deployed to Production. Other unresolved assets remain unassigned rather than guessed.
+The JSNAD preview association is based on the credential owner's explicit confirmation. Its verification link opens the public Credly record for the exact badge and shows The Linux Foundation as issuer; this link is a source record, not a claim that a separate manual verification query has been completed. The update is on the working feature branch only. It has not been merged or deployed to Production. Other unresolved assets remain unassigned rather than guessed.
