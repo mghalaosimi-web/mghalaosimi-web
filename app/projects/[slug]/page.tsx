@@ -1,0 +1,27 @@
+import type {Metadata} from 'next';
+import Link from 'next/link';
+import {cookies} from 'next/headers';
+import {notFound} from 'next/navigation';
+import '../../mghal-portfolio.css';
+import {localizedAlternates} from '../../../lib/seo';
+const items=[
+{slug:'waynah',name:'WAYNAH | وَيْنَه؟',status:'In Progress',statusAr:'قيد التطوير',summary:'A trusted local geographic discovery platform for Yemen, using PostgreSQL and PostGIS with a low-bandwidth-first experience.',summaryAr:'منصة استكشاف جغرافي محلية موثوقة لليمن، تعتمد PostgreSQL وPostGIS وتجربة تراعي الاتصال منخفض السرعة.',stack:['Next.js','TypeScript','PostgreSQL','PostGIS'],url:'https://waynah.vercel.app'},
+{slug:'humanity-system',name:'Humanity System',status:'Private / In Progress',statusAr:'خاص · قيد التطوير',summary:'An enterprise-oriented system for managing organizational data and workflows. Sensitive implementation details remain private.',summaryAr:'منظومة لإدارة البيانات والعمليات المؤسسية. التفاصيل الفنية الحساسة تبقى ضمن المستودع الخاص.',stack:['Full-Stack','Database','RBAC']},
+{slug:'focusflow',name:'FocusFlow',status:'Experimental',statusAr:'تجريبي',summary:'A productivity application for tasks, focus sessions, and daily habits. Documentation and functionality remain in development.',summaryAr:'تطبيق إنتاجية لتنظيم المهام وجلسات التركيز والعادات اليومية؛ الوظائف والتوثيق قيد التطوير.',stack:['Flutter','Dart']},
+{slug:'mghal-content-os',name:'M.GH.AL Content OS',status:'In Progress',statusAr:'قيد التطوير',summary:'A system for managing content planning, review, and supported publishing workflows.',summaryAr:'نظام لإدارة تخطيط المحتوى ومراجعته وتدفقات العمل المرتبطة بالقنوات المدعومة.',stack:['Next.js','TypeScript','Prisma','PostgreSQL']},
+{slug:'manar-schedule-system',name:'Manar Schedule System',status:'Collaborative',statusAr:'مشروع تعاوني',summary:'A collaborative system for academic scheduling and related workflows.',summaryAr:'نظام تعاوني لتنظيم الجداول الأكاديمية وتدفقات العمل ذات الصلة.',stack:['React','Node.js','Prisma','PostgreSQL']},
+{slug:'almanar-schedule-system',name:'Al-Manar Schedule System',status:'In Progress',statusAr:'قيد التطوير',summary:'A separate project for academic scheduling at Al-Manar College, distinct from Manar Schedule System.',summaryAr:'مشروع مستقل لتنظيم الجداول الأكاديمية الخاصة بكلية المنار، منفصل عن Manar Schedule System.',stack:['Web','Academic Systems']},
+{slug:'yemen-ai',name:'Yemen AI Platform',status:'Experimental',statusAr:'تجريبي',summary:'A bilingual knowledge platform exploring applied AI and document-based search.',summaryAr:'منصة معرفية ثنائية اللغة لاستكشاف تطبيقات الذكاء الاصطناعي والبحث في المستندات.',stack:['Python','AI','RAG']},
+{slug:'ciphersphere',name:'CipherSphere',status:'Experimental',statusAr:'تجارب وتطوير',summary:'An educational cryptography lab for cipher analysis and data-integrity concepts.',summaryAr:'مختبر تعليمي للتشفير وتحليل الشفرات والتحقق من سلامة البيانات.',stack:['Cryptography','Web']},
+{slug:'mghal-esdp',name:'M.GH.AL ESDP',status:'Private · Unpublished',statusAr:'خاص · غير منشور',summary:'A private desktop application project with no public download.',summaryAr:'مشروع تطبيق مكتبي خاص وغير منشور، ولا يتوفر رابط عام للتنزيل.',stack:['Desktop Software']},
+{slug:'mghal-official-website',name:'M.GH.AL Official Website',status:'Active',statusAr:'نشط · قيد التطوير',summary:'The professional digital identity hub for profile, projects, credentials, CV, and professional links.',summaryAr:'مركز الهوية الرقمية المهنية الذي يجمع الملف الشخصي والمشاريع والشهادات والسيرة الذاتية والروابط المهنية.',stack:['Next.js','React','TypeScript','SEO']}
+];
+type Props={params:Promise<{slug:string}>};
+export async function generateMetadata({params}:Props):Promise<Metadata>{
+ const {slug}=await params;
+ const p=items.find(x=>x.slug===slug);
+ if(!p)return {title:'Project not found',robots:{index:false,follow:false}};
+ const en=(await cookies()).get('portfolio-locale')?.value==='en';
+ return {title:p.name,description:en?p.summary:p.summaryAr,alternates:localizedAlternates(`/projects/${slug}`,en?'en':'ar')};
+}
+export default async function ProjectDetail({params}:Props){const {slug}=await params;const p=items.find(x=>x.slug===slug);if(!p)notFound();const en=(await cookies()).get('portfolio-locale')?.value==='en';return <main className="mghal-archive" dir={en?'ltr':'rtl'}><section className="mghal-archive-hero"><span className="mghal-eyebrow">M.GH.AL / PROJECT DETAIL</span><h1>{p.name}</h1><p>{en?p.summary:p.summaryAr}</p><span className="mghal-status">{en?p.status:p.statusAr}</span></section><div className="mghal-section-head"><div><span className="mghal-eyebrow">TECHNICAL PROFILE</span><h2>{en?'Technology stack & scope':'التقنيات والنطاق'}</h2></div></div><section className="mghal-card"><div className="mghal-tags">{p.stack.map(s=><span key={s}>{s}</span>)}</div><p>{en?'This page reflects the information currently available. No unverified contribution, test result, or production-readiness claim is made.':'تُعرض هذه الصفحة وفق المعلومات المتاحة حالياً. لا تُنسب مساهمات أو نتائج اختبار أو جاهزية إنتاجية غير موثقة.'}</p>{p.url&&<a href={p.url} target="_blank" rel="noreferrer">{en?'Visit project':'زيارة المشروع'} ↗</a>}</section><p style={{marginTop:28}}><Link href="/projects">{en?'← Back to all projects':'← العودة إلى جميع المشاريع'}</Link></p></main>}

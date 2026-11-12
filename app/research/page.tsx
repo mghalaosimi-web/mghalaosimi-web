@@ -1,0 +1,17 @@
+import type {Metadata} from 'next';
+import {cookies} from 'next/headers';
+import '../mghal-portfolio.css';
+import {localizedAlternates} from '../../lib/seo';
+
+export async function generateMetadata():Promise<Metadata>{
+ const en=(await cookies()).get('portfolio-locale')?.value==='en';
+ return en
+  ? {title:'Research & Academic Directions | M.GH.AL',description:'Research interests and academic directions of Mohammed Ghaleb Alaosimi across software engineering, enterprise systems and applied AI.',alternates:localizedAlternates('/research','en')}
+  : {title:'الأبحاث والدراسات | M.GH.AL',description:'الاهتمامات البحثية والأعمال الأكاديمية لمحمد غالب العصيمي.',alternates:localizedAlternates('/research','ar')};
+}
+const items=[
+{title:'التفويض الواعي بالمعاملات والتنفيذ المقيّد للوكلاء الذكيين داخل أنظمة ERP',en:'Transaction-Aware Authorization and Bounded Execution for AI Agents in ERP Systems',status:'مسار بحثي قيد الإعداد · غير منشور',statusEn:'Research direction in preparation · Not published',summary:'استكشاف تصميم آليات تفويض وصلاحيات تراعي سياق المعاملة داخل أنظمة ERP، وتقيّد تنفيذ الوكلاء الذكيين بمبدأ أقل صلاحية وحدود تشغيل واضحة وموافقات بشرية عند الحاجة.',summaryEn:'Exploring authorization mechanisms that account for transaction context in ERP systems, constrain AI-agent execution through least privilege and bounded runtime policies, and require human approval for sensitive actions.'},
+{title:'تطبيقات الذكاء الاصطناعي في المعرفة والبحث',en:'Applied AI for Knowledge and Research',status:'استكشاف وتطوير',statusEn:'Exploration & development',summary:'دراسة تصميم منصات معرفية ثنائية اللغة تعتمد استرجاع المعلومات من المستندات وتقييم جودة الإجابات وإظهار مصادرها.',summaryEn:'Exploring bilingual knowledge systems that retrieve information from documents, evaluate answer quality, and expose supporting sources.'},
+{title:'هندسة البرمجيات والأنظمة المؤسسية',en:'Software Engineering & Enterprise Systems',status:'اهتمام أكاديمي وتطبيقي',statusEn:'Academic & practical interest',summary:'دراسة أنماط تصميم الأنظمة القابلة للصيانة والتوسع، وإدارة الصلاحيات، وتكامل البيانات وتدفقات العمل.',summaryEn:'Studying maintainable and scalable system design, access control, data integration, and workflow architecture.'}
+];
+export default async function ResearchPage(){const en=(await cookies()).get('portfolio-locale')?.value==='en';return <main className="mghal-archive"><section className="mghal-archive-hero"><span className="mghal-eyebrow">M.GH.AL / RESEARCH & ACADEMIC WORK</span><h1>{en?<>Technical questions.<br/>Verifiable research.</>:<>أسئلة تقنية.<br/>بحث قابل للتحقق.</>}</h1><p>{en?'Research interests and academic directions across software engineering, enterprise systems, and applied AI. These entries describe areas of exploration, not claims of publication or peer-reviewed acceptance.':'مسارات بحثية واهتمامات أكاديمية مرتبطة بهندسة البرمجيات والأنظمة المؤسسية والذكاء الاصطناعي التطبيقي. تُعرض بوصفها مجالات استكشاف، لا ادعاءات بنشر أو تحكيم علمي.'}</p></section><div className="mghal-section-head"><div><span className="mghal-eyebrow">RESEARCH DIRECTIONS</span><h2>{en?'Research directions':'المسارات البحثية'}</h2></div></div><div className="mghal-grid">{items.map((p,i)=><article className="mghal-card mghal-research-card" key={p.title}><span className="mghal-research-number">RESEARCH / 0{i+1}</span><h3>{en?p.en:p.title}</h3><strong>{en?p.statusEn:p.status}</strong><p>{en?p.summaryEn:p.summary}</p></article>)}</div></main>}

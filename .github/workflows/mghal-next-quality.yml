@@ -1,0 +1,22 @@
+name: M.GH.AL Next.js quality checks
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [feature/mghal-arfat-full-integration]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run audit:credentials
+      - run: npm run test:certificates
+      - run: npm run audit:profile
+      - run: npm run typecheck
+      - run: npm run build

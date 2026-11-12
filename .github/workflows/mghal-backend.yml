@@ -1,0 +1,21 @@
+name: M.GH.AL Backend CI
+on:
+  push:
+    branches: [fix/site-quality-audit-2026-10-31, feature/mghal-arfat-full-integration]
+    paths: ["mghal-backend/**", ".github/workflows/mghal-backend.yml"]
+  pull_request:
+    paths: ["mghal-backend/**"]
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mghal-backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm install
+      - run: npm run check

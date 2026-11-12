@@ -1,0 +1,1243 @@
+{
+  "schemaVersion": 1,
+  "siteOrigin": "https://mghalaosimi-web.vercel.app",
+  "reviewedAt": "2026-11-02",
+  "projects": [
+    {
+      "id": "waynah",
+      "slug": "waynah",
+      "title": {
+        "ar": "WAYNAH | وَيْنَه؟",
+        "en": "WAYNAH | وَيْنَه؟"
+      },
+      "summary": {
+        "ar": "منصة للاستكشاف الجغرافي والمعلومات المحلية الموثوقة في اليمن، تربط المكان بسياقه الإداري وبياناته ودرجة التحقق منه.",
+        "en": "A Yemen-focused geographic discovery platform that connects places with administrative context, local information and explicit verification states."
+      },
+      "problem": {
+        "ar": "المعلومات المحلية والعناوين غير الرسمية متفرقة، وقد تختلف كتابة الأسماء ومواقع الأماكن ومصادر بياناتها، مما يصعّب الوصول إلى معلومة مكانية موثوقة.",
+        "en": "Local information and informal addresses are fragmented; place names, locations and source records can conflict, making reliable discovery difficult."
+      },
+      "goal": {
+        "ar": "بناء بنية موحدة لاكتشاف الأماكن والخدمات في اليمن، مع هرمية جغرافية ومحرك بحث مكاني ونموذج ثقة وتحقق قابل للتدقيق.",
+        "en": "Build a unified discovery infrastructure for places and services in Yemen, combining geographic hierarchy, spatial search and auditable trust and verification."
+      },
+      "audience": {
+        "ar": "الأفراد والباحثون عن الأماكن، والأنشطة المحلية، ومقدمو الخدمات، والجهات التي تحتاج إلى بيانات مكانية منظمة.",
+        "en": "People looking for places, local businesses, service providers and organizations that need structured geographic data."
+      },
+      "value": {
+        "ar": "تحويل سؤال «وينه؟» إلى اكتشاف مكاني منظم يوضح المكان وسياقه وكيفية الوصول إليه ومدى موثوقية بياناته.",
+        "en": "Turn “Where is it?” into structured discovery that explains a place, its context, how to reach it and how trustworthy its data is."
+      },
+      "category": {
+        "ar": "منصة ويب جغرافية",
+        "en": "Geospatial web platform"
+      },
+      "categoryKey": "web",
+      "status": {
+        "ar": "تطوير نشط — مراحل تنفيذ موثقة",
+        "en": "Active development — documented implementation phases"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/waynah",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/waynah.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لمشروع WAYNAH، وليس لقطة شاشة من التطبيق.",
+        "en": "WAYNAH illustrative artwork, not an application screenshot."
+      },
+      "technologies": [
+        "Next.js 16.3",
+        "Hono 4.13",
+        "TypeScript 5.8",
+        "PostgreSQL 17",
+        "PostGIS 3.3",
+        "Prisma 6.4",
+        "Turborepo"
+      ],
+      "features": [
+        {
+          "ar": "هرمية جغرافية من المحافظة والمديرية والعزلة إلى التجمعات والمعالم والأماكن.",
+          "en": "Geographic hierarchy from governorates and districts to settlements, landmarks and places."
+        },
+        {
+          "ar": "بحث نصي ومكاني مع مراعاة اختلافات كتابة الأسماء العربية.",
+          "en": "Text and spatial discovery designed to handle Arabic name variations."
+        },
+        {
+          "ar": "حالات ثقة وتحقق وسجل تدقيق للتغييرات والبلاغات.",
+          "en": "Trust and verification states with an audit trail for changes and reports."
+        },
+        {
+          "ar": "نماذج للأماكن والأنشطة والفروع والخدمات والكتالوج.",
+          "en": "Domain models for places, businesses, branches, services and catalogues."
+        }
+      ],
+      "architecture": {
+        "ar": "Monorepo يضم تطبيقات الويب وواجهات API وخدمات المجال. توثيق المشروع يوضح تدفقاً من واجهات Next.js إلى بوابة Hono ثم خدمات المجال وطبقة Prisma وقاعدة PostgreSQL/PostGIS.",
+        "en": "A monorepo containing web applications, API surfaces and domain services. Project documentation describes a flow from Next.js interfaces through a Hono API gateway and domain services to Prisma and PostgreSQL/PostGIS."
+      },
+      "gallery": [
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/waynah/main/docs/images/web_app.png",
+          "alt": {
+            "ar": "واجهة تطبيق WAYNAH كما تظهر في صورة التوثيق.",
+            "en": "WAYNAH web application interface from repository documentation."
+          },
+          "caption": {
+            "ar": "واجهة التطبيق — صورة توثيقية من المستودع العام.",
+            "en": "Web application — documentation screenshot from the public repository."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/waynah/main/docs/images/admin_dashboard.png",
+          "alt": {
+            "ar": "لوحة الإدارة في WAYNAH.",
+            "en": "WAYNAH administration dashboard."
+          },
+          "caption": {
+            "ar": "لوحة الإدارة.",
+            "en": "Administration dashboard."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/waynah/main/docs/images/geographic_hierarchy.png",
+          "alt": {
+            "ar": "مخطط التسلسل الجغرافي في WAYNAH.",
+            "en": "WAYNAH geographic hierarchy diagram."
+          },
+          "caption": {
+            "ar": "التسلسل الجغرافي.",
+            "en": "Geographic hierarchy."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/waynah/main/docs/images/trust_model.png",
+          "alt": {
+            "ar": "مخطط نموذج الثقة والتحقق.",
+            "en": "WAYNAH trust and verification model diagram."
+          },
+          "caption": {
+            "ar": "نموذج الثقة والتحقق.",
+            "en": "Trust and verification model."
+          }
+        }
+      ],
+      "docs": "https://github.com/mghalaosimi-web/waynah/blob/main/README.md",
+      "deploymentReference": {
+        "url": "https://waynah.vercel.app",
+        "label": {
+          "ar": "عنوان نشر مذكور في README — لم يتم تأكيد استجابته الحية أثناء التدقيق",
+          "en": "Deployment URL listed in README — live response was not verified during this audit"
+        }
+      },
+      "evidence": {
+        "ar": [
+          "README.md وشارات التقنيات في المستودع العام.",
+          "مجلد docs/images يتضمن واجهة التطبيق ولوحة الإدارة ومخططات النظام.",
+          "بنية monorepo ومجلدات apps وservices وواجهات API."
+        ],
+        "en": [
+          "README.md and technology badges in the public repository.",
+          "docs/images contains application, administration and architecture visuals.",
+          "Monorepo structure with apps, services and API surfaces."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "رابط النشر موجود في توثيق المستودع، لكن لم يمكن تأكيد توفر الخدمة الحية من أداة التصفح؛ لذلك لا يُعرض كعرض حي مؤكد."
+        ],
+        "en": [
+          "The deployment URL is documented in the repository, but live availability could not be confirmed with the available browser check; it is not represented as a verified live demo."
+        ]
+      },
+      "operatingSystem": "Web browser"
+    },
+    {
+      "id": "humanity-system",
+      "slug": "humanity-system",
+      "title": {
+        "ar": "Humanity System | الإنسانية تجمعنا",
+        "en": "Humanity System | Humanity Brings Us Together"
+      },
+      "summary": {
+        "ar": "نظام ويب مؤسسي لإدارة السجلات والعمليات، بواجهة عربية RTL ودعم التثبيت كتطبيق ويب وتغليف Android.",
+        "en": "An institutional web system for records and operational workflows, with an Arabic RTL interface, PWA support and Android packaging."
+      },
+      "problem": {
+        "ar": "الحاجة إلى تنظيم السجلات والعمليات المؤسسية ضمن نظام موحد بدلاً من توزيعها بين ملفات وأدوات منفصلة.",
+        "en": "The need to organize institutional records and workflows in one system rather than across disconnected files and tools."
+      },
+      "goal": {
+        "ar": "توفير واجهة إدارية موحدة وقابلة للتثبيت، مع طبقة خلفية منظمة وصلاحيات وجلسات على مستوى الخادم وواجهات API.",
+        "en": "Provide a unified installable administrative interface with a structured backend, server-side access controls, sessions and APIs."
+      },
+      "audience": {
+        "ar": "فريق المؤسسة والمستخدمون المخولون بإدارة السجلات والعمليات.",
+        "en": "Institutional teams and authorized users who manage records and operations."
+      },
+      "value": {
+        "ar": "تجميع العمليات المؤسسية في تجربة عربية متجاوبة، مع مسار ويب وتطبيق Android مبني على Capacitor.",
+        "en": "Bring institutional workflows into a responsive Arabic experience with a web path and a Capacitor-based Android shell."
+      },
+      "category": {
+        "ar": "نظام ويب مؤسسي",
+        "en": "Institutional web system"
+      },
+      "categoryKey": "web",
+      "status": {
+        "ar": "تطوير نشط — مستودع خاص",
+        "en": "Active development — private repository"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع خاص؛ لا يُعرض رابط المصدر للعامة",
+        "en": "Private repository; source link is not exposed publicly"
+      },
+      "repository": null,
+      "relatedRepositories": [],
+      "cover": "/assets/projects/humanity.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لمشروع Humanity System، وليس لقطة شاشة من النظام.",
+        "en": "Humanity System illustrative artwork, not a system screenshot."
+      },
+      "technologies": [
+        "Next.js 16.2.4",
+        "React 19.2.4",
+        "TypeScript",
+        "Prisma 6.19.0",
+        "Capacitor 8.3.1",
+        "Zod 4.3.6",
+        "SimpleWebAuthn 13.1.1",
+        "SQLite (local development configuration)"
+      ],
+      "features": [
+        {
+          "ar": "واجهة عربية RTL متجاوبة للعمليات والسجلات المؤسسية.",
+          "en": "Responsive Arabic RTL interface for institutional records and workflows."
+        },
+        {
+          "ar": "جلسات آمنة وصلاحيات تُطبّق على الخادم وواجهات API.",
+          "en": "Server-enforced permissions and session-based access across API routes."
+        },
+        {
+          "ar": "إعداد PWA للتثبيت على الأجهزة.",
+          "en": "PWA configuration for installable web access."
+        },
+        {
+          "ar": "مشروع Android باستخدام Capacitor مع إعدادات وأصول التطبيق.",
+          "en": "Capacitor Android project with application configuration and assets."
+        }
+      ],
+      "architecture": {
+        "ar": "تطبيق Next.js مع TypeScript وواجهات API وطبقة Prisma. يصف README إعداد SQLite للتطوير، ويوثق PostgreSQL كخيار إنتاجي موصى به؛ لم يُثبت من الملفات التي تمت مراجعتها اتصال إنتاجي محدد.",
+        "en": "A Next.js and TypeScript application with API routes and a Prisma data layer. The README describes SQLite for local development and documents PostgreSQL as a recommended production option; a specific production connection was not established by the reviewed files."
+      },
+      "gallery": [],
+      "docs": null,
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "تم الوصول إلى README.md للمستودع الخاص عبر صلاحية التكامل.",
+          "تتضمن الشجرة ملفات Android وCapacitor وPWA وPrisma."
+        ],
+        "en": [
+          "README.md was accessible through the authorized GitHub integration for the private repository.",
+          "The repository tree includes Android, Capacitor, PWA and Prisma assets."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "المستودع خاص؛ لا يظهر رابط GitHub ولا تُستخدم صوره أو ملفاته الداخلية في الموقع العام.",
+          "لم تُنشر لقطات شاشة فعلية؛ الغلاف الحالي Artwork توضيحي فقط.",
+          "وصف المشروع في هذه الصفحة مختصر عمداً ولا يتضمن تفاصيل تشغيلية داخلية."
+        ],
+        "en": [
+          "The repository is private; no GitHub source link or internal repository images are exposed on the public site.",
+          "No real screenshots are published; the current cover is illustrative artwork only.",
+          "The public description is intentionally high-level and omits internal operational details."
+        ]
+      },
+      "operatingSystem": "Web browser and Android"
+    },
+    {
+      "id": "yemen-ai",
+      "slug": "yemen-ai",
+      "title": {
+        "ar": "Yemen AI Platform",
+        "en": "Yemen AI Platform"
+      },
+      "summary": {
+        "ar": "منصة ذكاء اصطناعي ثنائية اللغة تجمع واجهات المحادثة والبحث في المستندات والاسترجاع المعزز بالتوليد وإدارة النماذج.",
+        "en": "A bilingual AI platform combining assistant workflows, document research, retrieval-augmented generation and model administration."
+      },
+      "problem": {
+        "ar": "تشتت المعرفة والمستندات وأدوات الذكاء الاصطناعي، وصعوبة ضبط الوصول ومراجعة مصادر الإجابات.",
+        "en": "Knowledge, documents and AI tools are fragmented, while access control and answer-source review can be difficult."
+      },
+      "goal": {
+        "ar": "توفير منصة محلية/ذاتية التشغيل لربط المستندات بالاسترجاع والبحث وإدارة النماذج والمستخدمين.",
+        "en": "Provide a self-hostable platform connecting documents to retrieval and research workflows with model and user administration."
+      },
+      "audience": {
+        "ar": "الفرق التي تحتاج إلى مساعد معرفي ثنائي اللغة وبحث منظم في المستندات.",
+        "en": "Teams that need a bilingual knowledge assistant and structured document research."
+      },
+      "value": {
+        "ar": "جمع المساعد المعرفي وإدارة المستندات والنماذج والصلاحيات ضمن منصة واحدة.",
+        "en": "Unify knowledge assistance, document management, model controls and access management in one platform."
+      },
+      "category": {
+        "ar": "منصة ذكاء اصطناعي",
+        "en": "AI platform"
+      },
+      "categoryKey": "ai",
+      "status": {
+        "ar": "نموذج متقدم قيد التطوير والتحقق",
+        "en": "Advanced prototype under development and verification"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/yemen-ai",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/yemen-ai.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لمنصة Yemen AI، وليس لقطة شاشة من التطبيق.",
+        "en": "Yemen AI illustrative artwork, not an application screenshot."
+      },
+      "technologies": [
+        "Python 3.11–3.13",
+        "FastAPI",
+        "RAG",
+        "SQLite",
+        "Docker",
+        "pytest"
+      ],
+      "features": [
+        {
+          "ar": "مساعد ذكاء اصطناعي ثنائي اللغة.",
+          "en": "Bilingual AI assistant."
+        },
+        {
+          "ar": "مساحة عمل للبحث في المستندات واسترجاع المعرفة.",
+          "en": "Document research workspace and knowledge retrieval."
+        },
+        {
+          "ar": "إدارة النماذج والتحكم في إعداداتها.",
+          "en": "Model management and configuration controls."
+        },
+        {
+          "ar": "واجهات إدارة ومستخدمين مع ضوابط وصول.",
+          "en": "Administration and user interfaces with access controls."
+        }
+      ],
+      "architecture": {
+        "ar": "تطبيق Python/FastAPI مع وحدات API وخدمات أساسية وطبقات للمعرفة والمستندات وإدارة النماذج. توثيق المستودع يتناول RAG والاستدلال المحلي ومراجعات الاستقرار والأمان.",
+        "en": "A Python/FastAPI application with API modules and core services for knowledge, documents and model management. Repository documentation covers RAG, local reasoning and stability/security reviews."
+      },
+      "gallery": [
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/yemen-ai/main/docs/images/dashboard.png",
+          "alt": {
+            "ar": "لوحة التحكم في Yemen AI من صور توثيق المستودع.",
+            "en": "Yemen AI dashboard from repository documentation."
+          },
+          "caption": {
+            "ar": "لوحة التحكم.",
+            "en": "Dashboard."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/yemen-ai/main/docs/images/document_workspace.png",
+          "alt": {
+            "ar": "مساحة العمل الخاصة بالمستندات في Yemen AI.",
+            "en": "Yemen AI document workspace."
+          },
+          "caption": {
+            "ar": "مساحة المستندات.",
+            "en": "Document workspace."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/yemen-ai/main/docs/images/model_control.png",
+          "alt": {
+            "ar": "واجهة إدارة النماذج في Yemen AI.",
+            "en": "Yemen AI model control interface."
+          },
+          "caption": {
+            "ar": "إدارة النماذج.",
+            "en": "Model control."
+          }
+        }
+      ],
+      "docs": "https://github.com/mghalaosimi-web/yemen-ai/blob/main/README.md",
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "README.md العام ومجلدات app وdocs.",
+          "صور لوحة التحكم ومساحة المستندات وإدارة النماذج في docs/images.",
+          "ملفات Docker وrequirements وواجهات FastAPI."
+        ],
+        "en": [
+          "Public README.md and the app and docs directories.",
+          "Dashboard, document workspace and model-control images in docs/images.",
+          "Docker, requirements and FastAPI route files."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "رُصدت بيانات اعتماد افتراضية منشورة داخل README العام. لم تُنسخ قيمها إلى الموقع أو هذا السجل؛ يلزم تغييرها وإزالة القيم الافتراضية من التوثيق العام قبل أي استخدام إنتاجي."
+        ],
+        "en": [
+          "Default credentials were found exposed in the public README. Their values are intentionally omitted from this site and audit; rotate them and remove defaults from public documentation before production use."
+        ]
+      },
+      "operatingSystem": "Windows, Linux or Docker host"
+    },
+    {
+      "id": "mghal-content-os",
+      "slug": "mghal-content-os",
+      "title": {
+        "ar": "M.GH.AL Content Studio",
+        "en": "M.GH.AL Content Studio"
+      },
+      "summary": {
+        "ar": "نظام تشغيل للمحتوى العربي يجمع التخطيط والتوليد بالذكاء الاصطناعي وتصميم الصور وإدارة المسودات والنشر عبر واجهات رسمية.",
+        "en": "An Arabic content operating system combining planning, AI generation, image design, draft workflows and publishing through official platform APIs."
+      },
+      "problem": {
+        "ar": "تجزؤ دورة إنتاج المحتوى بين أدوات الكتابة والتصميم ولوحات النشر، مع تكرار إعداد النسخ المناسبة لكل منصة.",
+        "en": "Content production is fragmented across writing, design and publishing tools, with repeated manual adaptation for each platform."
+      },
+      "goal": {
+        "ar": "توحيد دورة المحتوى من الفكرة إلى المراجعة والتصميم والجدولة والنشر مع سجل تدقيق وتكاملات رسمية.",
+        "en": "Unify the content lifecycle from idea through review, design, scheduling and publishing, with audit logs and official integrations."
+      },
+      "audience": {
+        "ar": "صنّاع المحتوى وأصحاب العلامات والحسابات الاجتماعية الذين يديرون محتوى عربياً متعدد المنصات.",
+        "en": "Creators and brand owners managing Arabic content across multiple social platforms."
+      },
+      "value": {
+        "ar": "توليد نسخ متعددة من فكرة واحدة، وإنشاء صور عربية RTL، وإدارة الموافقات والتكاملات من مساحة عمل واحدة.",
+        "en": "Generate platform-specific variants from one idea, render Arabic RTL visuals and manage approvals and integrations in one workspace."
+      },
+      "category": {
+        "ar": "منصة أتمتة محتوى بالذكاء الاصطناعي",
+        "en": "AI content automation platform"
+      },
+      "categoryKey": "ai",
+      "status": {
+        "ar": "تطوير نشط — توثيق وواجهات فعلية",
+        "en": "Active development — documented interfaces and implementation"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/mghal-content-os",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/content-os.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لمشروع M.GH.AL Content Studio، وليس لقطة شاشة.",
+        "en": "M.GH.AL Content Studio illustrative artwork, not a screenshot."
+      },
+      "technologies": [
+        "Next.js 16.4.3",
+        "TypeScript",
+        "Google Gemini 2.5 Flash",
+        "Prisma 7.10.1",
+        "Tailwind CSS 4",
+        "Vitest",
+        "Sharp",
+        "SVG"
+      ],
+      "features": [
+        {
+          "ar": "مركز قيادة للمساعد الذكي وجدولة المحتوى.",
+          "en": "AI-assisted command center and content scheduling."
+        },
+        {
+          "ar": "استوديو صور عربي يعتمد SVG وSharp لتوليد صور فعلية.",
+          "en": "Arabic image studio using SVG and Sharp to render image assets."
+        },
+        {
+          "ar": "مسودات ومراجعة وموافقة ونسخ مهيأة للمنصات.",
+          "en": "Draft, review and approval workflows with platform-specific variants."
+        },
+        {
+          "ar": "تكاملات موثقة مع Meta Graph API وTikTok Content Posting API.",
+          "en": "Documented integrations with Meta Graph API and TikTok Content Posting API."
+        },
+        {
+          "ar": "سجل تدقيق وإخفاء بيانات الاعتماد واستبعاد WhatsApp على مستوى المعمارية.",
+          "en": "Audit logs, masked credentials and an explicit WhatsApp exclusion in the architecture."
+        }
+      ],
+      "architecture": {
+        "ar": "تطبيق Next.js/TypeScript مع طبقة Prisma، ومحوّل Gemini، ومحرك توليد صور عبر Sharp وSVG، وموصلات نشر للمنصات الرسمية. يذكر README PostgreSQL مع مسار fallback محلي.",
+        "en": "A Next.js/TypeScript application with Prisma, a Gemini adapter, a Sharp/SVG image renderer and publishing connectors for official platform APIs. The README documents PostgreSQL and a local fallback path."
+      },
+      "gallery": [
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/mghal-content-os/main/docs/user-guide/images/01-dashboard-overview.png",
+          "alt": {
+            "ar": "لوحة التحكم في M.GH.AL Content Studio.",
+            "en": "M.GH.AL Content Studio dashboard."
+          },
+          "caption": {
+            "ar": "لوحة التحكم.",
+            "en": "Dashboard."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/mghal-content-os/main/docs/user-guide/images/04-image-studio-canvas.png",
+          "alt": {
+            "ar": "مساحة تصميم الصور العربية داخل الاستوديو.",
+            "en": "Arabic image studio canvas."
+          },
+          "caption": {
+            "ar": "استوديو الصور.",
+            "en": "Image studio."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/mghal-content-os/main/docs/user-guide/images/07-drafts-library.png",
+          "alt": {
+            "ar": "مكتبة المسودات والمحتوى.",
+            "en": "Drafts and content library."
+          },
+          "caption": {
+            "ar": "مكتبة المحتوى.",
+            "en": "Content library."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/mghal-content-os/main/docs/user-guide/images/11-connected-accounts-overview.png",
+          "alt": {
+            "ar": "لوحة الحسابات الاجتماعية المتصلة.",
+            "en": "Connected social accounts overview."
+          },
+          "caption": {
+            "ar": "الحسابات المتصلة.",
+            "en": "Connected accounts."
+          }
+        }
+      ],
+      "docs": "https://github.com/mghalaosimi-web/mghal-content-os/blob/main/README.md",
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "README.md وdocs/PROJECT_MASTER_BLUEPRINT.md وdocs/PROJECT_STATUS.md.",
+          "صور دليل الاستخدام الفعلي في docs/user-guide/images.",
+          "package.json يثبت Next.js وTypeScript وVitest والتبعيات الأساسية."
+        ],
+        "en": [
+          "README.md, PROJECT_MASTER_BLUEPRINT.md and PROJECT_STATUS.md.",
+          "User-guide interface images in docs/user-guide/images.",
+          "package.json records Next.js, TypeScript, Vitest and core dependencies."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "التكاملات موصوفة في التوثيق؛ لم يتم فحص حسابات Meta أو TikTok أو تنفيذ نشر حي من خلال هذا التدقيق."
+        ],
+        "en": [
+          "Integrations are documented in the repository; connected Meta/TikTok accounts and live publishing were not tested during this audit."
+        ]
+      },
+      "operatingSystem": "Web browser"
+    },
+    {
+      "id": "manar-schedule-system",
+      "slug": "manar-schedule-system",
+      "title": {
+        "ar": "Manar Schedule System",
+        "en": "Manar Schedule System"
+      },
+      "summary": {
+        "ar": "نظام لإدارة الجداول الجامعية وشؤون الطلاب والبوابات الأكاديمية، مخصص لكلية الجامعة اليمنية وفق سجل المشروع، ويتضمن مستودعه تطويرات موسعة للهوية والجلسات وتطبيق Flutter مع مزامنة محلية.",
+        "en": "A university scheduling and student-operations system assigned to Yemen University College in the M.GH.AL project registry, with expanded identity/session work and a Flutter mobile app with local synchronization."
+      },
+      "problem": {
+        "ar": "تحتاج إدارة الجداول والطلاب والعمليات الأكاديمية إلى بوابات مترابطة، وإدارة هوية موحدة، واستمرارية أفضل عند ضعف الاتصال.",
+        "en": "Academic scheduling and student operations need connected portals, consistent identity management, and better continuity when connectivity is limited."
+      },
+      "goal": {
+        "ar": "تطوير نسخة متكاملة من نظام الجداول تشمل واجهات الويب، طبقات الهوية والجلسات، أدوات الإدارة والإصدار، وتطبيق جوال يدعم التخزين والمزامنة المحلية.",
+        "en": "Develop a fuller scheduling-system iteration spanning web portals, identity and session layers, administration and release tooling, and a mobile app with local storage and synchronization."
+      },
+      "audience": {
+        "ar": "طلاب ومحاضرو وإداريو كلية الجامعة اليمنية وفق سجل المشروع؛ لا يذكر README اسم المؤسسة صراحةً.",
+        "en": "Students, lecturers and administrators at Yemen University College according to the project registry; the repository README itself does not explicitly name the institution."
+      },
+      "value": {
+        "ar": "يجمع بين إدارة الجدول والبوابات الأكاديمية وميزات الهوية والمزامنة وتوزيع إصدارات تطبيق الجوال.",
+        "en": "Combines timetable management and academic portals with identity, synchronization, and mobile-app release capabilities."
+      },
+      "category": {
+        "ar": "نظام أكاديمي متعدد الواجهات",
+        "en": "Multi-surface academic system"
+      },
+      "categoryKey": "academic",
+      "status": {
+        "ar": "مستودع عام — نسخة تطويرية موثقة؛ التشغيل الحي غير متحقق",
+        "en": "Public repository — documented development iteration; live operation not verified"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام مستقل",
+        "en": "Independent public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/almanar-schedule-system",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/schedule.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لأنظمة الجدولة الأكاديمية، وليس لقطة شاشة.",
+        "en": "Academic scheduling systems illustrative artwork, not a screenshot."
+      },
+      "technologies": [
+        "React 19",
+        "Vite 8",
+        "Node.js",
+        "Express 5",
+        "Prisma 7",
+        "PostgreSQL",
+        "Flutter",
+        "Dart",
+        "Capacitor",
+        "JWT",
+        "Firebase",
+        "Web Push",
+        "Cron"
+      ],
+      "features": [
+        {
+          "ar": "بوابات ويب للطلاب والإدارة والمحاضرين، مع إدارة الجداول والتعديلات الأكاديمية.",
+          "en": "Web portals for students, administrators and lecturers, including timetable management and academic overrides."
+        },
+        {
+          "ar": "طبقات موسعة للمصادقة والهوية والجلسات، مع أدوات ترحيل وفحص وتدقيق للبيانات.",
+          "en": "Expanded authentication, identity and session layers, with data migration, inspection and audit tooling."
+        },
+        {
+          "ar": "تطبيق جوال Flutter بهيكل ميزات مستقل وخدمات اتصال ومزامنة وتخزين محلي.",
+          "en": "A Flutter mobile app with feature-based structure, connectivity services, synchronization and local storage."
+        },
+        {
+          "ar": "إدارة إصدار التطبيق وملف APK منشور ضمن أصول المستودع؛ وجود الملف لا يثبت اعتماده أو توزيعه للمستخدمين.",
+          "en": "An app-release management interface and an APK asset are present in the repository; their presence does not prove public adoption or distribution."
+        }
+      ],
+      "architecture": {
+        "ar": "مستودع React/Vite وNode/Express وPrisma/PostgreSQL، مع تطبيق Flutter منفصل. يتضمن المستودع أدوات إضافية لخط أساس قاعدة البيانات وترحيل الهوية والجلسات وإدارة الإصدارات.",
+        "en": "A React/Vite and Node/Express application using Prisma/PostgreSQL, alongside a separate Flutter mobile app. The repository also contains database-baseline, identity/session migration, and release-management tooling."
+      },
+      "gallery": [
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/almanar-schedule-system/main/frontend/public/organized_portal_ui.png",
+          "alt": {
+            "ar": "واجهة البوابة الأكاديمية من مستودع Manar Schedule System.",
+            "en": "Academic portal interface from the Manar Schedule System repository."
+          },
+          "caption": {
+            "ar": "واجهة البوابة الأكاديمية.",
+            "en": "Academic portal interface."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/almanar-schedule-system/main/frontend/public/portal_services_light.png",
+          "alt": {
+            "ar": "واجهة خدمات البوابة الأكاديمية.",
+            "en": "Academic portal services interface."
+          },
+          "caption": {
+            "ar": "خدمات البوابة.",
+            "en": "Portal services."
+          }
+        }
+      ],
+      "docs": "https://github.com/mghalaosimi-web/almanar-schedule-system/blob/main/README.md",
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "README.md يصف إدارة الجداول والطلاب والمصادقة والإشعارات.",
+          "وجود تطبيق Flutter كامل ضمن mobile/lib مع خدمات للمزامنة والاتصال والتخزين المحلي.",
+          "وجود migrations لخط أساس قاعدة البيانات وتوحيد الهوية، وأدوات تدقيق واسترجاع بيانات.",
+          "وجود واجهة Release Manager وملف APK ضمن frontend/public."
+        ],
+        "en": [
+          "README.md documents timetable, student, authentication and notification management.",
+          "A full Flutter app is present under mobile/lib, including synchronization, connectivity and local-storage services.",
+          "The repository contains database-baseline and unified-identity migrations plus audit and backfill utilities.",
+          "A Release Manager interface and an APK asset are present under frontend/public."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "سجل منصة M.GH.AL يحدد هذا المشروع لكلية الجامعة اليمنية، بينما README في المستودع يصف نظام جدولة جامعية دون تسمية المؤسسة؛ لذلك مصدر الإسناد المؤسسي هو سجل المشروع لا README.",
+          "المستودعان متقاربان في أجزاء كبيرة من الشيفرة، لكن هذا السجل يوثق خصائص مستودع almanar-schedule-system تحديداً.",
+          "لم يتم اختبار تشغيل الخدمة أو تطبيق الجوال أو صلاحية ملف APK مباشرة.",
+          "ملف ALMANAR_PROJECT_CONTEXT.md موجود بالنص نفسه في المستودعين ويصف بوابة كلية المنار؛ لذلك توجد مفارقة بين هذا الملف وسجل المنصة الذي يحدد كلية الجامعة اليمنية. يلزم حسم الجهة من صاحب المشروع قبل اعتماد النسبة المؤسسية نهائياً."
+        ],
+        "en": [
+          "The M.GH.AL project registry assigns this project to Yemen University College, while the repository README describes a university scheduling system without naming the institution; the institutional attribution therefore comes from the project registry, not the README.",
+          "The repositories share substantial code, but this record documents the almanar-schedule-system repository specifically.",
+          "Live service operation, mobile-app behavior and APK validity have not been independently tested.",
+          "ALMANAR_PROJECT_CONTEXT.md appears with identical content in both repositories and describes an Al-Manar College portal, conflicting with the platform registry's Yemen University College attribution. The project owner should confirm the institution before this attribution is treated as definitive."
+        ]
+      },
+      "operatingSystem": "Web browser"
+    },
+    {
+      "id": "ciphersphere",
+      "slug": "ciphersphere",
+      "title": {
+        "ar": "CipherSphere",
+        "en": "CipherSphere"
+      },
+      "summary": {
+        "ar": "تطبيق سطح مكتب تعليمي للتشفير التطبيقي، يعرض خطوات الخوارزميات والتحويلات الرياضية بصرياً ضمن واجهة PyQt6.",
+        "en": "An educational applied-cryptography desktop application that visualizes algorithm steps and mathematical transformations in a PyQt6 interface."
+      },
+      "problem": {
+        "ar": "يصعب على المتعلم تتبع التحويلات الداخلية لخوارزميات التشفير وفهم أثر كل خطوة عند الاكتفاء بإدخال النص وعرض الناتج.",
+        "en": "Learners can struggle to understand internal cryptographic transformations when tools show only input and output."
+      },
+      "goal": {
+        "ar": "توفير مختبر تفاعلي يعرض خطوات التشفير والتحليل بصورة مرئية لأغراض التعلم والتجربة.",
+        "en": "Provide an interactive lab that exposes cryptographic steps visually for learning and experimentation."
+      },
+      "audience": {
+        "ar": "طلاب التشفير وأمن المعلومات والمتعلمون الذين يحتاجون إلى رؤية خطوات الخوارزميات.",
+        "en": "Cryptography and information-security students who need to inspect algorithm steps."
+      },
+      "value": {
+        "ar": "تحويل الخوارزميات إلى خطوات قابلة للملاحظة مع واجهة رسومية ومحركات منفصلة للخوارزميات.",
+        "en": "Make algorithm behavior inspectable through a GUI and separated cipher modules."
+      },
+      "category": {
+        "ar": "تطبيق سطح مكتب",
+        "en": "Desktop application"
+      },
+      "categoryKey": "desktop",
+      "status": {
+        "ar": "نموذج تطبيقي تعليمي",
+        "en": "Educational application prototype"
+      },
+      "statusKey": "prototype",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/CipherSphere",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/ciphersphere.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لـ CipherSphere، وليس لقطة شاشة.",
+        "en": "CipherSphere illustrative artwork, not a screenshot."
+      },
+      "technologies": [
+        "Python 3.10+",
+        "PyQt6",
+        "Cryptographic algorithms",
+        "Windows executable build tooling"
+      ],
+      "features": [
+        {
+          "ar": "واجهة رسومية تفاعلية باستخدام PyQt6.",
+          "en": "Interactive PyQt6 graphical interface."
+        },
+        {
+          "ar": "وحدات منفصلة لخوارزميات كلاسيكية وحديثة والتجزئة والترميز.",
+          "en": "Separate modules for classical and modern ciphers, hashing and encoding."
+        },
+        {
+          "ar": "تتبع مرئي لخطوات AES وDES ومختبر نظرية الأعداد وRSA.",
+          "en": "Visual step tracking for AES and DES, plus number-theory and RSA tooling."
+        },
+        {
+          "ar": "ملفات بناء وتجهيز نسخة تنفيذية لنظام Windows.",
+          "en": "Build tooling for a Windows executable package."
+        }
+      ],
+      "architecture": {
+        "ar": "واجهة PyQt6 رئيسية تتصل بموزع/متحكم للخوارزميات، ثم وحدات Python مستقلة للتشفير الكلاسيكي والمتماثل ونظرية الأعداد والتجزئة والترميز.",
+        "en": "A PyQt6 main window connects to a cipher dispatcher/controller, which routes operations to independent Python modules for classical and symmetric ciphers, number theory, hashing and encoding."
+      },
+      "gallery": [
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/CipherSphere/main/docs/images/gui.png",
+          "alt": {
+            "ar": "واجهة مختبر CipherSphere الرسومية من صورة المستودع.",
+            "en": "CipherSphere cryptography lab GUI from the repository screenshot."
+          },
+          "caption": {
+            "ar": "واجهة التطبيق.",
+            "en": "Application interface."
+          }
+        }
+      ],
+      "docs": "https://github.com/mghalaosimi-web/CipherSphere/blob/main/README.md",
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "README.md يصف واجهة PyQt6 ومجموعة الخوارزميات.",
+          "docs/images/gui.png لقطة شاشة فعلية من الواجهة.",
+          "main.py وmain_gui.py وui_main.py ومجلد ciphers يثبتان بنية التطبيق."
+        ],
+        "en": [
+          "README.md describes the PyQt6 interface and cipher suite.",
+          "docs/images/gui.png is an application screenshot.",
+          "main.py, main_gui.py, ui_main.py and the ciphers directory evidence the application structure."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "لم يتم التحقق من ملف تنفيذي منشور أو إصدار موقّع؛ حالة المشروع لا تُعرض كمكتمل."
+        ],
+        "en": [
+          "No published or signed executable release was verified; the project is not labelled completed."
+        ]
+      },
+      "operatingSystem": "Windows desktop"
+    },
+    {
+      "id": "focusflow",
+      "slug": "focusflow",
+      "title": {
+        "ar": "FocusFlow",
+        "en": "FocusFlow"
+      },
+      "summary": {
+        "ar": "سجل مشروع لتطبيق إنتاجية يركز على المهام وجلسات Pomodoro والعادات والتحليلات اليومية، وفق وصف README.",
+        "en": "A project record for a productivity app focused on tasks, Pomodoro sessions, habits and daily analytics, as described by its README."
+      },
+      "problem": {
+        "ar": "الحاجة إلى مساحة موحدة لمتابعة المهام والتركيز والعادات اليومية.",
+        "en": "The need for one place to track tasks, focus sessions and daily habits."
+      },
+      "goal": {
+        "ar": "تصميم تجربة إنتاجية موجهة للجوال تجمع إدارة المهام وجلسات التركيز والعادات.",
+        "en": "Design a mobile-first productivity experience combining tasks, focus sessions and habit tracking."
+      },
+      "audience": {
+        "ar": "الأفراد والطلاب الذين يريدون تنظيم وقتهم وعاداتهم.",
+        "en": "Individuals and students who want to organize their time and habits."
+      },
+      "value": {
+        "ar": "جمع أدوات الإنتاجية اليومية في تجربة واحدة، وفق وصف المشروع المنشور.",
+        "en": "Bring daily productivity tools into one experience, according to the published project description."
+      },
+      "category": {
+        "ar": "مشروع تطبيق جوال",
+        "en": "Mobile app project"
+      },
+      "categoryKey": "mobile",
+      "status": {
+        "ar": "تجريبي — المستودع الحالي يحتوي README فقط",
+        "en": "Experimental — current repository contains only a README"
+      },
+      "statusKey": "experimental",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/focusflow",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/focusflow.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لـ FocusFlow، وليس لقطة شاشة.",
+        "en": "FocusFlow illustrative artwork, not a screenshot."
+      },
+      "technologies": [
+        "Flutter (README claim; source not present)"
+      ],
+      "features": [
+        {
+          "ar": "إدارة المهام — وفق وصف README.",
+          "en": "Task management — as described by the README."
+        },
+        {
+          "ar": "جلسات Pomodoro — وفق وصف README.",
+          "en": "Pomodoro focus sessions — as described by the README."
+        },
+        {
+          "ar": "تتبع العادات والتحليلات اليومية — وفق وصف README.",
+          "en": "Habit tracking and daily analytics — as described by the README."
+        }
+      ],
+      "architecture": {
+        "ar": "لم يمكن استنتاج معمارية فعلية؛ المستودع العام صغير جداً ويحتوي README فقط ولا يتضمن ملفات مصدر Flutter أو ملفات بناء أو لقطات شاشة.",
+        "en": "No implemented architecture could be established. The public repository is very small and contains only a README, with no Flutter source files, build files or screenshots."
+      },
+      "gallery": [],
+      "docs": "https://github.com/mghalaosimi-web/focusflow/blob/main/README.md",
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "README.md يصف التطبيق وتقنيات Flutter.",
+          "جرد شجرة main أظهر ملف README فقط؛ لم تظهر ملفات مصدر أو صور."
+        ],
+        "en": [
+          "README.md describes the app and claims Flutter.",
+          "The main-branch tree contained only the README; no source files or images were found."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "وصف الميزات والتقنية من README فقط، ولم تُتحقق من تنفيذها في كود مصدر.",
+          "الغلاف Artwork توضيحي؛ لا توجد لقطات شاشة حقيقية في المستودع."
+        ],
+        "en": [
+          "Features and technology are taken from the README only and were not verified in source code.",
+          "The cover is illustrative artwork; the repository contains no real screenshots."
+        ]
+      },
+      "operatingSystem": "Mobile (intended; not verified)"
+    },
+    {
+      "id": "mghal-esdp",
+      "slug": "mghal-esdp",
+      "title": {
+        "ar": "M.GH.AL ESDP",
+        "en": "M.GH.AL ESDP"
+      },
+      "summary": {
+        "ar": "مشروع تطبيق مكتبي لنظام Windows ضمن أدوات M.GH.AL، مع توجه offline-first.",
+        "en": "A Windows desktop application project within the M.GH.AL toolset, designed around an offline-first approach."
+      },
+      "problem": {
+        "ar": "الحاجة إلى تطبيق مكتبي يعمل محلياً ويحتفظ بتجربة استخدام موثوقة عند انقطاع الاتصال.",
+        "en": "The need for a desktop application that works locally and remains usable when connectivity is unavailable."
+      },
+      "goal": {
+        "ar": "تطوير تطبيق Windows مستقل بهوية تطبيق com.mghal.esdp وبنية موجهة للعمل المحلي.",
+        "en": "Develop an independent Windows application with the com.mghal.esdp application identity and local-first operation."
+      },
+      "audience": {
+        "ar": "مستخدمو أدوات M.GH.AL على أجهزة Windows.",
+        "en": "Users of M.GH.AL tools on Windows devices."
+      },
+      "value": {
+        "ar": "توفير تجربة مكتبية لا تعتمد على اتصال دائم بالإنترنت.",
+        "en": "Provide a desktop experience that does not depend on continuous internet connectivity."
+      },
+      "category": {
+        "ar": "تطبيق سطح مكتب",
+        "en": "Desktop application"
+      },
+      "categoryKey": "desktop",
+      "status": {
+        "ar": "مسجل ضمن الأعمال — لم يُعثر على مستودع GitHub ضمن الحساب المتاح",
+        "en": "Recorded project — no GitHub repository found in the accessible account inventory"
+      },
+      "statusKey": "unverified",
+      "visibility": {
+        "ar": "لا يوجد مستودع عام مكتشف",
+        "en": "No public repository discovered"
+      },
+      "repository": null,
+      "relatedRepositories": [],
+      "cover": "/assets/projects/esdp.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لمشروع M.GH.AL ESDP، وليس لقطة شاشة.",
+        "en": "M.GH.AL ESDP illustrative artwork, not a screenshot."
+      },
+      "technologies": [
+        "Windows desktop",
+        "Offline-first",
+        "Application ID: com.mghal.esdp"
+      ],
+      "features": [
+        {
+          "ar": "تطبيق مكتبي موجّه إلى Windows.",
+          "en": "Windows-focused desktop application."
+        },
+        {
+          "ar": "توجه للعمل المحلي دون اتصال دائم.",
+          "en": "Local-first operation without a continuous connection."
+        }
+      ],
+      "architecture": {
+        "ar": "لم تتوفر ملفات مصدر أو توثيق معماري ضمن مستودعات GitHub التسعة التي أمكن جردها؛ المعلومات هنا مقتصرة على سجل المشروع السابق.",
+        "en": "No source files or architecture documentation were available in the nine-repository GitHub inventory; this summary is limited to the existing project record."
+      },
+      "gallery": [],
+      "docs": null,
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "سجل مشروع سابق يحدد التطبيق كبرنامج Windows offline-first ومعرّف التطبيق com.mghal.esdp.",
+          "لم يظهر مستودع باسم ESDP ضمن قائمة GitHub المتاحة."
+        ],
+        "en": [
+          "An existing project record identifies it as an offline-first Windows application with application ID com.mghal.esdp.",
+          "No ESDP-named repository appeared in the accessible GitHub inventory."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "لا يوجد رابط GitHub أو لقطات شاشة أو عرض حي؛ لا تُعرض تفاصيل تقنية غير مثبتة."
+        ],
+        "en": [
+          "No GitHub link, screenshots or live demo are available; unverified technical details are not asserted."
+        ]
+      },
+      "operatingSystem": "Windows"
+    },
+    {
+      "id": "mghal-official-website",
+      "slug": "mghal-official-website",
+      "title": {
+        "ar": "M.GH.AL — الموقع الرسمي",
+        "en": "M.GH.AL Official Website"
+      },
+      "summary": {
+        "ar": "موقع شخصي مهني ثنائي اللغة يعرض هوية M.GH.AL والملف المهني والشهادات ومحفظة المشاريع، ببنية ثابتة قابلة للفهرسة.",
+        "en": "A bilingual professional website presenting the M.GH.AL identity, profile, credentials and verified software portfolio through a static, indexable architecture."
+      },
+      "problem": {
+        "ar": "الحاجة إلى مرجع رقمي موحد يعرض الهوية المهنية والأعمال البرمجية بمعلومات قابلة للتحقق بدلاً من تشتتها عبر المنصات.",
+        "en": "The need for a single verifiable digital reference for professional identity and software work instead of fragmented profiles across platforms."
+      },
+      "goal": {
+        "ar": "تقديم موقع عربي وإنجليزي سريع ومتجاوب، مع صفحات مستقلة للمشاريع وبيانات منظمة وتهيئة لمحركات البحث.",
+        "en": "Deliver a responsive Arabic and English website with standalone project pages, structured content and search-engine metadata."
+      },
+      "audience": {
+        "ar": "الجهات المهنية وفرق التوظيف والعملاء والمطورون والمهتمون بأعمال M.GH.AL.",
+        "en": "Professional contacts, hiring teams, clients, developers and visitors interested in M.GH.AL work."
+      },
+      "value": {
+        "ar": "جمع الهوية والسيرة والمهارات والشهادات والمشاريع في مرجع رسمي واحد مع دعم RTL وLTR.",
+        "en": "Unify identity, résumé, skills, credentials and projects in one official reference with RTL and LTR support."
+      },
+      "category": {
+        "ar": "موقع ويب شخصي ثنائي اللغة",
+        "en": "Bilingual personal website"
+      },
+      "categoryKey": "web",
+      "status": {
+        "ar": "تطوير نشط",
+        "en": "Active development"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام",
+        "en": "Public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/mghalaosimi-web",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/mghal-official-website.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي للموقع الرسمي M.GH.AL، وليس لقطة شاشة.",
+        "en": "Illustrative artwork for the M.GH.AL official website, not a screenshot."
+      },
+      "technologies": [
+        "HTML5",
+        "CSS3",
+        "JavaScript",
+        "TypeScript 7",
+        "Node.js 22+",
+        "Vercel"
+      ],
+      "features": [
+        {
+          "ar": "محتوى عربي RTL وإنجليزي LTR مع صفحات منفصلة.",
+          "en": "Arabic RTL and English LTR content with separate pages."
+        },
+        {
+          "ar": "محفظة مشاريع تعتمد سجل JSON موحداً وتوليد صفحات تفاصيل ثنائية اللغة.",
+          "en": "A project portfolio powered by a unified JSON catalogue and generated bilingual detail pages."
+        },
+        {
+          "ar": "بيانات SEO وOpen Graph وTwitter Cards وStructured Data وSitemap.",
+          "en": "SEO metadata, Open Graph, Twitter Cards, structured data and sitemap."
+        },
+        {
+          "ar": "دعم PWA عبر manifest وService Worker وصفحة offline.",
+          "en": "PWA support through a manifest, service worker and offline page."
+        },
+        {
+          "ar": "فحوصات TypeScript وإمكانية الوصول وجودة المحتوى والصفحات.",
+          "en": "TypeScript, accessibility, content-quality and page validation checks."
+        }
+      ],
+      "architecture": {
+        "ar": "موقع ثابت يعتمد صفحات HTML وأصول CSS/JavaScript وسجل JSON للمشاريع. ينفذ Node.js مرحلة بناء تولّد صفحات المشاريع وتنسخ مخرجات النشر إلى public، مع تجميع ملفات TypeScript الخاصة بسكربتات المتصفح.",
+        "en": "A static site built from HTML pages, CSS/JavaScript assets and a JSON project catalogue. A Node.js build step generates project pages and prepares the public output directory, while TypeScript compiles browser scripts."
+      },
+      "gallery": [],
+      "docs": "https://github.com/mghalaosimi-web/mghalaosimi-web/blob/main/README.md",
+      "evidence": {
+        "ar": [
+          "README.md يعرّف المستودع كموقع شخصي ثنائي اللغة.",
+          "package.json يثبت أوامر build وtypecheck وquality وتوليد صفحات المشاريع.",
+          "بنية المستودع تتضمن صفحات HTML وملفات TypeScript وPWA manifest وService Worker."
+        ],
+        "en": [
+          "README.md identifies the repository as the bilingual personal website.",
+          "package.json defines build, typecheck, quality and project-page generation scripts.",
+          "Repository structure includes HTML pages, TypeScript scripts, a PWA manifest and service worker."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "الموقع نفسه هو المنصة الحاضنة للمحفظة؛ لا تُعرض هذه الصفحة كلقطة شاشة للتطبيق.",
+          "لم يُضف رابط Demo منفصل؛ عنوان الموقع هو المرجع الرسمي نفسه."
+        ],
+        "en": [
+          "This website hosts the portfolio itself; this record does not present a screenshot as application evidence.",
+          "No separate demo URL is listed because the website is the official destination itself."
+        ]
+      },
+      "operatingSystem": "Web browser"
+    },
+    {
+      "id": "almanar-schedule-system",
+      "slug": "almanar-schedule-system",
+      "title": {
+        "ar": "Al-Manar Schedule System",
+        "en": "Al-Manar Schedule System"
+      },
+      "summary": {
+        "ar": "نظام إدارة الجداول الأكاديمية المخصص لكلية المنار الجامعية، وفق سجل المشروع واسم المستودع، مع بوابة للطلاب ولوحات إدارة ومصادقة وصلاحيات وتنبيهات مجدولة.",
+        "en": "An academic scheduling system for Al-Manar University College, as identified in the project registry and repository context, with a student portal, administration dashboards, authentication, role controls and scheduled notifications."
+      },
+      "problem": {
+        "ar": "توزع الجداول والتغييرات الأكاديمية وإدارة الطلاب والتنبيهات بين أدوات منفصلة يصعّب متابعة التحديثات وإيصالها.",
+        "en": "Scattered timetables, academic changes, student administration and notifications make updates harder to manage and communicate."
+      },
+      "goal": {
+        "ar": "توفير نظام أكاديمي مركزي لعرض الجداول وإدارة التعديلات والطلاب والصلاحيات والتنبيهات عبر بوابات مخصصة للأدوار.",
+        "en": "Provide a centralized academic system for timetables, schedule overrides, student management, access control and role-specific portals."
+      },
+      "audience": {
+        "ar": "طلاب ومحاضرو وإداريو كلية المنار الجامعية.",
+        "en": "Students, lecturers and administrators at Al-Manar University College."
+      },
+      "value": {
+        "ar": "إدارة الجداول الأسبوعية والتعديلات والتنبيهات من نظام موحد مع فصل صلاحيات الطالب والإدارة والمشرف الأعلى.",
+        "en": "Manage weekly timetables, overrides and notifications in one system with separate student, admin and super-admin access."
+      },
+      "category": {
+        "ar": "نظام إدارة أكاديمي",
+        "en": "Academic management system"
+      },
+      "categoryKey": "academic",
+      "status": {
+        "ar": "مستودع عام — تنفيذ موثق؛ التشغيل الحي غير متحقق",
+        "en": "Public repository — documented implementation; live operation not verified"
+      },
+      "statusKey": "active",
+      "visibility": {
+        "ar": "مستودع عام مستقل",
+        "en": "Independent public repository"
+      },
+      "repository": "https://github.com/mghalaosimi-web/manar-schedule-system",
+      "relatedRepositories": [],
+      "cover": "/assets/projects/schedule.svg",
+      "coverAlt": {
+        "ar": "غلاف فني توضيحي لأنظمة الجدولة الأكاديمية، وليس لقطة شاشة.",
+        "en": "Academic scheduling systems illustrative artwork, not a screenshot."
+      },
+      "technologies": [
+        "React 18",
+        "Vite",
+        "Node.js",
+        "Express",
+        "Prisma 7",
+        "PostgreSQL",
+        "JWT",
+        "CAPTCHA",
+        "WhatsApp integration",
+        "Cron",
+        "Capacitor"
+      ],
+      "features": [
+        {
+          "ar": "محرك جداول أسبوعية يعرض المقررات والمحاضرين والقاعات وتوزيع الحصص.",
+          "en": "A weekly timetable engine displaying courses, lecturers, rooms and class allocations."
+        },
+        {
+          "ar": "تعديلات إدارية على الجداول مع تنبيهات مرتبطة بالتغييرات.",
+          "en": "Administrative timetable overrides with notifications tied to schedule changes."
+        },
+        {
+          "ar": "بوابات وصلاحيات منفصلة للطلاب والإداريين والمشرف الأعلى.",
+          "en": "Separate portals and permissions for students, administrators and super administrators."
+        },
+        {
+          "ar": "مصادقة JWT مع تحقق CAPTCHA، وملخصات تنبيه مجدولة عبر WhatsApp/Cron وفق README.",
+          "en": "JWT authentication with CAPTCHA verification and scheduled WhatsApp/Cron notification digests, as documented in the README."
+        }
+      ],
+      "architecture": {
+        "ar": "واجهة React/Vite تتصل بخادم Express على Node.js، ويستخدم Prisma للوصول إلى PostgreSQL. يضم الخادم middleware للمصادقة والتحقق وRBAC وخدمة جدولة للتنبيهات.",
+        "en": "A React/Vite frontend connects to a Node.js/Express server using Prisma with PostgreSQL. The backend includes authentication, verification and RBAC middleware plus scheduled notification services."
+      },
+      "gallery": [
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/manar-schedule-system/main/docs/images/schedule_dashboard.png",
+          "alt": {
+            "ar": "لوحة الجدول الأكاديمي الأسبوعي من توثيق المستودع.",
+            "en": "Weekly academic timetable dashboard from repository documentation."
+          },
+          "caption": {
+            "ar": "لوحة جدول الطالب.",
+            "en": "Student timetable dashboard."
+          }
+        },
+        {
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/manar-schedule-system/main/docs/images/portal_overview.png",
+          "alt": {
+            "ar": "واجهة إدارة النظام الأكاديمي.",
+            "en": "Academic system administration interface."
+          },
+          "caption": {
+            "ar": "نظرة عامة على بوابة الإدارة.",
+            "en": "Administration portal overview."
+          }
+        }
+      ],
+      "docs": "https://github.com/mghalaosimi-web/manar-schedule-system/blob/main/README.md",
+      "deploymentReference": null,
+      "evidence": {
+        "ar": [
+          "README.md يسمي المشروع Al-Manar University Schedule & Academic Management System ويصفه بأنه مخصص لجامعة المنار.",
+          "README يذكر الجداول الديناميكية وتعديلات الإدارة وتنبيهات WhatsApp/Cron وJWT/CAPTCHA وRBAC.",
+          "صور توثيقية في docs/images للوحة الطالب وبوابة الإدارة.",
+          "بنية React/Vite وExpress وPrisma/PostgreSQL ظاهرة في ملفات المشروع."
+        ],
+        "en": [
+          "The README names the project “Al-Manar University Schedule & Academic Management System” and describes it as designed for Al-Manar University.",
+          "The README documents dynamic timetables, admin overrides, WhatsApp/Cron digests, JWT/CAPTCHA and RBAC.",
+          "docs/images contains student-dashboard and administration-portal screenshots.",
+          "The repository structure documents React/Vite, Express, Prisma and PostgreSQL."
+        ]
+      },
+      "notes": {
+        "ar": [
+          "يرتبط هذا السجل بمستودع manar-schedule-system لأن README يسمي المشروع Al-Manar University Schedule & Academic Management System، كما يصف ملف سياق المشروع بوابة كلية المنار المستقلة.",
+          "المستودع الآخر ذو الاسم المتقارب محفوظ في سجل منفصل؛ ولا نفترض أن اختلاف المستودعين وحده يثبت اختلاف الجهة التعليمية.",
+          "لم يتم اختبار الخدمة الحية أو تكامل WhatsApp فعلياً ضمن هذا التوثيق."
+        ],
+        "en": [
+          "This record links to manar-schedule-system because its README names the project Al-Manar University Schedule & Academic Management System, while its project-context document describes a standalone Al-Manar College portal.",
+          "The similarly named repository remains in a separate record; repository separation alone is not proof of a different institution.",
+          "The live service and WhatsApp integration were not tested as part of this documentation."
+        ]
+      },
+      "operatingSystem": "Web browser"
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+[
+  {
+    "title": "محمد غالب العصيمي | Mohammed Ghaleb Alaosimi",
+    "url": "/",
+    "description": "الهوية الرقمية الرسمية لمحمد غالب العصيمي المعروف باسم M.GH.AL؛ مطور Full-Stack وطالب تقنية معلومات في اليمن.",
+    "keywords": [
+      "محمد غالب العصيمي",
+      "محمد العصيمي",
+      "Mohammed Ghaleb Alaosimi",
+      "Mohammed Alaosimi",
+      "M.GH.AL",
+      "هوية رقمية",
+      "مطور برمجيات",
+      "Yemen",
+      "Full-Stack Developer",
+      "Software Engineer",
+      "IT Student"
+    ]
+  },
+  {
+    "title": "الملف الشخصي | Professional Profile",
+    "url": "/profile.html",
+    "description": "النبذة المهنية والتعليمية والاهتمامات التقنية.",
+    "keywords": [
+      "profile",
+      "about",
+      "نبذة",
+      "تعريف"
+    ]
+  },
+  {
+    "title": "المشاريع والأعمال | Projects",
+    "url": "/projects.html",
+    "description": "مشاريع البرمجيات والأنظمة والتطبيقات التي يعمل عليها M.GH.AL.",
+    "keywords": [
+      "projects",
+      "portfolio",
+      "أعمال",
+      "برمجة",
+      "software"
+    ]
+  },
+  {
+    "title": "WAYNAH | وَيْنَه؟",
+    "url": "/projects.html",
+    "description": "منصة للاستكشاف الجغرافي والمعلومات المحلية الموثوقة في اليمن.",
+    "keywords": [
+      "waynah",
+      "وينه",
+      "Yemen geographic atlas",
+      "خرائط",
+      "PostGIS"
+    ]
+  },
+  {
+    "title": "Humanity System | الإنسانية تجمعنا",
+    "url": "/projects.html",
+    "description": "نظام رقمي لإدارة الحالات والسجلات والعمليات المؤسسية.",
+    "keywords": [
+      "humanity system",
+      "الإنسانية تجمعنا",
+      "ERP",
+      "Prisma",
+      "PostgreSQL"
+    ]
+  },
+  {
+    "title": "Yemen AI Platform",
+    "url": "/projects.html",
+    "description": "منصة ذكاء اصطناعي ثنائية اللغة والبحث في المستندات باستخدام RAG.",
+    "keywords": [
+      "AI",
+      "ذكاء اصطناعي",
+      "RAG",
+      "FastAPI",
+      "Python"
+    ]
+  },
+  {
+    "title": "M.GH.AL Content Studio",
+    "url": "/projects.html",
+    "description": "نظام لإدارة دورة إنتاج المحتوى العربي بالذكاء الاصطناعي.",
+    "keywords": [
+      "Content OS",
+      "Gemini",
+      "automation",
+      "أتمتة المحتوى"
+    ]
+  },
+  {
+    "title": "CipherSphere",
+    "url": "/projects.html",
+    "description": "مختبر تفاعلي تعليمي للتشفير والخوارزميات.",
+    "keywords": [
+      "cryptography",
+      "التشفير",
+      "AES",
+      "DES",
+      "Python"
+    ]
+  },
+  {
+    "title": "FocusFlow",
+    "url": "/projects.html",
+    "description": "تطبيق إنتاجية لإدارة المهام وجلسات Pomodoro والعادات.",
+    "keywords": [
+      "Flutter",
+      "Dart",
+      "Pomodoro",
+      "productivity"
+    ]
+  },
+  {
+    "title": "University Schedule Systems",
+    "url": "/projects.html",
+    "description": "أنظمة لإدارة الجداول الأكاديمية وشؤون الجدولة الجامعية.",
+    "keywords": [
+      "university schedule",
+      "الجداول الجامعية",
+      "React",
+      "Node.js"
+    ]
+  },
+  {
+    "title": "M.GH.AL ESDP",
+    "url": "/projects.html",
+    "description": "مشروع تطبيق مكتبي لنظام ESDP.",
+    "keywords": [
+      "ESDP",
+      "desktop",
+      "Windows"
+    ]
+  },
+  {
+    "title": "الشهادات والإنجازات | Certificates",
+    "url": "/certificates.html",
+    "description": "سجل الشهادات المهنية والتعليمية وروابط التحقق المتاحة.",
+    "keywords": [
+      "certificates",
+      "credentials",
+      "شهادات",
+      "OpenJS",
+      "Cisco",
+      "Edraak",
+      "Credly",
+      "JSNAD"
+    ]
+  },
+  {
+    "title": "المهارات التقنية | Skills",
+    "url": "/skills.html",
+    "description": "لغات البرمجة والأطر وقواعد البيانات وأدوات التطوير.",
+    "keywords": [
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "C#",
+      "React",
+      "Next.js",
+      "Node.js",
+      "Flutter",
+      "PostgreSQL",
+      "Prisma",
+      "Firebase",
+      "Supabase",
+      "Docker"
+    ]
+  },
+  {
+    "title": "التعليم | Education",
+    "url": "/education.html",
+    "description": "طالب تقنية معلومات في كلية المنار الجامعية باليمن.",
+    "keywords": [
+      "Al-Manar University College",
+      "كلية المنار الجامعية",
+      "Information Technology",
+      "تقنية المعلومات",
+      "Yemen"
+    ]
+  },
+  {
+    "title": "التواصل الرسمي | Contact",
+    "url": "/contact.html",
+    "description": "روابط الحسابات والمنصات الرسمية المرتبطة بهوية M.GH.AL.",
+    "keywords": [
+      "contact",
+      "GitHub",
+      "LinkedIn",
+      "Credly",
+      "Instagram",
+      "TikTok",
+      "تواصل"
+    ]
+  },
+  {
+    "title": "Official English Profile",
+    "url": "/en/",
+    "description": "Official English digital profile of Mohammed Ghaleb Alaosimi (M.GH.AL).",
+    "keywords": [
+      "Mohammed Ghaleb Alaosimi",
+      "M.GH.AL",
+      "Full-Stack Developer",
+      "Software Engineer",
+      "Yemen"
+    ]
+  }
+]
