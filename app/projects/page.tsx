@@ -1,3 +1,4 @@
+export const runtime = 'nodejs';
 import {cookies} from 'next/headers';
 import type {Metadata} from 'next';
 import ProjectsPageArabic from './ProjectsPageArabic';
