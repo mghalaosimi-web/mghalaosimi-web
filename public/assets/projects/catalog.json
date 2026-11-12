@@ -166,7 +166,8 @@
       "contribution": {
         "ar": "مساهمة تطويرية ضمن فريق المشروع؛ لا تُنسب ملكية المنصة أو كامل تنفيذها إلى فرد واحد.",
         "en": "Development contribution within the project team; the platform and its full implementation are not attributed to one individual."
-      }
+      },
+      "collaborative": true
     },
     {
       "id": "humanity-system",
@@ -745,7 +746,8 @@
       "contribution": {
         "ar": "مساهمة ضمن مشروع أكاديمي تعاوني؛ يجري فصل نطاق مساهمة كل عضو عن وظائف النظام العامة.",
         "en": "Contribution to a collaborative academic project; individual work is distinguished from the system's overall capabilities."
-      }
+      },
+      "collaborative": true
     },
     {
       "id": "ciphersphere",
@@ -868,7 +870,8 @@
       "contribution": {
         "ar": "مشروع جماعي موثق بأسماء مطورين اثنين؛ تُعرض المساهمة باعتبارها عملاً تعاونياً ولا تُنسب ملكية فردية كاملة.",
         "en": "A team project documenting two developers; it is presented as collaborative work, not as sole individual ownership."
-      }
+      },
+      "collaborative": true
     },
     {
       "id": "focusflow",
@@ -1337,7 +1340,8 @@
       "contribution": {
         "ar": "مستودع مستقل لنظام الجداول؛ تُراجع مساهمة المطورين من سجل الالتزامات قبل نشر نسبة فردية.",
         "en": "A separate scheduling-system repository; individual contribution attribution is pending commit-history review."
-      }
+      },
+      "collaborative": true
     },
     {
       "id": "mghal-digital-os",
@@ -1779,7 +1783,8 @@
       "contribution": {
         "ar": "تاريخ المصدر يثبت 236 التزاماً باسم MHAMMED AL-AOSIMI إلى جانب مساهمات مطورين آخرين. شملت الأعمال تجهيز مستودع مستقل وتوثيقاً وصيانة واختبارات؛ لا تُنسب ملكية الشيفرة الأصلية أو حقوقها حصرياً إلى صاحب المحفظة.",
         "en": "The source history records 236 commits under MHAMMED AL-AOSIMI alongside contributions from other developers. Work included independent repository preparation, documentation, maintenance and testing; original source authorship and rights are not claimed exclusively."
-      }
+      },
+      "collaborative": true
     },
     {
       "id": "debwan-live",
@@ -1917,7 +1922,8 @@
       "contribution": {
         "ar": "صيانة وتطوير توزيعة مشتقة؛ سجل GitHub يوثق مساهمات مباشرة في تقوية الأمان وإخفاء بيانات اعتماد البث وتحسين Football Hub والاختبارات. لا تُنسب الشيفرة الأصلية لمنصة TIVIFY إلى المطور.",
         "en": "Maintainer and contributor to a derivative distribution; GitHub history documents security hardening, stream-credential redaction, Football Hub improvements and tests. Original TIVIFY source code is not claimed as authored by this developer."
-      }
+      },
+      "collaborative": true
     }
   ]
 }
