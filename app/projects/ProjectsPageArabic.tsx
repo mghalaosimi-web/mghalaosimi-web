@@ -17,13 +17,13 @@ const filters:{id:'all'|ProjectCategory;label:string}[]=[
 ];
 
 const categoryMeta={
-  web:{label:'WEB PLATFORMS',name:'منصات الويب',Icon:Layers3},
-  enterprise:{label:'ENTERPRISE SYSTEMS',name:'الأنظمة المؤسسية',Icon:Database},
-  ai:{label:'ARTIFICIAL INTELLIGENCE',name:'الذكاء الاصطناعي',Icon:Sparkles},
-  cybersecurity:{label:'CYBERSECURITY',name:'الأمن السيبراني والتشفير',Icon:ShieldCheck},
-  academic:{label:'ACADEMIC SYSTEMS',name:'المشاريع الأكاديمية',Icon:GraduationCap},
-  mobile:{label:'MOBILE APPLICATIONS',name:'تطبيقات الجوال',Icon:MapPin},
-  desktop:{label:'DESKTOP SOFTWARE',name:'تطبيقات سطح المكتب',Icon:Code2}
+  web:{label:'WEB PLATFORMS',name:'منصات الويب'},
+  enterprise:{label:'ENTERPRISE SYSTEMS',name:'الأنظمة المؤسسية'},
+  ai:{label:'ARTIFICIAL INTELLIGENCE',name:'الذكاء الاصطناعي'},
+  cybersecurity:{label:'CYBERSECURITY',name:'الأمن السيبراني والتشفير'},
+  academic:{label:'ACADEMIC SYSTEMS',name:'المشاريع الأكاديمية'},
+  mobile:{label:'MOBILE APPLICATIONS',name:'تطبيقات الجوال'},
+  desktop:{label:'DESKTOP SOFTWARE',name:'تطبيقات سطح المكتب'}
 };
 
 export default function ProjectsPage(){
