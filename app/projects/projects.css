@@ -216,3 +216,118 @@
 .portfolio-project-icon{overflow:hidden;background:color-mix(in srgb,var(--project-primary,var(--mghal-color-blue)) 16%,var(--mghal-color-surface))}
 .portfolio-project-icon img{display:block;width:100%;height:100%;object-fit:contain;padding:2px}
 .portfolio-project-card:hover .portfolio-project-icon{border-color:var(--project-primary,var(--mghal-color-blue))}
+
+
+/* Light archive presentation — clear surfaces, restrained shadows, project-owned marks. */
+.portfolio-archive-hero{
+ border-color:#DCE5EF!important;
+ background:radial-gradient(ellipse at 82% 40%,rgba(49,90,133,.09),transparent 42%),linear-gradient(125deg,#FFFFFF 0%,#F2F6FA 100%)!important;
+ box-shadow:0 16px 40px rgba(23,43,77,.07)!important;
+}
+.portfolio-archive-hero:before{opacity:.14;background-image:linear-gradient(rgba(49,90,133,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(49,90,133,.08) 1px,transparent 1px)!important}
+.portfolio-archive-hero h1,.portfolio-archive-section-heading h2{color:#172B4D!important}
+.portfolio-archive-hero h1 em{color:#315A85!important}
+.portfolio-archive-hero-copy>p,.portfolio-archive-section-heading p{color:#52647A!important}
+.portfolio-archive-eyebrow,.portfolio-archive-section-heading>div:first-child>span{color:#806333!important}
+.portfolio-archive-explore{border-color:#C9D7E5!important;background:#EAF1F8!important;color:#24496F!important}
+.portfolio-archive-explore:hover{background:#DCE8F4!important;border-color:#9FB6CF!important}
+.portfolio-archive-mark-orbit{border-color:rgba(49,90,133,.22)!important}
+.portfolio-archive-mark-core{border-color:#B8C9DB!important;background:radial-gradient(circle,#FFFFFF 0%,#EAF1F8 72%)!important;color:#315A85!important;box-shadow:0 10px 30px rgba(23,43,77,.08)!important}
+.portfolio-archive-mark-core b{color:#172B4D!important}
+.portfolio-archive-mark-core small,.portfolio-archive-mark-code{color:#64748B!important}
+.portfolio-archive-metrics>div{
+ border-color:#DCE5EF!important;background:#FFFFFF!important;
+ box-shadow:0 8px 22px rgba(23,43,77,.045)!important;
+}
+.portfolio-archive-metric-icon{border-color:#D5E0EC!important;background:#EFF4F9!important;color:#315A85!important}
+.portfolio-archive-metrics strong{color:#172B4D!important}
+.portfolio-archive-metrics small{color:#64748B!important}
+.portfolio-featured-project{
+ border-color:#DCE5EF!important;
+ background:linear-gradient(120deg,#FFFFFF,#F4F7FB)!important;
+ box-shadow:0 14px 34px rgba(23,43,77,.07)!important;
+}
+.portfolio-featured-visual{
+ background:radial-gradient(ellipse at center,rgba(49,90,133,.12),transparent 52%),linear-gradient(145deg,#EEF3F8,#E5EDF6)!important;
+}
+.portfolio-featured-visual-grid{opacity:.32!important;background-image:linear-gradient(rgba(49,90,133,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(49,90,133,.08) 1px,transparent 1px)!important}
+.portfolio-featured-orbit{border-color:rgba(49,90,133,.25)!important}
+.portfolio-featured-shield{
+ border:1px solid #B7C9DC!important;
+ background:linear-gradient(145deg,#FFFFFF,#DDE8F3)!important;
+ color:#315A85!important;filter:drop-shadow(0 12px 18px rgba(23,43,77,.12))!important;
+}
+.portfolio-featured-shield:before{border-color:rgba(49,90,133,.25)!important}
+.portfolio-featured-shield span{color:#172B4D!important}
+.portfolio-featured-shield small{color:#806333!important}
+.portfolio-featured-visual-index,.portfolio-featured-visual-caption{color:#64748B!important}
+.portfolio-featured-overline{color:#315A85!important}
+.portfolio-featured-overline>span,.portfolio-featured-footer>span{color:#806333!important}
+.portfolio-featured-copy h2{color:#172B4D!important}
+.portfolio-featured-copy h3,.portfolio-featured-copy>p,.portfolio-featured-footer>span b{color:#52647A!important}
+.portfolio-featured-tags span,.portfolio-project-stack span{
+ border-color:#DCE5EF!important;background:#F1F5F9!important;color:#52647A!important;
+}
+.portfolio-featured-footer{border-top-color:#DCE5EF!important}
+.portfolio-featured-footer>a,.portfolio-featured-footer>button{
+ border-color:#C9D7E5!important;background:#EAF1F8!important;color:#24496F!important;
+}
+.portfolio-archive-count{border-inline-start-color:#DCE5EF!important}
+.portfolio-archive-count strong{color:#315A85!important}
+.portfolio-archive-filters{border-color:#DCE5EF!important;background:#FFFFFF!important}
+.portfolio-archive-filters button{color:#52647A!important}
+.portfolio-archive-filters button:hover{background:#F1F5F9!important;color:#172B4D!important}
+.portfolio-archive-filters button.selected{border-color:#B8C9DB!important;background:#E8F0F8!important;color:#172B4D!important}
+.portfolio-archive-filters button span{background:#EFF3F8!important;color:#52647A!important}
+.portfolio-archive-filters button.selected span{background:#D8E5F2!important;color:#24496F!important}
+.portfolio-project-card{
+ border-color:#DCE5EF!important;background:#FFFFFF!important;color:#172B4D!important;
+ box-shadow:0 9px 24px rgba(23,43,77,.055)!important;
+}
+.portfolio-project-card:hover{
+ border-color:#AFC3D8!important;background:#FBFDFF!important;
+ box-shadow:0 16px 30px rgba(23,43,77,.10)!important;
+}
+.portfolio-project-card h3{color:#172B4D!important}
+.portfolio-project-card>p{color:#52647A!important}
+.portfolio-project-number,.portfolio-project-bottom>span{color:#64748B!important}
+.portfolio-project-label{color:#806333!important}
+.portfolio-project-icon{border-color:#D6E1EC!important;background:#F0F4F9!important}
+.portfolio-project-icon img{padding:3px!important;object-fit:contain!important}
+.portfolio-project-open{color:#315A85!important}
+.portfolio-project-status{color:#64748B!important}
+.portfolio-project-stack span{border-radius:6px!important}
+.portfolio-project-bottom{border-top-color:#E4EAF1!important}
+.portfolio-project-bottom strong{color:#315A85!important}
+.portfolio-archive-disclaimer,.portfolio-archive-closing{color:#64748B!important}
+.portfolio-waynah-gallery{border-color:#DCE5EF!important}
+.portfolio-waynah-gallery-heading h2,.portfolio-waynah-visual-card h3{color:#172B4D!important}
+.portfolio-waynah-gallery-heading p,.portfolio-waynah-visual-card p{color:#52647A!important}
+.portfolio-waynah-visual-frame{background:#EEF3F8!important;border-color:#DCE5EF!important}
+.waynah-visual-art{background:linear-gradient(145deg,#FFFFFF,#E6EEF7)!important;color:#315A85!important}
+.waynah-visual-art b{color:#172B4D!important}
+.waynah-visual-art small{color:#806333!important}
+.portfolio-waynah-visual-card{border-color:#DCE5EF!important;background:#FFFFFF!important}
+.portfolio-waynah-gallery-link{color:#315A85!important}
+.project-detail{color:#172B4D!important}
+.project-detail-hero{border-color:#DCE5EF!important;background:linear-gradient(135deg,#FFFFFF,#F1F5F9)!important;box-shadow:0 14px 34px rgba(23,43,77,.06)!important}
+.project-detail-brand h1{color:#172B4D!important}
+.project-detail-brand p,.project-detail-section p,.project-detail-feature-list,.project-detail-evidence{color:#52647A!important}
+.project-detail-kicker,.project-detail-section-heading>span{color:#806333!important}
+.project-detail-meta span,.project-detail-tags span{border-color:#DCE5EF!important;background:#F1F5F9!important;color:#315A85!important}
+.project-detail-actions a{border-color:#C9D7E5!important;background:#EAF1F8!important;color:#24496F!important}
+.project-detail-cover{border-color:#DCE5EF!important;background:#FFFFFF!important}
+.project-detail-section{border-bottom-color:#E1E8F0!important}
+.project-detail-section h2{color:#172B4D!important}
+.project-detail-gallery figure{border-color:#DCE5EF!important;background:#FFFFFF!important}
+.project-detail-gallery img{background:#F1F5F9!important}
+.project-detail-muted,.project-detail-disclaimer{color:#64748B!important}
+.project-detail-disclaimer{background:#F1F5F9!important}
+.project-detail-breadcrumb,.project-detail-breadcrumb span{color:#64748B!important}
+.project-detail-breadcrumb a,.project-detail-footer a,.project-detail-evidence a{color:#315A85!important}
+@media(max-width:650px){
+ .portfolio-archive-hero{background:linear-gradient(145deg,#FFFFFF,#F0F4F9)!important}
+ .portfolio-featured-project{grid-template-columns:1fr!important}
+ .portfolio-featured-visual{min-height:260px!important}
+ .portfolio-project-card{min-height:260px!important}
+}
