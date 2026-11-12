@@ -24,9 +24,9 @@ assert.ok(enAbout.includes('not as my academic degree specialization'),'English 
 const forbidden=['الكاملي','بكالوريوس الأمن السيبراني','Arfat','Alkamli','Cybersecurity and Networks','Bachelor’s in Cybersecurity','AEGIS-TITAN'];
 for(const [name,source] of [['Arabic about',arAbout],['English about',enAbout],['Arabic home',arHome],['English home',enHome],['Arabic projects',arProjects],['English projects',enProjects],['Research',research]])for(const term of forbidden)assert.ok(!source.includes(term),name+': unsupported/reference identity leaked: '+term);
 assert.deepEqual(catalog.projects.slice(0,10).map(p=>p.slug),expectedOriginal,'The ten original projects must remain in the catalogue and in their established order.');
-assert.equal(catalog.projects.length,13,'The verified additions should extend the original ten projects without replacing them.');
+assert.equal(catalog.projects.length,15,'The two additional projects must extend the original ten and three previously curated projects without replacing them.');
 assert.equal(catalog.projects.filter(p=>p.contentSource==='database').length,10,'The ten original projects must remain database-managed.');
-assert.equal(catalog.projects.filter(p=>p.contentSource==='catalog').length,3,'The three verified additions must remain curated catalogue records.');
+assert.equal(catalog.projects.filter(p=>p.contentSource==='catalog').length,5,'The five curated additions must remain catalogue records.');
 const slugs=catalog.projects.map(p=>p.slug);
 assert.equal(new Set(slugs).size,slugs.length,'Project slugs must be unique.');
 assert.ok(slugs.includes('manar-schedule-system')&&slugs.includes('almanar-schedule-system'),'The two separate academic scheduling repositories must remain distinct.');
@@ -58,4 +58,4 @@ assert.ok(enHome.includes('Al-Manar College for Science and Technology'),'Englis
 assert.ok(enHome.includes('M.GH.AL'),'English homepage must use M.GH.AL identity branding.');
 assert.ok(arHome.includes('محمد غالب'),'Arabic homepage must use the owner identity.');
 assert.ok(arProjects.includes('TEAM CONTRIBUTOR'),'Arabic project archive must distinguish team contributions.');
-console.log('Profile-content audit passed: owner identity, IT degree, official college, 13-project bilingual catalogue, contribution and rights disclosures, AI/ERP research, verified contacts, and no reference-owner identity residue.');
+console.log('Profile-content audit passed: owner identity, IT degree, official college, 15-project bilingual catalogue, contribution and rights disclosures, AI/ERP research, verified contacts, and no reference-owner identity residue.');
