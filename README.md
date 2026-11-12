@@ -270,7 +270,7 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
   <a href="https://github.com/mghalaosimi-web">
     <img src="https://img.shields.io/badge/GitHub-M.GH.AL-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
   </a>
-  <a href="https://linkedin.com/in/mohammed-alaosimi-038155443">
+  <a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
   <a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi">
