@@ -3,7 +3,7 @@ export type ProjectCategory='web'|'enterprise'|'ai'|'cybersecurity'|'academic'|'
 export type Project={
  slug:string;name:string;nameEn:string;category:ProjectCategory;label:string;labelEn:string;
  summary:string;summaryEn:string;stack:string[];status:string;statusEn:string;
- contribution:string;contributionEn:string;repository?:string;featured?:boolean;
+ contribution:string;contributionEn:string;repository?:string;featured?:boolean;collaborative?:boolean;
  brand:{logo:string;primary:string;secondary:string;accent:string};
 };
 export const projects:Project[]=catalog.projects.map(project=>({
@@ -22,5 +22,6 @@ export const projects:Project[]=catalog.projects.map(project=>({
  contributionEn:project.contribution.en,
  ...(project.repository?{repository:project.repository}:{}),
  ...(project.slug==='waynah'?{featured:true}:{}),
+ ...(project.collaborative?{collaborative:true}:{}),
  brand:project.brand
 }));
