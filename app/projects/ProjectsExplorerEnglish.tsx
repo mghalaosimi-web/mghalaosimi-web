@@ -3,7 +3,7 @@ import {useMemo,useState} from 'react';
 import Link from 'next/link';
 import {projects} from '../../data/projects';
 import type {Project,ProjectCategory} from '../../data/projects';
-import {ArrowUpRight,FolderGit2,GraduationCap,Layers3,ShieldCheck,Sparkles,MapPin,Database,WifiOff} from 'lucide-react';
+import {ArrowUpRight,Code2,FolderGit2,GraduationCap,Layers3,ShieldCheck,Sparkles,MapPin,Database,WifiOff} from 'lucide-react';
 import './projects.css';
 const filters:{id:'all'|ProjectCategory;label:string}[]=[
  {id:'all',label:'All projects'},{id:'web',label:'Web platforms'},
