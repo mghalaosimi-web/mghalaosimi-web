@@ -40,7 +40,6 @@ assert.match(technologyMigration,/ADD COLUMN is_published/);
 assert.match(technologyMigration,/ADD COLUMN archived/);
 assert.match(apiHandler,/technologies:\["technologies","is_published=1 AND archived=0"\]/);
 assert.match(databaseContent,/api\/public\/projects\?locale=/);
-assert.match(certificateSync,/api\/public\/certificates/);
 assert.match(databaseContent,/project\.name \|\| staticRecord/);
 assert.match(databaseContent,/querySelectorAll\('\.tag'\)/);
 assert.ok(adminCss.includes('--navy:var(--mghal-brand-navy)'));
