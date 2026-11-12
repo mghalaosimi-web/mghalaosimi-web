@@ -43,7 +43,7 @@ assert.match(certificateSync,/api\/public\/certificates/);
 assert.match(databaseContent,/project\.name \|\| staticRecord/);
 assert.match(databaseContent,/querySelectorAll\('\.tag'\)/);
 assert.ok(adminCss.includes('--navy:var(--mghal-brand-navy)'));
-assert.ok(adminCss.includes('.admin-modal-backdrop'));
+assert.ok(adminCss.includes('.editor-card'));
 assert.ok(existsSync('app/admin/page.tsx')&&existsSync('app/admin/admin.css'));
 assert.ok(!existsSync('public/admin/index.html'));
 assert.ok(!existsSync('public/assets/admin.js'));
