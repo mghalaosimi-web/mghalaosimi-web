@@ -2,7 +2,6 @@
 
 import {useCallback,useEffect,useMemo,useState} from 'react';
 import type {FormEvent,ReactNode} from 'react';
-import {useRouter} from 'next/navigation';
 import './admin.css';
 
 type RecordRow=Record<string,unknown>&{id:string};
@@ -23,7 +22,6 @@ const resources:Record<string,ResourceConfig>={
 const sections=[['dashboard','نظرة عامة'],['identity','الهوية الشخصية'],['projects','المشاريع'],['certificates','الشهادات'],['articles','المقالات'],['technologies','التقنيات'],['skills','المهارات'],['education','التعليم'],['achievements','الإنجازات'],['followers','المتابعون'],['comments','التعليقات'],['analytics','التحليلات'],['media','مكتبة الوسائط'],['users','المستخدمون والصلاحيات']];
 const text=(value:unknown)=>value===null||value===undefined||value===''?'—':String(value);
 export default function AdminPage(){
- const router=useRouter();
  const [token,setToken]=useState(''),[authMode,setAuthMode]=useState<AuthMode>('checking'),[authMessage,setAuthMessage]=useState(''),[apiStatus,setApiStatus]=useState('جارٍ الفحص');
  const [section,setSection]=useState('dashboard'),[rows,setRows]=useState<RecordRow[]>([]),[dashboard,setDashboard]=useState<Record<string,number>>({}),[analytics,setAnalytics]=useState<RecordRow[]>([]),[notice,setNotice]=useState<Notice>(null),[busy,setBusy]=useState(false),[mobileOpen,setMobileOpen]=useState(false);
  const [editor,setEditor]=useState<{resource:string;row:RecordRow|null}|null>(null),[formValues,setFormValues]=useState<Record<string,unknown>>({}),[userEditor,setUserEditor]=useState(false);
