@@ -1,14 +1,26 @@
-export type ProjectCategory='software'|'academic'|'cyber-defense';
-export type Project={slug:string;name:string;category:ProjectCategory;label:string;summary:string;stack:string[];status:string;contribution:string;repository?:string;featured?:boolean};
-export const projects:Project[]=[
-{slug:'waynah',name:'WAYNAH | وَيْنَه؟',category:'software',label:'منصة الاستكشاف الجغرافي المحلي',summary:'منصة يمنية لاستكشاف الأماكن والمعلومات الجغرافية الموثوقة، ببنية مكانية تعتمد PostgreSQL وPostGIS وتجربة تراعي الاتصال منخفض السرعة.',stack:['Next.js','TypeScript','PostgreSQL','PostGIS','Offline-first'],status:'قيد التطوير · إصدار v0.12.0',contribution:'مساهمة تطويرية ضمن فريق المشروع. لا تُنسب ملكية المنصة أو كامل تنفيذها إلى فرد واحد.',repository:'https://github.com/mghalaosimi-web/waynah',featured:true},
-{slug:'humanity-system',name:'Humanity System',category:'software',label:'منظومة إدارة مؤسسية',summary:'منظومة رقمية لإدارة البيانات والعمليات المؤسسية مع الاهتمام بالصلاحيات وسير العمل والتوثيق.',stack:['Full-Stack','Database','RBAC'],status:'خاص · قيد التطوير',contribution:'مشروع خاص؛ تُعرض معلوماته العامة دون كشف تفاصيل المستودع أو البنية الداخلية.',featured:true},
-{slug:'focusflow',name:'FocusFlow',category:'software',label:'تطبيق الإنتاجية والتركيز',summary:'تطبيق لتنظيم المهام وجلسات التركيز والعادات اليومية. التوثيق الحالي محدود والوظائف ما تزال قيد التطوير.',stack:['Flutter','Dart'],status:'تجريبي · غير مكتمل',contribution:'مشروع تطوير تجريبي؛ لا تُنسب إليه نتائج أو وظائف غير موثقة.',repository:'https://github.com/mghalaosimi-web/focusflow'},
-{slug:'mghal-content-os',name:'M.GH.AL Content OS',category:'software',label:'نظام إدارة عمليات المحتوى',summary:'نظام لإدارة دورة إنتاج المحتوى وتخطيطه ومراجعته وربط القنوات المدعومة عبر واجهات رسمية.',stack:['Next.js','TypeScript','Prisma','PostgreSQL','Gemini'],status:'قيد التطوير',contribution:'تصميم وبناء النظام ومعماريته ومكوّناته الأساسية، مع استمرار التطوير والتحقق.',repository:'https://github.com/mghalaosimi-web/mghal-content-os',featured:true},
-{slug:'manar-schedule-system',name:'Manar Schedule System',category:'academic',label:'نظام الجدولة الأكاديمية',summary:'نظام تعاوني لتنظيم الجداول الأكاديمية وتدفقات العمل ذات الصلة.',stack:['React','Node.js','Express','Prisma','PostgreSQL'],status:'مشروع تعاوني',contribution:'مساهمة ضمن مشروع جماعي؛ يجب الرجوع إلى سجل المستودع لتحديد نطاق مساهمة كل عضو.',repository:'https://github.com/mghalaosimi-web/almanar-schedule-system'},
-{slug:'almanar-schedule-system',name:'Al-Manar Schedule System',category:'academic',label:'نظام جداول كلية المنار',summary:'مشروع مستقل لتنظيم الجداول الأكاديمية الخاصة بكلية المنار، منفصل عن Manar Schedule System.',stack:['Web','Academic Systems'],status:'قيد التطوير',contribution:'مشروع منفصل عن نظام الجدولة الآخر؛ نطاق التنفيذ يتطور مع مراحل العمل.',repository:'https://github.com/mghalaosimi-web/manar-schedule-system'},
-{slug:'yemen-ai',name:'Yemen AI Platform',category:'software',label:'منصة معرفية للذكاء الاصطناعي',summary:'منصة معرفية ثنائية اللغة لاستكشاف تطبيقات الذكاء الاصطناعي والبحث في المستندات.',stack:['Python','AI','RAG'],status:'تجريبي',contribution:'نموذج تجريبي؛ لا تُعرض نتائج دقة أو أداء دون تقارير تقييم.',repository:'https://github.com/mghalaosimi-web/yemen-ai'},
-{slug:'ciphersphere',name:'CipherSphere',category:'cyber-defense',label:'مختبر التشفير وتحليل الشفرات',summary:'مختبر تعليمي لتجربة مفاهيم التشفير وتحليل الشفرات والتحقق من سلامة البيانات.',stack:['Cryptography','Web','Security Fundamentals'],status:'تجارب وتطوير',contribution:'عمل تعليمي وتجريبي في مفاهيم التشفير؛ لا يمثل منتجاً أمنياً معتمداً.',repository:'https://github.com/mghalaosimi-web/CipherSphere'},
-{slug:'mghal-esdp',name:'M.GH.AL ESDP',category:'software',label:'تطبيق مكتبي خاص',summary:'مشروع تطبيق مكتبي خاص وغير منشور، ولا يتوفر رابط عام للتنزيل.',stack:['Desktop Software'],status:'خاص · غير منشور',contribution:'مشروع خاص؛ لا تتوفر نسخة عامة أو تفاصيل قابلة للنشر.'},
-{slug:'mghal-official-website',name:'M.GH.AL Official Website',category:'software',label:'الهوية الرقمية المهنية',summary:'مركز الهوية الرقمية المهنية الذي يجمع الملف الشخصي والمشاريع والشهادات والسيرة الذاتية والروابط المهنية.',stack:['Next.js','React','TypeScript','SEO'],status:'نشط · قيد التطوير',contribution:'تصميم وتطوير الموقع وبناء تجربة الهوية الرقمية وربط مكوناتها.',repository:'https://github.com/mghalaosimi-web/mghalaosimi-web'}
-];
+import catalog from '../public/assets/projects/catalog.json';
+export type ProjectCategory='web'|'enterprise'|'ai'|'cybersecurity'|'academic'|'mobile'|'desktop';
+export type Project={
+ slug:string;name:string;nameEn:string;category:ProjectCategory;label:string;labelEn:string;
+ summary:string;summaryEn:string;stack:string[];status:string;statusEn:string;
+ contribution:string;contributionEn:string;repository?:string;featured?:boolean;
+ brand:{logo:string;primary:string;secondary:string;accent:string};
+};
+export const projects:Project[]=catalog.projects.map(project=>({
+ slug:project.slug,
+ name:project.title.ar,
+ nameEn:project.title.en,
+ category:project.categoryKey as ProjectCategory,
+ label:project.category.ar,
+ labelEn:project.category.en,
+ summary:project.summary.ar,
+ summaryEn:project.summary.en,
+ stack:project.technologies,
+ status:project.status.ar,
+ statusEn:project.status.en,
+ contribution:project.contribution.ar,
+ contributionEn:project.contribution.en,
+ ...(project.repository?{repository:project.repository}:{}),
+ ...(project.slug==='waynah'?{featured:true}:{}),
+ brand:project.brand
+}));
