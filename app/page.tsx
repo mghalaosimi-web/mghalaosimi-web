@@ -69,7 +69,7 @@ const skillGroups=[
   },
   {
     title:'Data & Cloud Systems',
-    detail:'PostgreSQL · SQLite · Prisma · Firebase · Supabase · Docker · Vercel · Render',
+    detail:'PostgreSQL · SQLite · Prisma · Firebase · Supabase · Docker · Vercel',
   },
 ];
 

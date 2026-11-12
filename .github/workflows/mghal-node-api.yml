@@ -4,13 +4,13 @@ on:
     branches: [feat/node-postgres-backend-2026-11-08]
     paths:
       - "mghal-backend/node/**"
-      - "mghal-backend/worker.production.js"
+      - "mghal-backend/api-handler.mjs"
       - "mghal-backend/postgres/**"
       - ".github/workflows/mghal-node-api.yml"
   pull_request:
     paths:
       - "mghal-backend/node/**"
-      - "mghal-backend/worker.production.js"
+      - "mghal-backend/api-handler.mjs"
       - "mghal-backend/postgres/**"
       - ".github/workflows/mghal-node-api.yml"
   workflow_dispatch:
@@ -28,7 +28,9 @@ jobs:
         with:
           node-version: 22
           package-manager-cache: false
+      - run: npm ci --no-audit --no-fund
+        working-directory: .
       - run: npm install --no-audit --no-fund
       - run: npm audit --omit=dev --audit-level=moderate
       - run: npm run check
-      - run: node --check ../worker.production.js
+      - run: node --check ../api-handler.mjs

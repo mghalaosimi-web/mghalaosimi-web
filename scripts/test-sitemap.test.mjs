@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const sitemap=readFileSync(new URL('../public/sitemap.xml',import.meta.url),'utf8');
 const robots=readFileSync(new URL('../public/robots.txt',import.meta.url),'utf8');
+const rootSitemap=readFileSync(new URL('../sitemap.xml',import.meta.url),'utf8');
 const base='https://mghalaosimi-web.vercel.app';
 const locations=new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]));
 
@@ -40,4 +41,16 @@ test('all ten project detail routes are listed in both languages with canonical 
 
 test('robots.txt references the same public sitemap host',()=>{
  assert.ok(robots.includes('Sitemap: '+base+'/sitemap.xml'));
+});
+
+
+test('root and public sitemap copies stay byte-for-byte synchronized',()=>{
+ assert.equal(rootSitemap,sitemap);
+});
+
+test('sitemap locations are unique and use only the official canonical host',()=>{
+ const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]);
+ assert.equal(urls.length,new Set(urls).size,'duplicate sitemap URL entries found');
+ assert.ok(urls.every(url=>url.startsWith(base+'/')),'every sitemap URL must use the official canonical domain');
+ assert.ok(!sitemap.includes('mghal.vercel.app'),'legacy domain must not appear in the public sitemap');
 });

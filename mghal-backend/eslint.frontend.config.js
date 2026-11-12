@@ -19,7 +19,7 @@ export default [
     },
   },
   {
-    files: ["lib/api-proxy-policy.mjs"],
+    files: ["lib/mghal-api-runtime.mjs"],
     languageOptions: { globals: { ...globals.node, ...globals.es2022 } },
     rules: {
       "no-eval": "error",

@@ -1,5 +1,5 @@
 -- M.GH.AL PostgreSQL baseline schema.
--- Source: verified live D1 schema on 2026-11-08.
+-- Source: verified application schema snapshot ported to Neon PostgreSQL on 2026-11-08.
 -- Compatibility policy: keep existing identifiers and ISO-8601 timestamp strings;
 -- convert boolean-like flags to constrained INTEGER values to preserve API semantics.
 -- This file is additive/idempotent and does not drop or rewrite existing data.

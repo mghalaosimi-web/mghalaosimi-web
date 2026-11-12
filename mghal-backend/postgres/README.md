@@ -1,54 +1,45 @@
-# M.GH.AL PostgreSQL migration target
+# M.GH.AL — Neon PostgreSQL production database
 
-## Provisioned target
+## Authoritative production target
 
-- Provider: Neon Serverless Postgres (Free plan; no credit card required by Neon).
+- Provider: Neon PostgreSQL 17
 - Project: `mghal-portfolio-db`
 - Project ID: `billowing-snow-49569906`
-- Region: `aws-eu-central-1` (Frankfurt)
-- PostgreSQL: 17
-- Database: `mghal_portfolio`
 - Branch: `main`
+- Branch ID: `br-morning-cherry-b9l25msz`
+- Database: `mghal_portfolio`
+- Region: Frankfurt (`aws-eu-central-1`)
 
-Do not put a connection string, password, OAuth secret, or bootstrap token in this repository. Configure the pooled Neon connection string as the deployment secret `DATABASE_URL`; keep an unpooled URL only for migrations if the deployment workflow requires it.
+The only production application database is this Neon database. The Vercel Production environment receives its pooled connection string through encrypted `DATABASE_URL`. Never store connection strings, role passwords, OAuth secrets, or bootstrap tokens in Git.
 
-## Migration snapshot
+## Verified live schema checkpoint — 2026-11-11
 
-A read-only snapshot of the live Cloudflare D1 database was copied to this Neon database on 2026-11-08. The following source counts were reconciled against the target:
+Read-only inspection of the production branch confirmed:
 
-| Table | Rows |
-| --- | ---: |
-| projects | 10 |
-| certificates | 21 |
-| education | 1 |
-| identity_profiles | 2 |
-| skills | 21 |
-| followers | 151 |
-| reactions | 9 |
-| analytics_events | 380 |
-| roles | 3 |
-| permissions | 10 |
-| role_permissions | 20 |
-| site_settings (excluding transient `rl:*` keys) | 2 |
+- 28 public tables with primary keys.
+- 19 foreign-key constraints; all 19 are validated.
+- 17 unique constraints.
+- One existing administrator account.
+- 317 existing follower records.
+- Media table is empty; no D1-backed media provider rows or blob objects exist in Neon.
+- Google follower identity, visitor identity-session, and OAuth transaction tables exist with the expected primary keys, foreign keys, unique constraints, and supporting indexes.
+- The migration ledger currently contains `0001_core_platform` through `0005_technology_visibility`. The Google identity tables existed before the corresponding PostgreSQL ledger entry was recorded.
 
-The source had no admin users/sessions, articles, comments, media records, achievements, technologies, or project-technology links at snapshot time. The one-time owner bootstrap hash was retained in `site_settings`; the raw bootstrap token is not stored in the database or repository. Transient rate-limit counters were intentionally not copied.
+The migration `0006_google_follower_identity.sql` is an additive, idempotent PostgreSQL migration. It was added to reconcile the existing schema and ledger; it must first be tested on a temporary Neon branch before being applied to Production.
 
-The production D1 database remains unchanged and active. This is a data-copy checkpoint, **not a production cutover**.
+## Migration policy
 
-## Schema
+- `0001_initial.sql` is the PostgreSQL baseline schema for a clean isolated test database.
+- `0006_google_follower_identity.sql` is the PostgreSQL-specific identity-linking migration.
+- Historical migration IDs are retained for traceability. The legacy name `0004_d1_media_storage` is only a historical ledger identifier; it does not represent an active D1 resource, connection, storage provider, or runtime dependency.
+- Never drop or truncate tables.
+- Never replay the baseline schema against Production as a migration shortcut.
+- Test additive migrations on a temporary branch before applying them to the production branch.
 
-Apply `0001_initial.sql` to a clean PostgreSQL database. It is idempotent and creates the complete baseline schema, including the Google follower-identity tables needed by the current API contract. The source D1 database did not yet have the Google identity migration applied, so those new tables are empty in PostgreSQL.
+## Serverless connection management
 
-Timestamps remain ISO-8601 text for this first compatibility migration. Boolean-like flags remain constrained `SMALLINT` values (0/1) to avoid changing the existing API contract during the data move. A later, separately reviewed migration may normalize them to native PostgreSQL types.
+Vercel uses the Neon pooled endpoint with `pg.Pool` cached per warm function instance, maximum two connections per instance, bounded connection and idle timeouts, and TLS certificate verification. Preview deployments receive a branch-specific isolated Neon connection string; they must never inherit Production `DATABASE_URL`.
 
-## Runtime and cutover sequence
+## Data safety
 
-1. Implement the Node.js API/repository/service layer against this schema.
-2. Configure `DATABASE_URL` only in the hosting provider's encrypted environment settings.
-3. Run schema, API contract, auth/RBAC, and data-parity tests against this isolated Neon database.
-4. Run a final incremental data sync and reconcile counts immediately before cutover.
-5. Deploy the Node.js API in preview and test it without sending production writes to Neon.
-6. Switch the frontend API origin only after all route contracts pass.
-7. Keep Cloudflare Worker + D1 available as rollback until the new API is verified in production.
-
-Never delete, reset, or migrate the live D1 database destructively as part of this work.
+The existing administrator, followers, engagement data, content, certificates, projects, and identity records must be preserved. Production smoke tests should use temporary isolated data or non-mutating health checks; do not create disposable test records in the live production database.

@@ -2,83 +2,46 @@
 
 ## Production architecture
 
-The single application database is **Neon PostgreSQL**. The official Vercel site calls the Render Node.js API directly. The public Cloudflare Worker URL remains available as a compatibility edge proxy and forwards requests to the same Render Node API; it does not query or write to D1.
+- Hosting and API execution: **Vercel only**.
+- Application database: **Neon PostgreSQL only**.
+- Vercel Next.js Route Handler: `app/api/[...path]/route.ts`.
+- Shared API contract: `mghal-backend/api-handler.mjs`.
+- PostgreSQL query adapter: `mghal-backend/node/postgres-adapter.mjs`.
+- Production API and frontend share the same Vercel project and origin.
+- Production API requests are dispatched in-process; no external API proxy is used.
 
-- Cloudflare Worker: `mghal-api`
-- Compatibility API URL: `https://mghal-api.m-gh-alaosimi.workers.dev`
-- Canonical API runtime: `https://mghal-node-api-preview.onrender.com`
-- Canonical database: Neon PostgreSQL, project `billowing-snow-49569906`, branch `br-morning-cherry-b9l25msz`
-- D1 database: retained as a temporary backup only; it is not the application source of truth and is not bound by the current Wrangler configuration.
+The API handler is a standard Web Request/Response module. It does not require a Cloudflare Worker runtime, a Worker binding, a separate Node HTTP service, or a second database.
 
-The Node runtime reuses the reviewed API handler in `worker.production.js` through `PgD1Database`, a compatibility adapter backed by Neon. The Cloudflare Worker in `worker.proxy.js` forwards the original method, path, query, body, authorization, visitor token, cookies, and origin to that Node runtime. It overwrites forwarded client-IP headers with Cloudflare's edge address.
+## Database
 
-Do not re-enable the legacy D1 handler or attach the D1 binding to the production proxy. Do not delete the D1 backup until a separate backup-retention review and explicit approval.
+The only production database is Neon project `billowing-snow-49569906`, branch `br-morning-cherry-b9l25msz`, database `mghal_portfolio`. Vercel receives its pooled connection string through the encrypted `DATABASE_URL` production environment variable.
 
-## Runtime
+The compatibility adapter exposes the existing prepared-query interface while executing SQL against PostgreSQL. It does not connect to D1 or SQLite.
 
-- Worker compatibility proxy: Cloudflare Workers
-- API runtime: Node.js 22+
-- Database: Neon PostgreSQL
-- Node server: native HTTP server with `pg` connection pool
-- PostgreSQL compatibility layer: `mghal-backend/node/postgres-adapter.mjs`
+## Runtime configuration
 
-## Public API
+Required in Vercel Production:
 
-- `GET /health`
-- `GET /api/public/identity`
-- `GET /api/public/education`
-- `GET /api/public/skills`
-- `GET /api/public/technologies`
-- `GET /api/public/projects`
-- `GET /api/public/certificates`
-- `GET /api/public/achievements`
-- `GET /api/public/articles?locale=ar|en`
-- `GET /api/public/articles/:slug`
-- `POST /api/public/visitors`
-- `POST /api/public/events`
-- `POST /api/public/comments`
-- `GET /api/public/reactions?targetType=project|article&targetId=...`
-- `POST /api/public/reactions`
+- `DATABASE_URL` — encrypted Neon pooled connection string.
+- `PUBLIC_SITE_URL` — `https://mghalaosimi-web.vercel.app`.
+- `ALLOWED_ORIGINS` — `https://mghalaosimi-web.vercel.app`.
 
-Visitor tokens are opaque random values held by the browser; only SHA-256 hashes are stored in Neon. Anonymous visitor identities are not email-marketing subscriptions and do not imply explicit marketing consent. Browser tracking respects Do Not Track.
+Optional server-only settings:
 
-## Admin API
+- `RATE_LIMIT_PER_MINUTE`
+- `OWNER_BOOTSTRAP_TOKEN` — needed only for a not-yet-bootstrapped owner; never expose it.
+- `GOOGLE_AUTH_ENABLED`
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
+- `GOOGLE_REDIRECT_URI`
 
-All admin routes require a valid Bearer session. Password hashes use PBKDF2-SHA256. Permissions are checked through the Neon role/permission tables.
+Preview deployments do not receive the production database URL. Without a dedicated isolated database, API routes fail closed with HTTP 503.
 
-- `GET /api/admin/bootstrap/status`, `POST /api/admin/bootstrap/rotate`, `POST /api/admin/bootstrap`
-- `POST /api/admin/auth/login`
-- `POST /api/admin/auth/logout`
-- `GET /api/admin/dashboard`
-- `GET /api/admin/followers`
-- `GET /api/admin/comments`
-- `PATCH /api/admin/comments/:id`
-- `GET /api/admin/analytics?days=30`
-- `GET|POST|PATCH|DELETE /api/admin/{projects|certificates|articles|identity|education|skills|technologies|achievements}`
-- `GET|POST /api/admin/media` and authenticated `GET /api/admin/media/:id`
-- `GET|POST|PATCH /api/admin/users`
-- `PATCH /api/admin/followers/:id`
+## Health endpoints
 
-No default owner account or password is created. First-owner bootstrap requires a protected `OWNER_BOOTSTRAP_TOKEN` of at least 32 characters. Configure the secret in the Render service environment, verify the stored SHA-256 bootstrap hash in Neon, create the first owner, and then rotate/remove the one-time secret. Never place the token in source control.
+- `GET /api/health` — shared API handler and database check.
+- `GET /api/ready` — PostgreSQL `SELECT 1` readiness probe.
 
-## Imported content
+## Local Node adapter
 
-- 10 projects.
-- 21 certificate records, with 18 published and 3 intentionally unpublished.
-- 2 published identity profiles (Arabic and English).
-- 1 current Information Technology bachelor education record.
-- 21 skill records.
-
-No article content, media objects, or unverified certificate-to-QR mappings are fabricated.
-
-## Validation
-
-From `mghal-backend/node`:
-
-```bash
-npm ci
-npm run check
-npm start
-```
-
-The check runs strict JavaScript syntax validation and Node tests, including PostgreSQL SQL compatibility, health handling, and API proxy routing. The Node service exposes `GET /live` for liveness and `GET /ready` for a PostgreSQL `SELECT 1` readiness check. Production readiness must be verified through `/ready` before changing or removing the retained D1 backup.
+`mghal-backend/node/server.mjs` remains only as a local compatibility/test harness. It is not a production service and must not be deployed as a separate API host.

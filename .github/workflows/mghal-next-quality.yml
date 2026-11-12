@@ -31,7 +31,7 @@ jobs:
       - run: npm run audit:profile
       - run: npm run audit:design
       - run: npm run audit:pwa
-      - run: npm run test:api-proxy
+      - run: npm run test:api-runtime
       - run: npm run test:security-headers
       - run: npm run test:structured-data
       - run: npm run test:seo

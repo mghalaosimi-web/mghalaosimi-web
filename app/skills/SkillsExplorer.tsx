@@ -76,7 +76,7 @@ const domains:SkillDomain[]=[
     description:'أدوات إدارة الشيفرة والتبعيات والحاويات وعمليات البناء والنشر.',
     descriptionEn:'Tools for source control, dependencies, containers, builds, and deployment.',
     Icon:Server,
-    items:['Git','GitHub','Docker Compose','pnpm','Turborepo','Vercel','Render'],
+    items:['Git','GitHub','Docker Compose','pnpm','Turborepo','Vercel'],
     note:'أدوات مستخدمة في بيئات التطوير والتعاون والنشر.',
     noteEn:'Tools used in development, collaboration, and deployment environments.',
   },
@@ -106,7 +106,7 @@ const filters=[
 const pathways=[
   {Icon:Braces,title:'BUILD',ar:'البناء والتطوير',en:'Build & develop',detail:'تصميم البرمجيات، كتابة الشيفرات، بناء الواجهات وربط البيانات.',detailEn:'Design software, implement application logic, build interfaces, and connect data.',tools:'TypeScript · React · Next.js · Node.js'},
   {Icon:Layers3,title:'INTEGRATE',ar:'التكامل والأنظمة',en:'Integrate systems',detail:'ربط الخدمات وقواعد البيانات والصلاحيات وتدفقات العمل المؤسسية.',detailEn:'Connect services, databases, access control, and enterprise workflows.',tools:'PostgreSQL · Prisma · REST APIs · RBAC'},
-  {Icon:CheckCircle2,title:'DELIVER',ar:'التحقق والتسليم',en:'Validate & deliver',detail:'اختبار الحلول، تنظيم الإصدارات، وتجهيز التطبيقات للنشر والتشغيل.',detailEn:'Test solutions, manage releases, and prepare applications for deployment.',tools:'Git · Docker · Vercel · Render'},
+  {Icon:CheckCircle2,title:'DELIVER',ar:'التحقق والتسليم',en:'Validate & deliver',detail:'اختبار الحلول، تنظيم الإصدارات، وتجهيز التطبيقات للنشر والتشغيل.',detailEn:'Test solutions, manage releases, and prepare applications for deployment.',tools:'Git · Docker · Vercel'},
 ];
 
 const workflow=[

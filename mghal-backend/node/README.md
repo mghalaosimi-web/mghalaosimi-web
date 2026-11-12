@@ -1,55 +1,28 @@
-# M.GH.AL Node.js API runtime
+# M.GH.AL PostgreSQL runtime tests and local harness
 
-This is the canonical API runtime for M.GH.AL. It reuses the reviewed API contract in `../worker.production.js` through a small D1-compatible PostgreSQL adapter, with **Neon PostgreSQL as the only application database**.
+Production API requests run inside the Next.js Node.js Route Handler on Vercel. The application database is the confirmed Neon PostgreSQL database.
 
-## Runtime
+## Components
 
-- Node.js 22+
-- Neon PostgreSQL
-- Native Node HTTP server; no Express dependency
-- `pg` connection pool
-- Shared API handler with PostgreSQL compatibility adapter
+- `../api-handler.mjs` — shared API request/response contract.
+- `postgres-adapter.mjs` — PostgreSQL prepared-query adapter.
+- `server.mjs` — optional local HTTP harness for development only; not a production service.
+- `health.mjs` — PostgreSQL readiness probe.
 
 ## Environment
 
-Required:
+The local harness requires `DATABASE_URL`. Production Vercel uses an encrypted Neon pooled connection string. Never commit database URLs, OAuth secrets, or owner bootstrap tokens.
 
-- `DATABASE_URL`: Neon pooled PostgreSQL connection string; configure only as a protected hosting secret.
-
-Optional:
-
-- `PORT` (default 3001)
-- `PG_POOL_MAX` (default 5)
-- `PGSSLMODE=disable` only for local development; production uses TLS verification.
-- `ALLOWED_ORIGINS`
-- `RATE_LIMIT_PER_MINUTE` (positive integer; defaults to 120 when omitted or invalid)
-- `OWNER_BOOTSTRAP_TOKEN`
-- `GOOGLE_AUTH_ENABLED`
-- `GOOGLE_CLIENT_ID`
-- `GOOGLE_CLIENT_SECRET`
-- `GOOGLE_REDIRECT_URI`
-- `PUBLIC_SITE_URL`
-- `MAX_BODY_BYTES` (default 2,500,000)
-
-Never commit `DATABASE_URL`, OAuth secrets, or owner bootstrap tokens.
+Optional local settings include `PORT`, `PG_POOL_MAX`, `ALLOWED_ORIGINS`, `RATE_LIMIT_PER_MINUTE`, `OWNER_BOOTSTRAP_TOKEN`, `GOOGLE_AUTH_ENABLED`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`, and `PUBLIC_SITE_URL`.
 
 ## Local commands
 
 ```bash
 npm ci
 npm test
-npm start
+npm run check
 ```
 
-The existing `GET /health` API contract remains available. The Node runtime also exposes `GET /live` for process liveness and `GET /ready` for a PostgreSQL `SELECT 1` readiness probe (503 when the database is unavailable). All existing `/api/public/*` and `/api/admin/*` routes are dispatched through the same API handler.
+The production Vercel routes expose `GET /api/health` and `GET /api/ready`. The local harness also exposes `GET /live`.
 
-## Production routing and data ownership
-
-- The official Vercel site routes API requests to this Render Node service.
-- The legacy Cloudflare Worker URL is a thin proxy to this same Node service; it does not access D1.
-- Neon PostgreSQL is the only database used by application reads and writes.
-- Cloudflare D1 is retained separately as a temporary backup. Do not attach it to the production proxy or delete it without a separate backup-retention review and explicit approval.
-
-The compatibility adapter translates positional `?` placeholders and SQLite `COLLATE NOCASE` email lookups. D1-style `batch()` operations execute inside a PostgreSQL transaction. The API implementation is covered by compatibility tests for PostgreSQL ordering, aggregation, timestamp grouping, and SQL translation.
-
-Media BLOB handling, owner bootstrap, Google OAuth, admin CRUD, and browser workflows still require end-to-end checks against the deployed service before the project can be called fully verified.
+Preview deployments do not inherit production database credentials. A preview without a dedicated database receives a safe 503 response for API calls.
