@@ -21,16 +21,26 @@ const copy={
 };
 const skills=[['Languages','JavaScript · TypeScript · Python · C# · Dart'],['Frontend','React · Next.js · HTML · CSS · Tailwind CSS'],['Backend & data','Node.js · REST APIs · PostgreSQL · SQLite · Prisma'],['Platforms & tools','Git · GitHub · Docker Compose · Vercel · Firebase · Supabase · Flutter']];
 export default function ContentPages({kind,locale}:{kind:PageKind;locale:Locale}){
- const en=locale==='en';const c=copy[locale][kind];const selected=projects.filter(p=>['waynah','mghal-content-os','mghal-digital-os','abdulmalik-store-management','ciphersphere'].includes(p.slug)).slice(0,5);
- return <main className={'mghal-document '+(kind==='resume'?'resume-document':'')} dir={en?'ltr':'rtl'}>
-  <header className="document-heading"><span>{c.eyebrow}</span><h1>{c.title}</h1>{'role' in c&&<h2>{c.role}</h2>}<p>{c.intro}</p>{kind==='resume'&&<PrintButton label={c.print}/>}</header>
-  {kind==='resume'?<div className="resume-grid">
-   <section><h2>{c.skillsTitle}</h2>{skills.map(([label,value])=><article className="document-item" key={label}><h3>{label}</h3><p>{value}</p></article>)}<h2>{c.educationTitle}</h2><article className="document-item"><p>{c.education}</p></article><h2>{c.credentialsTitle}</h2><article className="document-item"><p>{c.credentials}</p><Link href="/credentials">{en?'View credential records':'عرض سجل الشهادات'} ↗</Link></article></section>
-   <section><h2>{c.projectsTitle}</h2>{selected.map(p=><article className="document-item" key={p.slug}><h3>{en?p.nameEn:p.name}</h3><p>{en?p.summaryEn:p.summary}</p><small>{p.stack.join(' · ')}</small><Link href={(en?'/en':'')+'/projects/'+p.slug}>{en?'Project profile':'صفحة المشروع'} ↗</Link></article>)}<h2>{c.interestsTitle}</h2><ul>{c.interests.map(item=><li key={item}>{item}</li>)}</ul><h2>{c.linksTitle}</h2><ul><li><a href="https://github.com/mghalaosimi-web">GitHub</a></li><li><a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/">LinkedIn</a></li><li><a href="https://orcid.org/0009-0000-6007-3170">ORCID</a></li><li><a href="mailto:m.gh.alaosimi@gmail.com">Email</a></li></ul></section>
-  </div>:<section className="document-list">{c.items.map(([title,subtitle,detail])=><article className="document-item" key={title}><h2>{title}</h2><strong>{subtitle}</strong><p>{detail}</p></article>)}
+ const en=locale==='en';
+ const selected=projects.filter(p=>['waynah','mghal-content-os','mghal-digital-os','abdulmalik-store-management','ciphersphere'].includes(p.slug)).slice(0,5);
+ if(kind==='resume'){
+  const c=copy[locale].resume;
+  return <main className="mghal-document resume-document" dir={en?'ltr':'rtl'}>
+   <header className="document-heading"><span>{c.eyebrow}</span><h1>{c.title}</h1><h2>{c.role}</h2><p>{c.intro}</p><PrintButton label={c.print}/></header>
+   <div className="resume-grid">
+    <section><h2>{c.skillsTitle}</h2>{skills.map(([label,value])=><article className="document-item" key={label}><h3>{label}</h3><p>{value}</p></article>)}<h2>{c.educationTitle}</h2><article className="document-item"><p>{c.education}</p></article><h2>{c.credentialsTitle}</h2><article className="document-item"><p>{c.credentials}</p><Link href={(en?'/en':'')+'/credentials'}>{en?'View credential records':'عرض سجل الشهادات'} ↗</Link></article></section>
+    <section><h2>{c.projectsTitle}</h2>{selected.map(p=><article className="document-item" key={p.slug}><h3>{en?p.nameEn:p.name}</h3><p>{en?p.summaryEn:p.summary}</p><small>{p.stack.join(' · ')}</small><Link href={(en?'/en':'')+'/projects/'+p.slug}>{en?'Project profile':'صفحة المشروع'} ↗</Link></article>)}<h2>{c.interestsTitle}</h2><ul>{c.interests.map(item=><li key={item}>{item}</li>)}</ul><h2>{c.linksTitle}</h2><ul><li><a href="https://github.com/mghalaosimi-web">GitHub</a></li><li><a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/">LinkedIn</a></li><li><a href="https://orcid.org/0009-0000-6007-3170">ORCID</a></li><li><a href="mailto:m.gh.alaosimi@gmail.com">Email</a></li></ul></section>
+   </div>
+   <footer className="document-footer"><Link href={en?'/en':'/'}>{en?'Home':'الرئيسية'}</Link><span>M.GH.AL · {en?'Mohammed Ghaleb Alaosimi':'محمد غالب العصيمي'}</span></footer>
+  </main>;
+ }
+ const c=copy[locale][kind] as typeof copy.ar.education;
+ return <main className="mghal-document" dir={en?'ltr':'rtl'}>
+  <header className="document-heading"><span>{c.eyebrow}</span><h1>{c.title}</h1><p>{c.intro}</p></header>
+  <section className="document-list">{c.items.map(([title,subtitle,detail])=><article className="document-item" key={title}><h2>{title}</h2><strong>{subtitle}</strong><p>{detail}</p></article>)}
    {kind==='achievements'&&<p className="document-note">{en?'Credential verification links are available from the issuing organizations.':'روابط التحقق متاحة من الجهات المصدرة، ولا نربط رابطاً فردياً بشهادة دون مطابقة موثقة.'} <a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi" target="_blank" rel="noreferrer">Credly ↗</a> · <a href="https://openjsf.org/" target="_blank" rel="noreferrer">OpenJS ↗</a></p>}
    {kind==='education'&&<p className="document-note">{en?'The academic specialization is Information Technology, not Cybersecurity.':'التخصص الأكاديمي هو تقنية المعلومات، وليس الأمن السيبراني.'}</p>}
-  </section>}
+  </section>
   <footer className="document-footer"><Link href={en?'/en':'/'}>{en?'Home':'الرئيسية'}</Link><span>M.GH.AL · {en?'Mohammed Ghaleb Alaosimi':'محمد غالب العصيمي'}</span></footer>
  </main>;
 }
