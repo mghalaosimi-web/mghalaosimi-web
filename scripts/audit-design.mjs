@@ -9,10 +9,10 @@ const globals = readFileSync(new URL("../app/globals.css", import.meta.url), "ut
 const tokensCss = readFileSync(new URL("../public/assets/design-tokens.css", import.meta.url), "utf8");
 const routeStyles = ["../app/home.css", "../app/contact/contact.module.css", "../app/projects/projects.css", "../app/language/language.css"].map((path) => readFileSync(new URL(path, import.meta.url), "utf8"));
 const engagementCss = readFileSync(new URL("../public/assets/social-engagement.css", import.meta.url), "utf8");
-const adminCss = readFileSync(new URL("../public/assets/admin.css", import.meta.url), "utf8");
+const adminCss = readFileSync(new URL("../app/admin/admin.css", import.meta.url), "utf8");
 const legacyExperienceCss = readFileSync(new URL("../public/assets/mghal-experience.css", import.meta.url), "utf8");
 const legacyThemeCss = readFileSync(new URL("../public/assets/theme.css", import.meta.url), "utf8");
-const adminHtml = readFileSync(new URL("../public/admin/index.html", import.meta.url), "utf8");
+const adminPage = readFileSync(new URL("../app/admin/page.tsx", import.meta.url), "utf8");
 
 const tokens = {
   "--mghal-brand-navy": "#172B4D",
@@ -79,7 +79,8 @@ assert.ok(layout.includes('data-mghal-theme="dark"'), "Next.js must declare its 
 assert.ok(engagementCss.includes("var(--mghal-state-success)") && engagementCss.includes("var(--mghal-state-danger)"), "Follow/reaction feedback must use semantic state tokens.");
 assert.ok(engagementCss.includes('html[data-mghal-theme="dark"] .mghal-follow-panel'), "Social engagement must render a dark token variant inside the Next.js shell.");
 assert.ok(adminCss.includes("--success:var(--mghal-state-success)") && adminCss.includes("--danger:var(--mghal-state-danger)"), "The owner portal must use shared semantic states.");
-assert.ok(adminHtml.includes('href="/assets/design-tokens.css"'), "The owner portal must load shared tokens before its stylesheet.");
+assert.ok(adminPage.includes("import './admin.css'"), "The React owner portal must load its scoped stylesheet.");
+assert.ok(layout.includes('href="/assets/design-tokens.css"'), "The owner portal must inherit shared tokens from the Next.js shell.");
 assert.ok(legacyExperienceCss.includes("--mx-navy:var(--mghal-brand-navy)"), "Legacy public routes must use the shared brand palette.");
 assert.ok(layout.includes("<SiteHeader isEn={isEn}/>"), "The shared header must be mounted globally.");
 
