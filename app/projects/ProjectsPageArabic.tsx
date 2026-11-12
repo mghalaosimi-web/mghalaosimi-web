@@ -36,7 +36,7 @@ export default function ProjectsPage(){
   const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
   
   const repositoryCount=projects.filter(p=>p.repository).length;
-  const collaborativeCount=projects.filter(p=>p.slug==='waynah'||p.slug==='manar-schedule-system').length;
+  const collaborativeCount=projects.filter(p=>p.collaborative).length;
 
   return <main className="content-page projects-page portfolio-archive">
     <section className="portfolio-archive-hero">
