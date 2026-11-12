@@ -1468,7 +1468,7 @@
       "operatingSystem": "Web browser",
       "brand": {
         "logo": "/assets/projects/logos/digital-os.svg",
-        "primary": "#0F766E",
+        "primary": "#0C8599",
         "secondary": "#9CE7DC",
         "accent": "#E4B86B"
       },
@@ -1729,14 +1729,14 @@
           }
         },
         {
-          "src": "https://raw.githubusercontent.com/mghalaosimi-web/ABDULMALIK-STORE-PRO/main/source/test_visual/shots/repairs_desktop.png",
+          "src": "https://raw.githubusercontent.com/mghalaosimi-web/ABDULMALIK-STORE-PRO/main/source/test_visual/shots/intake_desktop.png",
           "alt": {
-            "ar": "واجهة إدارة الصيانة في ABDULMALIK ERP.",
-            "en": "ABDULMALIK ERP repair management interface."
+            "ar": "واجهة استقبال جهاز للصيانة في ABDULMALIK ERP.",
+            "en": "ABDULMALIK ERP repair intake interface."
           },
           "caption": {
-            "ar": "إدارة الصيانة — لقطة فعلية من المستودع.",
-            "en": "Repair management — actual repository screenshot."
+            "ar": "استقبال الصيانة — لقطة فعلية من المستودع.",
+            "en": "Repair intake — actual repository screenshot."
           }
         }
       ],
