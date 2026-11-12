@@ -34,12 +34,12 @@ const statusLabels:Record<string,Localized>={
  'Archived':{ar:'مؤرشف',en:'Archived'}
 };
 const localizedStatus=(status:string,locale:Locale)=>statusLabels[status]?.[locale]??status;
-function fromDatabaseRow(row:PublicProjectRow):ProjectRecord{
+function fromDatabaseRow(row:PublicProjectRow,locale:Locale):ProjectRecord{
  const missing:Localized={ar:'لم يتم توثيق هذه التفاصيل في سجل المشروع حتى الآن.',en:'These details have not yet been documented in the project record.'};
- const summary=row.short_description||missing[ 'en' ];
+ const summary=row.short_description||missing[locale];
  const cover=row.cover_media_id?'/api/public/media/'+encodeURIComponent(row.cover_media_id):'/assets/projects/default-project.svg';
  return {
-  id:row.id,slug:row.slug,title:{ar:row.name,en:row.name},summary:{ar:summary,en:summary},
+  id:row.id,slug:row.slug,title:{ar:locale==='ar'?row.name:missing.ar,en:locale==='en'?row.name:missing.en},summary:{ar:locale==='ar'?summary:missing.ar,en:locale==='en'?summary:missing.en},
   problem:missing,goal:missing,audience:missing,value:missing,
   category:{ar:'مشروع غير مصنف',en:'Unclassified project'},categoryKey:'other',
   status:{ar:localizedStatus(row.status,'ar'),en:localizedStatus(row.status,'en')},statusKey:row.status,
@@ -57,7 +57,7 @@ async function resolveProject(slug:string,locale:Locale):Promise<ProjectRecord|n
  const rows=await getPublishedProjectRows(locale);
  if(rows===null)return base??null;
  const row=rows.find(item=>item.slug===slug);
- if(!base)return row?fromDatabaseRow(row):null;
+ if(!base)return row?fromDatabaseRow(row,locale):null;
  if(base.contentSource==='database'&&!row)return null;
  if(!row)return base;
  return {
