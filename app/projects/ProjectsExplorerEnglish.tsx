@@ -27,7 +27,7 @@ export default function ProjectsExplorerEnglish(){
  const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
  const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
  
- const repoCount=projects.filter(p=>p.repository).length,collabCount=projects.filter(p=>p.slug==='manar-schedule-system'||p.slug==='waynah').length;
+ const repoCount=projects.filter(p=>p.repository).length,collabCount=projects.filter(p=>p.collaborative).length;
  const info=(p:Project)=>({name:p.nameEn,label:p.labelEn,summary:p.summaryEn,status:p.statusEn,contribution:p.contributionEn});
  const featuredInfo=featured?info(featured):null;
  return <main className="content-page projects-page portfolio-archive" dir="ltr">
