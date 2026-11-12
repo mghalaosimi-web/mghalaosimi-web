@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://mghalaosimi-web.vercel.app/sitemap.xml
