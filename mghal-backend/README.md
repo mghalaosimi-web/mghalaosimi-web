@@ -27,6 +27,7 @@ Cloudflare Worker API backed by the existing `mghal-db` D1 database.
 - `POST /api/public/visitors` — creates/reuses an anonymous visitor-follower identity.
 - `POST /api/public/events` — records allow-listed page and content events.
 - `POST /api/public/comments` — submits a comment for moderation.
+- `GET /api/public/reactions?targetType=project|article&targetId=...` — returns server-side counts; the optional `X-Visitor-Token` header returns the current browser's own reaction state without placing its opaque token in the URL.
 - `POST /api/public/reactions` — records a like/clap on a published article or project.
 
 Visitor tokens are opaque random values held by the browser; only SHA-256 hashes are stored in D1. The anonymous visitor identity does not collect an email address and is not an email-marketing subscription or a record of explicit marketing consent. Browser tracking respects Do Not Track.
@@ -35,7 +36,7 @@ Visitor tokens are opaque random values held by the browser; only SHA-256 hashes
 
 All admin routes require a valid Bearer session. Password hashes use PBKDF2-SHA256. Permissions are checked through the D1 role/permission tables.
 
-- `GET /api/admin/bootstrap/status`, `POST /api/admin/bootstrap/rotate` and `POST /api/admin/bootstrap` (one-time owner creation while no admin exists; rotation requires the `OWNER_BOOTSTRAP_TOKEN` Worker secret)
+- `GET /api/admin/bootstrap/status`, `POST /api/admin/bootstrap/rotate` and `POST /api/admin/bootstrap` (first-owner creation is unavailable unless a matching `OWNER_BOOTSTRAP_TOKEN` Worker secret of at least 32 characters is configured and its SHA-256 digest matches the D1 setup hash; rotation also requires that secret)
 - `POST /api/admin/auth/login`
 - `POST /api/admin/auth/logout`
 - `GET /api/admin/dashboard`
@@ -48,7 +49,7 @@ All admin routes require a valid Bearer session. Password hashes use PBKDF2-SHA2
 - `GET|POST|PATCH /api/admin/users` (owner-only user administration)
 - `PATCH /api/admin/followers/:id` (owner/editor follower moderation)
 
-No default owner account or password is created. The one-time bootstrap route requires a SHA-256 token stored in `site_settings.owner_bootstrap_hash`, accepts only the first account while `admin_users` is empty, hashes the password with PBKDF2-SHA256, assigns the owner role and consumes the token. The recovery route `POST /api/admin/bootstrap/rotate` is gated by the high-entropy `OWNER_BOOTSTRAP_TOKEN` Worker secret, refuses rotation after any admin exists, and stores only the SHA-256 digest. Configure the secret outside source control, call rotation with its Bearer value, bootstrap the owner, then remove the secret binding. Do not expose the token in source code.
+No default owner account or password is created. First-owner bootstrap fails closed with HTTP 503 unless `OWNER_BOOTSTRAP_TOKEN` is configured as a Worker secret with at least 32 characters. The submitted token must constant-time match that secret, and its SHA-256 digest must also match `site_settings.owner_bootstrap_hash`; a missing or stale hash requires the protected rotation route first. Bootstrap accepts only the first account while `admin_users` is empty, hashes the password with PBKDF2-SHA256, assigns the owner role and consumes the token. The recovery route `POST /api/admin/bootstrap/rotate` refuses rotation after any admin exists and stores only the SHA-256 digest. Configure the secret outside source control, rotate, create the owner, then remove the secret binding. Do not expose the token in source code.
 
 ## Imported content
 

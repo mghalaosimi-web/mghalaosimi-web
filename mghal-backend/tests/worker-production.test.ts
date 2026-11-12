@@ -68,11 +68,167 @@ function engagementDb() {
   };
 }
 
+
+function googleIdentityDb() {
+  const base = engagementDb();
+  return {
+    prepare(sql: string) {
+      const statement = base.prepare(sql);
+      return {
+        bind(...params: unknown[]) {
+          const bound = statement.bind(...params);
+          return {
+            ...bound,
+            async first() {
+              if (sql.includes("SELECT email,email_verified,display_name FROM follower_identities")) {
+                return { email: "private@example.test", email_verified: 1, display_name: "Private Name" };
+              }
+              return bound.first();
+            },
+          };
+        },
+      };
+    },
+  };
+}
+
+function adminPermissionDb(permissions: string[] = []) {
+  return {
+    prepare(sql: string) {
+      return {
+        bind(...params: unknown[]) {
+          return {
+            async run() { return { success: true, meta: { changes: 1 } }; },
+            async first() {
+              if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
+              if (sql.includes("SELECT u.id,u.email FROM admin_sessions")) return { id: "admin-1", email: "admin@example.test" };
+              if (sql.includes("SELECT 1 FROM admin_user_roles")) return permissions.includes(String(params[1])) ? { ok: 1 } : null;
+              return null;
+            },
+            async all() { return { results: [] }; },
+          };
+        },
+      };
+    },
+  };
+}
+
+async function testPasswordHash(password: string) {
+  const salt = new Uint8Array(16).fill(7);
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt, iterations: 210000 }, key, 256);
+  const encode = (value: Uint8Array) => btoa(String.fromCharCode(...value));
+  return "pbkdf2-sha256$210000$" + encode(salt) + "$" + encode(new Uint8Array(bits));
+}
+
+function loginDb(user: { id: string; email: string; password_hash: string; status: string }) {
+  let sessionInserted = false;
+  return {
+    prepare(sql: string) {
+      return {
+        bind(..._params: unknown[]) {
+          return {
+            async run() {
+              if (sql.includes("INSERT INTO admin_sessions")) sessionInserted = true;
+              return { success: true, meta: { changes: 1 } };
+            },
+            async first() {
+              if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
+              if (sql.includes("SELECT id,email,password_hash,status FROM admin_users")) return user;
+              return null;
+            },
+            async all() { return { results: [] }; },
+          };
+        },
+      };
+    },
+    get sessionInserted() { return sessionInserted; },
+  };
+}
+
+function adminCrudDb(permissions: string[] = []) {
+  return {
+    prepare(sql: string) {
+      return {
+        bind(...params: unknown[]) {
+          return {
+            async run() { return { success: true, meta: { changes: 1 } }; },
+            async first() {
+              if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
+              if (sql.includes("SELECT u.id,u.email FROM admin_sessions")) return { id: "admin-1", email: "admin@example.test" };
+              if (sql.includes("SELECT 1 FROM admin_user_roles")) return permissions.includes(String(params[1])) ? { ok: 1 } : null;
+              if (sql.includes("FROM projects WHERE id=?")) return { id: "project-1", slug: "waynah", name: "WAYNAH", status: "Experimental" };
+              if (sql.startsWith("INSERT INTO projects")) return { id: params[0], slug: params[1], name: params[2], status: params[3] };
+              if (sql.startsWith("UPDATE projects SET")) return { id: params[params.length - 1], status: params[0] };
+              if (sql.includes("FROM media WHERE id=?")) return { id: params[0], original_name: "brand-mark.webp" };
+              return null;
+            },
+            async all() {
+              if (sql.includes("FROM projects ORDER BY")) return { results: [{ id: "project-1", slug: "waynah" }] };
+              return { results: [] };
+            },
+          };
+        },
+      };
+    },
+  };
+}
+
+function adminUserCreateDb(changes: [number, number]) {
+  let cleanup = false;
+  return {
+    prepare(sql: string) {
+      return {
+        bind(..._params: unknown[]) {
+          return {
+            async run() {
+              if (sql.startsWith("DELETE FROM admin_users WHERE id=? AND NOT EXISTS")) cleanup = true;
+              return { success: true, meta: { changes: 1 } };
+            },
+            async first() {
+              if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) return { value_json: "1" };
+              if (sql.includes("SELECT u.id,u.email FROM admin_sessions")) return { id: "admin-1", email: "admin@example.test" };
+              if (sql.includes("SELECT 1 FROM admin_user_roles")) return { ok: 1 };
+              return null;
+            },
+            async all() { return { results: [] }; },
+          };
+        },
+      };
+    },
+    async batch() { return changes.map(value => ({ meta: { changes: value } })); },
+    get cleanup() { return cleanup; },
+  };
+}
+
+function idempotentReactionDb() {
+  const base = engagementDb();
+  let writes = 0;
+  return {
+    prepare(sql: string) {
+      const statement = base.prepare(sql);
+      return {
+        bind(...params: unknown[]) {
+          const bound = statement.bind(...params);
+          if (sql.includes("INSERT INTO reactions")) {
+            return { ...bound, async run() {
+              writes += 1;
+              return { success: true, meta: { changes: writes === 1 ? 1 : 0 } };
+            }};
+          }
+          return bound;
+        },
+      };
+    },
+  };
+}
+
 describe("production Worker security contract", () => {
   it("allows the official Vercel origin on preflight", async () => {
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/dashboard", { method: "OPTIONS", headers: { Origin: "https://mghalaosimi-web.vercel.app" } }), {} as never);
     expect(response.status).toBe(204);
     expect(response.headers.get("Access-Control-Allow-Origin")).toBe("https://mghalaosimi-web.vercel.app");
+    expect(response.headers.get("Access-Control-Allow-Headers")).toContain("X-Visitor-Token");
   });
 
   it("allows only Vercel preview hostnames belonging to this project", async () => {
@@ -113,9 +269,33 @@ describe("production Worker security contract", () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token, email: "owner@example.test", displayName: "Platform Owner", password: "a-very-long-test-password-12345" }),
-    }), { DB: fakeDb(await digest(token)) } as never);
+    }), { DB: fakeDb(await digest(token)), OWNER_BOOTSTRAP_TOKEN: token } as never);
     expect(response.status).toBe(201);
     expect(await response.json()).toMatchObject({ success: true });
+  });
+
+  it("keeps first-owner bootstrap unavailable when the Worker secret is missing", async () => {
+    const token = "stored-bootstrap-token-with-enough-entropy-0001";
+    const status = await productionWorker.fetch(new Request("https://api.example.test/api/admin/bootstrap/status"), { DB: fakeDb(await digest(token)) } as never);
+    expect(status.status).toBe(200);
+    expect(await status.json()).toMatchObject({ available: false, ownerExists: false, rotationRequired: false });
+    const bootstrap = await productionWorker.fetch(new Request("https://api.example.test/api/admin/bootstrap", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, email: "owner@example.test", displayName: "Platform Owner", password: "a-very-long-test-password-12345" }),
+    }), { DB: fakeDb(await digest(token)) } as never);
+    expect(bootstrap.status).toBe(503);
+    expect(await bootstrap.json()).toMatchObject({ error: { code: "BOOTSTRAP_NOT_CONFIGURED" } });
+  });
+
+  it("requires the D1 bootstrap hash to match the configured Worker secret", async () => {
+    const configuredToken = "configured-bootstrap-secret-with-at-least-32-characters";
+    const staleToken = "stale-bootstrap-token-with-at-least-32-characters-0001";
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/bootstrap", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: configuredToken, email: "owner@example.test", displayName: "Platform Owner", password: "a-very-long-test-password-12345" }),
+    }), { DB: fakeDb(await digest(staleToken)), OWNER_BOOTSTRAP_TOKEN: configuredToken } as never);
+    expect(response.status).toBe(409);
+    expect(await response.json()).toMatchObject({ error: { code: "BOOTSTRAP_ROTATION_REQUIRED" } });
   });
 
   it("reports rotation required when the configured Worker secret does not match the stored hash", async () => {
@@ -178,6 +358,31 @@ describe("production Worker security contract", () => {
     expect(await response.json()).toMatchObject({ error: { code: "INVALID_CREDENTIALS" } });
   });
 
+  it("creates a bounded admin session after valid password verification", async () => {
+    const password = "a-very-long-test-password-12345";
+    const db = loginDb({ id: "owner-1", email: "owner@example.test", password_hash: await testPasswordHash(password), status: "active" });
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/auth/login", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "owner@example.test", password }),
+    }), { DB: db } as never);
+    expect(response.status).toBe(200);
+    const data = await response.json() as { token: string; expiresAt: string; user: { id: string; email: string } };
+    expect(data.token.length).toBeGreaterThan(32);
+    expect(data.user).toEqual({ id: "owner-1", email: "owner@example.test" });
+    expect(data).not.toHaveProperty("password_hash");
+    expect(db.sessionInserted).toBe(true);
+  });
+
+  it("does not create an admin session when password verification fails", async () => {
+    const db = loginDb({ id: "owner-1", email: "owner@example.test", password_hash: await testPasswordHash("a-very-long-test-password-12345"), status: "active" });
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/auth/login", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "owner@example.test", password: "a-different-long-password-67890" }),
+    }), { DB: db } as never);
+    expect(response.status).toBe(401);
+    expect(db.sessionInserted).toBe(false);
+  });
+
   it("serves a PDF only when it is referenced by a published certificate", async () => {
     const bytes = new Uint8Array([37, 80, 68, 70, 45, 49, 46, 52]);
     const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/media/certificate-pdf-1"), {
@@ -206,6 +411,132 @@ describe("production Worker security contract", () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("Content-Type")).toBe("image/png");
     expect(new Uint8Array(await response.arrayBuffer())).toEqual(bytes);
+  });
+
+
+  it("rejects oversized visitor tokens and unknown identity fields", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/visitors", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(129), path: "/", email: "private@example.test" }),
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(400);
+  });
+
+  it("rejects unauthenticated dashboard and content administration requests", async () => {
+    const dashboard = await productionWorker.fetch(new Request("https://api.example.test/api/admin/dashboard"), { DB: engagementDb() } as never);
+    const projects = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", { method: "POST", body: JSON.stringify({ slug: "waynah" }) }), { DB: engagementDb() } as never);
+    expect(dashboard.status).toBe(401);
+    expect(projects.status).toBe(401);
+  });
+
+  it("returns reaction state using a visitor header instead of requiring a token in the URL", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/reactions?targetType=project&targetId=project-1", {
+      headers: { "X-Visitor-Token": "a".repeat(64) },
+    }), { DB: engagementDb() } as never);
+    expect(response.status).toBe(200);
+    expect(await response.json()).toMatchObject({ counts: { like: 2, clap: 1 }, viewerReactions: { like: false, clap: false } });
+  });
+
+  it("does not return a linked Google email to the public browser client", async () => {
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/public/auth/google/status", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64) }),
+    }), { DB: googleIdentityDb() } as never);
+    expect(response.status).toBe(200);
+    const data = await response.json() as Record<string, unknown>;
+    expect(data).toMatchObject({ connected: true, emailVerified: true, suggestedName: "Private Name" });
+    expect(data).not.toHaveProperty("email");
+  });
+
+  it("deduplicates repeated reactions for one visitor, target, and reaction", async () => {
+    const makeRequest = () => new Request("https://api.example.test/api/public/reactions", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ visitorToken: "a".repeat(64), targetType: "project", targetId: "project-1", reaction: "like" }),
+    });
+    const db = idempotentReactionDb();
+    const first = await productionWorker.fetch(makeRequest(), { DB: db } as never);
+    const second = await productionWorker.fetch(makeRequest(), { DB: db } as never);
+    expect(await first.json()).toMatchObject({ success: true, created: true });
+    expect(await second.json()).toMatchObject({ success: true, created: false });
+  });
+
+  it("enforces read, write, and user-management permissions after authentication", async () => {
+    const token = "test-admin-session";
+    const getProjects = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", {
+      headers: { Authorization: "Bearer " + token },
+    }), { DB: adminPermissionDb(["content.write"]) } as never);
+    const createProject = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", {
+      method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ slug: "waynah", name: "WAYNAH", status: "Experimental" }),
+    }), { DB: adminPermissionDb(["content.read"]) } as never);
+    const listUsers = await productionWorker.fetch(new Request("https://api.example.test/api/admin/users", {
+      headers: { Authorization: "Bearer " + token },
+    }), { DB: adminPermissionDb(["content.read", "content.write"]) } as never);
+    const deleteProject = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects/project-1", {
+      method: "DELETE", headers: { Authorization: "Bearer " + token },
+    }), { DB: adminPermissionDb(["content.read", "content.write"]) } as never);
+    const changeUser = await productionWorker.fetch(new Request("https://api.example.test/api/admin/users/user-2", {
+      method: "PATCH", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "disabled" }),
+    }), { DB: adminPermissionDb(["content.read", "content.write"]) } as never);
+    expect(getProjects.status).toBe(403);
+    expect(createProject.status).toBe(403);
+    expect(listUsers.status).toBe(403);
+    expect(deleteProject.status).toBe(403);
+    expect(changeUser.status).toBe(403);
+  });
+
+  it("allows project CRUD only with the corresponding content permissions", async () => {
+    const token = "test-admin-session";
+    const read = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", {
+      headers: { Authorization: "Bearer " + token },
+    }), { DB: adminCrudDb(["content.read"]) } as never);
+    const create = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects", {
+      method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ slug: "waynah", name: "WAYNAH", status: "Experimental" }),
+    }), { DB: adminCrudDb(["content.write"]) } as never);
+    const update = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects/project-1", {
+      method: "PATCH", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "Paused" }),
+    }), { DB: adminCrudDb(["content.write"]) } as never);
+    const remove = await productionWorker.fetch(new Request("https://api.example.test/api/admin/projects/project-1", {
+      method: "DELETE", headers: { Authorization: "Bearer " + token },
+    }), { DB: adminCrudDb(["content.delete"]) } as never);
+    const mediaDenied = await productionWorker.fetch(new Request("https://api.example.test/api/admin/media/media-1", {
+      method: "DELETE", headers: { Authorization: "Bearer " + token },
+    }), { DB: adminCrudDb(["content.write"]) } as never);
+    const mediaRemove = await productionWorker.fetch(new Request("https://api.example.test/api/admin/media/media-1", {
+      method: "DELETE", headers: { Authorization: "Bearer " + token },
+    }), { DB: adminCrudDb(["content.delete"]) } as never);
+    expect(read.status).toBe(200);
+    expect(create.status).toBe(201);
+    expect(update.status).toBe(200);
+    expect(remove.status).toBe(200);
+    expect(mediaDenied.status).toBe(403);
+    expect(mediaRemove.status).toBe(200);
+  });
+
+  it("assigns only the requested editor/analyst role when creating an admin user", async () => {
+    const token = "test-admin-session";
+    const db = adminUserCreateDb([1, 1]);
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/users", {
+      method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "editor@example.test", password: "a-very-long-test-password-12345", displayName: "Content Editor", role: "editor" }),
+    }), { DB: db } as never);
+    expect(response.status).toBe(201);
+    expect(await response.json()).toMatchObject({ email: "editor@example.test", displayName: "Content Editor", role: "editor" });
+  });
+
+  it("cleans up a newly inserted admin account if role assignment fails", async () => {
+    const token = "test-admin-session";
+    const db = adminUserCreateDb([1, 0]);
+    const response = await productionWorker.fetch(new Request("https://api.example.test/api/admin/users", {
+      method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "editor@example.test", password: "a-very-long-test-password-12345", displayName: "Content Editor", role: "editor" }),
+    }), { DB: db } as never);
+    expect(response.status).toBe(409);
+    expect(await response.json()).toMatchObject({ error: { code: "USER_CREATE_FAILED" } });
+    expect(db.cleanup).toBe(true);
   });
 
   it("starts a private anonymous guest follow without publishing a name or recording public consent", async () => {

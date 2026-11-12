@@ -1,7 +1,7 @@
 name: M.GH.AL Backend CI
 on:
   push:
-    branches: [fix/site-quality-audit-2026-10-31, feature/mghal-arfat-full-integration]
+    branches: [fix/site-quality-audit-2026-10-31, feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07]
     paths: ["mghal-backend/**", ".github/workflows/mghal-backend.yml"]
   pull_request:
     paths: ["mghal-backend/**"]

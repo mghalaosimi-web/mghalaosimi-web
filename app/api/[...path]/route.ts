@@ -1,4 +1,4 @@
-const UPSTREAM = 'https://mghal-api.m-gh-alaosimi.workers.dev';
+import { resolveMghalApiUpstream } from '@/lib/api-proxy-policy.mjs';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -19,10 +19,23 @@ async function proxy(request: Request, context: RouteContext): Promise<Response>
     return Response.json({ error: { code: 'METHOD_NOT_ALLOWED', message: 'Method not allowed' } }, { status: 405 });
   }
 
+  const upstreamBase = resolveMghalApiUpstream(request.url);
+  if (!upstreamBase) {
+    return Response.json(
+      {
+        error: {
+          code: 'PREVIEW_API_NOT_CONFIGURED',
+          message: 'This preview is isolated from production. Configure MGHAL_PREVIEW_API_BASE to a dedicated Worker with a separate preview database before enabling API actions.'
+        }
+      },
+      { status: 503, headers: { 'cache-control': 'no-store', 'x-content-type-options': 'nosniff' } }
+    );
+  }
+
   const incoming = new URL(request.url);
-  const target = new URL(upstreamPath + incoming.search, UPSTREAM);
+  const target = new URL(upstreamPath + incoming.search, upstreamBase);
   const headers = new Headers();
-  for (const name of ['accept', 'content-type', 'authorization']) {
+  for (const name of ['accept', 'content-type', 'authorization', 'x-visitor-token']) {
     const value = request.headers.get(name);
     if (value) headers.set(name, value);
   }
