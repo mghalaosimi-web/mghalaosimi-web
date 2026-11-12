@@ -1,7 +1,8 @@
 'use client';
 import {useMemo,useState} from 'react';
 import Link from 'next/link';
-import {projects,Project,ProjectCategory} from '../../data/projects';
+import {projects} from '../../data/projects';
+import type {Project,ProjectCategory} from '../../data/projects';
 import {ArrowUpRight,FolderGit2,GraduationCap,Layers3,ShieldCheck,Sparkles,MapPin,Database,WifiOff} from 'lucide-react';
 import './projects.css';
 const filters:{id:'all'|ProjectCategory;label:string}[]=[
@@ -11,13 +12,13 @@ const filters:{id:'all'|ProjectCategory;label:string}[]=[
  {id:'mobile',label:'Mobile apps'},{id:'desktop',label:'Desktop apps'}
 ];
 const categoryMeta={
- web:{label:'WEB PLATFORMS',name:'Web platforms',Icon:Layers3},
- enterprise:{label:'ENTERPRISE SYSTEMS',name:'Enterprise systems',Icon:Database},
- ai:{label:'ARTIFICIAL INTELLIGENCE',name:'Artificial intelligence',Icon:Sparkles},
- cybersecurity:{label:'CYBERSECURITY',name:'Cybersecurity & cryptography',Icon:ShieldCheck},
- academic:{label:'ACADEMIC SYSTEMS',name:'Academic projects',Icon:GraduationCap},
- mobile:{label:'MOBILE APPLICATIONS',name:'Mobile applications',Icon:MapPin},
- desktop:{label:'DESKTOP SOFTWARE',name:'Desktop software',Icon:Code2}
+ web:{label:'WEB PLATFORMS',name:'Web platforms'},
+ enterprise:{label:'ENTERPRISE SYSTEMS',name:'Enterprise systems'},
+ ai:{label:'ARTIFICIAL INTELLIGENCE',name:'Artificial intelligence'},
+ cybersecurity:{label:'CYBERSECURITY',name:'Cybersecurity & cryptography'},
+ academic:{label:'ACADEMIC SYSTEMS',name:'Academic projects'},
+ mobile:{label:'MOBILE APPLICATIONS',name:'Mobile applications'},
+ desktop:{label:'DESKTOP SOFTWARE',name:'Desktop software'}
 };
 export default function ProjectsExplorerEnglish(){
  const [filter,setFilter]=useState<typeof filters[number]['id']>('all');
@@ -68,7 +69,7 @@ export default function ProjectsExplorerEnglish(){
   </section>}
   <section className="portfolio-archive-collection" id="project-collection"><div className="portfolio-archive-section-heading"><div><span>THE WORK / SELECTED PROJECTS</span><h2>Projects & engineering work</h2><p>Browse by domain, with each project’s nature, current status, and available references clearly identified.</p></div><div className="portfolio-archive-count"><strong>{(visible.length+(featuredVisible?1:0)).toString().padStart(2,'0')}</strong><small>PROJECTS</small></div></div>
   <div className="portfolio-archive-filters" role="group" aria-label="Filter projects">{filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?projects.length:archive.filter(p=>p.category===f.id).length+(featured&&featured.category===f.id?1:0)}</span></button>)}</div>
-  <div className="portfolio-archive-grid">{visible.map((p,i)=>{const meta=categoryMeta[p.category],Icon=meta.Icon,details=info(p);return <Link href={'/en/projects/'+p.slug} className="portfolio-project-card" key={p.slug} aria-label={'View details for '+p.nameEn} style={{'--project-primary':p.brand.primary} as React.CSSProperties}><div className="portfolio-project-card-top"><span className="portfolio-project-icon"><img src={p.brand.logo} alt="" loading="lazy"/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div><div className="portfolio-project-status"><i/>{details.status}</div><h3>{details.name||p.name}</h3><b className="portfolio-project-label">{details.label}</b><p>{details.summary}</p><div className="portfolio-project-stack">{p.stack.slice(0,4).map(x=><span key={x}>{x}</span>)}</div><div className="portfolio-project-bottom"><span>{p.repository?'REPOSITORY LINKED':'PROJECT PROFILE'}</span><strong>Details <ArrowUpRight size={15}/></strong></div></Link>})}</div>
+  <div className="portfolio-archive-grid">{visible.map((p,i)=>{const meta=categoryMeta[p.category],details=info(p);return <Link href={'/en/projects/'+p.slug} className="portfolio-project-card" key={p.slug} aria-label={'View details for '+p.nameEn} style={{'--project-primary':p.brand.primary} as React.CSSProperties}><div className="portfolio-project-card-top"><span className="portfolio-project-icon"><img src={p.brand.logo} alt="" loading="lazy"/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div><div className="portfolio-project-status"><i/>{details.status}</div><h3>{details.name||p.name}</h3><b className="portfolio-project-label">{details.label}</b><p>{details.summary}</p><div className="portfolio-project-stack">{p.stack.slice(0,4).map(x=><span key={x}>{x}</span>)}</div><div className="portfolio-project-bottom"><span>{p.repository?'REPOSITORY LINKED':'PROJECT PROFILE'}</span><strong>Details <ArrowUpRight size={15}/></strong></div></Link>})}</div>
   {visible.length===0&&<div className="portfolio-archive-empty">No projects currently match this category.</div>}<p className="portfolio-archive-disclaimer">Documentation and development maturity vary by project. Collaborative work is presented as shared work, with individual contributions described only where supported by available information.</p></section>
   <section className="portfolio-archive-closing"><span>BUILDING SYSTEMS. ENGINEERING WITH PURPOSE.</span><p>Each project is a step in an engineering process shaped by design, experimentation, and improvement.</p></section>
 
