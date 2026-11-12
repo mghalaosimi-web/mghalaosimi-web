@@ -192,7 +192,7 @@ test('public project reader uses a locale-safe published-only PostgreSQL query',
   assert.match(captured.sql, /status\s*<>\s*'Archived'/);
   assert.match(captured.sql, /COALESCE\(NULLIF\(name_ar, ''\), name\)/);
   assert.match(captured.sql, /ORDER BY sort_order ASC/);
-  assert.match(captured.sql, /^\\s*SELECT\\b/i);
+  assert.match(captured.sql, /^\s*SELECT\b/i);
 });
 
 test('public project reader normalizes unknown locales to English', async () => {
