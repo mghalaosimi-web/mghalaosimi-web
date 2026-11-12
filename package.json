@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run audit:design && npm run audit:pwa && npm run test:navigation && npm run test:search && npm run test:security-headers && npm run test:structured-data && npm run test:project-pages && npm run test:engagement-hydration && npm run test:api-runtime && next build",
+    "build": "npm run audit:design && npm run audit:legacy-html && npm run audit:pwa && npm run test:navigation && npm run test:search && npm run test:security-headers && npm run test:structured-data && npm run test:seo && npm run test:sitemap && npm run test:project-pages && npm run test:admin && npm run test:engagement-hydration && npm run test:api-runtime && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "audit:credentials": "node scripts/audit-credentials.mjs",
@@ -21,7 +21,9 @@
     "test:structured-data": "node scripts/test-structured-data.mjs",
     "test:project-pages": "node scripts/test-project-pages.mjs",
     "audit:pwa": "node scripts/audit-pwa.mjs",
-    "test:engagement-hydration": "node scripts/test-engagement-hydration.mjs"
+    "test:engagement-hydration": "node scripts/test-engagement-hydration.mjs",
+    "audit:legacy-html": "node scripts/audit-legacy-html.mjs",
+    "test:admin": "node scripts/test-admin-panel.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
