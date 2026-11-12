@@ -1,6 +1,6 @@
 const CACHE_NAME = "mghal-pwa-v7";
 const CORE_ASSETS = [
-  "/offline.html",
+
   "/favicon.svg",
   "/assets/pwa-icon.svg",
   "/manifest.json",
@@ -8,6 +8,7 @@ const CORE_ASSETS = [
   "/assets/search-index.json"
 ];
 const APP_PAGES = [
+  "/offline",
   "/en", "/en/about", "/en/projects", "/en/skills", "/en/labs",
   "/en/research", "/en/credentials", "/en/education", "/en/achievements",
   "/en/knowledge", "/en/resume", "/en/contact"
@@ -42,7 +43,7 @@ async function networkFirst(request) {
     if (exact) return exact;
     const pathMatch = cacheable ? await cache.match(path, { ignoreSearch: true }) : null;
     if (pathMatch) return pathMatch;
-    return (await cache.match("/offline.html")) || Response.error();
+    return (await cache.match("/offline")) || Response.error();
   }
 }
 async function staleWhileRevalidate(request) {
