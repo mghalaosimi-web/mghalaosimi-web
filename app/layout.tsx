@@ -45,7 +45,7 @@ export default async function RootLayout({children}:{children:React.ReactNode}) 
   const structuredData=JSON.stringify(siteJsonLd()).replace(/</g,'\\u003c');
 
   return (
-    <html lang={locale} dir={isEn?'ltr':'rtl'} data-mghal-theme="light">
+    <html lang={locale} dir={isEn?'ltr':'rtl'} data-mghal-theme="dark">
       <head>
         <link rel="stylesheet" href="/assets/design-tokens.css"/>
         <link rel="stylesheet" href="/assets/social-engagement.css"/>
