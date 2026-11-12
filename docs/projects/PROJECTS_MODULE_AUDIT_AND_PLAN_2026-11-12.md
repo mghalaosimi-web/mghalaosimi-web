@@ -91,3 +91,47 @@ The project work must preserve the existing generated static routes and their cu
 ## 6. Current branch status
 
 This audit documents the starting point only. It does not claim that the catalogue has been unified or that the implementation sequence is complete.
+
+
+## 7. Implementation progress — 2026-11-12
+
+The following changes have been committed to `feature/projects-catalog` after the initial audit:
+
+- Added a bilingual project brand definition to every existing catalogue record: a dedicated SVG logo path and distinct primary/secondary/accent colors.
+- Added explicit bilingual contribution statements. Collaborative work, private work, and projects with insufficient public implementation evidence are not presented as sole-authored or production-ready.
+- Expanded the domain taxonomy to: web platforms, enterprise systems, AI, cybersecurity/cryptography, academic systems, mobile applications, and desktop software.
+- Replaced the independent TypeScript project array with a mapping derived from `public/assets/projects/catalog.json`. The catalogue JSON is now the data source for the project explorer and detail route.
+- Updated Arabic and English project explorers to use the expanded categories, per-project brand marks, and independent project-profile links.
+- Replaced the hard-coded detail-page array with a bilingual detail view sourced from the rich catalogue. The page includes overview, problem, goal, audience, value, documented features, technology stack, architecture, contribution, gallery, evidence, and verification notes.
+- Added project-page tests for logo existence, valid and distinct primary brand colors, bilingual contribution statements, supported categories, and canonical data-source usage.
+- Added the ten initial project brand marks under `public/assets/projects/logos/`.
+
+### Verification and deployment state
+
+- The first Vercel build exposed a design-audit failure caused by hard-coded color literals in the project stylesheet; those literals were replaced with shared M.GH.AL design tokens.
+- A subsequent build exposed an incorrect relative import for the shared project stylesheet; the import was corrected.
+- A later deployment attempt was blocked by Vercel's build rate limit (retry window reported as 24 hours). Therefore the latest branch head has **not** received a successful full Vercel build in this work session.
+- No production deployment, merge, PR merge, database change, secret change, Render change, or deletion was performed.
+- The latest verified branch head at the time of this progress note is recorded in the branch history; inspect the live branch head before making subsequent edits.
+
+### Additional repository inventory — candidates for the next catalogue expansion
+
+The organization inventory contains additional repositories that should be assessed as distinct project records, subject to provenance and source evidence:
+
+1. `abdulmalik-store-management`: active foundation-stage project with React, TypeScript, Vite, Tauri 2, Rust and SQLite. Repository history includes user-authored implementation commits for product records, local product images, offline POS/sales validation and printable receipts. Its README explicitly states that it is not production-ready. No screenshot assets were found in its repository tree.
+2. `mghal-digital-os`: active Next.js 16 / React 19 / TypeScript application using Prisma, PostgreSQL and Upstash Redis. Its README documents implemented workspace/project/task/knowledge/content CRUD, owner authentication, audit events, an editorial calendar and AI draft generation. AI does not publish automatically; multi-user authorization, workers and social publishing are not complete. No screenshot assets were found in its repository tree.
+3. `debwan-live`: an independent product distribution derived from TIVIFY under the preserved MIT attribution. The user's repository history documents subsequent modifications including security hardening, football-hub work and release/CI changes. Any portfolio entry must explicitly identify it as derivative work and must not claim sole authorship of the upstream platform. The repository contains a real product logo but no application screenshot assets in the inspected tree.
+4. `ABDULMALIK-STORE-PRO`: a separately prepared repository containing a source snapshot from `ABDULMALIK-ERP`. Its `PROVENANCE.md` records 236 upstream commits under the MHAMMED AL-AOSIMI identity, plus commits from other contributors, and explicitly warns that repository rebranding is not proof of a rights transfer. The inspected source snapshot had no root open-source license, and the written single-shop permission referenced by its README was not included. If shown, it must be described with precise source attribution and legal-status caveats; do not imply an independent clean-room implementation.
+5. `ABDULMALIK-ERP`: related upstream/source repository for the Store Pro snapshot. Its history includes other contributors; do not represent the complete product as solely authored by the portfolio owner.
+6. `mghal-digital-automation`: README and recent commit history identify it as the upstream Postiz codebase; it should not be represented as an original M.GH.AL product. M.GH.AL Content OS and MGHAL Digital OS are separate projects and should remain distinct.
+7. `ramzei.ERP`: repository was empty in the inspected inventory; do not create a portfolio entry without source evidence.
+
+Before adding these candidates, inspect their repository trees, exact screenshot paths, relevant manifests and commit attribution. A missing screenshot must be stated honestly; do not substitute illustrative cover artwork and label it as an application screenshot.
+
+### Remaining work
+
+1. Confirm the corrected detail route builds after the Vercel rate limit clears; inspect any new build errors rather than assuming success.
+2. Confirm whether generated public HTML project pages shadow the new Next.js detail route. Keep generated Arabic/English static pages, sitemap and canonical/alternate URLs consistent.
+3. Finish parity between the catalogue, generated pages and Next.js explorer without reintroducing duplicate project data.
+4. Add the verified repository candidates above with individual bilingual descriptions, evidence-backed technology lists, truthful contribution attribution, project-specific logos/colors and real screenshots where available.
+5. Run the complete project-page tests, typecheck, design audit and production build before requesting review. Do not merge or deploy Production without the owner's separate approval.
