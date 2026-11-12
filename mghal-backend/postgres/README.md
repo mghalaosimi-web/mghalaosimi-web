@@ -10,7 +10,7 @@
 - Database: `mghal_portfolio`
 - Region: Frankfurt (`aws-eu-central-1`)
 
-The only production application database is this Neon database. The Vercel Production environment receives its pooled connection string through encrypted `DATABASE_URL`. Never store connection strings, role passwords, OAuth secrets, or bootstrap tokens in Git.
+This Neon database is the intended production application database. **As of 2026-11-12, the Vercel Production environment does not yet contain `DATABASE_URL`; production application connectivity to this database is not verified.** Once configured through an approved secure path, Vercel must receive its pooled connection string through encrypted `DATABASE_URL`. Never store connection strings, role passwords, OAuth secrets, or bootstrap tokens in Git.
 
 ## Verified live schema checkpoint — 2026-11-11
 

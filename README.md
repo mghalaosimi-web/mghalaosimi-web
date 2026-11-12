@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=0F766E&center=true&vCenter=true&width=650&lines=Full-Stack+Developer;Software+Engineer+%7C+IT+Student;Building+Real-World+Software+Solutions;Next.js+%7C+Node.js+%7C+TypeScript;Engineering+with+Purpose+%26+Precision" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=315A85&center=true&vCenter=true&width=650&lines=Full-Stack+Developer;Software+Engineer+%7C+IT+Student;Building+Real-World+Software+Solutions;Next.js+%7C+Node.js+%7C+TypeScript;Engineering+with+Purpose+%26+Precision" alt="Typing SVG" />
 </p>
 
 <p align="center">
@@ -14,7 +14,7 @@
   <a href="https://github.com/mghalaosimi-web?tab=repositories">
     <img src="https://img.shields.io/github/stars/mghalaosimi-web?label=Total%20Stars&style=social" alt="GitHub Stars" />
   </a>
-  <img src="https://komarev.com/ghpvc/?username=mghalaosimi-web&label=Profile%20Views&color=0F766E&style=flat" alt="Profile Views" />
+  <img src="https://komarev.com/ghpvc/?username=mghalaosimi-web&label=Profile%20Views&color=315A85&style=flat" alt="Profile Views" />
   <a href="https://www.credly.com/">
     <img src="https://img.shields.io/badge/Credentials-Credly-FF6B00?style=social&logo=credly" alt="Credly" />
   </a>
@@ -31,7 +31,7 @@
 ## 👨‍💻 About Me | نبذة عني
 
 <p align="center">
-  I'm <b>Mohammed Ghaleb Alaosimi</b>, known as <b>M.GH.AL</b> — a Full-Stack Developer, Software Engineer, and Information Technology student at Al-Manar University College, Yemen.
+  I'm <b>Mohammed Ghaleb Alaosimi</b>, known as <b>M.GH.AL</b> — a Full-Stack Developer, Software Engineer, and Information Technology student at Al-Manar College for Science and Technology, Yemen.
   <br><br>
   I focus on building practical software solutions, full-stack web applications, business management systems, and modern digital experiences. My work combines frontend engineering, backend development, database design, API architecture, and thoughtful user experience.
   <br><br>
@@ -47,13 +47,13 @@
 ## 🎓 Education | التعليم
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Al--Manar%20University%20College-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Al--Manar%20University%20College-315A85?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Information%20Technology-134E4A?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Yemen-1F2937?style=for-the-badge" />
 </p>
 
 - **Degree:** Bachelor's degree in Information Technology — in progress.
-- **Institution:** Al-Manar University College.
+- **Institution:** Al-Manar College for Science and Technology.
 - **Focus:** Full-Stack Development, Software Engineering, Databases, and Modern Application Architecture.
 
 ---
@@ -86,7 +86,7 @@
   </a>
 </p>
 
-### Cisco Networking Academy — 14 owner-confirmed credentials
+### Cisco Networking Academy — 11 verified credentials
 
 1. Hardware and Upgrade Support — August 2, 2026
 2. Cybersecurity Defense Analyst Career Path — July 29, 2026
@@ -100,9 +100,11 @@
 10. IT Customer Support Basics — July 24, 2026
 11. Introduction to Modern AI — July 23, 2026
 
-12. Three additional Cisco credential records are confirmed by the owner; their exact official badge titles are not yet included in this public catalogue.\n\n[Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
+[Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
 
 ### Edraak — 6 recorded certificates
+
+**Verified inventory total: 18 credentials** — 11 Cisco badges, 6 Edraak certificates, and 1 JSNAD credential.
 
 - UI/UX Design
 - Communications Skills
@@ -121,17 +123,22 @@ Individual verification references:
 
 The names above follow the saved credential record. The six verification URLs are listed separately because an exact URL-to-title mapping has not been independently confirmed.
 
-### Additional Credly references
+### Cisco badge verification links — 11 badges
 
-1. [Badge reference 1](https://www.credly.com/badges/35fadd6d-f9d6-4d4f-b151-464d30637bbb)
-2. [Badge reference 2](https://www.credly.com/badges/2319c9be-ea2f-44ff-a256-d431cd48404e)
-3. [Badge reference 3](https://www.credly.com/badges/dd87ef5f-4c10-4d9d-928b-cf0a995c5ccb)
-4. [Badge reference 4](https://www.credly.com/badges/6e1ad458-e752-4064-a997-27092902f884)
-5. [Badge reference 5](https://www.credly.com/badges/73d091cc-193d-4b57-b8e0-e64340df62c7)
-6. [Badge reference 6](https://www.credly.com/badges/8d8f1cba-4a98-4cd5-b3b9-fe4233f085b1/public_url)
-7. [Badge reference 7](https://www.credly.com/badges/327cec43-3807-4a02-b144-c72407bdc4f3)
+Each link opens the public Credly badge record:
 
-Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a798-ac1479307855`, `bc68bb11-3b72-420d-877a-a92139aff2f6`. These identifiers are not presented as direct Credly links.
+1. [Hardware and Upgrade Support](https://www.credly.com/badges/926baf56-48f3-4f9d-b86d-77b2c538663c/public_url)
+2. [Cybersecurity Defense Analyst Career Path](https://www.credly.com/badges/eaec19be-fa80-429e-8055-5bbd260b0776/public_url)
+3. [Operating Systems Support](https://www.credly.com/badges/96acb061-5011-4c45-89e3-07f8bf43980c/public_url)
+4. [English for IT 1](https://www.credly.com/badges/31c303bf-725d-4061-b6b1-2dfb76d6ad3f/public_url)
+5. [Junior Cybersecurity Analyst Career Path](https://www.credly.com/badges/dd87ef5f-4c10-4d9d-928b-cf0a995c5ccb/public_url)
+6. [Networking Basics](https://www.credly.com/badges/6e1ad458-e752-4064-a997-27092902f884/public_url)
+7. [Security and Connectivity Support](https://www.credly.com/badges/327cec43-3807-4a02-b144-c72407bdc4f3/public_url)
+8. [Python Essentials 1](https://www.credly.com/badges/8d8f1cba-4a98-4cd5-b3b9-fe4233f085b1/public_url)
+9. [Operating Systems Basics](https://www.credly.com/badges/73d091cc-193d-4b57-b8e0-e64340df62c7/public_url)
+10. [IT Customer Support Basics](https://www.credly.com/badges/2319c9be-ea2f-44ff-a256-d431cd48404e/public_url)
+11. [Introduction to Modern AI](https://www.credly.com/badges/35fadd6d-f9d6-4d4f-b151-464d30637bbb/public_url)
+
 
 ---
 
@@ -155,7 +162,7 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
   <img src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
   <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
-  <img src="https://img.shields.io/badge/Responsive_UI-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Responsive_UI-315A85?style=for-the-badge" />
   <img src="https://img.shields.io/badge/RTL_Interfaces-134E4A?style=for-the-badge" />
 </p>
 
@@ -163,7 +170,7 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 
 <p>
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
-  <img src="https://img.shields.io/badge/REST_APIs-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/REST_APIs-315A85?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" />
   <img src="https://img.shields.io/badge/Zod-3068B7?style=for-the-badge" />
 </p>
@@ -195,7 +202,6 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
   <img src="https://img.shields.io/badge/pnpm-F69220?style=for-the-badge&logo=pnpm&logoColor=white" />
   <img src="https://img.shields.io/badge/Turborepo-EF4444?style=for-the-badge&logo=turborepo&logoColor=white" />
   <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" />
-  <img src="https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=black" />
   <img src="https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white" />
 </p>
 
@@ -227,7 +233,7 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 ## 🎯 Current Focus | مجالات التركيز
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Full--Stack%20Engineering-0F766E?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Full--Stack%20Engineering-315A85?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Software%20Architecture-134E4A?style=for-the-badge" />
   <img src="https://img.shields.io/badge/AI%20Integration-7C3AED?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Database%20Engineering-2563EB?style=for-the-badge" />
@@ -248,15 +254,15 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 ## 📊 GitHub Analytics | إحصائيات GitHub
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=mghalaosimi-web&show_icons=true&theme=transparent&hide_border=true&bg_color=0D1117&title_color=8DD9C9&text_color=9BB2AB&icon_color=32A895&include_all_commits=true" alt="GitHub Statistics" />
+  <img src="https://github-readme-stats.vercel.app/api?username=mghalaosimi-web&show_icons=true&theme=transparent&hide_border=true&bg_color=0D1117&title_color=B69A62&text_color=DCE2E8&icon_color=315A85&include_all_commits=true" alt="GitHub Statistics" />
 </p>
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=mghalaosimi-web&theme=transparent&hide_border=true&bg_color=0D1117&title_color=8DD9C9&text_color=9BB2AB&icon_color=32A895" alt="GitHub Contribution Streak" />
+  <img src="https://streak-stats.demolab.com?user=mghalaosimi-web&theme=transparent&hide_border=true&bg_color=0D1117&title_color=B69A62&text_color=DCE2E8&icon_color=315A85" alt="GitHub Contribution Streak" />
 </p>
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mghalaosimi-web&layout=compact&theme=transparent&hide_border=true&bg_color=0D1117&title_color=8DD9C9&text_color=9BB2AB&icon_color=32A895" alt="Most Used Languages" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mghalaosimi-web&layout=compact&theme=transparent&hide_border=true&bg_color=0D1117&title_color=B69A62&text_color=DCE2E8&icon_color=315A85" alt="Most Used Languages" />
 </p>
 
 ---
@@ -265,7 +271,7 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 
 <p align="center">
   <a href="https://mghalaosimi-web.vercel.app/">
-    <img src="https://img.shields.io/badge/Official%20Website-M.GH.AL-0F766E?style=for-the-badge" alt="Official Website" />
+    <img src="https://img.shields.io/badge/Official%20Website-M.GH.AL-315A85?style=for-the-badge" alt="Official Website" />
   </a>
   <a href="https://github.com/mghalaosimi-web">
     <img src="https://img.shields.io/badge/GitHub-M.GH.AL-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
@@ -293,7 +299,7 @@ Additional certificate identifiers retained in the record: `c21859f1-476d-49bb-a
 ---
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0F766E&height=120&section=footer" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=315A85&height=120&section=footer" />
 </p>
 
 <p align="center">
