@@ -1,4 +1,5 @@
 import type {Metadata} from 'next';
+import type {CSSProperties,ReactNode} from 'react';
 import Link from 'next/link';
 import {cookies} from 'next/headers';
 import {notFound} from 'next/navigation';
@@ -35,8 +36,8 @@ export default async function ProjectDetail({params}:{params:Promise<{slug:strin
  const {slug}=await params;const project=projects.find(item=>item.slug===slug);if(!project)notFound();
  const locale:Locale=(await cookies()).get('portfolio-locale')?.value==='en'?'en':'ar';
  const t=labels[locale],rtl=locale==='ar';
- const section=(key:string,title:string,content:React.ReactNode)=> <section className="project-detail-section" key={key}><div className="project-detail-section-heading"><span>{String(project.id).toUpperCase()}</span><h2>{title}</h2></div>{content}</section>;
- return <main className="project-detail" dir={rtl?'rtl':'ltr'} style={{'--project-primary':project.brand.primary,'--project-secondary':project.brand.secondary,'--project-accent':project.brand.accent} as React.CSSProperties}>
+ const section=(key:string,title:string,content:ReactNode)=> <section className="project-detail-section" key={key}><div className="project-detail-section-heading"><span>{String(project.id).toUpperCase()}</span><h2>{title}</h2></div>{content}</section>;
+ return <main className="project-detail" dir={rtl?'rtl':'ltr'} style={{'--project-primary':project.brand.primary,'--project-secondary':project.brand.secondary,'--project-accent':project.brand.accent} as CSSProperties}>
   <nav className="project-detail-breadcrumb"><Link href="/projects">← {t.back}</Link><span>{t.eyebrow}</span></nav>
   <header className="project-detail-hero">
    <div className="project-detail-brand"><img src={project.brand.logo} width="92" height="92" alt={`${text(project.title,locale)} logo`} /><div><span className="project-detail-kicker">PROJECT / {project.id.toUpperCase()}</span><h1>{text(project.title,locale)}</h1><p>{text(project.summary,locale)}</p></div></div>
