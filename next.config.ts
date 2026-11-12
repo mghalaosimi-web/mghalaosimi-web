@@ -1,6 +1,8 @@
 import type {NextConfig} from 'next';
 
 const legacyRedirects=[
+ {source:'/admin/index.html',destination:'/admin',permanent:true},
+ {source:'/offline.html',destination:'/offline',permanent:true},
  {source:'/index.html',destination:'/',permanent:true},
  {source:'/profile.html',destination:'/about',permanent:true},
  {source:'/projects.html',destination:'/projects',permanent:true},
