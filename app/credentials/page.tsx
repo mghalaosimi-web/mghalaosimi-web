@@ -10,7 +10,7 @@ export async function generateMetadata():Promise<Metadata>{
   return en
     ? {
         title:'Digital Credentials | Mohammed Ghaleb Alaosimi',
-        description:'Eighteen recorded credentials: Cisco Networking Academy, Edraak, OpenJS, and other verified issuer records.',
+        description:'Published professional and learning credentials with issuer verification sources where available.',
         alternates:localizedAlternates('/credentials','en'),
       }
     : {
@@ -133,6 +133,7 @@ function mergePublishedCredentials(rows:PublicCertificateRow[]|null,locale:'ar'|
    description,descriptionEn,tags:[],tagsEn:[],
    verification:safePublicHttpsUrl(row.verification_url),
    badgeImage:row.image_media_id?'/api/public/media/'+encodeURIComponent(row.image_media_id):undefined,
+   previewUrl:row.image_media_id?'/api/public/media/'+encodeURIComponent(row.image_media_id):undefined,
    fileUrl:row.pdf_media_id?'/api/public/media/'+encodeURIComponent(row.pdf_media_id):undefined
   } satisfies Credential;
  });
@@ -170,7 +171,7 @@ function IssuerMark({credential}:{credential:Credential}){
   return <div className="wallet-partner-mark"><strong>{credential.issuer||'Issuer'}</strong><small>PROFESSIONAL CREDENTIAL</small></div>;
 }
 
-function CredentialCard({credential,index,en}:{credential:Credential;index:number;en:boolean}){
+function CredentialCard({credential,index,en,total}:{credential:Credential;index:number;en:boolean;total:number}){
   const verify=credential.verification||(credential.provider==='Cisco'?credlyProfile:credential.provider==='Edraak'?'https://programs.edraak.org/':credential.provider==='OpenJS'?'https://openjsf.org/':undefined);
   const verifyLabel=credential.provider==='Cisco'?(en?'Credly badge':'شارة Credly'):credential.provider==='Edraak'?(en?'Edraak verification':'التحقق عبر إدراك'):credential.provider==='OpenJS'?'OpenJS Foundation':(en?'Issuer verification':'التحقق من الجهة');
   const pdfUrl=credential.file?'/assets/certificates/'+credential.file:credential.fileUrl;
@@ -218,7 +219,7 @@ function CredentialCard({credential,index,en}:{credential:Credential;index:numbe
         <aside className="wallet-badge-column">
           <div className="wallet-badge-logo">
             <span className="credential-panel-label">M.GH.AL / CREDENTIAL</span>
-            <div className="credential-badge-placeholder">{credential.badgeImage?<Image src={credential.badgeImage} alt={(en?"Official Credly badge for ":"شارة Credly الأصلية لاعتماد ")+(en?credential.nameEn:credential.name)} width={112} height={112} loading="lazy" unoptimized className="credential-badge-image"/>:<Award/>}<b>{credential.provider==='OpenJS'?'JSNAD':credential.provider==='Edraak'?'EDRAAK':'CISCO'}</b><small>{String(index+1).padStart(2,'0')} / 18</small></div>
+            <div className="credential-badge-placeholder">{credential.badgeImage?<Image src={credential.badgeImage} alt={(credential.provider==='Cisco'?(en?'Official Credly badge for ':'شارة Credly الأصلية لاعتماد '):(en?'Credential image for ':'صورة الاعتماد '))+(en?credential.nameEn:credential.name)} width={112} height={112} loading="lazy" unoptimized className="credential-badge-image"/>:<Award/>}<b>{credential.provider==='OpenJS'?'JSNAD':credential.provider==='Edraak'?'EDRAAK':credential.provider==='Cisco'?'CISCO':'CREDENTIAL'}</b><small>{String(index+1).padStart(2,'0')} / {total}</small></div>
           </div>
         </aside>
       </div>
@@ -254,10 +255,10 @@ export default async function CredentialsPage(){
         <span className="eyebrow">VERIFIABLE LEARNING & PROFESSIONAL CREDENTIALS</span>
         <h1>{en?'Digital credentials & certificates':'الشهادات والاعتمادات الرقمية'}</h1>
         <p>{en
-          ?'A structured record of published professional credentials with original files and issuer verification sources where available.'
-          :'سجل منظم يضم سجل منشور للشهادات والاعتمادات من الجهات المانحة. تُعرض الملفات الأصلية وروابط التحقق حيث تتوفر.'}</p>
+          ?'A published record of professional credentials with original files and issuer verification sources where available.'
+          :'سجل منشور للشهادات والاعتمادات من الجهات المانحة، مع الملفات الأصلية وروابط التحقق حيث تتوفر.'}</p>
       </div>
-      <div className="credentials-verified"><span>✓</span> {en?'{credentialList.length} recorded credentials':'{credentialList.length} شهادة واعتماداً مسجلاً'}</div>
+      <div className="credentials-verified"><span>✓</span> {en?`${credentialList.length} recorded credentials`:`${credentialList.length} شهادة واعتماداً مسجلاً`}</div>
     </header>
 
     <section className="credentials-section" aria-labelledby="cisco-credentials-title">
@@ -266,7 +267,7 @@ export default async function CredentialsPage(){
         <span className="credentials-count">{cisco.length.toString().padStart(2,'0')} CREDENTIALS</span>
       </div>
       <div className="credentials-list credentials-wallet-list">
-        {cisco.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index} en={en}/>)}
+        {cisco.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index} en={en} total={credentialList.length}/>)}
       </div>
     </section>
 
@@ -276,7 +277,7 @@ export default async function CredentialsPage(){
         <span className="credentials-count">{edraak.length.toString().padStart(2,'0')} CERTIFICATES</span>
       </div>
       <div className="credentials-list credentials-wallet-list">
-        {edraak.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index+11} en={en}/>)}
+        {edraak.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index+cisco.length} en={en} total={credentialList.length}/>)}
       </div>
       <div className="credential-verification-references">
         <div className="wallet-panel-heading"><span>EDRAAK / VERIFICATION REFERENCES</span><h4>{en?'Stored verification links':'روابط التحقق المحفوظة'}</h4></div>
@@ -297,7 +298,7 @@ export default async function CredentialsPage(){
         <span className="credentials-count">{openjs.length.toString().padStart(2,'0')} CREDENTIAL</span>
       </div>
       <div className="credentials-list credentials-wallet-list">
-        {openjs.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index+17} en={en}/>)}
+        {openjs.map((credential,index)=><CredentialCard key={credential.id} credential={credential} index={index+cisco.length+edraak.length} en={en} total={credentialList.length}/>)}
       </div>
     </section>
 
