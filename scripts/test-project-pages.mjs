@@ -34,7 +34,17 @@ for(const section of ["problem","goal","audience","value","features","technologi
 const englishDetail=readFileSync(path.join(root,"app/en/projects/[slug]/page.tsx"),"utf8");
 assert.match(englishDetail,/projects\/\[slug\]\/page/,"English project detail route must reuse the shared React detail page.");
 const listing=readFileSync(path.join(root,"data/projects.ts"),"utf8");
+const projectIndex=readFileSync(path.join(root,"app/projects/page.tsx"),"utf8");
+const defaultLogo=path.join(publicRoot,"assets/projects/logos/mghal-default.svg");
 assert.match(listing,/catalog\.projects\.map/,"Project explorer must derive from the canonical catalogue.");
+assert.match(listing,/mergePublishedProjects/,"Project explorer must merge approved Neon publication records.");
+assert.match(projectIndex,/getPublishedProjectRows/,"Project index must load published records server-side.");
+assert.match(projectIndex,/mergePublishedProjects/,"Project index must preserve the curated fallback and publication set.");
+assert.match(detail,/resolveProject/,"Project detail route must resolve database-managed and curated records.");
+assert.ok(detail.includes("contentSource"),"Database-managed details must respect publication state.");
+assert.ok(existsSync(defaultLogo),"Admin-created records need a neutral brand mark.");
+assert.equal(catalog.projects.filter(p=>p.contentSource==="database").length,10,"The ten original projects remain managed by the database publication set.");
+assert.equal(catalog.projects.filter(p=>p.contentSource==="catalog").length,3,"Three additional verified projects remain Git-curated.");
 const sitemap=readFileSync(path.join(root,"app/sitemap.ts"),"utf8");
 assert.match(sitemap,/catalog\.projects/,"Sitemap must generate project URLs from the canonical catalogue.");
 assert.match(sitemap,/alternates:\{languages:/,"Sitemap must expose bilingual alternates.");
@@ -49,4 +59,4 @@ for(const project of catalog.projects){
  assert.ok(!existsSync(path.join(publicRoot,"projects",project.slug,"index.html")),"Legacy Arabic HTML project detail must be removed: "+project.slug);
  assert.ok(!existsSync(path.join(publicRoot,"en","projects",project.slug,"index.html")),"Legacy English HTML project detail must be removed: "+project.slug);
 }
-console.log("Project portfolio tests passed: "+catalog.projects.length+" canonical records, distinct brand marks, bilingual contribution, React detail routes, and generated sitemap.");
+console.log("Project portfolio tests passed: "+catalog.projects.length+" canonical records, distinct brand marks, bilingual contribution, server-side Neon publication merge, React detail routes, and generated sitemap.");
