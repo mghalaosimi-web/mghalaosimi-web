@@ -88,3 +88,29 @@ html[data-mghal-theme="dark"] .mghal-follow-form input:focus-visible{
 .mghal-guest-follow{border-color:var(--mghal-brand-gold);background:rgba(182,154,98,.1);color:var(--mghal-brand-gold-ink)}
 html[data-mghal-theme="dark"] .mghal-guest-follow{border-color:var(--mghal-brand-gold);background:rgba(182,154,98,.12);color:var(--mghal-brand-gold-soft)}
 .mghal-guest-follow:hover{border-color:var(--mghal-brand-gold);box-shadow:0 0 18px rgba(182,154,98,.14)}
+
+
+/* Light-shell engagement surfaces. */
+html[data-mghal-theme="light"] .mghal-follow-panel,
+html[data-mghal-theme="light"] .mghal-project-engagement{
+ border-color:var(--mghal-light-border);background:#fff;color:var(--mghal-dark-text);
+ box-shadow:var(--mghal-shadow-light);
+}
+html[data-mghal-theme="light"] .mghal-follow-panel h2,
+html[data-mghal-theme="light"] .mghal-project-engagement h2,
+html[data-mghal-theme="light"] .mghal-follow-form>label,
+html[data-mghal-theme="light"] .mghal-approved-comment strong{color:var(--mghal-brand-navy)}
+html[data-mghal-theme="light"] .mghal-follow-panel p,
+html[data-mghal-theme="light"] .mghal-project-engagement p,
+html[data-mghal-theme="light"] .mghal-follow-panel small,
+html[data-mghal-theme="light"] .mghal-social-help,
+html[data-mghal-theme="light"] .mghal-follow-action-hint{color:var(--mghal-light-muted)}
+html[data-mghal-theme="light"] .mghal-home-like{
+ border-color:var(--mghal-light-border);background:linear-gradient(110deg,#fff,#F1F5F9);
+ box-shadow:var(--mghal-shadow-light);
+}
+html[data-mghal-theme="light"] .mghal-home-like-copy strong{color:var(--mghal-brand-navy)}
+html[data-mghal-theme="light"] .mghal-home-like-copy small{color:var(--mghal-light-muted)}
+html[data-mghal-theme="light"] .mghal-home-like .mghal-reaction-like{
+ border-color:var(--mghal-brand-blue);background:var(--mghal-brand-blue);color:#fff;
+}
