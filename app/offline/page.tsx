@@ -1,5 +1,6 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
+import {cookies} from 'next/headers';
 import './offline.css';
 export const metadata:Metadata={title:'أنت غير متصل — M.GH.AL',description:'صفحة توضح أن الموقع غير متصل بالإنترنت.',robots:{index:false,follow:false}};
-export default function OfflinePage(){return <main className="offline-page" dir="rtl"><section className="offline-card" id="main-content" tabIndex={-1}><div className="offline-brand">M.GH.AL</div><h1>أنت غير متصل بالإنترنت</h1><p>تعذر الوصول إلى الصفحة المطلوبة حالياً. يمكنك العودة إلى الصفحة الرئيسية أو إعادة المحاولة عندما يتوفر الاتصال.</p><div className="offline-actions"><Link href="/">العودة إلى الصفحة الرئيسية</Link><Link href="/offline">إعادة المحاولة</Link></div></section></main>}
+export default async function OfflinePage(){const en=(await cookies()).get('portfolio-locale')?.value==='en';return <main className="offline-page" dir={en?'ltr':'rtl'}><section className="offline-card" id="main-content" tabIndex={-1}><div className="offline-brand">M.GH.AL</div><h1>{en?'You are offline':'أنت غير متصل بالإنترنت'}</h1><p>{en?'The requested page is currently unavailable. Return home or retry when a connection is available.':'تعذر الوصول إلى الصفحة المطلوبة حالياً. يمكنك العودة إلى الصفحة الرئيسية أو إعادة المحاولة عندما يتوفر الاتصال.'}</p><div className="offline-actions"><Link href={en?'/en':'/'}>{en?'Return home':'العودة إلى الصفحة الرئيسية'}</Link><Link href={en?'/en/offline':'/offline'}>{en?'Try again':'إعادة المحاولة'}</Link></div></section></main>}
