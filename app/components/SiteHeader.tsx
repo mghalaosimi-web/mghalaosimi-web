@@ -13,6 +13,10 @@ const links = [
   { href: '/labs', ar: 'المعامل', en: 'Labs' },
   { href: '/research', ar: 'الأبحاث', en: 'Research' },
   { href: '/credentials', ar: 'الشهادات', en: 'Credentials' },
+  { href: '/education', ar: 'التعليم', en: 'Education' },
+  { href: '/achievements', ar: 'الإنجازات', en: 'Achievements' },
+  { href: '/knowledge', ar: 'المعرفة', en: 'Knowledge' },
+  { href: '/resume', ar: 'السيرة الذاتية', en: 'Résumé' },
   { href: '/contact', ar: 'التواصل', en: 'Contact' },
 ];
 
