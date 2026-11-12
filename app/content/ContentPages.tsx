@@ -2,7 +2,7 @@ import Link from 'next/link';
 import {projects as curatedProjects} from '../../data/projects';
 import type {Project} from '../../data/projects';
 import PrintButton from './PrintButton';
-import type {PublicEducationRow,PublicCertificateRow} from '../../lib/public-content';
+import type {PublicEducationRow,PublicCertificateRow,PublicSkillRow} from '../../lib/public-content';
 import './content-pages.css';
 
 type Locale='ar'|'en';
