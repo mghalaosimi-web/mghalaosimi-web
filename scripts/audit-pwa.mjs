@@ -10,7 +10,7 @@ function list(name){const start=worker.indexOf('const '+name+' = ['),end=worker.
 const core=list("CORE_ASSETS"),pages=list("APP_PAGES");
 for(const asset of core){const path=asset==='/offline.html'?'../public/offline.html':'../public'+asset;assert.ok(existsSync(new URL(path,import.meta.url)),'Missing cached PWA asset: '+asset);}
 for(const route of pages){const routeFile=route==='/en'?'../app/en/page.tsx':'../app'+route+'/page.tsx';assert.ok(existsSync(new URL(routeFile,import.meta.url)),'Missing locale-stable cached route: '+route);}
-const version=worker.match(/mghal-pwa-v(\\d+)/)?.[1];assert.ok(version,'Service worker cache version is required');
+const version=worker.match(/mghal-pwa-v(\d+)/)?.[1];assert.ok(version,'Service worker cache version is required');
 assert.ok(worker.includes('const CACHED_DOCUMENT_PATHS = new Set(APP_PAGES);'),'Only explicit locale-stable React routes may be cached.');
 assert.ok(worker.includes('request.mode === "navigate"'),'Document requests must use network-first.');
 assert.ok(worker.includes('cache.match("/offline.html")'),'Offline fallback must remain available.');
