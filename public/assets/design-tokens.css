@@ -30,6 +30,11 @@
   --mghal-light-text: #202B38;
   --mghal-light-muted: #64748B;
   --mghal-light-border: #DCE2E8;
+  --mghal-light-accent-surface: #EAF1F8;
+  --mghal-light-accent-surface-strong: #E1EBF5;
+  --mghal-light-accent-border: #C9D8E8;
+  --mghal-light-accent-border-strong: #AFC4DA;
+  --mghal-light-panel-shadow: 0 10px 28px rgba(23, 43, 77, .065);
 
   /* Semantic feedback */
   --mghal-state-success: #17623D;
