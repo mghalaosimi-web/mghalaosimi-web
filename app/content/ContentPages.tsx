@@ -22,7 +22,7 @@ const copy={
 const skills=[['Languages','JavaScript · TypeScript · Python · C# · Dart'],['Frontend','React · Next.js · HTML · CSS · Tailwind CSS'],['Backend & data','Node.js · REST APIs · PostgreSQL · SQLite · Prisma'],['Platforms & tools','Git · GitHub · Docker Compose · Vercel · Firebase · Supabase · Flutter']];
 export default function ContentPages({kind,locale}:{kind:PageKind;locale:Locale}){
  const en=locale==='en';
- const selected=projects.filter(p=>['waynah','mghal-content-os','mghal-digital-os','abdulmalik-store-management','ciphersphere'].includes(p.slug)).slice(0,5);
+ const selected=projects.filter(p=>['waynah','mghal-content-os','mghal-digital-os','abdulmalik-store-management','abdulmalik-store-pro','debwan-live','ciphersphere'].includes(p.slug));
  if(kind==='resume'){
   const c=copy[locale].resume;
   return <main className="mghal-document resume-document" dir={en?'ltr':'rtl'}>
