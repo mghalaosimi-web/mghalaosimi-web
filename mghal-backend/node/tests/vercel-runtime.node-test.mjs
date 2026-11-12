@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { handleMghalApiRequest, getPublicProjectsForLocale, getPublicCertificates } from '../../../lib/mghal-api-runtime.mjs';
+import { handleMghalApiRequest, getPublicProjectsForLocale, getPublicCertificates, getPublicSkills } from '../../../lib/mghal-api-runtime.mjs';
 
 test('API fails closed when a preview deployment has no isolated database URL', async () => {
   const response = await handleMghalApiRequest(
@@ -227,6 +227,31 @@ test('public certificate reader returns only published issuer metadata in stable
   assert.deepEqual(captured.values, undefined);
   assert.match(captured.sql, /^\s*SELECT\b/i);
   assert.match(captured.sql, /FROM certificates/);
+  assert.match(captured.sql, /WHERE is_published = 1/);
+  assert.match(captured.sql, /ORDER BY sort_order ASC/);
+});
+
+test('published skills reader handles an unavailable database without fabricating records', async () => {
+  const result = await getPublicSkills({ environment: {}, getPool: () => null });
+  assert.equal(result, null);
+});
+
+test('published skills reader performs a read-only published query', async () => {
+  let captured;
+  const rows = [{ id: 'skill-01', name: 'React', category: 'Frontend' }];
+  const result = await getPublicSkills({
+    environment: { DATABASE_URL: 'configured' },
+    getPool: () => ({
+      async query(sql, values) {
+        captured = { sql, values };
+        return { rows };
+      },
+    }),
+  });
+  assert.deepEqual(result, rows);
+  assert.equal(captured.values, undefined);
+  assert.match(captured.sql, /^\s*SELECT\b/i);
+  assert.match(captured.sql, /FROM skills/);
   assert.match(captured.sql, /WHERE is_published = 1/);
   assert.match(captured.sql, /ORDER BY sort_order ASC/);
 });
