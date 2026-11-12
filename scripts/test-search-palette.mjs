@@ -23,7 +23,8 @@ assert.ok(component.includes("ArrowDown") && component.includes("ArrowUp"), "Key
 assert.ok(component.includes("function projectHref(title: string)"), "Indexed project records must resolve to case-study routes.");
 assert.ok(component.includes("return '/projects/waynah'"), "WAYNAH search must deep-link to its project case study.");
 assert.ok(component.includes("return '/projects/humanity-system'"), "Humanity System search must deep-link to its project case study.");
-assert.ok(component.includes("const href = projectHref(record.title) ?? routeMap[record.url]"), "Project search must prefer verified Next.js case-study routes.");
+assert.ok(component.includes("const projectRoute = record.url.match("), "Project search must resolve dynamic project slugs from the canonical search index.");
+assert.ok(component.includes("projectHref(record.title) ?? (projectRoute ? '/projects/' + projectRoute[1]"), "Project search must deep-link all catalogue records to React detail routes.");
 assert.ok(component.includes("'/certificates.html': '/credentials'"), "Legacy certificate results must map to the current credentials route.");
 assert.ok(component.includes("'/skills.html': '/skills'"), "Legacy skill results must map to the current Next.js route.");
 assert.ok(component.includes("'/contact.html': '/contact'"), "Legacy contact results must map to the current Next.js route.");
@@ -31,4 +32,5 @@ assert.ok(!component.includes("href: record.url"), "Search must not navigate to 
 assert.ok(css.includes(".mghal-search-dialog::backdrop"), "The search dialog must have a styled backdrop.");
 assert.ok(css.includes("prefers-reduced-motion:reduce"), "Search controls must respect reduced motion.");
 assert.ok(index.some((record) => record.title.includes("WAYNAH")), "The indexed project data must remain available to search.");
+for (const slug of ["mghal-digital-os","abdulmalik-store-management","abdulmalik-store-pro","debwan-live"]) assert.ok(index.some((record) => record.url === "/projects/" + slug), "Search index must include " + slug + ".");
 console.log(`Search palette tests passed: ${index.length} indexed records, Arabic normalization, bilingual route mapping, modal accessibility and keyboard controls.`);
