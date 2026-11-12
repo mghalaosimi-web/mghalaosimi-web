@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { handleMghalApiRequest } from '../../../lib/mghal-api-runtime.mjs';
+import { handleMghalApiRequest, getPublicProjectsForLocale } from '../../../lib/mghal-api-runtime.mjs';
 
 test('API fails closed when a preview deployment has no isolated database URL', async () => {
   const response = await handleMghalApiRequest(
@@ -162,4 +162,46 @@ test('stops reading an oversized streaming request body as soon as the limit is 
   });
   assert.equal(cancelled, true);
   assert.equal(pulls, 2);
+});
+
+test('public project reader returns null when Neon is not configured and does not query', async () => {
+  let queried = false;
+  const result = await getPublicProjectsForLocale('ar', {
+    environment: {},
+    getPool: () => null,
+  });
+  assert.equal(result, null);
+  assert.equal(queried, false);
+});
+
+test('public project reader uses a locale-safe published-only PostgreSQL query', async () => {
+  let captured;
+  const rows = [{ slug: 'waynah', name: 'وَيْنَه؟', status: 'In Progress' }];
+  const result = await getPublicProjectsForLocale('ar', {
+    environment: { DATABASE_URL: 'configured' },
+    getPool: () => ({
+      async query(sql, values) {
+        captured = { sql, values };
+        return { rows };
+      },
+    }),
+  });
+  assert.deepEqual(result, rows);
+  assert.deepEqual(captured.values, ['ar', 'ar', 'ar']);
+  assert.match(captured.sql, /is_published\s*=\s*1/);
+  assert.match(captured.sql, /status\s*<>\s*'Archived'/);
+  assert.match(captured.sql, /COALESCE\(NULLIF\(name_ar, ''\), name\)/);
+  assert.match(captured.sql, /ORDER BY sort_order ASC/);
+  assert.doesNotMatch(captured.sql, /DELETE|UPDATE|INSERT|DROP|ALTER/i);
+});
+
+test('public project reader normalizes unknown locales to English', async () => {
+  let values;
+  await getPublicProjectsForLocale('fr', {
+    environment: { DATABASE_URL: 'configured' },
+    getPool: () => ({
+      async query(_sql, params) { values = params; return { rows: [] }; },
+    }),
+  });
+  assert.deepEqual(values, ['en', 'en', 'en']);
 });
