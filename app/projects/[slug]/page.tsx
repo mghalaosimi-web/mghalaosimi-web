@@ -8,6 +8,7 @@ import '../../mghal-portfolio.css';
 import '../projects.css';
 import {localizedAlternates} from '../../../lib/seo';
 import {getPublishedProjectRows,type PublicProjectRow} from '../../../lib/public-projects';
+import {safeRepositoryUrl,safeLiveUrl} from '../../../data/projects';
 
 type Locale='ar'|'en';
 type Localized=Record<Locale,string>;
@@ -44,12 +45,12 @@ function fromDatabaseRow(row:PublicProjectRow,locale:Locale):ProjectRecord{
   category:{ar:'مشروع غير مصنف',en:'Unclassified project'},categoryKey:'other',
   status:{ar:localizedStatus(row.status,'ar'),en:localizedStatus(row.status,'en')},statusKey:row.status,
   visibility:{ar:'سجل منشور من لوحة الإدارة',en:'Published administration record'},
-  repository:row.repository_url,relatedRepositories:[],cover,
+  repository:safeRepositoryUrl(row.repository_url)??null,relatedRepositories:[],cover,
   coverAlt:{ar:'غلاف تعريفي عام لسجل المشروع، وليس لقطة شاشة للتطبيق.',en:'Generic project-record artwork, not an application screenshot.'},
   brand:defaultBrand,technologies:[],features:[],architecture:{ar:row.description||missing.ar,en:row.description||missing.en},
   gallery:[],evidence:{ar:['تم جلب هذا السجل من المشاريع المنشورة في قاعدة البيانات.','لم تُضف بعد بيانات تفصيلية موثقة لهذا المشروع.'],en:['This record was read from the published database projects.','Detailed verified project information has not yet been added.']},
   notes:{ar:['هذا سجل منشور من لوحة الإدارة؛ أضف التصنيف والتقنيات والميزات والمساهمة قبل اعتباره ملفاً هندسياً مكتملاً.'],en:['This is a published administration record; add its category, stack, features and contribution before treating it as a complete engineering profile.']},
-  contribution:missing,contentSource:'database',liveUrl:row.live_url||undefined,coverMediaId:row.cover_media_id||undefined,databaseDescription:row.description||undefined
+  contribution:missing,contentSource:'database',liveUrl:safeLiveUrl(row.live_url),coverMediaId:row.cover_media_id||undefined,databaseDescription:row.description||undefined
  };
 }
 async function resolveProject(slug:string,locale:Locale):Promise<ProjectRecord|null>{
@@ -65,8 +66,8 @@ async function resolveProject(slug:string,locale:Locale):Promise<ProjectRecord|n
   title:{...base.title,[locale]:row.name||base.title[locale]},
   summary:{...base.summary,[locale]:row.short_description||base.summary[locale]},
   status:{...base.status,[locale]:localizedStatus(row.status,locale)},
-  repository:row.repository_url,
-  liveUrl:row.live_url||undefined,
+  repository:safeRepositoryUrl(row.repository_url)??null,
+  liveUrl:safeLiveUrl(row.live_url),
   coverMediaId:row.cover_media_id||undefined,
   ...(row.cover_media_id?{cover:'/api/public/media/'+encodeURIComponent(row.cover_media_id)}:{})
  };
