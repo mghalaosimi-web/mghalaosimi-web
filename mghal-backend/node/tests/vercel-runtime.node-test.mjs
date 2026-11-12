@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { handleMghalApiRequest, getPublicProjectsForLocale } from '../../../lib/mghal-api-runtime.mjs';
+import { handleMghalApiRequest, getPublicProjectsForLocale, getPublicCertificates } from '../../../lib/mghal-api-runtime.mjs';
 
 test('API fails closed when a preview deployment has no isolated database URL', async () => {
   const response = await handleMghalApiRequest(
@@ -204,4 +204,29 @@ test('public project reader normalizes unknown locales to English', async () => 
     }),
   });
   assert.deepEqual(values, ['en', 'en', 'en']);
+});
+
+test('public certificate reader returns null when Neon is unavailable', async () => {
+  const result = await getPublicCertificates({ environment: {}, getPool: () => null });
+  assert.equal(result, null);
+});
+
+test('public certificate reader returns only published issuer metadata in stable order', async () => {
+  let captured;
+  const rows = [{ slug: 'jsnad-node-js-application-developer-01', title: 'JSNAD' }];
+  const result = await getPublicCertificates({
+    environment: { DATABASE_URL: 'configured' },
+    getPool: () => ({
+      async query(sql, values) {
+        captured = { sql, values };
+        return { rows };
+      },
+    }),
+  });
+  assert.deepEqual(result, rows);
+  assert.deepEqual(captured.values, undefined);
+  assert.match(captured.sql, /^\s*SELECT\b/i);
+  assert.match(captured.sql, /FROM certificates/);
+  assert.match(captured.sql, /WHERE is_published = 1/);
+  assert.match(captured.sql, /ORDER BY sort_order ASC/);
 });
