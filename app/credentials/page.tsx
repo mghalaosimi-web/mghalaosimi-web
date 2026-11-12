@@ -181,7 +181,7 @@ function CredentialCard({credential,index,en,total}:{credential:Credential;index
       <div className="credential-title-block">
         <span className="credential-index">CREDENTIAL / {String(index+1).padStart(2,'0')}</span>
         <h3>{en?credential.nameEn:credential.name}</h3>
-        <p>{credential.provider} · {en?credential.dateEn:credential.date}</p>
+        <p>{credential.issuer||credential.provider} · {en?credential.dateEn:credential.date}</p>
       </div>
       <span className="credential-status"><i>✓</i> {en?'Listed credential':'ضمن سجل الشهادات'}</span>
     </div>
