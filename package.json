@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run audit:design && npm run audit:legacy-html && npm run audit:pwa && npm run test:navigation && npm run test:search && npm run test:security-headers && npm run test:structured-data && npm run test:seo && npm run test:sitemap && npm run test:project-pages && npm run test:admin && npm run test:engagement-hydration && npm run test:api-runtime && next build",
+    "build": "npm run audit:design && npm run audit:legacy-html && npm run audit:pwa && npm run test:navigation && npm run test:search && npm run test:security-headers && npm run test:structured-data && npm run test:seo && npm run test:sitemap && npm run test:project-pages && npm run test:certificates && npm run audit:credentials && npm run audit:profile && npm run test:admin && npm run test:engagement-hydration && npm run test:api-runtime && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "audit:credentials": "node scripts/audit-credentials.mjs",
