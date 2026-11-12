@@ -4,11 +4,12 @@ import { readFileSync } from "node:fs";
 const header = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
 const shell = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
 const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
+const middleware = readFileSync(new URL("../middleware.ts", import.meta.url), "utf8");
 const tokens = readFileSync(new URL("../public/assets/design-tokens.css", import.meta.url), "utf8");
 const legacyNav = readFileSync(new URL("../public/assets/section-rail.js", import.meta.url), "utf8");
 const legacyCss = readFileSync(new URL("../public/assets/section-rail.css", import.meta.url), "utf8");
 
-const routes = ["/", "/about", "/skills", "/projects", "/labs", "/research", "/credentials", "/contact"];
+const routes = ["/", "/about", "/skills", "/projects", "/labs", "/research", "/credentials", "/education", "/achievements", "/knowledge", "/resume", "/contact"];
 for (const route of routes) {
   assert.ok(header.includes(`href: '${route}'`), `Navigation is missing route ${route}`);
 }
@@ -66,6 +67,11 @@ assert.ok(legacyCss.includes("touch-action:pan-x"), "Legacy navigation must supp
 assert.ok(legacyCss.includes("prefers-reduced-motion:reduce"), "Legacy navigation must respect reduced motion.");
 assert.ok(legacyCss.includes(".site-menu-button") && legacyCss.includes("display:none!important"), "The expanding mobile menu must remain disabled.");
 
-assert.ok(header.includes("const currentIndex = links.findIndex((item) => pathname === item.href)"), "Page swipes must be limited to top-level routes and not exit nested project details.");
+assert.ok(header.includes("const currentIndex = links.findIndex((item) => routePath === item.href)"), "Page swipes must use the normalized route path for both locales.");
+assert.ok(header.includes("pathname.startsWith('/en/') ? pathname.slice(3)"), "English routes must normalize to the shared route identity.");
+assert.ok(header.includes("encodeURIComponent(routePath)"), "Switching to Arabic must preserve the current logical route.");
+assert.ok(header.includes("encodeURIComponent('/en' + (routePath === '/' ? '' : routePath))"), "Switching to English must preserve the current route under /en.");
+assert.ok(middleware.includes("destination.pathname=pathname==='/'?'/en':'/en'+pathname"), "English cookie navigation must redirect to canonical /en routes.");
+assert.ok(middleware.includes("portfolio-locale=en"), "The /en route middleware must set the English locale cookie.");
 assert.ok(header.includes("window.getComputedStyle(ancestor)") && header.includes("ancestor.scrollWidth > ancestor.clientWidth + 1"), "Nested horizontal scrollers must not be intercepted by page-swipe navigation.");
-console.log("Next.js navigation tests passed: 8 routes, sticky horizontal rail, RTL/LTR swipe, control guards, edge gestures, and shared brand tokens.");
+console.log("Next.js navigation tests passed: 12 routes, sticky horizontal rail, RTL/LTR swipe, control guards, edge gestures, and shared brand tokens.");
