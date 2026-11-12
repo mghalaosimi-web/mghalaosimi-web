@@ -132,7 +132,7 @@ Before adding these candidates, inspect their repository trees, exact screenshot
 
 1. Verify the current branch head and retain the successful GitHub Actions result after the latest documentation-only update.
 2. Complete a browser-level visual and interaction review of Arabic/English routes, mobile navigation, project detail pages, admin login/bootstrap states, and offline behavior. CI currently verifies source/build contracts, not full cross-device visual acceptance.
-3. Resolve the public-content source-of-truth boundary: the project explorer and detail pages currently use the checked-in bilingual catalogue; the admin API can edit database-backed records. Define and implement a safe publication/synchronization path so approved admin edits appear publicly without allowing an empty/unconfigured database to erase the curated catalogue.
+3. Extend the same safe Neon publication integration to certificates, education, skills and identity records. Project listing/detail synchronization is now implemented; the remaining public resources still need a clear database-versus-curated source policy.
 4. Review whether certificates, education, skills and achievements should be published from the database or remain Git-managed. Do not leave the admin UI implying that a database edit changes a public page when the page is still statically driven.
 5. Continue source verification for any future portfolio additions. Keep mghal-digital-automation, empty ramzei.ERP, ABDULMALIK-ERP, and ABDULMALIK-STORE-PRO excluded unless new provenance, source evidence and rights support a public entry.
 6. Do not merge, deploy Production, change production secrets, apply Neon migrations, or modify Render/other project resources without the owner's separate approval.
@@ -152,3 +152,15 @@ Before adding these candidates, inspect their repository trees, exact screenshot
 - Confirmed from the Git tree that no .html files remain and only the three active public JavaScript assets listed above remain.
 - Successful full GitHub Actions workflow: https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/43277988189, commit 5dd4f631c4890290335025cef4a5ba45f481144e.
 - This branch remains unmerged and undeployed. The production domain, Neon production schema/data, environment secrets, Render services, and unrelated projects were not changed.
+
+### 9. Neon-backed project publication — 2026-11-12
+
+- Added a server-only PostgreSQL read helper that uses the existing pooled Neon connection and selects only published, non-archived project records. It does not write to the database and does not pass through the public API rate limiter.
+- The ten original catalogue entries are explicitly marked database-managed; the three verified additions (M.GH.AL Digital OS, Abdulmalik Store Management, and Debwan Live) remain Git-curated because they are not present in the current public project table.
+- The server-rendered Arabic and English project index merges published Neon fields into the curated catalogue: localized name/summary, status, repository URL, live URL, description, and cover media. The detail route resolves the same published state and returns 404 for a database-managed project that is no longer published.
+- If Neon is not configured or temporarily unavailable, the full curated catalogue remains available. If the database is reachable and has no published rows, database-managed projects are hidden while curated-only projects remain visible.
+- Newly published database projects without a curated record appear under an explicit Unclassified category and receive a neutral M.GH.AL brand mark and generic cover. Their page clearly states that detailed stack, features, and individual contribution have not yet been documented; no unsupported technical claims are invented.
+- Repository links are restricted to HTTPS GitHub URLs, and live links are restricted to HTTPS before rendering. Database-provided descriptions remain escaped React text.
+- A read-only inspection of the selected Neon branch found 10 published project records, 18 published certificates, one published education record, 21 published skills, two identity-profile records, and no published achievements or technologies. No database writes or migrations were performed.
+- Added unit tests for Neon-unavailable fallback, locale projection, published-only SQL, and the server-rendered catalogue merge. Full GitHub Actions passed on commit 95c559db804921028d5902eb50c2abe87fc64437, including lint, typecheck, and next build.
+- The latest successful CI run is https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/43279838419. This is not a Vercel deployment; the Vercel preview history still contains failed builds from earlier commits and has no deployment record for the current successful branch head.
