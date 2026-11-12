@@ -38,6 +38,8 @@ const projectIndex=readFileSync(path.join(root,"app/projects/page.tsx"),"utf8");
 const defaultLogo=path.join(publicRoot,"assets/projects/logos/mghal-default.svg");
 assert.match(listing,/catalog\.projects\.map/,"Project explorer must derive from the canonical catalogue.");
 assert.match(listing,/mergePublishedProjects/,"Project explorer must merge approved Neon publication records.");
+assert.match(listing,/safeRepositoryUrl/,"Database repository links must be validated before rendering.");
+assert.match(listing,/safeLiveUrl/,"Database live links must be validated before rendering.");
 assert.match(projectIndex,/getPublishedProjectRows/,"Project index must load published records server-side.");
 assert.match(projectIndex,/mergePublishedProjects/,"Project index must preserve the curated fallback and publication set.");
 assert.match(detail,/resolveProject/,"Project detail route must resolve database-managed and curated records.");
