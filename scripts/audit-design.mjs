@@ -43,6 +43,11 @@ const tokens = {
   "--mghal-light-text": "#202B38",
   "--mghal-light-muted": "#64748B",
   "--mghal-light-border": "#DCE2E8",
+  "--mghal-light-accent-surface": "#EAF1F8",
+  "--mghal-light-accent-surface-strong": "#E1EBF5",
+  "--mghal-light-accent-border": "#C9D8E8",
+  "--mghal-light-accent-border-strong": "#AFC4DA",
+  "--mghal-light-panel-shadow": "0 10px 28px rgba(23, 43, 77, .065)",
 };
 for (const [name, value] of Object.entries(tokens)) {
   assert.ok(tokensCss.includes(`${name}: ${value};`), `Missing or incorrect shared token: ${name}`);
@@ -77,6 +82,9 @@ assert.ok(legacyThemeCss.includes("--text:var(--mghal-dark-text)"), "Legacy dark
 assert.ok(legacyThemeCss.includes("--accent:var(--mghal-brand-blue)"), "Legacy dark routes must alias the shared brand accent.");
 assert.ok(legacyThemeCss.includes("background:var(--mghal-dark-bg)!important"), "Legacy dark routes must use the shared dark background.");
 assert.ok(layout.includes('data-mghal-theme="light"'), "Next.js must declare its light theme for shared components.");
+assert.ok(css.includes("--mghal-color-panel-tint:var(--mghal-light-accent-surface"), "All routes must use the unified light accent surface token.");
+assert.ok(css.includes("border:1px solid var(--mghal-color-frame)!important"), "Shared content cards must have a visible unified frame.");
+assert.ok(css.includes("color-scheme:light"), "The public site must expose a consistent light color scheme.");
 assert.ok(engagementCss.includes("var(--mghal-state-success)") && engagementCss.includes("var(--mghal-state-danger)"), "Follow/reaction feedback must use semantic state tokens.");
 assert.ok(engagementCss.includes('html[data-mghal-theme="light"] .mghal-follow-panel'), "Social engagement must render a light token variant inside the Next.js shell.");
 assert.ok(adminCss.includes("--success:var(--mghal-state-success)") && adminCss.includes("--danger:var(--mghal-state-danger)"), "The owner portal must use shared semantic states.");
