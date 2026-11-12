@@ -104,7 +104,7 @@ function IssuerMark({provider}:{provider:Credential['provider']}){
 
 function CredentialCard({credential,index,en}:{credential:Credential;index:number;en:boolean}){
   const verify=credential.verification||(credential.provider==='Cisco'?credlyProfile:credential.provider==='Edraak'?'https://programs.edraak.org/':credential.provider==='OpenJS'?'https://openjsf.org/':'https://forms.edumc.nl/');
-  const verifyLabel=credential.provider==='Cisco'?(en?'Credly badge':'شارة Credly'):credential.provider==='Edraak'?(en?'Edraak verification':'التحقق عبر إدراك'):credential.provider==='OpenJS'?(en?'OpenJS Foundation':'OpenJS Foundation'):(en?'EMC Shiraa verification':'التحقق من EMC شِراع');
+  const verifyLabel=credential.provider==='Cisco'?(credential.verification?(en?'Credly badge':'شارة Credly'):(en?'Credly profile':'الملف الشخصي على Credly')):credential.provider==='Edraak'?(en?'Edraak verification':'التحقق عبر إدراك'):credential.provider==='OpenJS'?(en?'OpenJS Foundation':'OpenJS Foundation'):(en?'EMC Shiraa verification':'التحقق من EMC شِراع');
   return <article className="credential-showcase credential-wallet" key={credential.id}>
     <div className="credential-showcase-head credential-wallet-head">
       <div className="credential-title-block">
