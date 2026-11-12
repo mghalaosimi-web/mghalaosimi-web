@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import type {LucideIcon} from 'lucide-react';
 import {projects} from '../../data/projects';
+import type {PublicSkillRow} from '../../lib/public-content';
 
 type Locale='ar'|'en';
 type SkillDomain={
@@ -101,6 +102,7 @@ const filters=[
   {id:'systems',ar:'هندسة الأنظمة',en:'Systems'},
   {id:'tooling',ar:'الأدوات والبنية',en:'Tooling'},
   {id:'interests',ar:'الاهتمامات',en:'Interests'},
+  {id:'other',ar:'مهارات أخرى',en:'Other skills'},
 ];
 
 const pathways=[
@@ -116,21 +118,51 @@ const workflow=[
   {Icon:FileCheck2,t:'Validate',ar:'الاختبار والتحقق',en:'Test & validate'},
 ];
 
-export default function SkillsExplorer({locale='ar'}:{locale?:Locale}){
+function mergeSkillDomains(rows:PublicSkillRow[]|null):SkillDomain[]{
+ if(rows===null)return domains;
+ const groups:Record<string,Set<string>>={
+  engineering:new Set(['Frontend','Backend','Programming','Mobile']),
+  data:new Set(['Database']),
+  tooling:new Set(['Deployment','DevOps','Tools'])
+ };
+ const names:Record<string,string[]>={engineering:[],data:[],tooling:[]};
+ const unknown:string[]=[];
+ for(const row of rows){
+  const target=Object.entries(groups).find(([,categories])=>categories.has(row.category))?.[0];
+  if(target)names[target].push(row.name);
+  else unknown.push(row.name);
+ }
+ const merged=domains.map(domain=>{
+  if(!(domain.id in names))return domain;
+  return {...domain,items:[...new Set(names[domain.id])]};
+ });
+ if(unknown.length)merged.push({
+  id:'other',title:'مهارات أخرى',en:'OTHER SKILLS',
+  description:'مهارات منشورة في قاعدة البيانات ولا تنتمي إلى تصنيف تقني معروف في الدليل الحالي.',
+  descriptionEn:'Published database skills without a recognized category in the current directory.',
+  Icon:Layers3,items:[...new Set(unknown)],
+  note:'تصنيف غير محدد في سجل المهارة.',
+  noteEn:'The skill record does not specify a recognized category.'
+ });
+ return merged;
+}
+
+export default function SkillsExplorer({locale='ar',skills=null}:{locale?:Locale;skills?:PublicSkillRow[]|null}){
   const en=locale==='en';
   const [active,setActive]=useState('all');
   const [query,setQuery]=useState('');
   const [expanded,setExpanded]=useState<string[]>(['engineering','systems']);
+  const activeDomains=useMemo(()=>mergeSkillDomains(skills),[skills]);
   const visible=useMemo(()=>{
     const term=query.trim().toLowerCase();
-    return domains
+    return activeDomains
       .filter(domain=>active==='all'||domain.id===active)
       .map(domain=>({...domain,items:domain.items.filter(item=>!term||[
         item,domain.title,domain.en,domain.description,domain.descriptionEn,
       ].join(' ').toLowerCase().includes(term))}))
       .filter(domain=>domain.items.length>0);
-  },[active,query]);
-  const total=domains.reduce((sum,domain)=>sum+domain.items.length,0);
+  },[active,activeDomains,query]);
+  const total=activeDomains.reduce((sum,domain)=>sum+domain.items.length,0);
   const toggle=(id:string)=>setExpanded(previous=>previous.includes(id)?previous.filter(value=>value!==id):[...previous,id]);
   const featured=projects.filter(project=>project.featured).slice(0,3);
 
@@ -164,7 +196,7 @@ export default function SkillsExplorer({locale='ar'}:{locale?:Locale}){
 
     <section className="sk-snapshot" aria-label={en?'Skills summary':'ملخص المهارات'}>
       <article><b>{total}</b><span>{en?'Technologies & practices':'تقنية وممارسة موثقة'}</span></article>
-      <article><b>{domains.length}</b><span>{en?'Technical domains':'مجالات تقنية'}</span></article>
+      <article><b>{activeDomains.length}</b><span>{en?'Technical domains':'مجالات تقنية'}</span></article>
       <article><b>03</b><span>{en?'Engineering pathways':'مسارات هندسية'}</span></article>
       <article><b>AR / EN</b><span>{en?'Bilingual product work':'تطوير ثنائي اللغة'}</span></article>
     </section>
