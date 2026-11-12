@@ -25,6 +25,8 @@ const forbidden=['الكاملي','بكالوريوس الأمن السيبرا�
 for(const [name,source] of [['Arabic about',arAbout],['English about',enAbout],['Arabic home',arHome],['English home',enHome],['Arabic projects',arProjects],['English projects',enProjects],['Research',research]])for(const term of forbidden)assert.ok(!source.includes(term),name+': unsupported/reference identity leaked: '+term);
 assert.deepEqual(catalog.projects.slice(0,10).map(p=>p.slug),expectedOriginal,'The ten original projects must remain in the catalogue and in their established order.');
 assert.equal(catalog.projects.length,13,'The verified additions should extend the original ten projects without replacing them.');
+assert.equal(catalog.projects.filter(p=>p.contentSource==='database').length,10,'The ten original projects must remain database-managed.');
+assert.equal(catalog.projects.filter(p=>p.contentSource==='catalog').length,3,'The three verified additions must remain curated catalogue records.');
 const slugs=catalog.projects.map(p=>p.slug);
 assert.equal(new Set(slugs).size,slugs.length,'Project slugs must be unique.');
 assert.ok(slugs.includes('manar-schedule-system')&&slugs.includes('almanar-schedule-system'),'The two separate academic scheduling repositories must remain distinct.');
