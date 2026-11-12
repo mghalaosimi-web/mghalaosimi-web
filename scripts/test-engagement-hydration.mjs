@@ -15,7 +15,7 @@ assert.ok(layout.includes('id="mghal-engagement-slot"'),'A stable engagement mou
 assert.ok(layout.includes('suppressHydrationWarning'),'The external mount point must suppress expected hydration noise.');
 assert.ok(!layout.includes("from 'next/script'")&&!layout.includes('visitor-tracking.js')&&!layout.includes('social-engagement.js'),
  'Legacy engagement scripts must not be injected from the server-rendered root layout.');
-assert.ok(experience.includes("if (process.env.NODE_ENV !== 'production') return;'),
+assert.ok(experience.includes(`if (process.env.NODE_ENV !== 'production') return;`),
  'Engagement scripts must stay disabled in development.');
 assert.ok(experience.includes('data-mghal-experience'),'Script loading must detect an existing script element.');
 assert.ok(experience.includes("await loadScript('/assets/visitor-tracking.js');")&&experience.includes("await loadScript('/assets/social-engagement.js');"),
