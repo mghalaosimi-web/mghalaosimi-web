@@ -19,7 +19,7 @@
   },
   {
     "title": "الملف الشخصي | Professional Profile",
-    "url": "/profile.html",
+    "url": "/about",
     "description": "النبذة المهنية والتعليمية والاهتمامات التقنية.",
     "keywords": [
       "profile",
@@ -30,7 +30,7 @@
   },
   {
     "title": "المشاريع والأعمال | Projects",
-    "url": "/projects.html",
+    "url": "/projects",
     "description": "مشاريع البرمجيات والأنظمة والتطبيقات التي يعمل عليها M.GH.AL.",
     "keywords": [
       "projects",
@@ -42,7 +42,7 @@
   },
   {
     "title": "WAYNAH | وَيْنَه؟",
-    "url": "/projects.html",
+    "url": "/projects/waynah",
     "description": "منصة للاستكشاف الجغرافي والمعلومات المحلية الموثوقة في اليمن.",
     "keywords": [
       "waynah",
@@ -54,7 +54,7 @@
   },
   {
     "title": "Humanity System | الإنسانية تجمعنا",
-    "url": "/projects.html",
+    "url": "/projects/humanity-system",
     "description": "نظام رقمي لإدارة الحالات والسجلات والعمليات المؤسسية.",
     "keywords": [
       "humanity system",
@@ -66,7 +66,7 @@
   },
   {
     "title": "Yemen AI Platform",
-    "url": "/projects.html",
+    "url": "/projects/yemen-ai",
     "description": "منصة ذكاء اصطناعي ثنائية اللغة والبحث في المستندات باستخدام RAG.",
     "keywords": [
       "AI",
@@ -78,7 +78,7 @@
   },
   {
     "title": "M.GH.AL Content Studio",
-    "url": "/projects.html",
+    "url": "/projects/mghal-content-os",
     "description": "نظام لإدارة دورة إنتاج المحتوى العربي بالذكاء الاصطناعي.",
     "keywords": [
       "Content OS",
@@ -89,7 +89,7 @@
   },
   {
     "title": "CipherSphere",
-    "url": "/projects.html",
+    "url": "/projects/ciphersphere",
     "description": "مختبر تفاعلي تعليمي للتشفير والخوارزميات.",
     "keywords": [
       "cryptography",
@@ -101,7 +101,7 @@
   },
   {
     "title": "FocusFlow",
-    "url": "/projects.html",
+    "url": "/projects/focusflow",
     "description": "تطبيق إنتاجية لإدارة المهام وجلسات Pomodoro والعادات.",
     "keywords": [
       "Flutter",
@@ -111,19 +111,21 @@
     ]
   },
   {
-    "title": "University Schedule Systems",
-    "url": "/projects.html",
-    "description": "أنظمة لإدارة الجداول الأكاديمية وشؤون الجدولة الجامعية.",
+    "title": "Manar Schedule System",
+    "url": "/projects/manar-schedule-system",
+    "description": "Collaborative academic scheduling system with documented React, Node.js, Prisma and Flutter components.",
     "keywords": [
-      "university schedule",
-      "الجداول الجامعية",
+      "academic schedule",
       "React",
-      "Node.js"
+      "Node.js",
+      "Flutter",
+      "Prisma",
+      "الجداول الأكاديمية"
     ]
   },
   {
     "title": "M.GH.AL ESDP",
-    "url": "/projects.html",
+    "url": "/projects/mghal-esdp",
     "description": "مشروع تطبيق مكتبي لنظام ESDP.",
     "keywords": [
       "ESDP",
@@ -133,7 +135,7 @@
   },
   {
     "title": "الشهادات والإنجازات | Certificates",
-    "url": "/certificates.html",
+    "url": "/credentials",
     "description": "سجل الشهادات المهنية والتعليمية وروابط التحقق المتاحة.",
     "keywords": [
       "certificates",
@@ -148,7 +150,7 @@
   },
   {
     "title": "المهارات التقنية | Skills",
-    "url": "/skills.html",
+    "url": "/skills",
     "description": "لغات البرمجة والأطر وقواعد البيانات وأدوات التطوير.",
     "keywords": [
       "JavaScript",
@@ -168,7 +170,7 @@
   },
   {
     "title": "التعليم | Education",
-    "url": "/education.html",
+    "url": "/education",
     "description": "طالب تقنية معلومات في كلية المنار الجامعية باليمن.",
     "keywords": [
       "Al-Manar University College",
@@ -180,7 +182,7 @@
   },
   {
     "title": "التواصل الرسمي | Contact",
-    "url": "/contact.html",
+    "url": "/contact",
     "description": "روابط الحسابات والمنصات الرسمية المرتبطة بهوية M.GH.AL.",
     "keywords": [
       "contact",
@@ -194,7 +196,7 @@
   },
   {
     "title": "Official English Profile",
-    "url": "/en/",
+    "url": "/en",
     "description": "Official English digital profile of Mohammed Ghaleb Alaosimi (M.GH.AL).",
     "keywords": [
       "Mohammed Ghaleb Alaosimi",
@@ -202,6 +204,83 @@
       "Full-Stack Developer",
       "Software Engineer",
       "Yemen"
+    ]
+  },
+  {
+    "title": "Al-Manar Schedule System",
+    "url": "/projects/almanar-schedule-system",
+    "description": "Academic scheduling and management system with documented React, Express, Prisma and PostgreSQL components.",
+    "keywords": [
+      "Al-Manar",
+      "academic scheduling",
+      "React",
+      "Express",
+      "Prisma",
+      "PostgreSQL",
+      "الجداول"
+    ]
+  },
+  {
+    "title": "M.GH.AL Digital OS",
+    "url": "/projects/mghal-digital-os",
+    "description": "Personal digital operations workspace for projects, tasks, knowledge and AI-assisted content drafts.",
+    "keywords": [
+      "digital OS",
+      "workspace",
+      "Next.js",
+      "Prisma",
+      "PostgreSQL",
+      "Upstash",
+      "إدارة المشاريع",
+      "المهام",
+      "المعرفة"
+    ]
+  },
+  {
+    "title": "Abdulmalik Store Management System",
+    "url": "/projects/abdulmalik-store-management",
+    "description": "Offline-first Windows desktop store management foundation using React, TypeScript, Tauri and SQLite.",
+    "keywords": [
+      "Tauri",
+      "React",
+      "TypeScript",
+      "SQLite",
+      "POS",
+      "offline",
+      "نظام متجر",
+      "إدارة مخزون"
+    ]
+  },
+  {
+    "title": "ABDULMALIK ERP",
+    "url": "/projects/abdulmalik-store-pro",
+    "description": "Flutter-based offline-first phone retail and repair ERP with inventory, POS, IMEI tracking and service workflows.",
+    "keywords": [
+      "Flutter",
+      "Dart",
+      "ERP",
+      "SQLite",
+      "POS",
+      "IMEI",
+      "phone repair",
+      "مخزون",
+      "صيانة الهواتف"
+    ]
+  },
+  {
+    "title": "Debwan Live",
+    "url": "/projects/debwan-live",
+    "description": "Maintained derivative self-hosted live TV and VOD platform with Go, Next.js, Android and Docker.",
+    "keywords": [
+      "TIVIFY derivative",
+      "Go",
+      "Next.js",
+      "Android",
+      "IPTV",
+      "VOD",
+      "FFmpeg",
+      "بث مباشر",
+      "تلفزيون"
     ]
   }
 ]
