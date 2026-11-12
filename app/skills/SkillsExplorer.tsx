@@ -45,8 +45,8 @@ const domains:SkillDomain[]=[
     descriptionEn:'Languages and frameworks used to build web applications, interfaces, and application logic.',
     Icon:Code2,
     items:['JavaScript','TypeScript','Python','C#','Dart','React','Next.js','Node.js','Flutter','Tailwind CSS'],
-    note:'تقنيات تظهر ضمن المشاريع والتطوير البرمجي المستمر.',
-    noteEn:'Technologies used across projects and ongoing software development.',
+    note:'تقنيات مدرجة في سجل المهارات دون تحديد مستوى إتقان.',
+    noteEn:'Technologies listed in the skills directory; proficiency is not specified.',
   },
   {
     id:'data',
@@ -56,8 +56,8 @@ const domains:SkillDomain[]=[
     descriptionEn:'Technologies for storing, modelling, querying, and integrating application data.',
     Icon:Database,
     items:['PostgreSQL','SQLite','Prisma','Firebase','Supabase','SQL'],
-    note:'مرتبطة ببناء التطبيقات والأنظمة التي تتعامل مع البيانات.',
-    noteEn:'Applied in application and enterprise-system data workflows.',
+    note:'تقنيات بيانات مدرجة في سجل المهارات دون تحديد مستوى إتقان.',
+    noteEn:'Data technologies listed in the skills directory; proficiency is not specified.',
   },
   {
     id:'systems',
@@ -78,8 +78,8 @@ const domains:SkillDomain[]=[
     descriptionEn:'Tools for source control, dependencies, containers, builds, and deployment.',
     Icon:Server,
     items:['Git','GitHub','Docker Compose','pnpm','Turborepo','Vercel'],
-    note:'أدوات مستخدمة في بيئات التطوير والتعاون والنشر.',
-    noteEn:'Tools used in development, collaboration, and deployment environments.',
+    note:'أدوات مدرجة في سجل المهارات دون تحديد مستوى إتقان.',
+    noteEn:'Tools listed in the skills directory; proficiency is not specified.',
   },
   {
     id:'interests',
@@ -260,7 +260,7 @@ export default function SkillsExplorer({locale='ar',skills=null}:{locale?:Locale
               <div className="sk-skill" key={skill}>
                 <div>
                   <b>{skill}</b>
-                  <span className={'sk-level '+(domain.learning?'is-learning':'is-practical')}>{domain.learning?(en?'Learning focus':'مجال تعلّم'):(en?'Project practice':'ضمن المشاريع')}</span>
+                  <span className={'sk-level '+(domain.learning?'is-learning':'is-practical')}>{domain.learning?(en?'Learning focus':'مجال تعلّم'):domain.id==='systems'?(en?'Engineering practice':'ممارسة هندسية'):(en?'Listed technology':'تقنية مدرجة')}</span>
                 </div>
                 <small>{en?domain.noteEn:domain.note}</small>
               </div>
