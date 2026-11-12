@@ -1,4 +1,4 @@
-const CACHE_NAME = "mghal-pwa-v7";
+const CACHE_NAME = "mghal-pwa-v8";
 const CORE_ASSETS = [
 
   "/favicon.svg",
@@ -9,9 +9,11 @@ const CORE_ASSETS = [
 ];
 const APP_PAGES = [
   "/offline",
-  "/en", "/en/about", "/en/projects", "/en/skills", "/en/labs",
-  "/en/research", "/en/credentials", "/en/education", "/en/achievements",
-  "/en/knowledge", "/en/resume", "/en/contact"
+  "/", "/about", "/projects", "/skills", "/labs", "/research", "/credentials",
+  "/education", "/achievements", "/knowledge", "/resume", "/contact",
+  "/en", "/en/about", "/en/projects", "/en/skills", "/en/labs", "/en/research",
+  "/en/credentials", "/en/education", "/en/achievements", "/en/knowledge",
+  "/en/resume", "/en/contact"
 ];
 const CACHED_DOCUMENT_PATHS = new Set(APP_PAGES);
 
