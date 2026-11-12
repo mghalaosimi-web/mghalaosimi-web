@@ -39,7 +39,7 @@ for(const project of catalog.projects){
 }
 const esdp=catalog.projects.find(p=>p.slug==='mghal-esdp');
 assert.equal(esdp.repository,null,'Unverified/private ESDP must not expose a repository.');
-assert.match(esdp.status.ar,/خاص|غير منشور|غير متحقق/,'ESDP must retain its unpublished/unverified status.');
+assert.match(esdp.status.ar,/لم يُعثر على مستودع|غير متحقق|غير منشور/,'ESDP must retain its unavailable/unverified repository status.');
 const humanity=catalog.projects.find(p=>p.slug==='humanity-system');
 assert.equal(humanity.repository,null,'Humanity System must not expose a private repository.');
 const contentOs=catalog.projects.find(p=>p.slug==='mghal-content-os');
