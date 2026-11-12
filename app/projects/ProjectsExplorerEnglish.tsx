@@ -1,7 +1,6 @@
 'use client';
-import {useMemo,useState} from 'react';
+import {useState} from 'react';
 import Link from 'next/link';
-import {projects} from '../../data/projects';
 import type {Project,ProjectCategory} from '../../data/projects';
 import {ArrowUpRight,Code2,FolderGit2,GraduationCap,Layers3,ShieldCheck,Sparkles,MapPin,Database,WifiOff} from 'lucide-react';
 import './projects.css';
@@ -9,7 +8,7 @@ const filters:{id:'all'|ProjectCategory;label:string}[]=[
  {id:'all',label:'All projects'},{id:'web',label:'Web platforms'},
  {id:'enterprise',label:'Enterprise systems'},{id:'ai',label:'Artificial intelligence'},
  {id:'cybersecurity',label:'Cybersecurity'},{id:'academic',label:'Academic projects'},
- {id:'mobile',label:'Mobile apps'},{id:'desktop',label:'Desktop apps'}
+ {id:'mobile',label:'Mobile apps'},{id:'desktop',label:'Desktop apps'},{id:'other',label:'Unclassified projects'}
 ];
 const categoryMeta={
  web:{label:'WEB PLATFORMS',name:'Web platforms'},
@@ -18,13 +17,14 @@ const categoryMeta={
  cybersecurity:{label:'CYBERSECURITY',name:'Cybersecurity & cryptography'},
  academic:{label:'ACADEMIC SYSTEMS',name:'Academic projects'},
  mobile:{label:'MOBILE APPLICATIONS',name:'Mobile applications'},
- desktop:{label:'DESKTOP SOFTWARE',name:'Desktop software'}
+ desktop:{label:'DESKTOP SOFTWARE',name:'Desktop software'},
+ other:{label:'OTHER PROJECTS',name:'Unclassified projects'}
 };
-export default function ProjectsExplorerEnglish(){
+export default function ProjectsExplorerEnglish({projects}:{projects:Project[]}){
  const [filter,setFilter]=useState<typeof filters[number]['id']>('all');
  const featured=projects.find(p=>p.slug==='waynah');
  const archive=projects.filter(p=>p.slug!=='waynah');
- const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
+ const visible=archive.filter(p=>filter==='all'||p.category===filter);
  const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
  
  const repoCount=projects.filter(p=>p.repository).length,collabCount=projects.filter(p=>p.collaborative).length;
