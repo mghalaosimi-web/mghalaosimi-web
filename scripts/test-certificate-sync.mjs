@@ -12,6 +12,13 @@ assert.equal((page.match(/'([0-9a-f]{32})'/g)||[]).length>=6,true,"Edraak verifi
 assert.match(page,/JSNAD-ALOSEIMI-20241112/);
 assert.match(page,/OpenJS Foundation · The Linux Foundation/);
 assert.match(page,/function CredentialCard/);
+assert.match(page,/getPublishedCertificates/,'Credential page must load the Neon publication set on the server.');
+assert.match(page,/mergePublishedCredentials/,'Credential page must merge published database rows with preserved local issuer evidence.');
+assert.match(page,/safePublicHttpsUrl/,'Database verification links must be HTTPS-validated.');
+assert.match(page,/curatedCredentials\.filter\(item=>!item\.slug\|\|bySlug\.has\(item\.slug\)\)/,'Unpublished database-managed certificates must be hidden when Neon is available.');
+assert.match(page,/rows===null/,'The curated certificate archive must remain available when Neon is unavailable.');
+const slugMap=page.slice(page.indexOf('const credentialSlugById'),page.indexOf('const curatedCredentials'));
+assert.equal((slugMap.match(/:'[a-z0-9-]+'/g)||[]).length,18,'All 18 curated certificate records must map to their database slugs.');
 assert.match(page,/<Image src=\{/);
 assert.match(page,/loading="lazy"/);
 assert.match(page,/alt=\{/);
@@ -24,4 +31,4 @@ for(const file of [...page.matchAll(/file:'([^']+)'/g)].map(x=>x[1]))assert.ok(e
 for(const file of [...page.matchAll(/preview:'([^']+)'/g)].map(x=>x[1]))assert.ok(existsSync(new URL("../public/assets/certificates/"+file,import.meta.url)),"Missing certificate preview: "+file);
 assert.ok(!existsSync(new URL("../public/certificates.html",import.meta.url)));
 assert.ok(!existsSync(new URL("../public/en/certificates.html",import.meta.url)));
-console.log("React credential tests passed: 18 records (11 Cisco, 6 Edraak, 1 JSNAD), individual verification links, and verified local assets.");
+console.log("React credential tests passed: 18 curated records mapped to Neon publication slugs, issuer verification evidence preserved, and local assets verified.");
