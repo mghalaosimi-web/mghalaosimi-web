@@ -1,5 +1,5 @@
 import {cache} from 'react';
-import {getPublicCertificates} from './mghal-api-runtime.mjs';
+import {getPublicCertificates,getPublicSkills} from './mghal-api-runtime.mjs';
 
 export type PublicCertificateRow={
  id:string;
@@ -32,3 +32,18 @@ export function safePublicHttpsUrl(value:string|null|undefined):string|undefined
   return url.toString();
  }catch{return undefined;}
 }
+
+export type PublicSkillRow={
+ id:string;
+ name:string;
+ locale:string;
+ category:string;
+ proficiency:string;
+ sort_order:number;
+};
+
+/** null means Neon is unavailable; [] is an authoritative empty public set. */
+export const getPublishedSkills=cache(async():Promise<PublicSkillRow[]|null>=>{
+ const rows=await getPublicSkills();
+ return Array.isArray(rows)?rows as PublicSkillRow[]:null;
+});
