@@ -706,3 +706,78 @@ button,.portfolio-project-card,.mghal-card,.content-panel{transition:background-
 .project-detail-gallery img{background:var(--mghal-color-surface-raised)!important}
 .project-detail-disclaimer{background:var(--mghal-color-surface-raised)!important}
 @media(max-width:650px){.portfolio-featured-project{grid-template-columns:1fr!important}.portfolio-featured-visual{min-height:260px!important}}
+
+
+/* Unified light accent frame — consistent across all public and internal routes. */
+:root{
+  color-scheme:light;
+  --mghal-color-panel-tint:var(--mghal-light-accent-surface,#EAF1F8);
+  --mghal-color-panel-tint-strong:var(--mghal-light-accent-surface-strong,#E1EBF5);
+  --mghal-color-frame:var(--mghal-light-accent-border,#C9D8E8);
+  --mghal-color-frame-strong:var(--mghal-light-accent-border-strong,#AFC4DA);
+  --mghal-color-panel-shadow:var(--mghal-light-panel-shadow,0 10px 28px rgba(23,43,77,.065));
+}
+html[data-mghal-theme="light"]{
+  color-scheme:light;
+  background:var(--mghal-dark-bg);
+}
+html[data-mghal-theme="light"] body{
+  background:linear-gradient(180deg,#F8FAFD 0%,var(--mghal-dark-bg) 58%,#EEF3F8 100%)!important;
+  color:var(--mghal-dark-text)!important;
+}
+html[data-mghal-theme="light"] main :is(
+  .content-panel,.archive-card,.card,.item,.note,.sheet,.metric-card,.engineering-card,
+  .credential-card,.credential-item,.credential-tile,.credential-verification-references,
+  .credential-document-placeholder,.credential-badge-placeholder,
+  .portfolio-featured-project,.portfolio-project-card,.project-detail-hero,
+  .project-detail-cover,.project-detail-gallery figure,
+  .mghal-card,.mghal-stat,.mghal-skill-domain,.mghal-skill-note,
+  .mghal-follow-panel,.mghal-project-engagement,.mghal-home-like
+){
+  border:1px solid var(--mghal-color-frame)!important;
+  border-radius:var(--mghal-radius,14px)!important;
+  background:linear-gradient(145deg,#FFFFFF 0%,var(--mghal-color-panel-tint) 100%)!important;
+  color:var(--mghal-dark-text)!important;
+  box-shadow:var(--mghal-color-panel-shadow)!important;
+}
+html[data-mghal-theme="light"] main :is(
+  .content-panel,.archive-card,.card,.item,.note,.sheet,.metric-card,.engineering-card,
+  .credential-card,.credential-item,.credential-tile,.credential-verification-references,
+  .portfolio-featured-project,.portfolio-project-card,.project-detail-hero,
+  .mghal-card,.mghal-stat,.mghal-skill-domain,.mghal-skill-note,
+  .mghal-follow-panel,.mghal-project-engagement,.mghal-home-like
+):hover{
+  border-color:var(--mghal-color-frame-strong)!important;
+  box-shadow:0 14px 34px rgba(23,43,77,.09)!important;
+}
+html[data-mghal-theme="light"] main :is(
+  .credential-document-placeholder,.credential-badge-placeholder,
+  .portfolio-project-icon,.portfolio-archive-metrics>div,
+  .portfolio-archive-filters,.portfolio-project-stack span,
+  .project-detail-meta span,.project-detail-tags span,
+  .mghal-tags span,.mghal-status,.mghal-skill-list span
+){
+  border-color:var(--mghal-color-frame)!important;
+  background:var(--mghal-color-panel-tint)!important;
+  color:var(--mghal-brand-blue)!important;
+}
+html[data-mghal-theme="light"] main :is(h1,h2,h3,h4,.section-title){
+  color:var(--mghal-brand-navy);
+}
+html[data-mghal-theme="light"] main :is(p,li,small,.muted,.lead){
+  color:var(--mghal-dark-muted);
+}
+html[data-mghal-theme="light"] main :is(input,textarea,select){
+  border:1px solid var(--mghal-color-frame)!important;
+  border-radius:10px;
+  background:#FFFFFF!important;
+  color:var(--mghal-dark-text)!important;
+  box-shadow:inset 0 1px 2px rgba(23,43,77,.035);
+}
+html[data-mghal-theme="light"] main :is(input,textarea,select):focus-visible{
+  border-color:var(--mghal-focus-ring)!important;
+  box-shadow:0 0 0 3px rgba(49,90,133,.13)!important;
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-mghal-theme="light"] main :is(.card,.item,.note,.sheet,.metric-card,.engineering-card,.portfolio-project-card){transition:none!important}
+}
