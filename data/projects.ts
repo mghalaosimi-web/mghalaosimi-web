@@ -44,6 +44,15 @@ const localizedStatus=(status:string,locale:'ar'|'en')=>statusLabels[status]?.[l
 
 const defaultBrand={logo:'/assets/projects/logos/mghal-default.svg',primary:'#315A85',secondary:'#DCE7F2',accent:'#B69A62'};
 
+export function safeRepositoryUrl(value:string|null|undefined):string|undefined{
+ if(!value)return undefined;
+ try{const url=new URL(value);if(url.protocol!=='https:'||url.hostname!=='github.com'||url.username||url.password)return undefined;return url.toString();}catch{return undefined;}
+}
+export function safeLiveUrl(value:string|null|undefined):string|undefined{
+ if(!value)return undefined;
+ try{const url=new URL(value);if(url.protocol!=='https:'||url.username||url.password)return undefined;return url.toString();}catch{return undefined;}
+}
+
 /**
  * Merge only the public projection from Neon into the curated project catalogue.
  * If Neon is unavailable, preserve the complete Git-managed catalogue.
@@ -65,8 +74,8 @@ export function mergePublishedProjects(rows:PublicProjectRow[]|null,locale:'ar'|
    return {
     ...project,
     ...(locale==='ar'?{name,summary,status}:{nameEn:name,summaryEn:summary,statusEn:status}),
-    repository:row.repository_url||undefined,
-    liveUrl:row.live_url||undefined,
+    repository:safeRepositoryUrl(row.repository_url),
+    liveUrl:safeLiveUrl(row.live_url),
     databaseDescription:row.description||undefined,
     coverMediaId:row.cover_media_id||undefined
    };
@@ -80,9 +89,9 @@ export function mergePublishedProjects(rows:PublicProjectRow[]|null,locale:'ar'|
    slug:row.slug,name,nameEn:name,category:'other' as const,
    label:locale==='ar'?'غير مصنف':'Unclassified',labelEn:'Unclassified',
    summary,summaryEn:summary,stack:[],status,statusEn:status,
-   contribution,contributionEn:contribution,repository:row.repository_url||undefined,
+   contribution,contributionEn:contribution,repository:safeRepositoryUrl(row.repository_url),
    source:'database' as const,databaseDescription:row.description||undefined,
-   liveUrl:row.live_url||undefined,coverMediaId:row.cover_media_id||undefined,
+   liveUrl:safeLiveUrl(row.live_url),coverMediaId:row.cover_media_id||undefined,
    brand:defaultBrand
   };
  });
