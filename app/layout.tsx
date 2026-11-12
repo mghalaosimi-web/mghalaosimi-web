@@ -67,6 +67,10 @@ export default async function RootLayout({children}:{children:React.ReactNode}) 
             <a href="/labs">{isEn?'Labs':'المعامل'}</a>
             <a href="/research">{isEn?'Research':'الأبحاث'}</a>
             <a href="/credentials">{isEn?'Credentials':'الشهادات'}</a>
+            <a href="/education">{isEn?'Education':'التعليم'}</a>
+            <a href="/achievements">{isEn?'Achievements':'الإنجازات'}</a>
+            <a href="/knowledge">{isEn?'Knowledge':'المعرفة'}</a>
+            <a href="/resume">{isEn?'Résumé':'السيرة الذاتية'}</a>
             <a href="/contact">{isEn?'Contact':'التواصل'}</a>
           </nav>
           <div>
