@@ -1,8 +1,7 @@
 'use client';
-import {useMemo,useState} from 'react';
+import {useState} from 'react';
 import Link from 'next/link';
-import {projects} from '../../data/projects';
-import type {ProjectCategory} from '../../data/projects';
+import type {Project,ProjectCategory} from '../../data/projects';
 import {
   ArrowLeft,ArrowUpLeft,ArrowUpRight,Code2,FolderGit2,
   GraduationCap,Layers3,ShieldCheck,Sparkles,MapPin,Database,WifiOff
@@ -13,7 +12,7 @@ const filters:{id:'all'|ProjectCategory;label:string}[]=[
   {id:'all',label:'جميع المشاريع'},{id:'web',label:'منصات الويب'},
   {id:'enterprise',label:'الأنظمة المؤسسية'},{id:'ai',label:'الذكاء الاصطناعي'},
   {id:'cybersecurity',label:'الأمن السيبراني والتشفير'},{id:'academic',label:'المشاريع الأكاديمية'},
-  {id:'mobile',label:'تطبيقات الجوال'},{id:'desktop',label:'تطبيقات سطح المكتب'}
+  {id:'mobile',label:'تطبيقات الجوال'},{id:'desktop',label:'تطبيقات سطح المكتب'},{id:'other',label:'مشاريع غير مصنفة'}
 ];
 
 const categoryMeta={
@@ -23,15 +22,16 @@ const categoryMeta={
   cybersecurity:{label:'CYBERSECURITY',name:'الأمن السيبراني والتشفير'},
   academic:{label:'ACADEMIC SYSTEMS',name:'المشاريع الأكاديمية'},
   mobile:{label:'MOBILE APPLICATIONS',name:'تطبيقات الجوال'},
-  desktop:{label:'DESKTOP SOFTWARE',name:'تطبيقات سطح المكتب'}
+  desktop:{label:'DESKTOP SOFTWARE',name:'تطبيقات سطح المكتب'},
+  other:{label:'OTHER PROJECTS',name:'مشاريع غير مصنفة'}
 };
 
-export default function ProjectsPage(){
+export default function ProjectsPage({projects}:{projects:Project[]}){
   const [filter,setFilter]=useState<typeof filters[number]['id']>('all');
   
   const featured=projects.find(p=>p.slug==='waynah');
   const archive=projects.filter(p=>p.slug!=='waynah');
-  const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
+  const visible=archive.filter(p=>filter==='all'||p.category===filter);
   const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
   
   const repositoryCount=projects.filter(p=>p.repository).length;
