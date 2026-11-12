@@ -28,8 +28,18 @@ const routeMap: Record<string, string> = {
   '/en/certificates.html': '/credentials',
   '/skills.html': '/skills',
   '/en/skills.html': '/skills',
-  '/education.html': '/about',
-  '/en/education.html': '/about',
+  '/education.html': '/education',
+  '/en/education.html': '/education',
+  '/achievements.html': '/achievements',
+  '/en/achievements.html': '/achievements',
+  '/knowledge.html': '/knowledge',
+  '/en/knowledge.html': '/knowledge',
+  '/resume.html': '/resume',
+  '/en/resume.html': '/resume',
+  '/research.html': '/research',
+  '/en/research.html': '/research',
+  '/showcase.html': '/projects',
+  '/en/showcase.html': '/projects',
   '/contact.html': '/contact',
   '/en/contact.html': '/contact',
 };
@@ -91,6 +101,10 @@ export default function SiteSearch({ isEn }: { isEn: boolean }) {
         description: isEn ? 'Research topics and technical publications.' : 'موضوعات البحث والكتابة التقنية.',
         keywords: ['research', 'papers', 'أبحاث', 'بحث', 'نشر'],
       },
+      {title:isEn?'Education':'المسيرة التعليمية',href:'/education',description:isEn?'Information Technology academic background.':'المسار الأكاديمي في تقنية المعلومات.',keywords:['education','degree','college','تعليم','دراسة']},
+      {title:isEn?'Achievements':'الإنجازات',href:'/achievements',description:isEn?'Recorded learning and professional credentials.':'الاعتمادات والإنجازات المسجلة.',keywords:['achievements','credentials','إنجازات','اعتمادات']},
+      {title:isEn?'Knowledge':'المعرفة والمقالات',href:'/knowledge',description:isEn?'Reviewed technical articles and notes.':'مقالات وملاحظات تقنية مراجعة.',keywords:['knowledge','articles','writing','مقالات','معرفة']},
+      {title:isEn?'Résumé':'السيرة الذاتية',href:'/resume',description:isEn?'Print-ready professional curriculum vitae.':'السيرة الذاتية المهنية القابلة للطباعة.',keywords:['resume','cv','سيرة','ذاتية']},
     ];
     const indexed: SearchItem[] = (index ?? []).flatMap((record) => {
       const href = projectHref(record.title) ?? routeMap[record.url];
