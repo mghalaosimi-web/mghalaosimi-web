@@ -41,3 +41,16 @@ Only Vercel Production receives the production `DATABASE_URL`. Preview and Devel
 ## Release gate
 
 Do not remove the old production API environment variable or decommission any former host until a Vercel Production deployment has passed readiness, public API, protected API, engagement, and database read/write checks.
+
+
+---
+
+## Current release update — 2026-11-13
+
+The accumulated Phase 1 integration has been merged to GitHub `main` through PRs #17, #24, #25, #29 and #33. Current main SHA: `9e12f510554abe4d66f873d484a1d2bab3d9916f`.
+
+The Production environment now has an encrypted Production-only `DATABASE_URL`. The legacy Production `MGHAL_API_BASE` still points to the Render Node API preview hostname. The Vercel-native application runtime reads `DATABASE_URL` directly and dispatches the API inside Vercel; it does not require the external `MGHAL_API_BASE` proxy. Keep the old variable until the new Production release is live and verified, then remove it.
+
+**Production has not been cut over.** The latest Production deployment still serves commit `7de53f6becabee1dfaab4fa328d3cb9131ecebcf`. The latest READY Preview is commit `74949bfff0272b5d8ffca7d54111a88995bdcca2`, not current main. Live checks: homepage HTTP 200, `/api/health` HTTP 200 through the legacy upstream, and `/photos` HTTP 404. Vercel status checks for the new main commit are blocked by the build-rate limit and no deployment ID exists for it. Therefore no Production cutover or Render retirement may be claimed.
+
+The Production `DATABASE_URL` value was not read or disclosed. No database migration, bootstrap, secret mutation, DNS change, domain detachment, or Render service deletion was performed. Cloudflare D1 remains deleted and must not be recreated.
