@@ -186,7 +186,7 @@ Before adding these candidates, inspect their repository trees, exact screenshot
 - The achievements page derives issuer totals from the published certificate set. The current Preview branch contains 11 Cisco Networking Academy records, 6 Edraak records, and 1 OpenJS / The Linux Foundation credential.
 - The resume page already reads published education, credentials, skills, and project records on the server and retains curated fallbacks when Neon is unavailable.
 - No database rows, schemas, migrations, secrets, production settings, or production deployments were changed.
-- CI verification is running for the latest integration commits; do not mark this section release-ready until the latest branch-head workflow completes successfully.
+- Branch-head CI passed on commit e153bf649791e53b8a9aa73b3e262faf6cc3bf41 (workflow run 43283434753), including credential integrity, profile-content, legacy-HTML, PWA, API-runtime, navigation, security-header, SEO, sitemap, project-page, admin, lint, typecheck, and Next.js production build checks.
 
 ### 11. Education, achievements and résumé publication sync — 2026-11-12
 
@@ -197,3 +197,11 @@ Before adding these candidates, inspect their repository trees, exact screenshot
 - Identity/homepage copy and knowledge articles remain curated pending a separate content review; no automatic overwrite of the public identity was made from the database biography because its institution wording is still legacy.
 - Full GitHub Actions passed on commit 701c92c958c547774bca1c3c37a0036463e6fbca: API/runtime tests, credentials and profile audits, design and legacy-HTML audits, navigation/search, security headers, structured data, SEO, sitemap, project and admin tests, lint, TypeScript typecheck, and Next.js build.
 - The successful CI run is https://github.com/mghalaosimi-web/mghalaosimi-web/actions/runs/43283051875. Vercel has no deployment record for this branch head; Production DATABASE_URL remains a separate secure configuration blocker and was not changed.
+
+### 11. Preview deployment gate
+
+- The feature branch is CI-green, but a Vercel Preview deployment could not be created: Vercel returned `402 payment_required` with `api-deployments-free-per-day` and `retryAfter=86400` (the team's deployment API quota has been exceeded for the current 24-hour window).
+- The first preview creation request was rejected because the API accepts `production`, `staging`, or a custom environment as an explicit target; the corrected request omitted the target so Vercel could infer Preview from the non-production branch. That corrected request was blocked by the quota. No deployment was created by either request.
+- The Vercel project currently reports no environment variables. In particular, no Preview `DATABASE_URL` is configured for this branch, so a future preview would use the application's curated fallback until the Preview database connection is configured through the approved secure process.
+- No CLI workaround was attempted because there is no verified local checkout path available to this workflow and the platform explicitly reported a 24-hour quota restriction. No quota, billing, environment-variable, or production settings were changed.
+- Production remains untouched. The project is not release-ready until Preview deployment and its Neon connectivity are verified.
