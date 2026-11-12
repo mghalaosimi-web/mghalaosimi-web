@@ -18,25 +18,26 @@ const tokens = {
   "--mghal-brand-navy": "#172B4D",
   "--mghal-brand-blue": "#315A85",
   "--mghal-brand-gold": "#B69A62",
-  "--mghal-dark-bg": "#0B1117",
-  "--mghal-dark-surface": "#111B26",
-  "--mghal-dark-surface-raised": "#172431",
-  "--mghal-dark-text": "#EEE9DF",
-  "--mghal-dark-muted": "#AEB8BB",
-  "--mghal-dark-surface-alt": "#1D2D3C",
-  "--mghal-dark-surface-contrast": "#293F53",
-  "--mghal-dark-surface-deep": "#101922",
-  "--mghal-dark-border-cool": "rgba(174, 184, 187, .14)",
-  "--mghal-dark-muted-strong": "#82929D",
-  "--mghal-dark-text-soft": "#D5D0C6",
-  "--mghal-dark-border-soft": "rgba(182, 154, 98, .14)",
-  "--mghal-dark-border-strong": "rgba(182, 154, 98, .48)",
-  "--mghal-state-success": "#5AAB84",
-  "--mghal-state-warning": "#D0A05A",
-  "--mghal-state-danger": "#D06D6D",
-  "--mghal-state-info": "#6EA0CF",
-  "--mghal-state-disabled": "#7B8794",
-  "--mghal-shadow-raised": "0 5px 0 rgba(3, 8, 12, .62), 0 12px 24px rgba(0, 0, 0, .22), inset 0 1px rgba(255, 255, 255, .07)",
+  "--mghal-brand-gold-ink": "#806333",
+  "--mghal-dark-bg": "#F4F7FB",
+  "--mghal-dark-surface": "#FFFFFF",
+  "--mghal-dark-surface-raised": "#F8FAFD",
+  "--mghal-dark-text": "#172B4D",
+  "--mghal-dark-muted": "#52647A",
+  "--mghal-dark-surface-alt": "#EDF2F8",
+  "--mghal-dark-surface-contrast": "#E2EAF3",
+  "--mghal-dark-surface-deep": "#EEF3F8",
+  "--mghal-dark-border-cool": "rgba(23, 43, 77, .12)",
+  "--mghal-dark-muted-strong": "#64748B",
+  "--mghal-dark-text-soft": "#31445E",
+  "--mghal-dark-border-soft": "rgba(49, 90, 133, .10)",
+  "--mghal-dark-border-strong": "rgba(49, 90, 133, .34)",
+  "--mghal-state-success": "#17623D",
+  "--mghal-state-warning": "#73551D",
+  "--mghal-state-danger": "#A43131",
+  "--mghal-state-info": "#245A88",
+  "--mghal-state-disabled": "#64748B",
+  "--mghal-shadow-raised": "0 5px 0 rgba(23, 43, 77, .05), 0 12px 24px rgba(23, 43, 77, .08), inset 0 1px rgba(255, 255, 255, .85)",
   "--mghal-light-bg": "#FFFFFF",
   "--mghal-light-surface": "#F3F5F7",
   "--mghal-light-text": "#202B38",
@@ -75,9 +76,9 @@ for (const [index, style] of routeStyles.entries()) {
 assert.ok(legacyThemeCss.includes("--text:var(--mghal-dark-text)"), "Legacy dark routes must alias the shared text token.");
 assert.ok(legacyThemeCss.includes("--accent:var(--mghal-brand-blue)"), "Legacy dark routes must alias the shared brand accent.");
 assert.ok(legacyThemeCss.includes("background:var(--mghal-dark-bg)!important"), "Legacy dark routes must use the shared dark background.");
-assert.ok(layout.includes('data-mghal-theme="dark"'), "Next.js must declare its dark theme for shared components.");
+assert.ok(layout.includes('data-mghal-theme="light"'), "Next.js must declare its light theme for shared components.");
 assert.ok(engagementCss.includes("var(--mghal-state-success)") && engagementCss.includes("var(--mghal-state-danger)"), "Follow/reaction feedback must use semantic state tokens.");
-assert.ok(engagementCss.includes('html[data-mghal-theme="dark"] .mghal-follow-panel'), "Social engagement must render a dark token variant inside the Next.js shell.");
+assert.ok(engagementCss.includes('html[data-mghal-theme="light"] .mghal-follow-panel'), "Social engagement must render a light token variant inside the Next.js shell.");
 assert.ok(adminCss.includes("--success:var(--mghal-state-success)") && adminCss.includes("--danger:var(--mghal-state-danger)"), "The owner portal must use shared semantic states.");
 assert.ok(adminPage.includes("import './admin.css'"), "The React owner portal must load its scoped stylesheet.");
 assert.ok(layout.includes('href="/assets/design-tokens.css"'), "The owner portal must inherit shared tokens from the Next.js shell.");
@@ -96,7 +97,7 @@ function luminance(hex){
   return 0.2126*channel(rgb[0])+0.7152*channel(rgb[1])+0.0722*channel(rgb[2]);
 }
 function contrast(foreground,background){const values=[luminance(foreground),luminance(background)].sort((a,b)=>b-a);return (values[0]+0.05)/(values[1]+0.05)}
-const accessibleTextTokens=["--mghal-dark-text","--mghal-dark-muted","--mghal-brand-gold","--mghal-focus-ring"];
+const accessibleTextTokens=["--mghal-dark-text","--mghal-dark-muted","--mghal-brand-gold-ink","--mghal-focus-ring"];
 const darkSurfaceTokens=["--mghal-dark-bg","--mghal-dark-surface","--mghal-dark-surface-raised","--mghal-dark-surface-alt"];
 for(const foreground of accessibleTextTokens){
   for(const background of darkSurfaceTokens){
