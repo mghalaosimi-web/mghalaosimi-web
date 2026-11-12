@@ -70,6 +70,7 @@ async function resolveProject(slug:string,locale:Locale):Promise<ProjectRecord|n
   repository:safeRepositoryUrl(row.repository_url)??null,
   liveUrl:safeLiveUrl(row.live_url),
   coverMediaId:row.cover_media_id||undefined,
+  databaseDescription:row.description||undefined,
   ...(row.cover_media_id?{cover:'/api/public/media/'+encodeURIComponent(row.cover_media_id)}:{})
  };
 }
