@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import {projects} from '../../data/projects';
+import {projects as curatedProjects} from '../../data/projects';
+import type {Project} from '../../data/projects';
 import PrintButton from './PrintButton';
 import type {PublicEducationRow,PublicCertificateRow} from '../../lib/public-content';
 import './content-pages.css';
@@ -21,15 +22,27 @@ const copy={
  }
 };
 const skills=[['Languages','JavaScript · TypeScript · Python · C# · Dart'],['Frontend','React · Next.js · HTML · CSS · Tailwind CSS'],['Backend & data','Node.js · REST APIs · PostgreSQL · SQLite · Prisma'],['Platforms & tools','Git · GitHub · Docker Compose · Vercel · Firebase · Supabase · Flutter']];
-export default function ContentPages({kind,locale,educationRows=null,credentialRows=null}:{kind:PageKind;locale:Locale;educationRows?:PublicEducationRow[]|null;credentialRows?:PublicCertificateRow[]|null}){
+export default function ContentPages({kind,locale,educationRows=null,credentialRows=null,skillRows=null,projectRows=null}:{kind:PageKind;locale:Locale;educationRows?:PublicEducationRow[]|null;credentialRows?:PublicCertificateRow[]|null;skillRows?:PublicSkillRow[]|null;projectRows?:Project[]|null}){
  const en=locale==='en';
- const selected=projects.filter(p=>['waynah','mghal-content-os','mghal-digital-os','abdulmalik-store-management','abdulmalik-store-pro','debwan-live','ciphersphere'].includes(p.slug));
+ const selected=(projectRows??curatedProjects).filter(p=>['waynah','mghal-content-os','mghal-digital-os','abdulmalik-store-management','debwan-live','ciphersphere'].includes(p.slug));
  if(kind==='resume'){
   const c=copy[locale].resume;
+  const resumeSkills=skillRows===null?skills:[
+   ['Programming',skillRows.filter(row=>row.category==='Programming').map(row=>row.name).join(' · ')],
+   ['Frontend & backend',skillRows.filter(row=>['Frontend','Backend','Mobile'].includes(row.category)).map(row=>row.name).join(' · ')],
+   ['Data & databases',skillRows.filter(row=>row.category==='Database').map(row=>row.name).join(' · ')],
+   ['Platforms & tools',skillRows.filter(row=>['Deployment','DevOps','Tools'].includes(row.category)).map(row=>row.name).join(' · ')],
+   ['Other',skillRows.filter(row=>!['Programming','Frontend','Backend','Mobile','Database','Deployment','DevOps','Tools'].includes(row.category)).map(row=>row.name).join(' · ')]
+  ].filter(([,value])=>Boolean(value));
+  const educationRow=educationRows?.[0];
+  const institution=educationRow?.id==='almanar-it-bachelor'?(en?'Al-Manar College for Science and Technology':'كلية المنار للعلوم والتكنولوجيا'):educationRow?.institution;
+  const educationText=educationRows===null?c.education:educationRow?`${en?educationRow.degree:(educationRow.degree==="Bachelor's Degree"?'درجة البكالوريوس':educationRow.degree)} — ${en?(educationRow.status==='in_progress'?'In progress':educationRow.status):educationRow.status==='in_progress'?'قيد الدراسة':educationRow.status} · ${institution} · ${en?educationRow.field_of_study:(educationRow.field_of_study==='Information Technology'?'تقنية المعلومات':educationRow.field_of_study)}`:(en?'No published education record.':'لا يوجد سجل تعليمي منشور.');
+  const issuerCounts=credentialRows===null?null:Array.from(new Set(credentialRows.map(row=>row.issuer))).map(issuer=>({issuer,count:credentialRows.filter(row=>row.issuer===issuer).length}));
+  const credentialText=issuerCounts===null?c.credentials:credentialRows?.length?`${credentialRows.length} ${en?'published credentials':'اعتماداً منشوراً'}: ${issuerCounts.map(item=>`${item.issuer} (${item.count})`).join('، ')}`:(en?'No published credentials.':'لا توجد اعتمادات منشورة.');
   return <main className="mghal-document resume-document" dir={en?'ltr':'rtl'}>
    <header className="document-heading"><span>{c.eyebrow}</span><h1>{c.title}</h1><h2>{c.role}</h2><p>{c.intro}</p><PrintButton label={c.print}/></header>
    <div className="resume-grid">
-    <section><h2>{c.skillsTitle}</h2>{skills.map(([label,value])=><article className="document-item" key={label}><h3>{label}</h3><p>{value}</p></article>)}<h2>{c.educationTitle}</h2><article className="document-item"><p>{c.education}</p></article><h2>{c.credentialsTitle}</h2><article className="document-item"><p>{c.credentials}</p><Link href={(en?'/en':'')+'/credentials'}>{en?'View credential records':'عرض سجل الشهادات'} ↗</Link></article></section>
+    <section><h2>{c.skillsTitle}</h2>{resumeSkills.map(([label,value])=><article className="document-item" key={label}><h3>{label}</h3><p>{value}</p></article>)}<h2>{c.educationTitle}</h2><article className="document-item"><p>{educationText}</p></article><h2>{c.credentialsTitle}</h2><article className="document-item"><p>{credentialText}</p><Link href={(en?'/en':'')+'/credentials'}>{en?'View credential records':'عرض سجل الشهادات'} ↗</Link></article></section>
     <section><h2>{c.projectsTitle}</h2>{selected.map(p=><article className="document-item" key={p.slug}><h3>{en?p.nameEn:p.name}</h3><p>{en?p.summaryEn:p.summary}</p><small>{p.stack.join(' · ')}</small><Link href={(en?'/en':'')+'/projects/'+p.slug}>{en?'Project profile':'صفحة المشروع'} ↗</Link></article>)}<h2>{c.interestsTitle}</h2><ul>{c.interests.map(item=><li key={item}>{item}</li>)}</ul><h2>{c.linksTitle}</h2><ul><li><a href="https://github.com/mghalaosimi-web">GitHub</a></li><li><a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/">LinkedIn</a></li><li><a href="https://orcid.org/0009-0000-6007-3170">ORCID</a></li><li><a href="mailto:m.gh.alaosimi@gmail.com">Email</a></li></ul></section>
    </div>
    <footer className="document-footer"><Link href={en?'/en':'/'}>{en?'Home':'الرئيسية'}</Link><span>M.GH.AL · {en?'Mohammed Ghaleb Alaosimi':'محمد غالب العصيمي'}</span></footer>
