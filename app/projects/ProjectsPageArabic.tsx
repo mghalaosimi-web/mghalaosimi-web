@@ -1,10 +1,11 @@
 'use client';
-import {useEffect,useMemo,useState} from 'react';
+import {useMemo,useState} from 'react';
 import Link from 'next/link';
-import {projects,Project,ProjectCategory} from '../../data/projects';
+import {projects} from '../../data/projects';
+import type {ProjectCategory} from '../../data/projects';
 import {
   ArrowLeft,ArrowUpLeft,ArrowUpRight,Code2,FolderGit2,
-  GraduationCap,Layers3,ShieldCheck,X,ExternalLink,Terminal,GitBranch,FileText,ArrowUpRight as ArrowRightIcon,Sparkles,MapPin,Database,WifiOff
+  GraduationCap,Layers3,ShieldCheck,Sparkles,MapPin,Database,WifiOff
 } from 'lucide-react';
 import './projects.css';
 
@@ -27,8 +28,6 @@ const categoryMeta={
 
 export default function ProjectsPage(){
   const [filter,setFilter]=useState<typeof filters[number]['id']>('all');
-  const [selectedProject,setSelectedProject]=useState<Project|null>(null);
-  useEffect(()=>{if(!selectedProject)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape')setSelectedProject(null)};window.addEventListener('keydown',onKeyDown);return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKeyDown)}},[selectedProject]);
   
   const featured=projects.find(p=>p.slug==='waynah');
   const archive=projects.filter(p=>p.slug!=='waynah');
@@ -80,7 +79,7 @@ export default function ProjectsPage(){
         <div className="portfolio-featured-tags">{featured.stack.slice(0,4).map(item=><span key={item}>{item}</span>)}</div>
         <div className="portfolio-featured-footer">
           <span>PROJECT CONTRIBUTION<br/><b>M.GH.AL / TEAM CONTRIBUTOR</b></span>
-          <button type="button" onClick={()=>setSelectedProject(featured)}>استكشف المشروع <ArrowUpLeft size={17}/></button>
+          <Link href="/projects/waynah" className="portfolio-archive-explore">استكشف المشروع <ArrowUpLeft size={17}/></Link>
         </div>
       </div>
     </section>}
@@ -118,7 +117,6 @@ export default function ProjectsPage(){
       <div className="portfolio-archive-grid">
         {visible.map((p,i)=>{
           const meta=categoryMeta[p.category];
-          const Icon=meta.Icon;
           return <Link href={'/projects/'+p.slug} className="portfolio-project-card" key={p.slug} aria-label={'عرض تفاصيل '+p.name} style={{'--project-primary':p.brand.primary} as React.CSSProperties}>
             <div className="portfolio-project-card-top"><span className="portfolio-project-icon"><img src={p.brand.logo} alt="" loading="lazy"/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div>
             <div className="portfolio-project-status"><i/>{p.status}</div>
@@ -139,46 +137,6 @@ export default function ProjectsPage(){
       <p>كل مشروع خطوة في مسار هندسي يتطور بالتصميم والتجربة والتحسين.</p>
     </section>
 
-    {selectedProject&&<div className="project-modal-backdrop" role="presentation" onMouseDown={event=>{if(event.target===event.currentTarget)setSelectedProject(null)}}>
-      <section className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" dir="rtl">
-        <header className="project-modal-header">
-          <div className="project-modal-brand"><span className="project-modal-brand-icon"><Layers3 size={21}/></span><span><small>M.GH.AL / PROJECT PROFILE</small><b>ملف المشروع الهندسي</b></span></div>
-          <button type="button" className="project-modal-close" onClick={()=>setSelectedProject(null)} aria-label="إغلاق النافذة"><X size={19}/></button>
-        </header>
-        <div className="project-modal-content">
-          <div className="project-modal-hero">
-            <div className="project-modal-symbol"><ShieldCheck size={37} strokeWidth={1.3}/><span>ENGINEERED<br/>PROJECT</span></div>
-            <div className="project-modal-heading">
-              <span className="project-modal-category">{categoryMeta[selectedProject.category].label}</span>
-              <div className="project-modal-status"><i/>{selectedProject.status}</div>
-              <h2 id="project-modal-title">{selectedProject.name}</h2>
-              <h3>{selectedProject.label}</h3>
-            </div>
-          </div>
-          <section className="project-modal-section">
-            <div className="project-modal-section-title"><FileText size={16}/><h4>نبذة عن المشروع</h4><span>01 / OVERVIEW</span></div>
-            <p className="project-modal-description">{selectedProject.summary}</p>
-          </section>
-          <div className="project-modal-detail-grid">
-            <section className="project-modal-section project-modal-contribution">
-              <div className="project-modal-section-title"><Terminal size={16}/><h4>المساهمة والدور الهندسي</h4><span>02 / ROLE</span></div>
-              <p>{selectedProject.contribution}</p>
-            </section>
-            <section className="project-modal-section">
-              <div className="project-modal-section-title"><Code2 size={16}/><h4>التقنيات والمكونات</h4><span>03 / STACK</span></div>
-              <div className="project-modal-tech">{selectedProject.stack.map(item=><span key={item}>{item}</span>)}</div>
-            </section>
-          </div>
-          <footer className="project-modal-footer">
-            <span className="project-modal-reference"><GitBranch size={14}/> PROJECT REF / {selectedProject.slug.toUpperCase()}</span>
-            <div className="project-modal-actions">
-              {selectedProject.repository&&<a href={selectedProject.repository} target="_blank" rel="noreferrer"><FolderGit2 size={15}/> المستودع البرمجي <ExternalLink size={13}/></a>}
-              <Link href={'/projects/'+selectedProject.slug}>صفحة المشروع <ArrowRightIcon size={15}/></Link>
-              <button type="button" className="project-modal-done" onClick={()=>setSelectedProject(null)}>إغلاق الملف</button>
-            </div>
-          </footer>
-        </div>
-      </section>
-    </div>}
+
   </main>;
 }
