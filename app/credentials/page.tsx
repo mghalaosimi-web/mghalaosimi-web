@@ -121,9 +121,9 @@ function CredentialCard({credential,index,en}:{credential:Credential;index:numbe
           <span>{credential.file?'PDF / IMAGE':'ISSUER RECORD'}</span>
         </div>
         <div className="certificate-document-preview">
-          {credential.preview
-            ? <Image src={credential.preview.startsWith('https://')?credential.preview:'/assets/certificates/'+credential.preview} alt={(en?'Preview: ':'معاينة: ')+(en?credential.nameEn:credential.name)} width={720} height={520} loading="lazy" unoptimized className="credential-preview-image"/>
-            : <div className="credential-document-placeholder"><Award/><b>{credential.provider==='Cisco'?'CISCO':credential.provider==='Edraak'?'EDRAAK':'OpenJS'}</b><small>{credential.provider==='OpenJS'?'JSNAD':'DIGITAL CREDENTIAL'}</small></div>}
+          {(credential.preview||credential.badgeImage)
+            ? <Image src={(credential.preview||credential.badgeImage)!.startsWith('https://')?(credential.preview||credential.badgeImage)!:'/assets/certificates/'+(credential.preview||credential.badgeImage)!} alt={(en?'Preview: ':'معاينة: ')+(en?credential.nameEn:credential.name)} width={720} height={520} sizes="(max-width: 768px) 100vw, 50vw" quality={75} loading="lazy" unoptimized={(credential.preview||credential.badgeImage)!.startsWith('https://')} className="credential-preview-image"/>
+            : <div className="credential-document-placeholder"><Award/><b>{credential.provider==='Cisco'?'CISCO':credential.provider==='Edraak'?'EDRAAK':credential.provider==='OpenJS'?'OpenJS':'EMC شِراع'}</b><small>{credential.provider==='OpenJS'?'JSNAD':credential.provider==='EMC'?'SHIRAA 2026':'DIGITAL CREDENTIAL'}</small></div>}
         </div>
         <div className="certificate-actions">
           {credential.file&&<a href={credential.file.startsWith('https://')?credential.file:'/assets/certificates/'+credential.file} target="_blank" rel="noopener noreferrer">{en?'Open original PDF':'فتح ملف PDF الأصلي'} ↗</a>}
