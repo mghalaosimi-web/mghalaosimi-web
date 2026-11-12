@@ -44,7 +44,7 @@ All Cisco records now have a visual asset: full certificate previews where avail
 
 ### OpenJS
 
-- OpenJS Node.js Application Developer (JSNAD) — no certificate image is linked yet. The PNG `1785613862401.png` is not confidently identified as the JSNAD certificate, so the page uses the OpenJS issuer placeholder rather than misrepresenting it.
+- OpenJS Node.js Application Developer (JSNAD) — `1785613862401.png` is linked as the JSNAD preview based on the credential owner's explicit confirmation in this conversation. This is a user-confirmed asset match, not an independent visual/authenticity determination by the audit. The official Linux Foundation verification portal is linked; verification requires entering the family name and credential ID.
 
 ### EMC Shiraa 2026
 
@@ -78,7 +78,7 @@ The following records currently have no confidently matched PDF in the uploaded 
 2. UX Research (Edraak)
 3. Operating Systems Support (Cisco)
 4. English for IT 1 (Cisco)
-5. OpenJS Node.js Application Developer (JSNAD)
+5. OpenJS Node.js Application Developer (JSNAD) — no matched PDF supplied; the credential record and user-confirmed preview image are present.
 
 ## Unassigned or alternate files — do not auto-link
 
@@ -94,4 +94,4 @@ The following records currently have no confidently matched PDF in the uploaded 
 
 Certificate cards use lazy-loaded images. Local previews are served through Next.js image optimization at quality 75; remote Credly badge and the WS05 preview are loaded unoptimized from their source URLs. This keeps local full-size certificate screenshots out of the initial eager-loading path.
 
-The update is on the working feature branch only. It has not been merged or deployed to Production. This report deliberately preserves unresolved assets instead of guessing their credential associations.
+The JSNAD preview association is based on the credential owner's explicit confirmation; issuer-side verification remains available through the official Linux Foundation portal and is not represented as completed by this repository update. The update is on the working feature branch only. It has not been merged or deployed to Production. Other unresolved assets remain unassigned rather than guessed.
