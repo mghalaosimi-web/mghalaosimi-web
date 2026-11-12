@@ -107,7 +107,8 @@ export default function SiteSearch({ isEn }: { isEn: boolean }) {
       {title:isEn?'Résumé':'السيرة الذاتية',href:'/resume',description:isEn?'Print-ready professional curriculum vitae.':'السيرة الذاتية المهنية القابلة للطباعة.',keywords:['resume','cv','سيرة','ذاتية']},
     ];
     const indexed: SearchItem[] = (index ?? []).flatMap((record) => {
-      const href = projectHref(record.title) ?? routeMap[record.url];
+      const projectRoute = record.url.match(/^\\/(?:en\\/)?projects\\/([a-z0-9-]+)\\/?$/i);
+      const href = projectHref(record.title) ?? (projectRoute ? '/projects/' + projectRoute[1] : routeMap[record.url]);
       return href ? [{
         title: record.title,
         href,
