@@ -1,7 +1,7 @@
 import type {MetadataRoute} from 'next';
 import catalog from '../public/assets/projects/catalog.json';
 
-const origin=catalog.siteOrigin.replace(/\\/$/,'');
+const origin=catalog.siteOrigin.replace(/\/$/,'');
 const routes=['/','/about','/projects','/skills','/labs','/research','/credentials','/education','/achievements','/knowledge','/resume','/contact'];
 export default function sitemap():MetadataRoute.Sitemap{
  const lastModified=new Date(catalog.reviewedAt);
