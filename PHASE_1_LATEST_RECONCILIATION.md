@@ -283,3 +283,18 @@ A read-only Production query found that the public credentials page and the Neon
 - The three newest Cisco records shown publicly (Data Science Essentials With Python, Endpoint Security, IT Support Specialist Career Path) are not present by exact title in the CMS table.
 
 No Production database writes were performed. This is a content reconciliation blocker for the admin CMS, not a failure of the public static credentials page. Do not create/update/delete production certificate rows until the three placeholder mappings and five EMC workshop records are reviewed and explicit approval for the content sync is received.
+
+### Remaining open PR classification — refreshed 2026-11-13
+
+This is a file-level classification against current `main`, not an instruction to merge old branches wholesale.
+
+| PR | Branch content | Current disposition |
+|---|---|---|
+| #21 | 21 legacy static HTML/CSS files plus `assets/brand-page-extras.css` | Superseded by the later #22 design pass. It targets the old static-page tree and should not be merged into the current Next.js application. |
+| #22 | 26 legacy static-page files, `assets/brand-page-extras.css`, and `assets/projects/mghal-website.svg` | Preserve the unique CSS/SVG assets for archival/reference. The CSS defines a dark cyan visual system (`#62d8ef`) and targets old static selectors, which conflicts with the approved light navy/blue/white/gold system and current App Router components. Do not port wholesale. |
+| #26 | Project-page generator/integrity fixes, rate-limit configuration, CI wiring, one historical audit report, and Worker-specific changes | The safe current-runtime changes are already present on `main`: generator/tests use `public/`, the project-page test runs in build, and `RATE_LIMIT_PER_MINUTE` is wired through the Node adapter/API handler. Do not reintroduce its Worker-only changes. Keep the unique historical comparison report for reference; PR #26 itself is based on an obsolete feature branch. |
+| #15 | Anonymous follower/reaction UI, visitor tracking, and Worker-era API changes | The active social assets are already present under `public/assets/`; the shared API handler contains the public follower/reaction/event routes, and live aggregate read endpoints returned HTTP 200. The old PR branch is not needed for these features. |
+| #16 | Google follower linking UI, Worker-era migration and API changes | The current shared API handler and PostgreSQL migration artifact already contain the Google linking flow/schema. Production has the identity tables, but Google auth config is disabled (`enabled: false`) and OAuth credentials/flows are not verified. No old Worker migration should be merged or applied. |
+| #14 | Isolated Cloudflare Workers AI provider adapter and tests | The provider class and tests exist in the repository, but code search found no application route/UI integration. It is not part of the current release. Keep isolated until the AI product/provider architecture is explicitly selected; it must not introduce a Worker/D1 runtime dependency. |
+
+No PRs were merged or closed during this classification. Their branches and history remain available. The current Phase 1 release line remains PR #34, based directly on `main`.
