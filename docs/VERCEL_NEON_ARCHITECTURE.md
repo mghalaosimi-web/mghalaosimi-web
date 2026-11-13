@@ -54,3 +54,45 @@ The Production environment now has an encrypted Production-only `DATABASE_URL`. 
 **Production has not been cut over.** The latest Production deployment still serves commit `7de53f6becabee1dfaab4fa328d3cb9131ecebcf`. The latest READY Preview is commit `74949bfff0272b5d8ffca7d54111a88995bdcca2`, not current main. Live checks: homepage HTTP 200, `/api/health` HTTP 200 through the legacy upstream, and `/photos` HTTP 404. Vercel status checks for the new main commit are blocked by the build-rate limit and no deployment ID exists for it. Therefore no Production cutover or Render retirement may be claimed.
 
 The Production `DATABASE_URL` value was not read or disclosed. No database migration, bootstrap, secret mutation, DNS change, domain detachment, or Render service deletion was performed. Cloudflare D1 remains deleted and must not be recreated.
+
+
+---
+
+## Production cutover verification — 2026-11-13 (authoritative update)
+
+This section supersedes the earlier 2026-11-12 and 2026-11-13 statements above that described Production as still serving the legacy Render proxy.
+
+### Verified deployment
+
+- Vercel Production deployment: `dpl_8JvcKQp7uVzR6hkJpUbbm9QbFjqs`
+- Deployment state: `READY`
+- Git branch: `main`
+- Deployed commit: `a283323dd63107e510e780f1f1d1265e4d1c719b`
+- Official alias: `https://mghalaosimi-web.vercel.app`
+
+The deployed source contains the Next.js catch-all API Route Handler and `lib/mghal-api-runtime.mjs`. The runtime creates a PostgreSQL pool from the server-side `DATABASE_URL`, wraps it with `PgPreparedDatabase`, and invokes the shared API handler in-process. GitHub code search for `MGHAL_API_BASE` on the default branch returned documentation-only matches; the application runtime does not read or proxy through that variable.
+
+### Live Production evidence (read-only)
+
+Checked against the official alias on 2026-11-13:
+
+| Route | HTTP | Result |
+|---|---:|---|
+| `/api/ready` | 200 | `ready`, database `connected` |
+| `/api/health` | 200 | `ok`, database `connected` |
+| `/api/public/projects` | 200 | Public project records returned |
+| `/api/public/followers/count` | 200 | Aggregate follower/guest counts returned |
+| `/api/public/site-reactions` | 200 | Aggregate reaction state returned |
+| `/api/admin/bootstrap/status` | 200 | `ownerExists: true`; no bootstrap write performed |
+
+The `/api/ready` handler runs `SELECT 1 AS ok` through the Vercel-native PostgreSQL pool. Together with the live public API reads, this confirms that the Production API is executing inside Vercel and reaching the configured PostgreSQL database directly. No connection string or secret value was read or disclosed.
+
+### Remaining infrastructure cleanup
+
+- Production has an encrypted `DATABASE_URL` scoped to the Production target.
+- The old plain `MGHAL_API_BASE` environment variable still exists and points to the Render preview hostname, but it is not referenced by the current application runtime. It is now a stale configuration item, not an active request dependency.
+- The available Vercel integration in this session does not expose an environment-variable deletion action. Do not overwrite it with an empty value. Remove it later through Vercel Project Settings after an authorized operator confirms the exact variable.
+- Render services have not been deleted or suspended. Retire them only after the remaining authenticated/admin and engagement workflows, rollback window, and any external consumers have been reviewed.
+- No Production write test, Neon migration, bootstrap, credential rotation, or Render deletion was performed. `/api/admin/bootstrap/status` is read-only.
+
+**Disposition:** Vercel-native Production API → Neon connectivity is verified. The overall Phase 1 remains open for authenticated/RBAC and write-path verification, safe stale-variable removal, Render retirement, and final browser/mobile/SEO checks.
