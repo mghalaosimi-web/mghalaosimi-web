@@ -122,3 +122,9 @@ This section supersedes the earlier publication-status statements in this report
 - Duplicate and alternate source files listed above remain unassigned. No credential count was inflated by duplicates.
 
 No Production database, migration, environment secret, DNS, or hosting configuration was changed as part of this reconciliation.
+
+## Neon CMS inventory cross-check — 2026-11-13
+
+A read-only aggregate/content-title check against Neon Production (`mghal_portfolio`, branch `main`) found a separate CMS inventory mismatch. The public credentials page currently has 26 display records (14 Cisco, 6 Edraak, 1 JSNAD, 5 EMC Shiraa). The Neon `certificates` table has 21 rows: 11 published Cisco, 6 published Edraak, 1 published JSNAD, and 3 unpublished generic Cisco placeholders named “سجل اعتماد إضافي 12/13/14”. It contains no EMC Shiraa rows. The three latest Cisco public records (Data Science Essentials With Python, Endpoint Security, IT Support Specialist Career Path) are not represented by their exact titles in the CMS table.
+
+No database writes were made. Do not publish, delete, or overwrite these rows automatically. Before syncing the CMS, prepare a reviewed mapping for the three Cisco placeholders and the five EMC workshop records, then obtain explicit approval for the Production content writes. The public static credential page and the Neon admin CMS currently do not represent the same credential inventory.
