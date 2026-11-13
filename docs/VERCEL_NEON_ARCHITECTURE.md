@@ -96,3 +96,9 @@ The `/api/ready` handler runs `SELECT 1 AS ok` through the Vercel-native Postgre
 - No Production write test, Neon migration, bootstrap, credential rotation, or Render deletion was performed. `/api/admin/bootstrap/status` is read-only.
 
 **Disposition:** Vercel-native Production API → Neon connectivity is verified. The overall Phase 1 remains open for authenticated/RBAC and write-path verification, safe stale-variable removal, Render retirement, and final browser/mobile/SEO checks.
+
+### Neon migration-ledger reconciliation
+
+A read-only Neon comparison on 2026-11-13 confirmed that both Production `main` and the isolated Preview branch contain `follower_identities`, `follower_identity_sessions`, and `oauth_transactions`. Production's `_mghal_migrations` ledger records 0001–0005; Preview additionally records `0006_google_follower_identity`. The schema diff between branches contained only ACL/default-privilege differences, not missing Google identity tables or columns. Production migration 0006 was **not** run. The migration is additive/idempotent and intended to reconcile the ledger, but any Production ledger/schema write still requires explicit approval.
+
+The live `GET /api/public/auth/google/config` endpoint returns `enabled: false`. Google OAuth start/callback was not exercised, and OAuth credentials were not inspected or changed.
