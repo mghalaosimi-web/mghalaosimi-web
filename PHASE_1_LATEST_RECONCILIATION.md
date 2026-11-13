@@ -272,3 +272,14 @@ The deployed Next.js API route invokes `lib/mghal-api-runtime.mjs`, which reads 
 - Read-only Neon schema comparison found no identity table/column/index/constraint delta; the reported difference was limited to ACL/default-privilege entries.
 - Production migration 0006 was not applied. It is intended to reconcile the existing schema and ledger; do not run it on Production without explicit approval.
 - Live `GET /api/public/auth/google/config` returns `enabled: false`. Google OAuth start/callback, Google credential validity, and end-to-end account linking remain unverified.
+
+### Production credential CMS reconciliation — 2026-11-13
+
+A read-only Production query found that the public credentials page and the Neon admin CMS are not yet synchronized:
+
+- Public page: 26 display records — 14 Cisco, 6 Edraak, 1 JSNAD, 5 EMC Shiraa.
+- Neon `certificates` table: 21 rows — 11 published Cisco, 6 published Edraak, 1 published JSNAD, and 3 unpublished generic Cisco placeholders (“سجل اعتماد إضافي 12/13/14”).
+- No EMC Shiraa records exist in the Neon certificates table.
+- The three newest Cisco records shown publicly (Data Science Essentials With Python, Endpoint Security, IT Support Specialist Career Path) are not present by exact title in the CMS table.
+
+No Production database writes were performed. This is a content reconciliation blocker for the admin CMS, not a failure of the public static credentials page. Do not create/update/delete production certificate rows until the three placeholder mappings and five EMC workshop records are reviewed and explicit approval for the content sync is received.
