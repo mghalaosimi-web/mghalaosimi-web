@@ -7,7 +7,7 @@ const digest = async (value: string) => {
   return [...new Uint8Array(bytes)].map((part) => part.toString(16).padStart(2, "0")).join("");
 };
 
-function fakeDb(bootstrapHash = "", adminUserCount = 0, mediaRecord: { blob_data: Uint8Array; mime_type: string } | null = null, publishedCertificateReference = true) {
+function fakeDb(bootstrapHash = "", adminUserCount = 0, mediaRecord: { blob_data: Uint8Array; mime_type: string } | null = null, publishedCertificateReference = true, publishedImageReference = true) {
   return {
     prepare(sql: string) {
       return {
@@ -22,6 +22,7 @@ function fakeDb(bootstrapHash = "", adminUserCount = 0, mediaRecord: { blob_data
               if (sql.includes("SELECT 1 AS ok")) return { ok: 1 };
               if (sql.includes("SELECT m.blob_data,m.mime_type FROM media")) {
                 if (mediaRecord?.mime_type === "application/pdf" && !publishedCertificateReference) return null;
+                if (mediaRecord?.mime_type?.startsWith("image/") && !publishedImageReference) return null;
                 return mediaRecord;
               }
               return null;
@@ -474,6 +475,14 @@ describe("Vercel API handler security contract", () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("Content-Type")).toBe("image/png");
     expect(new Uint8Array(await response.arrayBuffer())).toEqual(bytes);
+  });
+
+  it("does not expose an image that is not referenced by published content", async () => {
+    const response = await apiHandler.fetch(new Request("https://api.example.test/api/public/media/unlinked-image"), {
+      DB: fakeDb("", 0, { blob_data: new Uint8Array([137, 80, 78, 71]), mime_type: "image/png" }, true, false),
+    } as never);
+    expect(response.status).toBe(404);
+    expect(await response.json()).toMatchObject({ error: { code: "MEDIA_NOT_FOUND" } });
   });
 
 
