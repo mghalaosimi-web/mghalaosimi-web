@@ -264,3 +264,11 @@ The deployed Next.js API route invokes `lib/mghal-api-runtime.mjs`, which reads 
 4. Review Render service inventory and external consumers, then retire only the M.GH.AL services with an explicit rollback plan.
 5. Complete final browser/mobile, bilingual, image-loading, canonical, sitemap, robots, and accessibility checks on the official Production alias.
 6. Publish the final Phase 1 closure report with exact SHA, deployment ID, and evidence.
+
+### Neon identity schema and OAuth status
+
+- Production and Preview both contain `follower_identities`, `follower_identity_sessions`, and `oauth_transactions`.
+- Production migration ledger: 0001–0005. Preview ledger: 0001–0006.
+- Read-only Neon schema comparison found no identity table/column/index/constraint delta; the reported difference was limited to ACL/default-privilege entries.
+- Production migration 0006 was not applied. It is intended to reconcile the existing schema and ledger; do not run it on Production without explicit approval.
+- Live `GET /api/public/auth/google/config` returns `enabled: false`. Google OAuth start/callback, Google credential validity, and end-to-end account linking remain unverified.
