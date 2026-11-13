@@ -324,3 +324,7 @@ No older PR in this table was merged or closed. Their branch histories remain pr
 ### Main-branch Render auto-deploy guard
 
 The live Render static service `mghal-official` has `autoDeploy=yes`, tracks GitHub `main`, and currently publishes `https://mghal-official.onrender.com`. Merging PR #34 into `main` would therefore also trigger a Render mirror deployment unless that service is first disabled or retired. This conflicts with the Vercel-only hosting decision and the one-official-domain policy. The connected Render tools expose no service-settings update or delete action, so this setting was not changed. Before merging #34, disable auto-deploy or delete this specific Render service in its dashboard; do not touch other projects' services.
+
+### Official Production smoke test — 2026-11-13
+
+Fresh read-only HTTP checks against `https://mghalaosimi-web.vercel.app` returned HTTP 200 for: `/`, `/photos`, `/credentials`, `/research`, `/showcase.html`, `/projects/waynah`, `/en/projects/waynah`, `/manifest.json`, `/sw.js`, `/sitemap.xml`, `/robots.txt`, and `/api/ready`. The API readiness body was `{"status":"ready","database":"connected"}`. This is a route smoke test, not a substitute for interactive browser, mobile, authenticated-admin, or write-path testing.
