@@ -312,3 +312,11 @@ No PRs were merged or closed during this classification. Their branches and hist
 | #4 | Earlier four-file static credential/profile gallery edit with no new image assets. The later #29 photo archive and current credentials page supersede this work. |
 
 No older PR in this table was merged or closed. Their branch histories remain preserved; the active Phase 1 release candidate remains PR #34.
+
+### Render retirement inventory — read-only refresh 2026-11-13
+
+- The connected Render workspace currently lists 19 services in total; 15 are M.GH.AL website/preview-era services. Other resources belong to separate projects and are excluded from this retirement scope.
+- `mghal-official` is still a live public static-site service tracking `main`; its latest live deploy is commit `649aadb3`. It is a Render subdomain, not the official Vercel alias.
+- The latest three listed deploys for `mghal-final-web`, `mghal-node-api-preview`, and `mghal-final-site` are `build_failed`; these are not the current Production request path.
+- The workspace's only Render PostgreSQL instance belongs to the separate Debwan project. No M.GH.AL Render PostgreSQL database was found; M.GH.AL's configured application database is Neon.
+- The Render connector exposes service inspection and deploy history but no service deletion/suspension action. No Render service was stopped, suspended, or deleted. Retire the 15 M.GH.AL services through the Render dashboard only after confirming that no external consumer relies on their onrender.com URLs; do not touch Debwan, the Digital OS project, or the scheduling-system services.
