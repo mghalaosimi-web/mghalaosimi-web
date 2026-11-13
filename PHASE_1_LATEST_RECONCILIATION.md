@@ -221,3 +221,46 @@ Current `main` is `9e12f510554abe4d66f873d484a1d2bab3d9916f`. GitHub Actions Bac
 ### Remaining open integration work
 
 The core release chain above is now in `main`. Older branches/PRs are not to be blindly merged: PR #31 is explicitly superseded by #33; PR #21/#22 contain older static-page styling snapshots; PR #26 contains legacy Worker-oriented backend files; PR #14/#15/#16 contain Worker/D1-era AI/social/auth implementations that require selective porting if still desired. Preserve their histories until each unique feature is classified. Main Phase 1 remains open until the official Production deployment, live route/API/database/auth checks, and final mobile/browser verification succeed.
+
+
+---
+
+## Production API cutover — verified 2026-11-13 (supersedes older deployment snapshots)
+
+The earlier statements in this file saying that Production was still using the Render API proxy, that `DATABASE_URL` existed only in Preview, or that `/photos` returned 404 are historical and are superseded by this read-only verification.
+
+### Deployment identity
+
+- Production deployment ID: `dpl_8JvcKQp7uVzR6hkJpUbbm9QbFjqs`
+- State: `READY`
+- Branch: `main`
+- SHA: `a283323dd63107e510e780f1f1d1265e4d1c719b`
+- Official alias: `https://mghalaosimi-web.vercel.app`
+
+### Live API checks
+
+- `GET /api/ready` → HTTP 200, `{"status":"ready","database":"connected"}`.
+- `GET /api/health` → HTTP 200, `{"status":"ok","database":"connected"}`.
+- `GET /api/public/projects` → HTTP 200 with public project records.
+- `GET /api/public/followers/count` → HTTP 200 with aggregate counts.
+- `GET /api/public/site-reactions` → HTTP 200 with aggregate reaction state.
+- `GET /api/admin/bootstrap/status` → HTTP 200, `ownerExists: true`; this was read-only.
+
+The deployed Next.js API route invokes `lib/mghal-api-runtime.mjs`, which reads the encrypted Production `DATABASE_URL`, builds a PostgreSQL pool, and calls the shared API handler directly. The readiness route runs `SELECT 1 AS ok`. This is sufficient to verify the Vercel-native Production → PostgreSQL path; the health response is not being used as the sole proof.
+
+### Environment and retirement boundary
+
+- Production `DATABASE_URL`: present, encrypted, Production-only; value not read.
+- Production `MGHAL_API_BASE`: still configured to the Render preview hostname, but GitHub default-branch code search found no application-runtime reference. It is stale configuration, not an active proxy dependency.
+- No delete-environment-variable action is exposed by the connected Vercel integration. Do not blank or mutate the variable as a workaround; remove it through the Vercel dashboard when authorized.
+- Render services remain intact. Do not delete or suspend them until protected admin/RBAC and engagement write workflows, rollback needs, and any external consumers are reviewed.
+- No Production write request, migration, owner bootstrap, secret rotation, or infrastructure deletion was performed.
+
+### Revised Phase 1 closure gates
+
+1. Verify authenticated admin login, session handling, RBAC-protected reads, and approved content write paths without exposing credentials.
+2. Verify visitor/follower/reaction/comment flows with controlled test identities and a cleanup plan; do not create production test data casually.
+3. Remove the stale Production `MGHAL_API_BASE` variable through the Vercel dashboard; the connected integration has no deletion action.
+4. Review Render service inventory and external consumers, then retire only the M.GH.AL services with an explicit rollback plan.
+5. Complete final browser/mobile, bilingual, image-loading, canonical, sitemap, robots, and accessibility checks on the official Production alias.
+6. Publish the final Phase 1 closure report with exact SHA, deployment ID, and evidence.
