@@ -298,3 +298,17 @@ This is a file-level classification against current `main`, not an instruction t
 | #14 | Isolated Cloudflare Workers AI provider adapter and tests | The provider class and tests exist in the repository, but code search found no application route/UI integration. It is not part of the current release. Keep isolated until the AI product/provider architecture is explicitly selected; it must not introduce a Worker/D1 runtime dependency. |
 
 No PRs were merged or closed during this classification. Their branches and history remain available. The current Phase 1 release line remains PR #34, based directly on `main`.
+
+### Older open PR classification — refreshed 2026-11-13
+
+| PR | Current assessment |
+|---|---|
+| #13 | README-only identity/link update. The newer README in PR #34 supersedes its content; no separate code or assets need porting. |
+| #12 | 102-file historical platform expansion based on the old static/Worker stack. Current main already contains the active bilingual project catalog, research page, article template, showcase, PWA manifest/service worker/offline page, accessibility helpers, social assets, and generated project pages. Production checks returned HTTP 200 for `/research`, `/showcase.html`, `/article.html`, `/offline.html`, `/manifest.json`, `/sw.js`, `/projects/waynah`, and `/en/projects/waynah`. Do not merge the old branch or its Worker/D1/Render configuration. |
+| #11 | Dual-platform deployment hardening for the former static/Render/Vercel architecture. Conflicts with the current Vercel-only hosting decision; do not reintroduce Render as a production host. |
+| #10 and #9 | Earlier static HTML redesign snapshots. Their visual work is not a clean delta against the current Next.js + public asset architecture; keep as history rather than merging duplicated page trees. |
+| #8 | Earlier full platform build containing static pages, Worker/D1 schema, Wrangler and Render configuration. Its current relevant page families and public features are represented in the main tree; do not merge the old infrastructure. |
+| #5 | Original large static platform foundation, superseded by the current integrated application and later merged work. Preserve history; no wholesale merge. |
+| #4 | Earlier four-file static credential/profile gallery edit with no new image assets. The later #29 photo archive and current credentials page supersede this work. |
+
+No older PR in this table was merged or closed. Their branch histories remain preserved; the active Phase 1 release candidate remains PR #34.
