@@ -81,13 +81,6 @@ function ProjectArtwork({slug,name,stack}:{slug:string;name:string;stack:string[
       <small>LOCAL DISCOVERY · OFFLINE-FIRST</small>
     </div>;
   }
-  if(slug==='humanity-system'){
-    return <div className="hv-art-code">
-      <span>ENTERPRISE SYSTEM / 02</span>
-      <b>RBAC</b>
-      <small>DATA · WORKFLOW · ACCESS</small>
-    </div>;
-  }
   return <div className="hv-art-academic">
     <Layers3 size={48}/>
     <span>{name}</span>

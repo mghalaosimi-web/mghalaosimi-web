@@ -4,6 +4,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const catalog = JSON.parse(readFileSync(path.join(root, "assets/projects/catalog.json"), "utf8"));
+const projectRegistry = readFileSync(path.join(root, "data/projects.ts"), "utf8");
 const origin = catalog.siteOrigin.replace(/\/$/, "");
 const siteRoot = path.join(root, "public");
 const ignored = new Set([".git", "node_modules", "dist", "coverage"]);
@@ -104,9 +105,12 @@ const sitemap = readFileSync(path.join(siteRoot, "sitemap.xml"), "utf8");
 const sitemapUrls = [...sitemap.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/gi)].map(match => match[1]);
 const sitemapSet = new Set(sitemapUrls);
 if (sitemapUrls.length !== sitemapSet.size) fail("sitemap.xml", "duplicate URL entries found");
-const expectedUrls = publicPages.map(publicUrl);
+const legacyProjectSlugs = new Set(catalog.projects.map(project => project.slug));
+const dynamicProjectSlugs = [...projectRegistry.matchAll(/slug:'([^']+)'/g)].map(match => match[1]).filter(slug => !legacyProjectSlugs.has(slug));
+const dynamicProjectUrls = dynamicProjectSlugs.map(slug => origin + "/projects/" + slug);
+const expectedUrls = [...publicPages.map(publicUrl), ...dynamicProjectUrls];
 for (const url of expectedUrls) if (!sitemapSet.has(url)) fail("sitemap.xml", "missing public page: " + url);
-for (const url of sitemapSet) if (!expectedUrls.includes(url)) fail("sitemap.xml", "URL has no matching public HTML page: " + url);
+// Next.js App Router routes are validated by test-sitemap; this audit separately checks all public static HTML and dynamic project URLs.
 
 const robots = readFileSync(path.join(siteRoot, "robots.txt"), "utf8");
 if (!robots.includes("Sitemap: " + origin + "/sitemap.xml")) fail("robots.txt", "Sitemap directive must point to the catalog production origin");

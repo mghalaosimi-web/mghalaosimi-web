@@ -35,14 +35,12 @@
 
   const imageFor = (slug) => ({
     waynah: 'waynah',
-    'humanity-system': 'humanity',
     'yemen-ai': 'yemen-ai',
     'mghal-content-os': 'content-os',
     'manar-schedule-system': 'schedule',
     'almanar-schedule-system': 'schedule',
     ciphersphere: 'ciphersphere',
     focusflow: 'focusflow',
-    'mghal-esdp': 'esdp',
     'mghal-official-website': 'mghal-official-website',
   }[slug] || null);
 

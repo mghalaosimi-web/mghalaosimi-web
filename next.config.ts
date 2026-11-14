@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+const legacyStaticProjectSlugs = ['waynah','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-official-website','almanar-schedule-system'];
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: { unoptimized: true },
@@ -20,9 +22,11 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       { source: '/admin', destination: '/admin/index.html' },
-      { source: '/projects/:slug', destination: '/projects/:slug/index.html' },
       { source: '/en', destination: '/en/index.html' },
-      { source: '/en/projects/:slug', destination: '/en/projects/:slug/index.html' }
+      ...legacyStaticProjectSlugs.flatMap((slug) => [
+        { source: `/projects/${slug}`, destination: `/projects/${slug}/index.html` },
+        { source: `/en/projects/${slug}`, destination: `/en/projects/${slug}/index.html` },
+      ])
     ];
   }
 };

@@ -31,11 +31,17 @@ test('bilingual Next.js routes expose matching hreflang pairs',()=>{
  }
 });
 
-test('all eighteen public project detail routes are listed in both languages with canonical trailing slashes',()=>{
- const slugs=['abdulmalik-erp','abdulmalik-store-pro','ramzei-erp','manar-schedule-system','waynah','mghal-digital-os','mghal-content-os','debwan-live','alnasr-supermarket-erp','yemen-ai','academic-os2','ciphersphere','abdulmalik-store-management','academicos','almanar-schedule-system','focusflow','mghal-digital-automation','mghal-official-website'];
+test('all nineteen public projects use the correct legacy bilingual or dynamic canonical sitemap paths',()=>{
+ const slugs=['abdulmalik-erp','abdulmalik-store-pro','ramzei-erp','manar-schedule-system','waynah','mghal-digital-os','mghal-content-os','debwan-live','alnasr-supermarket-erp','yemen-ai','academic-os2','ciphersphere','abdulmalik-store-management','academicos','almanar-schedule-system','focusflow','mghal-digital-automation','mghal-official-website','cryptolab-x'];
+ const legacyStatic=new Set(['waynah','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-official-website','almanar-schedule-system']);
  for(const slug of slugs){
-  assert.ok(locations.has(base+'/projects/'+slug+'/'),'missing Arabic project URL: '+slug);
-  assert.ok(locations.has(base+'/en/projects/'+slug+'/'),'missing English project URL: '+slug);
+  if(legacyStatic.has(slug)){
+   assert.ok(locations.has(base+'/projects/'+slug+'/'),'missing Arabic legacy project URL: '+slug);
+   assert.ok(locations.has(base+'/en/projects/'+slug+'/'),'missing English legacy project URL: '+slug);
+  } else {
+   assert.ok(locations.has(base+'/projects/'+slug),'missing canonical dynamic project URL: '+slug);
+   assert.ok(!locations.has(base+'/en/projects/'+slug),'redirect-only English URL must not be in the sitemap: '+slug);
+  }
  }
  assert.ok(![...locations].some(url=>url.includes('/projects/humanity-system/')||url.includes('/projects/mghal-esdp/')),'private project pages must not be discoverable');
 });

@@ -1,12 +1,54 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
+import {resolveLocalizedAlternates} from "../lib/seo-paths.mjs";
 
 const root = process.cwd();
 const publicRoot = path.join(root, "public");
 const catalog = JSON.parse(readFileSync(path.join(publicRoot, "assets/projects/catalog.json"), "utf8"));
 assert.ok(Array.isArray(catalog.projects) && catalog.projects.length > 0, "The project catalogue must contain records.");
 assert.match(catalog.siteOrigin, /^https:\/\//, "A canonical site origin is required.");
+
+const privateSlugs = ["humanity-system", "mghal-esdp"];
+const projectRegistry = readFileSync(path.join(root, "data/projects.ts"), "utf8");
+const projectDetailRoute = readFileSync(path.join(root, "app/projects/[slug]/page.tsx"), "utf8");
+const nextConfig = readFileSync(path.join(root, "next.config.ts"), "utf8");
+const seoPaths = readFileSync(path.join(root, "lib/seo-paths.mjs"), "utf8");
+const registrySlugs = [...projectRegistry.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
+const detailSlugs = [...projectDetailRoute.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
+const legacySlugs = catalog.projects.map(project => project.slug);
+const dynamicSlugs = registrySlugs.filter(slug => !legacySlugs.includes(slug));
+assert.equal(registrySlugs.length, 19, "The public registry must contain all nineteen approved projects.");
+assert.ok(existsSync(path.join(publicRoot, "assets/projects/project-placeholder.svg")), "Dynamic project cards must have the neutral illustrative cover asset.");
+assert.deepEqual(detailSlugs, registrySlugs, "Every public project must have a matching detail record.");
+assert.equal(dynamicSlugs.length, 11, "Eleven non-legacy projects must use the Next.js dynamic route.");
+const configuredLegacy = nextConfig.match(/const legacyStaticProjectSlugs = \[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(value => value.slice(1,-1)) ?? [];
+const seoLegacy = seoPaths.match(/const legacyStaticProjectSlugs = \[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(value => value.slice(1,-1)) ?? [];
+assert.deepEqual(configuredLegacy, legacySlugs, "Next.js static rewrites must match the eight legacy catalogue slugs exactly.");
+assert.deepEqual(seoLegacy, legacySlugs, "SEO alternate handling must match the same legacy static slug set.");
+
+assert.ok(nextConfig.includes("legacyStaticProjectSlugs.flatMap"), "Only legacy static projects should receive static-file rewrites.");
+assert.ok(!nextConfig.includes("source: '/projects/:slug'") && !nextConfig.includes("source: '/en/projects/:slug'"), "A broad rewrite must not shadow dynamic project detail routes.");
+assert.ok(seoPaths.includes("legacyStaticProjectSlugs.includes(projectMatch[1])"), "SEO path resolution must distinguish legacy static and dynamic project routes.");
+for (const slug of dynamicSlugs) {
+  assert.deepEqual(resolveLocalizedAlternates("/projects/" + slug, "ar"), {canonical:"/projects/" + slug}, "Dynamic project must use its real Next.js canonical path: " + slug);
+}
+for (const slug of legacySlugs) {
+  assert.ok(resolveLocalizedAlternates("/projects/" + slug, "ar").canonical.endsWith("/"), "Legacy static project canonical must retain its trailing slash: " + slug);
+}
+
+for (const cover of ["humanity.svg", "esdp.svg"]) {
+  assert.ok(!existsSync(path.join(publicRoot, "assets/projects", cover)), "Private project cover must not be published: " + cover);
+}
+const publicProjectData = readFileSync(path.join(root, "data/projects.ts"), "utf8");
+for (const slug of privateSlugs) {
+  assert.ok(!catalog.projects.some(project => project.slug === slug), "Private project must not appear in the public catalogue: " + slug);
+  assert.ok(!publicProjectData.includes("slug:'" + slug + "'"), "Private project must not appear in the public application registry: " + slug);
+  for (const language of ["ar", "en"]) {
+    const relative = path.join(language === "en" ? "en" : "", "projects", slug, "index.html");
+    assert.ok(!existsSync(path.join(publicRoot, relative)), "Private project detail file must not be published: " + relative);
+  }
+}
 
 const ids = new Set();
 const slugs = new Set();
