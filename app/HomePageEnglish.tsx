@@ -6,7 +6,6 @@ import {projects} from '../data/projects';
 const projectCopy:Record<string,{label:string;summary:string}>={
 'waynah':{label:'Local Geographic Discovery',summary:'A Yemen-focused platform for trusted local geographic information and discovery.'},
 'mghal-content-os':{label:'Content Operations',summary:'A system for content planning, review, and supported publishing workflows.'},
-'humanity-system':{label:'Enterprise Systems',summary:'An Arabic-first institutional system for managing records, workflows, and role-based access.'},
 'manar-schedule-system':{label:'Academic Systems',summary:'A collaborative application for academic scheduling workflows.'}
 };
 const disciplines=[
