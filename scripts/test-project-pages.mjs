@@ -21,6 +21,7 @@ assert.ok(detail.includes("if(!p)notFound()"),"Unknown and private project slugs
 assert.ok(arListing.includes("import {projects")&&enListing.includes("import {projects"),"Both project explorers must render from the React project registry.");
 assert.ok(route.includes("ProjectsExplorerEnglish")&&route.includes("ProjectDetail"),"English listing and detail routes must use React components.");
 assert.ok(config.includes("permanent:true")&&config.includes("projects/:slug/index.html"),"Legacy project HTML URLs must permanently redirect to React detail routes.");
+assert.ok(config.includes("source:'/404.html',destination:'/'"),"The retired static 404 document must redirect to the Next.js not-found destination.");
 assert.ok(sitemap.includes("projects.map")||sitemap.includes("projects.flatMap"),"The sitemap must be generated from the React project registry.");
 assert.ok(!registry.includes("humanity-system")&&!registry.includes("mghal-esdp"),"Private project records must not enter the public React registry.");
 assert.ok(!detail.includes("humanity-system")&&!detail.includes("mghal-esdp"),"Private project detail records must not be publicly routable.");
