@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+<title id="title">M.GH.AL project profile artwork</title>
+<desc id="desc">Illustrative portfolio artwork, not an application screenshot.</desc>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#172B4D"/><stop offset="1" stop-color="#315A85"/></linearGradient><linearGradient id="line" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B69A62" stop-opacity=".15"/><stop offset="1" stop-color="#B69A62" stop-opacity=".8"/></linearGradient></defs>
+<rect width="1200" height="675" fill="url(#bg)"/><rect x="54" y="54" width="1092" height="567" rx="30" fill="none" stroke="#FFFFFF" stroke-opacity=".18" stroke-width="2"/>
+<circle cx="1000" cy="150" r="210" fill="none" stroke="#B69A62" stroke-opacity=".45" stroke-width="3"/><circle cx="1000" cy="150" r="150" fill="none" stroke="#FFFFFF" stroke-opacity=".14" stroke-width="2"/>
+<path d="M80 500H1120M80 530H760" stroke="url(#line)" stroke-width="2"/><path d="M820 420l90-90 65 65 120-140" fill="none" stroke="#B69A62" stroke-opacity=".75" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="112" y="280" fill="#FFFFFF" font-family="Inter,Arial,sans-serif" font-size="82" font-weight="700" letter-spacing="2">M.GH.AL</text>
+<text x="116" y="360" fill="#B69A62" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="600" letter-spacing="10">PROJECT PROFILE</text>
+<text x="116" y="430" fill="#E6EDF5" font-family="Inter,Arial,sans-serif" font-size="21" letter-spacing="2">ILLUSTRATIVE ARTWORK · NOT A PRODUCT SCREENSHOT</text>
+</svg>
