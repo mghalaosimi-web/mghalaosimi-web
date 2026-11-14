@@ -41,4 +41,7 @@ test('normalizes relative paths, duplicate slashes, query strings and trailing s
  assert.equal(resolveLocalizedAlternates('/unmapped/route/','en').canonical,'/unmapped/route');
 });
 
-test('credentials uses its current canonical route without a false English alternate',()=>{\n assert.deepEqual(resolveLocalizedAlternates('/credentials','ar'),{canonical:'/credentials'});\n assert.deepEqual(resolveLocalizedAlternates('/credentials','en'),{canonical:'/credentials'});\n});\n
+test('credentials uses its current canonical route without a false English alternate',()=>{
+ assert.deepEqual(resolveLocalizedAlternates('/credentials','ar'),{canonical:'/credentials'});
+ assert.deepEqual(resolveLocalizedAlternates('/credentials','en'),{canonical:'/credentials'});
+});
