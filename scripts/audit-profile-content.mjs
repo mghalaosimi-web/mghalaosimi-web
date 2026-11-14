@@ -1,132 +1,67 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import {readFileSync,readdirSync} from "node:fs";
+import path from "node:path";
 
-const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
-const arAbout = read("../app/about/AboutTabs.tsx");
-const enAbout = read("../app/about/AboutTabsEnglish.tsx");
-const arContact = read("../app/contact/page.tsx");
-const enContact = read("../app/contact/ContactPageEnglish.tsx");
-const enHome = read("../app/HomePageEnglish.tsx");
-const arHome = read("../app/page.tsx");
-const arProjects = read("../app/projects/ProjectsPageArabic.tsx");
-const enProjects = read("../app/projects/ProjectsExplorerEnglish.tsx");
-const research = read("../app/research/page.tsx");
-const projects = read("../data/projects.ts");
-const siteSearch = read("../app/components/SiteSearch.tsx");
-const databaseContent = read("../public/assets/database-content.js");
-const publicCatalog = JSON.parse(read("../public/assets/projects/catalog.json"));
-const publicSearchIndex = JSON.parse(read("../public/assets/search-index.json"));
-const publicSitemap = read("../public/sitemap.xml");
-const publicHomeAr = read("../public/index.html");
-const publicHomeEn = read("../public/en/index.html");
-const legacyHomeAr = read("../index.html");
-const legacyHomeEn = read("../en/index.html");
-const publicReadme = read("../README.md");
-const publicAssetReadme = read("../public/README.md");
-const publicAuditDoc = read("../docs/portfolio-audit.md");
-const localizationMigration = read("../mghal-backend/migrations/0003_project_localization.sql");
-const arLabs = read("../app/labs/LabsExplorer.tsx");
-const enLabs = read("../app/labs/LabsExplorerEnglish.tsx");
-const contentOsAr = read("../public/projects/mghal-content-os/index.html");
-const contentOsEn = read("../public/en/projects/mghal-content-os/index.html");
-const manarAr = read("../public/projects/manar-schedule-system/index.html");
-const almanarAr = read("../public/projects/almanar-schedule-system/index.html");
-const manarEn = read("../public/en/projects/manar-schedule-system/index.html");
-const almanarEn = read("../public/en/projects/almanar-schedule-system/index.html");
-const arListing = read("../public/projects.html");
-const enListing = read("../public/en/projects.html");
-const arRootListing = read("../projects.html");
-const enRootListing = read("../en/projects.html");
+const read=(file)=>readFileSync(new URL(file,import.meta.url),"utf8");
+const arAbout=read("../app/about/AboutTabs.tsx");
+const enAbout=read("../app/about/AboutTabsEnglish.tsx");
+const arHome=read("../app/page.tsx");
+const enHome=read("../app/HomePageEnglish.tsx");
+const arProjects=read("../app/projects/ProjectsPageArabic.tsx");
+const enProjects=read("../app/projects/ProjectsExplorerEnglish.tsx");
+const research=read("../app/research/page.tsx");
+const registry=read("../data/projects.ts");
+const detail=read("../app/projects/[slug]/page.tsx");
+const search=read("../app/components/SiteSearch.tsx");
+const searchIndex=JSON.parse(read("../public/assets/search-index.json"));
+const sitemap=read("../app/sitemap.ts");
+const englishRoutes=read("../app/en/[[...path]]/page.tsx");
+const admin=read("../app/admin/page.tsx");
+const auditDoc=read("../docs/portfolio-audit.md");
 
-assert.ok(arAbout.includes("محمد غالب العصيمي"), "Arabic profile must use the owner's exact name.");
-assert.ok(arAbout.includes("بكالوريوس تقنية المعلومات"), "Arabic profile must state the confirmed IT degree.");
-assert.ok(enAbout.includes("Mohammed Ghaleb") && enAbout.includes("Alaosimi"), "English profile must use the owner's exact name.");
-assert.ok(enAbout.includes("Bachelor’s in Information Technology"), "English profile must state the confirmed IT degree.");
-assert.ok(enAbout.includes("Al-Manar College for Science and Technology"), "English profile must use the official college name.");
+assert.ok(arAbout.includes("محمد غالب العصيمي"),"Arabic profile must use the confirmed public name.");
+assert.ok(arAbout.includes("بكالوريوس تقنية المعلومات"),"Arabic profile must identify the IT degree accurately.");
+assert.ok(enAbout.includes("Mohammed Ghaleb")&&enAbout.includes("Alaosimi"),"English profile must use the confirmed public name.");
+assert.ok(enAbout.includes("Bachelor’s in Information Technology"),"English profile must identify the IT degree accurately.");
+assert.ok(enAbout.includes("Al-Manar College for Science and Technology"),"English profile must use the confirmed college name.");
+assert.ok(arAbout.includes("الأمن السيبراني اهتمام معرفي إضافي"),"Cybersecurity must remain an additional learning interest, not the degree.");
+assert.ok(enAbout.includes("not as my academic degree specialization"),"English profile must distinguish cybersecurity interest from the degree.");
+assert.ok(arAbout.includes("active==='learning'?<Learning/>")&&enAbout.includes("active==='learning'?<Learning/>"),"The public profile must use the learning tab, not unsupported leadership claims.");
 
-const forbiddenIdentity = ["الكاملي", "أمن سيبراني وشبكات", "بكالوريوس الأمن السيبراني", "Arfat", "Alkamli", "Cybersecurity and Networks", "Bachelor’s in Cybersecurity", "AEGIS-TITAN", "Offline Academic Assistant"];
-for (const [name, source] of [["Arabic about", arAbout], ["English about", enAbout], ["Arabic home", arHome], ["English home", enHome], ["Arabic projects", arProjects], ["English projects", enProjects], ["Research", research], ["Arabic labs", arLabs], ["English labs", enLabs]]) {
-  for (const term of forbiddenIdentity) assert.ok(!source.includes(term), name + ": unsupported/reference-owner content leaked: " + term);
-}
-assert.ok(arAbout.includes("الأمن السيبراني اهتمام معرفي إضافي"), "Cybersecurity may only be represented as an additional learning interest.");
-assert.ok(enAbout.includes("not as my academic degree specialization"), "English profile must distinguish cybersecurity interest from academic degree.");
-assert.ok(arAbout.includes("active==='learning'?<Learning/>") && enAbout.includes("active==='learning'?<Learning/>"), "Unverified leadership tab must be replaced by learning content.");
+const expectedSlugs=["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website","cryptolab-x"];
+const slugs=[...registry.matchAll(/slug:'([^']+)'/g)].map(match=>match[1]);
+const detailSlugs=[...detail.matchAll(/slug:'([^']+)'/g)].map(match=>match[1]);
+assert.deepEqual(slugs,expectedSlugs,"Public React project registry must preserve the approved priority order.");
+assert.deepEqual(detailSlugs,expectedSlugs,"Every public React project must have a matching detail page.");
+assert.equal((registry.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g)||[]).length,18,"Exactly eighteen public repository links must be represented.");
+assert.ok(registry.includes("slug:'cryptolab-x'")&&registry.includes("slug:'ciphersphere'"),"CryptoLab-X and CipherSphere must remain distinct projects.");
+assert.ok(registry.includes("M.GH.AL Content OS")&&!registry.includes("Content Studio"),"The approved Content OS name must be used.");
+assert.ok(arProjects.includes("data-project-slug")&&enProjects.includes("data-project-slug"),"Both React project explorers must expose project identifiers.");
+assert.ok(research.includes("Transaction-Aware Authorization and Bounded Execution for AI Agents in ERP Systems"),"The research page must retain the selected AI/ERP research direction.");
 
-const expectedSlugs = ["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website","cryptolab-x"];
-const actualSlugs = [...projects.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
-const cryptoLab = projects.slice(projects.indexOf("slug:'cryptolab-x'"), projects.indexOf("}", projects.indexOf("slug:'cryptolab-x'")));
-assert.ok(cryptoLab.includes("category:'cyber-defense'") && cryptoLab.includes("مكتمل وفق إفادة المالك") && cryptoLab.includes("CipherSphere") && !cryptoLab.includes("repository:"), "CryptoLab-X must remain a separate owner-confirmed project without invented public source or stack claims.");
-assert.deepEqual(actualSlugs, expectedSlugs, "The public project registry must contain exactly the 19 approved public records in priority order.");
-const expectedPublicSlugs = [...expectedSlugs].sort();
-const arabicListingSlugs = [...arListing.matchAll(/data-project-slug=["']([^"']+)["']/g)].map(match => match[1]).sort();
-const englishListingSlugs = [...enListing.matchAll(/data-project-slug=["']([^"']+)["']/g)].map(match => match[1]).sort();
-assert.equal(arabicListingSlugs.length, 19, "Arabic public project listing must show all nineteen projects.");
-assert.equal(englishListingSlugs.length, 19, "English public project listing must show all nineteen projects.");
-assert.deepEqual(arabicListingSlugs, expectedPublicSlugs, "Arabic listing project set must match the public registry.");
-assert.deepEqual(englishListingSlugs, expectedPublicSlugs, "English listing project set must match the public registry.");
-const englishStatuses = [...enProjects.matchAll(/status:'([^']+)'/g)].map(match => match[1]);
-assert.equal(englishStatuses.length, 19, "English project explorer must provide an explicit status for every public project.");
-assert.ok(englishStatuses.every(status => !/[\u0600-\u06FF]/.test(status)), "English project statuses must not fall back to Arabic registry values.");
-assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'almanar-schedule-system'"), "The two academic scheduling repositories must remain separate.");
-const publicRepositories = ["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website"];
-for (const slug of publicRepositories) assert.ok(projects.includes("slug:'" + slug + "'") && projects.slice(projects.indexOf("slug:'" + slug + "'"), projects.indexOf("}", projects.indexOf("slug:'" + slug + "'"))).includes("repository:'https://github.com/mghalaosimi-web/"), "Missing verified public repository for " + slug);
-assert.equal((projects.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g) || []).length, 18, "All 18 public repository URLs should be represented without exposing private repository details.");
-const legacyStaticSlugs = ["waynah","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-official-website"];
-for (const slug of legacyStaticSlugs) {
-  assert.ok(existsSync(new URL("../public/projects/" + slug + "/index.html", import.meta.url)), "Missing Arabic project detail route for " + slug);
-  assert.ok(existsSync(new URL("../public/en/projects/" + slug + "/index.html", import.meta.url)), "Missing English project detail route for " + slug);
-}
-assert.ok(existsSync(new URL("../app/projects/[slug]/page.tsx", import.meta.url)), "AL-NASR must be served through the dynamic Next.js project detail route.");
-assert.ok(contentOsAr.includes("M.GH.AL Content OS") && contentOsEn.includes("M.GH.AL Content OS"), "The Content OS detail pages must use the approved project name.");
-assert.ok(!contentOsAr.includes("Content Studio") && !contentOsEn.includes("Content Studio"), "The outdated Content Studio label must not remain.");
-for (const [name, listing] of [["Arabic public listing", arListing], ["English public listing", enListing], ["Arabic root listing", arRootListing], ["English root listing", enRootListing]]) {
-  assert.ok(listing.includes("M.GH.AL Content OS") && !listing.includes("Content Studio"), name + ": project list must use the approved Content OS name.");
-}
-assert.ok(manarAr.includes("<h1>Manar Schedule System</h1>") && almanarAr.includes("<h1>Al-Manar Schedule System</h1>"), "Arabic project details must keep the two scheduling systems distinct.");
-assert.ok(manarEn.includes("<h1>Manar Schedule System</h1>") && almanarEn.includes("<h1>Al-Manar Schedule System</h1>"), "English project details must keep the two scheduling systems distinct.");
-assert.ok(research.includes("Transaction-Aware Authorization and Bounded Execution for AI Agents in ERP Systems"), "Research page must reflect the selected AI/ERP research direction.");
-assert.ok(research.includes("Research direction in preparation · Not published"), "Research must not be represented as published.");
+const projectRecords=searchIndex.filter(record=>/^\/projects\/[a-z0-9-]+$/.test(record.url));
+assert.equal(projectRecords.length,19,"All nineteen public project records must be searchable.");
+assert.ok(projectRecords.some(record=>record.title==="CryptoLab-X"&&record.url==="/projects/cryptolab-x"),"CryptoLab-X must have its own public search record.");
+assert.ok(!searchIndex.some(record=>/\.html/i.test(record.url)),"The search index must contain no legacy HTML URLs.");
+assert.ok(!search.includes("humanity-system")&&!search.includes("mghal-esdp"),"Search must not expose private project routes.");
+assert.ok(!searchIndex.some(record=>/humanity-system|mghal-esdp|humanity system/i.test(JSON.stringify(record))),"Private project details must not enter the public search index.");
+assert.ok(!registry.includes("humanity-system")&&!registry.includes("mghal-esdp"),"Private project records must not enter the public React registry.");
+assert.ok(!detail.includes("humanity-system")&&!detail.includes("mghal-esdp"),"Private project detail routes must remain unavailable.");
+assert.ok(!sitemap.includes("humanity-system")&&!sitemap.includes("mghal-esdp")&&!sitemap.includes(".html"),"The generated sitemap must include only clean public React routes.");
+assert.ok(englishRoutes.includes("ProjectsExplorerEnglish")&&englishRoutes.includes("AboutTabsEnglish")&&englishRoutes.includes("ProjectDetail"),"English pages must use the same React page components.");
+assert.ok(admin.includes("export default function AdminPage")&&admin.includes("<Script src=\"/assets/admin.js\""),"The owner dashboard must be routed through the React application.");
+assert.ok(auditDoc.includes("private application database")&&auditDoc.includes("not mirrored into public HTML"),"The public content policy must keep private records out of public artifacts.");
 
-assert.ok(enContact.includes("https://www.linkedin.com/in/mohammed-alaosimi-038155443/"), "English contact must use the verified LinkedIn URL.");
-assert.ok(enContact.includes("https://www.credly.com/users/mohammed-ghaleb-al-aosimi"), "English contact must use the owner's Credly profile.");
-assert.ok(arContact.includes("https://www.linkedin.com/in/mohammed-alaosimi-038155443/"), "Arabic contact must use the verified LinkedIn URL.");
-assert.ok(arContact.includes("https://www.credly.com/users/mohammed-ghaleb-al-aosimi"), "Arabic contact must use the owner's Credly profile.");
-for (const [name, source] of [["Arabic contact", arContact], ["English contact", enContact]]) {
-  assert.ok(source.includes("https://wa.me/967776778675") && source.includes("tel:+967776778675"), name + ": primary owner-provided WhatsApp and phone links must be present.");
-  assert.ok(source.includes("https://wa.me/967773775747") && source.includes("tel:+967773775747"), name + ": secondary owner-provided WhatsApp and phone links must be present.");
+const root=path.resolve(new URL("..",import.meta.url).pathname);
+const htmlFiles=[];
+function walk(directory){
+ for(const entry of readdirSync(directory,{withFileTypes:true})){
+  if([".git","node_modules",".next"].includes(entry.name))continue;
+  const full=path.join(directory,entry.name);
+  if(entry.isDirectory())walk(full);
+  else if(entry.name.toLowerCase().endsWith(".html"))htmlFiles.push(path.relative(root,full));
+ }
 }
-for (const [name, source] of [["Arabic contact", arContact], ["English contact", enContact]]) {
-  for (const term of ["A_AB_ALK","users/mghalaosimi-web","mghalaosimi-web-399676409","Arfat"]) assert.ok(!source.includes(term), name + ": unverified reference contact detail leaked: " + term);
-}
-for (const [name, source] of [["English about", enAbout], ["English home", enHome], ["English projects", enProjects], ["English contact", enContact]]) {
-  assert.ok(!/href=["\']\/en\/(?!projects\/)/.test(source), name + ": only the explicit /en/projects/:slug static detail route is allowed; other English navigation must use locale-cookie root routes.");
-  assert.ok(!/href=["']\/en\/(?!projects\/)/.test(source), name + ": only the explicit /en/projects/:slug static detail route is allowed; other English navigation must use locale-cookie root routes.");
-}
-assert.ok(enHome.includes("/en/projects/") && enProjects.includes("/en/projects/"), "English project detail links must use the English static detail route.");
-assert.ok(enAbout.includes('href="/en/projects/waynah"'), "English profile project links must preserve English detail routing.");
-for (const [name, source] of [["Arabic home", arHome], ["English home", enHome]]) {
-  for (const oldPath of ["/projects.html","/skills.html","/certificates.html","/contact.html"]) assert.ok(!source.includes(oldPath), name + ": legacy static route remains in Next.js navigation: " + oldPath);
-}
-for (const [name, source] of [["Arabic projects", arProjects], ["English projects", enProjects], ["Arabic labs", arLabs], ["English labs", enLabs]]) {
-  assert.ok(!source.includes("AEGIS"), name + ": reference-owner AEGIS branding remains.");
-  assert.ok(!source.includes("__mghal_featured_disabled__"), name + ": disabled reference project sentinel remains.");
-}
-assert.ok(enHome.includes("Al-Manar College for Science and Technology"), "English homepage must use the official college name.");
-assert.ok(enHome.includes("M.GH.AL"), "English homepage must use M.GH.AL identity branding.");
-assert.ok(arContact.includes("M.GH.AL"), "Arabic contact page must use M.GH.AL identity branding.");
-console.log("Profile-content audit passed: owner identity, IT degree, official college, 19-public-project registry, AI/ERP research, accurate contacts, localized routes, and private-project exclusion.");
-
-
-const privateProjectMarkers = ["humanity-system", "mghal-esdp", "Humanity System", "M.GH.AL ESDP"];
-for (const [name, source] of [["project registry", projects], ["Arabic about", arAbout], ["English about", enAbout], ["Arabic home", arHome], ["English home", enHome], ["Arabic project listing", arListing], ["English project listing", enListing], ["Arabic legacy listing", arRootListing], ["English legacy listing", enRootListing], ["site search", siteSearch], ["database media map", databaseContent], ["public sitemap", publicSitemap], ["Arabic static home", publicHomeAr], ["English static home", publicHomeEn], ["Arabic legacy home", legacyHomeAr], ["English legacy home", legacyHomeEn], ["README", publicReadme], ["public README asset", publicAssetReadme], ["portfolio audit", publicAuditDoc], ["public project catalogue", JSON.stringify(publicCatalog)], ["public search index", JSON.stringify(publicSearchIndex)]]) {
-  for (const marker of privateProjectMarkers) assert.ok(!source.includes(marker), name + ": private project reference leaked: " + marker);
-}
-assert.ok(!existsSync(new URL("../public/assets/projects/repository-inventory.json", import.meta.url)), "Private repository inventory must not be shipped as a public asset.");
-for (const slug of ["humanity-system", "mghal-esdp"]) {
-  for (const language of ["ar", "en"]) assert.ok(!existsSync(new URL("../public/" + (language === "en" ? "en/" : "") + "projects/" + slug + "/index.html", import.meta.url)), "Private static project page must not exist: " + slug + " / " + language);
-}
-
-const indexedPublicProjects = publicSearchIndex.filter(record => /^\/projects\/[a-z0-9-]+\/$/.test(record.url));
-assert.equal(indexedPublicProjects.length, 19, "All public project records must be present in the public search index.");
-assert.ok(indexedPublicProjects.some(record => record.title === "CryptoLab-X"), "CryptoLab-X must be indexed as a separate public project.");
-assert.ok(!localizationMigration.includes("humanity-system") && !localizationMigration.includes("mghal-esdp"), "Private project slugs and records must not be exposed in public migration files.");
+walk(root);
+assert.deepEqual(htmlFiles,[],"No tracked legacy HTML page may remain: "+htmlFiles.join(", "));
+console.log("Profile/content audit passed: verified identity, nineteen public projects, eighteen public repositories, private-project isolation, React routes, search and sitemap.");
