@@ -25,6 +25,8 @@ const nextConfig:NextConfig={
     return [
       {source:'/index.html',destination:'/',permanent:true},
       {source:'/en/index.html',destination:'/en',permanent:true},
+      {source:'/admin/index.html',destination:'/admin',permanent:true},
+      {source:'/offline.html',destination:'/offline',permanent:true},
       ...legacyPages.map(([source,destination])=>({source,destination,permanent:true})),
       ...legacyPages.map(([source,destination])=>({source:'/en'+source,destination:'/en'+destination,permanent:true})),
       {source:'/en/projects/:slug/index.html',destination:'/en/projects/:slug',permanent:true},
