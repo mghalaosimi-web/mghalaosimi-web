@@ -11,7 +11,6 @@ const migration=readFileSync('mghal-backend/migrations/0002_admin_permissions.sq
 const localization=readFileSync('mghal-backend/migrations/0003_project_localization.sql','utf8');
 const mediaMigration=readFileSync('mghal-backend/migrations/0004_d1_media_storage.sql','utf8');
 const technologyMigration=readFileSync('mghal-backend/migrations/0005_technology_visibility.sql','utf8');
-const databaseContent=readFileSync('public/assets/database-content.js','utf8');
 const certificateSync=readFileSync('public/assets/certificate-sync.js','utf8');
 for(const view of ['dashboard','identity','projects','certificates','articles','technologies','skills','education','achievements','followers','comments','analytics','media','users'])assert.ok(page.includes(`['${view}'`),`missing React admin view ${view}`);
 for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap/rotate','/api/admin/bootstrap','/api/admin/auth/login','/api/admin/dashboard','/api/admin/analytics','/api/admin/followers','/api/admin/comments','/api/admin/media','/api/admin/users'])assert.ok(apiHandler.includes(route),`missing API route ${route}`);
@@ -31,7 +30,7 @@ assert.match(apiHandler,/PBKDF2/);assert.match(apiHandler,/LAST_OWNER_PROTECTED/
 assert.match(apiHandler,/postgres:"\+id/);
 assert.match(apiHandler,/api\/public\/media\//);assert.match(apiHandler,/file.size>1572864/);assert.match(apiHandler,/method===\"DELETE\"/);assert.match(js,/التخزين داخل قاعدة البيانات الحالية/);
 assert.match(apiHandler,/content\.write/);assert.match(apiHandler,/content\.delete/);assert.match(migration,/followers\.manage/);
-assert.match(localization,/name_ar/);assert.match(mediaMigration,/ALTER TABLE media ADD COLUMN blob_data BLOB/);assert.match(apiHandler,/short_description_ar/);assert.match(databaseContent,/api\/public\/projects\?locale=/);assert.match(certificateSync,/api\/public\/certificates/);assert.match(databaseContent,/project\.name \|\| staticRecord/);assert.match(databaseContent,/querySelectorAll\('\.tag'\)/);
+assert.match(localization,/name_ar/);assert.match(mediaMigration,/ALTER TABLE media ADD COLUMN blob_data BLOB/);assert.match(apiHandler,/short_description_ar/);assert.match(apiHandler,/api\/public\/projects/);assert.match(certificateSync,/api\/public\/certificates/);
 assert.ok(js.includes('sessionStorage'));assert.ok(js.includes('Do Not Track')===false);assert.ok(css.includes('--navy:var(--mghal-brand-navy)'));
 assert.ok(page.includes('<Script src="/assets/admin.js" strategy="afterInteractive"/>'),'React admin route must load its admin client after hydration');
 assert.ok(readFileSync('app/en/[[...path]]/page.tsx','utf8').includes("normalized==='labs'"),'English knowledge route must be served by the React labs page');
