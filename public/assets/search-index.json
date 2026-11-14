@@ -29,109 +29,6 @@
     ]
   },
   {
-    "title": "المشاريع والأعمال | Projects",
-    "url": "/projects.html",
-    "description": "مشاريع البرمجيات والأنظمة والتطبيقات التي يعمل عليها M.GH.AL.",
-    "keywords": [
-      "projects",
-      "portfolio",
-      "أعمال",
-      "برمجة",
-      "software"
-    ]
-  },
-  {
-    "title": "WAYNAH | وَيْنَه؟",
-    "url": "/projects.html",
-    "description": "منصة للاستكشاف الجغرافي والمعلومات المحلية الموثوقة في اليمن.",
-    "keywords": [
-      "waynah",
-      "وينه",
-      "Yemen geographic atlas",
-      "خرائط",
-      "PostGIS"
-    ]
-  },
-  {
-    "title": "Humanity System | الإنسانية تجمعنا",
-    "url": "/projects.html",
-    "description": "نظام رقمي لإدارة الحالات والسجلات والعمليات المؤسسية.",
-    "keywords": [
-      "humanity system",
-      "الإنسانية تجمعنا",
-      "ERP",
-      "Prisma",
-      "PostgreSQL"
-    ]
-  },
-  {
-    "title": "Yemen AI Platform",
-    "url": "/projects.html",
-    "description": "منصة ذكاء اصطناعي ثنائية اللغة والبحث في المستندات باستخدام RAG.",
-    "keywords": [
-      "AI",
-      "ذكاء اصطناعي",
-      "RAG",
-      "FastAPI",
-      "Python"
-    ]
-  },
-  {
-    "title": "M.GH.AL Content Studio",
-    "url": "/projects.html",
-    "description": "نظام لإدارة دورة إنتاج المحتوى العربي بالذكاء الاصطناعي.",
-    "keywords": [
-      "Content OS",
-      "Gemini",
-      "automation",
-      "أتمتة المحتوى"
-    ]
-  },
-  {
-    "title": "CipherSphere",
-    "url": "/projects.html",
-    "description": "مختبر تفاعلي تعليمي للتشفير والخوارزميات.",
-    "keywords": [
-      "cryptography",
-      "التشفير",
-      "AES",
-      "DES",
-      "Python"
-    ]
-  },
-  {
-    "title": "FocusFlow",
-    "url": "/projects.html",
-    "description": "تطبيق إنتاجية لإدارة المهام وجلسات Pomodoro والعادات.",
-    "keywords": [
-      "Flutter",
-      "Dart",
-      "Pomodoro",
-      "productivity"
-    ]
-  },
-  {
-    "title": "University Schedule Systems",
-    "url": "/projects.html",
-    "description": "أنظمة لإدارة الجداول الأكاديمية وشؤون الجدولة الجامعية.",
-    "keywords": [
-      "university schedule",
-      "الجداول الجامعية",
-      "React",
-      "Node.js"
-    ]
-  },
-  {
-    "title": "M.GH.AL ESDP",
-    "url": "/projects.html",
-    "description": "مشروع تطبيق مكتبي لنظام ESDP.",
-    "keywords": [
-      "ESDP",
-      "desktop",
-      "Windows"
-    ]
-  },
-  {
     "title": "الشهادات والإنجازات | Certificates",
     "url": "/certificates.html",
     "description": "سجل الشهادات المهنية والتعليمية وروابط التحقق المتاحة.",
@@ -202,6 +99,312 @@
       "Full-Stack Developer",
       "Software Engineer",
       "Yemen"
+    ]
+  },
+  {
+    "title": "FixTrack | Phone Repair & POS",
+    "url": "/projects/abdulmalik-erp/",
+    "description": "نظام Windows وAndroid لإدارة محلات الهواتف، يجمع تذاكر الصيانة ونقاط البيع والمخزون وIMEI والمحافظ والمحاسبة والفروع والعمل دون اتصال عبر شبكة المحل. يذكر README نجاح 72 اختباراً؛ لم يتم التحقق مستقلاً من الإصدار التجاري أو قبول التشغيل الفعلي.",
+    "keywords": [
+      "abdulmalik-erp",
+      "FixTrack | Phone Repair & POS",
+      "نظام تجاري لصيانة الهواتف ونقاط البيع",
+      "قيد التطوير · 72 اختباراً حسب README",
+      "Flutter",
+      "Dart",
+      "SQLite",
+      "Windows",
+      "Android",
+      "POS"
+    ]
+  },
+  {
+    "title": "ABDULMALIK ERP | Phone Retail & Repair",
+    "url": "/projects/abdulmalik-store-pro/",
+    "description": "نظام Windows x64 يعمل محلياً لإدارة الصيانة والضمان ونقاط البيع والإكسسوارات والمخزون وIMEI والمشتريات والعملاء والتقارير والنسخ الاحتياطي. Android تجريبي والمزامنة السحابية معطلة افتراضياً وفق حدود الإصدار الموثقة.",
+    "keywords": [
+      "abdulmalik-store-pro",
+      "ABDULMALIK ERP | Phone Retail & Repair",
+      "نظام ERP مكتبي لمتاجر الهواتف",
+      "قيد التطوير · إصدار Windows مستهدف",
+      "Flutter",
+      "Dart",
+      "SQLite",
+      "Windows x64",
+      "Inno Setup"
+    ]
+  },
+  {
+    "title": "Ramzei ERP | Mobile & Electronics Store",
+    "url": "/projects/ramzei-erp/",
+    "description": "تطبيق Windows عربي RTL يوثق إدارة المنتجات والمخزون وIMEI والباركود ونقاط البيع والفواتير والمرتجعات والعملاء والمحاسبة والأرباح والتقارير ضمن المراحل 1–3. ادعاءات المراحل تحتاج تحققاً مستقلاً.",
+    "keywords": [
+      "ramzei-erp",
+      "Ramzei ERP | Mobile & Electronics Store",
+      "نظام تجاري لإدارة متاجر الهواتف والإلكترونيات",
+      "قيد التطوير · المراحل 1–3 حسب README",
+      "Python",
+      "PySide6",
+      "SQLite",
+      "SQLAlchemy",
+      "Windows"
+    ]
+  },
+  {
+    "title": "Al-Manar University Schedule System",
+    "url": "/projects/manar-schedule-system/",
+    "description": "منصة Full-Stack للجداول الأكاديمية وإدارة الطلاب والتعديلات الفورية والإشعارات والصلاحيات، موثقة باستخدام React وExpress وPostgreSQL وPrisma. يصف README المشروع بأنه إنتاجي، لكن التشغيل والاختبارات لم يتحققا مستقلاً.",
+    "keywords": [
+      "manar-schedule-system",
+      "Al-Manar University Schedule System",
+      "نظام إدارة الجداول الأكاديمية",
+      "قيد التطوير · الحالة التشغيلية غير متحققة",
+      "React",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "Prisma",
+      "JWT",
+      "CAPTCHA"
+    ]
+  },
+  {
+    "title": "WAYNAH | وَيْنَه؟",
+    "url": "/projects/waynah/",
+    "description": "منصة يمنية للاكتشاف الجغرافي والمعلومات المحلية، تعتمد الهرمية الإدارية المكانية وPostGIS والبحث العربي وحالات الثقة والتحقق وتجربة تراعي ضعف الاتصال.",
+    "keywords": [
+      "waynah",
+      "WAYNAH | وَيْنَه؟",
+      "منصة الاستكشاف الجغرافي المحلي في اليمن",
+      "قيد التطوير · v0.12.0 حسب سجل المشروع",
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "PostGIS",
+      "Hono",
+      "Prisma",
+      "Turborepo"
+    ]
+  },
+  {
+    "title": "M.GH.AL Digital OS",
+    "url": "/projects/mghal-digital-os/",
+    "description": "تطبيق منشور لإدارة مساحات العمل والمشاريع والمهام والمعرفة والمحتوى مع PostgreSQL ومصادقة مالك وسجل تدقيق وتوليد مسودات AI. لا ينفذ النشر الاجتماعي التلقائي حالياً، والعمال الخلفيون وتعدد المستخدمين ما زالا غير مكتملين.",
+    "keywords": [
+      "mghal-digital-os",
+      "M.GH.AL Digital OS",
+      "منظومة تشغيل المشاريع والمعرفة والمحتوى",
+      "منشور · قيد التطوير",
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Prisma",
+      "PostgreSQL",
+      "Upstash Redis"
+    ]
+  },
+  {
+    "title": "M.GH.AL Content OS",
+    "url": "/projects/mghal-content-os/",
+    "description": "منصة لتخطيط المحتوى العربي وتوليده ومراجعته وتصميم صوره RTL وإعداد نسخ لفيسبوك وإنستغرام وتيك توك، مع تكاملات رسمية مخطط لها. يذكر README نجاح 46 اختباراً؛ النشر الفعلي للحسابات يحتاج إثباتاً طرفياً.",
+    "keywords": [
+      "mghal-content-os",
+      "M.GH.AL Content OS",
+      "نظام تشغيل المحتوى العربي بالذكاء الاصطناعي",
+      "قيد التطوير · 46 اختباراً حسب README",
+      "Next.js",
+      "TypeScript",
+      "Gemini",
+      "Prisma",
+      "Vitest",
+      "Sharp",
+      "Meta Graph API",
+      "TikTok API"
+    ]
+  },
+  {
+    "title": "DEBWAN LIVE | Self-hosted Media",
+    "url": "/projects/debwan-live/",
+    "description": "منصة ذاتية الاستضافة للبث المباشر وVOD، واستيراد M3U وEPG ومعالجة FFmpeg وإدارة المستخدمين وواجهة ويب وتطبيق Android TV، مع Docker Compose.",
+    "keywords": [
+      "debwan-live",
+      "DEBWAN LIVE | Self-hosted Media",
+      "منصة البث التلفزيوني والفيديو حسب الطلب",
+      "إصدار 2.4.0 حسب README · النشر غير متحقق",
+      "Go",
+      "Fiber",
+      "PostgreSQL",
+      "Redis",
+      "Next.js",
+      "Kotlin",
+      "Jetpack Compose",
+      "FFmpeg",
+      "Docker"
+    ]
+  },
+  {
+    "title": "AL-NASR | النصر",
+    "url": "/projects/alnasr-supermarket-erp/",
+    "description": "منتج مستقل لإدارة نقاط البيع والمنتجات والمخزون والمشتريات والمبيعات والحسابات والفروع، ويقيّم أساس ERPNext/Frappe v16 مع X POS v16 وتطبيق مخصص. المشروع في مرحلة تقييم الأساس التقني وغير جاهز للإنتاج.",
+    "keywords": [
+      "alnasr-supermarket-erp",
+      "AL-NASR | النصر",
+      "نظام إدارة السوبرماركت والتجزئة والجملة",
+      "تقييم الأساس التقني · غير جاهز للإنتاج",
+      "ERPNext",
+      "Frappe v16",
+      "X POS v16",
+      "Custom Frappe App"
+    ]
+  },
+  {
+    "title": "Yemen AI Platform",
+    "url": "/projects/yemen-ai/",
+    "description": "منصة ثنائية اللغة تصف RAG والبحث في المستندات وإعادة الترتيب وتنسيق النماذج وذاكرة معرفية وبوابات صلاحيات. يذكر README 186 اختباراً؛ يلزم تدقيق أمني قبل أي نشر عام.",
+    "keywords": [
+      "yemen-ai",
+      "Yemen AI Platform",
+      "منصة الذكاء الاصطناعي والبحث المعرفي",
+      "تجريبي · 186 اختباراً حسب README",
+      "Python",
+      "FastAPI",
+      "RAG",
+      "Ollama",
+      "Vector Search"
+    ]
+  },
+  {
+    "title": "Academic OS | Student Companion",
+    "url": "/projects/academic-os2/",
+    "description": "تطبيق Flutter لتنظيم المهام والمقررات والجداول والاختبارات وخطط الدراسة وحساب المعدل والتنبيهات والتخزين الآمن ومساعد أكاديمي بالذكاء الاصطناعي.",
+    "keywords": [
+      "academic-os2",
+      "Academic OS | Student Companion",
+      "تطبيق المرافق الأكاديمي للطالب",
+      "قيد التطوير · حالة البناء غير متحققة",
+      "Flutter",
+      "Dart",
+      "Secure Storage",
+      "Local Notifications"
+    ]
+  },
+  {
+    "title": "CipherSphere | Applied Cryptography Lab",
+    "url": "/projects/ciphersphere/",
+    "description": "تطبيق PyQt6 يعرض خوارزميات التشفير الكلاسيكية وAES وDES وRSA ونظرية الأعداد والتجزئة والترميز، مع مسار موثق لبناء Windows EXE.",
+    "keywords": [
+      "ciphersphere",
+      "CipherSphere | Applied Cryptography Lab",
+      "مختبر مكتبي تعليمي للتشفير التطبيقي",
+      "نموذج تعليمي · تجريبي",
+      "Python",
+      "PyQt6",
+      "Cryptography",
+      "PyInstaller"
+    ]
+  },
+  {
+    "title": "Abdulmalik Store Management",
+    "url": "/projects/abdulmalik-store-management/",
+    "description": "مشروع تأسيسي لتطبيق Windows عربي يعمل دون اتصال باستخدام Tauri 2 وReact وSQLite وRust، بهدف إدارة المخزون وIMEI ونقاط البيع والصيانة والمحاسبة. المستودع يصرح بأنه غير جاهز للإنتاج.",
+    "keywords": [
+      "abdulmalik-store-management",
+      "Abdulmalik Store Management",
+      "مشروع تأسيسي لنظام متجر مكتبي",
+      "مرحلة تأسيس · غير جاهز للإنتاج",
+      "Tauri 2",
+      "React",
+      "TypeScript",
+      "SQLite",
+      "Rust"
+    ]
+  },
+  {
+    "title": "AcademicOS | Repository Mirror",
+    "url": "/projects/academicos/",
+    "description": "أُدرج لأمانة جرد المستودعات؛ README الحالي يكرر وصف وتعليمات استنساخ Manar Schedule System، ولم يثبت وجود منتج مستقل حتى الآن.",
+    "keywords": [
+      "academicos",
+      "AcademicOS | Repository Mirror",
+      "مستودع توثيقه يكرر مشروع الجداول",
+      "مستودع مكرر محتمل · يحتاج مطابقة المصدر",
+      "React",
+      "Node.js",
+      "Express",
+      "PostgreSQL"
+    ]
+  },
+  {
+    "title": "Al-Manar Schedule System | Secondary Repository",
+    "url": "/projects/almanar-schedule-system/",
+    "description": "مستودع منفصل في GitHub يصف نظام جداول باستخدام React وNode.js وPostgreSQL، لكن README يشير إلى مسار استنساخ المستودع الآخر؛ لذلك توجد فجوة توثيقية يجب حلها.",
+    "keywords": [
+      "almanar-schedule-system",
+      "Al-Manar Schedule System | Secondary Repository",
+      "مستودع أكاديمي ثانٍ يحتاج مطابقة",
+      "قيد التحقق · تعارض في README",
+      "React",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "Prisma"
+    ]
+  },
+  {
+    "title": "FocusFlow | Productivity App",
+    "url": "/projects/focusflow/",
+    "description": "فكرة تطبيق Flutter للمهام وجلسات Pomodoro وتتبع العادات والتحليلات اليومية. المستودع العام يحتوي حالياً على README فقط، ولم يثبت اكتمال التطبيق.",
+    "keywords": [
+      "focusflow",
+      "FocusFlow | Productivity App",
+      "فكرة تطبيق الإنتاجية والتركيز",
+      "فكرة أولية · غير مكتمل",
+      "Flutter",
+      "Dart"
+    ]
+  },
+  {
+    "title": "M.GH.AL Digital Automation | Postiz Fork",
+    "url": "/projects/mghal-digital-automation/",
+    "description": "مستودع قائم على مشروع Postiz الأصلي لجدولة الشبكات الاجتماعية بترخيص AGPL-3.0. يُعرض كسجل تفرع ودراسة مصدر، وليس كمنتج M.GH.AL أصلي مستقل.",
+    "keywords": [
+      "mghal-digital-automation",
+      "M.GH.AL Digital Automation | Postiz Fork",
+      "تفرع/نسخة مصدر لمشروع Postiz",
+      "أرشيف مصدر · تفرع لمشروع خارجي",
+      "Postiz",
+      "Social Scheduling",
+      "AGPL-3.0"
+    ]
+  },
+  {
+    "title": "M.GH.AL Official Portfolio",
+    "url": "/projects/mghal-official-website/",
+    "description": "موقع ثنائي اللغة للملف الشخصي والمشاريع والشهادات والسيرة الذاتية، مع بيانات SEO منظمة وخرائط Sitemap وتجربة RTL/LTR.",
+    "keywords": [
+      "mghal-official-website",
+      "M.GH.AL Official Portfolio",
+      "الموقع الرسمي والهوية الرقمية المهنية",
+      "منشور · تطوير مستمر",
+      "Next.js",
+      "React",
+      "TypeScript",
+      "SEO",
+      "Vercel"
+    ]
+  },
+  {
+    "title": "CryptoLab-X",
+    "url": "/projects/cryptolab-x/",
+    "description": "مشروع مستقل منفصل عن CipherSphere أكد صاحبه اكتماله. لا يتوفر مستودع عام أو ملفات مصدر أو لقطات شاشة أو حزمة إصدار ضمن الأدلة التي تمت مراجعتها؛ لذلك لا تُنسب إليه تقنيات أو تفاصيل تنفيذ غير موثقة.",
+    "keywords": [
+      "cryptolab-x",
+      "CryptoLab-X",
+      "مشروع مستقل في التشفير التطبيقي",
+      "مكتمل وفق إفادة المالك · التوثيق العام غير متاح",
+      "cryptography",
+      "التشفير",
+      "independent project"
     ]
   }
 ]
