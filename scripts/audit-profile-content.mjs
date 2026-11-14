@@ -41,22 +41,23 @@ assert.ok(arAbout.includes("الأمن السيبراني اهتمام معرف�
 assert.ok(enAbout.includes("not as my academic degree specialization"), "English profile must distinguish cybersecurity interest from academic degree.");
 assert.ok(arAbout.includes("active==='learning'?<Learning/>") && enAbout.includes("active==='learning'?<Learning/>"), "Unverified leadership tab must be replaced by learning content.");
 
-const expectedSlugs = ["waynah","humanity-system","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-esdp","mghal-official-website"];
+const expectedSlugs = ["waynah","humanity-system","focusflow","mghal-content-os","alnasr-supermarket-erp","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-esdp","mghal-official-website"];
 const actualSlugs = [...projects.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
-assert.deepEqual(actualSlugs, expectedSlugs, "The project registry must contain exactly the ten owner-confirmed projects in the approved order.");
+assert.deepEqual(actualSlugs, expectedSlugs, "The project registry must contain the eleven currently approved projects in the approved order.");
 const englishStatuses = [...enProjects.matchAll(/status:'([^']+)'/g)].map(match => match[1]);
-assert.equal(englishStatuses.length, 10, "English project explorer must provide an explicit status for every project.");
+assert.equal(englishStatuses.length, 11, "English project explorer must provide an explicit status for every project.");
 assert.ok(englishStatuses.every(status => !/[\u0600-\u06FF]/.test(status)), "English project statuses must not fall back to Arabic registry values.");
 assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'almanar-schedule-system'"), "The two academic scheduling projects must remain separate.");
-const publicRepositories = ["waynah","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-official-website"];
+const publicRepositories = ["waynah","focusflow","mghal-content-os","alnasr-supermarket-erp","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-official-website"];
 for (const slug of publicRepositories) assert.ok(projects.includes("slug:'" + slug + "'") && projects.slice(projects.indexOf("slug:'" + slug + "'"), projects.indexOf("}", projects.indexOf("slug:'" + slug + "'"))).includes("repository:'https://github.com/mghalaosimi-web/"), "Missing verified public repository for " + slug);
-assert.equal((projects.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g) || []).length, 8, "Only the eight verified public projects should expose source repositories.");
+assert.equal((projects.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g) || []).length, 9, "Only the nine verified public projects should expose source repositories.");
 assert.ok(!projects.slice(projects.indexOf("slug:'humanity-system'"), projects.indexOf("}", projects.indexOf("slug:'humanity-system'"))).includes("repository:"), "Humanity System must not expose a private repository.");
 assert.ok(!projects.slice(projects.indexOf("slug:'mghal-esdp'"), projects.indexOf("}", projects.indexOf("slug:'mghal-esdp'"))).includes("repository:"), "ESDP must not expose a non-public repository.");
-for (const slug of expectedSlugs) {
+for (const slug of expectedSlugs.filter(slug => slug !== "alnasr-supermarket-erp")) {
   assert.ok(existsSync(new URL("../public/projects/" + slug + "/index.html", import.meta.url)), "Missing Arabic project detail route for " + slug);
   assert.ok(existsSync(new URL("../public/en/projects/" + slug + "/index.html", import.meta.url)), "Missing English project detail route for " + slug);
 }
+assert.ok(existsSync(new URL("../app/projects/[slug]/page.tsx", import.meta.url)), "AL-NASR must be served through the dynamic Next.js project detail route.");
 assert.match(projects, /slug:'mghal-esdp'[^}]*status:'خاص · غير منشور'/, "ESDP must remain private and unpublished.");
 assert.ok(contentOsAr.includes("M.GH.AL Content OS") && contentOsEn.includes("M.GH.AL Content OS"), "The Content OS detail pages must use the approved project name.");
 assert.ok(!contentOsAr.includes("Content Studio") && !contentOsEn.includes("Content Studio"), "The outdated Content Studio label must not remain.");
