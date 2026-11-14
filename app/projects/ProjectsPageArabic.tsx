@@ -22,17 +22,18 @@ const categoryMeta={
 };
 
 export default function ProjectsPage(){
+  const publicProjects=publicProjects.filter(p=>p.slug!=='humanity-system'&&p.slug!=='mghal-esdp');
   const [filter,setFilter]=useState<typeof filters[number]['id']>('all');
   const [selectedProject,setSelectedProject]=useState<Project|null>(null);
   useEffect(()=>{if(!selectedProject)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape')setSelectedProject(null)};window.addEventListener('keydown',onKeyDown);return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKeyDown)}},[selectedProject]);
   
-  const featured=projects.find(p=>p.slug==='waynah');
-  const archive=projects.filter(p=>p.slug!=='waynah');
+  const featured=publicProjects.find(p=>p.slug==='waynah');
+  const archive=publicProjects.filter(p=>p.slug!=='waynah');
   const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
   const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
   
-  const repositoryCount=projects.filter(p=>p.repository).length;
-  const collaborativeCount=projects.filter(p=>p.slug==='waynah'||p.slug==='manar-schedule-system').length;
+  const repositoryCount=publicProjects.filter(p=>p.repository).length;
+  const collaborativeCount=publicProjects.filter(p=>p.slug==='waynah'||p.slug==='manar-schedule-system').length;
 
   return <main className="content-page projects-page portfolio-archive">
     <section className="portfolio-archive-hero">
@@ -52,7 +53,7 @@ export default function ProjectsPage(){
     </section>
 
     <section className="portfolio-archive-metrics" aria-label="ملخص المشاريع">
-      <div><span className="portfolio-archive-metric-icon"><FolderGit2 size={18}/></span><strong>{projects.length.toString().padStart(2,'0')}</strong><small>مشروع في الأرشيف</small></div>
+      <div><span className="portfolio-archive-metric-icon"><FolderGit2 size={18}/></span><strong>{publicProjects.length.toString().padStart(2,'0')}</strong><small>مشروع في الأرشيف</small></div>
       <div><span className="portfolio-archive-metric-icon"><Code2 size={18}/></span><strong>{repositoryCount.toString().padStart(2,'0')}</strong><small>مستودع مرتبط</small></div>
       <div><span className="portfolio-archive-metric-icon"><GraduationCap size={18}/></span><strong>{collaborativeCount.toString().padStart(2,'0')}</strong><small>مشاريع تعاونية</small></div>
       <div><span className="portfolio-archive-metric-icon"><ShieldCheck size={18}/></span><strong>03</strong><small>مجالات عمل رئيسية</small></div>
@@ -109,7 +110,7 @@ export default function ProjectsPage(){
         <div className="portfolio-archive-count"><strong>{(visible.length+(featuredVisible?1:0)).toString().padStart(2,'0')}</strong><small>PROJECTS</small></div>
       </div>
       <div className="portfolio-archive-filters" role="group" aria-label="تصفية المشاريع">
-        {filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?projects.length:archive.filter(p=>p.category===f.id).length+(featured&&featured.category===f.id?1:0)}</span></button>)}
+        {filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?publicProjects.length:archive.filter(p=>p.category===f.id).length+(featured&&featured.category===f.id?1:0)}</span></button>)}
       </div>
       <div className="portfolio-archive-grid">
         {visible.map((p,i)=>{
