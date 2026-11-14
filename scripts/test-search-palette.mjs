@@ -20,7 +20,7 @@ assert.ok(component.includes("aria-labelledby=\"mghal-search-title\""), "The dia
 assert.ok(component.includes("onCancel={close}"), "Escape must close the native dialog.");
 assert.ok(component.includes("requestAnimationFrame(() => triggerRef.current?.focus())"), "Closing search must restore focus to its trigger.");
 assert.ok(component.includes("ArrowDown") && component.includes("ArrowUp"), "Keyboard users must be able to navigate results.");
-assert.ok(component.includes("const href = projectHref(record.url) ?? routeMap[record.url]"), "Project search must prefer verified Next.js case-study routes.");
+assert.ok(component.includes("const href = projectHref(record.url, isEn) ?? routeMap[record.url]"), "Project search must prefer verified Next.js case-study routes.");
 assert.ok(component.includes("url?.match(/^\\/(?:en\\/)?projects\\/([a-z0-9-]+)\\/?$/)"), "Search must resolve project detail routes from the indexed URL.");
 assert.ok(component.includes("'/certificates.html': '/credentials'"), "Legacy certificate results must map to the current credentials route.");
 assert.ok(component.includes("'/skills.html': '/skills'"), "Legacy skill results must map to the current Next.js route.");
