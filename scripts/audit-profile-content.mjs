@@ -53,7 +53,8 @@ for (const slug of publicRepositories) assert.ok(projects.includes("slug:'" + sl
 assert.equal((projects.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g) || []).length, 18, "All 18 public repository URLs should be represented without exposing the private Humanity repository.");
 assert.ok(!projects.slice(projects.indexOf("slug:'humanity-system'"), projects.indexOf("}", projects.indexOf("slug:'humanity-system'"))).includes("repository:"), "Humanity System must not expose a private repository.");
 assert.ok(!projects.slice(projects.indexOf("slug:'mghal-esdp'"), projects.indexOf("}", projects.indexOf("slug:'mghal-esdp'"))).includes("repository:"), "ESDP must not expose a non-public repository.");
-const legacyStaticSlugs = ["waynah","humanity-system","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-esdp","mghal-official-website"];\nfor (const slug of legacyStaticSlugs) {
+const legacyStaticSlugs = ["waynah","humanity-system","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-esdp","mghal-official-website"];
+for (const slug of legacyStaticSlugs) {
   assert.ok(existsSync(new URL("../public/projects/" + slug + "/index.html", import.meta.url)), "Missing Arabic project detail route for " + slug);
   assert.ok(existsSync(new URL("../public/en/projects/" + slug + "/index.html", import.meta.url)), "Missing English project detail route for " + slug);
 }
