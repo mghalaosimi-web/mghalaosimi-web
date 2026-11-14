@@ -24,10 +24,9 @@ const nextConfig:NextConfig={
     ];
     return [
       {source:'/index.html',destination:'/',permanent:true},
-      {source:'/en',destination:'/language/en?next=/',permanent:false},
       ...legacyPages.map(([source,destination])=>({source,destination,permanent:true})),
-      ...legacyPages.map(([source,destination])=>({source:'/en'+source,destination:'/language/en?next='+encodeURIComponent(destination),permanent:true})),
-      {source:'/en/projects/:slug/index.html',destination:'/language/en?next=/projects/:slug',permanent:true},
+      ...legacyPages.map(([source,destination])=>({source:'/en'+source,destination:'/en'+destination,permanent:true})),
+      {source:'/en/projects/:slug/index.html',destination:'/en/projects/:slug',permanent:true},
       {source:'/projects/:slug/index.html',destination:'/projects/:slug',permanent:true},
     ];
   }
