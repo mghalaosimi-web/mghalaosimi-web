@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {readFileSync} from 'node:fs';
 import {resolveLocalizedAlternates} from '../lib/seo-paths.mjs';
 
 test('home page exposes clean Arabic and English React canonicals',()=>{
@@ -40,7 +41,10 @@ test('unmapped routes are normalized and remain in their selected locale',()=>{
  assert.deepEqual(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah');
 });
 
-test('legacy HTML paths are not canonical SEO routes',()=>{
- assert.equal(resolveLocalizedAlternates('/profile.html','ar').canonical,'/profile.html');
- assert.doesNotMatch(resolveLocalizedAlternates('/profile.html','en').canonical,/\.html/);
+test('legacy HTML URLs permanently redirect to clean React paths',()=>{
+ const config=readFileSync(new URL('../next.config.ts',import.meta.url),'utf8');
+ assert.ok(config.includes("['/profile.html','/about']"));
+ assert.ok(config.includes("['/projects.html','/projects']"));
+ assert.ok(config.includes("['/certificates.html','/credentials']"));
+ assert.ok(config.includes("{source:'/admin/index.html',destination:'/admin',permanent:true}"));
 });
