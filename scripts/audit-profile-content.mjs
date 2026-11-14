@@ -23,6 +23,7 @@ const legacyHomeEn = read("../en/index.html");
 const publicReadme = read("../README.md");
 const publicAssetReadme = read("../public/README.md");
 const publicAuditDoc = read("../docs/portfolio-audit.md");
+const localizationMigration = read("../mghal-backend/migrations/0003_project_localization.sql");
 const arLabs = read("../app/labs/LabsExplorer.tsx");
 const enLabs = read("../app/labs/LabsExplorerEnglish.tsx");
 const contentOsAr = read("../public/projects/mghal-content-os/index.html");
@@ -113,4 +114,11 @@ for (const [name, source] of [["project registry", projects], ["Arabic about", a
 assert.ok(!existsSync(new URL("../public/assets/projects/repository-inventory.json", import.meta.url)), "Private repository inventory must not be shipped as a public asset.");
 for (const slug of ["humanity-system", "mghal-esdp"]) {
   for (const language of ["ar", "en"]) assert.ok(!existsSync(new URL("../public/" + (language === "en" ? "en/" : "") + "projects/" + slug + "/index.html", import.meta.url)), "Private static project page must not exist: " + slug + " / " + language);
+}
+
+const privateMigrationRows = localizationMigration.split("\n").filter(line => line.includes("WHERE slug='humanity-system'") || line.includes("WHERE slug='mghal-esdp'"));
+assert.equal(privateMigrationRows.length, 2, "Private project migration rows must remain available for database record continuity.");
+for (const line of privateMigrationRows) {
+  assert.ok(line.includes("سجل مشروع خاص غير منشور."), "Private migration rows must use generic public-safe descriptions.");
+  for (const detail of ["Next.js", "Prisma", "Windows", "Android", "RBAC", "Capacitor", "com.mghal"]) assert.ok(!line.includes(detail), "Private implementation detail leaked into migration: " + detail);
 }
