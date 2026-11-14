@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import { readFileSync, existsSync } from 'node:fs';
-const html=readFileSync('public/admin/index.html','utf8');
+import { readFileSync } from 'node:fs';
+const page=readFileSync('app/admin/page.tsx','utf8');
 const js=readFileSync('public/assets/admin.js','utf8');
 const css=readFileSync('public/assets/admin.css','utf8');
 const apiHandler=readFileSync('mghal-backend/api-handler.mjs','utf8');
@@ -13,15 +13,15 @@ const mediaMigration=readFileSync('mghal-backend/migrations/0004_d1_media_storag
 const technologyMigration=readFileSync('mghal-backend/migrations/0005_technology_visibility.sql','utf8');
 const databaseContent=readFileSync('public/assets/database-content.js','utf8');
 const certificateSync=readFileSync('public/assets/certificate-sync.js','utf8');
-for(const view of ['dashboard','identity','projects','certificates','articles','technologies','skills','education','achievements','followers','comments','analytics','media','users'])assert.ok(html.includes(`data-view="${view}"`),`missing admin view ${view}`);
+for(const view of ['dashboard','identity','projects','certificates','articles','technologies','skills','education','achievements','followers','comments','analytics','media','users'])assert.ok(page.includes(`data-view="${view}"`),`missing admin view ${view}`);
 for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap/rotate','/api/admin/bootstrap','/api/admin/auth/login','/api/admin/dashboard','/api/admin/analytics','/api/admin/followers','/api/admin/comments','/api/admin/media','/api/admin/users'])assert.ok(apiHandler.includes(route),`missing API route ${route}`);
-assert.match(html,/name="robots" content="noindex,nofollow,noarchive"/);
-assert.ok(html.includes('id="bootstrap-rotate-form"'),'admin UI must expose the one-time token rotation form');
+assert.match(page,/robots:\{index:false,follow:false,noarchive:true\}/);
+assert.ok(page.includes('id="bootstrap-rotate-form"'),'admin UI must expose the one-time token rotation form');
 assert.ok(js.includes('s.rotationRequired'),'admin UI must react to bootstrap rotation readiness');
 assert.ok(js.includes("api('/api/admin/bootstrap/rotate'"),'admin UI must call the protected bootstrap rotation route');
 assert.ok(js.includes("headers.has('Authorization')"),'explicit bootstrap Bearer credentials must not be overwritten by an admin session token');
 assert.match(apiHandler,/OWNER_BOOTSTRAP_TOKEN/,'Worker bootstrap recovery must require its secret binding');
-assert.match(html,/name="password" type="password" required minlength="12"/,'bootstrap UI must accept 12-character owner passwords');
+assert.match(page,/minLength=\{12\}/,'bootstrap UI must accept 12-character owner passwords');
 assert.match(apiHandler,/b\.password\.length<12/,'bootstrap API must use the same 12-character minimum');
 assert.doesNotMatch(apiHandler,/b\.password\.length<14/,'bootstrap API must not reject passwords accepted by the UI');
 assert.match(js,/تعذر الوصول إلى خادم الإدارة/,'network failures must show a useful Arabic diagnostic');
@@ -33,8 +33,8 @@ assert.match(apiHandler,/api\/public\/media\//);assert.match(apiHandler,/file.si
 assert.match(apiHandler,/content\.write/);assert.match(apiHandler,/content\.delete/);assert.match(migration,/followers\.manage/);
 assert.match(localization,/name_ar/);assert.match(mediaMigration,/ALTER TABLE media ADD COLUMN blob_data BLOB/);assert.match(apiHandler,/short_description_ar/);assert.match(databaseContent,/api\/public\/projects\?locale=/);assert.match(certificateSync,/api\/public\/certificates/);assert.match(databaseContent,/project\.name \|\| staticRecord/);assert.match(databaseContent,/querySelectorAll\('\.tag'\)/);
 assert.ok(js.includes('sessionStorage'));assert.ok(js.includes('Do Not Track')===false);assert.ok(css.includes('--navy:var(--mghal-brand-navy)'));
-assert.ok(existsSync('public/article.html')&&existsSync('public/en/article.html'));
-assert.ok(readFileSync('public/knowledge.html','utf8').includes('published-articles'));
+assert.ok(page.includes('<Script src="/assets/admin.js" strategy="afterInteractive"/>'),'React admin route must load its admin client after hydration');
+assert.ok(readFileSync('app/en/[[...path]]/page.tsx','utf8').includes("normalized==='labs'"),'English knowledge route must be served by the React labs page');
 console.log('Admin/platform tests passed: auth bootstrap, RBAC, content CRUD, users, followers, moderation, analytics, media adapter and bilingual article presentation.');
 
 assert.match(technologyMigration,/ADD COLUMN is_published/);assert.match(technologyMigration,/ADD COLUMN archived/);assert.match(apiHandler,/technologies:\[\"technologies\",\"is_published=1 AND archived=0\"\]/);assert.match(js,/\['archived','مؤرشف','checkbox'\]/);
