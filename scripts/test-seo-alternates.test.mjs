@@ -32,6 +32,11 @@ test('project detail pages pair the same slug across Arabic and English paths',(
  assert.equal(en.languages?.ar,ar.canonical);
 });
 
+test('dynamic project details use the App Router canonical without false locale alternates',()=>{
+ assert.deepEqual(resolveLocalizedAlternates('/projects/abdulmalik-erp','ar'),{canonical:'/projects/abdulmalik-erp'});
+ assert.deepEqual(resolveLocalizedAlternates('/projects/cryptolab-x','en'),{canonical:'/projects/cryptolab-x'});
+});
+
 test('cookie-switched routes without a distinct English URL do not emit false hreflang',()=>{
  assert.deepEqual(resolveLocalizedAlternates('/labs','en'),{canonical:'/labs'});
 });
