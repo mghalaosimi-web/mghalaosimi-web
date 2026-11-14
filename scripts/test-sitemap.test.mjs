@@ -2,62 +2,41 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import test from 'node:test';
 
-const sitemap=readFileSync(new URL('../public/sitemap.xml',import.meta.url),'utf8');
+const sitemap=readFileSync(new URL('../app/sitemap.ts',import.meta.url),'utf8');
 const robots=readFileSync(new URL('../public/robots.txt',import.meta.url),'utf8');
-const rootSitemap=readFileSync(new URL('../sitemap.xml',import.meta.url),'utf8');
+const config=readFileSync(new URL('../next.config.ts',import.meta.url),'utf8');
+const registry=readFileSync(new URL('../data/projects.ts',import.meta.url),'utf8');
 const base='https://mghalaosimi-web.vercel.app';
-const locations=new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]));
 
-test('sitemap declares the required XML and XHTML namespaces',()=>{
- assert.match(sitemap,/xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/);
- assert.match(sitemap,/xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/);
- assert.ok(sitemap.includes('<urlset '),'sitemap root element missing');
- assert.ok(sitemap.includes('</urlset>'),'sitemap closing element missing');
+test('Next.js generates the sitemap from React routes and the approved project registry',()=>{
+ assert.ok(sitemap.includes("const origin='"+base+"'"));
+ assert.ok(sitemap.includes("import {projects} from '../data/projects'"));
+ assert.ok(sitemap.includes("'/en/projects'")&&sitemap.includes("'/projects'"));
+ assert.ok(sitemap.includes("projects.flatMap"));
+ assert.doesNotMatch(sitemap,/\.html/);
+ assert.doesNotMatch(sitemap,/humanity-system|mghal-esdp/);
 });
 
-test('home and primary Next.js routes are discoverable',()=>{
- for(const path of ['/','/en/','/about','/projects','/skills','/research','/contact','/labs']){
-  assert.ok(locations.has(base+path),'missing sitemap URL: '+path);
+test('the sitemap exposes bilingual clean routes for all primary pages',()=>{
+ for(const route of ['/en','/en/about','/en/projects','/en/skills','/en/credentials','/en/labs','/en/research','/en/contact','/en/photos']){
+  assert.ok(sitemap.includes("'"+route+"'"),'missing English route '+route);
  }
- assert.ok(!locations.has(base+'/en/index.html'),'English home must use its canonical /en/ route');
-});
-
-test('bilingual Next.js routes expose matching hreflang pairs',()=>{
- const pairs=[['/about','/en/profile.html'],['/projects','/en/projects.html'],['/skills','/en/skills.html'],['/research','/en/research.html'],['/contact','/en/contact.html']];
- for(const [ar,en] of pairs){
-  assert.ok(sitemap.includes('hreflang="ar" href="'+base+ar+'"'),ar+' Arabic hreflang missing');
-  assert.ok(sitemap.includes('hreflang="en" href="'+base+en+'"'),en+' English hreflang missing');
-  assert.ok(sitemap.includes('hreflang="x-default" href="'+base+ar+'"'),ar+' x-default missing');
+ for(const route of ["'/about'","'/projects'","'/skills'","'/credentials'","'/labs'","'/research'","'/contact'","'/photos'"]){
+  assert.ok(sitemap.includes(route),'missing Arabic route '+route);
  }
 });
 
-test('all nineteen public projects use the correct legacy bilingual or dynamic canonical sitemap paths',()=>{
- const slugs=['abdulmalik-erp','abdulmalik-store-pro','ramzei-erp','manar-schedule-system','waynah','mghal-digital-os','mghal-content-os','debwan-live','alnasr-supermarket-erp','yemen-ai','academic-os2','ciphersphere','abdulmalik-store-management','academicos','almanar-schedule-system','focusflow','mghal-digital-automation','mghal-official-website','cryptolab-x'];
- const legacyStatic=new Set(['waynah','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-official-website','almanar-schedule-system']);
- for(const slug of slugs){
-  if(legacyStatic.has(slug)){
-   assert.ok(locations.has(base+'/projects/'+slug+'/'),'missing Arabic legacy project URL: '+slug);
-   assert.ok(locations.has(base+'/en/projects/'+slug+'/'),'missing English legacy project URL: '+slug);
-  } else {
-   assert.ok(locations.has(base+'/projects/'+slug),'missing canonical dynamic project URL: '+slug);
-   assert.ok(!locations.has(base+'/en/projects/'+slug),'redirect-only English URL must not be in the sitemap: '+slug);
-  }
+test('legacy HTML paths permanently redirect to React pages',()=>{
+ for(const legacy of ['profile.html','projects.html','certificates.html','skills.html','education.html','achievements.html','knowledge.html','contact.html','showcase.html','resume.html']){
+  assert.ok(config.includes(legacy),'missing redirect for '+legacy);
  }
- assert.ok(![...locations].some(url=>url.includes('/projects/humanity-system/')||url.includes('/projects/mghal-esdp/')),'private project pages must not be discoverable');
+ assert.ok(config.includes("destination:'/en'+destination"),'English legacy routes must remain under the English React route tree.');
 });
 
-test('robots.txt references the same public sitemap host',()=>{
+test('robots.txt points to the canonical Next.js sitemap',()=>{
  assert.ok(robots.includes('Sitemap: '+base+'/sitemap.xml'));
 });
 
-
-test('root and public sitemap copies stay byte-for-byte synchronized',()=>{
- assert.equal(rootSitemap,sitemap);
-});
-
-test('sitemap locations are unique and use only the official canonical host',()=>{
- const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]);
- assert.equal(urls.length,new Set(urls).size,'duplicate sitemap URL entries found');
- assert.ok(urls.every(url=>url.startsWith(base+'/')),'every sitemap URL must use the official canonical domain');
- assert.ok(!sitemap.includes('mghal.vercel.app'),'legacy domain must not appear in the public sitemap');
+test('the public React registry contains no private project identifiers',()=>{
+ assert.doesNotMatch(registry,/humanity-system|mghal-esdp/);
 });
