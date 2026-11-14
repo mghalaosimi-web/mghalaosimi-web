@@ -30,9 +30,6 @@ const nextConfig:NextConfig={
       {source:'/en/projects/:slug/index.html',destination:'/language/en?next=/projects/:slug',permanent:true},
       {source:'/projects/:slug/index.html',destination:'/projects/:slug',permanent:true},
     ];
-  },
-  async rewrites(){
-    return [{source:'/admin',destination:'/admin/index.html'}];
   }
 };
 export default nextConfig;
