@@ -8,6 +8,17 @@ const catalog = JSON.parse(readFileSync(path.join(publicRoot, "assets/projects/c
 assert.ok(Array.isArray(catalog.projects) && catalog.projects.length > 0, "The project catalogue must contain records.");
 assert.match(catalog.siteOrigin, /^https:\/\//, "A canonical site origin is required.");
 
+const privateSlugs = ["humanity-system", "mghal-esdp"];
+const publicProjectData = readFileSync(path.join(root, "data/projects.ts"), "utf8");
+for (const slug of privateSlugs) {
+  assert.ok(!catalog.projects.some(project => project.slug === slug), "Private project must not appear in the public catalogue: " + slug);
+  assert.ok(!publicProjectData.includes("slug:'" + slug + "'"), "Private project must not appear in the public application registry: " + slug);
+  for (const language of ["ar", "en"]) {
+    const relative = path.join(language === "en" ? "en" : "", "projects", slug, "index.html");
+    assert.ok(!existsSync(path.join(publicRoot, relative)), "Private project detail file must not be published: " + relative);
+  }
+}
+
 const ids = new Set();
 const slugs = new Set();
 const expectedRoutes = [];
