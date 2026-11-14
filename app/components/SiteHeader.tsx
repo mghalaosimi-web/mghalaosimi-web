@@ -97,7 +97,8 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
       <Link className="mghal-logo" href={isEn?"/en":"/"} aria-label="M.GH.AL home">M.GH.AL<span>.</span></Link>
       <nav className="mghal-primary-nav" aria-label={isEn ? 'Main navigation' : 'التنقل الرئيسي'} data-horizontal-scroll>
         {localizedLinks.map((item) => {
-          const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'));
+          const homeHref = isEn ? '/en' : '/';
+          const active = pathname === item.href || (item.href !== homeHref && pathname.startsWith(item.href + '/'));
           return <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined}>{isEn ? item.en : item.ar}</Link>;
         })}
       </nav>
