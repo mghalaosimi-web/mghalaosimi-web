@@ -1,91 +1,57 @@
-const CACHE_NAME = "mghal-pwa-v6";
-const CORE_ASSETS = [
-  "/index.html",
-  "/offline.html",
+const CACHE_NAME="mghal-pwa-v7";
+const CORE_ASSETS=[
   "/favicon.svg",
   "/assets/pwa-icon.svg",
   "/manifest.json",
-  "/assets/theme.css",
-  "/assets/site.js",
-  "/assets/accessibility.js",
-  "/assets/project-cards.js",
-  "/assets/search-index.json"
+  "/assets/design-tokens.css",
+  "/assets/theme.css"
 ];
-const APP_PAGES = [
-  "/profile.html", "/projects.html", "/showcase.html", "/certificates.html",
-  "/skills.html", "/education.html", "/achievements.html", "/knowledge.html",
-  "/contact.html", "/en/", "/en/index.html", "/en/profile.html",
-  "/en/projects.html", "/en/showcase.html", "/en/certificates.html",
-  "/en/skills.html", "/en/education.html", "/en/achievements.html",
-  "/en/knowledge.html", "/en/contact.html"
-];
+const OFFLINE_DOCUMENT="/offline";
 
-// Only cache locale-stable legacy documents; Next.js pages vary by a locale cookie.
-const CACHED_DOCUMENT_PATHS = new Set(["/index.html", ...APP_PAGES]);
-
-self.addEventListener("install", (event) => {
-  event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_NAME);
+self.addEventListener("install",(event)=>{
+  event.waitUntil((async()=>{
+    const cache=await caches.open(CACHE_NAME);
     await cache.addAll(CORE_ASSETS);
-    await Promise.allSettled(APP_PAGES.map((path) => cache.add(path)));
+    try{await cache.add(OFFLINE_DOCUMENT);}catch{}
     await self.skipWaiting();
   })());
 });
 
-self.addEventListener("activate", (event) => {
-  event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys
-      .filter((key) => key.startsWith("mghal-pwa-") && key !== CACHE_NAME)
-      .map((key) => caches.delete(key)));
+self.addEventListener("activate",(event)=>{
+  event.waitUntil((async()=>{
+    const keys=await caches.keys();
+    await Promise.all(keys.filter(key=>key.startsWith("mghal-pwa-")&&key!==CACHE_NAME).map(key=>caches.delete(key)));
     await self.clients.claim();
   })());
 });
 
-async function networkFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const path = new URL(request.url).pathname;
-  const cacheable = CACHED_DOCUMENT_PATHS.has(path);
-  try {
-    const response = await fetch(request);
-    if (response && response.ok && cacheable) await cache.put(request, response.clone());
-    return response;
-  } catch {
-    const exact = cacheable ? await cache.match(request) : null;
-    if (exact) return exact;
-    const pathMatch = cacheable ? await cache.match(path, { ignoreSearch: true }) : null;
-    if (pathMatch) return pathMatch;
-    return (await cache.match("/offline.html")) || Response.error();
+async function networkFirst(request){
+  try{return await fetch(request);}
+  catch{
+    const cache=await caches.open(CACHE_NAME);
+    return (await cache.match(OFFLINE_DOCUMENT))||Response.error();
   }
 }
 
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
-  const update = fetch(request).then(async (response) => {
-    if (response && response.ok) await cache.put(request, response.clone());
+async function staleWhileRevalidate(request){
+  const cache=await caches.open(CACHE_NAME);
+  const cached=await cache.match(request);
+  const update=fetch(request).then(async response=>{
+    if(response&&response.ok)await cache.put(request,response.clone());
     return response;
   });
-  if (cached) {
-    update.catch(() => {});
-    return cached;
-  }
-  try { return await update; } catch { return Response.error(); }
+  if(cached){update.catch(()=>{});return cached;}
+  try{return await update;}catch{return Response.error();}
 }
 
-self.addEventListener("fetch", (event) => {
-  const request = event.request;
-  const url = new URL(request.url);
-  if (request.method !== "GET" || url.origin !== self.location.origin) return;
-
-  if (request.mode === "navigate" || request.destination === "document") {
+self.addEventListener("fetch",(event)=>{
+  const request=event.request,url=new URL(request.url);
+  if(request.method!=="GET"||url.origin!==self.location.origin)return;
+  if(request.mode==="navigate"||request.destination==="document"){
     event.respondWith(networkFirst(request));
     return;
   }
-
-  if (["style", "script", "image", "font"].includes(request.destination) ||
-      url.pathname === "/manifest.json" ||
-      url.pathname === "/assets/search-index.json") {
+  if(["style","script","image","font"].includes(request.destination)||url.pathname==="/manifest.json"){
     event.respondWith(staleWhileRevalidate(request));
   }
 });
