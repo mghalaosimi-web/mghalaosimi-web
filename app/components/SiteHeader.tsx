@@ -19,6 +19,9 @@ const links = [
 export default function SiteHeader({ isEn }: SiteHeaderProps) {
   const pathname = usePathname() || '/';
   const router = useRouter();
+  const localizedLinks = links.map((item) => ({ ...item, href: isEn ? '/en' + (item.href === '/' ? '' : item.href) : item.href }));
+  const localePath = pathname.startsWith('/en/') ? pathname.slice(3) : pathname === '/en' ? '/' : pathname;
+  const englishPath = pathname.startsWith('/en') ? pathname : '/en' + (pathname === '/' ? '' : pathname);
 
   useEffect(() => {
     const activeLink = document.querySelector<HTMLElement>('.mghal-primary-nav a[aria-current="page"]');
@@ -29,7 +32,7 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
 
   useEffect(() => {
     // Page swipes are limited to top-level routes; nested project/detail pages keep their context.
-    const currentIndex = links.findIndex((item) => pathname === item.href);
+    const currentIndex = localizedLinks.findIndex((item) => pathname === item.href);
     if (currentIndex < 0) return;
 
     let startX = 0;
@@ -91,16 +94,16 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
     <header className="mghal-header" data-site-header>
       <Link className="mghal-logo" href="/" aria-label="M.GH.AL home">M.GH.AL<span>.</span></Link>
       <nav className="mghal-primary-nav" aria-label={isEn ? 'Main navigation' : 'التنقل الرئيسي'} data-horizontal-scroll>
-        {links.map((item) => {
+        {localizedLinks.map((item) => {
           const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'));
           return <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined}>{isEn ? item.en : item.ar}</Link>;
         })}
       </nav>
       <SiteSearch isEn={isEn}/>
       <div className="mghal-language" aria-label={isEn ? 'Language' : 'اللغة'}>
-        <a href={`/language/ar?next=${encodeURIComponent(pathname)}`} aria-current={!isEn ? 'page' : undefined} lang="ar">AR</a>
+        <a href={`/language/ar?next=${encodeURIComponent(localePath)}`} aria-current={!isEn ? 'page' : undefined} lang="ar">AR</a>
         <span aria-hidden="true">/</span>
-        <a href={`/language/en?next=${encodeURIComponent(pathname)}`} aria-current={isEn ? 'page' : undefined} lang="en">EN</a>
+        <a href={`/language/en?next=${encodeURIComponent(englishPath)}`} aria-current={isEn ? 'page' : undefined} lang="en">EN</a>
       </div>
       <a className="mghal-header-cta" href="https://github.com/mghalaosimi-web" target="_blank" rel="noreferrer">GitHub ↗</a>
     </header>
