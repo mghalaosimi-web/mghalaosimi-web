@@ -31,12 +31,13 @@ test('bilingual Next.js routes expose matching hreflang pairs',()=>{
  }
 });
 
-test('all twenty project detail routes are listed in both languages with canonical trailing slashes',()=>{
- const slugs=['abdulmalik-erp','abdulmalik-store-pro','ramzei-erp','manar-schedule-system','waynah','mghal-digital-os','mghal-content-os','debwan-live','alnasr-supermarket-erp','yemen-ai','academic-os2','ciphersphere','abdulmalik-store-management','academicos','almanar-schedule-system','humanity-system','focusflow','mghal-digital-automation','mghal-official-website','mghal-esdp'];
+test('all eighteen public project detail routes are listed in both languages with canonical trailing slashes',()=>{
+ const slugs=['abdulmalik-erp','abdulmalik-store-pro','ramzei-erp','manar-schedule-system','waynah','mghal-digital-os','mghal-content-os','debwan-live','alnasr-supermarket-erp','yemen-ai','academic-os2','ciphersphere','abdulmalik-store-management','academicos','almanar-schedule-system','focusflow','mghal-digital-automation','mghal-official-website'];
  for(const slug of slugs){
   assert.ok(locations.has(base+'/projects/'+slug+'/'),'missing Arabic project URL: '+slug);
   assert.ok(locations.has(base+'/en/projects/'+slug+'/'),'missing English project URL: '+slug);
  }
+ assert.ok(![...locations].some(url=>url.includes('/projects/humanity-system/')||url.includes('/projects/mghal-esdp/')),'private project pages must not be discoverable');
 });
 
 test('robots.txt references the same public sitemap host',()=>{
