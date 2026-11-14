@@ -186,7 +186,7 @@ export default async function PhotosPage() {
                 href={photo.src}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={isEn ? \`Open image \${index + 1}\` : \`فتح الصورة \${index + 1}\`}
+                aria-label={isEn ? 'Open image ' + (index + 1) : 'فتح الصورة ' + (index + 1)}
                 style={{
                   display: 'block',
                   position: 'relative',
