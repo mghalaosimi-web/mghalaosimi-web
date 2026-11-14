@@ -41,19 +41,20 @@ assert.ok(arAbout.includes("الأمن السيبراني اهتمام معرف�
 assert.ok(enAbout.includes("not as my academic degree specialization"), "English profile must distinguish cybersecurity interest from academic degree.");
 assert.ok(arAbout.includes("active==='learning'?<Learning/>") && enAbout.includes("active==='learning'?<Learning/>"), "Unverified leadership tab must be replaced by learning content.");
 
-const expectedSlugs = ["waynah","humanity-system","focusflow","mghal-content-os","alnasr-supermarket-erp","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-esdp","mghal-official-website"];
+const expectedSlugs = ["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","humanity-system","focusflow","mghal-digital-automation","mghal-official-website","mghal-esdp"];
 const actualSlugs = [...projects.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
-assert.deepEqual(actualSlugs, expectedSlugs, "The project registry must contain the eleven currently approved projects in the approved order.");
+assert.deepEqual(actualSlugs, expectedSlugs, "The project registry must contain all 19 repository records plus the existing ESDP record in the approved priority order.");
 const englishStatuses = [...enProjects.matchAll(/status:'([^']+)'/g)].map(match => match[1]);
-assert.equal(englishStatuses.length, 11, "English project explorer must provide an explicit status for every project.");
+assert.equal(englishStatuses.length, 20, "English project explorer must provide an explicit status for every project.");
 assert.ok(englishStatuses.every(status => !/[\u0600-\u06FF]/.test(status)), "English project statuses must not fall back to Arabic registry values.");
-assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'almanar-schedule-system'"), "The two academic scheduling projects must remain separate.");
-const publicRepositories = ["waynah","focusflow","mghal-content-os","alnasr-supermarket-erp","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-official-website"];
+assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'almanar-schedule-system'"), "The two academic scheduling repositories must remain separate.");
+const publicRepositories = ["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website"];
 for (const slug of publicRepositories) assert.ok(projects.includes("slug:'" + slug + "'") && projects.slice(projects.indexOf("slug:'" + slug + "'"), projects.indexOf("}", projects.indexOf("slug:'" + slug + "'"))).includes("repository:'https://github.com/mghalaosimi-web/"), "Missing verified public repository for " + slug);
-assert.equal((projects.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g) || []).length, 9, "Only the nine verified public projects should expose source repositories.");
+assert.equal((projects.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g) || []).length, 18, "All 18 public repository URLs should be represented without exposing the private Humanity repository.");
 assert.ok(!projects.slice(projects.indexOf("slug:'humanity-system'"), projects.indexOf("}", projects.indexOf("slug:'humanity-system'"))).includes("repository:"), "Humanity System must not expose a private repository.");
 assert.ok(!projects.slice(projects.indexOf("slug:'mghal-esdp'"), projects.indexOf("}", projects.indexOf("slug:'mghal-esdp'"))).includes("repository:"), "ESDP must not expose a non-public repository.");
-for (const slug of expectedSlugs.filter(slug => slug !== "alnasr-supermarket-erp")) {
+const legacyStaticSlugs = ["waynah","humanity-system","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-esdp","mghal-official-website"];
+for (const slug of legacyStaticSlugs) {
   assert.ok(existsSync(new URL("../public/projects/" + slug + "/index.html", import.meta.url)), "Missing Arabic project detail route for " + slug);
   assert.ok(existsSync(new URL("../public/en/projects/" + slug + "/index.html", import.meta.url)), "Missing English project detail route for " + slug);
 }
@@ -98,4 +99,4 @@ for (const [name, source] of [["Arabic projects", arProjects], ["English project
 assert.ok(enHome.includes("Al-Manar College for Science and Technology"), "English homepage must use the official college name.");
 assert.ok(enHome.includes("M.GH.AL"), "English homepage must use M.GH.AL identity branding.");
 assert.ok(arContact.includes("M.GH.AL"), "Arabic contact page must use M.GH.AL identity branding.");
-console.log("Profile-content audit passed: owner identity, IT degree, official college, ten-project registry, AI/ERP research, accurate contacts, localized routes, and no reference-owner identity/project residue.");
+console.log("Profile-content audit passed: owner identity, IT degree, official college, 20-project registry, AI/ERP research, accurate contacts, localized routes, and no reference-owner identity/project residue.");
