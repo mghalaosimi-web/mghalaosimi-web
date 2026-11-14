@@ -80,13 +80,15 @@
 
 </div>
 
+[Public JSNAD Credly badge record](https://www.credly.com/badges/b4e7aff3-1117-45bb-afa2-b7913a683efd/public_url)
+
 <p align="center">
   <a href="https://www.credly.com/">
     <img src="https://img.shields.io/badge/Cisco%20Networking%20Academy-Certificates%20%26%20Achievements-049FD9?style=for-the-badge&logo=cisco&logoColor=white" alt="Cisco Networking Academy" />
   </a>
 </p>
 
-### Cisco Networking Academy — 11 verified credentials
+### Cisco Networking Academy — 14 recorded credentials
 
 1. Hardware and Upgrade Support — August 2, 2026
 2. Cybersecurity Defense Analyst Career Path — July 29, 2026
@@ -99,12 +101,17 @@
 9. Operating Systems Basics — July 25, 2026
 10. IT Customer Support Basics — July 24, 2026
 11. Introduction to Modern AI — July 23, 2026
+12. Data Science Essentials With Python — November 12, 2026
+13. Endpoint Security — November 12, 2026
+14. IT Support Specialist Career Path — November 12, 2026
 
 [Public Credly profile](https://www.credly.com/users/mohammed-ghaleb-al-aosimi)
 
+The three November 12 records are linked to the public Credly profile until their individual holder-specific badge URLs are confirmed.
+
 ### Edraak — 6 recorded certificates
 
-**Verified inventory total: 18 credentials** — 11 Cisco badges, 6 Edraak certificates, and 1 JSNAD credential.
+**Recorded inventory total: 26 credentials** — 14 Cisco records, 6 Edraak certificates, 1 OpenJS JSNAD credential, and 5 EMC Shiraa workshops.
 
 - UI/UX Design
 - Communications Skills
@@ -123,7 +130,7 @@ Individual verification references:
 
 The names above follow the saved credential record. The six verification URLs are listed separately because an exact URL-to-title mapping has not been independently confirmed.
 
-### Cisco badge verification links — 11 badges
+### Cisco badge verification links — 11 individual badge records
 
 Each link opens the public Credly badge record:
 
@@ -139,6 +146,13 @@ Each link opens the public Credly badge record:
 10. [IT Customer Support Basics](https://www.credly.com/badges/2319c9be-ea2f-44ff-a256-d431cd48404e/public_url)
 11. [Introduction to Modern AI](https://www.credly.com/badges/35fadd6d-f9d6-4d4f-b151-464d30637bbb/public_url)
 
+### EMC Shiraa 2026 — 5 workshops
+
+1. [Artificial Intelligence for Real-World Problem Solving](https://forms.edumc.nl/verify/SHR-2026-WS01-0330) — November 7, 2026
+2. [The Age of AI Agents](https://forms.edumc.nl/verify/SHR-2026-WS02-0291) — November 8, 2026
+3. [Intelligent Automation and AI Agents](https://forms.edumc.nl/verify/SHR-2026-WS03-0326) — November 9, 2026
+4. [Risk Management in Entrepreneurial Projects](https://forms.edumc.nl/verify/SHR-2026-WS04-0421) — November 10, 2026
+5. [Programming and Programming Languages](https://forms.edumc.nl/verify/SHR-2026-WS05-0514) — November 11, 2026
 
 ---
 
@@ -276,7 +290,7 @@ Each link opens the public Credly badge record:
   <a href="https://github.com/mghalaosimi-web">
     <img src="https://img.shields.io/badge/GitHub-M.GH.AL-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
   </a>
-  <a href="https://linkedin.com/in/mohammed-alaosimi-038155443">
+  <a href="https://www.linkedin.com/in/mohammed-alaosimi-038155443/">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
   <a href="https://www.credly.com/users/mohammed-ghaleb-al-aosimi">

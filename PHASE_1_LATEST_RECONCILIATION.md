@@ -221,3 +221,110 @@ Current `main` is `9e12f510554abe4d66f873d484a1d2bab3d9916f`. GitHub Actions Bac
 ### Remaining open integration work
 
 The core release chain above is now in `main`. Older branches/PRs are not to be blindly merged: PR #31 is explicitly superseded by #33; PR #21/#22 contain older static-page styling snapshots; PR #26 contains legacy Worker-oriented backend files; PR #14/#15/#16 contain Worker/D1-era AI/social/auth implementations that require selective porting if still desired. Preserve their histories until each unique feature is classified. Main Phase 1 remains open until the official Production deployment, live route/API/database/auth checks, and final mobile/browser verification succeed.
+
+
+---
+
+## Production API cutover — verified 2026-11-13 (supersedes older deployment snapshots)
+
+The earlier statements in this file saying that Production was still using the Render API proxy, that `DATABASE_URL` existed only in Preview, or that `/photos` returned 404 are historical and are superseded by this read-only verification.
+
+### Deployment identity
+
+- Production deployment ID: `dpl_8JvcKQp7uVzR6hkJpUbbm9QbFjqs`
+- State: `READY`
+- Branch: `main`
+- SHA: `a283323dd63107e510e780f1f1d1265e4d1c719b`
+- Official alias: `https://mghalaosimi-web.vercel.app`
+
+### Live API checks
+
+- `GET /api/ready` → HTTP 200, `{"status":"ready","database":"connected"}`.
+- `GET /api/health` → HTTP 200, `{"status":"ok","database":"connected"}`.
+- `GET /api/public/projects` → HTTP 200 with public project records.
+- `GET /api/public/followers/count` → HTTP 200 with aggregate counts.
+- `GET /api/public/site-reactions` → HTTP 200 with aggregate reaction state.
+- `GET /api/admin/bootstrap/status` → HTTP 200, `ownerExists: true`; this was read-only.
+
+The deployed Next.js API route invokes `lib/mghal-api-runtime.mjs`, which reads the encrypted Production `DATABASE_URL`, builds a PostgreSQL pool, and calls the shared API handler directly. The readiness route runs `SELECT 1 AS ok`. This is sufficient to verify the Vercel-native Production → PostgreSQL path; the health response is not being used as the sole proof.
+
+### Environment and retirement boundary
+
+- Production `DATABASE_URL`: present, encrypted, Production-only; value not read.
+- Production `MGHAL_API_BASE`: still configured to the Render preview hostname, but GitHub default-branch code search found no application-runtime reference. It is stale configuration, not an active proxy dependency.
+- No delete-environment-variable action is exposed by the connected Vercel integration. Do not blank or mutate the variable as a workaround; remove it through the Vercel dashboard when authorized.
+- Render services remain intact. Do not delete or suspend them until protected admin/RBAC and engagement write workflows, rollback needs, and any external consumers are reviewed.
+- No Production write request, migration, owner bootstrap, secret rotation, or infrastructure deletion was performed.
+
+### Revised Phase 1 closure gates
+
+1. Verify authenticated admin login, session handling, RBAC-protected reads, and approved content write paths without exposing credentials.
+2. Verify visitor/follower/reaction/comment flows with controlled test identities and a cleanup plan; do not create production test data casually.
+3. Remove the stale Production `MGHAL_API_BASE` variable through the Vercel dashboard; the connected integration has no deletion action.
+4. Review Render service inventory and external consumers, then retire only the M.GH.AL services with an explicit rollback plan.
+5. Complete final browser/mobile, bilingual, image-loading, canonical, sitemap, robots, and accessibility checks on the official Production alias.
+6. Publish the final Phase 1 closure report with exact SHA, deployment ID, and evidence.
+
+### Neon identity schema and OAuth status
+
+- Production and Preview both contain `follower_identities`, `follower_identity_sessions`, and `oauth_transactions`.
+- Production migration ledger: 0001–0005. Preview ledger: 0001–0006.
+- Read-only Neon schema comparison found no identity table/column/index/constraint delta; the reported difference was limited to ACL/default-privilege entries.
+- Production migration 0006 was not applied. It is intended to reconcile the existing schema and ledger; do not run it on Production without explicit approval.
+- Live `GET /api/public/auth/google/config` returns `enabled: false`. Google OAuth start/callback, Google credential validity, and end-to-end account linking remain unverified.
+
+### Production credential CMS reconciliation — 2026-11-13
+
+A read-only Production query found that the public credentials page and the Neon admin CMS are not yet synchronized:
+
+- Public page: 26 display records — 14 Cisco, 6 Edraak, 1 JSNAD, 5 EMC Shiraa.
+- Neon `certificates` table: 21 rows — 11 published Cisco, 6 published Edraak, 1 published JSNAD, and 3 unpublished generic Cisco placeholders (“سجل اعتماد إضافي 12/13/14”).
+- No EMC Shiraa records exist in the Neon certificates table.
+- The three newest Cisco records shown publicly (Data Science Essentials With Python, Endpoint Security, IT Support Specialist Career Path) are not present by exact title in the CMS table.
+
+No Production database writes were performed. This is a content reconciliation blocker for the admin CMS, not a failure of the public static credentials page. Do not create/update/delete production certificate rows until the three placeholder mappings and five EMC workshop records are reviewed and explicit approval for the content sync is received.
+
+### Remaining open PR classification — refreshed 2026-11-13
+
+This is a file-level classification against current `main`, not an instruction to merge old branches wholesale.
+
+| PR | Branch content | Current disposition |
+|---|---|---|
+| #21 | 21 legacy static HTML/CSS files plus `assets/brand-page-extras.css` | Superseded by the later #22 design pass. It targets the old static-page tree and should not be merged into the current Next.js application. |
+| #22 | 26 legacy static-page files, `assets/brand-page-extras.css`, and `assets/projects/mghal-website.svg` | Preserve the unique CSS/SVG assets for archival/reference. The CSS defines a dark cyan visual system (`#62d8ef`) and targets old static selectors, which conflicts with the approved light navy/blue/white/gold system and current App Router components. Do not port wholesale. |
+| #26 | Project-page generator/integrity fixes, rate-limit configuration, CI wiring, one historical audit report, and Worker-specific changes | The safe current-runtime changes are already present on `main`: generator/tests use `public/`, the project-page test runs in build, and `RATE_LIMIT_PER_MINUTE` is wired through the Node adapter/API handler. Do not reintroduce its Worker-only changes. Keep the unique historical comparison report for reference; PR #26 itself is based on an obsolete feature branch. |
+| #15 | Anonymous follower/reaction UI, visitor tracking, and Worker-era API changes | The active social assets are already present under `public/assets/`; the shared API handler contains the public follower/reaction/event routes, and live aggregate read endpoints returned HTTP 200. The old PR branch is not needed for these features. |
+| #16 | Google follower linking UI, Worker-era migration and API changes | The current shared API handler and PostgreSQL migration artifact already contain the Google linking flow/schema. Production has the identity tables, but Google auth config is disabled (`enabled: false`) and OAuth credentials/flows are not verified. No old Worker migration should be merged or applied. |
+| #14 | Isolated Cloudflare Workers AI provider adapter and tests | The provider class and tests exist in the repository, but code search found no application route/UI integration. It is not part of the current release. Keep isolated until the AI product/provider architecture is explicitly selected; it must not introduce a Worker/D1 runtime dependency. |
+
+No PRs were merged or closed during this classification. Their branches and history remain available. The current Phase 1 release line remains PR #34, based directly on `main`.
+
+### Older open PR classification — refreshed 2026-11-13
+
+| PR | Current assessment |
+|---|---|
+| #13 | README-only identity/link update. The newer README in PR #34 supersedes its content; no separate code or assets need porting. |
+| #12 | 102-file historical platform expansion based on the old static/Worker stack. Current main already contains the active bilingual project catalog, research page, article template, showcase, PWA manifest/service worker/offline page, accessibility helpers, social assets, and generated project pages. Production checks returned HTTP 200 for `/research`, `/showcase.html`, `/article.html`, `/offline.html`, `/manifest.json`, `/sw.js`, `/projects/waynah`, and `/en/projects/waynah`. Do not merge the old branch or its Worker/D1/Render configuration. |
+| #11 | Dual-platform deployment hardening for the former static/Render/Vercel architecture. Conflicts with the current Vercel-only hosting decision; do not reintroduce Render as a production host. |
+| #10 and #9 | Earlier static HTML redesign snapshots. Their visual work is not a clean delta against the current Next.js + public asset architecture; keep as history rather than merging duplicated page trees. |
+| #8 | Earlier full platform build containing static pages, Worker/D1 schema, Wrangler and Render configuration. Its current relevant page families and public features are represented in the main tree; do not merge the old infrastructure. |
+| #5 | Original large static platform foundation, superseded by the current integrated application and later merged work. Preserve history; no wholesale merge. |
+| #4 | Earlier four-file static credential/profile gallery edit with no new image assets. The later #29 photo archive and current credentials page supersede this work. |
+
+No older PR in this table was merged or closed. Their branch histories remain preserved; the active Phase 1 release candidate remains PR #34.
+
+### Render retirement inventory — read-only refresh 2026-11-13
+
+- The connected Render workspace currently lists 19 services in total; 15 are M.GH.AL website/preview-era services. Other resources belong to separate projects and are excluded from this retirement scope.
+- `mghal-official` is still a live public static-site service tracking `main`; its latest live deploy is commit `649aadb3`. It is a Render subdomain, not the official Vercel alias.
+- The latest three listed deploys for `mghal-final-web`, `mghal-node-api-preview`, and `mghal-final-site` are `build_failed`; these are not the current Production request path.
+- The workspace's only Render PostgreSQL instance belongs to the separate Debwan project. No M.GH.AL Render PostgreSQL database was found; M.GH.AL's configured application database is Neon.
+- The Render connector exposes service inspection and deploy history but no service deletion/suspension action. No Render service was stopped, suspended, or deleted. Retire the 15 M.GH.AL services through the Render dashboard only after confirming that no external consumer relies on their onrender.com URLs; do not touch Debwan, the Digital OS project, or the scheduling-system services.
+
+### Main-branch Render auto-deploy guard
+
+The live Render static service `mghal-official` has `autoDeploy=yes`, tracks GitHub `main`, and currently publishes `https://mghal-official.onrender.com`. Merging PR #34 into `main` would therefore also trigger a Render mirror deployment unless that service is first disabled or retired. This conflicts with the Vercel-only hosting decision and the one-official-domain policy. The connected Render tools expose no service-settings update or delete action, so this setting was not changed. Before merging #34, disable auto-deploy or delete this specific Render service in its dashboard; do not touch other projects' services.
+
+### Official Production smoke test — 2026-11-13
+
+Fresh read-only HTTP checks against `https://mghalaosimi-web.vercel.app` returned HTTP 200 for: `/`, `/photos`, `/credentials`, `/research`, `/showcase.html`, `/projects/waynah`, `/en/projects/waynah`, `/manifest.json`, `/sw.js`, `/sitemap.xml`, `/robots.txt`, and `/api/ready`. The API readiness body was `{"status":"ready","database":"connected"}`. This is a route smoke test, not a substitute for interactive browser, mobile, authenticated-admin, or write-path testing.
