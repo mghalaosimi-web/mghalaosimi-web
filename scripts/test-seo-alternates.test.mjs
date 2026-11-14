@@ -1,19 +1,23 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {readFileSync} from 'node:fs';
 import {resolveLocalizedAlternates} from '../lib/seo-paths.mjs';
 
-test('home page exposes distinct Arabic and English canonical URLs',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/','ar'),{canonical:'/',languages:{ar:'/',en:'/en/','x-default':'/'}});
- assert.deepEqual(resolveLocalizedAlternates('/','en'),{canonical:'/en/',languages:{ar:'/',en:'/en/','x-default':'/'}});
+test('home page exposes clean Arabic and English React canonicals',()=>{
+ assert.deepEqual(resolveLocalizedAlternates('/','ar'),{canonical:'/',languages:{ar:'/',en:'/en','x-default':'/'}});
+ assert.deepEqual(resolveLocalizedAlternates('/','en'),{canonical:'/en',languages:{ar:'/',en:'/en','x-default':'/'}});
 });
 
-test('Next.js content routes map to their existing bilingual static counterparts',()=>{
+test('primary React routes expose paired bilingual canonicals',()=>{
  const pairs=[
-  ['/about','/about','/en/profile.html'],
-  ['/projects','/projects','/en/projects.html'],
-  ['/skills','/skills','/en/skills.html'],
-  ['/research','/research','/en/research.html'],
-  ['/contact','/contact','/en/contact.html']
+  ['/about','/about','/en/about'],
+  ['/projects','/projects','/en/projects'],
+  ['/skills','/skills','/en/skills'],
+  ['/research','/research','/en/research'],
+  ['/contact','/contact','/en/contact'],
+  ['/labs','/labs','/en/labs'],
+  ['/credentials','/credentials','/en/credentials'],
+  ['/photos','/photos','/en/photos']
  ];
  for(const [path,ar,en] of pairs){
   assert.equal(resolveLocalizedAlternates(path,'ar').canonical,ar,path+' Arabic canonical');
@@ -23,30 +27,24 @@ test('Next.js content routes map to their existing bilingual static counterparts
  }
 });
 
-test('project detail pages pair the same slug across Arabic and English paths',()=>{
+test('project detail pages pair the same slug across React locale trees',()=>{
  const ar=resolveLocalizedAlternates('/projects/waynah/','ar');
  const en=resolveLocalizedAlternates('/projects/waynah?source=portfolio','en');
- assert.equal(ar.canonical,'/projects/waynah/');
- assert.equal(en.canonical,'/en/projects/waynah/');
+ assert.equal(ar.canonical,'/projects/waynah');
+ assert.equal(en.canonical,'/en/projects/waynah');
  assert.equal(ar.languages?.en,en.canonical);
  assert.equal(en.languages?.ar,ar.canonical);
 });
 
-test('dynamic project details use the App Router canonical without false locale alternates',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/projects/abdulmalik-erp','ar'),{canonical:'/projects/abdulmalik-erp'});
- assert.deepEqual(resolveLocalizedAlternates('/projects/cryptolab-x','en'),{canonical:'/projects/cryptolab-x'});
+test('unmapped routes are normalized and remain in their selected locale',()=>{
+ assert.deepEqual(resolveLocalizedAlternates('/unknown/route/','en'),{canonical:'/en/unknown/route'});
+ assert.deepEqual(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah');
 });
 
-test('cookie-switched routes without a distinct English URL do not emit false hreflang',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/labs','en'),{canonical:'/labs'});
-});
-
-test('normalizes relative paths, duplicate slashes, query strings and trailing slashes',()=>{
- assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah/');
- assert.equal(resolveLocalizedAlternates('/unmapped/route/','en').canonical,'/unmapped/route');
-});
-
-test('credentials uses its current canonical route without a false English alternate',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/credentials','ar'),{canonical:'/credentials'});
- assert.deepEqual(resolveLocalizedAlternates('/credentials','en'),{canonical:'/credentials'});
+test('legacy HTML URLs permanently redirect to clean React paths',()=>{
+ const config=readFileSync(new URL('../next.config.ts',import.meta.url),'utf8');
+ assert.ok(config.includes("['/profile.html','/about']"));
+ assert.ok(config.includes("['/projects.html','/projects']"));
+ assert.ok(config.includes("['/certificates.html','/credentials']"));
+ assert.ok(config.includes("{source:'/admin/index.html',destination:'/admin',permanent:true}"));
 });

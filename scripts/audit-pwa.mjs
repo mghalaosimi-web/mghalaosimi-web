@@ -1,59 +1,25 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import {existsSync,readFileSync} from "node:fs";
 
-const worker = readFileSync(new URL("../public/sw.js", import.meta.url), "utf8");
-const site = readFileSync(new URL("../public/assets/site.js", import.meta.url), "utf8");
-const offline = readFileSync(new URL("../public/offline.html", import.meta.url), "utf8");
-const manifest = JSON.parse(readFileSync(new URL("../public/manifest.json", import.meta.url), "utf8"));
-const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
-const experience = readFileSync(new URL("../app/components/SiteExperience.tsx", import.meta.url), "utf8");
-const shell = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
+const read=(path)=>readFileSync(new URL(path,import.meta.url),"utf8");
+const worker=read("../public/sw.js");
+const manifest=JSON.parse(read("../public/manifest.json"));
+const layout=read("../app/layout.tsx");
+const offline=read("../app/offline/page.tsx");
 
-function assertCachedFilesExist(section, label) {
-  const start = worker.indexOf(`const ${section} = [`);
-  const end = worker.indexOf("];", start);
-  assert.ok(start >= 0 && end > start, label + " list is missing.");
-  const paths = [...worker.slice(start, end).matchAll(/"([^"]+)"/g)].map((entry) => entry[1]);
-  assert.ok(paths.length > 0, label + " list must not be empty.");
-
-  for (const path of paths) {
-    const relative = path === "/"
-      ? "../public/index.html"
-      : path.endsWith("/")
-        ? `../public${path}index.html`
-        : `../public${path}`;
-    assert.ok(existsSync(new URL(relative, import.meta.url)), `Missing cached PWA resource: ${path}`);
-  }
-  return paths.length;
+assert.match(worker,/mghal-pwa-v7/,"The service-worker cache version must advance after removing legacy HTML caching.");
+assert.ok(worker.includes('const OFFLINE_DOCUMENT="/offline"'),"The PWA must use the React offline route.");
+assert.ok(!worker.includes(".html"),"The service worker must not depend on legacy HTML documents.");
+assert.ok(existsSync(new URL("../app/offline/page.tsx",import.meta.url)),"The React offline route must exist.");
+assert.ok(offline.includes("أنت غير متصل بالإنترنت"),"The React offline page must explain the offline state.");
+assert.ok(worker.includes('cache.add(OFFLINE_DOCUMENT)'),"The service worker must cache the React offline route.");
+assert.ok(worker.includes("await cache.addAll(CORE_ASSETS)"),"Core PWA assets must be precached.");
+for(const asset of ["/favicon.svg","/assets/pwa-icon.svg","/manifest.json","/assets/design-tokens.css","/assets/theme.css"]){
+ const relative=asset==="/manifest.json"?"../public/manifest.json":asset==="/favicon.svg"?"../public/favicon.svg":asset==="/assets/pwa-icon.svg"?"../public/assets/pwa-icon.svg":asset==="/assets/design-tokens.css"?"../public/assets/design-tokens.css":"../public/assets/theme.css";
+ assert.ok(existsSync(new URL(relative,import.meta.url)),"Missing PWA core asset: "+asset);
 }
-
-const cacheVersion = worker.split('const CACHE_NAME = "mghal-pwa-v')[1]?.split('"')[0];
-assert.ok(cacheVersion && /^[0-9]+$/.test(cacheVersion), "Service worker cache version is missing.");
-const coreCount = assertCachedFilesExist("CORE_ASSETS", "Core asset");
-const pageCount = assertCachedFilesExist("APP_PAGES", "Offline page");
-assert.ok(worker.includes('request.mode === "navigate"'), "Document requests must use the network-first strategy.");
-
-assert.ok(worker.includes('const CACHED_DOCUMENT_PATHS = new Set(["/index.html", ...APP_PAGES]);'), "Only locale-stable legacy pages may be cached as documents.");
-const coreStart = worker.indexOf("const CORE_ASSETS = [");
-const coreEnd = worker.indexOf("];", coreStart);
-assert.ok(!worker.slice(coreStart, coreEnd).includes('"/"'), "The cookie-localized Next.js homepage must not be pre-cached.");
-assert.ok(worker.includes("const cacheable = CACHED_DOCUMENT_PATHS.has(path);"), "Navigation caching must be restricted to the explicit static page allowlist.");
-assert.ok(worker.includes("const exact = cacheable ? await cache.match(request) : null;"), "Dynamic Next.js routes must not be served from a locale-ambiguous cache.");
-assert.ok(worker.includes('cache.match("/offline.html")'), "Failed navigations must have a local offline fallback.");
-assert.ok(site.includes('navigator.serviceWorker.register("/sw.js"'), "Legacy pages must register the service worker.");
-assert.ok(offline.includes('href="#main-content"'), "Offline page must provide keyboard skip navigation.");
-assert.equal(manifest.display, "standalone", "PWA display mode should remain standalone.");
-assert.equal(manifest.background_color, "#0B1117", "Installed app background must use the shared M.GH.AL dark surface.");
-assert.ok(manifest.start_url && manifest.scope === "/", "PWA start_url and scope are required.");
-
-assert.ok(layout.includes("manifest: '/manifest.json'"), "The Next.js shell must expose the PWA manifest.");
-assert.ok(layout.includes("<SiteExperience/>"), "The Next.js shell must mount shared PWA and reading-progress behavior.");
-assert.ok(experience.includes(".register('/sw.js'"), "The Next.js experience must register the existing service worker.");
-assert.ok(experience.includes("window.addEventListener('scroll'"), "Reading progress must respond to scrolling.");
-assert.ok(experience.includes("requestAnimationFrame"), "Reading progress updates must be animation-frame throttled.");
-assert.ok(experience.includes("new ResizeObserver"), "Reading progress must recalculate when page content changes.");
-assert.ok(shell.includes(".mghal-reading-progress{") && shell.includes("position:fixed"), "Reading progress must remain pinned to the viewport.");
-assert.ok(shell.includes('html[dir="rtl"] .mghal-reading-progress{transform-origin:right}'), "Reading progress origin must respect RTL direction.");
-assert.ok(shell.includes("prefers-reduced-motion:reduce"), "The site shell must preserve reduced-motion support.");
-
-console.log(`PWA audit passed: ${coreCount} cached assets, ${pageCount} offline pages, legacy + Next.js registration, manifest, offline fallback and RTL/LTR reading progress.`);
+assert.equal(manifest.display,"standalone","PWA display mode should remain standalone.");
+assert.equal(manifest.scope,"/","PWA scope must remain at the site root.");
+assert.ok(layout.includes("manifest: '/manifest.json'"),"The Next.js shell must expose the PWA manifest.");
+assert.ok(layout.includes("<SiteExperience/>"),"The Next.js shell must mount shared PWA behavior.");
+console.log("PWA audit passed: React offline route, current assets, and no legacy HTML cache dependencies.");

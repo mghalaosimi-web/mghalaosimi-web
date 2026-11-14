@@ -1,34 +1,39 @@
-import type { NextConfig } from 'next';
+import type {NextConfig} from 'next';
 
-const legacyStaticProjectSlugs = ['waynah','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-official-website','almanar-schedule-system'];
-
-const nextConfig: NextConfig = {
-  poweredByHeader: false,
-  images: { unoptimized: true },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          { key: 'Strict-Transport-Security', value: 'max-age=31536000' },
-          { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'X-Frame-Options', value: 'DENY' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
-        ],
-      },
-    ];
+const nextConfig:NextConfig={
+  poweredByHeader:false,
+  experimental:{cpus:2},
+  images:{unoptimized:true},
+  async headers(){
+    return [{source:'/:path*',headers:[
+      {key: 'Strict-Transport-Security',value: 'max-age=31536000'},
+      {key: 'X-Content-Type-Options',value: 'nosniff'},
+      {key: 'X-Frame-Options',value: 'DENY'},
+      {key: 'Referrer-Policy',value: 'strict-origin-when-cross-origin'},
+      {key: 'Permissions-Policy',value: 'camera=(), microphone=(), geolocation=()'},
+    ]}];
   },
-  async rewrites() {
+  async redirects(){
+    const legacyPages=[
+      ['/profile.html','/about'],['/projects.html','/projects'],
+      ['/certificates.html','/credentials'],['/certificate.html','/credentials'],
+      ['/skills.html','/skills'],['/education.html','/about'],
+      ['/achievements.html','/credentials'],['/knowledge.html','/labs'],
+      ['/contact.html','/contact'],['/showcase.html','/projects'],
+      ['/resume.html','/about'],['/research.html','/research'],
+      ['/article.html','/labs'],
+    ];
     return [
-      { source: '/admin', destination: '/admin/index.html' },
-      { source: '/en', destination: '/en/index.html' },
-      ...legacyStaticProjectSlugs.flatMap((slug) => [
-        { source: `/projects/${slug}`, destination: `/projects/${slug}/index.html` },
-        { source: `/en/projects/${slug}`, destination: `/en/projects/${slug}/index.html` },
-      ])
+      {source:'/index.html',destination:'/',permanent:true},
+      {source:'/404.html',destination:'/',permanent:true},
+      {source:'/en/index.html',destination:'/en',permanent:true},
+      {source:'/admin/index.html',destination:'/admin',permanent:true},
+      {source:'/offline.html',destination:'/offline',permanent:true},
+      ...legacyPages.map(([source,destination])=>({source,destination,permanent:true})),
+      ...legacyPages.map(([source,destination])=>({source:'/en'+source,destination:'/en'+destination,permanent:true})),
+      {source:'/en/projects/:slug/index.html',destination:'/en/projects/:slug',permanent:true},
+      {source:'/projects/:slug/index.html',destination:'/projects/:slug',permanent:true},
     ];
   }
 };
-
 export default nextConfig;
