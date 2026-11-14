@@ -31,8 +31,8 @@ test('bilingual Next.js routes expose matching hreflang pairs',()=>{
  }
 });
 
-test('all ten project detail routes are listed in both languages with canonical trailing slashes',()=>{
- const slugs=['waynah','humanity-system','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-esdp','mghal-official-website','almanar-schedule-system'];
+test('all eleven project detail routes are listed in both languages with canonical trailing slashes',()=>{
+ const slugs=['waynah','humanity-system','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-esdp','mghal-official-website','almanar-schedule-system','alnasr-supermarket-erp'];
  for(const slug of slugs){
   assert.ok(locations.has(base+'/projects/'+slug+'/'),'missing Arabic project URL: '+slug);
   assert.ok(locations.has(base+'/en/projects/'+slug+'/'),'missing English project URL: '+slug);

@@ -328,3 +328,17 @@ The live Render static service `mghal-official` has `autoDeploy=yes`, tracks Git
 ### Official Production smoke test — 2026-11-13
 
 Fresh read-only HTTP checks against `https://mghalaosimi-web.vercel.app` returned HTTP 200 for: `/`, `/photos`, `/credentials`, `/research`, `/showcase.html`, `/projects/waynah`, `/en/projects/waynah`, `/manifest.json`, `/sw.js`, `/sitemap.xml`, `/robots.txt`, and `/api/ready`. The API readiness body was `{"status":"ready","database":"connected"}`. This is a route smoke test, not a substitute for interactive browser, mobile, authenticated-admin, or write-path testing.
+
+
+### Production release verification and credential proof audit — 2026-11-14
+
+- Vercel Production deployment for commit `3b6d89f0356442599b11302e37b57a252422d3c7` is now `READY`; the official alias `mghalaosimi-web.vercel.app` is attached and `aliasError` is null.
+- Live route checks against the official alias returned HTTP 200 for `/`, `/photos`, `/credentials`, `/projects`, and `/api/ready`. The readiness endpoint reports `status=ready` and `database=connected`.
+- Six Edraak certificate verification URLs were fetched live. All six returned HTTP 200 and each page displayed the matching holder name and course.
+- Five EMC Shiraa verification URLs were fetched live. All five returned HTTP 200 and each page displayed the matching holder name and certificate number.
+- Eleven individual Cisco Credly badge URLs were fetched live and each displayed the matching holder and credential. The public Credly profile lists all 14 Cisco badges, including the three issued 2026-11-12; those three currently use the profile-level link rather than an unconfirmed individual badge URL.
+- The JSNAD badge URL previously embedded in `app/credentials/page.tsx` resolves to a different badge holder. It has been removed from the JSNAD card in this branch. The correct holder-specific JSNAD verification record has not yet been established; the credential remains listed, but must not be represented as individually verified until its matching issuer record is supplied or located.
+- The Neon Production `certificates` table remains at 21 rows: 11 published Cisco, 6 published Edraak, 1 published JSNAD, and 3 unpublished generic Cisco placeholders. It has no EMC rows; all 21 rows have null image/PDF media references. No Production database writes or migrations were performed.
+- The portfolio's source project catalog contains 10 projects and omits the AL-NASR supermarket ERP repository. This branch adds AL-NASR as a foundation-evaluation project and explicitly labels it `not production-ready`; it does not claim a completed deployment.
+- A public repository named `CryptoLab-X` was not found in the M.GH.AL GitHub organization. It remains a separate unresolved portfolio item; do not merge it conceptually with CipherSphere or publish a guessed repository link.
+- The CMS/static-page content mismatch remains open. Any Production certificate CMS synchronization, including mapping the three Cisco placeholders and inserting the five EMC records, still requires explicit approval. No Production content writes were made in this audit.
