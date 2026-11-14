@@ -119,7 +119,7 @@ for (const slug of ["humanity-system", "mghal-esdp"]) {
   for (const language of ["ar", "en"]) assert.ok(!existsSync(new URL("../public/" + (language === "en" ? "en/" : "") + "projects/" + slug + "/index.html", import.meta.url)), "Private static project page must not exist: " + slug + " / " + language);
 }
 
-const indexedPublicProjects = publicSearchIndex.filter(record => /^\\/projects\\/[a-z0-9-]+\\/$/.test(record.url));
+const indexedPublicProjects = publicSearchIndex.filter(record => /^\/projects\/[a-z0-9-]+\/$/.test(record.url));
 assert.equal(indexedPublicProjects.length, 19, "All public project records must be present in the public search index.");
 assert.ok(indexedPublicProjects.some(record => record.title === "CryptoLab-X"), "CryptoLab-X must be indexed as a separate public project.");
 const privateMigrationRows = localizationMigration.split("\n").filter(line => line.includes("WHERE slug='humanity-system'") || line.includes("WHERE slug='mghal-esdp'"));
