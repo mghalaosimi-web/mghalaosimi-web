@@ -164,19 +164,19 @@ function addFollowPanel(){
 }
 function getProjects(){if(!window.__mghalProjectIndex)window.__mghalProjectIndex=json('/api/public/projects?locale='+(en?'en':'ar')).then(data=>data.data||[]);return window.__mghalProjectIndex}
 function projectCards(){
- const cards=[...document.querySelectorAll('main:not(.home-v2) .grid .card[data-project-slug],main:not(.home-v2) .grid .card,main:not(.home-v2) .home-project-card')];
+ const cards=[...document.querySelectorAll('main:not(.home-v2) .grid .card[data-project-slug],main:not(.home-v2) .grid .card,main:not(.home-v2) .home-project-card,main:not(.home-v2) .portfolio-project-card[data-project-slug]')];
  for(const card of cards){
   if(card.dataset.socialReady==='1')continue;
   const link=card.querySelector('a.project-detail-link,a[href*="/projects/"]'),path=link?new URL(link.href,location.origin).pathname:'';
   const slug=card.dataset.projectSlug||(path.match(/\/projects\/([^/]+)/)||[])[1];if(!slug)continue;
   card.dataset.socialReady='1';card.dataset.projectSlug=slug;
-  const row=document.createElement('div');row.className='mghal-card-social';row.textContent=en?'Loading reactions…':'جارٍ تحميل التفاعلات…';card.append(row);
-  getProjects().then(projects=>{const project=projects.find(item=>item.slug===slug);if(!project){row.remove();return}row.replaceChildren(reactionWidget('project',project.id),shareButton(location.origin+(en?'/en':'')+'/projects/'+slug+'/',project.name||project.name_ar))}).catch(()=>{row.textContent=''});
+  const row=document.createElement('div');row.className='mghal-card-social';row.textContent=en?'Loading reactions…':'جارٍ تحميل التفاعلات…';if(card.classList.contains('portfolio-project-card'))card.after(row);else card.append(row);
+  getProjects().then(projects=>{const project=projects.find(item=>item.slug===slug);if(!project){row.remove();return}row.replaceChildren(reactionWidget('project',project.id),shareButton(location.origin+(en?'/en':'')+'/projects/'+slug,project.name||project.name_ar))}).catch(()=>{row.textContent=''});
  }
 }
 async function projectDetail(){
  const match=location.pathname.match(/^\/(?:en\/)?projects\/([^/]+)\/?$/);if(!match)return;
- try{const projects=await getProjects(),project=projects.find(item=>item.slug===match[1]);if(!project)return;const hero=$('.project-hero');if(!hero||$('#mghal-project-engagement'))return;
+ try{const projects=await getProjects(),project=projects.find(item=>item.slug===match[1]);if(!project)return;const hero=$('.project-hero,.mghal-archive-hero');if(!hero||$('#mghal-project-engagement'))return;
   const section=document.createElement('section');section.id='mghal-project-engagement';section.className='mghal-project-engagement';
   const heading=document.createElement('h2');heading.textContent=en?'Support this project':'تفاعل مع المشروع';const row=document.createElement('div');row.className='mghal-card-social';row.append(reactionWidget('project',project.id),shareButton(location.href,project.name||project.name_ar));section.append(heading,row);hero.after(section);
  }catch{}
