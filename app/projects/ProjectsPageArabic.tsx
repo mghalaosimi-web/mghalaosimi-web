@@ -116,7 +116,7 @@ export default function ProjectsPage(){
         {visible.map((p,i)=>{
           const meta=categoryMeta[p.category];
           const Icon=meta.Icon;
-          return <button type="button" className="portfolio-project-card" onClick={()=>setSelectedProject(p)} key={p.slug} aria-haspopup="dialog" aria-label={'عرض تفاصيل '+p.name}>
+          return <button type="button" className="portfolio-project-card" data-project-slug={p.slug} onClick={()=>setSelectedProject(p)} key={p.slug} aria-haspopup="dialog" aria-label={'عرض تفاصيل '+p.name}>
             <div className="portfolio-project-card-top"><span className="portfolio-project-icon"><Icon size={19}/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div>
             <div className="portfolio-project-status"><i/>{p.status}</div>
             <h3>{p.name}</h3>
