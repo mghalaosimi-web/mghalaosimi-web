@@ -22,7 +22,7 @@ const categoryMeta={
 };
 
 export default function ProjectsPage(){
-  const publicProjects=projects.filter(p=>p.slug!=='humanity-system'&&p.slug!=='mghal-esdp');
+  const publicProjects=projects;
   const [filter,setFilter]=useState<typeof filters[number]['id']>('all');
   const [selectedProject,setSelectedProject]=useState<Project|null>(null);
   useEffect(()=>{if(!selectedProject)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape')setSelectedProject(null)};window.addEventListener('keydown',onKeyDown);return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKeyDown)}},[selectedProject]);
