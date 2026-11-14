@@ -15,6 +15,7 @@ const projects = read("../data/projects.ts");
 const siteSearch = read("../app/components/SiteSearch.tsx");
 const databaseContent = read("../public/assets/database-content.js");
 const publicCatalog = JSON.parse(read("../public/assets/projects/catalog.json"));
+const publicSearchIndex = JSON.parse(read("../public/assets/search-index.json"));
 const publicSitemap = read("../public/sitemap.xml");
 const publicHomeAr = read("../public/index.html");
 const publicHomeEn = read("../public/en/index.html");
@@ -110,7 +111,7 @@ console.log("Profile-content audit passed: owner identity, IT degree, official c
 
 
 const privateProjectMarkers = ["humanity-system", "mghal-esdp", "Humanity System", "M.GH.AL ESDP"];
-for (const [name, source] of [["project registry", projects], ["Arabic about", arAbout], ["English about", enAbout], ["Arabic home", arHome], ["English home", enHome], ["Arabic project listing", arListing], ["English project listing", enListing], ["Arabic legacy listing", arRootListing], ["English legacy listing", enRootListing], ["site search", siteSearch], ["database media map", databaseContent], ["public sitemap", publicSitemap], ["Arabic static home", publicHomeAr], ["English static home", publicHomeEn], ["Arabic legacy home", legacyHomeAr], ["English legacy home", legacyHomeEn], ["README", publicReadme], ["public README asset", publicAssetReadme], ["portfolio audit", publicAuditDoc], ["public project catalogue", JSON.stringify(publicCatalog)]]) {
+for (const [name, source] of [["project registry", projects], ["Arabic about", arAbout], ["English about", enAbout], ["Arabic home", arHome], ["English home", enHome], ["Arabic project listing", arListing], ["English project listing", enListing], ["Arabic legacy listing", arRootListing], ["English legacy listing", enRootListing], ["site search", siteSearch], ["database media map", databaseContent], ["public sitemap", publicSitemap], ["Arabic static home", publicHomeAr], ["English static home", publicHomeEn], ["Arabic legacy home", legacyHomeAr], ["English legacy home", legacyHomeEn], ["README", publicReadme], ["public README asset", publicAssetReadme], ["portfolio audit", publicAuditDoc], ["public project catalogue", JSON.stringify(publicCatalog)], ["public search index", JSON.stringify(publicSearchIndex)]]) {
   for (const marker of privateProjectMarkers) assert.ok(!source.includes(marker), name + ": private project reference leaked: " + marker);
 }
 assert.ok(!existsSync(new URL("../public/assets/projects/repository-inventory.json", import.meta.url)), "Private repository inventory must not be shipped as a public asset.");
@@ -118,6 +119,9 @@ for (const slug of ["humanity-system", "mghal-esdp"]) {
   for (const language of ["ar", "en"]) assert.ok(!existsSync(new URL("../public/" + (language === "en" ? "en/" : "") + "projects/" + slug + "/index.html", import.meta.url)), "Private static project page must not exist: " + slug + " / " + language);
 }
 
+const indexedPublicProjects = publicSearchIndex.filter(record => /^\\/projects\\/[a-z0-9-]+\\/$/.test(record.url));
+assert.equal(indexedPublicProjects.length, 19, "All public project records must be present in the public search index.");
+assert.ok(indexedPublicProjects.some(record => record.title === "CryptoLab-X"), "CryptoLab-X must be indexed as a separate public project.");
 const privateMigrationRows = localizationMigration.split("\n").filter(line => line.includes("WHERE slug='humanity-system'") || line.includes("WHERE slug='mghal-esdp'"));
 assert.equal(privateMigrationRows.length, 2, "Private project migration rows must remain available for database record continuity.");
 for (const line of privateMigrationRows) {
