@@ -34,13 +34,9 @@ const routeMap: Record<string, string> = {
   '/en/contact.html': '/contact',
 };
 
-function projectHref(title: string): string | undefined {
-  const value = normalize(title);
-  if (value.includes('waynah') || value.includes('وينه')) return '/projects/waynah';
-  if (value.includes('yemen ai platform')) return '/projects/yemen-ai';
-  if (value.includes('content studio') || value.includes('content os')) return '/projects/mghal-content-os';
-  if (value.includes('ciphersphere')) return '/projects/ciphersphere';
-  if (value.includes('focusflow')) return '/projects/focusflow';
+function projectHref(title: string, url?: string): string | undefined {
+  const match = url?.match(/^\/(?:en\/)?projects\/([a-z0-9-]+)\/?$/);
+  if (match) return '/projects/' + match[1];
   return undefined;
 }
 
@@ -91,7 +87,7 @@ export default function SiteSearch({ isEn }: { isEn: boolean }) {
       },
     ];
     const indexed: SearchItem[] = (index ?? []).flatMap((record) => {
-      const href = projectHref(record.title) ?? routeMap[record.url];
+      const href = projectHref(record.title, record.url) ?? routeMap[record.url];
       return href ? [{
         title: record.title,
         href,
