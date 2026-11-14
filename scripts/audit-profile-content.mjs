@@ -129,9 +129,4 @@ for (const slug of ["humanity-system", "mghal-esdp"]) {
 const indexedPublicProjects = publicSearchIndex.filter(record => /^\/projects\/[a-z0-9-]+\/$/.test(record.url));
 assert.equal(indexedPublicProjects.length, 19, "All public project records must be present in the public search index.");
 assert.ok(indexedPublicProjects.some(record => record.title === "CryptoLab-X"), "CryptoLab-X must be indexed as a separate public project.");
-const privateMigrationRows = localizationMigration.split("\n").filter(line => line.includes("WHERE slug='humanity-system'") || line.includes("WHERE slug='mghal-esdp'"));
-assert.equal(privateMigrationRows.length, 2, "Private project migration rows must remain available for database record continuity.");
-for (const line of privateMigrationRows) {
-  assert.ok(line.includes("سجل مشروع خاص غير منشور."), "Private migration rows must use generic public-safe descriptions.");
-  for (const detail of ["Next.js", "Prisma", "Windows", "Android", "RBAC", "Capacitor", "com.mghal"]) assert.ok(!line.includes(detail), "Private implementation detail leaked into migration: " + detail);
-}
+assert.ok(!localizationMigration.includes("humanity-system") && !localizationMigration.includes("mghal-esdp"), "Private project slugs and records must not be exposed in public migration files.");
