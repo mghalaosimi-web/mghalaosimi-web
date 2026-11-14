@@ -82,7 +82,8 @@ export default function SiteSearch({ isEn }: { isEn: boolean }) {
       },
     ];
     const indexed: SearchItem[] = (index ?? []).flatMap((record) => {
-      const href = projectHref(record.url, isEn) ?? routeMap[record.url];
+      const mappedRoute = routeMap[record.url];
+      const href = projectHref(record.url, isEn) ?? (isEn && mappedRoute ? (mappedRoute === '/' ? '/en' : mappedRoute.startsWith('/en/') ? mappedRoute : '/en' + mappedRoute) : mappedRoute);
       return href ? [{
         title: record.title,
         href,
