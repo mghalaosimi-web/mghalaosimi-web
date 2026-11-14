@@ -34,10 +34,14 @@ const routeMap: Record<string, string> = {
   '/en/contact.html': '/contact',
 };
 
-function projectHref(url?: string): string | undefined {
+const legacyStaticProjectSlugs = new Set(['waynah','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-official-website','almanar-schedule-system']);
+
+function projectHref(url: string | undefined, isEn: boolean): string | undefined {
   const match = url?.match(/^\/(?:en\/)?projects\/([a-z0-9-]+)\/?$/);
-  if (match) return '/projects/' + match[1];
-  return undefined;
+  if (!match) return undefined;
+  const slug = match[1];
+  const prefix = isEn ? '/en/projects/' : '/projects/';
+  return prefix + slug + (legacyStaticProjectSlugs.has(slug) ? '/' : '');
 }
 
 function normalize(value: string): string {
@@ -87,7 +91,7 @@ export default function SiteSearch({ isEn }: { isEn: boolean }) {
       },
     ];
     const indexed: SearchItem[] = (index ?? []).flatMap((record) => {
-      const href = projectHref(record.url) ?? routeMap[record.url];
+      const href = projectHref(record.url, isEn) ?? routeMap[record.url];
       return href ? [{
         title: record.title,
         href,
