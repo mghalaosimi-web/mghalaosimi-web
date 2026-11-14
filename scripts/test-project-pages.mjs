@@ -19,6 +19,7 @@ const detailSlugs = [...projectDetailRoute.matchAll(/slug:'([^']+)'/g)].map(matc
 const legacySlugs = catalog.projects.map(project => project.slug);
 const dynamicSlugs = registrySlugs.filter(slug => !legacySlugs.includes(slug));
 assert.equal(registrySlugs.length, 19, "The public registry must contain all nineteen approved projects.");
+assert.ok(existsSync(path.join(publicRoot, "assets/projects/project-placeholder.svg")), "Dynamic project cards must have the neutral illustrative cover asset.");
 assert.deepEqual(detailSlugs, registrySlugs, "Every public project must have a matching detail record.");
 assert.equal(dynamicSlugs.length, 11, "Eleven non-legacy projects must use the Next.js dynamic route.");
 const configuredLegacy = nextConfig.match(/const legacyStaticProjectSlugs = \[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(value => value.slice(1,-1)) ?? [];
