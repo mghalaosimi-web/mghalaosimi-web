@@ -9,6 +9,27 @@ assert.ok(Array.isArray(catalog.projects) && catalog.projects.length > 0, "The p
 assert.match(catalog.siteOrigin, /^https:\/\//, "A canonical site origin is required.");
 
 const privateSlugs = ["humanity-system", "mghal-esdp"];
+const projectRegistry = readFileSync(path.join(root, "data/projects.ts"), "utf8");
+const projectDetailRoute = readFileSync(path.join(root, "app/projects/[slug]/page.tsx"), "utf8");
+const nextConfig = readFileSync(path.join(root, "next.config.ts"), "utf8");
+const seoPaths = readFileSync(path.join(root, "lib/seo-paths.mjs"), "utf8");
+const registrySlugs = [...projectRegistry.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
+const detailSlugs = [...projectDetailRoute.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
+const legacySlugs = catalog.projects.map(project => project.slug);
+const dynamicSlugs = registrySlugs.filter(slug => !legacySlugs.includes(slug));
+assert.equal(registrySlugs.length, 19, "The public registry must contain all nineteen approved projects.");
+assert.deepEqual(detailSlugs, registrySlugs, "Every public project must have a matching detail record.");
+assert.equal(dynamicSlugs.length, 11, "Eleven non-legacy projects must use the Next.js dynamic route.");
+assert.ok(nextConfig.includes("legacyStaticProjectSlugs.flatMap"), "Only legacy static projects should receive static-file rewrites.");
+assert.ok(!nextConfig.includes("source: '/projects/:slug'") && !nextConfig.includes("source: '/en/projects/:slug'"), "A broad rewrite must not shadow dynamic project detail routes.");
+assert.ok(seoPaths.includes("legacyStaticProjectSlugs.includes(projectMatch[1])"), "SEO path resolution must distinguish legacy static and dynamic project routes.");
+for (const slug of dynamicSlugs) {
+  assert.deepEqual(resolveLocalizedAlternates("/projects/" + slug, "ar"), {canonical:"/projects/" + slug}, "Dynamic project must use its real Next.js canonical path: " + slug);
+}
+for (const slug of legacySlugs) {
+  assert.ok(resolveLocalizedAlternates("/projects/" + slug, "ar").canonical.endsWith("/"), "Legacy static project canonical must retain its trailing slash: " + slug);
+}
+
 for (const cover of ["humanity.svg", "esdp.svg"]) {
   assert.ok(!existsSync(path.join(publicRoot, "assets/projects", cover)), "Private project cover must not be published: " + cover);
 }
