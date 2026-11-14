@@ -13,7 +13,7 @@ const mediaMigration=readFileSync('mghal-backend/migrations/0004_d1_media_storag
 const technologyMigration=readFileSync('mghal-backend/migrations/0005_technology_visibility.sql','utf8');
 const databaseContent=readFileSync('public/assets/database-content.js','utf8');
 const certificateSync=readFileSync('public/assets/certificate-sync.js','utf8');
-for(const view of ['dashboard','identity','projects','certificates','articles','technologies','skills','education','achievements','followers','comments','analytics','media','users'])assert.ok(page.includes(`data-view="${view}"`),`missing admin view ${view}`);
+for(const view of ['dashboard','identity','projects','certificates','articles','technologies','skills','education','achievements','followers','comments','analytics','media','users'])assert.ok(page.includes(`['${view}'`),`missing React admin view ${view}`);
 for(const route of ['/api/admin/bootstrap/status','/api/admin/bootstrap/rotate','/api/admin/bootstrap','/api/admin/auth/login','/api/admin/dashboard','/api/admin/analytics','/api/admin/followers','/api/admin/comments','/api/admin/media','/api/admin/users'])assert.ok(apiHandler.includes(route),`missing API route ${route}`);
 assert.match(page,/robots:\{index:false,follow:false,noarchive:true\}/);
 assert.ok(page.includes('id="bootstrap-rotate-form"'),'admin UI must expose the one-time token rotation form');
