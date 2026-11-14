@@ -102,7 +102,7 @@ for (const [name, source] of [["Arabic projects", arProjects], ["English project
 assert.ok(enHome.includes("Al-Manar College for Science and Technology"), "English homepage must use the official college name.");
 assert.ok(enHome.includes("M.GH.AL"), "English homepage must use M.GH.AL identity branding.");
 assert.ok(arContact.includes("M.GH.AL"), "Arabic contact page must use M.GH.AL identity branding.");
-console.log("Profile-content audit passed: owner identity, IT degree, official college, 20-project registry, AI/ERP research, accurate contacts, localized routes, and no reference-owner identity/project residue.");
+console.log("Profile-content audit passed: owner identity, IT degree, official college, 18-public-project registry, AI/ERP research, accurate contacts, localized routes, and private-project exclusion.");
 
 
 const privateProjectMarkers = ["humanity-system", "mghal-esdp", "Humanity System", "M.GH.AL ESDP"];
