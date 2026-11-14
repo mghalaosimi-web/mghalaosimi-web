@@ -51,11 +51,13 @@ assert.ok(arAbout.includes("الأمن السيبراني اهتمام معرف�
 assert.ok(enAbout.includes("not as my academic degree specialization"), "English profile must distinguish cybersecurity interest from academic degree.");
 assert.ok(arAbout.includes("active==='learning'?<Learning/>") && enAbout.includes("active==='learning'?<Learning/>"), "Unverified leadership tab must be replaced by learning content.");
 
-const expectedSlugs = ["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website"];
+const expectedSlugs = ["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website","cryptolab-x"];
 const actualSlugs = [...projects.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
-assert.deepEqual(actualSlugs, expectedSlugs, "The public project registry must contain exactly the 18 approved public records in priority order.");
+const cryptoLab = projects.slice(projects.indexOf("slug:'cryptolab-x'"), projects.indexOf("}", projects.indexOf("slug:'cryptolab-x'")));
+assert.ok(cryptoLab.includes("category:'cyber-defense'") && cryptoLab.includes("مكتمل وفق إفادة المالك") && cryptoLab.includes("CipherSphere") && !cryptoLab.includes("repository:"), "CryptoLab-X must remain a separate owner-confirmed project without invented public source or stack claims.");
+assert.deepEqual(actualSlugs, expectedSlugs, "The public project registry must contain exactly the 19 approved public records in priority order.");
 const englishStatuses = [...enProjects.matchAll(/status:'([^']+)'/g)].map(match => match[1]);
-assert.equal(englishStatuses.length, 18, "English project explorer must provide an explicit status for every public project.");
+assert.equal(englishStatuses.length, 19, "English project explorer must provide an explicit status for every public project.");
 assert.ok(englishStatuses.every(status => !/[\u0600-\u06FF]/.test(status)), "English project statuses must not fall back to Arabic registry values.");
 assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'almanar-schedule-system'"), "The two academic scheduling repositories must remain separate.");
 const publicRepositories = ["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website"];
@@ -104,7 +106,7 @@ for (const [name, source] of [["Arabic projects", arProjects], ["English project
 assert.ok(enHome.includes("Al-Manar College for Science and Technology"), "English homepage must use the official college name.");
 assert.ok(enHome.includes("M.GH.AL"), "English homepage must use M.GH.AL identity branding.");
 assert.ok(arContact.includes("M.GH.AL"), "Arabic contact page must use M.GH.AL identity branding.");
-console.log("Profile-content audit passed: owner identity, IT degree, official college, 18-public-project registry, AI/ERP research, accurate contacts, localized routes, and private-project exclusion.");
+console.log("Profile-content audit passed: owner identity, IT degree, official college, 19-public-project registry, AI/ERP research, accurate contacts, localized routes, and private-project exclusion.");
 
 
 const privateProjectMarkers = ["humanity-system", "mghal-esdp", "Humanity System", "M.GH.AL ESDP"];
