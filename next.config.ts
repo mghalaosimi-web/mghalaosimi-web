@@ -25,6 +25,7 @@ const nextConfig:NextConfig={
     ];
     return [
       {source:'/index.html',destination:'/',permanent:true},
+      {source:'/404.html',destination:'/',permanent:true},
       {source:'/en/index.html',destination:'/en',permanent:true},
       {source:'/admin/index.html',destination:'/admin',permanent:true},
       {source:'/offline.html',destination:'/offline',permanent:true},
