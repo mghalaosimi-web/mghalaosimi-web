@@ -20,10 +20,8 @@ assert.ok(component.includes("aria-labelledby=\"mghal-search-title\""), "The dia
 assert.ok(component.includes("onCancel={close}"), "Escape must close the native dialog.");
 assert.ok(component.includes("requestAnimationFrame(() => triggerRef.current?.focus())"), "Closing search must restore focus to its trigger.");
 assert.ok(component.includes("ArrowDown") && component.includes("ArrowUp"), "Keyboard users must be able to navigate results.");
-assert.ok(component.includes("function projectHref(title: string)"), "Indexed project records must resolve to case-study routes.");
-assert.ok(component.includes("return '/projects/waynah'"), "WAYNAH search must deep-link to its project case study.");
-assert.ok(component.includes("return '/projects/humanity-system'"), "Humanity System search must deep-link to its project case study.");
-assert.ok(component.includes("const href = projectHref(record.title) ?? routeMap[record.url]"), "Project search must prefer verified Next.js case-study routes.");
+assert.ok(component.includes("const href = projectHref(record.title, record.url) ?? routeMap[record.url]"), "Project search must prefer verified Next.js case-study routes.");
+assert.ok(component.includes("url?.match(/^\\/(?:en\\/)?projects\\/([a-z0-9-]+)\\/?$/)"), "Search must resolve project detail routes from the indexed URL.");
 assert.ok(component.includes("'/certificates.html': '/credentials'"), "Legacy certificate results must map to the current credentials route.");
 assert.ok(component.includes("'/skills.html': '/skills'"), "Legacy skill results must map to the current Next.js route.");
 assert.ok(component.includes("'/contact.html': '/contact'"), "Legacy contact results must map to the current Next.js route.");
@@ -31,4 +29,9 @@ assert.ok(!component.includes("href: record.url"), "Search must not navigate to 
 assert.ok(css.includes(".mghal-search-dialog::backdrop"), "The search dialog must have a styled backdrop.");
 assert.ok(css.includes("prefers-reduced-motion:reduce"), "Search controls must respect reduced motion.");
 assert.ok(index.some((record) => record.title.includes("WAYNAH")), "The indexed project data must remain available to search.");
+const projectRecords = index.filter((record) => /^\/projects\/[a-z0-9-]+\/$/.test(record.url));
+assert.equal(projectRecords.length, 19, "All nineteen public projects must be searchable by their detail routes.");
+assert.ok(projectRecords.some((record) => record.title === "CryptoLab-X" && record.url === "/projects/cryptolab-x/"), "CryptoLab-X must have its own searchable project detail route.");
+assert.ok(!index.some((record) => /humanity-system|mghal-esdp|humanity system|m\.g\.h\.al esdp/i.test(JSON.stringify(record))), "Private projects must not appear in the public search index.");
+assert.ok(!component.includes("humanity-system") && !component.includes("mghal-esdp"), "Search code must not expose private project routes.");
 console.log(`Search palette tests passed: ${index.length} indexed records, Arabic normalization, bilingual route mapping, modal accessibility and keyboard controls.`);
