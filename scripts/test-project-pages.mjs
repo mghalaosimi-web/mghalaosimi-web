@@ -1,114 +1,39 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import {existsSync,readFileSync,readdirSync} from "node:fs";
 import path from "node:path";
-import {resolveLocalizedAlternates} from "../lib/seo-paths.mjs";
 
-const root = process.cwd();
-const publicRoot = path.join(root, "public");
-const catalog = JSON.parse(readFileSync(path.join(publicRoot, "assets/projects/catalog.json"), "utf8"));
-assert.ok(Array.isArray(catalog.projects) && catalog.projects.length > 0, "The project catalogue must contain records.");
-assert.match(catalog.siteOrigin, /^https:\/\//, "A canonical site origin is required.");
+const read=(file)=>readFileSync(new URL(file,import.meta.url),"utf8");
+const registry=read("../data/projects.ts");
+const detail=read("../app/projects/[slug]/page.tsx");
+const arListing=read("../app/projects/ProjectsPageArabic.tsx");
+const enListing=read("../app/projects/ProjectsExplorerEnglish.tsx");
+const route=read("../app/en/[[...path]]/page.tsx");
+const config=read("../next.config.ts");
+const sitemap=read("../app/sitemap.ts");
+const slugs=[...registry.matchAll(/slug:'([^']+)'/g)].map(match=>match[1]);
+const detailSlugs=[...detail.matchAll(/slug:'([^']+)'/g)].map(match=>match[1]);
 
-const privateSlugs = ["humanity-system", "mghal-esdp"];
-const projectRegistry = readFileSync(path.join(root, "data/projects.ts"), "utf8");
-const projectDetailRoute = readFileSync(path.join(root, "app/projects/[slug]/page.tsx"), "utf8");
-const nextConfig = readFileSync(path.join(root, "next.config.ts"), "utf8");
-const seoPaths = readFileSync(path.join(root, "lib/seo-paths.mjs"), "utf8");
-const registrySlugs = [...projectRegistry.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
-const detailSlugs = [...projectDetailRoute.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
-const legacySlugs = catalog.projects.map(project => project.slug);
-const dynamicSlugs = registrySlugs.filter(slug => !legacySlugs.includes(slug));
-assert.equal(registrySlugs.length, 19, "The public registry must contain all nineteen approved projects.");
-assert.ok(existsSync(path.join(publicRoot, "assets/projects/project-placeholder.svg")), "Dynamic project cards must have the neutral illustrative cover asset.");
-assert.deepEqual(detailSlugs, registrySlugs, "Every public project must have a matching detail record.");
-assert.equal(dynamicSlugs.length, 11, "Eleven non-legacy projects must use the Next.js dynamic route.");
-const configuredLegacy = nextConfig.match(/const legacyStaticProjectSlugs = \[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(value => value.slice(1,-1)) ?? [];
-const seoLegacy = seoPaths.match(/const legacyStaticProjectSlugs = \[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(value => value.slice(1,-1)) ?? [];
-assert.deepEqual(configuredLegacy, legacySlugs, "Next.js static rewrites must match the eight legacy catalogue slugs exactly.");
-assert.deepEqual(seoLegacy, legacySlugs, "SEO alternate handling must match the same legacy static slug set.");
+assert.equal(slugs.length,19,"The React public project registry must contain nineteen approved records.");
+assert.deepEqual(detailSlugs,slugs,"Every public project must have a matching React detail record in priority order.");
+assert.ok(detail.includes("if(!p)notFound()"),"Unknown and private project slugs must return a real 404.");
+assert.ok(arListing.includes("import {projects")&&enListing.includes("import {projects"),"Both project explorers must render from the React project registry.");
+assert.ok(route.includes("ProjectsExplorerEnglish")&&route.includes("ProjectDetail"),"English listing and detail routes must use React components.");
+assert.ok(config.includes("permanent:true")&&config.includes("projects/:slug/index.html"),"Legacy project HTML URLs must permanently redirect to React detail routes.");
+assert.ok(sitemap.includes("projects.map")||sitemap.includes("projects.flatMap"),"The sitemap must be generated from the React project registry.");
+assert.ok(!registry.includes("humanity-system")&&!registry.includes("mghal-esdp"),"Private project records must not enter the public React registry.");
+assert.ok(!detail.includes("humanity-system")&&!detail.includes("mghal-esdp"),"Private project detail records must not be publicly routable.");
+assert.ok(existsSync(new URL("../app/projects/page.tsx",import.meta.url)),"The React project listing route must exist.");
 
-assert.ok(nextConfig.includes("legacyStaticProjectSlugs.flatMap"), "Only legacy static projects should receive static-file rewrites.");
-assert.ok(!nextConfig.includes("source: '/projects/:slug'") && !nextConfig.includes("source: '/en/projects/:slug'"), "A broad rewrite must not shadow dynamic project detail routes.");
-assert.ok(seoPaths.includes("legacyStaticProjectSlugs.includes(projectMatch[1])"), "SEO path resolution must distinguish legacy static and dynamic project routes.");
-for (const slug of dynamicSlugs) {
-  assert.deepEqual(resolveLocalizedAlternates("/projects/" + slug, "ar"), {canonical:"/projects/" + slug}, "Dynamic project must use its real Next.js canonical path: " + slug);
+const root=path.resolve(new URL("..",import.meta.url).pathname);
+const legacy=[];
+function walk(dir){
+ for(const entry of readdirSync(dir,{withFileTypes:true})){
+  if([".git","node_modules",".next"].includes(entry.name))continue;
+  const full=path.join(dir,entry.name);
+  if(entry.isDirectory())walk(full);
+  else if(entry.name.toLowerCase().endsWith(".html"))legacy.push(path.relative(root,full));
+ }
 }
-for (const slug of legacySlugs) {
-  assert.ok(resolveLocalizedAlternates("/projects/" + slug, "ar").canonical.endsWith("/"), "Legacy static project canonical must retain its trailing slash: " + slug);
-}
-
-for (const cover of ["humanity.svg", "esdp.svg"]) {
-  assert.ok(!existsSync(path.join(publicRoot, "assets/projects", cover)), "Private project cover must not be published: " + cover);
-}
-const publicProjectData = readFileSync(path.join(root, "data/projects.ts"), "utf8");
-for (const slug of privateSlugs) {
-  assert.ok(!catalog.projects.some(project => project.slug === slug), "Private project must not appear in the public catalogue: " + slug);
-  assert.ok(!publicProjectData.includes("slug:'" + slug + "'"), "Private project must not appear in the public application registry: " + slug);
-  for (const language of ["ar", "en"]) {
-    const relative = path.join(language === "en" ? "en" : "", "projects", slug, "index.html");
-    assert.ok(!existsSync(path.join(publicRoot, relative)), "Private project detail file must not be published: " + relative);
-  }
-}
-
-const ids = new Set();
-const slugs = new Set();
-const expectedRoutes = [];
-for (const project of catalog.projects) {
-  assert.ok(project.id && project.slug && project.title?.ar && project.title?.en, "Stable ids, slugs and bilingual titles are required.");
-  assert.ok(!ids.has(project.id) && !slugs.has(project.slug), "Project ids and slugs must be unique.");
-  ids.add(project.id);
-  slugs.add(project.slug);
-  assert.ok(project.summary?.ar && project.summary?.en && project.problem?.ar && project.problem?.en, "Bilingual summaries and problem statements are required.");
-  assert.ok(Array.isArray(project.technologies) && Array.isArray(project.features) && Array.isArray(project.gallery), "Technology, feature and gallery arrays are required.");
-  assert.ok(project.cover?.startsWith("/assets/projects/"), "Project covers must use local portfolio assets.");
-  assert.ok(existsSync(path.join(publicRoot, project.cover.slice(1))), "Missing project cover: " + project.cover);
-  if (project.repository) assert.match(project.repository, /^https:\/\/github\.com\/mghalaosimi-web\//, "Repository links must point to the expected public owner.");
-  if (project.visibility?.ar?.includes("خاص")) assert.equal(project.repository, null, "Private repositories must never be linked publicly.");
-  for (const image of project.gallery) {
-    assert.match(image.src, /^https:\/\//, "Gallery images must use HTTPS.");
-    assert.ok(image.alt?.ar && image.alt?.en && image.caption?.ar && image.caption?.en, "Gallery images need bilingual alt text and captions.");
-    assert.doesNotMatch(image.src, /humanity-system|\.env|localhost/i, "Private or local resources must not be referenced in public galleries.");
-  }
-  if (project.deploymentReference?.url) assert.match(project.deploymentReference.url, /^https:\/\//, "Deployment references must use HTTPS.");
-  for (const language of ["ar", "en"]) {
-    const relative = path.join(language === "en" ? "en" : "", "projects", project.slug, "index.html");
-    const file = path.join(publicRoot, relative);
-    assert.ok(existsSync(file), "Generated page missing: " + relative);
-    const html = readFileSync(file, "utf8");
-    assert.match(html, new RegExp("<html lang='" + language + "'"));
-    assert.match(html, new RegExp("dir='" + (language === "ar" ? "rtl" : "ltr") + "'"));
-    const canonical = catalog.siteOrigin + "/" + (language === "en" ? "en/" : "") + "projects/" + project.slug + "/";
-    assert.ok(html.includes("rel='canonical' href='" + canonical + "'"), "Canonical URL mismatch: " + relative);
-    assert.ok(html.includes("hreflang='ar'") && html.includes("hreflang='en'"), "Reciprocal language alternates are required.");
-    assert.ok(html.includes("property='og:title'") && html.includes("property='og:description'") && html.includes("property='og:image'"), "Open Graph metadata is required.");
-    assert.ok(html.includes("name='twitter:card'"), "Twitter card metadata is required.");
-    assert.ok(html.includes("application/ld+json"), "Structured data is required.");
-    const jsonLd = [...html.matchAll(/<script type='application\/ld\+json'>(.*?)<\/script>/g)];
-    assert.ok(jsonLd.length > 0, "JSON-LD script block is required.");
-    for (const match of jsonLd) assert.doesNotThrow(() => JSON.parse(match[1]), "JSON-LD must be valid JSON.");
-    if (project.slug === "mghal-official-website") assert.ok(html.includes('"@type":"WebSite"'), "Official website must use WebSite structured data.");
-    assert.ok(html.includes("id='main-content'") && html.includes("class='skip-link'"), "Accessible page landmarks are required.");
-    assert.ok(html.includes("name='description'"), "Meta description is required.");
-    assert.doesNotMatch(html, /(?:AIza[0-9A-Za-z_-]{20,}|EAAB[A-Za-z0-9]+|postgres(?:ql)?:\/\/[^ "'<>]+)/i, "Generated pages must not contain common credential patterns.");
-    for (const match of html.matchAll(/<img\b([^>]*)>/g)) assert.match(match[1], /\balt=/, "Every image requires alt text.");
-    expectedRoutes.push(canonical);
-  }
-}
-
-const sitemap = readFileSync(path.join(publicRoot, "sitemap.xml"), "utf8");
-for (const route of expectedRoutes) assert.ok(sitemap.includes("<loc>" + route + "</loc>"), "Sitemap entry missing: " + route);
-const sitemapRoutes = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
-assert.equal(new Set(sitemapRoutes).size, sitemapRoutes.length, "Sitemap URLs must be unique.");
-console.log("Project portfolio tests passed: " + catalog.projects.length + " records, " + expectedRoutes.length + " bilingual routes, covers, gallery metadata, private-source guard, SEO, JSON-LD, accessibility and sitemap.");
-for (const project of catalog.projects) {
-  for (const language of ["ar", "en"]) {
-    const file = path.join(publicRoot, language === "en" ? "en" : "", "projects", project.slug, "index.html");
-    const html = readFileSync(file, "utf8");
-    assert.ok(html.includes("class='navlinks'"), "Project details must use the shared primary navigation: " + file);
-    assert.ok(html.includes('nav-resume'), "Project details must expose the résumé action: " + file);
-    assert.ok(html.includes("src='/assets/site.js'"), "Project details must load shared navigation and search: " + file);
-  }
-}
-
-const projectDetailCss = readFileSync(new URL("../public/assets/project-detail.css", import.meta.url), "utf8");
-assert.match(projectDetailCss, /\.evidence-list li[^}]*overflow-wrap:anywhere/, "Long evidence paths and unbroken tokens must wrap on narrow screens.");
+walk(root);
+assert.deepEqual(legacy,[],"Legacy HTML documents must be removed after React route migration: "+legacy.join(", "));
+console.log("React project route audit passed: 19 public projects, private-route exclusion, redirects, generated sitemap, and zero tracked HTML documents.");
