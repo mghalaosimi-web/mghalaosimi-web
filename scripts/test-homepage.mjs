@@ -1,14 +1,20 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
-for (const [file, language] of [["index.html", "ar"], ["en/index.html", "en"]]) {
-  const html = readFileSync(file, "utf8");
-  assert.ok(html.includes('<html lang="' + language + '"'), file + ': correct language');
-  for (const marker of ['<main id="main-content"', 'class="home-hero"', 'class="home-capability-grid"', 'class="home-project-grid"', 'class="home-profile-facts"', 'class="home-tech-list"', 'class="home-credential-summary"', 'class="home-knowledge"', 'class="home-contact"', 'nav-resume']) assert.ok(html.includes(marker), file + ': missing ' + marker);
-  assert.doesNotMatch(html, /newsletter|subscribe by email|اشترك بالبريد/i, file + ': no fake email follow form');
-  assert.doesNotMatch(html, /sample post|مقال تجريبي/i, file + ': no fabricated articles');
-}
-const ar = readFileSync("index.html", "utf8");
-const ordered = ["home-hero", "home-capabilities", "home-projects", "home-profile", "home-skills", "home-credentials", "home-knowledge", "home-contact"];
-let previous = -1;
-for (const section of ordered) { const position = ar.indexOf('class="' + section + '"'); assert.ok(position > previous, 'Homepage order: ' + section); previous = position; }
-console.log("Homepage architecture tests passed: bilingual parity, section order, résumé CTA, evidence-based content, and no fabricated follow/article UI.");
+import {readFileSync} from "node:fs";
+
+const read=(file)=>readFileSync(new URL(file,import.meta.url),"utf8");
+const ar=read("../app/page.tsx");
+const en=read("../app/HomePageEnglish.tsx");
+const routes=read("../app/en/[[...path]]/page.tsx");
+const layout=read("../app/layout.tsx");
+
+assert.ok(ar.includes("function HomeArabic()")&&ar.includes('className="home-v2"'),"Arabic homepage must be a React page.");
+assert.ok(en.includes('className="home-v2"')&&en.includes("export default function HomePageEnglish"),"English homepage must be a React component.");
+for(const marker of ["hv-hero","hv-biography","hv-work","hv-contact"])assert.ok(ar.includes(marker),"Arabic React homepage is missing "+marker);
+for(const marker of ["hv-hero","hv-work","hv-contact"])assert.ok(en.includes(marker),"English React homepage is missing "+marker);
+assert.ok(routes.includes("if(path.length===0)return <HomePageEnglish/>"),"The /en homepage must resolve through the React route tree.");
+assert.ok(layout.includes("<SiteHeader isEn={isEn}/>"),"The shared React site shell must wrap the homepage.");
+assert.doesNotMatch(ar,/newsletter|subscribe by email|اشترك بالبريد/i);
+assert.doesNotMatch(en,/newsletter|subscribe by email|اشترك بالبريد/i);
+assert.doesNotMatch(ar,/sample post|مقال تجريبي/i);
+assert.doesNotMatch(en,/sample post|مقال تجريبي/i);
+console.log("React homepage tests passed: Arabic and English pages, shared shell, key sections and no fabricated content.");
