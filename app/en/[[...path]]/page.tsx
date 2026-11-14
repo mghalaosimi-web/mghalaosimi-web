@@ -38,7 +38,9 @@ export async function generateMetadata({params}:RouteProps):Promise<Metadata>{
     'credentials':'Credentials | M.GH.AL','contact':'Professional Contact | M.GH.AL',
     'labs':'Labs & Knowledge | M.GH.AL','research':'Research | M.GH.AL','photos':'Photo Gallery | M.GH.AL'
   };
-  return {title:titles[normalized]||'Project | M.GH.AL',alternates:{canonical},robots:{index:normalized.endsWith('.html')?false:true,follow:true}};
+  const arabicPath=normalized?'/'+normalized:'/';
+  const origin='https://mghalaosimi-web.vercel.app';
+  return {title:titles[normalized]||'Project | M.GH.AL',alternates:{canonical,languages:{ar:origin+arabicPath,en:origin+canonical,'x-default':origin+arabicPath}},robots:{index:true,follow:true}};
 }
 
 export default async function EnglishRoute({params}:RouteProps){
