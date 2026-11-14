@@ -9,6 +9,9 @@ assert.ok(Array.isArray(catalog.projects) && catalog.projects.length > 0, "The p
 assert.match(catalog.siteOrigin, /^https:\/\//, "A canonical site origin is required.");
 
 const privateSlugs = ["humanity-system", "mghal-esdp"];
+for (const cover of ["humanity.svg", "esdp.svg"]) {
+  assert.ok(!existsSync(path.join(publicRoot, "assets/projects", cover)), "Private project cover must not be published: " + cover);
+}
 const publicProjectData = readFileSync(path.join(root, "data/projects.ts"), "utf8");
 for (const slug of privateSlugs) {
   assert.ok(!catalog.projects.some(project => project.slug === slug), "Private project must not appear in the public catalogue: " + slug);
