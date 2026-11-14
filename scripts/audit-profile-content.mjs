@@ -57,6 +57,13 @@ const actualSlugs = [...projects.matchAll(/slug:'([^']+)'/g)].map(match => match
 const cryptoLab = projects.slice(projects.indexOf("slug:'cryptolab-x'"), projects.indexOf("}", projects.indexOf("slug:'cryptolab-x'")));
 assert.ok(cryptoLab.includes("category:'cyber-defense'") && cryptoLab.includes("مكتمل وفق إفادة المالك") && cryptoLab.includes("CipherSphere") && !cryptoLab.includes("repository:"), "CryptoLab-X must remain a separate owner-confirmed project without invented public source or stack claims.");
 assert.deepEqual(actualSlugs, expectedSlugs, "The public project registry must contain exactly the 19 approved public records in priority order.");
+const expectedPublicSlugs = [...expectedSlugs].sort();
+const arabicListingSlugs = [...arListing.matchAll(/data-project-slug=["']([^"']+)["']/g)].map(match => match[1]).sort();
+const englishListingSlugs = [...enListing.matchAll(/data-project-slug=["']([^"']+)["']/g)].map(match => match[1]).sort();
+assert.equal(arabicListingSlugs.length, 19, "Arabic public project listing must show all nineteen projects.");
+assert.equal(englishListingSlugs.length, 19, "English public project listing must show all nineteen projects.");
+assert.deepEqual(arabicListingSlugs, expectedPublicSlugs, "Arabic listing project set must match the public registry.");
+assert.deepEqual(englishListingSlugs, expectedPublicSlugs, "English listing project set must match the public registry.");
 const englishStatuses = [...enProjects.matchAll(/status:'([^']+)'/g)].map(match => match[1]);
 assert.equal(englishStatuses.length, 19, "English project explorer must provide an explicit status for every public project.");
 assert.ok(englishStatuses.every(status => !/[\u0600-\u06FF]/.test(status)), "English project statuses must not fall back to Arabic registry values.");
