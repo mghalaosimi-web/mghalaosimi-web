@@ -15,11 +15,11 @@ assert.equal(Array.from({length:6},(_,i)=>"id:'edraak-"+String(i+1).padStart(2,'
 assert.ok(credentials.includes("id:'jsnad-01'"));
 assert.ok(englishRoutes.includes("normalized==='credentials'")&&englishRoutes.includes("normalized==='labs'"));
 assert.ok(contact.includes("ContactForm"),"The React contact route must retain its functional form.");
-assert.ok(labs.includes("/api/public/articles")||labs.includes("published-articles"),"Arabic labs must retain the published article data surface.");
-assert.ok(labsEnglish.includes("/api/public/articles")||labsEnglish.includes("published-articles"),"English labs must retain the published article data surface.");
+assert.ok(labs.includes("const labs: Lab[]")&&labs.includes("مملوكة أو مصرح بها"),"Arabic labs must retain documented safe lab scenarios.");
+assert.ok(labsEnglish.includes("const labs: Lab[]")&&labsEnglish.includes("مملوكة أو مصرح بها"),"English labs must retain the documented lab safety boundary.");
 for(const route of ['/api/public/followers/status','/api/public/followers/count','/api/public/followers','/api/public/reactions','/api/public/comments'])assert.ok(api.includes(route),"Missing engagement API "+route);
 assert.ok(engagement.includes("navigator.share"),"Share controls must retain native share support.");
 assert.ok(engagement.includes("api/public/reactions"),"Project reaction controls must use the public API.");
 assert.ok(englishRoutes.includes("achievements.html")&&englishRoutes.includes("showcase.html")&&englishRoutes.includes("resume.html"),"Old section paths must resolve to their React replacements.");
-assert.ok(!read("../public/search-index.json").includes(".html"),"No legacy HTML URLs may be indexed.");
+assert.ok(!read("../public/assets/search-index.json").includes(".html"),"No legacy HTML URLs may be indexed.");
 console.log("React public-content tests passed: credential evidence, contact workflow, article routes, engagement APIs and legacy route replacement.");
