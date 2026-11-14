@@ -21,6 +21,7 @@ const publicHomeEn = read("../public/en/index.html");
 const legacyHomeAr = read("../index.html");
 const legacyHomeEn = read("../en/index.html");
 const publicReadme = read("../README.md");
+const publicAssetReadme = read("../public/README.md");
 const publicAuditDoc = read("../docs/portfolio-audit.md");
 const arLabs = read("../app/labs/LabsExplorer.tsx");
 const enLabs = read("../app/labs/LabsExplorerEnglish.tsx");
@@ -51,14 +52,14 @@ assert.ok(arAbout.includes("active==='learning'?<Learning/>") && enAbout.include
 
 const expectedSlugs = ["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website"];
 const actualSlugs = [...projects.matchAll(/slug:'([^']+)'/g)].map(match => match[1]);
-assert.deepEqual(actualSlugs, expectedSlugs, "The project registry must contain all 19 repository records plus the existing ESDP record in the approved priority order.");
+assert.deepEqual(actualSlugs, expectedSlugs, "The public project registry must contain exactly the 18 approved public records in priority order.");
 const englishStatuses = [...enProjects.matchAll(/status:'([^']+)'/g)].map(match => match[1]);
 assert.equal(englishStatuses.length, 18, "English project explorer must provide an explicit status for every public project.");
 assert.ok(englishStatuses.every(status => !/[\u0600-\u06FF]/.test(status)), "English project statuses must not fall back to Arabic registry values.");
 assert.ok(projects.includes("slug:'manar-schedule-system'") && projects.includes("slug:'almanar-schedule-system'"), "The two academic scheduling repositories must remain separate.");
 const publicRepositories = ["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website"];
 for (const slug of publicRepositories) assert.ok(projects.includes("slug:'" + slug + "'") && projects.slice(projects.indexOf("slug:'" + slug + "'"), projects.indexOf("}", projects.indexOf("slug:'" + slug + "'"))).includes("repository:'https://github.com/mghalaosimi-web/"), "Missing verified public repository for " + slug);
-assert.equal((projects.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g) || []).length, 18, "All 18 public repository URLs should be represented without exposing the private Humanity repository.");
+assert.equal((projects.match(/repository:'https:\/\/github\.com\/mghalaosimi-web\//g) || []).length, 18, "All 18 public repository URLs should be represented without exposing private repository details.");
 const legacyStaticSlugs = ["waynah","focusflow","mghal-content-os","manar-schedule-system","almanar-schedule-system","yemen-ai","ciphersphere","mghal-official-website"];
 for (const slug of legacyStaticSlugs) {
   assert.ok(existsSync(new URL("../public/projects/" + slug + "/index.html", import.meta.url)), "Missing Arabic project detail route for " + slug);
@@ -106,7 +107,7 @@ console.log("Profile-content audit passed: owner identity, IT degree, official c
 
 
 const privateProjectMarkers = ["humanity-system", "mghal-esdp", "Humanity System", "M.GH.AL ESDP"];
-for (const [name, source] of [["project registry", projects], ["Arabic about", arAbout], ["English about", enAbout], ["Arabic home", arHome], ["English home", enHome], ["Arabic project listing", arListing], ["English project listing", enListing], ["Arabic legacy listing", arRootListing], ["English legacy listing", enRootListing], ["site search", siteSearch], ["database media map", databaseContent], ["public sitemap", publicSitemap], ["Arabic static home", publicHomeAr], ["English static home", publicHomeEn], ["Arabic legacy home", legacyHomeAr], ["English legacy home", legacyHomeEn], ["README", publicReadme], ["portfolio audit", publicAuditDoc], ["public project catalogue", JSON.stringify(publicCatalog)]]) {
+for (const [name, source] of [["project registry", projects], ["Arabic about", arAbout], ["English about", enAbout], ["Arabic home", arHome], ["English home", enHome], ["Arabic project listing", arListing], ["English project listing", enListing], ["Arabic legacy listing", arRootListing], ["English legacy listing", enRootListing], ["site search", siteSearch], ["database media map", databaseContent], ["public sitemap", publicSitemap], ["Arabic static home", publicHomeAr], ["English static home", publicHomeEn], ["Arabic legacy home", legacyHomeAr], ["English legacy home", legacyHomeEn], ["README", publicReadme], ["public README asset", publicAssetReadme], ["portfolio audit", publicAuditDoc], ["public project catalogue", JSON.stringify(publicCatalog)]]) {
   for (const marker of privateProjectMarkers) assert.ok(!source.includes(marker), name + ": private project reference leaked: " + marker);
 }
 assert.ok(!existsSync(new URL("../public/assets/projects/repository-inventory.json", import.meta.url)), "Private repository inventory must not be shipped as a public asset.");
