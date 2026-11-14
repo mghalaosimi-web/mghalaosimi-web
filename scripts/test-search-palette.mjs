@@ -20,7 +20,7 @@ assert.ok(component.includes('aria-labelledby="mghal-search-title"'));
 assert.ok(component.includes("onCancel={close}"));
 assert.ok(component.includes("requestAnimationFrame(() => triggerRef.current?.focus())"));
 assert.ok(component.includes("ArrowDown")&&component.includes("ArrowUp"));
-assert.ok(component.includes("const href = projectHref(record.url, isEn) ?? routeMap[record.url]"));
+assert.ok(component.includes("const mappedRoute = routeMap[record.url]")&&component.includes("mappedRoute.startsWith('/en/')"),"Search must preserve the selected locale for static routes.");
 assert.ok(component.includes("url?.match(/^\\/(?:en\\/)?projects\\/([a-z0-9-]+)\\/?$/)"));
 assert.ok(component.includes("(isEn?'/en/projects/':'/projects/')+match[1]"));
 assert.ok(!component.includes("legacyStaticProjectSlugs"));
