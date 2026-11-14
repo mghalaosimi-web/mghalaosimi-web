@@ -1,7 +1,6 @@
 import type {Metadata} from 'next';
 import Image from 'next/image';
 import {cookies} from 'next/headers';
-import {localizedAlternates} from '../../lib/seo';
 import {Award,ExternalLink} from 'lucide-react';
 
 export async function generateMetadata():Promise<Metadata>{
@@ -10,12 +9,12 @@ export async function generateMetadata():Promise<Metadata>{
     ? {
         title:'Digital Credentials | Mohammed Ghaleb Alaosimi',
         description:'Twenty-six recorded credentials: fourteen Cisco Networking Academy records, six Edraak certificates, the OpenJS Node.js Application Developer credential, and five EMC Shiraa workshops.',
-        alternates:localizedAlternates('/credentials','en'),
+        alternates:{canonical:'/credentials'},
       }
     : {
         title:'الشهادات والاعتمادات | M.GH.AL',
         description:'سجل 26 شهادة واعتماداً لمحمد غالب العصيمي: 14 من Cisco Networking Academy، و6 من إدراك، واعتماد JSNAD من OpenJS، و5 ورش من EMC شِراع.',
-        alternates:localizedAlternates('/credentials','ar'),
+        alternates:{canonical:'/credentials'},
       };
 }
 
