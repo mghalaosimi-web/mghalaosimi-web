@@ -33,7 +33,7 @@ const copy:Record<string,{name?:string;label:string;summary:string;status:string
 'mghal-official-website':{label:'Professional digital identity hub',summary:'A bilingual professional identity and portfolio hub for M.GH.AL, bringing together profile, projects, credentials, and contact channels.',status:'ACTIVE DEVELOPMENT',contribution:'Personal website project; the current Render deployment is a preview, not the production release.'}
 };
 export default function ProjectsExplorerEnglish(){
- const publicProjects=publicProjects.filter(p=>p.slug!=='humanity-system'&&p.slug!=='mghal-esdp');
+ const publicProjects=projects.filter(p=>p.slug!=='humanity-system'&&p.slug!=='mghal-esdp');
  const [filter,setFilter]=useState<typeof filters[number]['id']>('all'),[selected,setSelected]=useState<Project|null>(null);
  useEffect(()=>{if(!selected)return;const prev=document.body.style.overflow;document.body.style.overflow='hidden';const key=(e:KeyboardEvent)=>{if(e.key==='Escape')setSelected(null)};window.addEventListener('keydown',key);return()=>{document.body.style.overflow=prev;window.removeEventListener('keydown',key)}},[selected]);
  const featured=publicProjects.find(p=>p.slug==='waynah');
