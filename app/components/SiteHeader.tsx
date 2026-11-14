@@ -76,7 +76,7 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
       const logicalNext = isEn ? dx < 0 : dx > 0;
       const nextIndex = currentIndex + (logicalNext ? 1 : -1);
       if (nextIndex < 0 || nextIndex >= links.length) return;
-      router.push(links[nextIndex].href);
+      router.push(localizedLinks[nextIndex].href);
     };
 
     const onTouchCancel = () => { startTarget = null; };
@@ -90,9 +90,11 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
     };
   }, [pathname, isEn, router]);
 
+  if (pathname.startsWith('/admin')) return null;
+
   return (
     <header className="mghal-header" data-site-header>
-      <Link className="mghal-logo" href="/" aria-label="M.GH.AL home">M.GH.AL<span>.</span></Link>
+      <Link className="mghal-logo" href={isEn?"/en":"/"} aria-label="M.GH.AL home">M.GH.AL<span>.</span></Link>
       <nav className="mghal-primary-nav" aria-label={isEn ? 'Main navigation' : 'التنقل الرئيسي'} data-horizontal-scroll>
         {localizedLinks.map((item) => {
           const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'));
