@@ -37,12 +37,10 @@ const routeMap: Record<string, string> = {
 function projectHref(title: string): string | undefined {
   const value = normalize(title);
   if (value.includes('waynah') || value.includes('وينه')) return '/projects/waynah';
-  if (value.includes('humanity system') || value.includes('الانسانية تجمعنا')) return '/projects/humanity-system';
   if (value.includes('yemen ai platform')) return '/projects/yemen-ai';
   if (value.includes('content studio') || value.includes('content os')) return '/projects/mghal-content-os';
   if (value.includes('ciphersphere')) return '/projects/ciphersphere';
   if (value.includes('focusflow')) return '/projects/focusflow';
-  if (value.includes('mghal esdp')) return '/projects/mghal-esdp';
   return undefined;
 }
 
