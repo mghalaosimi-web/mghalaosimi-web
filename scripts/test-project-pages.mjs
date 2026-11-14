@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
+import {resolveLocalizedAlternates} from "../lib/seo-paths.mjs";
 
 const root = process.cwd();
 const publicRoot = path.join(root, "public");
@@ -20,6 +21,11 @@ const dynamicSlugs = registrySlugs.filter(slug => !legacySlugs.includes(slug));
 assert.equal(registrySlugs.length, 19, "The public registry must contain all nineteen approved projects.");
 assert.deepEqual(detailSlugs, registrySlugs, "Every public project must have a matching detail record.");
 assert.equal(dynamicSlugs.length, 11, "Eleven non-legacy projects must use the Next.js dynamic route.");
+const configuredLegacy = nextConfig.match(/const legacyStaticProjectSlugs = \[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(value => value.slice(1,-1)) ?? [];
+const seoLegacy = seoPaths.match(/const legacyStaticProjectSlugs = \[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(value => value.slice(1,-1)) ?? [];
+assert.deepEqual(configuredLegacy, legacySlugs, "Next.js static rewrites must match the eight legacy catalogue slugs exactly.");
+assert.deepEqual(seoLegacy, legacySlugs, "SEO alternate handling must match the same legacy static slug set.");
+
 assert.ok(nextConfig.includes("legacyStaticProjectSlugs.flatMap"), "Only legacy static projects should receive static-file rewrites.");
 assert.ok(!nextConfig.includes("source: '/projects/:slug'") && !nextConfig.includes("source: '/en/projects/:slug'"), "A broad rewrite must not shadow dynamic project detail routes.");
 assert.ok(seoPaths.includes("legacyStaticProjectSlugs.includes(projectMatch[1])"), "SEO path resolution must distinguish legacy static and dynamic project routes.");
