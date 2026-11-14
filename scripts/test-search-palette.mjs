@@ -22,6 +22,8 @@ assert.ok(component.includes("requestAnimationFrame(() => triggerRef.current?.fo
 assert.ok(component.includes("ArrowDown") && component.includes("ArrowUp"), "Keyboard users must be able to navigate results.");
 assert.ok(component.includes("const href = projectHref(record.url, isEn) ?? routeMap[record.url]"), "Project search must prefer verified Next.js case-study routes.");
 assert.ok(component.includes("url?.match(/^\\/(?:en\\/)?projects\\/([a-z0-9-]+)\\/?$/)"), "Search must resolve project detail routes from the indexed URL.");
+assert.ok(component.includes("const prefix = isEn ? '/en/projects/' : '/projects/'"), "Search results must preserve the current locale.");
+assert.ok(component.includes("legacyStaticProjectSlugs.has(slug) ? '/' : ''"), "Search results must preserve legacy static routes while using dynamic routes for the rest.");
 assert.ok(component.includes("'/certificates.html': '/credentials'"), "Legacy certificate results must map to the current credentials route.");
 assert.ok(component.includes("'/skills.html': '/skills'"), "Legacy skill results must map to the current Next.js route.");
 assert.ok(component.includes("'/contact.html': '/contact'"), "Legacy contact results must map to the current Next.js route.");
