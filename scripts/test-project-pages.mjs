@@ -10,6 +10,8 @@ const enListing=read("../app/projects/ProjectsExplorerEnglish.tsx");
 const route=read("../app/en/[[...path]]/page.tsx");
 const config=read("../next.config.ts");
 const sitemap=read("../app/sitemap.ts");
+const photos=read("../app/photos/page.tsx");
+const layout=read("../app/layout.tsx");
 const slugs=[...registry.matchAll(/slug:'([^']+)'/g)].map(match=>match[1]);
 const detailSlugs=[...detail.matchAll(/slug:'([^']+)'/g)].map(match=>match[1]);
 
@@ -23,6 +25,9 @@ assert.ok(sitemap.includes("projects.map")||sitemap.includes("projects.flatMap")
 assert.ok(!registry.includes("humanity-system")&&!registry.includes("mghal-esdp"),"Private project records must not enter the public React registry.");
 assert.ok(!detail.includes("humanity-system")&&!detail.includes("mghal-esdp"),"Private project detail records must not be publicly routable.");
 assert.ok(existsSync(new URL("../app/projects/page.tsx",import.meta.url)),"The React project listing route must exist.");
+assert.ok(photos.includes("altEn:")&&photos.includes("portfolio-locale")&&photos.includes("localizedAlternates"),"The React photo gallery must render bilingual content and locale-aware metadata.");
+assert.ok(photos.includes("Back to home")&&photos.includes("dir={isEn ? 'ltr' : 'rtl'}"),"The English photo gallery must use LTR layout and English navigation.");
+assert.ok(layout.includes("<html lang={locale} dir={isEn?'ltr':'rtl'}"),"The root React layout must set document language and direction from the selected locale.");
 
 const root=path.resolve(new URL("..",import.meta.url).pathname);
 const legacy=[];
