@@ -107,7 +107,7 @@ const sitemapSet = new Set(sitemapUrls);
 if (sitemapUrls.length !== sitemapSet.size) fail("sitemap.xml", "duplicate URL entries found");
 const legacyProjectSlugs = new Set(catalog.projects.map(project => project.slug));
 const dynamicProjectSlugs = [...projectRegistry.matchAll(/slug:'([^']+)'/g)].map(match => match[1]).filter(slug => !legacyProjectSlugs.has(slug));
-const dynamicProjectUrls = dynamicProjectSlugs.flatMap(slug => [origin + "/projects/" + slug, origin + "/en/projects/" + slug]);
+const dynamicProjectUrls = dynamicProjectSlugs.map(slug => origin + "/projects/" + slug);
 const expectedUrls = [...publicPages.map(publicUrl), ...dynamicProjectUrls];
 for (const url of expectedUrls) if (!sitemapSet.has(url)) fail("sitemap.xml", "missing public page: " + url);
 for (const url of sitemapSet) if (!expectedUrls.includes(url)) fail("sitemap.xml", "URL has no matching public HTML page: " + url);
