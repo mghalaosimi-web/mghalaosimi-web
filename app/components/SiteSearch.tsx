@@ -34,7 +34,7 @@ const routeMap: Record<string, string> = {
   '/en/contact.html': '/contact',
 };
 
-function projectHref(title: string, url?: string): string | undefined {
+function projectHref(url?: string): string | undefined {
   const match = url?.match(/^\/(?:en\/)?projects\/([a-z0-9-]+)\/?$/);
   if (match) return '/projects/' + match[1];
   return undefined;
@@ -87,7 +87,7 @@ export default function SiteSearch({ isEn }: { isEn: boolean }) {
       },
     ];
     const indexed: SearchItem[] = (index ?? []).flatMap((record) => {
-      const href = projectHref(record.title, record.url) ?? routeMap[record.url];
+      const href = projectHref(record.url) ?? routeMap[record.url];
       return href ? [{
         title: record.title,
         href,
