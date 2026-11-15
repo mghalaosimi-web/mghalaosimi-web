@@ -39,11 +39,10 @@ test('unmapped routes are normalized',()=>{
 test('English static project URLs keep their locale prefix during internal rewrite',()=>{
  const middleware=readFileSync(new URL('../middleware.ts',import.meta.url),'utf8');
  assert.ok(middleware.includes('NextResponse.rewrite(destination,'));
- assert.ok(middleware.includes('LEGACY_STATIC_PROJECT_SLUGS.includes(legacyProjectMatch[1])'));
- assert.ok(middleware.includes("preserveEnglishStaticPath?'/en/projects/'+legacyProjectMatch[1]:pathname.slice(3)"));
- assert.ok(middleware.includes("request.cookies.set('portfolio-locale','en')"));
+ assert.ok(middleware.includes("const englishStaticProject=pathname.match(/^\\/en\\/projects\\/([^/]+)\\/?$/)"));
  assert.ok(middleware.includes("LEGACY_STATIC_PROJECT_SLUGS.has(englishStaticProject[1])"));
  assert.ok(middleware.includes("return setEnglishLocale(NextResponse.next(),request)"));
+ assert.ok(middleware.includes("request.cookies.set('portfolio-locale','en')"));
 });
 
 test('all English legacy static project pages are preserved as English HTML routes',()=>{
