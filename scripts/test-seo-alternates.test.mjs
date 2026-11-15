@@ -42,4 +42,15 @@ test('English static project URLs keep their locale prefix during internal rewri
  assert.ok(middleware.includes('LEGACY_STATIC_PROJECT_SLUGS.includes(legacyProjectMatch[1])'));
  assert.ok(middleware.includes("preserveEnglishStaticPath?'/en/projects/'+legacyProjectMatch[1]:pathname.slice(3)"));
  assert.ok(middleware.includes("request.cookies.set('portfolio-locale','en')"));
+ assert.ok(middleware.includes("LEGACY_STATIC_PROJECT_SLUGS.has(englishStaticProject[1])"));
+ assert.ok(middleware.includes("return setEnglishLocale(NextResponse.next(),request)"));
+});
+
+test('all English legacy static project pages are preserved as English HTML routes',()=>{
+ const slugs=['waynah','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-official-website','almanar-schedule-system'];
+ for(const slug of slugs){
+  const html=readFileSync(new URL('../public/en/projects/'+slug+'/index.html',import.meta.url),'utf8');
+  assert.match(html,/<html lang=['"]en['"]/i,'wrong document language for '+slug);
+  assert.ok(html.includes('https://mghalaosimi-web.vercel.app/en/projects/'+slug+'/'),'wrong English canonical for '+slug);
+ }
 });
