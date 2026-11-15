@@ -16,19 +16,23 @@ test('primary React pages expose matching bilingual canonicals',()=>{
   assert.equal(resolveLocalizedAlternates(path,'en').languages?.ar,ar);
  }
 });
-test('project detail pages expose clean matching locale URLs',()=>{
+test('legacy static project pages keep their slash-terminated bilingual canonicals',()=>{
  const ar=resolveLocalizedAlternates('/projects/waynah/','ar');
  const en=resolveLocalizedAlternates('/projects/waynah?source=portfolio','en');
- assert.equal(ar.canonical,'/projects/waynah');
- assert.equal(en.canonical,'/en/projects/waynah');
+ assert.equal(ar.canonical,'/projects/waynah/');
+ assert.equal(en.canonical,'/en/projects/waynah/');
  assert.equal(ar.languages?.en,en.canonical);
  assert.equal(en.languages?.ar,ar.canonical);
 });
-test('unmapped routes are normalized without invented language pairs',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/unknown/route/','en'),{canonical:'/en/unknown/route'});
- assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah');
+test('dynamic React project pages use clean canonical URLs without false alternates',()=>{
+ assert.deepEqual(resolveLocalizedAlternates('/projects/abdulmalik-erp','ar'),{canonical:'/projects/abdulmalik-erp'});
+ assert.deepEqual(resolveLocalizedAlternates('/projects/abdulmalik-erp','en'),{canonical:'/en/projects/abdulmalik-erp'});
 });
-test('English public URLs are internally rewritten and locale cookie reaches server components',()=>{
+test('unmapped routes are normalized',()=>{
+ assert.deepEqual(resolveLocalizedAlternates('/unknown/route/','en'),{canonical:'/en/unknown/route'});
+ assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah/');
+});
+test('English URLs are internally rewritten and locale cookie reaches server components',()=>{
  const middleware=readFileSync(new URL('../middleware.ts',import.meta.url),'utf8');
  assert.ok(middleware.includes('NextResponse.rewrite(destination,'));
  assert.ok(middleware.includes("destination.pathname=pathname==='/en'||pathname==='/en/'?'/':pathname.slice(3)"));
