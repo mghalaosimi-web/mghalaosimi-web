@@ -28,11 +28,13 @@ test('all 19 public projects are listed in the correct route form',()=>{
   assert.ok(locations.has(base+'/en/projects/'+slug+suffix),'missing English project '+slug);
  }
 });
-test('all legacy static project routes expose reciprocal hreflang links',()=>{
- for(const slug of legacy){
-  const ar=base+'/projects/'+slug+'/',en=base+'/en/projects/'+slug+'/';
-  assert.ok(sitemap.includes('hreflang="ar" href="'+ar+'"'));
-  assert.ok(sitemap.includes('hreflang="en" href="'+en+'"'));
+test('all 19 project locale pairs expose reciprocal hreflang links',()=>{
+ for(const slug of all){
+  const suffix=legacy.includes(slug)?'/':'';
+  const ar=base+'/projects/'+slug+suffix,en=base+'/en/projects/'+slug+suffix;
+  assert.ok(sitemap.includes('hreflang="ar" href="'+ar+'"'),'missing Arabic hreflang '+slug);
+  assert.ok(sitemap.includes('hreflang="en" href="'+en+'"'),'missing English hreflang '+slug);
+  assert.ok(sitemap.includes('hreflang="x-default" href="'+ar+'"'),'missing x-default hreflang '+slug);
  }
 });
 test('URLs are unique and use the official host',()=>{
