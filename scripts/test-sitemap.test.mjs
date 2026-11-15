@@ -7,7 +7,8 @@ const rootSitemap=readFileSync(new URL('../sitemap.xml',import.meta.url),'utf8')
 const base='https://mghalaosimi-web.vercel.app';
 const urls=[...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match=>match[1]);
 const locations=new Set(urls);
-const slugs=["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website","cryptolab-x"];
+const all=["abdulmalik-erp","abdulmalik-store-pro","ramzei-erp","manar-schedule-system","waynah","mghal-digital-os","mghal-content-os","debwan-live","alnasr-supermarket-erp","yemen-ai","academic-os2","ciphersphere","abdulmalik-store-management","academicos","almanar-schedule-system","focusflow","mghal-digital-automation","mghal-official-website","cryptolab-x"];
+const legacy=["waynah","yemen-ai","mghal-content-os","manar-schedule-system","ciphersphere","focusflow","mghal-official-website","almanar-schedule-system"];
 test('sitemap structure and copies are valid',()=>{
  assert.match(sitemap,/xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/);
  assert.match(sitemap,/xmlns:xhtml="http:\/\/www\.w3\.org\/1999\/xhtml"/);
@@ -15,15 +16,26 @@ test('sitemap structure and copies are valid',()=>{
  assert.ok(sitemap.includes('</urlset>'));
  assert.equal(rootSitemap,sitemap);
 });
-test('only current clean React routes are listed',()=>{
+test('only clean current React routes are listed',()=>{
  for(const path of ['/','/en','/about','/en/about','/projects','/en/projects','/skills','/en/skills','/research','/en/research','/contact','/en/contact','/labs','/en/labs','/credentials','/en/credentials']) assert.ok(locations.has(base+path),'missing '+path);
- assert.ok(!sitemap.includes('.html'),'legacy HTML paths must not be in sitemap');
- assert.ok(!sitemap.includes('mghal.vercel.app'),'legacy host must not be listed');
+ assert.ok(!sitemap.includes('.html'));
+ assert.ok(!sitemap.includes('mghal.vercel.app'));
 });
-test('all public project routes are discoverable in both locales',()=>{
- for(const slug of slugs){assert.ok(locations.has(base+'/projects/'+slug));assert.ok(locations.has(base+'/en/projects/'+slug));}
+test('all 19 public projects are listed in the correct route form',()=>{
+ for(const slug of all){
+  const suffix=legacy.includes(slug)?'/':'';
+  assert.ok(locations.has(base+'/projects/'+slug+suffix),'missing Arabic project '+slug);
+  assert.ok(locations.has(base+'/en/projects/'+slug+suffix),'missing English project '+slug);
+ }
 });
-test('URLs are unique and use the official canonical host',()=>{
+test('all legacy static project routes expose reciprocal hreflang links',()=>{
+ for(const slug of legacy){
+  const ar=base+'/projects/'+slug+'/',en=base+'/en/projects/'+slug+'/';
+  assert.ok(sitemap.includes('hreflang="ar" href="'+ar+'"'));
+  assert.ok(sitemap.includes('hreflang="en" href="'+en+'"'));
+ }
+});
+test('URLs are unique and use the official host',()=>{
  assert.equal(urls.length,locations.size);
  assert.ok(urls.every(url=>url.startsWith(base+'/')));
 });
