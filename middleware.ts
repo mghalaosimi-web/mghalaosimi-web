@@ -9,7 +9,9 @@ export function middleware(request:NextRequest){
     request.cookies.set('portfolio-locale','en');
     const requestHeaders=new Headers(request.headers);
     requestHeaders.set('cookie',request.cookies.toString());
-    const response=NextResponse.next({request:{headers:requestHeaders}});
+    const destination=request.nextUrl.clone();
+    destination.pathname=pathname==='/en'||pathname==='/en/'?'/':pathname.slice(3);
+    const response=NextResponse.rewrite(destination,{request:{headers:requestHeaders}});
     response.cookies.set('portfolio-locale','en',{
       httpOnly:true,sameSite:'lax',secure:request.nextUrl.protocol==='https:',
       path:'/',maxAge:60*60*24*365
