@@ -48,3 +48,11 @@ test('legacy HTML URLs permanently redirect to clean React paths',()=>{
  assert.ok(config.includes("['/certificates.html','/credentials']"));
  assert.ok(config.includes("{source:'/admin/index.html',destination:'/admin',permanent:true}"));
 });
+
+
+test('English URL prefixes are internally rewritten to the matching React route',()=>{
+ const middleware=readFileSync(new URL('../middleware.ts',import.meta.url),'utf8');
+ assert.ok(middleware.includes('NextResponse.rewrite(destination)'), 'English route prefix must be rewritten, not served as a missing physical route');
+ assert.ok(middleware.includes("destination.pathname=pathname==='/en'||pathname==='/en/'?'/' : pathname.slice(3)") || middleware.includes("destination.pathname=pathname==='/en'||pathname==='/en/'?'/':pathname.slice(3)"), 'English route prefix must map to the matching route path');
+ assert.ok(middleware.includes("request.cookies.set('portfolio-locale','en')"), 'English rewrite must set the locale for server components');
+});
