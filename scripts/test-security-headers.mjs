@@ -11,12 +11,14 @@ const requiredHeaders = {
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
 };
 
-assert.match(config, /async headers\(\)/, 'Next.js must expose a response-header policy.');
-assert.match(config, /source:\s*'\/:path\*'/, 'Security headers must cover every route and static asset.');
+assert.match(config, /async headers\s*\(\s*\)/, 'Next.js must expose a response-header policy.');
+assert.match(config, /source\s*:\s*['"]\/:path\*['"]/, 'Security headers must cover every route and static asset.');
 
 for (const [name, value] of Object.entries(requiredHeaders)) {
-  assert.ok(config.includes("key: '" + name + "'"), 'Missing security header: ' + name);
-  assert.ok(config.includes("value: '" + value + "'"), 'Incorrect security-header value: ' + name);
+  const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const escapedValue = value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  assert.match(config, new RegExp("key\\s*:\\s*['"]" + escapedName + "['"]"), 'Missing security header: ' + name);
+  assert.match(config, new RegExp("value\\s*:\\s*['"]" + escapedValue + "['"]"), 'Incorrect security-header value: ' + name);
 }
 
 console.log('Security-header tests passed: HSTS, MIME sniffing protection, clickjacking protection, referrer policy, and restricted browser capabilities.');
