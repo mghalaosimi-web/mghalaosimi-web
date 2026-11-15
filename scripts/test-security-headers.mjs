@@ -17,7 +17,7 @@ assert.match(config, /source\s*:\s*['"]\/:path\*['"]/, 'Security headers must co
 
 for (const [name, value] of Object.entries(requiredHeaders)) {
   assert.ok(compactConfig.includes("key:'" + name + "'"), 'Missing security header: ' + name);
-  assert.ok(compactConfig.includes("value:'" + value + "'"), 'Incorrect security-header value: ' + name);
+  assert.ok(compactConfig.includes("value:'" + value.replace(/\s+/g, '') + "'"), 'Incorrect security-header value: ' + name);
 }
 
 console.log('Security-header tests passed: HSTS, MIME sniffing protection, clickjacking protection, referrer policy, and restricted browser capabilities.');
