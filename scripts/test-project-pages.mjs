@@ -31,7 +31,12 @@ assert.ok(nextConfig.includes("legacyStaticProjectSlugs.flatMap"), "Only legacy 
 assert.ok(!nextConfig.includes("source: '/projects/:slug'") && !nextConfig.includes("source: '/en/projects/:slug'"), "A broad rewrite must not shadow dynamic project detail routes.");
 assert.ok(seoPaths.includes("legacyStaticProjectSlugs.includes(projectMatch[1])"), "SEO path resolution must distinguish legacy static and dynamic project routes.");
 for (const slug of dynamicSlugs) {
-  assert.deepEqual(resolveLocalizedAlternates("/projects/" + slug, "ar"), {canonical:"/projects/" + slug}, "Dynamic project must use its real Next.js canonical path: " + slug);
+  const ar = resolveLocalizedAlternates("/projects/" + slug, "ar");
+  const en = resolveLocalizedAlternates("/projects/" + slug, "en");
+  assert.equal(ar.canonical, "/projects/" + slug, "Dynamic Arabic project must use its real Next.js canonical path: " + slug);
+  assert.equal(en.canonical, "/en/projects/" + slug, "Dynamic English project must use its real Next.js canonical path: " + slug);
+  assert.equal(ar.languages?.en, en.canonical, "Dynamic project must expose an English alternate: " + slug);
+  assert.equal(en.languages?.ar, ar.canonical, "Dynamic project must expose an Arabic alternate: " + slug);
 }
 for (const slug of legacySlugs) {
   assert.ok(resolveLocalizedAlternates("/projects/" + slug, "ar").canonical.endsWith("/"), "Legacy static project canonical must retain its trailing slash: " + slug);
