@@ -24,17 +24,22 @@ test('legacy static project pages keep their slash-terminated bilingual canonica
  assert.equal(ar.languages?.en,en.canonical);
  assert.equal(en.languages?.ar,ar.canonical);
 });
-test('dynamic React project pages use clean canonical URLs without false alternates',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/projects/abdulmalik-erp','ar'),{canonical:'/projects/abdulmalik-erp'});
- assert.deepEqual(resolveLocalizedAlternates('/projects/abdulmalik-erp','en'),{canonical:'/en/projects/abdulmalik-erp'});
+test('dynamic React project pages expose clean reciprocal bilingual alternates',()=>{
+ const ar=resolveLocalizedAlternates('/projects/abdulmalik-erp','ar');
+ const en=resolveLocalizedAlternates('/projects/abdulmalik-erp','en');
+ assert.equal(ar.canonical,'/projects/abdulmalik-erp');
+ assert.equal(en.canonical,'/en/projects/abdulmalik-erp');
+ assert.equal(ar.languages?.en,en.canonical);
+ assert.equal(en.languages?.ar,ar.canonical);
 });
 test('unmapped routes are normalized',()=>{
  assert.deepEqual(resolveLocalizedAlternates('/unknown/route/','en'),{canonical:'/en/unknown/route'});
  assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah/');
 });
-test('English URLs are internally rewritten and locale cookie reaches server components',()=>{
+test('English static project URLs keep their locale prefix during internal rewrite',()=>{
  const middleware=readFileSync(new URL('../middleware.ts',import.meta.url),'utf8');
  assert.ok(middleware.includes('NextResponse.rewrite(destination,'));
- assert.ok(middleware.includes("destination.pathname=pathname==='/en'||pathname==='/en/'?'/':pathname.slice(3)"));
+ assert.ok(middleware.includes('LEGACY_STATIC_PROJECT_SLUGS.includes(legacyProjectMatch[1])'));
+ assert.ok(middleware.includes("preserveEnglishStaticPath?'/en/projects/'+legacyProjectMatch[1]:pathname.slice(3)"));
  assert.ok(middleware.includes("request.cookies.set('portfolio-locale','en')"));
 });
