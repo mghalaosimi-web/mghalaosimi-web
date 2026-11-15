@@ -1,29 +1,22 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {readFileSync} from 'node:fs';
 import {resolveLocalizedAlternates} from '../lib/seo-paths.mjs';
 
-test('home page exposes distinct Arabic and English canonical URLs',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/','ar'),{canonical:'/',languages:{ar:'/',en:'/en/','x-default':'/'}});
- assert.deepEqual(resolveLocalizedAlternates('/','en'),{canonical:'/en/',languages:{ar:'/',en:'/en/','x-default':'/'}});
+test('home page exposes clean Arabic and English canonicals',()=>{
+ assert.deepEqual(resolveLocalizedAlternates('/','ar'),{canonical:'/',languages:{ar:'/',en:'/en','x-default':'/'}});
+ assert.deepEqual(resolveLocalizedAlternates('/','en'),{canonical:'/en',languages:{ar:'/',en:'/en','x-default':'/'}});
 });
-
-test('Next.js content routes map to their existing bilingual static counterparts',()=>{
- const pairs=[
-  ['/about','/about','/en/profile.html'],
-  ['/projects','/projects','/en/projects.html'],
-  ['/skills','/skills','/en/skills.html'],
-  ['/research','/research','/en/research.html'],
-  ['/contact','/contact','/en/contact.html']
- ];
+test('primary React pages expose matching bilingual canonicals',()=>{
+ const pairs=[['/about','/about','/en/about'],['/projects','/projects','/en/projects'],['/skills','/skills','/en/skills'],['/research','/research','/en/research'],['/contact','/contact','/en/contact'],['/labs','/labs','/en/labs'],['/credentials','/credentials','/en/credentials']];
  for(const [path,ar,en] of pairs){
-  assert.equal(resolveLocalizedAlternates(path,'ar').canonical,ar,path+' Arabic canonical');
-  assert.equal(resolveLocalizedAlternates(path,'en').canonical,en,path+' English canonical');
-  assert.equal(resolveLocalizedAlternates(path,'ar').languages?.ar,ar,path+' Arabic hreflang');
-  assert.equal(resolveLocalizedAlternates(path,'ar').languages?.en,en,path+' English hreflang');
+  assert.equal(resolveLocalizedAlternates(path,'ar').canonical,ar);
+  assert.equal(resolveLocalizedAlternates(path,'en').canonical,en);
+  assert.equal(resolveLocalizedAlternates(path,'ar').languages?.en,en);
+  assert.equal(resolveLocalizedAlternates(path,'en').languages?.ar,ar);
  }
 });
-
-test('project detail pages pair the same slug across Arabic and English paths',()=>{
+test('legacy static project pages keep their slash-terminated bilingual canonicals',()=>{
  const ar=resolveLocalizedAlternates('/projects/waynah/','ar');
  const en=resolveLocalizedAlternates('/projects/waynah?source=portfolio','en');
  assert.equal(ar.canonical,'/projects/waynah/');
@@ -31,22 +24,17 @@ test('project detail pages pair the same slug across Arabic and English paths',(
  assert.equal(ar.languages?.en,en.canonical);
  assert.equal(en.languages?.ar,ar.canonical);
 });
-
-test('dynamic project details use the App Router canonical without false locale alternates',()=>{
+test('dynamic React project pages use clean canonical URLs without false alternates',()=>{
  assert.deepEqual(resolveLocalizedAlternates('/projects/abdulmalik-erp','ar'),{canonical:'/projects/abdulmalik-erp'});
- assert.deepEqual(resolveLocalizedAlternates('/projects/cryptolab-x','en'),{canonical:'/projects/cryptolab-x'});
+ assert.deepEqual(resolveLocalizedAlternates('/projects/abdulmalik-erp','en'),{canonical:'/en/projects/abdulmalik-erp'});
 });
-
-test('cookie-switched routes without a distinct English URL do not emit false hreflang',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/labs','en'),{canonical:'/labs'});
-});
-
-test('normalizes relative paths, duplicate slashes, query strings and trailing slashes',()=>{
+test('unmapped routes are normalized',()=>{
+ assert.deepEqual(resolveLocalizedAlternates('/unknown/route/','en'),{canonical:'/en/unknown/route'});
  assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah/');
- assert.equal(resolveLocalizedAlternates('/unmapped/route/','en').canonical,'/unmapped/route');
 });
-
-test('credentials uses its current canonical route without a false English alternate',()=>{
- assert.deepEqual(resolveLocalizedAlternates('/credentials','ar'),{canonical:'/credentials'});
- assert.deepEqual(resolveLocalizedAlternates('/credentials','en'),{canonical:'/credentials'});
+test('English URLs are internally rewritten and locale cookie reaches server components',()=>{
+ const middleware=readFileSync(new URL('../middleware.ts',import.meta.url),'utf8');
+ assert.ok(middleware.includes('NextResponse.rewrite(destination,'));
+ assert.ok(middleware.includes("destination.pathname=pathname==='/en'||pathname==='/en/'?'/':pathname.slice(3)"));
+ assert.ok(middleware.includes("request.cookies.set('portfolio-locale','en')"));
 });
