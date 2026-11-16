@@ -26,6 +26,32 @@ test('the sitemap exposes bilingual clean routes for all primary pages',()=>{
  }
 });
 
+test('the sitemap preserves the profile image and all public gallery image URLs',()=>{
+ const expectedImages=[
+  '/assets/images/mghal-profile-primary.jpg',
+  '/profile-gallery/mghal-eid-portrait-2026.png',
+  '/profile-gallery/mghal-cultural-portrait-2026.png',
+  '/profile-gallery/mghal-with-companion-2026.jpg',
+  '/profile-gallery/mghal-professional-poster-01.png',
+  '/profile-gallery/mghal-professional-poster-02.png',
+  '/profile-gallery/mghal-brand-visual-01.png',
+  '/profile-gallery/mghal-brand-portrait-visual.png',
+  '/profile-gallery/mghal-brand-visual-02.png',
+  '/profile-gallery/mghal-reading-portrait-2026.jpg',
+  '/profile-gallery/mghal-photo-2026-07-22.jpg',
+  '/profile-gallery/mghal-photo-2026-07-28-a.jpg',
+  '/profile-gallery/mghal-photo-2026-07-28-b.jpg',
+ ];
+ for(const image of expectedImages) assert.ok(sitemap.includes(image),'missing image URL '+image);
+ assert.ok(sitemap.includes('const images=imagesByRoute[ar]'),'localized page entries must receive their configured images');
+ assert.ok(sitemap.includes('...(images?{images}:{})'),'image URLs must be emitted as sitemap image entries');
+});
+
+test('every localized sitemap pair includes an x-default alternate',()=>{
+ assert.ok(sitemap.includes("'x-default':origin+ar"),'static pages must expose x-default');
+ assert.ok(sitemap.includes("'x-default':ar"),'project pages must expose x-default');
+});
+
 test('legacy HTML paths permanently redirect to React pages',()=>{
  for(const legacy of ['profile.html','projects.html','certificates.html','skills.html','education.html','achievements.html','knowledge.html','contact.html','showcase.html','resume.html']){
   assert.ok(config.includes(legacy),'missing redirect for '+legacy);
