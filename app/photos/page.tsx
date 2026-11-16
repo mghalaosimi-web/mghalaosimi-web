@@ -72,8 +72,8 @@ const photos = [
 export async function generateMetadata(): Promise<Metadata> {
   const isEn = (await cookies()).get('portfolio-locale')?.value === 'en';
   const title = isEn
-    ? 'Photo Gallery | Mohammed Ghaleb Alaosimi | M.GH.AL'
-    : 'معرض صور محمد غالب العصيمي | M.GH.AL';
+    ? 'Photo Gallery | Mohammed Ghaleb Alaosimi'
+    : 'معرض صور محمد غالب العصيمي';
   const description = isEn
     ? 'Portrait photographs and visual identity designs published in the official M.GH.AL profile archive.'
     : 'معرض الصور الشخصية والتصاميم التعريفية المنشورة ضمن الهوية الرقمية الرسمية لمحمد غالب العصيمي M.GH.AL.';
