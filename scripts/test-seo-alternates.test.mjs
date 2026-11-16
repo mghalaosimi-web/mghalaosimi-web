@@ -70,10 +70,10 @@ test('localized page titles rely on the shared brand template only once',()=>{
  for(const file of titleFiles){
   const source=readFileSync(new URL(file,import.meta.url),'utf8');
   const start=source.indexOf('generateMetadata');
-  const end=source.indexOf('\\nexport default',start);
+  const end=source.indexOf('export default',start);
   const metadata=end>=0?source.slice(start,end):source.slice(start);
-  assert.doesNotMatch(metadata,/title\\s*:\\s*['"][^'"]*\\|\\s*M\\.GH\\.AL['"]/,'page title must not repeat the shared brand suffix: '+file);
-  assert.doesNotMatch(metadata,/const title\\s*=\\s*isEn\\s*\\?\\s*['"][^'"]*\\|\\s*M\\.GH\\.AL['"]/,'English photo title must not repeat the shared brand suffix: '+file);
-  assert.doesNotMatch(metadata,/^\\s*:\\s*['"][^'"]*\\|\\s*M\\.GH\\.AL['"]/m,'Arabic photo title must not repeat the shared brand suffix: '+file);
+  assert.doesNotMatch(metadata,/title\s*:\s*['"][^'"]*\|\s*M\.GH\.AL['"]/,'page title must not repeat the shared brand suffix: '+file);
+  assert.doesNotMatch(metadata,/const title\s*=\s*isEn\s*\?\s*['"][^'"]*\|\s*M\.GH\.AL['"]/,'English photo title must not repeat the shared brand suffix: '+file);
+  assert.doesNotMatch(metadata,/^\s*:\s*['"][^'"]*\|\s*M\.GH\.AL['"]/m,'Arabic photo title must not repeat the shared brand suffix: '+file);
  }
 });
