@@ -56,3 +56,24 @@ test('English URL prefixes are internally rewritten to the matching React route'
  assert.ok(middleware.includes("destination.pathname=pathname==='/en'||pathname==='/en/'?'/' : pathname.slice(3)") || middleware.includes("destination.pathname=pathname==='/en'||pathname==='/en/'?'/':pathname.slice(3)"), 'English route prefix must map to the matching route path');
  assert.ok(middleware.includes("request.cookies.set('portfolio-locale','en')"), 'English rewrite must set the locale for server components');
 });
+
+
+test('localized page titles rely on the shared brand template only once',()=>{
+ const layout=readFileSync(new URL('../app/layout.tsx',import.meta.url),'utf8');
+ assert.ok(layout.includes("template: '%s | M.GH.AL'"));
+ const titleFiles=[
+  '../app/skills/page.tsx',
+  '../app/research/page.tsx',
+  '../app/credentials/page.tsx',
+  '../app/photos/page.tsx',
+ ];
+ for(const file of titleFiles){
+  const source=readFileSync(new URL(file,import.meta.url),'utf8');
+  const start=source.indexOf('generateMetadata');
+  const end=source.indexOf('\\nexport default',start);
+  const metadata=end>=0?source.slice(start,end):source.slice(start);
+  assert.doesNotMatch(metadata,/title\\s*:\\s*['"][^'"]*\\|\\s*M\\.GH\\.AL['"]/,'page title must not repeat the shared brand suffix: '+file);
+  assert.doesNotMatch(metadata,/const title\\s*=\\s*isEn\\s*\\?\\s*['"][^'"]*\\|\\s*M\\.GH\\.AL['"]/,'English photo title must not repeat the shared brand suffix: '+file);
+  assert.doesNotMatch(metadata,/^\\s*:\\s*['"][^'"]*\\|\\s*M\\.GH\\.AL['"]/m,'Arabic photo title must not repeat the shared brand suffix: '+file);
+ }
+});
