@@ -13,7 +13,7 @@ export async function generateMetadata():Promise<Metadata>{
         alternates:localizedAlternates('/credentials', 'en'),
       }
     : {
-        title:'الشهادات والاعتمادات | M.GH.AL',
+        title:'الشهادات والاعتمادات',
         description:'سجل 26 شهادة واعتماداً لمحمد غالب العصيمي: 14 من Cisco Networking Academy، و6 من إدراك، واعتماد JSNAD من OpenJS، و5 ورش من EMC شِراع.',
         alternates:localizedAlternates('/credentials', 'ar'),
       };
