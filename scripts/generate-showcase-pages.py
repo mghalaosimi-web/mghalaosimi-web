@@ -61,7 +61,7 @@ for locale in ("ar", "en"):
         f'<header class="top"><div class="wrap nav"><a class="brand" href="{prefix or "/"}">M.GH.AL</a>'
         f'<nav class="navlinks" aria-label="{"التنقل الرئيسي" if ar else "Primary navigation"}">'
         f'<a href="{prefix or "/"}">{escape(t["home"])}</a><a href="{prefix}/profile">{escape(t["identity"])}</a>'
-        f'<a href="{prefix}/projects">{escape(t["projects"])}</a><a href="{prefix}/certificates">{escape(t["credentials"])}</a>'
+        f'<a href="{prefix}/projects">{escape(t["projects"])}</a><a href="{prefix}/credentials">{escape(t["credentials"])}</a>'
         f'<a href="{prefix}/knowledge">{escape(t["knowledge"])}</a><a href="{prefix}/contact">{escape(t["contact"])}</a></nav>'
         f'<a class="btn secondary nav-resume" href="{prefix}/resume">{escape(t["resume"])} ↗</a></div></header>'
     )
