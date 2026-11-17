@@ -62,10 +62,20 @@ function ensureSeoHead(html,route){
   if(canonicalPattern.test(head)) head=head.replace(canonicalPattern,canonicalTag);
   else head=head.replace(/<\/head>/i,canonicalTag+'</head>');
   for(const [lang,path] of [['ar',arPath],['en',enPath],['x-default',arPath]]){
-    const pattern=new RegExp('<link\\b(?=[^>]*\\brel=["\\']alternate["\\'])(?=[^>]*\\bhreflang=["\\']'+lang+'["\\'])[^>]*>','i');
-    const tag='<link rel="alternate" hreflang="'+lang+'" href="'+absolute(path)+'">';
-    if(pattern.test(head)) head=head.replace(pattern,tag);
-    else head=head.replace(/<\/head>/i,tag+'</head>');
+    let found=false;
+    head=head.replace(/<link\\b[^>]*>/gi,tag=>{
+      const rel=(tag.match(/\\brel=["']([^"']+)["']/i)||[])[1];
+      const hreflang=(tag.match(/\\bhreflang=["']([^"']+)["']/i)||[])[1];
+      if(rel==='alternate'&&hreflang===lang){
+        found=true;
+        return tag.replace(/\\bhref=["'][^"']*["']/i,'href="'+absolute(path)+'"');
+      }
+      return tag;
+    });
+    if(!found){
+      const tag='<link rel="alternate" hreflang="'+lang+'" href="'+absolute(path)+'">';
+      head=head.replace(/<\\/head>/i,tag+'</head>');
+    }
   }
   return html.replace(headMatch[0],head);
 }
