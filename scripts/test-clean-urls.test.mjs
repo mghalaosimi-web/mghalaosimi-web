@@ -37,10 +37,13 @@ test('indexable static HTML pages ship language, title, description, canonical, 
 });
 test('Next.js permanently redirects HTML file URLs and rewrites clean legacy page routes',()=>{
  const config=readFileSync(join(root,'next.config.ts'),'utf8');
- assert.match(config,/source:\s*'\/index\.html',\s*destination:\s*'\/',\s*permanent:\s*true/);
- assert.match(config,/source:\s*'\/:path\*\.html',\s*destination:\s*'\/:path\*',\s*permanent:\s*true/);
- assert.match(config,/source:\s*'\/certificates',\s*destination:\s*'\/credentials',\s*permanent:\s*true/);
- assert.ok(config.includes("destination: '/en/credentials'"));
+ const vercel=JSON.parse(readFileSync(join(root,'vercel.json'),'utf8'));
+ for(const source of ['/index.html','/en/index.html','/:path*/index.html','/:path*.html','/certificates.html','/en/certificates.html']){
+  const redirect=vercel.redirects.find(item=>item.source===source);
+  assert.ok(redirect,'missing redirect: '+source);
+  assert.equal(redirect.statusCode,301,'redirect must be HTTP 301: '+source);
+ }
+ assert.ok(!('cleanUrls' in vercel),'do not use Vercel cleanUrls because it emits 308');
  for(const slug of ['achievements','education','knowledge','profile','resume','showcase']){
   assert.ok(config.includes("'"+slug+"'"),'missing clean legacy route slug: '+slug);
  }
