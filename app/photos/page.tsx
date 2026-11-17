@@ -56,7 +56,7 @@ const photos = [
 ] as const;
 
 export const metadata: Metadata = {
-  title: 'معرض صور محمد غالب العصيمي | M.GH.AL',
+  title: 'معرض صور محمد غالب العصيمي',
   description:
     'معرض الصور الشخصية والتصاميم التعريفية المنشورة ضمن الهوية الرقمية الرسمية لمحمد غالب العصيمي M.GH.AL.',
   alternates: {
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    title: 'معرض صور محمد غالب العصيمي | M.GH.AL',
+    title: 'معرض صور محمد غالب العصيمي',
     description:
       'الصور الشخصية والتصاميم التعريفية المرتبطة بالهوية الرقمية M.GH.AL.',
     url: `${site}/photos`,
