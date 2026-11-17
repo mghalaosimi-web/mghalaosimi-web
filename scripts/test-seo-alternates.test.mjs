@@ -16,7 +16,7 @@ test('primary React pages expose matching bilingual canonicals',()=>{
   assert.equal(resolveLocalizedAlternates(path,'en').languages?.ar,ar);
  }
 });
-test('legacy static project pages keep their slash-terminated bilingual canonicals',()=>{
+test('legacy static project pages use clean bilingual canonicals',()=>{
  const ar=resolveLocalizedAlternates('/projects/waynah/','ar');
  const en=resolveLocalizedAlternates('/projects/waynah?source=portfolio','en');
  assert.equal(ar.canonical,'/projects/waynah');
