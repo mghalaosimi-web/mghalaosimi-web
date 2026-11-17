@@ -3,7 +3,7 @@ import {join,relative,sep} from 'node:path';
 
 const root=process.cwd();
 const origin='https://mghalaosimi-web.vercel.app';
-const legacyPages=['achievements','certificates','education','knowledge','profile','resume','showcase'];
+const legacyPages=['achievements','education','knowledge','profile','resume','showcase'];
 const legacyProjects=['waynah','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-official-website','almanar-schedule-system'];
 const ignored=new Set(['.git','node_modules','.next','.vercel','coverage','artifacts','mghal-backend']);
 
@@ -33,6 +33,8 @@ function cleanUrl(value){
   const project=pathname.match(/^\/(en\/)?projects\/([^/]+)\/$/);
   if(project) pathname='/'+(project[1]||'')+'projects/'+project[2];
   if(pathname.length>1&&pathname.endsWith('/')) pathname=pathname.slice(0,-1);
+  if(pathname==='/certificates') pathname='/credentials';
+  if(pathname==='/en/certificates') pathname='/en/credentials';
   url.pathname=pathname;
   return value.startsWith(origin)?url.toString():url.pathname+url.search+url.hash;
 }
@@ -44,6 +46,7 @@ function routeForFile(file){
   if(route==='en/index.html') return '/en';
   if(route.endsWith('/index.html')) route=route.slice(0,-'/index.html'.length);
   else route=route.replace(/\.html$/,'');
+  route=route.replace(/^certificates$/,'credentials').replace(/^en\/certificates$/,'en/credentials');
   return '/'+route.replace(/^\/+|\/+$/g,'');
 }
 
