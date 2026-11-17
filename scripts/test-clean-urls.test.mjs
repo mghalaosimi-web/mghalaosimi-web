@@ -39,7 +39,8 @@ test('Next.js permanently redirects HTML file URLs and rewrites clean legacy pag
  const config=readFileSync(join(root,'next.config.ts'),'utf8');
  assert.match(config,/source:\s*'\/index\.html',\s*destination:\s*'\/',\s*permanent:\s*true/);
  assert.match(config,/source:\s*'\/:path\*\.html',\s*destination:\s*'\/:path\*',\s*permanent:\s*true/);
- assert.match(config,/source:\s*'\/certificates',\s*destination:\s*'\/credentials',\s*permanent:\s*true/);\n assert.match(config,/source:\s*'\/en\/certificates',\s*destination:\s*'\/en\/credentials',\s*permanent:\s*true/);\n for(const slug of ['achievements','education','knowledge','profile','resume','showcase']){
+ assert.match(config,/source:\s*'\/certificates',\s*destination:\s*'\/credentials',\s*permanent:\s*true/);\n assert.match(config,/source:\s*'\/en\/certificates',\s*destination:\s*'\/en\/credentials',\s*permanent:\s*true/);
+ for(const slug of ['achievements','education','knowledge','profile','resume','showcase']){
   assert.ok(config.includes("'"+slug+"'"),'missing clean legacy route slug: '+slug);
  }
 });
