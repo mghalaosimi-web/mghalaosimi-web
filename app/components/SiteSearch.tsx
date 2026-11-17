@@ -20,17 +20,29 @@ type SearchItem = {
 const routeMap: Record<string, string> = {
   '/': '/',
   '/en/': '/',
+  '/profile': '/about',
   '/profile.html': '/about',
+  '/en/profile': '/about',
   '/en/profile.html': '/about',
+  '/projects': '/projects',
   '/projects.html': '/projects',
+  '/en/projects': '/projects',
   '/en/projects.html': '/projects',
+  '/certificates': '/credentials',
   '/certificates.html': '/credentials',
+  '/en/certificates': '/credentials',
   '/en/certificates.html': '/credentials',
+  '/skills': '/skills',
   '/skills.html': '/skills',
+  '/en/skills': '/skills',
   '/en/skills.html': '/skills',
+  '/education': '/about',
   '/education.html': '/about',
+  '/en/education': '/about',
   '/en/education.html': '/about',
+  '/contact': '/contact',
   '/contact.html': '/contact',
+  '/en/contact': '/contact',
   '/en/contact.html': '/contact',
 };
 
@@ -41,7 +53,7 @@ function projectHref(url: string | undefined, isEn: boolean): string | undefined
   if (!match) return undefined;
   const slug = match[1];
   const prefix = isEn ? '/en/projects/' : '/projects/';
-  return prefix + slug + (legacyStaticProjectSlugs.has(slug) ? '/' : '');
+  return prefix + slug;
 }
 
 function normalize(value: string): string {
