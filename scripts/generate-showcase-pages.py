@@ -45,7 +45,7 @@ for locale in ("ar", "en"):
         category = project["category"].get(locale, project["category"]["en"])
         status = project["status"].get(locale, project["status"]["en"])
         alt = project.get("coverAlt", {}).get(locale, project.get("coverAlt", {}).get("en", title))
-        href = f"{prefix}/projects/{project['slug']}/"
+        href = f"{prefix}/projects/{project['slug']}"
         cards.append(
             f'<article class="showcase-card"><a class="showcase-cover" href="{href}" aria-label="{escape(t["details"])}: {escape(title)}">'
             f'<img src="{escape(project["cover"])}" alt="{escape(alt)}" loading="lazy" decoding="async"></a>'
