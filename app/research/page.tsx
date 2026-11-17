@@ -13,12 +13,12 @@ export async function generateMetadata():Promise<Metadata>{
   const en=(await cookies()).get('portfolio-locale')?.value==='en';
   return en
     ? {
-        title:'Research & Academic Directions | M.GH.AL',
+        title:'Research & Academic Directions',
         description:'Research directions of Mohammed Ghaleb Alaosimi across applied AI, enterprise systems, software engineering, and transaction-aware authorization for AI agents in ERP.',
         alternates:localizedAlternates('/research','en'),
       }
     : {
-        title:'الأبحاث والمسارات الأكاديمية | M.GH.AL',
+        title:'الأبحاث والمسارات الأكاديمية',
         description:'المسارات البحثية لمحمد غالب العصيمي في الذكاء الاصطناعي التطبيقي والأنظمة المؤسسية وهندسة البرمجيات والتفويض الواعي بالمعاملات لوكلاء الذكاء الاصطناعي داخل ERP.',
         alternates:localizedAlternates('/research','ar'),
       };
