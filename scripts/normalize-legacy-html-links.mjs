@@ -32,7 +32,8 @@ function cleanUrl(value){
   else if(pathname.endsWith('.html')) pathname=pathname.slice(0,-'.html'.length);
   const project=pathname.match(/^\/(en\/)?projects\/([^/]+)\/$/);
   if(project) pathname='/'+(project[1]||'')+'projects/'+project[2];
-  if(pathname.length>1&&pathname.endsWith('/')) pathname=pathname.slice(0,-1);\n  url.pathname=pathname;
+  if(pathname.length>1&&pathname.endsWith('/')) pathname=pathname.slice(0,-1);
+  url.pathname=pathname;
   return value.startsWith(origin)?url.toString():url.pathname+url.search+url.hash;
 }
 
