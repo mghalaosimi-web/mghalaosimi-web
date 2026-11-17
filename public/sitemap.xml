@@ -146,6 +146,48 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://mghalaosimi-web.vercel.app/credentials"/>
   </url>
   <url>
+    <loc>https://mghalaosimi-web.vercel.app/photos</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://mghalaosimi-web.vercel.app/photos"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mghalaosimi-web.vercel.app/en/photos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mghalaosimi-web.vercel.app/photos"/>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-eid-portrait-2026.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-cultural-portrait-2026.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-with-companion-2026.jpg</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-professional-poster-01.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-professional-poster-02.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-brand-visual-01.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-brand-portrait-visual.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-brand-visual-02.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-reading-portrait-2026.jpg</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-photo-2026-07-22.jpg</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-photo-2026-07-28-a.jpg</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-photo-2026-07-28-b.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://mghalaosimi-web.vercel.app/en/photos</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://mghalaosimi-web.vercel.app/photos"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mghalaosimi-web.vercel.app/en/photos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mghalaosimi-web.vercel.app/photos"/>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-eid-portrait-2026.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-cultural-portrait-2026.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-with-companion-2026.jpg</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-professional-poster-01.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-professional-poster-02.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-brand-visual-01.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-brand-portrait-visual.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-brand-visual-02.png</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-reading-portrait-2026.jpg</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-photo-2026-07-22.jpg</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-photo-2026-07-28-a.jpg</image:loc></image:image>
+    <image:image><image:loc>https://mghalaosimi-web.vercel.app/profile-gallery/mghal-photo-2026-07-28-b.jpg</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://mghalaosimi-web.vercel.app/projects/abdulmalik-erp</loc>
     <lastmod>2026-11-15</lastmod>
     <changefreq>monthly</changefreq>

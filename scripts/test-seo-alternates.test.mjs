@@ -53,3 +53,12 @@ test('all English legacy static project pages are preserved as English HTML rout
   assert.ok(html.includes('https://mghalaosimi-web.vercel.app/en/projects/'+slug+'/'),'wrong English canonical for '+slug);
  }
 });
+
+
+test('page titles do not duplicate the shared M.GH.AL suffix',()=>{
+ const files=['../app/skills/page.tsx','../app/research/page.tsx','../app/credentials/page.tsx','../app/photos/page.tsx'];
+ for(const file of files){
+  const source=readFileSync(new URL(file,import.meta.url),'utf8');
+  assert.doesNotMatch(source,/title\s*:\s*['"][^'"]*\|\s*M\.GH\.AL['"]/,'page metadata must not repeat the root title suffix: '+file);
+ }
+});
