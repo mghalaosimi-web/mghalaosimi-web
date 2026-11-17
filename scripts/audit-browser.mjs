@@ -18,6 +18,10 @@ const server = createServer((request, response) => {
   try {
     const pathname = decodeURIComponent(new URL(request.url || "/", "http://127.0.0.1").pathname);
     let file = resolve(root, "." + pathname);
+    if (!existsSync(file) || !statSync(file).isFile()) {
+      const candidates = [resolve(root, "." + pathname + ".html"), resolve(root, "." + pathname, "index.html")];
+      file = candidates.find(candidate => candidate.startsWith(root + "/") && existsSync(candidate) && statSync(candidate).isFile()) || file;
+    }
     if (file !== root && !file.startsWith(root + "/")) return response.writeHead(403).end("Forbidden");
     if (existsSync(file) && statSync(file).isDirectory()) file = join(file, "index.html");
     if (!existsSync(file) || !statSync(file).isFile()) return response.writeHead(404).end("Not found");
@@ -28,7 +32,7 @@ const server = createServer((request, response) => {
 await new Promise((resolveListen,reject)=>{server.once("error",reject);server.listen(4173,"127.0.0.1",resolveListen);});
 
 const base="http://127.0.0.1:4173";
-const routes=["/","/en/","/profile.html","/en/profile.html","/resume.html","/en/resume.html","/projects.html","/en/projects.html","/showcase.html","/en/showcase.html","/certificates.html","/en/certificates.html","/skills.html","/en/skills.html","/education.html","/en/education.html","/achievements.html","/en/achievements.html","/contact.html","/en/contact.html","/knowledge.html","/en/knowledge.html","/research.html","/en/research.html","/projects/waynah/","/en/projects/waynah/"];
+const routes=["/","/en","/profile","/en/profile","/resume","/en/resume","/projects","/en/projects","/showcase","/en/showcase","/certificates","/en/certificates","/skills","/en/skills","/education","/en/education","/achievements","/en/achievements","/contact","/en/contact","/knowledge","/en/knowledge","/research","/en/research","/projects/waynah","/en/projects/waynah"];
 const axeViolations=[], browserChecks=[];
 const browser=await chromium.launch({headless:true,args:["--no-sandbox","--disable-dev-shm-usage"]});
 try {
@@ -67,7 +71,7 @@ try {
   await page.waitForFunction(() => document.activeElement === document.querySelector("main"), null, { timeout: 2000 });
   const main=await page.evaluate(()=>document.activeElement === document.querySelector("main"));
   assert.ok(main,route+": skip link must focus main content");
-  if(["/","/projects.html","/showcase.html","/certificates.html","/contact.html","/en/","/en/certificates.html"].includes(route)){
+  if(["/","/projects","/showcase","/certificates","/contact","/en","/en/certificates"].includes(route)){
    for(const width of [320,375,768]){
     await page.setViewportSize({width,height:900});
     const d=await page.evaluate(()=>({viewport:innerWidth,document:document.documentElement.scrollWidth,body:document.body.scrollWidth}));
