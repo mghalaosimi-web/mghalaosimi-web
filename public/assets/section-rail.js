@@ -21,7 +21,7 @@
     ['resume', 'Résumé', '/en/resume'],
     ['projects', 'Projects', '/en/projects'],
     ['showcase', 'Showcase', '/en/showcase'],
-    ['credentials', 'Credentials', '/en/certificates'],
+    ['credentials', 'Credentials', '/en/credentials'],
     ['skills', 'Skills', '/en/skills'],
     ['education', 'Education', '/en/education'],
     ['achievements', 'Achievements', '/en/achievements'],
@@ -33,7 +33,7 @@
     ['resume', 'السيرة الذاتية', '/resume'],
     ['projects', 'المشاريع', '/projects'],
     ['showcase', 'معرض الأعمال', '/showcase'],
-    ['credentials', 'الشهادات', '/certificates'],
+    ['credentials', 'الشهادات', '/credentials'],
     ['skills', 'المهارات', '/skills'],
     ['education', 'التعليم', '/education'],
     ['achievements', 'الإنجازات', '/achievements'],
@@ -69,7 +69,7 @@
     if (key === 'identity') return currentPath === '/profile';
     if (key === 'resume') return currentPath === '/resume';
     if (key === 'showcase') return currentPath === '/showcase';
-    if (key === 'credentials') return currentPath === '/certificates';
+    if (key === 'credentials') return currentPath === '/credentials';
     if (key === 'skills') return currentPath === '/skills';
     if (key === 'education') return currentPath === '/education';
     if (key === 'achievements') return currentPath === '/achievements';
