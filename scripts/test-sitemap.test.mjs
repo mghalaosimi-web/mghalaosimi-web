@@ -42,3 +42,11 @@ test('URLs are unique and use the official host',()=>{
  assert.ok(urls.every(url=>url.startsWith(base+'/')));
 });
 test('robots references the official sitemap',()=>assert.ok(robots.includes('Sitemap: '+base+'/sitemap.xml')));
+
+
+test('photo gallery routes and all 12 gallery images are discoverable in the sitemap',()=>{
+ for(const path of ['/photos','/en/photos']) assert.ok(locations.has(base+path),'missing '+path);
+ const gallery=['mghal-eid-portrait-2026.png','mghal-cultural-portrait-2026.png','mghal-with-companion-2026.jpg','mghal-professional-poster-01.png','mghal-professional-poster-02.png','mghal-brand-visual-01.png','mghal-brand-portrait-visual.png','mghal-brand-visual-02.png','mghal-reading-portrait-2026.jpg','mghal-photo-2026-07-22.jpg','mghal-photo-2026-07-28-a.jpg','mghal-photo-2026-07-28-b.jpg'];
+ for(const image of gallery) assert.ok(sitemap.includes(base+'/profile-gallery/'+image),'missing gallery image '+image);
+ assert.equal(rootSitemap,sitemap);
+});
