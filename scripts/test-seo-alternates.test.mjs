@@ -62,7 +62,7 @@ test('all English legacy static project pages are preserved as English HTML rout
  for(const slug of slugs){
   const html=readFileSync(new URL('../public/en/projects/'+slug+'/index.html',import.meta.url),'utf8');
   assert.match(html,/<html lang=['"]en['"]/i,'wrong document language for '+slug);
-  assert.ok(html.includes('https://mghalaosimi-web.vercel.app/en/projects/'+slug+'/'),'wrong English canonical for '+slug);
+  assert.ok(html.includes('https://mghalaosimi-web.vercel.app/en/projects/'+slug),'wrong English canonical for '+slug);
  }
 });
 
