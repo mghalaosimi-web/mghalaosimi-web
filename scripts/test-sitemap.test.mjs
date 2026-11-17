@@ -30,7 +30,7 @@ test('all 19 public projects are listed in the correct route form',()=>{
 });
 test('all 19 project locale pairs expose reciprocal hreflang links',()=>{
  for(const slug of all){
-  const suffix=legacy.includes(slug)?'/':'';
+  const suffix='';
   const ar=base+'/projects/'+slug+suffix,en=base+'/en/projects/'+slug+suffix;
   assert.ok(sitemap.includes('hreflang="ar" href="'+ar+'"'),'missing Arabic hreflang '+slug);
   assert.ok(sitemap.includes('hreflang="en" href="'+en+'"'),'missing English hreflang '+slug);
@@ -49,7 +49,8 @@ test('legacy static profile pages are listed as clean bilingual URL pairs',()=>{
 });
 test('URLs are unique and use the official host',()=>{
  assert.equal(urls.length,locations.size);
- assert.ok(urls.every(url=>url.startsWith(base+'/')));\n assert.ok(urls.every(url=>!url.endsWith('.html')));
+ assert.ok(urls.every(url=>url.startsWith(base+'/')));
+ assert.ok(urls.every(url=>!url.endsWith('.html')));
 });
 test('robots references the official sitemap',()=>assert.ok(robots.includes('Sitemap: '+base+'/sitemap.xml')));
 
