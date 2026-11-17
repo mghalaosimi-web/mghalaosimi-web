@@ -6,18 +6,6 @@ const legacyStaticPageSlugs = ['achievements','education','knowledge','profile',
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: { unoptimized: true },
-  async redirects() {
-    return [
-      { source: '/certificates.html', destination: '/credentials', permanent: true },
-      { source: '/en/certificates.html', destination: '/en/credentials', permanent: true },
-      { source: '/certificates', destination: '/credentials', permanent: true },
-      { source: '/en/certificates', destination: '/en/credentials', permanent: true },
-      { source: '/index.html', destination: '/', permanent: true },
-      { source: '/en/index.html', destination: '/en', permanent: true },
-      { source: '/:path*/index.html', destination: '/:path*', permanent: true },
-      { source: '/:path*.html', destination: '/:path*', permanent: true },
-    ];
-  },
   async headers() {
     return [
       {
