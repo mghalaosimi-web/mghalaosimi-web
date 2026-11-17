@@ -1,6 +1,6 @@
 "use strict";
 const isEnglish = document.documentElement.lang.toLowerCase().startsWith("en");
-const projectSelector = location.pathname.endsWith("projects.html")
+const projectSelector = location.pathname.endsWith("/projects")
     ? "main .grid .card, main .item"
     : "#projects .card";
 function getProjectScope(title) {
