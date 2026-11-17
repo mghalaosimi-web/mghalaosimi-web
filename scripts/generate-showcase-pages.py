@@ -79,7 +79,7 @@ for locale in ("ar", "en"):
         f'<a href="{"/" if ar else "/"}{"en/" if ar else ""}">{escape(t["language"])}</a></div>'
         f'<small>© <span id="year"></span> M.GH.AL</small></div></footer><script src="/assets/site.js" defer></script></body></html>'
     )
-    path = Path("showcase" if ar else "en/showcase")
+    path = Path("showcase.html" if ar else "en/showcase.html")
     old = path.read_text()
     start = old.find("<head>")
     end = old.find("</head>")
