@@ -31,10 +31,20 @@ function localTarget(raw, currentFile) {
   } catch {
     return null;
   }
-  let target = path.resolve(root, `. ${pathname.startsWith("/") ? pathname : "/" + pathname}`.replace(/^\. /, "."));
+  const safePath = pathname.replace(/^\/+/, "");
+  const candidates = [
+    path.resolve(root, safePath),
+    path.resolve(root, safePath + ".html"),
+    path.resolve(root, safePath, "index.html"),
+    path.resolve(root, "public", safePath),
+    path.resolve(root, "public", safePath + ".html"),
+    path.resolve(root, "public", safePath, "index.html"),
+  ];
+  let target = candidates.find(candidate =>
+    (candidate === root || candidate.startsWith(root + path.sep)) &&
+    existsSync(candidate) && statSync(candidate).isFile()
+  ) || candidates[0];
   if (!target.startsWith(root + path.sep) && target !== root) return null;
-  if (existsSync(target) && statSync(target).isDirectory()) target = path.join(target, "index.html");
-  if (!path.extname(target) && existsSync(path.join(target, "index.html"))) target = path.join(target, "index.html");
   return target;
 }
 
