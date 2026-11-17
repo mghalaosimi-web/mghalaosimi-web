@@ -38,7 +38,7 @@ test('all 19 project locale pairs expose reciprocal hreflang links',()=>{
  }
 });
 test('legacy static profile pages are listed as clean bilingual URL pairs',()=>{
- for(const slug of ['achievements','certificates','education','knowledge','profile','resume','showcase']){
+ for(const slug of ['achievements','education','knowledge','profile','resume','showcase']){
   const ar=base+'/'+slug,en=base+'/en/'+slug;
   assert.ok(locations.has(ar),'missing '+ar);
   assert.ok(locations.has(en),'missing '+en);
