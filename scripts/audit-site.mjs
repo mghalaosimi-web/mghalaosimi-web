@@ -45,6 +45,10 @@ function localTarget(raw, currentFile) {
     existsSync(candidate) && statSync(candidate).isFile()
   ) || candidates[0];
   if (!target.startsWith(root + path.sep) && target !== root) return null;
+  const appRoute = safePath.replace(/^en\\//, '');
+  const appPage = path.resolve(root, 'app', appRoute, 'page.tsx');
+  if (appPage.startsWith(path.resolve(root, 'app') + path.sep) && existsSync(appPage)) return appPage;
+  if (appRoute === '' && existsSync(path.resolve(root, 'app/page.tsx'))) return path.resolve(root, 'app/page.tsx');
   return target;
 }
 
