@@ -17,28 +17,28 @@
 
   const items = isEn ? [
     ['home', 'Home', '/en/'],
-    ['identity', 'Identity', '/en/profile.html'],
-    ['resume', 'Résumé', '/en/resume.html'],
-    ['projects', 'Projects', '/en/projects.html'],
-    ['showcase', 'Showcase', '/en/showcase.html'],
-    ['credentials', 'Credentials', '/en/certificates.html'],
-    ['skills', 'Skills', '/en/skills.html'],
-    ['education', 'Education', '/en/education.html'],
-    ['achievements', 'Achievements', '/en/achievements.html'],
-    ['knowledge', 'Knowledge', '/en/knowledge.html'],
-    ['contact', 'Contact', '/en/contact.html'],
+    ['identity', 'Identity', '/en/profile'],
+    ['resume', 'Résumé', '/en/resume'],
+    ['projects', 'Projects', '/en/projects'],
+    ['showcase', 'Showcase', '/en/showcase'],
+    ['credentials', 'Credentials', '/en/certificates'],
+    ['skills', 'Skills', '/en/skills'],
+    ['education', 'Education', '/en/education'],
+    ['achievements', 'Achievements', '/en/achievements'],
+    ['knowledge', 'Knowledge', '/en/knowledge'],
+    ['contact', 'Contact', '/en/contact'],
   ] : [
     ['home', 'الرئيسية', '/'],
-    ['identity', 'الهوية', '/profile.html'],
-    ['resume', 'السيرة الذاتية', '/resume.html'],
-    ['projects', 'المشاريع', '/projects.html'],
-    ['showcase', 'معرض الأعمال', '/showcase.html'],
-    ['credentials', 'الشهادات', '/certificates.html'],
-    ['skills', 'المهارات', '/skills.html'],
-    ['education', 'التعليم', '/education.html'],
-    ['achievements', 'الإنجازات', '/achievements.html'],
-    ['knowledge', 'المعرفة', '/knowledge.html'],
-    ['contact', 'التواصل', '/contact.html'],
+    ['identity', 'الهوية', '/profile'],
+    ['resume', 'السيرة الذاتية', '/resume'],
+    ['projects', 'المشاريع', '/projects'],
+    ['showcase', 'معرض الأعمال', '/showcase'],
+    ['credentials', 'الشهادات', '/certificates'],
+    ['skills', 'المهارات', '/skills'],
+    ['education', 'التعليم', '/education'],
+    ['achievements', 'الإنجازات', '/achievements'],
+    ['knowledge', 'المعرفة', '/knowledge'],
+    ['contact', 'التواصل', '/contact'],
   ];
 
   const nav = document.querySelector('.nav');
@@ -65,16 +65,16 @@
 
   const activeKey = (key) => {
     if (key === 'home') return currentPath === '/';
-    if (key === 'projects') return currentPath === '/projects.html' || currentPath.startsWith('/projects/');
-    if (key === 'identity') return currentPath === '/profile.html';
-    if (key === 'resume') return currentPath === '/resume.html';
-    if (key === 'showcase') return currentPath === '/showcase.html';
-    if (key === 'credentials') return currentPath === '/certificates.html';
-    if (key === 'skills') return currentPath === '/skills.html';
-    if (key === 'education') return currentPath === '/education.html';
-    if (key === 'achievements') return currentPath === '/achievements.html';
-    if (key === 'knowledge') return currentPath === '/knowledge.html' || currentPath === '/article.html';
-    if (key === 'contact') return currentPath === '/contact.html';
+    if (key === 'projects') return currentPath === '/projects' || currentPath.startsWith('/projects/');
+    if (key === 'identity') return currentPath === '/profile';
+    if (key === 'resume') return currentPath === '/resume';
+    if (key === 'showcase') return currentPath === '/showcase';
+    if (key === 'credentials') return currentPath === '/certificates';
+    if (key === 'skills') return currentPath === '/skills';
+    if (key === 'education') return currentPath === '/education';
+    if (key === 'achievements') return currentPath === '/achievements';
+    if (key === 'knowledge') return currentPath === '/knowledge' || currentPath === '/article';
+    if (key === 'contact') return currentPath === '/contact';
     return false;
   };
 
