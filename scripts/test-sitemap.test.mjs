@@ -23,7 +23,7 @@ test('only clean current React routes are listed',()=>{
 });
 test('all 19 public projects are listed in the correct route form',()=>{
  for(const slug of all){
-  const suffix=legacy.includes(slug)?'/':'';
+  const suffix='';
   assert.ok(locations.has(base+'/projects/'+slug+suffix),'missing Arabic project '+slug);
   assert.ok(locations.has(base+'/en/projects/'+slug+suffix),'missing English project '+slug);
  }
@@ -37,9 +37,19 @@ test('all 19 project locale pairs expose reciprocal hreflang links',()=>{
   assert.ok(sitemap.includes('hreflang="x-default" href="'+ar+'"'),'missing x-default hreflang '+slug);
  }
 });
+test('legacy static profile pages are listed as clean bilingual URL pairs',()=>{
+ for(const slug of ['achievements','certificates','education','knowledge','profile','resume','showcase']){
+  const ar=base+'/'+slug,en=base+'/en/'+slug;
+  assert.ok(locations.has(ar),'missing '+ar);
+  assert.ok(locations.has(en),'missing '+en);
+  assert.ok(sitemap.includes('hreflang="ar" href="'+ar+'"'));
+  assert.ok(sitemap.includes('hreflang="en" href="'+en+'"'));
+  assert.ok(sitemap.includes('hreflang="x-default" href="'+ar+'"'));
+ }
+});
 test('URLs are unique and use the official host',()=>{
  assert.equal(urls.length,locations.size);
- assert.ok(urls.every(url=>url.startsWith(base+'/')));
+ assert.ok(urls.every(url=>url.startsWith(base+'/')));\n assert.ok(urls.every(url=>!url.endsWith('.html')));
 });
 test('robots references the official sitemap',()=>assert.ok(robots.includes('Sitemap: '+base+'/sitemap.xml')));
 
