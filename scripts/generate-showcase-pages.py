@@ -60,26 +60,26 @@ for locale in ("ar", "en"):
     nav = (
         f'<header class="top"><div class="wrap nav"><a class="brand" href="{prefix or "/"}">M.GH.AL</a>'
         f'<nav class="navlinks" aria-label="{"التنقل الرئيسي" if ar else "Primary navigation"}">'
-        f'<a href="{prefix or "/"}">{escape(t["home"])}</a><a href="{prefix}/profile.html">{escape(t["identity"])}</a>'
-        f'<a href="{prefix}/projects.html">{escape(t["projects"])}</a><a href="{prefix}/certificates.html">{escape(t["credentials"])}</a>'
-        f'<a href="{prefix}/knowledge.html">{escape(t["knowledge"])}</a><a href="{prefix}/contact.html">{escape(t["contact"])}</a></nav>'
-        f'<a class="btn secondary nav-resume" href="{prefix}/resume.html">{escape(t["resume"])} ↗</a></div></header>'
+        f'<a href="{prefix or "/"}">{escape(t["home"])}</a><a href="{prefix}/profile">{escape(t["identity"])}</a>'
+        f'<a href="{prefix}/projects">{escape(t["projects"])}</a><a href="{prefix}/certificates">{escape(t["credentials"])}</a>'
+        f'<a href="{prefix}/knowledge">{escape(t["knowledge"])}</a><a href="{prefix}/contact">{escape(t["contact"])}</a></nav>'
+        f'<a class="btn secondary nav-resume" href="{prefix}/resume">{escape(t["resume"])} ↗</a></div></header>'
     )
     body = (
         f'<body class="showcase-page"><a class="skip-link" href="#main-content">{"تجاوز إلى المحتوى الرئيسي" if ar else "Skip to main content"}</a>{nav}'
         f'<main id="main-content" class="wrap showcase-main"><header class="showcase-hero"><p class="eyebrow">{escape(t["eyebrow"])}</p>'
         f'<h1>{escape(t["title"])}</h1><p class="lead">{escape(t["description"])}</p>'
-        f'<a class="showcase-all-link" href="{prefix}/projects.html">{escape(t["all"])} ↗</a></header>'
+        f'<a class="showcase-all-link" href="{prefix}/projects">{escape(t["all"])} ↗</a></header>'
         f'<section class="showcase-grid" aria-label="{escape(t["all"])}">{"".join(cards)}</section>'
         f'<section class="showcase-lab" aria-labelledby="showcase-lab-title"><div><p class="eyebrow">ENGINEERING PRACTICE</p>'
         f'<h2 id="showcase-lab-title">{escape(t["lab"])}</h2></div><div class="showcase-lab-grid">{lab}</div></section></main>'
         f'<footer class="home-footer"><div class="wrap home-footer-inner"><a class="brand" href="{prefix or "/"}">M.GH.AL</a>'
-        f'<p>Mohammed Ghaleb Alaosimi · محمد غالب العصيمي</p><div><a href="{prefix}/resume.html">{escape(t["resume"])}</a>'
-        f'<a href="{prefix}/profile.html">{escape(t["identity"])}</a><a href="{prefix}/contact.html">{escape(t["contact"])}</a>'
+        f'<p>Mohammed Ghaleb Alaosimi · محمد غالب العصيمي</p><div><a href="{prefix}/resume">{escape(t["resume"])}</a>'
+        f'<a href="{prefix}/profile">{escape(t["identity"])}</a><a href="{prefix}/contact">{escape(t["contact"])}</a>'
         f'<a href="{"/" if ar else "/"}{"en/" if ar else ""}">{escape(t["language"])}</a></div>'
         f'<small>© <span id="year"></span> M.GH.AL</small></div></footer><script src="/assets/site.js" defer></script></body></html>'
     )
-    path = Path("showcase.html" if ar else "en/showcase.html")
+    path = Path("showcase" if ar else "en/showcase")
     old = path.read_text()
     start = old.find("<head>")
     end = old.find("</head>")
