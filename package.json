@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/normalize-legacy-html-links.mjs && npm run audit:design && npm run audit:pwa && npm run test:navigation && npm run test:search && npm run test:security-headers && npm run test:structured-data && npm run test:seo && npm run test:sitemap && npm run test:project-pages && npm run test:engagement-hydration && npm run test:api-runtime && next build",
+    "build": "node scripts/normalize-legacy-html-links.mjs && npm run audit:design && npm run audit:pwa && npm run test:navigation && npm run test:search && npm run test:security-headers && npm run test:structured-data && npm run test:seo && npm run test:sitemap && npm run test:clean-urls && npm run test:project-pages && npm run test:engagement-hydration && npm run test:api-runtime && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "audit:credentials": "node scripts/audit-credentials.mjs",
@@ -14,6 +14,7 @@
     "test:api-runtime": "node --test mghal-backend/node/tests/vercel-runtime.node-test.mjs",
     "test:seo": "node --test scripts/test-seo-alternates.test.mjs",
     "test:sitemap": "node --test scripts/test-sitemap.test.mjs",
+    "test:clean-urls": "node --test scripts/test-clean-urls.test.mjs",
     "test:navigation": "node scripts/test-navigation.mjs",
     "audit:design": "node scripts/audit-design.mjs",
     "test:search": "node scripts/test-search-palette.mjs",
