@@ -1,104 +1,124 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { cookies } from 'next/headers';
+import { localizedAlternates } from '../../lib/seo';
 
 const site = 'https://mghalaosimi-web.vercel.app';
 
 const photos = [
   {
     src: '/profile-gallery/mghal-eid-portrait-2026.png',
-    alt: 'صورة شخصية لمحمد غالب العصيمي في مناسبة اجتماعية',
+    altAr: 'صورة شخصية لمحمد غالب العصيمي في مناسبة اجتماعية',
+    altEn: 'A portrait of Mohammed Ghaleb Alaosimi at a social event',
   },
   {
     src: '/profile-gallery/mghal-cultural-portrait-2026.png',
-    alt: 'صورة شخصية لمحمد غالب العصيمي ضمن جلسة تصوير بطابع تراثي',
+    altAr: 'صورة شخصية لمحمد غالب العصيمي ضمن جلسة تصوير بطابع تراثي',
+    altEn: 'A portrait of Mohammed Ghaleb Alaosimi in a heritage-themed photoshoot',
   },
   {
     src: '/profile-gallery/mghal-with-companion-2026.jpg',
-    alt: 'صورة لمحمد غالب العصيمي برفقة شخص آخر في مناسبة',
+    altAr: 'صورة لمحمد غالب العصيمي برفقة شخص آخر في مناسبة',
+    altEn: 'Mohammed Ghaleb Alaosimi with another person at an event',
   },
   {
     src: '/profile-gallery/mghal-professional-poster-01.png',
-    alt: 'تصميم تعريفي بصري لهوية M.GH.AL وصورة محمد غالب العصيمي',
+    altAr: 'تصميم تعريفي بصري لهوية M.GH.AL وصورة محمد غالب العصيمي',
+    altEn: 'M.GH.AL identity poster featuring Mohammed Ghaleb Alaosimi',
   },
   {
     src: '/profile-gallery/mghal-professional-poster-02.png',
-    alt: 'تصميم بصري إضافي ضمن أرشيف هوية M.GH.AL',
+    altAr: 'تصميم بصري إضافي ضمن أرشيف هوية M.GH.AL',
+    altEn: 'Additional visual design from the M.GH.AL identity archive',
   },
   {
     src: '/profile-gallery/mghal-brand-visual-01.png',
-    alt: 'تصميم تعريفي بصري لهوية M.GH.AL',
+    altAr: 'تصميم تعريفي بصري لهوية M.GH.AL',
+    altEn: 'M.GH.AL identity visual design',
   },
   {
     src: '/profile-gallery/mghal-brand-portrait-visual.png',
-    alt: 'صورة بورتريه فنية لهوية M.GH.AL',
+    altAr: 'صورة بورتريه فنية لهوية M.GH.AL',
+    altEn: 'Artistic portrait visual for the M.GH.AL identity',
   },
   {
     src: '/profile-gallery/mghal-brand-visual-02.png',
-    alt: 'تصميم بصري إضافي لهوية M.GH.AL',
+    altAr: 'تصميم بصري إضافي لهوية M.GH.AL',
+    altEn: 'Additional M.GH.AL identity visual design',
   },
   {
     src: '/profile-gallery/mghal-reading-portrait-2026.jpg',
-    alt: 'محمد غالب العصيمي أثناء القراءة',
+    altAr: 'محمد غالب العصيمي أثناء القراءة',
+    altEn: 'Mohammed Ghaleb Alaosimi reading',
   },
   {
     src: '/profile-gallery/mghal-photo-2026-07-22.jpg',
-    alt: 'صورة شخصية من أرشيف يوليو 2026',
+    altAr: 'صورة شخصية من أرشيف يوليو 2026',
+    altEn: 'Personal portrait from the July 2026 archive',
   },
   {
     src: '/profile-gallery/mghal-photo-2026-07-28-a.jpg',
-    alt: 'صورة شخصية من أرشيف يوليو 2026',
+    altAr: 'صورة شخصية من أرشيف يوليو 2026',
+    altEn: 'Personal portrait from the July 2026 archive',
   },
   {
     src: '/profile-gallery/mghal-photo-2026-07-28-b.jpg',
-    alt: 'صورة شخصية من أرشيف يوليو 2026',
+    altAr: 'صورة شخصية من أرشيف يوليو 2026',
+    altEn: 'Personal portrait from the July 2026 archive',
   },
 ] as const;
 
-export const metadata: Metadata = {
-  title: 'معرض صور محمد غالب العصيمي',
-  description:
-    'معرض الصور الشخصية والتصاميم التعريفية المنشورة ضمن الهوية الرقمية الرسمية لمحمد غالب العصيمي M.GH.AL.',
-  alternates: {
-    canonical: '/photos',
-  },
-  openGraph: {
-    type: 'website',
-    title: 'معرض صور محمد غالب العصيمي',
-    description:
-      'الصور الشخصية والتصاميم التعريفية المرتبطة بالهوية الرقمية M.GH.AL.',
-    url: `${site}/photos`,
-    images: [
-      {
-        url: `${site}/assets/images/mghal-profile-primary.jpg`,
-        alt: 'محمد غالب العصيمي — M.GH.AL',
-      },
-    ],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const en = (await cookies()).get('portfolio-locale')?.value === 'en';
+  const title = en
+    ? 'Photo Gallery | Mohammed Ghaleb Alaosimi'
+    : 'معرض صور محمد غالب العصيمي';
+  const description = en
+    ? 'Personal photographs and identity artwork published as part of the official M.GH.AL digital profile of Mohammed Ghaleb Alaosimi.'
+    : 'معرض الصور الشخصية والتصاميم التعريفية المنشورة ضمن الهوية الرقمية الرسمية لمحمد غالب العصيمي M.GH.AL.';
+  return {
+    title,
+    description,
+    alternates: localizedAlternates('/photos', en ? 'en' : 'ar'),
+    openGraph: {
+      type: 'website',
+      title,
+      description,
+      url: `${site}${en ? '/en/photos' : '/photos'}`,
+      images: [
+        {
+          url: `${site}/assets/images/mghal-profile-primary.jpg`,
+          alt: en ? 'Mohammed Ghaleb Alaosimi — M.GH.AL' : 'محمد غالب العصيمي — M.GH.AL',
+        },
+      ],
+    },
+  };
+}
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'ImageGallery',
-  name: 'معرض صور محمد غالب العصيمي — M.GH.AL',
-  url: `${site}/photos`,
-  about: {
-    '@type': 'Person',
-    name: 'Mohammed Ghaleb Alaosimi',
-    alternateName: [
-      'محمد غالب العصيمي',
-      'محمد غالب ناصر العصيمي',
-      'M.GH.AL',
-    ],
-    url: site,
-  },
-  image: photos.map((photo) => `${site}${photo.src}`),
-};
+export default async function PhotosPage() {
+  const en = (await cookies()).get('portfolio-locale')?.value === 'en';
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ImageGallery',
+    name: en
+      ? 'Mohammed Ghaleb Alaosimi — Official Image Gallery'
+      : 'معرض صور محمد غالب العصيمي — M.GH.AL',
+    url: `${site}${en ? '/en/photos' : '/photos'}`,
+    inLanguage: en ? 'en' : 'ar',
+    about: {
+      '@type': 'Person',
+      name: 'Mohammed Ghaleb Alaosimi',
+      alternateName: ['محمد غالب العصيمي', 'محمد غالب ناصر العصيمي', 'M.GH.AL'],
+      url: site,
+    },
+    image: photos.map((photo) => `${site}${photo.src}`),
+  };
 
-export default function PhotosPage() {
   return (
     <main
-      dir="rtl"
+      dir={en ? 'ltr' : 'rtl'}
+      lang={en ? 'en' : 'ar'}
       style={{
         maxWidth: 1120,
         margin: '0 auto',
@@ -124,7 +144,7 @@ export default function PhotosPage() {
             margin: '8px 0',
           }}
         >
-          معرض صور محمد غالب العصيمي
+          {en ? 'Mohammed Ghaleb Alaosimi — Photo Gallery' : 'معرض صور محمد غالب العصيمي'}
         </h1>
         <p
           style={{
@@ -133,72 +153,75 @@ export default function PhotosPage() {
             opacity: 0.8,
           }}
         >
-          أرشيف الصور الشخصية والتصاميم التعريفية المرتبطة بالهوية الرقمية
-          المهنية M.GH.AL. تُعرض الصور كما رُفعت إلى مكتبة الهوية، مع تمييز
-          الصور الفوتوغرافية عن التصاميم البصرية.
+          {en
+            ? 'An archive of personal photographs and identity artwork associated with the M.GH.AL professional digital profile. Images are presented as uploaded, with photographic portraits distinguished from visual designs.'
+            : 'أرشيف الصور الشخصية والتصاميم التعريفية المرتبطة بالهوية الرقمية المهنية M.GH.AL. تُعرض الصور كما رُفعت إلى مكتبة الهوية، مع تمييز الصور الفوتوغرافية عن التصاميم البصرية.'}
         </p>
         <Link
-          href="/"
+          href={en ? '/en' : '/'}
           style={{
             display: 'inline-block',
             marginTop: 8,
             color: '#315a85',
           }}
         >
-          العودة إلى الصفحة الرئيسية ←
+          {en ? 'Return to the home page →' : 'العودة إلى الصفحة الرئيسية ←'}
         </Link>
       </header>
 
       <section
-        aria-label="معرض الصور"
+        aria-label={en ? 'Photo gallery' : 'معرض الصور'}
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 250px), 1fr))',
           gap: 18,
         }}
       >
-        {photos.map((photo, index) => (
-          <figure
-            key={photo.src}
-            style={{
-              margin: 0,
-              border: '1px solid rgba(49, 90, 133, .18)',
-              borderRadius: 16,
-              overflow: 'hidden',
-              background: 'rgba(127, 127, 127, .04)',
-            }}
-          >
-            <a
-              href={photo.src}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`فتح الصورة ${index + 1}`}
+        {photos.map((photo, index) => {
+          const alt = en ? photo.altEn : photo.altAr;
+          return (
+            <figure
+              key={photo.src}
               style={{
-                display: 'block',
-                position: 'relative',
-                aspectRatio: '4 / 5',
+                margin: 0,
+                border: '1px solid rgba(49, 90, 133, .18)',
+                borderRadius: 16,
+                overflow: 'hidden',
+                background: 'rgba(127, 127, 127, .04)',
               }}
             >
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                fill
-                sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"
-                priority={index === 0}
-                style={{ objectFit: 'contain' }}
-              />
-            </a>
-            <figcaption
-              style={{
-                padding: '12px 14px',
-                fontSize: 14,
-                lineHeight: 1.8,
-              }}
-            >
-              {photo.alt}
-            </figcaption>
-          </figure>
-        ))}
+              <a
+                href={photo.src}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={en ? `Open image ${index + 1}` : `فتح الصورة ${index + 1}`}
+                style={{
+                  display: 'block',
+                  position: 'relative',
+                  aspectRatio: '4 / 5',
+                }}
+              >
+                <Image
+                  src={photo.src}
+                  alt={alt}
+                  fill
+                  sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"
+                  priority={index === 0}
+                  style={{ objectFit: 'contain' }}
+                />
+              </a>
+              <figcaption
+                style={{
+                  padding: '12px 14px',
+                  fontSize: 14,
+                  lineHeight: 1.8,
+                }}
+              >
+                {alt}
+              </figcaption>
+            </figure>
+          );
+        })}
       </section>
 
       <p
@@ -209,8 +232,9 @@ export default function PhotosPage() {
           opacity: 0.65,
         }}
       >
-        بعض عناصر هذا الأرشيف تصاميم تعريفية أو صور مركّبة، وليست كلها صورًا
-        فوتوغرافية أصلية. حقوق الصور لأصحابها.
+        {en
+          ? 'Some items in this archive are identity artwork or composite visuals, not original photographs. Image rights remain with their respective owners.'
+          : 'بعض عناصر هذا الأرشيف تصاميم تعريفية أو صور مركّبة، وليست كلها صورًا فوتوغرافية أصلية. حقوق الصور لأصحابها.'}
       </p>
 
       <script
