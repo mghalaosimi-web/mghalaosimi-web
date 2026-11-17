@@ -7,7 +7,7 @@ const LEGACY_STATIC_PROJECT_SLUGS=new Set([
   'ciphersphere','focusflow','mghal-official-website','almanar-schedule-system',
 ]);
 const LEGACY_STATIC_PAGE_SLUGS=new Set([
-  'achievements','certificates','education','knowledge','profile','resume','showcase',
+  'achievements','education','knowledge','profile','resume','showcase',
 ]);
 
 function setEnglishLocale(response:NextResponse,request:NextRequest){
