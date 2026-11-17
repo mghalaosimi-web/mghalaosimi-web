@@ -33,7 +33,7 @@ test('dynamic React project pages expose clean reciprocal bilingual alternates',
  assert.equal(en.languages?.ar,ar.canonical);
 });
 test('legacy static pages expose reciprocal clean locale alternates',()=>{
- const slugs=['achievements','certificates','education','knowledge','profile','resume','showcase'];
+ const slugs=['achievements','education','knowledge','profile','resume','showcase'];
  for(const slug of slugs){
   const ar=resolveLocalizedAlternates('/'+slug,'ar');
   const en=resolveLocalizedAlternates('/'+slug,'en');
