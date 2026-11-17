@@ -19,8 +19,8 @@ test('primary React pages expose matching bilingual canonicals',()=>{
 test('legacy static project pages keep their slash-terminated bilingual canonicals',()=>{
  const ar=resolveLocalizedAlternates('/projects/waynah/','ar');
  const en=resolveLocalizedAlternates('/projects/waynah?source=portfolio','en');
- assert.equal(ar.canonical,'/projects/waynah/');
- assert.equal(en.canonical,'/en/projects/waynah/');
+ assert.equal(ar.canonical,'/projects/waynah');
+ assert.equal(en.canonical,'/en/projects/waynah');
  assert.equal(ar.languages?.en,en.canonical);
  assert.equal(en.languages?.ar,ar.canonical);
 });
@@ -32,9 +32,21 @@ test('dynamic React project pages expose clean reciprocal bilingual alternates',
  assert.equal(ar.languages?.en,en.canonical);
  assert.equal(en.languages?.ar,ar.canonical);
 });
+test('legacy static pages expose reciprocal clean locale alternates',()=>{
+ const slugs=['achievements','certificates','education','knowledge','profile','resume','showcase'];
+ for(const slug of slugs){
+  const ar=resolveLocalizedAlternates('/'+slug,'ar');
+  const en=resolveLocalizedAlternates('/'+slug,'en');
+  assert.equal(ar.canonical,'/'+slug);
+  assert.equal(en.canonical,'/en/'+slug);
+  assert.equal(ar.languages?.en,en.canonical);
+  assert.equal(en.languages?.ar,ar.canonical);
+  assert.equal(en.languages?.['x-default'],ar.canonical);
+ }
+});
 test('unmapped routes are normalized',()=>{
  assert.deepEqual(resolveLocalizedAlternates('/unknown/route/','en'),{canonical:'/en/unknown/route'});
- assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah/');
+ assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah');
 });
 test('English static project URLs keep their locale prefix during internal rewrite',()=>{
  const middleware=readFileSync(new URL('../middleware.ts',import.meta.url),'utf8');
