@@ -67,6 +67,17 @@ test('all English legacy static project pages are preserved as English HTML rout
 });
 
 
+
+test('photo gallery serves locale-specific metadata and server-rendered copy',()=>{
+ const source=readFileSync(new URL('../app/photos/page.tsx',import.meta.url),'utf8');
+ assert.ok(source.includes("localizedAlternates('/photos', en ? 'en' : 'ar')"));
+ assert.ok(source.includes("cookies()).get('portfolio-locale')"));
+ assert.ok(source.includes('Mohammed Ghaleb Alaosimi — Photo Gallery'));
+ assert.ok(source.includes('معرض صور محمد غالب العصيمي'));
+ assert.ok(source.includes('altEn:'));
+ assert.ok(source.includes('altAr:'));
+});
+
 test('page titles do not duplicate the shared M.GH.AL suffix',()=>{
  const files=['../app/skills/page.tsx','../app/research/page.tsx','../app/credentials/page.tsx','../app/photos/page.tsx'];
  for(const file of files){
