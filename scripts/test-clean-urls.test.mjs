@@ -28,7 +28,7 @@ test('indexable static HTML pages ship language, title, description, canonical, 
   assert.match(html,/<link\b(?=[^>]*rel=["']canonical["'])[^>]*href=["']https:\/\/mghalaosimi-web\.vercel\.app\/[^"']*["']/i,'missing official canonical: '+path);
   const links=[...html.matchAll(/<link\b[^>]*>/gi)].map(match=>match[0]);
   for(const lang of ['ar','en','x-default']){
-   assert.ok(links.some(tag=>/rel=["']alternate["']/i.test(tag)&&tag.includes('hreflang="'+lang+'"')&&tag.includes('https://mghalaosimi-web.vercel.app/')),'missing '+lang+' alternate: '+path);
+   assert.ok(links.some(tag=>/rel=["']alternate["']/i.test(tag)&&(tag.includes('hreflang="'+lang+'"')||tag.includes("hreflang='"+lang+"'"))&&tag.includes('https://mghalaosimi-web.vercel.app/')),'missing '+lang+' alternate: '+path);
   }
   assert.match(html,/<h1\b[^>]*>\s*[^<\s][\s\S]*?<\/h1>/i,'initial HTML has no readable H1: '+path);
   assert.doesNotMatch(html,/<link\b[^>]*rel=["']canonical["'][^>]*href=["'][^"']*\.html/i,'canonical contains .html: '+path);
