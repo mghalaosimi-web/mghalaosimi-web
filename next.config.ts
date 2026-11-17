@@ -1,13 +1,17 @@
 import type { NextConfig } from 'next';
 
 const legacyStaticProjectSlugs = ['waynah','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-official-website','almanar-schedule-system'];
-const legacyStaticPageSlugs = ['achievements','certificates','education','knowledge','profile','resume','showcase'];
+const legacyStaticPageSlugs = ['achievements','education','knowledge','profile','resume','showcase'];
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: { unoptimized: true },
   async redirects() {
     return [
+      { source: '/certificates.html', destination: '/credentials', permanent: true },
+      { source: '/en/certificates.html', destination: '/en/credentials', permanent: true },
+      { source: '/certificates', destination: '/credentials', permanent: true },
+      { source: '/en/certificates', destination: '/en/credentials', permanent: true },
       { source: '/index.html', destination: '/', permanent: true },
       { source: '/en/index.html', destination: '/en', permanent: true },
       { source: '/:path*/index.html', destination: '/:path*', permanent: true },
