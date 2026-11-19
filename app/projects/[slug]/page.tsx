@@ -3,7 +3,7 @@ import Link from 'next/link';
 import {cookies} from 'next/headers';
 import {notFound} from 'next/navigation';
 import '../../mghal-portfolio.css';
-import {localizedAlternates} from '../../../lib/seo';
+import {localizedAlternates,localizedSocialMetadata} from '../../../lib/seo';
 const items=[
 {slug:'abdulmalik-erp',name:'FixTrack | Phone Repair & POS',status:'In Progress · 72 tests reported in README',statusAr:'قيد التطوير · 72 اختباراً حسب README',summary:'A Windows and Android phone-shop system for repairs, POS, IMEI inventory, wallets, accounting and offline LAN workflows. The README reports 72 tests; commercial release and live-store acceptance have not been independently verified.',summaryAr:'نظام Windows وAndroid لإدارة محلات الهواتف، يجمع الصيانة ونقاط البيع والمخزون وIMEI والمحافظ والمحاسبة والعمل دون اتصال عبر شبكة المحل. يذكر README نجاح 72 اختباراً؛ لم يتم التحقق مستقلاً من الإصدار التجاري أو قبول التشغيل الفعلي.',stack:['Flutter','Dart','SQLite','Windows','Android','POS'],url:'https://github.com/mghalaosimi-web/ABDULMALIK-ERP'},
 {slug:'abdulmalik-store-pro',name:'ABDULMALIK ERP | Phone Retail & Repair',status:'In Progress · Windows x64 target',statusAr:'قيد التطوير · إصدار Windows x64 مستهدف',summary:'Offline-first Windows ERP for phone retail and repair, with repairs, warranty, POS, inventory, IMEI, purchasing, customers, reports and backup/restore. Android is experimental and cloud sync is disabled by default in the documented release boundary.',summaryAr:'نظام Windows يعمل محلياً لإدارة الصيانة والضمان ونقاط البيع والمخزون وIMEI والمشتريات والعملاء والتقارير والنسخ الاحتياطي. Android تجريبي والمزامنة السحابية معطلة افتراضياً وفق حدود الإصدار الموثقة.',stack:['Flutter','Dart','SQLite','Windows x64','Inno Setup'],url:'https://github.com/mghalaosimi-web/ABDULMALIK-STORE-PRO'},
@@ -31,6 +31,13 @@ export async function generateMetadata({params}:Props):Promise<Metadata>{
  const p=items.find(x=>x.slug===slug);
  if(!p)return {title:'Project not found',robots:{index:false,follow:false}};
  const en=(await cookies()).get('portfolio-locale')?.value==='en';
- return {title:p.name,description:en?p.summary:p.summaryAr,alternates:localizedAlternates(`/projects/${slug}`,en?'en':'ar')};
+ const locale=en?'en':'ar';
+ const description=en?p.summary:p.summaryAr;
+ return {
+  title:p.name,
+  description,
+  alternates:localizedAlternates(`/projects/${slug}`,locale),
+  ...localizedSocialMetadata(`/projects/${slug}`,locale,p.name,description),
+ };
 }
 export default async function ProjectDetail({params}:Props){const {slug}=await params;const p=items.find(x=>x.slug===slug);if(!p)notFound();const en=(await cookies()).get('portfolio-locale')?.value==='en';return <main className="mghal-archive" dir={en?'ltr':'rtl'}><section className="mghal-archive-hero"><span className="mghal-eyebrow">M.GH.AL / PROJECT DETAIL</span><h1>{p.name}</h1><p>{en?p.summary:p.summaryAr}</p><span className="mghal-status">{en?p.status:p.statusAr}</span></section><div className="mghal-section-head"><div><span className="mghal-eyebrow">TECHNICAL PROFILE</span><h2>{en?'Technology stack & scope':'التقنيات والنطاق'}</h2></div></div><section className="mghal-card"><div className="mghal-tags">{p.stack.map(s=><span key={s}>{s}</span>)}</div><p>{en?'This page reflects repository documentation and available evidence. README claims are labeled as such; no unverified production-readiness or contribution claim is made.':'تعرض هذه الصفحة ما ورد في توثيق المستودع والأدلة المتاحة. تُنسب ادعاءات README إلى مصدرها، ولا تُذكر جاهزية إنتاجية أو مساهمات غير متحققة.'}</p>{p.url&&<a href={p.url} target="_blank" rel="noreferrer">{en?'Visit repository or live project':'زيارة المستودع أو المشروع'} ↗</a>}</section><p style={{marginTop:28}}><Link href="/projects">{en?'← Back to all projects':'← العودة إلى جميع المشاريع'}</Link></p></main>}
