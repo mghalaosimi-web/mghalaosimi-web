@@ -87,8 +87,8 @@ for (const project of catalog.projects) {
     assert.match(html, new RegExp("<html lang='" + language + "'"));
     assert.match(html, new RegExp("dir='" + (language === "ar" ? "rtl" : "ltr") + "'"));
     const canonical = catalog.siteOrigin + "/" + (language === "en" ? "en/" : "") + "projects/" + project.slug;
-    const canonicalTag = html.match(/<link\\b(?=[^>]*\\brel=["']canonical["'])[^>]*>/i)?.[0];
-    const canonicalHref = canonicalTag?.match(/\\bhref=["']([^"']+)["']/i)?.[1];
+    const canonicalTag = html.match(/<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>/i)?.[0];
+    const canonicalHref = canonicalTag?.match(/\bhref=["']([^"']+)["']/i)?.[1];
     assert.equal(canonicalHref, canonical, "Canonical URL mismatch: " + relative);
     assert.ok(html.includes("hreflang='ar'") && html.includes("hreflang='en'"), "Reciprocal language alternates are required.");
     assert.ok(html.includes("property='og:title'") && html.includes("property='og:description'") && html.includes("property='og:image'"), "Open Graph metadata is required.");
