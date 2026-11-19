@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cookies } from 'next/headers';
-import { localizedAlternates } from '../../lib/seo';
+import { localizedAlternates, localizedSocialMetadata } from '../../lib/seo';
 
 const site = 'https://mghalaosimi-web.vercel.app';
 
@@ -81,18 +81,14 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     alternates: localizedAlternates('/photos', en ? 'en' : 'ar'),
-    openGraph: {
-      type: 'website',
+    ...localizedSocialMetadata(
+      '/photos',
+      en ? 'en' : 'ar',
       title,
       description,
-      url: `${site}${en ? '/en/photos' : '/photos'}`,
-      images: [
-        {
-          url: `${site}/assets/images/mghal-profile-primary.jpg`,
-          alt: en ? 'Mohammed Ghaleb Alaosimi — M.GH.AL' : 'محمد غالب العصيمي — M.GH.AL',
-        },
-      ],
-    },
+      `${site}/assets/images/mghal-profile-primary.jpg`,
+      en ? 'Mohammed Ghaleb Alaosimi — M.GH.AL' : 'محمد غالب العصيمي — M.GH.AL',
+    ),
   };
 }
 
