@@ -23,13 +23,12 @@ assert.ok(existsSync(path.join(publicRoot, "assets/projects/project-placeholder.
 assert.deepEqual(detailSlugs, registrySlugs, "Every public project must have a matching detail record.");
 assert.equal(dynamicSlugs.length, 11, "Eleven non-legacy projects must use the Next.js dynamic route.");
 const configuredLegacy = nextConfig.match(/const legacyStaticProjectSlugs = \[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(value => value.slice(1,-1)) ?? [];
-const seoLegacy = seoPaths.match(/const legacyStaticProjectSlugs = \[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(value => value.slice(1,-1)) ?? [];
 assert.deepEqual(configuredLegacy, legacySlugs, "Next.js static rewrites must match the eight legacy catalogue slugs exactly.");
-assert.deepEqual(seoLegacy, legacySlugs, "SEO alternate handling must match the same legacy static slug set.");
 
 assert.ok(nextConfig.includes("legacyStaticProjectSlugs.flatMap"), "Only legacy static projects should receive static-file rewrites.");
 assert.ok(!nextConfig.includes("source: '/projects/:slug'") && !nextConfig.includes("source: '/en/projects/:slug'"), "A broad rewrite must not shadow dynamic project detail routes.");
-assert.ok(seoPaths.includes("legacyStaticProjectSlugs.includes(projectMatch[1])"), "SEO path resolution must distinguish legacy static and dynamic project routes.");
+assert.ok(seoPaths.includes("const projectMatch = pathname.match"), "SEO alternate generation must resolve all project slugs through one normalized route rule.");
+assert.ok(!seoPaths.includes("legacyStaticProjectSlugs"), "SEO canonical generation must not preserve legacy-only trailing-slash rules.");
 for (const slug of dynamicSlugs) {
   const ar = resolveLocalizedAlternates("/projects/" + slug, "ar");
   const en = resolveLocalizedAlternates("/projects/" + slug, "en");
@@ -39,7 +38,12 @@ for (const slug of dynamicSlugs) {
   assert.equal(en.languages?.ar, ar.canonical, "Dynamic project must expose an Arabic alternate: " + slug);
 }
 for (const slug of legacySlugs) {
-  assert.ok(resolveLocalizedAlternates("/projects/" + slug, "ar").canonical.endsWith("/"), "Legacy static project canonical must retain its trailing slash: " + slug);
+  const ar = resolveLocalizedAlternates("/projects/" + slug + "/", "ar");
+  const en = resolveLocalizedAlternates("/projects/" + slug + "/", "en");
+  assert.equal(ar.canonical, "/projects/" + slug, "Legacy static Arabic project canonical must be slashless: " + slug);
+  assert.equal(en.canonical, "/en/projects/" + slug, "Legacy static English project canonical must be slashless: " + slug);
+  assert.equal(ar.languages?.en, en.canonical, "Legacy static project must expose a clean English alternate: " + slug);
+  assert.equal(en.languages?.ar, ar.canonical, "Legacy static project must expose a clean Arabic alternate: " + slug);
 }
 
 for (const cover of ["humanity.svg", "esdp.svg"]) {
@@ -82,7 +86,7 @@ for (const project of catalog.projects) {
     const html = readFileSync(file, "utf8");
     assert.match(html, new RegExp("<html lang='" + language + "'"));
     assert.match(html, new RegExp("dir='" + (language === "ar" ? "rtl" : "ltr") + "'"));
-    const canonical = catalog.siteOrigin + "/" + (language === "en" ? "en/" : "") + "projects/" + project.slug + "/";
+    const canonical = catalog.siteOrigin + "/" + (language === "en" ? "en/" : "") + "projects/" + project.slug;
     assert.ok(html.includes("rel='canonical' href='" + canonical + "'"), "Canonical URL mismatch: " + relative);
     assert.ok(html.includes("hreflang='ar'") && html.includes("hreflang='en'"), "Reciprocal language alternates are required.");
     assert.ok(html.includes("property='og:title'") && html.includes("property='og:description'") && html.includes("property='og:image'"), "Open Graph metadata is required.");
