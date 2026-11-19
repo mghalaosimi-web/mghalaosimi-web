@@ -29,11 +29,13 @@ function attributes(tag) {
 }
 function publicUrl(relative) {
   if (relative === "index.html") return origin + "/";
-  if (relative === "en/index.html") return origin + "/en/";
+  if (relative === "en/index.html") return origin + "/en";
+  if (relative === "certificates.html") return origin + "/credentials";
+  if (relative === "en/certificates.html") return origin + "/en/credentials";
   if (/^(?:en\/)?projects\/[^/]+\/index\.html$/.test(relative)) {
-    return origin + "/" + relative.replace(/index\.html$/, "");
+    return origin + "/" + relative.replace(/index\.html$/, "").replace(/\/$/, "");
   }
-  return origin + "/" + relative;
+  return origin + "/" + relative.replace(/\.html$/, "").replace(/\/$/, "");
 }
 function pairedPaths(relative) {
   if (relative.startsWith("en/")) return { ar: relative.slice(3), en: relative };

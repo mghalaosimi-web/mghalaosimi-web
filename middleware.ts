@@ -6,6 +6,9 @@ const LEGACY_STATIC_PROJECT_SLUGS=new Set([
   'waynah','yemen-ai','mghal-content-os','manar-schedule-system',
   'ciphersphere','focusflow','mghal-official-website','almanar-schedule-system',
 ]);
+const LEGACY_STATIC_PAGE_SLUGS=new Set([
+  'achievements','education','knowledge','profile','resume','showcase',
+]);
 
 function setEnglishLocale(response:NextResponse,request:NextRequest){
   response.cookies.set('portfolio-locale','en',{
@@ -18,9 +21,14 @@ function setEnglishLocale(response:NextResponse,request:NextRequest){
 export function middleware(request:NextRequest){
   const pathname=request.nextUrl.pathname;
   const englishStaticProject=pathname.match(/^\/en\/projects\/([^/]+)\/?$/);
+  const englishStaticPage=pathname.match(/^\/en\/([^/]+)\/?$/);
 
-  // These projects are pre-rendered HTML pairs. Preserve the /en URL so
-  // next.config rewrites it to public/en/projects/<slug>/index.html.
+  // Preserve English static HTML routes so their own English document is served.
+  if(englishStaticPage&&LEGACY_STATIC_PAGE_SLUGS.has(englishStaticPage[1])){
+    return setEnglishLocale(NextResponse.next(),request);
+  }
+
+  // Legacy project detail pages are paired pre-rendered HTML documents.
   if(englishStaticProject&&LEGACY_STATIC_PROJECT_SLUGS.has(englishStaticProject[1])){
     return setEnglishLocale(NextResponse.next(),request);
   }

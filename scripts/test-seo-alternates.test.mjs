@@ -16,11 +16,11 @@ test('primary React pages expose matching bilingual canonicals',()=>{
   assert.equal(resolveLocalizedAlternates(path,'en').languages?.ar,ar);
  }
 });
-test('legacy static project pages keep their slash-terminated bilingual canonicals',()=>{
+test('legacy static project pages use clean bilingual canonicals',()=>{
  const ar=resolveLocalizedAlternates('/projects/waynah/','ar');
  const en=resolveLocalizedAlternates('/projects/waynah?source=portfolio','en');
- assert.equal(ar.canonical,'/projects/waynah/');
- assert.equal(en.canonical,'/en/projects/waynah/');
+ assert.equal(ar.canonical,'/projects/waynah');
+ assert.equal(en.canonical,'/en/projects/waynah');
  assert.equal(ar.languages?.en,en.canonical);
  assert.equal(en.languages?.ar,ar.canonical);
 });
@@ -32,9 +32,21 @@ test('dynamic React project pages expose clean reciprocal bilingual alternates',
  assert.equal(ar.languages?.en,en.canonical);
  assert.equal(en.languages?.ar,ar.canonical);
 });
+test('legacy static pages expose reciprocal clean locale alternates',()=>{
+ const slugs=['achievements','education','knowledge','profile','resume','showcase'];
+ for(const slug of slugs){
+  const ar=resolveLocalizedAlternates('/'+slug,'ar');
+  const en=resolveLocalizedAlternates('/'+slug,'en');
+  assert.equal(ar.canonical,'/'+slug);
+  assert.equal(en.canonical,'/en/'+slug);
+  assert.equal(ar.languages?.en,en.canonical);
+  assert.equal(en.languages?.ar,ar.canonical);
+  assert.equal(en.languages?.['x-default'],ar.canonical);
+ }
+});
 test('unmapped routes are normalized',()=>{
  assert.deepEqual(resolveLocalizedAlternates('/unknown/route/','en'),{canonical:'/en/unknown/route'});
- assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah/');
+ assert.equal(resolveLocalizedAlternates('projects/waynah//?q=1','ar').canonical,'/projects/waynah');
 });
 test('English static project URLs keep their locale prefix during internal rewrite',()=>{
  const middleware=readFileSync(new URL('../middleware.ts',import.meta.url),'utf8');
@@ -50,15 +62,38 @@ test('all English legacy static project pages are preserved as English HTML rout
  for(const slug of slugs){
   const html=readFileSync(new URL('../public/en/projects/'+slug+'/index.html',import.meta.url),'utf8');
   assert.match(html,/<html lang=['"]en['"]/i,'wrong document language for '+slug);
-  assert.ok(html.includes('https://mghalaosimi-web.vercel.app/en/projects/'+slug+'/'),'wrong English canonical for '+slug);
+  assert.ok(html.includes('https://mghalaosimi-web.vercel.app/en/projects/'+slug),'wrong English canonical for '+slug);
  }
 });
 
+
+
+test('photo gallery serves locale-specific metadata and server-rendered copy',()=>{
+ const source=readFileSync(new URL('../app/photos/page.tsx',import.meta.url),'utf8');
+ assert.ok(source.includes("localizedAlternates('/photos', en ? 'en' : 'ar')"));
+ assert.ok(source.includes("cookies()).get('portfolio-locale')"));
+ assert.ok(source.includes('Mohammed Ghaleb Alaosimi — Photo Gallery'));
+ assert.ok(source.includes('معرض صور محمد غالب العصيمي'));
+ assert.ok(source.includes('altEn:'));
+ assert.ok(source.includes('altAr:'));
+});
 
 test('page titles do not duplicate the shared M.GH.AL suffix',()=>{
  const files=['../app/skills/page.tsx','../app/research/page.tsx','../app/credentials/page.tsx','../app/photos/page.tsx'];
  for(const file of files){
   const source=readFileSync(new URL(file,import.meta.url),'utf8');
   assert.doesNotMatch(source,/title\s*:\s*['"][^'"]*\|\s*M\.GH\.AL['"]/,'page metadata must not repeat the root title suffix: '+file);
+ }
+});
+
+test('projects and credentials pages provide page-specific Open Graph and Twitter metadata',()=>{
+ const project=readFileSync(new URL('../app/projects/page.tsx',import.meta.url),'utf8');
+ const credentials=readFileSync(new URL('../app/credentials/page.tsx',import.meta.url),'utf8');
+ for(const source of [project,credentials]){
+  assert.match(source,/openGraph:\s*\{/);
+  assert.match(source,/url:\s*canonical/);
+  assert.match(source,/title,\s*description/);
+  assert.match(source,/twitter:\s*\{/);
+  assert.match(source,/card:\s*'summary_large_image'/);
  }
 });

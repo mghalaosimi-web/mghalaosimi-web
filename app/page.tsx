@@ -20,21 +20,22 @@ import {
 import HomePageEnglish from './HomePageEnglish';
 import './home.css';
 import {projects} from '../data/projects';
-import {localizedAlternates} from '../lib/seo';
+import {localizedAlternates,localizedSocialMetadata} from '../lib/seo';
 
 export async function generateMetadata():Promise<Metadata>{
   const en=(await cookies()).get('portfolio-locale')?.value==='en';
-  return en
-    ? {
-        title:'M.GH.AL | Full-Stack Developer & Software Engineer',
-        description:'The professional digital identity of Mohammed Ghaleb Alaosimi — Full-Stack Developer, Software Engineer and Information Technology student.',
-        alternates:localizedAlternates('/','en'),
-      }
-    : {
-        title:'محمد غالب العصيمي | M.GH.AL',
-        description:'الهوية الرقمية المهنية لمحمد غالب العصيمي — مطور Full-Stack ومهندس برمجيات وطالب تقنية معلومات في كلية المنار باليمن.',
-        alternates:localizedAlternates('/','ar'),
-      };
+  const title=en
+    ?'M.GH.AL | Full-Stack Developer & Software Engineer'
+    :'محمد غالب العصيمي | M.GH.AL';
+  const description=en
+    ?'The professional digital identity of Mohammed Ghaleb Alaosimi — Full-Stack Developer, Software Engineer and Information Technology student.'
+    :'الهوية الرقمية المهنية لمحمد غالب العصيمي — مطور Full-Stack ومهندس برمجيات وطالب تقنية معلومات في كلية المنار باليمن.';
+  return {
+    title,
+    description,
+    alternates:localizedAlternates('/',en?'en':'ar'),
+    ...localizedSocialMetadata('/',en?'en':'ar',title,description),
+  };
 }
 
 const disciplines=[

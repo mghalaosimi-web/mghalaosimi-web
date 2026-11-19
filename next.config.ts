@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 const legacyStaticProjectSlugs = ['waynah','yemen-ai','mghal-content-os','manar-schedule-system','ciphersphere','focusflow','mghal-official-website','almanar-schedule-system'];
+const legacyStaticPageSlugs = ['achievements','education','knowledge','profile','resume','showcase'];
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
@@ -23,6 +24,10 @@ const nextConfig: NextConfig = {
     return [
       { source: '/admin', destination: '/admin/index.html' },
       { source: '/en', destination: '/en/index.html' },
+      ...legacyStaticPageSlugs.flatMap((slug) => [
+        { source: `/${slug}`, destination: `/${slug}.html` },
+        { source: `/en/${slug}`, destination: `/en/${slug}.html` },
+      ]),
       ...legacyStaticProjectSlugs.flatMap((slug) => [
         { source: `/projects/${slug}`, destination: `/projects/${slug}/index.html` },
         { source: `/en/projects/${slug}`, destination: `/en/projects/${slug}/index.html` },

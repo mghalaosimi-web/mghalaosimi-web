@@ -6,17 +6,33 @@ import {localizedAlternates} from '../../lib/seo';
 
 export async function generateMetadata():Promise<Metadata>{
   const en=(await cookies()).get('portfolio-locale')?.value==='en';
-  return en
-    ? {
-        title:'Digital Credentials | Mohammed Ghaleb Alaosimi',
-        description:'Twenty-six recorded credentials: fourteen Cisco Networking Academy records, six Edraak certificates, the OpenJS Node.js Application Developer credential, and five EMC Shiraa workshops.',
-        alternates:localizedAlternates('/credentials','en'),
-      }
-    : {
-        title:'الشهادات والاعتمادات',
-        description:'سجل 26 شهادة واعتماداً لمحمد غالب العصيمي: 14 من Cisco Networking Academy، و6 من إدراك، واعتماد JSNAD من OpenJS، و5 ورش من EMC شِراع.',
-        alternates:localizedAlternates('/credentials','ar'),
-      };
+  const title=en
+    ?'Digital Credentials | Mohammed Ghaleb Alaosimi'
+    :'الشهادات والاعتمادات';
+  const description=en
+    ?'Twenty-six recorded credentials: fourteen Cisco Networking Academy records, six Edraak certificates, the OpenJS Node.js Application Developer credential, and five EMC Shiraa workshops.'
+    :'سجل 26 شهادة واعتماداً لمحمد غالب العصيمي: 14 من Cisco Networking Academy، و6 من إدراك، واعتماد JSNAD من OpenJS، و5 ورش من EMC شِراع.';
+  const canonical=en?'/en/credentials':'/credentials';
+  return {
+    title,
+    description,
+    alternates:localizedAlternates('/credentials',en?'en':'ar'),
+    openGraph:{
+      type:'website',
+      locale:en?'en_US':'ar_YE',
+      url:canonical,
+      siteName:'M.GH.AL',
+      title,
+      description,
+      images:[{url:'/assets/og-image.svg',alt:'M.GH.AL — Mohammed Ghaleb Alaosimi'}],
+    },
+    twitter:{
+      card:'summary_large_image',
+      title,
+      description,
+      images:['/assets/og-image.svg'],
+    },
+  };
 }
 
 type Credential={

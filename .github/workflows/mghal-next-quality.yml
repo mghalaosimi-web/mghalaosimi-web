@@ -36,6 +36,8 @@ jobs:
       - run: npm run test:structured-data
       - run: npm run test:seo
       - run: npm run test:sitemap
+      - name: Normalize clean URLs before project-page checks
+        run: node scripts/normalize-legacy-html-links.mjs
       - run: npm run test:project-pages
       - run: npm run test:navigation
       - run: npm run test:search
