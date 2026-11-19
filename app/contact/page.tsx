@@ -1,16 +1,23 @@
 import type {Metadata} from 'next';
 import { cookies } from 'next/headers';
 import ContactPageEnglish from './ContactPageEnglish';
-import {localizedAlternates} from '../../lib/seo';
+import {localizedAlternates,localizedSocialMetadata} from '../../lib/seo';
 import {ArrowLeft,ArrowUpLeft,ArrowUpRight,BrainCircuit,Code2,Github,GraduationCap,Instagram,Layers3,Linkedin,LockKeyhole,Mail,MessageSquareText,Microscope,ShieldCheck,Video,MessageCircle,Phone} from 'lucide-react';
 import ContactForm from '../../components/ContactForm';
 import styles from './contact.module.css';
 
 export async function generateMetadata(): Promise<Metadata> {
  const en = (await cookies()).get('portfolio-locale')?.value === 'en';
- return en
-  ? { title:'Professional Contact | Mohammed Ghaleb Alaosimi', description:'Connect with Mohammed Ghaleb Alaosimi about software engineering, enterprise systems, applied AI, and professional collaboration.', alternates:localizedAlternates('/contact','en') }
-  : { title:'التواصل المهني | محمد غالب العصيمي', description:'تواصل مع محمد غالب العصيمي بشأن هندسة البرمجيات والأنظمة المؤسسية والذكاء الاصطناعي التطبيقي والتعاون المهني.', alternates:localizedAlternates('/contact','ar') };
+ const title=en?'Professional Contact | Mohammed Ghaleb Alaosimi':'التواصل المهني | محمد غالب العصيمي';
+ const description=en
+  ?'Connect with Mohammed Ghaleb Alaosimi about software engineering, enterprise systems, applied AI, and professional collaboration.'
+  :'تواصل مع محمد غالب العصيمي بشأن هندسة البرمجيات والأنظمة المؤسسية والذكاء الاصطناعي التطبيقي والتعاون المهني.';
+ return {
+  title,
+  description,
+  alternates:localizedAlternates('/contact',en?'en':'ar'),
+  ...localizedSocialMetadata('/contact',en?'en':'ar',title,description),
+ };
 }
 
 const channels=[

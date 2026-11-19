@@ -7,21 +7,20 @@ import {
   BrainCircuit,
   Fingerprint,
 } from 'lucide-react';
-import {localizedAlternates} from '../../lib/seo';
+import {localizedAlternates,localizedSocialMetadata} from '../../lib/seo';
 
 export async function generateMetadata():Promise<Metadata>{
-  const en=(await cookies()).get('portfolio-locale')?.value==='en';
-  return en
-    ? {
-        title:'Research & Academic Directions',
-        description:'Research directions of Mohammed Ghaleb Alaosimi across applied AI, enterprise systems, software engineering, and transaction-aware authorization for AI agents in ERP.',
-        alternates:localizedAlternates('/research','en'),
-      }
-    : {
-        title:'الأبحاث والمسارات الأكاديمية',
-        description:'المسارات البحثية لمحمد غالب العصيمي في الذكاء الاصطناعي التطبيقي والأنظمة المؤسسية وهندسة البرمجيات والتفويض الواعي بالمعاملات لوكلاء الذكاء الاصطناعي داخل ERP.',
-        alternates:localizedAlternates('/research','ar'),
-      };
+ const en=(await cookies()).get('portfolio-locale')?.value==='en';
+ const title=en?'Research & Academic Directions':'الأبحاث والمسارات الأكاديمية';
+ const description=en
+  ?'Research directions of Mohammed Ghaleb Alaosimi across applied AI, enterprise systems, software engineering, and transaction-aware authorization for AI agents in ERP.'
+  :'المسارات البحثية لمحمد غالب العصيمي في الذكاء الاصطناعي التطبيقي والأنظمة المؤسسية وهندسة البرمجيات والتفويض الواعي بالمعاملات لوكلاء الذكاء الاصطناعي داخل ERP.';
+ return {
+  title,
+  description,
+  alternates:localizedAlternates('/research',en?'en':'ar'),
+  ...localizedSocialMetadata('/research',en?'en':'ar',title,description),
+ };
 }
 
 const researchPrograms=[
