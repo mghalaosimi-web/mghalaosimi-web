@@ -85,3 +85,15 @@ test('page titles do not duplicate the shared M.GH.AL suffix',()=>{
   assert.doesNotMatch(source,/title\s*:\s*['"][^'"]*\|\s*M\.GH\.AL['"]/,'page metadata must not repeat the root title suffix: '+file);
  }
 });
+
+test('projects and credentials pages provide page-specific Open Graph and Twitter metadata',()=>{
+ const project=readFileSync(new URL('../app/projects/page.tsx',import.meta.url),'utf8');
+ const credentials=readFileSync(new URL('../app/credentials/page.tsx',import.meta.url),'utf8');
+ for(const source of [project,credentials]){
+  assert.match(source,/openGraph:\s*\{/);
+  assert.match(source,/url:\s*canonical/);
+  assert.match(source,/title,\s*description/);
+  assert.match(source,/twitter:\s*\{/);
+  assert.match(source,/card:\s*'summary_large_image'/);
+ }
+});
