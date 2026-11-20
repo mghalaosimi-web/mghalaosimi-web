@@ -50,9 +50,9 @@ test('Next.js permanently redirects HTML file URLs and rewrites clean legacy pag
 });
 test('all internal canonical URLs are slashless except the Arabic root homepage',()=>{
  for(const page of siteHtml){
-  const tag=page.html.match(/<link\\b(?=[^>]*rel=[\"']canonical[\"'])[^>]*>/i)?.[0]??'';
-  const href=tag.match(/href=[\"']([^\"']+)[\"']/i)?.[1]??'';
-  const pathname=href.replace(/^https:\\/\\/mghalaosimi-web\\.vercel\\.app/,'');
+  const tag=page.html.match(/<link\b(?=[^>]*rel=["']canonical["'])[^>]*>/i)?.[0]??'';
+  const href=tag.match(/href=["']([^"']+)["']/i)?.[1]??'';
+  const pathname=href.replace(/^https:\/\/mghalaosimi-web\.vercel\.app/,'');
   assert.ok(pathname==='/'||!pathname.endsWith('/'),'trailing slash in canonical: '+page.path+' -> '+href);
   assert.ok(!pathname.endsWith('.html'),'legacy extension in canonical: '+page.path);
  }
