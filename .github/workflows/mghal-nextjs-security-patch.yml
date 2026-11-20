@@ -1,0 +1,58 @@
+name: M.GH.AL Next.js Security Patch
+
+on:
+  push:
+    branches:
+      - fix/seo-sitemap-lastmod-2026-11-20
+    paths:
+      - .github/workflows/mghal-nextjs-security-patch.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-verify:
+    if: github.ref == 'refs/heads/fix/seo-sitemap-lastmod-2026-11-20'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Upgrade to the patched Next.js release
+        run: npm install --save-exact next@15.5.29
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=moderate
+
+      - name: Install and audit the Node API
+        run: |
+          npm --prefix mghal-backend ci --no-audit --no-fund
+          npm --prefix mghal-backend audit --omit=dev --audit-level=moderate
+
+      - name: Typecheck and lint
+        run: |
+          npm run typecheck
+          npm run lint
+
+      - name: Run full application regression suite and production build
+        run: npm run build
+
+      - name: Commit verified dependency patch
+        run: |
+          if git diff --quiet -- package.json package-lock.json; then
+            echo "Next.js dependency files are already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "fix(deps): patch Next.js security advisories"
+          git push origin "HEAD:$GITHUB_REF_NAME"
