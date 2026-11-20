@@ -5,7 +5,6 @@ const legacyStaticPageSlugs = ['achievements','education','knowledge','profile',
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  images: { unoptimized: true },
   async headers() {
     return [
       {
