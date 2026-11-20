@@ -16,3 +16,45 @@
 @media(max-width:760px){.page{padding:10px 0 22px}.hero{grid-template-columns:minmax(0,1fr) 190px;gap:8px;min-height:330px;margin:15px 0 38px;padding:24px 20px}.heroMark{width:190px}.hero h1{font-size:clamp(34px,6vw,48px)}.channelGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.messageSection{grid-template-columns:1fr;gap:18px}.messageIntro{padding:3px}.messageIcon{margin-top:18px}.messageIntro>p{max-width:600px}}
 @media(max-width:520px){.topline{font-size:6px}.hero{grid-template-columns:1fr;gap:13px;min-height:0;margin-bottom:32px;padding:22px 17px}.heroCopy{grid-row:1}.heroMark{grid-row:2;width:150px;margin:0 auto 4px}.overline{margin-top:19px}.hero h1{font-size:38px}.intro{font-size:10px}.heroActions{gap:7px}.primaryAction,.secondaryAction{min-height:40px;padding:9px 11px;font-size:9px}.heroFooter{gap:8px;font-size:6px}.sectionHeading{align-items:flex-start;flex-direction:column}.headingCode{display:none}.channelGrid{grid-template-columns:1fr;gap:8px}.channelCard{min-height:125px;padding:14px}.cardText{padding-top:11px}.messageSection{padding:15px;gap:15px}.messageIntro h2{font-size:27px}.formPanel{padding:12px}.formPanel :global(.contact-form .button-primary){width:100%;justify-content:center}.footer{justify-content:center;text-align:center}.footer>span:nth-child(2){width:100%;order:3}}
 @media(prefers-reduced-motion:reduce){.primaryAction,.secondaryAction,.channelCard,.cardArrow{transition:none}.primaryAction:hover,.secondaryAction:hover,.channelCard:hover{transform:none}}
+
+
+/* Stable layout overrides: keep the contact surface visually still across devices. */
+.page{width:min(100% - 32px,1180px);min-width:0}
+.hero{grid-template-columns:minmax(0,1fr) minmax(210px,.72fr);min-height:380px}
+.heroCopy,.heroMark,.messageIntro,.formPanel,.channelCard{min-width:0}
+.heroMark{width:min(250px,100%)}
+.channelGrid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+.channelCard{min-height:168px;overflow-wrap:anywhere}
+.messageSection{grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);align-items:start}
+.formPanel{width:100%}
+.formPanel :global(.contact-form input),
+.formPanel :global(.contact-form textarea),
+.formPanel :global(.contact-form select){width:100%;max-width:100%;box-sizing:border-box}
+.primaryAction,.secondaryAction,.channelCard,.cardArrow{transition:none!important}
+.primaryAction:hover,.secondaryAction:hover,.channelCard:hover{transform:none!important}
+.cardArrow,.channelCard:hover .cardArrow{transform:none!important}
+.channelCard:hover{border-color:rgba(180,167,143,.18);background:linear-gradient(145deg,rgba(25,43,53,.9),rgba(11,22,30,.96))}
+.primaryAction:hover,.secondaryAction:hover{filter:none}
+.primaryAction:focus-visible,.secondaryAction:focus-visible,.channelCard:focus-visible,.footer a:focus-visible{outline:2px solid var(--mghal-color-focus);outline-offset:3px}
+@media(max-width:900px){
+ .hero{grid-template-columns:minmax(0,1fr);gap:18px;min-height:0}
+ .heroMark{width:165px;grid-row:2}
+ .heroCopy{grid-row:1}
+ .heroFooter{grid-column:1}
+ .channelGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .messageSection{grid-template-columns:minmax(0,1fr);gap:18px}
+ .messageIntro{padding:3px}
+ .messageIntro>p{max-width:640px}
+}
+@media(max-width:520px){
+ .page{width:min(100% - 24px,1180px);padding:10px 0 22px}
+ .hero{padding:22px 17px}
+ .heroMark{width:145px}
+ .channelGrid{grid-template-columns:minmax(0,1fr)}
+ .channelCard{min-height:132px}
+ .messageSection{padding:15px}
+ .formPanel{padding:12px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
