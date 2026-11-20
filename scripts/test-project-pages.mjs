@@ -139,6 +139,16 @@ for (const [slug, titleAr, titleEn] of [
   const enDescription = en.match(/<meta name='description' content='([^']+)'/i)?.[1];
   assert.ok(arDescription && enDescription && arDescription !== enDescription, "Schedule project descriptions must be distinct by language and project");
 }
+const scheduleDescriptions = ["almanar-schedule-system", "manar-schedule-system"].map(slug => {
+  const ar = readFileSync(path.join(publicRoot, "projects", slug, "index.html"), "utf8");
+  const en = readFileSync(path.join(publicRoot, "en", "projects", slug, "index.html"), "utf8");
+  return [
+    ar.match(/<meta name='description' content='([^']+)'/i)?.[1],
+    en.match(/<meta name='description' content='([^']+)'/i)?.[1]
+  ];
+});
+assert.equal(new Set(scheduleDescriptions.map(pair => pair[0])).size, 2, "The two Arabic schedule projects must have different descriptions");
+assert.equal(new Set(scheduleDescriptions.map(pair => pair[1])).size, 2, "The two English schedule projects must have different descriptions");
 for (const [language, hubPath] of [["ar", "projects.html"], ["en", "en/projects.html"]]) {
   const hub = readFileSync(path.join(publicRoot, hubPath), "utf8");
   for (const project of catalog.projects.filter(item => ["waynah", "yemen-ai", "mghal-content-os", "ciphersphere", "focusflow", "almanar-schedule-system", "manar-schedule-system", "mghal-official-website"].includes(item.slug))) {
