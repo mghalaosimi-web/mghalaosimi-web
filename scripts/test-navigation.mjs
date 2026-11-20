@@ -42,6 +42,14 @@ assert.ok(layout.includes("dir={isEn?'ltr':'rtl'}"), "The global document direct
 assert.ok(shell.includes("prefers-reduced-motion:reduce"), "Reduced-motion support is required.");
 assert.ok(shell.includes(":focus-visible"), "Visible keyboard focus styling is required.");
 
+const legacySiteScript = readFileSync(new URL("../public/assets/site.js", import.meta.url), "utf8");
+assert.ok(legacySiteScript.includes('["Identity", "/en/profile"]'), "English runtime navigation must use clean profile URLs.");
+assert.ok(legacySiteScript.includes('["Credentials", "/en/credentials"]'), "English runtime navigation must use clean credential URLs.");
+assert.ok(legacySiteScript.includes('["الهوية", "/profile"]'), "Arabic runtime navigation must use clean profile URLs.");
+assert.ok(legacySiteScript.includes('["الشهادات", "/credentials"]'), "Arabic runtime navigation must use clean credential URLs.");
+assert.ok(legacySiteScript.includes('a.href = prefix + "/resume"'), "The runtime résumé link must use its clean canonical route.");
+assert.ok(!legacySiteScript.includes('["Identity", "/en/profile.html"]') && !legacySiteScript.includes('["الهوية", "/profile.html"]'), "Runtime navigation must not inject legacy .html profile links.");
+
 for (const [name, value] of [
   ["--mghal-brand-navy", "#172B4D"],
   ["--mghal-brand-blue", "#315A85"],
