@@ -279,6 +279,9 @@ CREATE TABLE IF NOT EXISTS site_settings (
   updated_by TEXT REFERENCES admin_users(id) ON DELETE SET NULL,
   updated_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')
 );
+CREATE INDEX IF NOT EXISTS idx_site_settings_rate_limit_expiry
+  ON site_settings(updated_at)
+  WHERE key LIKE 'rl:%';
 
 CREATE TABLE IF NOT EXISTS comments (
   id TEXT PRIMARY KEY,

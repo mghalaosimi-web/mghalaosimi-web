@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 // @ts-expect-error The production entrypoint is JavaScript and is syntax-checked by check:production.
-import apiHandler from "../api-handler.mjs";
+import apiHandler, { cleanupExpiredRateLimitKeys } from "../api-handler.mjs";
 
 const digest = async (value: string) => {
   const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
@@ -325,6 +325,37 @@ describe("Vercel API handler security contract", () => {
     const blocked = await request();
     expect(blocked.status).toBe(429);
     expect(await blocked.json()).toMatchObject({ error: { code: "RATE_LIMITED" } });
+  });
+
+  it("cleans only expired rate-limit buckets in bounded, throttled sweeps", async () => {
+    const calls: Array<{ sql: string; params: unknown[] }> = [];
+    const DB = {
+      prepare(sql: string) {
+        return {
+          bind(...params: unknown[]) {
+            return {
+              async run() {
+                calls.push({ sql, params });
+                return { success: true, meta: { changes: 3 } };
+              },
+            };
+          },
+        };
+      },
+    };
+    const state = { lastRunAt: 0 };
+    const now = Date.parse("2026-11-20T18:00:00.000Z");
+
+    expect(await cleanupExpiredRateLimitKeys(DB, now, state)).toBe(3);
+    expect(calls).toHaveLength(1);
+    expect(calls[0].sql).toContain("key LIKE 'rl:%'");
+    expect(calls[0].sql).toContain("LIMIT 1000");
+    expect(calls[0].params[0]).toBe(new Date(now - 10 * 60 * 1000).toISOString());
+
+    expect(await cleanupExpiredRateLimitKeys(DB, now + 60_000, state)).toBe(0);
+    expect(calls).toHaveLength(1);
+    expect(await cleanupExpiredRateLimitKeys(DB, now + 5 * 60 * 1000, state)).toBe(3);
+    expect(calls).toHaveLength(2);
   });
 
   it("creates the first owner only through the one-time bootstrap token", async () => {
