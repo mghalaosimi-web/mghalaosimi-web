@@ -6,8 +6,8 @@
   const english = document.documentElement.lang.toLowerCase().startsWith("en");
   const prefix = english ? "/en" : "";
   const items = english
-    ? [["Home", "/en/"], ["Identity", "/en/profile.html"], ["Projects", "/en/projects.html"], ["Certificates", "/en/certificates.html"], ["Skills", "/en/skills.html"], ["Achievements", "/en/achievements.html"], ["Knowledge", "/en/knowledge.html"], ["About", "/en/education.html"], ["Contact", "/en/contact.html"]]
-    : [["الرئيسية", "/"], ["الهوية", "/profile.html"], ["المشاريع", "/projects.html"], ["الشهادات", "/certificates.html"], ["المهارات", "/skills.html"], ["الإنجازات", "/achievements.html"], ["المعرفة", "/knowledge.html"], ["التعليم", "/education.html"], ["التواصل", "/contact.html"]];
+    ? [["Home", "/en/"], ["Identity", "/en/profile"], ["Projects", "/en/projects"], ["Credentials", "/en/credentials"], ["Skills", "/en/skills"], ["Achievements", "/en/achievements"], ["Knowledge", "/en/knowledge"], ["Education", "/en/education"], ["Contact", "/en/contact"]]
+    : [["الرئيسية", "/"], ["الهوية", "/profile"], ["المشاريع", "/projects"], ["الشهادات", "/credentials"], ["المهارات", "/skills"], ["الإنجازات", "/achievements"], ["المعرفة", "/knowledge"], ["التعليم", "/education"], ["التواصل", "/contact"]];
   let links = nav.querySelector(".navlinks, .links");
   if (!links) {
     links = document.createElement("nav");
@@ -24,7 +24,7 @@
     a.href = href;
     a.textContent = label;
     const target = href.replace(/\/+$/, "") || "/";
-    if (path === target || (target.endsWith("projects.html") && path.includes("/projects/")) || (target.endsWith("profile.html") && /\/(?:en\/)?(?:resume|skills|education|achievements|showcase)\.html$/.test(path))) a.setAttribute("aria-current", "page");
+    if (path === target || (target.endsWith("/projects") && path.includes("/projects/")) || (target.endsWith("/profile") && /\/(?:en\/)?(?:resume|skills|education|achievements|showcase)$/.test(path))) a.setAttribute("aria-current", "page");
     links.append(a);
   }
   const locale = document.createElement("a");
@@ -36,13 +36,13 @@
   nav.querySelectorAll(":scope > a").forEach(a => {
     if (a !== nav.querySelector(".brand") && !a.classList.contains("nav-resume")) {
       const href = new URL(a.href, location.origin).pathname;
-      if (/^\/(?:en\/)?(?:profile|projects|skills|education|achievements|knowledge|contact|resume|showcase)\.html$/.test(href) || a.textContent.trim() === "English" || a.textContent.trim() === "العربية") a.remove();
+      if (/^\/(?:en\/)?(?:profile|projects|skills|education|achievements|knowledge|contact|resume|showcase)$/.test(href) || a.textContent.trim() === "English" || a.textContent.trim() === "العربية") a.remove();
     }
   });
   if (!nav.querySelector(".nav-resume")) {
     const a = document.createElement("a");
     a.className = "btn secondary nav-resume";
-    a.href = prefix + "/resume.html";
+    a.href = prefix + "/resume";
     a.textContent = english ? "Résumé ↗" : "السيرة الذاتية ↗";
     nav.append(a);
   }
