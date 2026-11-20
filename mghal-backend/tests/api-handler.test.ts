@@ -297,7 +297,7 @@ describe("Vercel API handler security contract", () => {
           bind(...params: unknown[]) {
             return {
               async run() {
-                if (sql.startsWith("INSERT INTO site_settings(key,value_json)")) {
+                if (sql.startsWith("INSERT INTO site_settings(key,value_json,updated_at)")) {
                   const key = String(params[0] ?? "");
                   counts.set(key, (counts.get(key) ?? 0) + 1);
                 }
