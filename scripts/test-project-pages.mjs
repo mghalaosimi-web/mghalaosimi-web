@@ -115,7 +115,8 @@ for (const project of catalog.projects) {
   for (const language of ["ar", "en"]) {
     const file = path.join(publicRoot, language === "en" ? "en" : "", "projects", project.slug, "index.html");
     const html = readFileSync(file, "utf8");
-    const canonicalHref = html.match(/<link\b(?=[^>]*\brel=[\'"]canonical[\'"])[^>]*\bhref=[\'"]([^\'"]+)[\'"]/i)?.[1] ?? "";\n    assert.ok(canonicalHref && !canonicalHref.endsWith("/"), "Project canonical must not end with a slash: " + file);
+    const canonicalHref = html.match(/<link\b(?=[^>]*\brel=[\'"]canonical[\'"])[^>]*\bhref=[\'"]([^\'"]+)[\'"]/i)?.[1] ?? "";
+    assert.ok(canonicalHref && !canonicalHref.endsWith("/"), "Project canonical must not end with a slash: " + file);
     assert.ok(html.includes("aria-label='Core site links'") || html.includes("aria-label='روابط الموقع الأساسية'"), "Project details must expose the shared lightweight footer navigation: " + file);
     for (const route of [language === "en" ? "/en/projects" : "/projects", language === "en" ? "/en/credentials" : "/credentials", language === "en" ? "/en/contact" : "/contact"]) {
       assert.ok(html.includes("href='" + route + "'"), "Project footer must link to clean core route " + route + ": " + file);
