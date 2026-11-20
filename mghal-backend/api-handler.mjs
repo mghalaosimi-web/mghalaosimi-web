@@ -83,6 +83,12 @@ export default {
    const count=await q("SELECT value_json FROM site_settings WHERE key=?",rateKey).first();
    try{await cleanupExpiredRateLimitKeys(env.DB,now);}catch(cleanupError){console.warn("M.GH.AL rate-limit cleanup failed",cleanupError?.code||"UNKNOWN");}
    if(Number(count?.value_json||0)>rateLimit)return fail(429,"RATE_LIMITED","Too many requests");
+   if(path==="/api/admin/auth/login"&&method==="POST"){
+    const loginWindow=Math.floor(now/(5*60*1000)),loginKey="rl:admin-login:"+await hash(ip+":"+loginWindow);
+    await q("INSERT INTO site_settings(key,value_json,updated_at) VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value_json=CAST(CAST(site_settings.value_json AS INTEGER)+1 AS TEXT),updated_at=excluded.updated_at",loginKey,"1",new Date(now).toISOString()).run();
+    const attempts=await q("SELECT value_json FROM site_settings WHERE key=?",loginKey).first();
+    if(Number(attempts?.value_json||0)>10)return fail(429,"LOGIN_RATE_LIMITED","Too many admin login attempts. Try again in five minutes.");
+   }
   }catch{return fail(503,"RATE_LIMIT_UNAVAILABLE","Request protection is temporarily unavailable");}
   if(path==="/api/admin/bootstrap/status"&&method==="GET"){
    const [users,setup]=await Promise.all([q("SELECT COUNT(*) n FROM admin_users").first(),q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first()]);

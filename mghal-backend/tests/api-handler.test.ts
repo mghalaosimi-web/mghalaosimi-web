@@ -327,6 +327,47 @@ describe("Vercel API handler security contract", () => {
     expect(await blocked.json()).toMatchObject({ error: { code: "RATE_LIMITED" } });
   });
 
+  it("limits admin login attempts per source IP before password verification", async () => {
+    const counts = new Map<string, number>();
+    const DB = {
+      prepare(sql: string) {
+        return {
+          bind(...params: unknown[]) {
+            return {
+              async run() {
+                if (sql.startsWith("INSERT INTO site_settings(key,value_json,updated_at)")) {
+                  const key = String(params[0] ?? "");
+                  counts.set(key, (counts.get(key) ?? 0) + 1);
+                }
+                return { success: true, meta: { changes: 1 } };
+              },
+              async first() {
+                if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) {
+                  return { value_json: String(counts.get(String(params[0] ?? "")) ?? 0) };
+                }
+                if (sql.includes("SELECT id,email,password_hash,status FROM admin_users")) return null;
+                return null;
+              },
+              async all() { return { results: [] }; },
+            };
+          },
+        };
+      },
+    };
+    const request = () => apiHandler.fetch(new Request("https://api.example.test/api/admin/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Client-IP": "203.0.113.77" },
+      body: JSON.stringify({ email: "owner@example.test", password: "a-very-long-test-password-12345" }),
+    }), { DB, RATE_LIMIT_PER_MINUTE: "120" } as never);
+
+    for (let attempt = 0; attempt < 10; attempt += 1) {
+      expect((await request()).status).toBe(401);
+    }
+    const blocked = await request();
+    expect(blocked.status).toBe(429);
+    expect(await blocked.json()).toMatchObject({ error: { code: "LOGIN_RATE_LIMITED" } });
+  });
+
   it("cleans only expired rate-limit buckets in bounded, throttled sweeps", async () => {
     const calls: Array<{ sql: string; params: unknown[] }> = [];
     const DB = {
