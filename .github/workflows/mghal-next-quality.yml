@@ -5,15 +5,12 @@ on:
   push:
     branches: [feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
 permissions:
-  contents: write
+  contents: read
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-        with:
-          ref: ${{ github.event.pull_request.number == 52 && github.event.pull_request.head.ref || github.sha }}
-          persist-credentials: false
       - uses: actions/setup-node@v7
         with:
           node-version: 22
@@ -28,9 +25,6 @@ jobs:
         working-directory: ${{ github.workspace }}
       - run: npm ci --no-audit --no-fund
         working-directory: ${{ github.workspace }}
-      - name: Patch Next.js security advisories on Phase 1 PR #52
-        if: github.event_name == 'pull_request' && github.event.pull_request.number == 52
-        run: npm install --save-exact next@15.5.29
       - run: npm audit --omit=dev --audit-level=moderate
       - run: npm run audit:credentials
       - run: npm run test:certificates
@@ -52,21 +46,5 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run build
-      - name: Commit verified Next.js security patch to PR #52
-        if: github.event_name == 'pull_request' && github.event.pull_request.number == 52
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_BRANCH: ${{ github.event.pull_request.head.ref }}
-        run: |
-          if git diff --quiet -- package.json package-lock.json; then
-            echo "Next.js dependency files are already current."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json package-lock.json
-          git commit -m "fix(deps): patch Next.js security advisories"
-          git remote set-url origin "https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-          git fetch origin "$TARGET_BRANCH"
-          git -c rebase.autoStash=true rebase "origin/$TARGET_BRANCH"
-          git push origin "HEAD:$TARGET_BRANCH"
+
+
