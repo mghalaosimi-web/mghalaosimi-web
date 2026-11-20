@@ -76,10 +76,10 @@ const seoRefreshedPaths = [
   ...all.flatMap(slug => ['/projects/' + slug, '/en/projects/' + slug]),
 ];
 const sitemapLastmodByUrl = new Map(
-  [...sitemap.matchAll(/<url>([\\s\\S]*?)<\\/url>/g)].map((match) => {
+  [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((match) => {
     const block = match[1];
-    const url = block.match(/<loc>([^<]+)<\\/loc>/)?.[1];
-    const lastmod = block.match(/<lastmod>([^<]+)<\\/lastmod>/)?.[1];
+    const url = block.match(/<loc>([^<]+)<\/loc>/)?.[1];
+    const lastmod = block.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
     return [url, lastmod];
   }),
 );
