@@ -8,6 +8,7 @@ Current PostgreSQL production migration artifacts are in `mghal-backend/postgres
 
 - `0001_initial.sql` — PostgreSQL baseline for isolated schema setup; do not replay against the populated production database.
 - `0006_google_follower_identity.sql` — additive, idempotent PostgreSQL migration that reconciles the already-existing Google follower identity tables and migration ledger.
+- `0007_rate_limit_retention.sql` — additive PostgreSQL partial index for bounded cleanup of expired rate-limit buckets; apply only after resolving the 0006 ledger/schema reconciliation and obtaining Production migration approval.
 
 Before any production migration:
 1. Inspect the exact Neon schema and current migration ledger.

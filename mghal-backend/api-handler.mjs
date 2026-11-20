@@ -12,6 +12,24 @@ export function safeIdentityReturnPath(siteUrl, returnPath) {
  return target.pathname + target.search + target.hash;
 }
 
+const RATE_LIMIT_CLEANUP_STATE = Symbol.for("mghal.rate-limit-cleanup");
+const RATE_LIMIT_CLEANUP_INTERVAL_MS = 5 * 60 * 1000;
+const RATE_LIMIT_RETENTION_MS = 10 * 60 * 1000;
+const RATE_LIMIT_CLEANUP_BATCH_SIZE = 1000;
+
+export async function cleanupExpiredRateLimitKeys(DB, now = Date.now(), state) {
+ const cleanupState = state ?? (globalThis[RATE_LIMIT_CLEANUP_STATE] ??= { lastRunAt: 0 });
+ if (now - cleanupState.lastRunAt < RATE_LIMIT_CLEANUP_INTERVAL_MS) return 0;
+
+ cleanupState.lastRunAt = now;
+ const cutoff = new Date(now - RATE_LIMIT_RETENTION_MS).toISOString();
+ const result = await DB.prepare(
+  "DELETE FROM site_settings WHERE key IN (SELECT key FROM site_settings WHERE key LIKE 'rl:%' AND updated_at < ? ORDER BY updated_at LIMIT " + RATE_LIMIT_CLEANUP_BATCH_SIZE + ")"
+ ).bind(cutoff).run();
+
+ return Number(result?.meta?.changes ?? 0);
+}
+
 export default {
  async fetch(request, env) {
   const url = new URL(request.url), path = url.pathname, method = request.method;
@@ -59,7 +77,19 @@ export default {
   if(path==="/health"&&method==="GET"){const r=await q("SELECT 1 AS ok").first();return out({status:r?.ok===1?"ok":"degraded",database:r?.ok===1?"connected":"unavailable"});}
   if(!path.startsWith("/api/"))return fail(404,"NOT_FOUND","Route not found");
   const configuredRateLimit=Number(env.RATE_LIMIT_PER_MINUTE),rateLimit=Number.isSafeInteger(configuredRateLimit)&&configuredRateLimit>0?configuredRateLimit:120;
-  const minute=Math.floor(Date.now()/60000),ip=request.headers.get("X-Client-IP")||"unknown",rateKey="rl:"+await hash(ip+":"+minute);try{await q("INSERT INTO site_settings(key,value_json) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value_json=CAST(CAST(site_settings.value_json AS INTEGER)+1 AS TEXT)",rateKey,"1").run();const count=await q("SELECT value_json FROM site_settings WHERE key=?",rateKey).first();if(Number(count?.value_json||0)>rateLimit)return fail(429,"RATE_LIMITED","Too many requests");}catch{return fail(503,"RATE_LIMIT_UNAVAILABLE","Request protection is temporarily unavailable");}
+  const now=Date.now(),minute=Math.floor(now/60000),ip=request.headers.get("X-Client-IP")||"unknown",rateKey="rl:"+await hash(ip+":"+minute);
+  try{
+   await q("INSERT INTO site_settings(key,value_json,updated_at) VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value_json=CAST(CAST(site_settings.value_json AS INTEGER)+1 AS TEXT),updated_at=excluded.updated_at",rateKey,"1",new Date(now).toISOString()).run();
+   const count=await q("SELECT value_json FROM site_settings WHERE key=?",rateKey).first();
+   try{await cleanupExpiredRateLimitKeys(env.DB,now);}catch(cleanupError){console.warn("M.GH.AL rate-limit cleanup failed",cleanupError?.code||"UNKNOWN");}
+   if(Number(count?.value_json||0)>rateLimit)return fail(429,"RATE_LIMITED","Too many requests");
+   if(path==="/api/admin/auth/login"&&method==="POST"){
+    const loginWindow=Math.floor(now/(5*60*1000)),loginKey="rl:admin-login:"+await hash(ip+":"+loginWindow);
+    await q("INSERT INTO site_settings(key,value_json,updated_at) VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value_json=CAST(CAST(site_settings.value_json AS INTEGER)+1 AS TEXT),updated_at=excluded.updated_at",loginKey,"1",new Date(now).toISOString()).run();
+    const attempts=await q("SELECT value_json FROM site_settings WHERE key=?",loginKey).first();
+    if(Number(attempts?.value_json||0)>10)return fail(429,"LOGIN_RATE_LIMITED","Too many admin login attempts. Try again in five minutes.");
+   }
+  }catch{return fail(503,"RATE_LIMIT_UNAVAILABLE","Request protection is temporarily unavailable");}
   if(path==="/api/admin/bootstrap/status"&&method==="GET"){
    const [users,setup]=await Promise.all([q("SELECT COUNT(*) n FROM admin_users").first(),q("SELECT value_json FROM site_settings WHERE key='owner_bootstrap_hash'").first()]);
    const ownerExists=Number(users?.n||0)>0,secret=typeof env.OWNER_BOOTSTRAP_TOKEN==="string"?env.OWNER_BOOTSTRAP_TOKEN:"",secretHash=secret.length>=32?await hash(secret):null;

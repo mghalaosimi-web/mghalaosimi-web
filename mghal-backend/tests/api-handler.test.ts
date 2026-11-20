@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 // @ts-expect-error The production entrypoint is JavaScript and is syntax-checked by check:production.
-import apiHandler from "../api-handler.mjs";
+import apiHandler, { cleanupExpiredRateLimitKeys } from "../api-handler.mjs";
 
 const digest = async (value: string) => {
   const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
@@ -297,7 +297,7 @@ describe("Vercel API handler security contract", () => {
           bind(...params: unknown[]) {
             return {
               async run() {
-                if (sql.startsWith("INSERT INTO site_settings(key,value_json)")) {
+                if (sql.startsWith("INSERT INTO site_settings(key,value_json,updated_at)")) {
                   const key = String(params[0] ?? "");
                   counts.set(key, (counts.get(key) ?? 0) + 1);
                 }
@@ -325,6 +325,78 @@ describe("Vercel API handler security contract", () => {
     const blocked = await request();
     expect(blocked.status).toBe(429);
     expect(await blocked.json()).toMatchObject({ error: { code: "RATE_LIMITED" } });
+  });
+
+  it("limits admin login attempts per source IP before password verification", async () => {
+    const counts = new Map<string, number>();
+    const DB = {
+      prepare(sql: string) {
+        return {
+          bind(...params: unknown[]) {
+            return {
+              async run() {
+                if (sql.startsWith("INSERT INTO site_settings(key,value_json,updated_at)")) {
+                  const key = String(params[0] ?? "");
+                  counts.set(key, (counts.get(key) ?? 0) + 1);
+                }
+                return { success: true, meta: { changes: 1 } };
+              },
+              async first() {
+                if (sql.includes("SELECT value_json FROM site_settings WHERE key=?")) {
+                  return { value_json: String(counts.get(String(params[0] ?? "")) ?? 0) };
+                }
+                if (sql.includes("SELECT id,email,password_hash,status FROM admin_users")) return null;
+                return null;
+              },
+              async all() { return { results: [] }; },
+            };
+          },
+        };
+      },
+    };
+    const request = () => apiHandler.fetch(new Request("https://api.example.test/api/admin/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Client-IP": "203.0.113.77" },
+      body: JSON.stringify({ email: "owner@example.test", password: "a-very-long-test-password-12345" }),
+    }), { DB, RATE_LIMIT_PER_MINUTE: "120" } as never);
+
+    for (let attempt = 0; attempt < 10; attempt += 1) {
+      expect((await request()).status).toBe(401);
+    }
+    const blocked = await request();
+    expect(blocked.status).toBe(429);
+    expect(await blocked.json()).toMatchObject({ error: { code: "LOGIN_RATE_LIMITED" } });
+  });
+
+  it("cleans only expired rate-limit buckets in bounded, throttled sweeps", async () => {
+    const calls: Array<{ sql: string; params: unknown[] }> = [];
+    const DB = {
+      prepare(sql: string) {
+        return {
+          bind(...params: unknown[]) {
+            return {
+              async run() {
+                calls.push({ sql, params });
+                return { success: true, meta: { changes: 3 } };
+              },
+            };
+          },
+        };
+      },
+    };
+    const state = { lastRunAt: 0 };
+    const now = Date.parse("2026-11-20T18:00:00.000Z");
+
+    expect(await cleanupExpiredRateLimitKeys(DB, now, state)).toBe(3);
+    expect(calls).toHaveLength(1);
+    expect(calls[0].sql).toContain("key LIKE 'rl:%'");
+    expect(calls[0].sql).toContain("LIMIT 1000");
+    expect(calls[0].params[0]).toBe(new Date(now - 10 * 60 * 1000).toISOString());
+
+    expect(await cleanupExpiredRateLimitKeys(DB, now + 60_000, state)).toBe(0);
+    expect(calls).toHaveLength(1);
+    expect(await cleanupExpiredRateLimitKeys(DB, now + 5 * 60 * 1000, state)).toBe(3);
+    expect(calls).toHaveLength(2);
   });
 
   it("creates the first owner only through the one-time bootstrap token", async () => {

@@ -1,6 +1,19 @@
+test('removes legacy sslmode query flags while preserving other PostgreSQL connection options', () => {
+  const normalized = normalizePostgresConnectionString(
+    'postgresql://app:placeholder@ep.example.neon.tech/mghal?sslmode=require&channel_binding=require&application_name=mghal',
+  );
+  const parsed = new URL(normalized);
+
+  assert.equal(parsed.searchParams.has('sslmode'), false);
+  assert.equal(parsed.searchParams.get('channel_binding'), 'require');
+  assert.equal(parsed.searchParams.get('application_name'), 'mghal');
+  assert.equal(parsed.hostname, 'ep.example.neon.tech');
+});
+
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { handleMghalApiRequest } from '../../../lib/mghal-api-runtime.mjs';
+import { normalizePostgresConnectionString } from '../postgres-adapter.mjs';
 
 test('API fails closed when a preview deployment has no isolated database URL', async () => {
   const response = await handleMghalApiRequest(

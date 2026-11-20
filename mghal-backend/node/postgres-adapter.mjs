@@ -1,3 +1,13 @@
+export function normalizePostgresConnectionString(connectionString) {
+  const parsed = new URL(connectionString);
+
+  for (const key of [...parsed.searchParams.keys()]) {
+    if (key.toLowerCase() === "sslmode") parsed.searchParams.delete(key);
+  }
+
+  return parsed.toString();
+}
+
 /**
  * Small PostgreSQL adapter exposing the prepared-query interface used by the shared API handler.
  *
