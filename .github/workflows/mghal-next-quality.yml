@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main, feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
   push:
-    branches: [feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
+    branches: [main, feature/mghal-arfat-full-integration, fix/social-admin-mobile-ux-2026-11-07, feat/node-postgres-backend-2026-11-08]
 permissions:
   contents: read
 jobs:
@@ -34,10 +34,12 @@ jobs:
       - run: npm run test:api-runtime
       - run: npm run test:security-headers
       - run: npm run test:structured-data
-      - run: npm run test:seo
-      - run: npm run test:sitemap
+      - run: node scripts/generate-project-pages.mjs
       - name: Normalize clean URLs before project-page checks
         run: node scripts/normalize-legacy-html-links.mjs
+      - run: npm run test:seo
+      - run: npm run test:sitemap
+      - run: npm run test:clean-urls
       - run: npm run test:project-pages
       - run: npm run test:navigation
       - run: npm run test:search
