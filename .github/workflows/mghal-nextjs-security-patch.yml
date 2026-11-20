@@ -1,9 +1,9 @@
 name: M.GH.AL Next.js Security Patch
 
 on:
-  push:
+  pull_request:
     branches:
-      - fix/seo-sitemap-lastmod-2026-11-20
+      - main
     paths:
       - .github/workflows/mghal-nextjs-security-patch.yml
   workflow_dispatch:
@@ -13,13 +13,14 @@ permissions:
 
 jobs:
   patch-and-verify:
-    if: github.ref == 'refs/heads/fix/seo-sitemap-lastmod-2026-11-20'
+    if: (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'fix/seo-sitemap-lastmod-2026-11-20') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/fix/seo-sitemap-lastmod-2026-11-20')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Checkout
+      - name: Checkout PR branch
         uses: actions/checkout@v7
         with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
           persist-credentials: false
 
       - name: Set up Node.js
@@ -50,6 +51,7 @@ jobs:
       - name: Commit verified dependency patch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
         run: |
           if git diff --quiet -- package.json package-lock.json; then
             echo "Next.js dependency files are already current."
@@ -60,4 +62,4 @@ jobs:
           git add package.json package-lock.json
           git commit -m "fix(deps): patch Next.js security advisories"
           git remote set-url origin "https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git"
-          git push origin "HEAD:$GITHUB_REF_NAME"
+          git push origin "HEAD:$TARGET_BRANCH"
