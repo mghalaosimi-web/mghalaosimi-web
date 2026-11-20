@@ -68,5 +68,5 @@ jobs:
           git commit -m "fix(deps): patch Next.js security advisories"
           git remote set-url origin "https://x-access-token:$GH_TOKEN@github.com/$GITHUB_REPOSITORY.git"
           git fetch origin "$TARGET_BRANCH"
-          git rebase "origin/$TARGET_BRANCH"
+          git -c rebase.autoStash=true rebase "origin/$TARGET_BRANCH"
           git push origin "HEAD:$TARGET_BRANCH"
