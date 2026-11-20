@@ -61,3 +61,35 @@ test('photo gallery routes and all 12 gallery images are discoverable in the sit
  for(const image of gallery) assert.ok(sitemap.includes(base+'/profile-gallery/'+image),'missing gallery image '+image);
  assert.equal(rootSitemap,sitemap);
 });
+
+
+const seoRefreshedPaths = [
+  '/', '/en',
+  '/about', '/en/about',
+  '/projects', '/en/projects',
+  '/skills', '/en/skills',
+  '/research', '/en/research',
+  '/contact', '/en/contact',
+  '/labs', '/en/labs',
+  '/credentials', '/en/credentials',
+  '/photos', '/en/photos',
+  ...all.flatMap(slug => ['/projects/' + slug, '/en/projects/' + slug]),
+];
+const sitemapLastmodByUrl = new Map(
+  [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((match) => {
+    const block = match[1];
+    const url = block.match(/<loc>([^<]+)<\/loc>/)?.[1];
+    const lastmod = block.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
+    return [url, lastmod];
+  }),
+);
+test('sitemap lastmod reflects the 2026-11-19 SEO metadata updates', () => {
+  for (const path of seoRefreshedPaths) {
+    const url = base + path;
+    assert.equal(
+      sitemapLastmodByUrl.get(url),
+      '2026-11-19',
+      'stale lastmod for route updated on 2026-11-19: ' + url,
+    );
+  }
+});

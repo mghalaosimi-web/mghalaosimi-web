@@ -1,0 +1,42 @@
+name: M.GH.AL Production Live Verification
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - scripts/test-live-production.mjs
+      - .github/workflows/mghal-live-production-smoke.yml
+      - vercel.json
+  pull_request:
+    branches:
+      - main
+    paths:
+      - scripts/test-live-production.mjs
+      - .github/workflows/mghal-live-production-smoke.yml
+      - vercel.json
+      - public/robots.txt
+      - public/sitemap.xml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-production:
+    name: Live HTTP / SEO / security smoke tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Verify official Production deployment
+        env:
+          SITE_ORIGIN: https://mghalaosimi-web.vercel.app
+        run: node scripts/test-live-production.mjs
