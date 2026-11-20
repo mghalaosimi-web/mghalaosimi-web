@@ -4,23 +4,20 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - .github/workflows/mghal-nextjs-security-patch.yml
-  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   patch-and-verify:
-    if: (github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'fix/seo-sitemap-lastmod-2026-11-20') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/fix/seo-sitemap-lastmod-2026-11-20')
+    if: github.event.pull_request.head.ref == 'fix/seo-sitemap-lastmod-2026-11-20'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
           persist-credentials: false
 
       - name: Set up Node.js
@@ -51,7 +48,7 @@ jobs:
       - name: Commit verified dependency patch
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
+          TARGET_BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
           if git diff --quiet -- package.json package-lock.json; then
             echo "Next.js dependency files are already current."
