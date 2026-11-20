@@ -115,11 +115,36 @@ for (const project of catalog.projects) {
   for (const language of ["ar", "en"]) {
     const file = path.join(publicRoot, language === "en" ? "en" : "", "projects", project.slug, "index.html");
     const html = readFileSync(file, "utf8");
+    assert.ok(!canonical.endsWith("/"), "Project canonical must not end with a slash: " + file);
+    assert.ok(html.includes("aria-label='Core site links'") || html.includes("aria-label='روابط الموقع الأساسية'"), "Project details must expose the shared lightweight footer navigation: " + file);
+    for (const route of [language === "en" ? "/en/projects" : "/projects", language === "en" ? "/en/credentials" : "/credentials", language === "en" ? "/en/contact" : "/contact"]) {
+      assert.ok(html.includes("href='" + route + "'"), "Project footer must link to clean core route " + route + ": " + file);
+    }
     assert.ok(html.includes("class='navlinks'"), "Project details must use the shared primary navigation: " + file);
     assert.ok(html.includes('nav-resume'), "Project details must expose the résumé action: " + file);
     assert.ok(html.includes("src='/assets/site.js'"), "Project details must load shared navigation and search: " + file);
   }
 }
 
+for (const [slug, titleAr, titleEn] of [
+  ["almanar-schedule-system", "Al-Manar Schedule System", "Al-Manar Schedule System"],
+  ["manar-schedule-system", "Manar Schedule System", "Manar Schedule System"]
+]) {
+  const ar = readFileSync(path.join(publicRoot, "projects", slug, "index.html"), "utf8");
+  const en = readFileSync(path.join(publicRoot, "en", "projects", slug, "index.html"), "utf8");
+  assert.ok(ar.includes("<title>" + titleAr), "Arabic title must identify " + slug);
+  assert.ok(en.includes("<title>" + titleEn), "English title must identify " + slug);
+  assert.ok(ar.includes("name='description'") && en.includes("name='description'"), "Both schedule systems need descriptions");
+  const arDescription = ar.match(/<meta name='description' content='([^']+)'/i)?.[1];
+  const enDescription = en.match(/<meta name='description' content='([^']+)'/i)?.[1];
+  assert.ok(arDescription && enDescription && arDescription !== enDescription, "Schedule project descriptions must be distinct by language and project");
+}
+for (const [language, hubPath] of [["ar", "projects.html"], ["en", "en/projects.html"]]) {
+  const hub = readFileSync(path.join(publicRoot, hubPath), "utf8");
+  for (const project of catalog.projects.filter(item => ["waynah", "yemen-ai", "mghal-content-os", "ciphersphere", "focusflow", "almanar-schedule-system", "manar-schedule-system", "mghal-official-website"].includes(item.slug))) {
+    const route = (language === "en" ? "/en" : "") + "/projects/" + project.slug;
+    assert.ok(hub.includes("href='" + route + "'") || hub.includes('href="' + route + '"'), "Project hub must link to " + route);
+  }
+}
 const projectDetailCss = readFileSync(new URL("../public/assets/project-detail.css", import.meta.url), "utf8");
 assert.match(projectDetailCss, /\.evidence-list li[^}]*overflow-wrap:anywhere/, "Long evidence paths and unbroken tokens must wrap on narrow screens.");
