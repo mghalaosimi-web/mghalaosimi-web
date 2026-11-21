@@ -10,8 +10,6 @@ CREATE TABLE IF NOT EXISTS contact_messages (
   locale TEXT NOT NULL CHECK (locale IN ('ar','en')),
   status TEXT NOT NULL DEFAULT 'new' CHECK (status IN ('new','read','replied','archived')),
   consent_at TEXT NOT NULL,
-  ip_hash TEXT,
-  user_agent TEXT,
   admin_note TEXT,
   created_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"'),
   updated_at TEXT NOT NULL DEFAULT to_char(CURRENT_TIMESTAMP AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')
@@ -31,7 +29,7 @@ BEGIN
   WHERE id = '0008_contact_messages';
 
   IF existing_checksum IS NOT NULL
-     AND existing_checksum <> 'postgres-contact-messages-v1-2026-11-21' THEN
+     AND existing_checksum <> 'postgres-contact-messages-v2-2026-11-21' THEN
     RAISE EXCEPTION 'Migration 0008_contact_messages checksum mismatch';
   END IF;
 
