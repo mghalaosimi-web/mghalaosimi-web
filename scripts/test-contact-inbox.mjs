@@ -7,6 +7,7 @@ const admin=readFileSync('public/assets/admin-messages.js','utf8');
 const page=readFileSync('app/contact/contact.module.css','utf8');
 assert.ok(api.includes('/api/public/contact-messages'),'public contact endpoint missing');
 assert.ok(api.includes('/api/admin/contact-messages'),'admin contact inbox endpoint missing');
+assert.ok(api.includes('can(\"contact_messages.read\")') && api.includes('can(\"contact_messages.manage\")'),'contact inbox must use dedicated private permissions');
 assert.ok(api.includes('CONTACT_RATE_LIMITED'),'contact rate limit missing');
 assert.ok(api.includes('b.consent!==true'),'explicit consent validation missing');
 assert.ok(form.includes("fetch('/api/public/contact-messages'"),'form must post to first-party API');
