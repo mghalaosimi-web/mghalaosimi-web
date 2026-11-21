@@ -74,5 +74,5 @@ test('does not expose the private contact inbox to unauthenticated visitors',asy
   const response=await apiHandler.fetch(new Request('https://mghalaosimi-web.vercel.app/api/admin/contact-messages',{method:'GET',headers:{'origin':'https://mghalaosimi-web.vercel.app','x-client-ip':'203.0.113.10'}}),environment(DB));
   assert.equal(response.status,401);
   const body=await response.json();
-  assert.equal(body.success,false);
+  assert.equal(body.error.code,'UNAUTHENTICATED');
 });
