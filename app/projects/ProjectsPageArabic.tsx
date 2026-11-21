@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {projects,Project,ProjectCategory} from '../../data/projects';
 import {
   ArrowLeft,ArrowUpLeft,ArrowUpRight,Code2,FolderGit2,
-  GraduationCap,Layers3,ShieldCheck,X,ExternalLink,Terminal,GitBranch,FileText,ArrowUpRight as ArrowRightIcon,Sparkles,MapPin,Database,WifiOff
+  GraduationCap,Layers3,ShieldCheck,X,ExternalLink,Terminal,GitBranch,FileText,ArrowUpRight as ArrowRightIcon
 } from 'lucide-react';
 import './projects.css';
 
@@ -27,11 +27,7 @@ export default function ProjectsPage(){
   const [selectedProject,setSelectedProject]=useState<Project|null>(null);
   useEffect(()=>{if(!selectedProject)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape')setSelectedProject(null)};window.addEventListener('keydown',onKeyDown);return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKeyDown)}},[selectedProject]);
   
-  const featured=publicProjects.find(p=>p.slug==='waynah');
-  const archive=publicProjects.filter(p=>p.slug!=='waynah');
-  const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
-  const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
-  
+  const visible=useMemo(()=>publicProjects.filter(p=>filter==='all'||p.category===filter),[filter]);
   const repositoryCount=publicProjects.filter(p=>p.repository).length;
   const collaborativeCount=publicProjects.filter(p=>p.slug==='waynah'||p.slug==='manar-schedule-system').length;
 
@@ -59,58 +55,13 @@ export default function ProjectsPage(){
       <div><span className="portfolio-archive-metric-icon"><ShieldCheck size={18}/></span><strong>03</strong><small>مجالات عمل رئيسية</small></div>
     </section>
 
-    {featuredVisible&&featured&&<section className="portfolio-featured-project">
-      <div className="portfolio-featured-visual">
-        <div className="portfolio-featured-visual-grid"/>
-        <div className="portfolio-featured-orbit featured-orbit-one"/>
-        <div className="portfolio-featured-orbit featured-orbit-two"/>
-        <div className="portfolio-featured-shield"><MapPin size={72} strokeWidth={1}/><span>WAYNAH</span><small>LOCAL DISCOVERY</small></div>
-        <span className="portfolio-featured-visual-index">WY / 01</span>
-        <span className="portfolio-featured-visual-caption">YEMEN · WGS84 · POSTGIS</span>
-      </div>
-      <div className="portfolio-featured-copy">
-        <div className="portfolio-featured-overline"><Sparkles size={14}/> FEATURED ENGINEERING PROJECT <span>01 / 01</span></div>
-        <div className="portfolio-featured-status"><i/>{featured.status}</div>
-        <h2>{featured.name}</h2>
-        <h3>{featured.label}</h3>
-        <p>{featured.summary}</p>
-        <div className="portfolio-featured-tags">{featured.stack.slice(0,4).map(item=><span key={item}>{item}</span>)}</div>
-        <div className="portfolio-featured-footer">
-          <span>PROJECT CONTRIBUTION<br/><b>M.GH.AL / TEAM CONTRIBUTOR</b></span>
-          <button type="button" onClick={()=>setSelectedProject(featured)}>استكشف المشروع <ArrowUpLeft size={17}/></button>
-        </div>
-      </div>
-    </section>}
-
-    {featuredVisible&&featured&&<section className="portfolio-waynah-gallery" aria-labelledby="waynah-gallery-title">
-      <div className="portfolio-waynah-gallery-heading">
-        <div><span>WAYNAH / SYSTEM OVERVIEW</span><h2 id="waynah-gallery-title">لمحة عن التصور الهندسي</h2><p>نظرة عالية المستوى على محاور المنتج: البيانات الجغرافية، تجربة الاستخدام في الاتصال المحدود، واستكشاف المعلومات المحلية الموثوقة.</p></div>
-        <span className="portfolio-waynah-gallery-index">SYSTEM NOTES / 03</span>
-      </div>
-      <div className="portfolio-waynah-gallery-grid">
-        <article className="portfolio-waynah-visual-card">
-          <div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><MapPin/><b>GEOGRAPHIC DATA</b><small>WGS84 · POSTGIS</small></div></div>
-          <div><span>01 / SPATIAL FOUNDATION</span><h3>الأساس المكاني</h3><p>تمثيل المواقع والبيانات الجغرافية ضمن قاعدة بيانات مكانية.</p></div>
-        </article>
-        <article className="portfolio-waynah-visual-card">
-          <div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><WifiOff/><b>OFFLINE-FIRST</b><small>LOW CONNECTIVITY</small></div></div>
-          <div><span>02 / RESILIENT EXPERIENCE</span><h3>تجربة تراعي الاتصال المحدود</h3><p>تصميم تدفقات استخدام تساعد على الوصول إلى المعلومات عند ضعف الشبكة.</p></div>
-        </article>
-        <article className="portfolio-waynah-visual-card">
-          <div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><Database/><b>TRUSTED DIRECTORY</b><small>LOCAL DISCOVERY</small></div></div>
-          <div><span>03 / LOCAL INFORMATION</span><h3>دليل محلي موثوق</h3><p>تنظيم بيانات الأماكن والخدمات وإظهار المعلومات بحسب ما تم توثيقه.</p></div>
-        </article>
-      </div>
-      <Link href="/projects/waynah" className="portfolio-waynah-gallery-link">استعراض ملف WAYNAH <ArrowUpLeft size={16}/></Link>
-    </section>}
-
     <section className="portfolio-archive-collection" id="project-collection">
       <div className="portfolio-archive-section-heading">
         <div><span>THE WORK / SELECTED PROJECTS</span><h2>المشاريع والأعمال الهندسية</h2><p>استعرض الأعمال بحسب المجال، مع توضيح طبيعة كل مشروع وحالته ومصادره المتاحة.</p></div>
-        <div className="portfolio-archive-count"><strong>{(visible.length+(featuredVisible?1:0)).toString().padStart(2,'0')}</strong><small>PROJECTS</small></div>
+        <div className="portfolio-archive-count"><strong>{visible.length.toString().padStart(2,'0')}</strong><small>PROJECTS</small></div>
       </div>
       <div className="portfolio-archive-filters" role="group" aria-label="تصفية المشاريع">
-        {filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?publicProjects.length:archive.filter(p=>p.category===f.id).length+(featured&&featured.category===f.id?1:0)}</span></button>)}
+        {filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?publicProjects.length:publicProjects.filter(p=>p.category===f.id).length}</span></button>)}
       </div>
       <div className="portfolio-archive-grid">
         {visible.map((p,i)=>{
@@ -128,7 +79,7 @@ export default function ProjectsPage(){
         })}
       </div>
       {visible.length===0&&<div className="portfolio-archive-empty">لا توجد مشاريع ضمن هذا التصنيف حاليًا.</div>}
-      <p className="portfolio-archive-disclaimer">تختلف مستويات التوثيق والتطوير من مشروع لآخر. وتُعرض المشاريع التعاونية بوصفها أعمالًا مشتركة، مع توضيح المساهمة الفردية وفق المعلومات المتاحة.</p>
+      <p className="portfolio-archive-disclaimer">تختلف مستويات التوثيق والتطوير من مشروع لآخر. وتُعرض المشاريع التعاونية بوصفها أعمالًا مشتركة، مع توضيح المساهمة الفردية وفق المعلومات المتاحة. ترتيب البطاقات تنظيمي وليس تصنيفًا تفاضليًا أو ادعاءً بأن مشروعًا واحدًا هو الأهم.</p>
     </section>
 
     <section className="portfolio-archive-closing">
