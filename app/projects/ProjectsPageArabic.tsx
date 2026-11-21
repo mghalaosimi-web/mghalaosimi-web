@@ -1,6 +1,7 @@
 'use client';
 import {useEffect,useMemo,useState} from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {projects,Project,ProjectCategory} from '../../data/projects';
 import {
   ArrowLeft,ArrowUpLeft,ArrowUpRight,Code2,FolderGit2,
@@ -15,6 +16,27 @@ const filters:{id:'all'|ProjectCategory;label:string}[]=[
   {id:'academic',label:'الأكاديمية والتعاونية'}
 ];
 
+const projectCovers:Record<string,string> = {
+  "abdulmalik-erp": "/assets/projects/abdulmalik-erp-cover.svg",
+  "abdulmalik-store-pro": "/assets/projects/abdulmalik-store-pro-cover.svg",
+  "ramzei-erp": "/assets/projects/ramzei-erp-cover.svg",
+  "manar-schedule-system": "/assets/projects/manar-schedule-system.svg",
+  "waynah": "/assets/projects/waynah.svg",
+  "mghal-digital-os": "/assets/projects/mghal-digital-os-cover.svg",
+  "mghal-content-os": "/assets/projects/content-os.svg",
+  "debwan-live": "/assets/projects/debwan-live-cover.svg",
+  "alnasr-supermarket-erp": "/assets/projects/alnasr-supermarket-erp-cover.svg",
+  "yemen-ai": "/assets/projects/yemen-ai.svg",
+  "academic-os2": "/assets/projects/academic-os2-cover.svg",
+  "ciphersphere": "/assets/projects/ciphersphere.svg",
+  "abdulmalik-store-management": "/assets/projects/abdulmalik-store-management-cover.svg",
+  "academicos": "/assets/projects/academicos-cover.svg",
+  "almanar-schedule-system": "/assets/projects/almanar-schedule-system-cover.svg",
+  "focusflow": "/assets/projects/focusflow.svg",
+  "mghal-digital-automation": "/assets/projects/mghal-digital-automation-cover.svg",
+  "mghal-official-website": "/assets/projects/mghal-official-website.svg",
+  "cryptolab-x": "/assets/projects/cryptolab-x-cover.svg"
+};
 const categoryMeta={
   'cyber-defense':{label:'SECURITY & CRYPTOGRAPHY',name:'الأمن والتشفير',Icon:ShieldCheck},
   software:{label:'SOFTWARE ENGINEERING',name:'هندسة البرمجيات',Icon:Code2},
@@ -68,6 +90,7 @@ export default function ProjectsPage(){
           const meta=categoryMeta[p.category];
           const Icon=meta.Icon;
           return <button type="button" className="portfolio-project-card" onClick={()=>setSelectedProject(p)} key={p.slug} aria-haspopup="dialog" aria-label={'عرض تفاصيل '+p.name}>
+            <div className="portfolio-project-cover"><Image src={projectCovers[p.slug]} alt={"رسم توضيحي مفاهيمي لمشروع "+p.name+" — ليس لقطة شاشة للمنتج"} fill sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"/></div>
             <div className="portfolio-project-card-top"><span className="portfolio-project-icon"><Icon size={19}/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div>
             <div className="portfolio-project-status"><i/>{p.status}</div>
             <h3>{p.name}</h3>
