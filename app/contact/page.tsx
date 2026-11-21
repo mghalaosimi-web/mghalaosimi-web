@@ -61,7 +61,7 @@ function ContactPageArabic(){
    <div className={styles.sectionHeading}><div><span className={styles.sectionIndex}>01 / PROFESSIONAL & DIRECT CHANNELS</span><h2 id="channels-title">اختر قناة التواصل المناسبة</h2><p>الشبكات المهنية والبحثية، إلى جانب قنوات التواصل المباشر.</p></div><span className={styles.headingCode}>CONNECT · 11</span></div>
    <div className={styles.channelGrid}>
     {channels.map((item,index)=>{const Icon=item.icon;return <a className={styles.channelCard} href={item.href} key={item.name} target={item.href.startsWith('https://')?'_blank':'_self'} rel={item.href.startsWith('https://')?'noopener noreferrer':undefined}>
-      <div className={styles.cardTop}><span className={styles.cardNumber}>0{index+1}</span><span className={styles.cardIcon}><Icon size={19}/></span><ArrowUpRight className={styles.cardArrow} size={16}/></div>
+      <div className={styles.cardTop}><span className={styles.cardNumber}>{String(index+1).padStart(2,'0')}</span><span className={styles.cardIcon}><Icon size={19}/></span><ArrowUpRight className={styles.cardArrow} size={16}/></div>
       <div className={styles.cardText}><h3>{item.name}</h3><p>{item.detail}</p><strong>{item.value}</strong></div>
      </a>})}
    </div>
