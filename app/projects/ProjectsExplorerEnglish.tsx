@@ -1,10 +1,32 @@
 'use client';
 import {useEffect,useMemo,useState} from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {projects,Project,ProjectCategory} from '../../data/projects';
-import {ArrowUpRight,Code2,FolderGit2,GraduationCap,Layers3,ShieldCheck,X,ExternalLink,Terminal,GitBranch,FileText,Sparkles,MapPin,Database,WifiOff} from 'lucide-react';
+import {ArrowUpRight,Code2,FolderGit2,GraduationCap,Layers3,ShieldCheck,X,ExternalLink,Terminal,GitBranch,FileText} from 'lucide-react';
 import './projects.css';
 const filters:{id:'all'|ProjectCategory;label:string}[]=[{id:'all',label:'All projects'},{id:'cyber-defense',label:'Security & cryptography'},{id:'software',label:'Software engineering'},{id:'academic',label:'Academic & collaborative'}];
+const projectCovers:Record<string,string> = {
+  "abdulmalik-erp": "/assets/projects/abdulmalik-erp-cover.svg",
+  "abdulmalik-store-pro": "/assets/projects/abdulmalik-store-pro-cover.svg",
+  "ramzei-erp": "/assets/projects/ramzei-erp-cover.svg",
+  "manar-schedule-system": "/assets/projects/schedule.svg",
+  "waynah": "/assets/projects/waynah.svg",
+  "mghal-digital-os": "/assets/projects/mghal-digital-os-cover.svg",
+  "mghal-content-os": "/assets/projects/content-os.svg",
+  "debwan-live": "/assets/projects/debwan-live-cover.svg",
+  "alnasr-supermarket-erp": "/assets/projects/alnasr-supermarket-erp-cover.svg",
+  "yemen-ai": "/assets/projects/yemen-ai.svg",
+  "academic-os2": "/assets/projects/academic-os2-cover.svg",
+  "ciphersphere": "/assets/projects/ciphersphere.svg",
+  "abdulmalik-store-management": "/assets/projects/abdulmalik-store-management-cover.svg",
+  "academicos": "/assets/projects/academicos-cover.svg",
+  "almanar-schedule-system": "/assets/projects/almanar-schedule-system-cover.svg",
+  "focusflow": "/assets/projects/focusflow.svg",
+  "mghal-digital-automation": "/assets/projects/mghal-digital-automation-cover.svg",
+  "mghal-official-website": "/assets/projects/mghal-official-website.svg",
+  "cryptolab-x": "/assets/projects/cryptolab-x-cover.svg"
+};
 const categoryMeta={
  'cyber-defense':{label:'SECURITY & CRYPTOGRAPHY',name:'Security & cryptography',Icon:ShieldCheck},
  software:{label:'SOFTWARE ENGINEERING',name:'Software engineering',Icon:Code2},
@@ -28,62 +50,24 @@ const copy:Record<string,{name?:string;label:string;summary:string;status:string
 'almanar-schedule-system':{label:'Independent academic scheduling system',summary:'A separate academic scheduling system for Al-Manar College, distinct from Manar Schedule System.',status:'IN DEVELOPMENT · LIVE STATUS UNVERIFIED',contribution:'Independent project; published repository documentation exists, while live operation has not been verified.'},
 'yemen-ai':{label:'Bilingual applied AI platform',summary:'An experimental bilingual knowledge platform exploring AI-assisted conversation, document search, and retrieval-augmented generation.',status:'EXPERIMENTAL · IN VALIDATION',contribution:'Prototype scope; no production-readiness claim is made.'},
 'ciphersphere':{label:'Desktop cryptography learning tool',summary:'An educational desktop application that visualizes applied cryptography concepts and mathematical transformations.',status:'EDUCATIONAL PROTOTYPE',contribution:'Learning-oriented prototype; not a certified security product.'},
-'mghal-official-website':{label:'Professional digital identity hub',summary:'A bilingual professional identity and portfolio hub for M.GH.AL, bringing together profile, projects, credentials, and contact channels.',status:'ACTIVE DEVELOPMENT',contribution:'Personal website project; the current Render deployment is a preview, not the production release.'},
+'mghal-official-website':{label:'Professional digital identity hub',summary:'A bilingual professional identity and portfolio hub for M.GH.AL, bringing together profile, projects, credentials, and contact channels.',status:'ACTIVE DEVELOPMENT',contribution:'Personal website project; the official public site is deployed on Vercel at the established production domain.'},
 'cryptolab-x':{label:'Independent cryptography project',summary:'A separate project, distinct from CipherSphere, confirmed by its owner as completed. No public repository, source files, screenshots, or release artifact were found in the reviewed evidence; technologies and implementation details are not claimed.',status:'COMPLETED · OWNER-CONFIRMED · PUBLIC EVIDENCE UNAVAILABLE',contribution:'Owner-confirmed as an independent project. The public record does not yet establish source code, technology stack, detailed scope, or individual contribution evidence.'},
 };
 export default function ProjectsExplorerEnglish(){
  const publicProjects=projects;
  const [filter,setFilter]=useState<typeof filters[number]['id']>('all'),[selected,setSelected]=useState<Project|null>(null);
  useEffect(()=>{if(!selected)return;const prev=document.body.style.overflow;document.body.style.overflow='hidden';const key=(e:KeyboardEvent)=>{if(e.key==='Escape')setSelected(null)};window.addEventListener('keydown',key);return()=>{document.body.style.overflow=prev;window.removeEventListener('keydown',key)}},[selected]);
- const featured=publicProjects.find(p=>p.slug==='waynah');
- const archive=publicProjects.filter(p=>p.slug!=='waynah');
- const visible=useMemo(()=>archive.filter(p=>filter==='all'||p.category===filter),[filter]);
- const featuredVisible=!!featured&&(filter==='all'||featured.category===filter);
- 
+ const visible=useMemo(()=>publicProjects.filter(p=>filter==='all'||p.category===filter),[filter]);
  const repoCount=publicProjects.filter(p=>p.repository).length,collabCount=publicProjects.filter(p=>p.slug==='manar-schedule-system'||p.slug==='waynah').length;
  const info=(p:Project)=>copy[p.slug]||{label:'Technical project',summary:'A technical project documented according to its available scope and evidence.',status:p.status,contribution:p.contribution};
- const featuredInfo=featured?info(featured):null;
  return <main className="content-page projects-page portfolio-archive" dir="ltr">
   <section className="portfolio-archive-hero"><div className="portfolio-archive-hero-copy"><span className="portfolio-archive-eyebrow"><span/> ENGINEERING PORTFOLIO <i/> PROJECT ARCHIVE</span><h1>Engineering ideas.<br/><em>Building systems.</em></h1><p>A collection of practical work across software engineering, enterprise systems, applied AI, and documented technical experiments—from architecture and implementation to verification.</p><a className="portfolio-archive-explore" href="#project-collection">Explore projects <ArrowUpRight size={16}/></a></div><div className="portfolio-archive-hero-mark" aria-hidden="true"><div className="portfolio-archive-mark-orbit orbit-a"/><div className="portfolio-archive-mark-orbit orbit-b"/><div className="portfolio-archive-mark-core"><Layers3 size={42}/><b>BUILD</b><small>ENGINEERED SYSTEMS</small></div><span className="portfolio-archive-mark-code">PA / 01</span></div><div className="portfolio-archive-hero-foot"><span>DESIGN / ENGINEERING / SYSTEMS</span><span>BUILDING SYSTEMS. ENGINEERING WITH PURPOSE.</span></div></section>
   <section className="portfolio-archive-metrics" aria-label="Project summary"><div><span className="portfolio-archive-metric-icon"><FolderGit2 size={18}/></span><strong>{publicProjects.length.toString().padStart(2,'0')}</strong><small>Projects in archive</small></div><div><span className="portfolio-archive-metric-icon"><Code2 size={18}/></span><strong>{repoCount.toString().padStart(2,'0')}</strong><small>Linked repositories</small></div><div><span className="portfolio-archive-metric-icon"><GraduationCap size={18}/></span><strong>{collabCount.toString().padStart(2,'0')}</strong><small>Collaborative projects</small></div><div><span className="portfolio-archive-metric-icon"><ShieldCheck size={18}/></span><strong>03</strong><small>Core work areas</small></div></section>
-  {featuredVisible&&featured&&featuredInfo&&<section className="portfolio-featured-project">
-   <div className="portfolio-featured-visual">
-    <div className="portfolio-featured-visual-grid"/>
-    <div className="portfolio-featured-orbit featured-orbit-one"/>
-    <div className="portfolio-featured-orbit featured-orbit-two"/>
-    <div className="portfolio-featured-shield"><MapPin size={72} strokeWidth={1}/><span>WAYNAH</span><small>LOCAL DISCOVERY</small></div>
-    <span className="portfolio-featured-visual-index">WY / 01</span>
-    <span className="portfolio-featured-visual-caption">YEMEN · WGS84 · POSTGIS</span>
-   </div>
-   <div className="portfolio-featured-copy">
-    <div className="portfolio-featured-overline"><Sparkles size={14}/> FEATURED ENGINEERING PROJECT <span>01 / 01</span></div>
-    <div className="portfolio-featured-status"><i/>{featuredInfo.status}</div>
-    <h2>{featured.name}</h2>
-    <h3>{featuredInfo.label}</h3>
-    <p>{featuredInfo.summary}</p>
-    <div className="portfolio-featured-tags">{featured.stack.slice(0,4).map(item=><span key={item}>{item}</span>)}</div>
-    <div className="portfolio-featured-footer">
-     <span>PROJECT CONTRIBUTION<br/><b>M.GH.AL / TEAM CONTRIBUTOR</b></span>
-     <button type="button" onClick={()=>setSelected(featured)}>Explore project <ArrowUpRight size={17}/></button>
-    </div>
-   </div>
-  </section>}
-  {featuredVisible&&featured&&<section className="portfolio-waynah-gallery" aria-labelledby="waynah-gallery-title">
-   <div className="portfolio-waynah-gallery-heading">
-    <div><span>WAYNAH / SYSTEM OVERVIEW</span><h2 id="waynah-gallery-title">A look at the engineering concept</h2><p>A high-level view of the product’s focus: spatial data, resilient access under limited connectivity, and trusted local discovery.</p></div>
-    <span className="portfolio-waynah-gallery-index">SYSTEM NOTES / 03</span>
-   </div>
-   <div className="portfolio-waynah-gallery-grid">
-    <article className="portfolio-waynah-visual-card"><div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><MapPin/><b>GEOGRAPHIC DATA</b><small>WGS84 · POSTGIS</small></div></div><div><span>01 / SPATIAL FOUNDATION</span><h3>Spatial foundation</h3><p>Representing places and geographic data through a spatial database.</p></div></article>
-    <article className="portfolio-waynah-visual-card"><div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><WifiOff/><b>OFFLINE-FIRST</b><small>LOW CONNECTIVITY</small></div></div><div><span>02 / RESILIENT EXPERIENCE</span><h3>Resilient user experience</h3><p>Designing access flows that account for weak or intermittent connectivity.</p></div></article>
-    <article className="portfolio-waynah-visual-card"><div className="portfolio-waynah-visual-frame"><div className="waynah-visual-art"><Database/><b>TRUSTED DIRECTORY</b><small>LOCAL DISCOVERY</small></div></div><div><span>03 / LOCAL INFORMATION</span><h3>Trusted local directory</h3><p>Organizing place and service information according to documented evidence.</p></div></article>
-   </div>
-   <Link href="/en/projects/waynah" className="portfolio-waynah-gallery-link">Explore the WAYNAH project profile <ArrowUpRight size={16}/></Link>
-  </section>}
-  <section className="portfolio-archive-collection" id="project-collection"><div className="portfolio-archive-section-heading"><div><span>THE WORK / SELECTED PROJECTS</span><h2>Projects & engineering work</h2><p>Browse by domain, with each project’s nature, current status, and available references clearly identified.</p></div><div className="portfolio-archive-count"><strong>{(visible.length+(featuredVisible?1:0)).toString().padStart(2,'0')}</strong><small>PROJECTS</small></div></div>
-  <div className="portfolio-archive-filters" role="group" aria-label="Filter projects">{filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?publicProjects.length:archive.filter(p=>p.category===f.id).length+(featured&&featured.category===f.id?1:0)}</span></button>)}</div>
-  <div className="portfolio-archive-grid">{visible.map((p,i)=>{const meta=categoryMeta[p.category],Icon=meta.Icon,details=info(p);return <button type="button" className="portfolio-project-card" onClick={()=>setSelected(p)} key={p.slug} aria-haspopup="dialog" aria-label={'View details for '+(info(p).name||p.name)}><div className="portfolio-project-card-top"><span className="portfolio-project-icon"><Icon size={19}/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div><div className="portfolio-project-status"><i/>{details.status}</div><h3>{details.name||p.name}</h3><b className="portfolio-project-label">{details.label}</b><p>{details.summary}</p><div className="portfolio-project-stack">{p.stack.slice(0,4).map(x=><span key={x}>{x}</span>)}</div><div className="portfolio-project-bottom"><span>{p.repository?'REPOSITORY LINKED':'PROJECT PROFILE'}</span><strong>Details <ArrowUpRight size={15}/></strong></div></button>})}</div>
-  {visible.length===0&&<div className="portfolio-archive-empty">No projects currently match this category.</div>}<p className="portfolio-archive-disclaimer">Documentation and development maturity vary by project. Collaborative work is presented as shared work, with individual contributions described only where supported by available information.</p></section>
+  <section className="portfolio-archive-collection" id="project-collection"><div className="portfolio-archive-section-heading"><div><span>THE WORK / SELECTED PROJECTS</span><h2>Projects & engineering work</h2><p>Browse by domain, with each project’s nature, current status, and available references clearly identified.</p></div><div className="portfolio-archive-count"><strong>{visible.length.toString().padStart(2,'0')}</strong><small>PROJECTS</small></div></div>
+  <div className="portfolio-archive-filters" role="group" aria-label="Filter projects">{filters.map(f=><button key={f.id} onClick={()=>setFilter(f.id)} className={filter===f.id?'selected':''} aria-pressed={filter===f.id}>{f.label}<span>{f.id==='all'?publicProjects.length:publicProjects.filter(p=>p.category===f.id).length}</span></button>)}</div>
+  <div className="portfolio-archive-grid">{visible.map((p,i)=>{const meta=categoryMeta[p.category],Icon=meta.Icon,details=info(p);return <button type="button" className="portfolio-project-card" onClick={()=>setSelected(p)} key={p.slug} aria-haspopup="dialog" aria-label={'View details for '+(info(p).name||p.name)}><div className="portfolio-project-cover"><Image src={projectCovers[p.slug]} alt={"Conceptual vector cover for "+p.name+" — not a product screenshot"} fill sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"/></div>
+            <div className="portfolio-project-card-top"><span className="portfolio-project-icon"><Icon size={19}/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div><div className="portfolio-project-status"><i/>{details.status}</div><h3>{details.name||p.name}</h3><b className="portfolio-project-label">{details.label}</b><p>{details.summary}</p><div className="portfolio-project-stack">{p.stack.slice(0,4).map(x=><span key={x}>{x}</span>)}</div><div className="portfolio-project-bottom"><span>{p.repository?'REPOSITORY LINKED':'PROJECT PROFILE'}</span><strong>Details <ArrowUpRight size={15}/></strong></div></button>})}</div>
+  {visible.length===0&&<div className="portfolio-archive-empty">No projects currently match this category.</div>}<p className="portfolio-archive-disclaimer">Documentation and development maturity vary by project. Collaborative work is presented as shared work, with individual contributions described only where supported by available information. The archive order is organizational, not a comparative ranking or a claim that one project is the most important.</p></section>
   <section className="portfolio-archive-closing"><span>BUILDING SYSTEMS. ENGINEERING WITH PURPOSE.</span><p>Each project is a step in an engineering process shaped by design, experimentation, and improvement.</p></section>
   {selected&&<div className="project-modal-backdrop" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setSelected(null)}}><section className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" dir="ltr"><header className="project-modal-header"><div className="project-modal-brand"><span className="project-modal-brand-icon"><Layers3 size={21}/></span><span><small>M.GH.AL / PROJECT PROFILE</small><b>Engineering project profile</b></span></div><button type="button" className="project-modal-close" onClick={()=>setSelected(null)} aria-label="Close dialog"><X size={19}/></button></header><div className="project-modal-content"><div className="project-modal-hero"><div className="project-modal-symbol"><ShieldCheck size={37} strokeWidth={1.3}/><span>ENGINEERED<br/>PROJECT</span></div><div className="project-modal-heading"><span className="project-modal-category">{categoryMeta[selected.category].label}</span><div className="project-modal-status"><i/>{info(selected).status}</div><h2 id="project-modal-title">{info(selected).name||selected.name}</h2><h3>{info(selected).label}</h3></div></div><section className="project-modal-section"><div className="project-modal-section-title"><FileText size={16}/><h4>Project overview</h4><span>01 / OVERVIEW</span></div><p className="project-modal-description">{info(selected).summary}</p></section><div className="project-modal-detail-grid"><section className="project-modal-section project-modal-contribution"><div className="project-modal-section-title"><Terminal size={16}/><h4>Contribution & engineering role</h4><span>02 / ROLE</span></div><p>{info(selected).contribution}</p></section><section className="project-modal-section"><div className="project-modal-section-title"><Code2 size={16}/><h4>Technologies & components</h4><span>03 / STACK</span></div><div className="project-modal-tech">{selected.stack.map(item=><span key={item}>{item}</span>)}</div></section></div><footer className="project-modal-footer"><span className="project-modal-reference"><GitBranch size={14}/> PROJECT REF / {selected.slug.toUpperCase()}</span><div className="project-modal-actions">{selected.repository&&<a href={selected.repository} target="_blank" rel="noreferrer"><FolderGit2 size={15}/> Source repository <ExternalLink size={13}/></a>}<Link href={'/en/projects/'+selected.slug}>Project page <ArrowUpRight size={15}/></Link><button type="button" className="project-modal-done" onClick={()=>setSelected(null)}>Close profile</button></div></footer></div></section></div>}
  </main>;
