@@ -20,7 +20,7 @@ Purpose: evidence-based inventory for the public-page image redesign. This docum
 | Home hero | `app/page.tsx` loads `/assets/images/mghal-profile-primary.jpg` with Next Image, `priority`, and responsive `sizes`. | Current hero portrait. Preserve its existing URL and Person/OG identity role pending SEO review. |
 | About metadata/profile | `app/about/page.tsx` retains `/assets/images/mghal-profile-primary.jpg` for localized social metadata. Visible Arabic and English About surfaces now use `/profile-gallery/mghal-photo-2026-07-22.jpg`. | Visible portrait is now distinct from Home; metadata/OG identity image remains stable. |
 | Photos | `app/photos/page.tsx` has a 12-item manifest under `/profile-gallery/`, with separate Arabic and English alt text and ImageGallery JSON-LD. | Preserve all 12 URLs, ordering, alt text, metadata and JSON-LD until a separate gallery/SEO review. |
-| Project listing | `public/projects.html` references project SVG covers and `project-placeholder.svg`. | Several projects currently share a generic placeholder. Replace only with project-specific, evidence-backed screenshots/diagrams after reviewing each project. |
+| Project listing | The Next.js Arabic and English project archives map one local SVG cover to each of the 19 registered projects. Legacy static HTML pages remain separate route owners. | The archive covers are conceptual illustrations, not product screenshots. Verify legacy detail-page imagery independently; do not assume the new archive map is used by every legacy detail page. |
 | Credentials | `app/credentials/page.tsx` and `public/assets/certificates/` contain issuer/certificate imagery. | Treat as documentary evidence. Do not replace official certificate artwork with generated graphics. Credential count conflict remains open (repository says 14 Cisco / 26 total; latest approved inventory snapshot says 11 Cisco). |
 | Research / Labs / Skills | Current page components primarily use CSS/vector iconography and editorial layout rather than a complete set of dedicated image assets. | Prefer purpose-built SVG diagrams and CSS visuals. Avoid generic stock photography. |
 | Contact | No dedicated page-specific image asset was confirmed in the audited source files. | A restrained abstract communication/network illustration can be added as a decorative asset; it must not depict a real person or event. |
@@ -51,7 +51,7 @@ Note: the Photos page manifest has 12 items. The table above includes the curren
 
 ## Existing project artwork
 
-The following public SVGs are present. Their SVG format and filename indicate project-cover intent; visual content should still be inspected before final assignment.
+The following public SVGs are present. The current Next.js project archive maps the listed project cover assets to individual records; conceptual covers are not evidence of a working product.
 
 | Asset | Intended project family | Finding |
 | --- | --- | --- |
@@ -136,3 +136,11 @@ This is a repository hygiene opportunity, not authorization to delete. Before de
 - A stale Render URL for M.GH.AL Digital OS was replaced with its source repository link. No Render service or deployment is used.
 - Regression checks now require 19 cover assets, per-project rendering in both locales, neutral archive ordering, and no Render URL in the public project registry.
 - No project source ownership, completion status, or production-readiness claims were changed.
+
+## Preview verification addendum — 2026-11-22
+
+- The deployed Preview for commit `1268300438250c63092439f67741218ba505c877` returned HTTP 200 for Arabic and English project archives. Each archive rendered 19 image elements, one for each registered project record.
+- The browser screenshot of the desktop `/projects` route confirms the hero and archive cards render in the browser. It does not establish mobile layout acceptance or verify every image's network load individually.
+- `/projects/waynah` and `/en/projects/waynah` are legacy static detail pages with their own page-specific cover and gallery. Their HTTP response and metadata were checked, but their visual layout was not browser-screenshot reviewed in this pass.
+- The Preview response headers include `x-robots-tag: noindex`, which is expected for a preview environment. Canonical tags in the rendered archive continue to reference the official production domain.
+- The Preview's community widget displayed `Visitor session unavailable`; this is an unresolved preview/runtime observation and must not be conflated with a verified production failure.
