@@ -35,6 +35,7 @@ The migration `0006_google_follower_identity.sql` is an additive, idempotent Pos
 - `0006_google_follower_identity.sql` is the PostgreSQL-specific identity-linking migration.
 - `0007_rate_limit_retention.sql` adds a partial expiry index for rate-limit buckets.
 - `0008_contact_messages.sql` creates the persistent contact inbox, status tracking, consent timestamp, and bounded indexes. It is additive and preserves all existing records.
+- `0009_contact_inbox_permissions.sql` adds dedicated read/manage permissions for private contact messages and grants them only to the owner role.
 - Historical migration IDs are retained for traceability. The legacy name `0004_d1_media_storage` is only a historical ledger identifier; it does not represent an active D1 resource, connection, storage provider, or runtime dependency.
 - Never drop or truncate tables.
 - Never replay the baseline schema against Production as a migration shortcut.

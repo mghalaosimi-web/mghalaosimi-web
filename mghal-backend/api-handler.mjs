@@ -372,7 +372,7 @@ export default {
    return out({success:true,id,message:locale==="ar"?"تم استلام رسالتك بنجاح.":"Your message has been received."},201);
   }
   if(admin&&path==="/api/admin/contact-messages"&&method==="GET"){
-   if(!(await can("content.read")))return fail(403,"FORBIDDEN","Missing content.read permission");
+   if(!(await can("contact_messages.read")))return fail(403,"FORBIDDEN","Missing contact inbox permission");
    const status=url.searchParams.get("status"),allowed=["new","read","replied","archived"];
    if(status&&!allowed.includes(status))return fail(400,"VALIDATION_ERROR","Invalid message status");
    const rows=status?await q("SELECT id,sender_name,sender_email,subject,message,locale,status,consent_at,admin_note,created_at,updated_at FROM contact_messages WHERE status=? ORDER BY created_at DESC LIMIT 200",status).all():await q("SELECT id,sender_name,sender_email,subject,message,locale,status,consent_at,admin_note,created_at,updated_at FROM contact_messages ORDER BY created_at DESC LIMIT 200").all();
@@ -380,7 +380,7 @@ export default {
    return out({data:rows.results,total:rows.results.length,unread:Number(unread?.n||0)});
   }
   if(admin&&path.startsWith("/api/admin/contact-messages/")&&method==="PATCH"){
-   if(!(await can("content.write")))return fail(403,"FORBIDDEN","Missing content.write permission");
+   if(!(await can("contact_messages.manage")))return fail(403,"FORBIDDEN","Missing contact inbox management permission");
    const id=path.split("/").pop(),b=await json();
    if(!id||!b||Object.keys(b).some(key=>!["status","admin_note"].includes(key))||(!["new","read","replied","archived"].includes(b.status)&&b.status!==undefined)||(b.admin_note!==undefined&&(typeof b.admin_note!=="string"||b.admin_note.length>2000)))return fail(400,"VALIDATION_ERROR","Invalid message update");
    const before=await q("SELECT id,status,admin_note FROM contact_messages WHERE id=?",id).first();
