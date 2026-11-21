@@ -124,3 +124,15 @@ This is a repository hygiene opportunity, not authorization to delete. Before de
 - No image binaries were uploaded, generated, renamed, compressed, or deleted. No URL, canonical, hreflang, sitemap, structured data, database, or production setting was changed.
 - Production deployment and Neon operations were not performed.
 - Build and browser checks were performed in an isolated temporary workspace; CI status on the GitHub branch is tracked separately.
+
+
+## Project cover implementation — 2026-11-22
+
+- The public Next.js project archive now assigns one distinct local SVG cover to each of the 19 registered project records.
+- Twelve new editorial vector covers were added for project records that previously had no dedicated cover, including AL-NASR and CryptoLab-X. The second Al-Manar scheduling repository now has its own cover rather than reusing the Manar Schedule System artwork.
+- Every new SVG explicitly labels itself as a conceptual vector cover and not a product screenshot. The illustrations use the shared M.GH.AL navy/blue/gold visual language and do not claim to depict a running product.
+- Arabic and English project cards render the mapped cover with responsive Next/Image sizing and accurate alt text.
+- The project archive no longer gives WAYNAH an exclusive lead-project feature. All registered projects appear in the same filtered archive; display order is explicitly described as organizational, not a ranking.
+- A stale Render URL for M.GH.AL Digital OS was replaced with its source repository link. No Render service or deployment is used.
+- Regression checks now require 19 cover assets, per-project rendering in both locales, neutral archive ordering, and no Render URL in the public project registry.
+- No project source ownership, completion status, or production-readiness claims were changed.
