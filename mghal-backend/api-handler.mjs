@@ -363,12 +363,12 @@ export default {
    const name=typeof b.name==="string"?b.name.trim():"",email=typeof b.email==="string"?b.email.trim().toLowerCase():"",subject=typeof b.subject==="string"?b.subject.trim():"",message=typeof b.message==="string"?b.message.trim():"",locale=b.locale==="en"?"en":"ar";
    if(typeof b.website==="string"&&b.website.trim())return out({success:true},201);
    if(name.length<2||name.length>80||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>160||subject.length<3||subject.length>120||message.length<10||message.length>4000||b.consent!==true||!["ar","en"].includes(b.locale))return fail(400,"VALIDATION_ERROR","Please provide valid contact details and consent");
-   const now=Date.now(),window=Math.floor(now/600000),ip=request.headers.get("X-Client-IP")||"unknown",ipHash=await hash(ip),rateKey="rl:contact:"+ipHash+":"+window;
+   const now=Date.now(),window=Math.floor(now/600000),ip=request.headers.get("X-Client-IP")||"unknown",rateKey="rl:contact:"+await hash(ip)+":"+window;
    await q("INSERT INTO site_settings(key,value_json,updated_at) VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value_json=CAST(CAST(site_settings.value_json AS INTEGER)+1 AS TEXT),updated_at=excluded.updated_at",rateKey,"1",new Date(now).toISOString()).run();
    const attempts=await q("SELECT value_json FROM site_settings WHERE key=?",rateKey).first();
    if(Number(attempts?.value_json||0)>3)return fail(429,"CONTACT_RATE_LIMITED","Too many messages. Please try again later.");
    const id=crypto.randomUUID(),createdAt=new Date().toISOString();
-   await q("INSERT INTO contact_messages(id,sender_name,sender_email,subject,message,locale,status,consent_at,ip_hash,user_agent,created_at,updated_at) VALUES(?,?,?,?,?,?, 'new',?,?,?,?,?)",id,name,email,subject,message,locale,createdAt,ipHash,(request.headers.get("User-Agent")||"").slice(0,500),createdAt,createdAt).run();
+   await q("INSERT INTO contact_messages(id,sender_name,sender_email,subject,message,locale,status,consent_at,created_at,updated_at) VALUES(?,?,?,?,?,?, 'new',?,?,?)",id,name,email,subject,message,locale,createdAt,createdAt,createdAt).run();
    return out({success:true,id,message:locale==="ar"?"تم استلام رسالتك بنجاح.":"Your message has been received."},201);
   }
   if(admin&&path==="/api/admin/contact-messages"&&method==="GET"){
