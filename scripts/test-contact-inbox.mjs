@@ -21,9 +21,12 @@ assert.ok(admin.includes('/api/admin/contact-messages'),'admin inbox client rout
 assert.ok(page.includes('.contact-consent'),'consent UI styles missing');
 console.log('Contact inbox static checks passed.');
 
-const expectedChecksum=migration.match(/existing_checksum IS NOT NULL\\s+AND existing_checksum <> '([^']+)'/);
-const insertedChecksum=migration.match(/VALUES \\('0008_contact_messages', '([^']+)'\\)/);
+const expectedChecksum=migration.match(/existing_checksum IS NOT NULL\s+AND existing_checksum <> '([^']+)'/);
+const insertedChecksum=migration.match(/VALUES \('0008_contact_messages', '([^']+)'\)/);
 assert.ok(expectedChecksum && insertedChecksum && expectedChecksum[1]===insertedChecksum[1],'contact migration checksum must match on insert and re-run');
 assert.ok(api.includes('canAccessContactInbox') && api.includes("r.name='owner'"),'contact inbox must be restricted to the owner role');
 assert.ok(admin.includes('mailtoAddress') && admin.includes("replace(/%40/gi,'@')"),'reply email links must preserve the mailbox separator');
 assert.ok(arPage.includes("String(index+1).padStart(2,'0')") && enPage.includes("String(index+1).padStart(2,'0')"),'channel numbering must stay two digits in both locales');
+
+assert.ok(api.includes('if(!(await canAccessContactInbox()))return fail(403,"FORBIDDEN","Only the platform owner can read contact messages");'),"contact inbox reads must enforce owner-only access");
+assert.ok(api.includes('if(!(await canAccessContactInbox()))return fail(403,"FORBIDDEN","Only the platform owner can manage contact messages");'),"contact inbox updates must enforce owner-only access");
