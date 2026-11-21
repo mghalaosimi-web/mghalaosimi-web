@@ -35,7 +35,7 @@ BEGIN
 
   IF existing_checksum IS NULL THEN
     INSERT INTO _mghal_migrations(id, checksum)
-    VALUES ('0008_contact_messages', 'postgres-contact-messages-v1-2026-11-21');
+    VALUES ('0008_contact_messages', 'postgres-contact-messages-v2-2026-11-21');
   END IF;
 END
 $migration$;
