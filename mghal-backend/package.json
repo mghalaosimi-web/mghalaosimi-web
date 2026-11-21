@@ -6,7 +6,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "eslint src tests --max-warnings=0 && npm run lint:frontend",
-    "test": "vitest run",
+    "test": "vitest run && node --test node/tests/contact-api.node-test.mjs",
     "build": "node --check api-handler.mjs && node --check node/server.mjs && node --check node/postgres-adapter.mjs",
     "check": "npm run typecheck && npm run lint && npm test && npm run build && npm run check:production",
     "check:production": "node --check api-handler.mjs && node --check ../lib/mghal-api-runtime.mjs && node --check ../public/assets/social-engagement.js && node --check ../public/assets/visitor-tracking.js",

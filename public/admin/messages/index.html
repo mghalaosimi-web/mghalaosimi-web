@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive"><meta name="theme-color" content="#172b4d">
+<title>رسائل التواصل | M.GH.AL</title>
+<link rel="icon" href="/favicon.svg"><link rel="stylesheet" href="/assets/design-tokens.css"><link rel="stylesheet" href="/assets/admin.css">
+<style>
+.inbox-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.inbox-toolbar select{padding:10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink)}.inbox-list{display:grid;gap:12px}.inbox-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}.inbox-card.is-new{border-inline-start:4px solid var(--gold)}.inbox-card-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.inbox-card h2{font-size:16px;color:var(--navy);margin:0 0 7px}.inbox-meta{display:flex;flex-wrap:wrap;gap:8px 14px;color:var(--muted);font-size:11px}.inbox-message{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.9;font-size:13px;color:var(--ink);padding:12px 0}.inbox-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:12px}.inbox-actions select,.inbox-actions input{border:1px solid var(--line);border-radius:8px;padding:9px 10px;background:#fff;min-width:130px}.inbox-actions input{flex:1;min-width:180px}.inbox-actions a{font-size:12px;color:var(--blue);text-decoration:none}.inbox-count{font-size:12px;color:var(--muted)}.inbox-empty{padding:38px 20px;text-align:center;background:#fff;border:1px dashed var(--line);border-radius:12px;color:var(--muted)}@media(max-width:600px){.inbox-card-head{display:block}.inbox-card-head .badge{display:inline-flex;margin-top:10px}.inbox-actions{align-items:stretch}.inbox-actions>*{width:100%}}
+</style>
+</head>
+<body>
+<div class="admin-shell">
+<aside class="sidebar"><a class="brand" href="/admin/">M.GH.AL <small>CONTROL CENTER</small></a><div class="side-label">مساحة الإدارة</div><nav aria-label="التنقل الإداري"><a class="nav-item" href="/admin/">لوحة الإدارة</a><a class="nav-item active" href="/admin/messages/">رسائل التواصل</a></nav><div class="sidebar-foot"><span class="status-dot"></span> صندوق التواصل <strong>Neon PostgreSQL</strong></div></aside>
+<main class="main"><header class="topbar"><div><span class="eyebrow">M.GH.AL / CONTACT INBOX</span><h1>رسائل التواصل</h1></div><div class="top-actions"><a href="/admin/">العودة إلى لوحة الإدارة</a><button id="logout" class="btn btn-light">تسجيل الخروج</button></div></header>
+<section class="content"><div class="panel"><div class="panel-head"><h2>صندوق الوارد</h2><div class="inbox-toolbar"><span id="unread" class="inbox-count">—</span><select id="filter" aria-label="تصفية الرسائل"><option value="">كل الرسائل</option><option value="new">جديدة</option><option value="read">مقروءة</option><option value="replied">تم الرد</option><option value="archived">مؤرشفة</option></select><button id="refresh" class="btn btn-primary">تحديث</button></div></div><div id="status" class="api-state" role="status" aria-live="polite"></div><div id="messages" class="inbox-list"><div class="inbox-empty">جارٍ تحميل الرسائل…</div></div></div></section>
+</main></div>
+<script src="/assets/admin-messages.js" defer></script>
+</body></html>

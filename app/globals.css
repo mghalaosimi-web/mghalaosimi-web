@@ -303,7 +303,7 @@ button.selected,.filter-tabs button.selected{border-color:var(--brass-light);bac
 .form-success,.form-error,.contact-auth-status{padding:11px 13px;border-radius:7px;font-size:11px}
 .form-success{border:1px solid rgba(112,174,139,.3);background:rgba(64,124,91,.1);color:#a8d2b6}
 .form-error{border:1px solid rgba(190,113,91,.3);background:rgba(151,72,53,.1);color:#e2a995}
-.form-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.form-honeypot{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
 /* AEGIS family — classic brass replaces neon emphasis */
 .aegis-shell{padding-top:34px}
 .aegis-hero,.aegis-doc{color:var(--ivory)}

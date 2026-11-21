@@ -357,6 +357,39 @@ export default {
   if(admin&&path.startsWith("/api/admin/followers/")&&method==="PATCH"){
    if(!(await can("followers.manage")))return fail(403,"FORBIDDEN","Missing followers.manage permission");const id=path.split("/").pop(),b=await json();if(!["active","unsubscribed","blocked"].includes(b?.status))return fail(400,"VALIDATION_ERROR","Invalid follower status");const row=await q("UPDATE followers SET status=?,unsubscribed_at=CASE WHEN ?='unsubscribed' THEN ? ELSE unsubscribed_at END WHERE id=? RETURNING id,status",b.status,b.status,new Date().toISOString(),id).first();return row?out(row):fail(404,"NOT_FOUND","Follower not found");
   }
+  if(path==="/api/public/contact-messages"&&method==="POST"){
+   const b=await json();
+   if(!b||Object.keys(b).some(key=>!["name","email","subject","message","locale","website","consent"].includes(key)))return fail(400,"VALIDATION_ERROR","Invalid contact message payload");
+   const name=typeof b.name==="string"?b.name.trim():"",email=typeof b.email==="string"?b.email.trim().toLowerCase():"",subject=typeof b.subject==="string"?b.subject.trim():"",message=typeof b.message==="string"?b.message.trim():"",locale=b.locale==="en"?"en":"ar";
+   if(typeof b.website==="string"&&b.website.trim())return out({success:true},201);
+   if(name.length<2||name.length>80||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>160||subject.length<3||subject.length>120||message.length<10||message.length>4000||b.consent!==true||!["ar","en"].includes(b.locale))return fail(400,"VALIDATION_ERROR","Please provide valid contact details and consent");
+   const now=Date.now(),window=Math.floor(now/600000),ip=request.headers.get("X-Client-IP")||"unknown",rateKey="rl:contact:"+await hash(ip)+":"+window;
+   await q("INSERT INTO site_settings(key,value_json,updated_at) VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET value_json=CAST(CAST(site_settings.value_json AS INTEGER)+1 AS TEXT),updated_at=excluded.updated_at",rateKey,"1",new Date(now).toISOString()).run();
+   const attempts=await q("SELECT value_json FROM site_settings WHERE key=?",rateKey).first();
+   if(Number(attempts?.value_json||0)>3)return fail(429,"CONTACT_RATE_LIMITED","Too many messages. Please try again later.");
+   const id=crypto.randomUUID(),createdAt=new Date().toISOString();
+   await q("INSERT INTO contact_messages(id,sender_name,sender_email,subject,message,locale,status,consent_at,created_at,updated_at) VALUES(?,?,?,?,?,?, 'new',?,?,?)",id,name,email,subject,message,locale,createdAt,createdAt,createdAt).run();
+   return out({success:true,id,message:locale==="ar"?"تم استلام رسالتك بنجاح.":"Your message has been received."},201);
+  }
+  if(admin&&path==="/api/admin/contact-messages"&&method==="GET"){
+   if(!(await can("content.read"))&&!(await can("comments.read")))return fail(403,"FORBIDDEN","Missing contact inbox permission");
+   const status=url.searchParams.get("status"),allowed=["new","read","replied","archived"];
+   if(status&&!allowed.includes(status))return fail(400,"VALIDATION_ERROR","Invalid message status");
+   const rows=status?await q("SELECT id,sender_name,sender_email,subject,message,locale,status,consent_at,admin_note,created_at,updated_at FROM contact_messages WHERE status=? ORDER BY created_at DESC LIMIT 200",status).all():await q("SELECT id,sender_name,sender_email,subject,message,locale,status,consent_at,admin_note,created_at,updated_at FROM contact_messages ORDER BY created_at DESC LIMIT 200").all();
+   const unread=await q("SELECT COUNT(*) n FROM contact_messages WHERE status='new'").first();
+   return out({data:rows.results,total:rows.results.length,unread:Number(unread?.n||0)});
+  }
+  if(admin&&path.startsWith("/api/admin/contact-messages/")&&method==="PATCH"){
+   if(!(await can("content.write")))return fail(403,"FORBIDDEN","Missing content.write permission");
+   const id=path.split("/").pop(),b=await json();
+   if(!id||!b||Object.keys(b).some(key=>!["status","admin_note"].includes(key))||(!["new","read","replied","archived"].includes(b.status)&&b.status!==undefined)||(b.admin_note!==undefined&&(typeof b.admin_note!=="string"||b.admin_note.length>2000)))return fail(400,"VALIDATION_ERROR","Invalid message update");
+   const before=await q("SELECT id,status,admin_note FROM contact_messages WHERE id=?",id).first();
+   if(!before)return fail(404,"NOT_FOUND","Contact message not found");
+   const status=b.status??before.status,note=b.admin_note??before.admin_note,now=new Date().toISOString();
+   const row=await q("UPDATE contact_messages SET status=?,admin_note=?,updated_at=? WHERE id=? RETURNING id,status,admin_note,updated_at",status,note,now,id).first();
+   await q("INSERT INTO audit_logs(id,actor_user_id,action,resource_type,resource_id,before_json,after_json) VALUES(?,?,?,?,?,?,?)",crypto.randomUUID(),current.id,"update","contact_messages",id,JSON.stringify(before),JSON.stringify(row)).run();
+   return out(row);
+  }
   if(admin&&path==="/api/admin/comments"&&method==="GET"){if(!(await can("comments.read"))&&!(await can("content.read")))return fail(403,"FORBIDDEN","Missing comments.read permission");const rows=await q("SELECT c.id,c.article_id,c.follower_id,c.body,c.status,c.created_at,a.title article_title FROM comments c JOIN articles a ON a.id=c.article_id ORDER BY c.created_at DESC LIMIT 100").all();return out({data:rows.results});}
   if(admin&&path.startsWith("/api/admin/comments/")&&method==="PATCH"){if(!(await can("comments.moderate")))return fail(403,"FORBIDDEN","Missing comments.moderate permission");const id=path.split("/").pop(),b=await json();if(!["approved","rejected","spam"].includes(b?.status))return fail(400,"VALIDATION_ERROR","Invalid moderation status");const r=await q("UPDATE comments SET status=? WHERE id=? AND status='pending' RETURNING id,status",b.status,id).first();return r?out(r):fail(404,"NOT_FOUND","Pending comment not found");}
   if(admin&&path==="/api/admin/analytics"&&method==="GET"){if(!(await can("analytics.read")))return fail(403,"FORBIDDEN","Missing analytics.read permission");const days=Math.max(1,Math.min(90,Number(url.searchParams.get("days")||30)));const rows=await q("SELECT CAST(CAST(created_at AS TIMESTAMPTZ) AS DATE) AS event_day,event_type,COUNT(*) count,COUNT(DISTINCT session_hash) visitors FROM analytics_events WHERE created_at>=? GROUP BY CAST(CAST(created_at AS TIMESTAMPTZ) AS DATE),event_type ORDER BY event_day DESC",new Date(Date.now()-days*86400000).toISOString()).all();return out({days,data:rows.results});}

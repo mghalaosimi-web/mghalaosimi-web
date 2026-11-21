@@ -33,7 +33,8 @@ The migration `0006_google_follower_identity.sql` is an additive, idempotent Pos
 
 - `0001_initial.sql` is the PostgreSQL baseline schema for a clean isolated test database.
 - `0006_google_follower_identity.sql` is the PostgreSQL-specific identity-linking migration.
-- `0007_rate_limit_retention.sql` adds a partial expiry index for rate-limit buckets. It is additive; do not apply it to Production without the normal migration approval gate.
+- `0007_rate_limit_retention.sql` adds a partial expiry index for rate-limit buckets.
+- `0008_contact_messages.sql` creates the persistent contact inbox, status tracking, consent timestamp, and bounded indexes. It is additive and preserves all existing records.
 - Historical migration IDs are retained for traceability. The legacy name `0004_d1_media_storage` is only a historical ledger identifier; it does not represent an active D1 resource, connection, storage provider, or runtime dependency.
 - Never drop or truncate tables.
 - Never replay the baseline schema against Production as a migration shortcut.
