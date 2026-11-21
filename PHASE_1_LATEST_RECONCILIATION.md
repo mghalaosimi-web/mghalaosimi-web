@@ -342,3 +342,87 @@ Fresh read-only HTTP checks against `https://mghalaosimi-web.vercel.app` returne
 - The portfolio's source project catalog contains 10 projects and omits the AL-NASR supermarket ERP repository. This branch adds AL-NASR as a foundation-evaluation project and explicitly labels it `not production-ready`; it does not claim a completed deployment.
 - A public repository named `CryptoLab-X` was not found in the M.GH.AL GitHub organization. It remains a separate unresolved portfolio item; do not merge it conceptually with CipherSphere or publish a guessed repository link.
 - The CMS/static-page content mismatch remains open. Any Production certificate CMS synchronization, including mapping the three Cisco placeholders and inserting the five EMC records, still requires explicit approval. No Production content writes were made in this audit.
+
+
+---
+
+## Authoritative reconciliation — 2026-11-21 (supersedes all earlier provider, migration, deployment, and indexing snapshots)
+
+**This section is the current source of truth as of 2026-11-21.** Earlier sections are retained for audit history; where they conflict with this section, this section takes precedence.
+
+### GitHub integration and release commit
+
+- Repository: `mghalaosimi-web/mghalaosimi-web`.
+- PRs **#58, #59, #60, and #61 are merged** into `main`. Their merge commits are respectively:
+  - #58: `e3c3a62ff7b38bcb715051b3c26b5e66dc071246`
+  - #59: `1f85b41dd250d195eb9b067202eea55d1232dc23`
+  - #60: `d12c251b1ae8a5f43eaefe2c74dc761abdd8c73c`
+  - #61: `27e8d259d6b3fbe679b02b42a87de3aba89440b8`
+- Latest `main` commit verified: `27e8d259d6b3fbe679b02b42a87de3aba89440b8`.
+- GitHub/Vercel status checks for the latest commit ultimately passed for `mghalaosimi-web`, `mghal-next-validation`, and `mghal`.
+- Seventeen older PRs remain open: #47, #41, #31, #26, #22, #21, #16, #15, #14, #13, #12, #11, #10, #9, #8, #5, and #4. They have **not** been bulk-merged or closed. PR #41 is divergent (147 commits ahead / 63 behind) and is not safe to merge directly; PR #22 is also substantially behind; #31 is superseded by #33. Preserve unique historical work pending individual file-level review.
+
+### Neon Production — migrations and data integrity
+
+- Production Neon project: `billowing-snow-49569906`; branch `br-morning-cherry-b9l25msz`; database `mghal_portfolio`.
+- A ready snapshot branch was created before migration execution: `phase1-pre-migration-backup-2026-11-21` (`br-summer-bonus-b9t0zzby`).
+- Migrations **0006_google_follower_identity** and **0007_rate_limit_retention** were successfully applied to Production in one transaction. The migration ledger was checked afterward and contains both entries; the rate-limit expiry index is present.
+- The failed initial attempt to execute multiple statements as one prepared statement did not apply changes. The subsequent transaction succeeded and was verified.
+- Runtime role permissions were checked. No user content or follower records were deleted by these migrations.
+- Current verified record counts: 1 admin user; 737 follower records (97 active: 6 active with consent and 91 active guest/no-consent; 487 unsubscribed; 153 unverified); 21 projects; 21 certificates; 21 skills; 1 education record.
+- Public follower aggregate endpoint reports 6 consented and 91 guest active followers, matching the 97 active records.
+- Expired rate-limit keys were cleaned by the deployed retention logic. The latest check found zero expired keys. This cleanup concerns expired rate-limit records only, not user content.
+- Owner bootstrap already exists (`ownerExists=true`; bootstrap unavailable). Unauthenticated `GET /api/admin/dashboard` correctly returns HTTP 401.
+- Google OAuth remains **disabled**: `GET /api/public/auth/google/config` reports `enabled=false`. Do not claim Google sign-in/account linking is active.
+
+### Vercel Production — current deployment
+
+- Canonical project: `mghalaosimi-web`, project ID `prj_ZVjgkEPALtFwhTvdFJ5kseEz5e7s`.
+- Sole official hostname: `https://mghalaosimi-web.vercel.app`.
+- Latest verified Production deployment: `dpl_dowS3iZknPq9bgKbdhx72GEZxHeJ`, state **READY**, serving commit `27e8d259d6b3fbe679b02b42a87de3aba89440b8`.
+- Production `DATABASE_URL` is configured as an encrypted environment variable; its value was not read or disclosed. `MGHAL_API_BASE` is Development-only, not a Production runtime dependency.
+- Two auxiliary Vercel projects (`mghal` and `mghal-next-validation`) remain and generate additional builds. They have no custom domains; do not delete them without reviewing their purpose and authorization.
+- The final build completed successfully, including Next.js build and 13/13 static pages. Non-blocking build notices include an unknown npm `cache-dir` environment setting and an Edge-runtime page that cannot be statically generated.
+- Final deployment runtime-log inspection found no new errors or warnings. A historical SSL warning in an older deployment's aggregate logs is not evidence of a current final-deployment failure.
+
+### Live Production smoke tests
+
+Read-only GET checks against the official hostname returned HTTP 200 for:
+- `/api/health`, `/api/ready`
+- `/api/public/projects`, `/api/public/skills`, `/api/public/certificates`, `/api/public/education`
+- `/api/public/followers/count`
+- `/contact`, `/photos`, `/en/photos`
+- `/robots.txt`, `/sitemap.xml`
+- `/api/admin/bootstrap/status` (owner exists; bootstrap unavailable)
+
+Unauthenticated `/api/admin/dashboard` returned HTTP 401 as expected. The Next.js image optimizer returned HTTP 200 with WebP content for a profile-gallery image. These are HTTP/readiness smoke tests; they do not replace interactive browser/mobile, authenticated-admin, or controlled write-flow QA. No production test users or content were created by these GET checks.
+
+### Search Console and image indexing — current Google state
+
+- Search Console property: `https://mghalaosimi-web.vercel.app/`.
+- Sitemap last downloaded 2026-11-20; Google reports **0 errors and 0 warnings**. Sitemap contains 68 page URLs and 25 image locations.
+- Latest URL inspections for both `/photos` and `/en/photos` report **“Discovered - currently not indexed.”** The pages are live and present in the sitemap; Google has discovered them but has not indexed them as of the latest inspection.
+- Do not describe either photos page as indexed. The sitemap API's `indexed=0` field is not a reliable indexed-page count and must not be interpreted as proof that the whole property has zero indexed pages.
+- Image-search performance for 2026-10-20 through 2026-11-18: 3 clicks and 13 impressions overall; those rows did not establish image-search visibility for the `/photos` page.
+- The connected Search Console actions do not provide a request-indexing operation. The site owner must open URL Inspection in Search Console and manually select **Request indexing** for each relevant URL, then monitor subsequent crawl/indexing results. Request indexing is not a guarantee of inclusion.
+
+### Render retirement and architecture boundary
+
+- Fifteen M.GH.AL portfolio-related Render services remain present, active, and configured for auto-deploy. They are legacy/preview services, not the current official Production request path.
+- The connected Render integration does not expose a supported service suspend/delete operation. No service was suspended or deleted.
+- Do not touch the separate `mghal-digital-os`, Debwan, Alnasr, Manar, or scheduling-system resources.
+- Retire the 15 M.GH.AL services manually only after checking external consumers, DNS/links, rollback requirements, and confirming the Vercel + Neon production path remains healthy.
+- Cloudflare D1 remains deleted by explicit project direction. **Do not recreate D1 or restore its data.** The intended architecture is Vercel hosting + Neon PostgreSQL.
+
+### Remaining Phase 1 closure gates
+
+1. Complete interactive browser and mobile QA across Arabic RTL and English LTR routes, navigation, forms, image loading, responsive layouts, accessibility, and keyboard behavior. HTTP 200 checks alone do not close this gate.
+2. Verify authenticated owner login/session lifecycle, admin RBAC, protected reads, and approved write operations in a controlled manner without exposing credentials.
+3. Exercise follower, identity, reaction, and comment write flows using controlled test identities and a documented cleanup plan. Google OAuth remains disabled until credentials and the full callback flow are deliberately configured and tested.
+4. Submit manual Google Search Console indexing requests for `/photos` and `/en/photos`, then monitor indexing; this is an external Google process and cannot be guaranteed by deployment.
+5. Review and retire the 15 M.GH.AL Render services through an authorized dashboard workflow after dependency/rollback checks. Do not affect excluded projects.
+6. Classify the 17 remaining open PRs and related branches one by one; preserve unique work and close only when superseded or safely archived. Do not merge divergent PRs wholesale.
+7. Review the two auxiliary Vercel projects and decide whether to retain or retire them; no deletion has been authorized.
+8. Publish a final Phase 1 closure decision only after the above gates are either passed with evidence or explicitly accepted as documented exceptions.
+
+**Phase status: OPEN — not closed.** The production application, database migrations, latest deployment, and read-only smoke checks are verified. Interactive security/functional QA, external indexing follow-up, and infrastructure/backlog retirement remain outstanding. Do not start Main Phase 2 until Phase 1 is explicitly closed.
