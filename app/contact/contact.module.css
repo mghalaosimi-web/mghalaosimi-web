@@ -58,3 +58,51 @@
 @media(prefers-reduced-motion:reduce){
  .page,.page *,.page *::before,.page *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+/* Contact experience refinement — readable, responsive, keyboard-accessible. */
+.page{width:min(100% - 40px,1180px);padding-top:18px}
+.topline{font-size:10px;letter-spacing:.12em}
+.kicker{font-size:10px;letter-spacing:.08em}
+.overline{font-size:11px}
+.intro{font-size:14px;line-height:2}
+.hero h1{font-size:clamp(38px,5vw,62px);line-height:1.25}
+.primaryAction,.secondaryAction{font-size:12px;min-height:46px}
+.heroFooter{font-size:9px}
+.sectionIndex{font-size:10px}
+.sectionHeading h2{font-size:clamp(23px,3vw,30px)}
+.sectionHeading p{font-size:13px}
+.headingCode{font-size:10px}
+.channelGrid{gap:14px}
+.channelCard{min-height:172px;padding:19px}
+.cardNumber{font-size:10px}
+.cardIcon{width:38px;height:38px}
+.cardText{gap:7px}
+.cardText h3{font-size:16px}
+.cardText p{font-size:12px;line-height:1.65}
+.cardText strong{font-size:12px;line-height:1.6}
+.messageSection{gap:30px;padding:clamp(22px,3.5vw,38px)}
+.messageIntro h2{font-size:clamp(29px,3vw,38px);line-height:1.35}
+.messageIntro>p{font-size:13px;line-height:2}
+.privacyNote b{font-size:12px}
+.privacyNote small{font-size:11px;line-height:1.8}
+.messageTopics span{font-size:10px}
+.formPanel{padding:22px}
+.formPanelHead{font-size:10px}
+.formPanel :global(.contact-form){gap:16px;margin-top:18px}
+.formPanel :global(.contact-form label){font-size:13px;gap:8px}
+.formPanel :global(.contact-form input),
+.formPanel :global(.contact-form textarea){min-height:48px;padding:13px 14px;font-size:14px;line-height:1.7}
+.formPanel :global(.contact-form textarea){min-height:150px}
+.formPanel :global(.contact-consent){display:flex;align-items:flex-start;gap:10px;color:var(--mghal-color-muted);font-size:12px;line-height:1.8}
+.formPanel :global(.contact-consent input){width:18px;height:18px;min-height:18px;flex:0 0 18px;margin:2px 0 0;accent-color:var(--mghal-color-focus)}
+.formPanel :global(.contact-form .button-primary){min-height:48px;font-size:13px;gap:10px}
+.formPanel :global(.contact-form .button-primary:disabled){opacity:.55;cursor:not-allowed}
+.formPanel :global(.form-success),.formPanel :global(.form-error){padding:12px 14px;border-radius:7px;font-size:12px;line-height:1.8}
+.formPanel :global(.form-success){border:1px solid rgba(121,201,164,.35);background:rgba(121,201,164,.08)}
+.formPanel :global(.form-error){border:1px solid rgba(230,120,120,.35);background:rgba(230,120,120,.08);color:#efb0a8}
+.formPanel :global(.contact-auth-status){display:flex;align-items:flex-start;gap:8px;font-size:11px;line-height:1.8}
+.footer{font-size:10px}
+@media(max-width:900px){.messageSection{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:760px){.page{width:min(100% - 28px,1180px)}.hero{grid-template-columns:minmax(0,1fr);gap:16px}.heroMark{width:170px;grid-row:2}.heroCopy{grid-row:1}.channelGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.channelCard{min-height:158px;padding:15px}.messageSection{grid-template-columns:minmax(0,1fr);padding:20px;gap:18px}.formPanel{padding:18px}}
+@media(max-width:420px){.page{width:min(100% - 24px,1180px)}.hero{padding:20px 16px}.hero h1{font-size:36px}.intro{font-size:13px}.heroFooter{font-size:8px}.channelGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.channelCard{min-height:154px;padding:12px}.cardText h3{font-size:14px}.cardText p,.cardText strong{font-size:10px}.cardIcon{width:32px;height:32px}.messageSection{padding:15px}.formPanel{padding:13px}.formPanel :global(.contact-form label){font-size:12px}.formPanel :global(.contact-form input),.formPanel :global(.contact-form textarea){font-size:14px}.footer{font-size:9px}}
+@media(max-width:340px){.channelGrid{grid-template-columns:minmax(0,1fr)}}
