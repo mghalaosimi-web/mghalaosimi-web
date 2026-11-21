@@ -3,11 +3,15 @@ import { readFileSync } from 'node:fs';
 const api=readFileSync('mghal-backend/api-handler.mjs','utf8');
 const form=readFileSync('components/ContactForm.tsx','utf8');
 const migration=readFileSync('mghal-backend/postgres/0008_contact_messages.sql','utf8');
+const permissionsMigration=readFileSync('mghal-backend/postgres/0009_contact_inbox_permissions.sql','utf8');
 const admin=readFileSync('public/assets/admin-messages.js','utf8');
 const page=readFileSync('app/contact/contact.module.css','utf8');
+const arPage=readFileSync('app/contact/page.tsx','utf8');
+const enPage=readFileSync('app/contact/ContactPageEnglish.tsx','utf8');
 assert.ok(api.includes('/api/public/contact-messages'),'public contact endpoint missing');
 assert.ok(api.includes('/api/admin/contact-messages'),'admin contact inbox endpoint missing');
 assert.ok(api.includes('can(\"contact_messages.read\")') && api.includes('can(\"contact_messages.manage\")'),'contact inbox must use dedicated private permissions');
+assert.ok(permissionsMigration.includes("WHERE r.name='owner'"),'private contact permissions must be granted to the owner role only');
 assert.ok(api.includes('CONTACT_RATE_LIMITED'),'contact rate limit missing');
 assert.ok(api.includes('b.consent!==true'),'explicit consent validation missing');
 assert.ok(form.includes("fetch('/api/public/contact-messages'"),'form must post to first-party API');
@@ -19,3 +23,9 @@ assert.ok(migration.includes('idx_contact_messages_status_created'),'status inde
 assert.ok(admin.includes('/api/admin/contact-messages'),'admin inbox client route missing');
 assert.ok(page.includes('.contact-consent'),'consent UI styles missing');
 console.log('Contact inbox static checks passed.');
+
+const expectedChecksum=migration.match(/existing_checksum IS NOT NULL\s+AND existing_checksum <> '([^']+)'/);
+const insertedChecksum=migration.match(/VALUES \('0008_contact_messages', '([^']+)'\)/);
+assert.ok(expectedChecksum && insertedChecksum && expectedChecksum[1]===insertedChecksum[1],'contact migration checksum must match on insert and re-run');
+assert.ok(admin.includes('mailtoAddress') && admin.includes("replace(/%40/gi,'@')"),'reply email links must preserve the mailbox separator');
+assert.ok(arPage.includes("String(index+1).padStart(2,'0')") && enPage.includes("String(index+1).padStart(2,'0')"),'channel numbering must stay two digits in both locales');
