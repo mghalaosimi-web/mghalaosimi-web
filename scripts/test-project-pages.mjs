@@ -11,6 +11,8 @@ assert.match(catalog.siteOrigin, /^https:\/\//, "A canonical site origin is requ
 
 const privateSlugs = ["humanity-system", "mghal-esdp"];
 const projectRegistry = readFileSync(path.join(root, "data/projects.ts"), "utf8");
+const projectsArabicUi = readFileSync(path.join(root, "app/projects/ProjectsPageArabic.tsx"), "utf8");
+const projectsEnglishUi = readFileSync(path.join(root, "app/projects/ProjectsExplorerEnglish.tsx"), "utf8");
 const projectDetailRoute = readFileSync(path.join(root, "app/projects/[slug]/page.tsx"), "utf8");
 const nextConfig = readFileSync(path.join(root, "next.config.ts"), "utf8");
 const seoPaths = readFileSync(path.join(root, "lib/seo-paths.mjs"), "utf8");
@@ -19,6 +21,11 @@ const detailSlugs = [...projectDetailRoute.matchAll(/slug:'([^']+)'/g)].map(matc
 const legacySlugs = catalog.projects.map(project => project.slug);
 const dynamicSlugs = registrySlugs.filter(slug => !legacySlugs.includes(slug));
 assert.equal(registrySlugs.length, 19, "The public registry must contain all nineteen approved projects.");
+assert.ok(projectsArabicUi.includes("publicProjects.filter(p=>filter==='all'||p.category===filter)"), "Arabic archive must show the full project registry without forcing one project into a separate lead slot.");
+assert.ok(projectsEnglishUi.includes("publicProjects.filter(p=>filter==='all'||p.category===filter)"), "English archive must show the full project registry without forcing one project into a separate lead slot.");
+assert.ok(!projectsArabicUi.includes("portfolio-featured-project") && !projectsEnglishUi.includes("portfolio-featured-project"), "No single project may be presented as the default lead project without an evidence-based ranking.");
+assert.ok(projectsArabicUi.includes("ترتيب البطاقات تنظيمي") && projectsEnglishUi.includes("organizational, not a comparative ranking"), "The project archive must clarify that display order is not a ranking.");
+
 assert.ok(existsSync(path.join(publicRoot, "assets/projects/project-placeholder.svg")), "Dynamic project cards must have the neutral illustrative cover asset.");
 assert.deepEqual(detailSlugs, registrySlugs, "Every public project must have a matching detail record.");
 assert.equal(dynamicSlugs.length, 11, "Eleven non-legacy projects must use the Next.js dynamic route.");
