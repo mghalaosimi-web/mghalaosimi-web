@@ -8,6 +8,8 @@ on:
       - scripts/test-live-production.mjs
       - .github/workflows/mghal-live-production-smoke.yml
       - vercel.json
+      - public/robots.txt
+      - public/sitemap.xml
   pull_request:
     branches:
       - main
