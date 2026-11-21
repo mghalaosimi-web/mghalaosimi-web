@@ -10,7 +10,7 @@ Purpose: evidence-based inventory for the public-page image redesign. This docum
 - Enumerated image-like blobs from the Git tree API (`.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`, `.svg`, `.gif`).
 - The tree contains **156 image paths**, representing **76 distinct blob SHAs**. Public-facing paths account for **83 entries**.
 - A repeated blob SHA proves byte-identical files, not that all references can safely be removed. No file was deleted or renamed.
-- Git tree metadata supplies byte size and blob SHA, but not pixel dimensions, color profile, focal point, photographic subject, or licensing. Those require binary/image inspection and owner/source confirmation. Dimensions are therefore deliberately marked **not measured** below.
+- Git tree metadata supplies byte size and blob SHA. A local binary inspection and browser contact sheet were subsequently used to verify dimensions and visible content for the two selected photographs. Licensing/source rights beyond the owner's repository remain unverified.
 - Asset path names and current page source establish likely role; they do not establish image rights or factual suitability.
 
 ## Current public-page image references
@@ -18,7 +18,7 @@ Purpose: evidence-based inventory for the public-page image redesign. This docum
 | Surface | Current implementation evidence | Finding / action |
 | --- | --- | --- |
 | Home hero | `app/page.tsx` loads `/assets/images/mghal-profile-primary.jpg` with Next Image, `priority`, and responsive `sizes`. | Current hero portrait. Preserve its existing URL and Person/OG identity role pending SEO review. |
-| About metadata/profile | `app/about/page.tsx` uses `/assets/images/mghal-profile-primary.jpg` for localized social metadata. The current audit confirmed the shared image is also reused in the About profile surface. | Reuse is the known duplication. A distinct owner-approved photo is needed for the visible About composition; do not change metadata identity image as part of a styling-only change. |
+| About metadata/profile | `app/about/page.tsx` retains `/assets/images/mghal-profile-primary.jpg` for localized social metadata. Visible Arabic and English About surfaces now use `/profile-gallery/mghal-photo-2026-07-22.jpg`. | Visible portrait is now distinct from Home; metadata/OG identity image remains stable. |
 | Photos | `app/photos/page.tsx` has a 12-item manifest under `/profile-gallery/`, with separate Arabic and English alt text and ImageGallery JSON-LD. | Preserve all 12 URLs, ordering, alt text, metadata and JSON-LD until a separate gallery/SEO review. |
 | Project listing | `public/projects.html` references project SVG covers and `project-placeholder.svg`. | Several projects currently share a generic placeholder. Replace only with project-specific, evidence-backed screenshots/diagrams after reviewing each project. |
 | Credentials | `app/credentials/page.tsx` and `public/assets/certificates/` contain issuer/certificate imagery. | Treat as documentary evidence. Do not replace official certificate artwork with generated graphics. Credential count conflict remains open (repository says 14 Cisco / 26 total; latest approved inventory snapshot says 11 Cisco). |
@@ -28,7 +28,7 @@ Purpose: evidence-based inventory for the public-page image redesign. This docum
 
 ## Existing profile and gallery assets
 
-All sizes below are Git blob sizes in bytes. Pixel dimensions and image rights are not yet verified.
+All sizes below are Git blob sizes in bytes. Pixel dimensions are listed where verified by local `file` inspection. Repository provenance is known; external licensing is not independently established.
 
 | Public path | Bytes | Current classification | Potential use / review |
 | --- | ---: | --- | --- |
@@ -38,8 +38,8 @@ All sizes below are Git blob sizes in bytes. Pixel dimensions and image rights a
 | `public/profile-gallery/mghal-cultural-portrait-2026.png` | 187,546 | Gallery portrait by filename/manifest | Candidate for a distinct personal/profile surface only after visual and owner approval. |
 | `public/profile-gallery/mghal-with-companion-2026.jpg` | 99,916 | Two-person gallery photograph by manifest alt | Keep in gallery; do not use as solo hero portrait. |
 | `public/profile-gallery/mghal-reading-portrait-2026.jpg` | 601,543 | Reading portrait; byte-identical to primary portrait | Not a distinct photograph despite its separate path. Do not use it to satisfy the no-duplicate requirement. |
-| `public/profile-gallery/mghal-photo-2026-07-22.jpg` | 1,598,989 | Personal gallery photo | Candidate only after visual review and confirmation of context. |
-| `public/profile-gallery/mghal-photo-2026-07-28-a.jpg` | 1,120,474 | Personal gallery photo | Candidate only after visual review and confirmation of context. |
+| `public/profile-gallery/mghal-photo-2026-07-22.jpg` | 1,598,989 | Personal library-reading portrait, 3000 × 4000 | Now used on About (AR/EN); visible subject/context inspected. |
+| `public/profile-gallery/mghal-photo-2026-07-28-a.jpg` | 1,120,474 | Personal photograph at an in-person gathering, 3000 × 4000 | Now used as a personal-archive visual in the Academic Journey tab (AR/EN); no institution/event claim is made. |
 | `public/profile-gallery/mghal-photo-2026-07-28-b.jpg` | 2,196,910 | Personal gallery photo | Candidate only after visual review and confirmation of context. |
 | `public/profile-gallery/mghal-professional-poster-01.png` | 153,924 | Identity poster | Gallery/brand artwork, not a replacement portrait. |
 | `public/profile-gallery/mghal-professional-poster-02.png` | 2,223,244 | Identity poster | Gallery/brand artwork, not a replacement portrait. |
@@ -92,7 +92,7 @@ This is a repository hygiene opportunity, not authorization to delete. Before de
 | Page / section | Required visual asset | Source policy |
 | --- | --- | --- |
 | Home hero | Distinct professional portrait | Keep current real primary portrait. |
-| About / profile | A second, different authentic portrait | Select from owner-supplied originals only after visual review; current duplicate must be removed from visible About composition. |
+| About / profile | A second, different authentic portrait | Implemented with the library-reading photo; Home hero remains on the primary portrait. |
 | Academic journey / education | Real college, learning, study or documented participation image; alternatively an editorial academic illustration | Do not fabricate campus, classroom attendance, events or institutional affiliation. |
 | Skills | Custom technical SVGs: software architecture, API, database, frontend, backend, testing | Prefer crisp vector diagrams over stock photography. |
 | Projects index | One cover per project | Use real screenshots, project-owned art or clearly labeled conceptual diagrams. |
@@ -108,16 +108,19 @@ This is a repository hygiene opportunity, not authorization to delete. Before de
 
 ## Implementation gates
 
-1. Inspect the candidate profile images visually and confirm which authentic photo belongs to Home and which belongs to About.
+1. Home retains the primary portrait; About uses the visually reviewed library-reading portrait; the Academic Journey tab uses a separate personal-archive image.
 2. Record pixel dimensions, file format, file size, crop focal point, AR/EN alt text and source/rights for every selected image.
 3. Build a machine-readable asset manifest and automated check for missing local assets, duplicate use in designated hero/profile slots, missing alt text and oversized raster files.
 4. Use responsive Next Image dimensions/sizes, lazy loading below the fold and priority only for the actual hero.
 5. Preserve canonical URLs, hreflang, robots, sitemap, structured data, social identity image, gallery URLs and all 12 gallery records.
 6. Do not merge or deploy this work until route/SEO/image regression checks and responsive visual QA pass.
 
-## Explicitly not done
+## Implementation status — 2026-11-22
 
-- No image files were uploaded, generated, renamed, compressed, deleted or modified.
-- No portrait was selected as About's replacement without visual inspection and owner confirmation.
-- No page component, metadata, URL, sitemap, structured data or production setting was changed.
-- No production deployment or Neon operation was performed.
+- Arabic and English About profile heroes now use the distinct library-reading photograph (`mghal-photo-2026-07-22.jpg`, 3000 × 4000).
+- Arabic and English Academic Journey tabs now include a separate personal-archive photograph (`mghal-photo-2026-07-28-a.jpg`, 3000 × 4000) with a restrained caption and responsive layout.
+- Home still uses the primary portrait. About's social metadata still uses the primary identity image to avoid an unnecessary Open Graph/SEO identity change.
+- Added regression assertions for distinct Home/About imagery, Journey imagery, and stable social identity metadata.
+- No image binaries were uploaded, generated, renamed, compressed, or deleted. No URL, canonical, hreflang, sitemap, structured data, database, or production setting was changed.
+- Production deployment and Neon operations were not performed.
+- Build and browser checks were performed in an isolated temporary workspace; CI status on the GitHub branch is tracked separately.
