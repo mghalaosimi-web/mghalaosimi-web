@@ -20,6 +20,10 @@ export default function ContactForm({locale='ar'}:{locale?:Locale}){
   async function submit(event:FormEvent<HTMLFormElement>){
     event.preventDefault();
     if(sending)return;
+    if(!event.currentTarget.checkValidity()){
+      event.currentTarget.reportValidity();
+      return;
+    }
     const payload={name:name.trim(),email:email.trim(),subject:subject.trim(),message:message.trim(),locale,website,consent};
     if(payload.name.length<2||payload.email.length<5||payload.subject.length<3||payload.message.length<10||!consent){
       setNotice(en?'Complete all fields and accept the privacy notice.':'أكمل الحقول المطلوبة ووافق على إشعار الخصوصية.');
