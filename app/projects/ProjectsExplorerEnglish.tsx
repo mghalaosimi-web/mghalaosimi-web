@@ -10,7 +10,7 @@ const projectCovers:Record<string,string> = {
   "abdulmalik-erp": "/assets/projects/abdulmalik-erp-cover.svg",
   "abdulmalik-store-pro": "/assets/projects/abdulmalik-store-pro-cover.svg",
   "ramzei-erp": "/assets/projects/ramzei-erp-cover.svg",
-  "manar-schedule-system": "/assets/projects/manar-schedule-system.svg",
+  "manar-schedule-system": "/assets/projects/schedule.svg",
   "waynah": "/assets/projects/waynah.svg",
   "mghal-digital-os": "/assets/projects/mghal-digital-os-cover.svg",
   "mghal-content-os": "/assets/projects/content-os.svg",
