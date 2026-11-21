@@ -13,6 +13,7 @@ const privateSlugs = ["humanity-system", "mghal-esdp"];
 const projectRegistry = readFileSync(path.join(root, "data/projects.ts"), "utf8");
 const projectsArabicUi = readFileSync(path.join(root, "app/projects/ProjectsPageArabic.tsx"), "utf8");
 const projectsEnglishUi = readFileSync(path.join(root, "app/projects/ProjectsExplorerEnglish.tsx"), "utf8");
+const projectsData = readFileSync(path.join(root, "data/projects.ts"), "utf8");
 const projectDetailRoute = readFileSync(path.join(root, "app/projects/[slug]/page.tsx"), "utf8");
 const nextConfig = readFileSync(path.join(root, "next.config.ts"), "utf8");
 const seoPaths = readFileSync(path.join(root, "lib/seo-paths.mjs"), "utf8");
@@ -24,6 +25,14 @@ assert.equal(registrySlugs.length, 19, "The public registry must contain all nin
 assert.ok(projectsArabicUi.includes("publicProjects.filter(p=>filter==='all'||p.category===filter)"), "Arabic archive must show the full project registry without forcing one project into a separate lead slot.");
 assert.ok(projectsEnglishUi.includes("publicProjects.filter(p=>filter==='all'||p.category===filter)"), "English archive must show the full project registry without forcing one project into a separate lead slot.");
 assert.ok(!projectsArabicUi.includes("portfolio-featured-project") && !projectsEnglishUi.includes("portfolio-featured-project"), "No single project may be presented as the default lead project without an evidence-based ranking.");
+const projectCoverPaths = [
+  "/assets/projects/abdulmalik-erp-cover.svg","/assets/projects/abdulmalik-store-pro-cover.svg","/assets/projects/ramzei-erp-cover.svg","/assets/projects/manar-schedule-system.svg","/assets/projects/waynah.svg","/assets/projects/mghal-digital-os-cover.svg","/assets/projects/content-os.svg","/assets/projects/debwan-live-cover.svg","/assets/projects/alnasr-supermarket-erp-cover.svg","/assets/projects/yemen-ai.svg","/assets/projects/academic-os2-cover.svg","/assets/projects/ciphersphere.svg","/assets/projects/abdulmalik-store-management-cover.svg","/assets/projects/academicos-cover.svg","/assets/projects/almanar-schedule-system-cover.svg","/assets/projects/focusflow.svg","/assets/projects/mghal-digital-automation-cover.svg","/assets/projects/mghal-official-website.svg","/assets/projects/cryptolab-x-cover.svg"
+];
+for (const cover of projectCoverPaths) assert.ok(existsSync(path.join(publicRoot, cover.slice(1))), "Missing unique project cover: " + cover);
+assert.equal(projectCoverPaths.length, registrySlugs.length, "Every project registry entry must have a dedicated conceptual cover.");
+assert.ok(projectsArabicUi.includes("projectCovers[p.slug]") && projectsEnglishUi.includes("projectCovers[p.slug]"), "Both localized project archives must render per-project cover artwork.");
+assert.ok(!projectsData.includes("onrender.com"), "The public project registry must not point to retired Render hosting.");
+
 assert.ok(projectsArabicUi.includes("ترتيب البطاقات تنظيمي") && projectsEnglishUi.includes("organizational, not a comparative ranking"), "The project archive must clarify that display order is not a ranking.");
 
 assert.ok(existsSync(path.join(publicRoot, "assets/projects/project-placeholder.svg")), "Dynamic project cards must have the neutral illustrative cover asset.");
