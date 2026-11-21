@@ -138,6 +138,7 @@ export default {
   }
   let current=null;if(admin&&!setupRoute){current=await actor();if(!current)return fail(401,"UNAUTHENTICATED","Authentication required");}
   const can=async code=>!!(await q("SELECT 1 FROM admin_user_roles ur JOIN role_permissions rp ON rp.role_id=ur.role_id JOIN permissions p ON p.id=rp.permission_id WHERE ur.user_id=? AND p.code=? LIMIT 1",current?.id||"",code).first());
+  const canAccessContactInbox=async()=>!!(await q("SELECT 1 FROM admin_user_roles ur JOIN roles r ON r.id=ur.role_id WHERE ur.user_id=? AND r.name='owner' LIMIT 1",current?.id||"").first());
   if(path==="/api/admin/auth/logout"&&method==="POST"){const t=(request.headers.get("Authorization")||"").slice(7);await q("UPDATE admin_sessions SET revoked_at=? WHERE user_id=? AND token_hash=? AND revoked_at IS NULL",new Date().toISOString(),current.id,await hash(t)).run();return out({success:true});}
   if(path==="/api/public/auth/google/config"&&method==="GET"){
    const enabled=env.GOOGLE_AUTH_ENABLED==="true"&&!!(env.GOOGLE_CLIENT_ID&&env.GOOGLE_CLIENT_SECRET&&env.GOOGLE_REDIRECT_URI&&env.PUBLIC_SITE_URL);
