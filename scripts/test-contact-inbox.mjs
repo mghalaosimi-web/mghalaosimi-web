@@ -12,6 +12,7 @@ assert.ok(api.includes('b.consent!==true'),'explicit consent validation missing'
 assert.ok(form.includes("fetch('/api/public/contact-messages'"),'form must post to first-party API');
 assert.ok(!form.includes('mailto:'),'contact form must not fall back to mailto');
 assert.ok(form.includes('credentials:\'omit\''),'contact form must not send ambient credentials');
+assert.ok(form.includes('checkValidity()') && form.includes('reportValidity()'),'native field validation must be surfaced to the visitor');
 assert.ok(migration.includes('CREATE TABLE IF NOT EXISTS contact_messages'),'Neon inbox migration missing');
 assert.ok(migration.includes('idx_contact_messages_status_created'),'status index missing');
 assert.ok(admin.includes('/api/admin/contact-messages'),'admin inbox client route missing');
