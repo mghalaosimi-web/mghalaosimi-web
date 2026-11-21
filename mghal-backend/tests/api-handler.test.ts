@@ -291,12 +291,14 @@ describe("Vercel API handler security contract", () => {
 
   it("honors RATE_LIMIT_PER_MINUTE from the server runtime configuration", async () => {
     const counts = new Map<string, number>();
+    const cleanupStatements: string[] = [];
     const DB = {
       prepare(sql: string) {
         return {
           bind(...params: unknown[]) {
             return {
               async run() {
+                if (sql.startsWith("DELETE FROM site_settings WHERE key IN")) cleanupStatements.push(sql);
                 if (sql.startsWith("INSERT INTO site_settings(key,value_json)")) {
                   const key = String(params[0] ?? "");
                   counts.set(key, (counts.get(key) ?? 0) + 1);
@@ -322,6 +324,9 @@ describe("Vercel API handler security contract", () => {
 
     expect((await request()).status).toBe(200);
     expect((await request()).status).toBe(200);
+    expect(cleanupStatements).toHaveLength(2);
+    expect(cleanupStatements[0]).toContain("updated_at<?");
+    expect(cleanupStatements[0]).toContain("LIMIT 100");
     const blocked = await request();
     expect(blocked.status).toBe(429);
     expect(await blocked.json()).toMatchObject({ error: { code: "RATE_LIMITED" } });
