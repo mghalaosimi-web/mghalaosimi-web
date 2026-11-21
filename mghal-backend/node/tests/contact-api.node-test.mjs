@@ -68,3 +68,11 @@ test('throttles more than three contact submissions per ten-minute IP window',as
   assert.equal(body.error.code,'CONTACT_RATE_LIMITED');
   assert.equal(DB.messages.length,0);
 });
+
+test('does not expose the private contact inbox to unauthenticated visitors',async()=>{
+  const DB=new FakeDatabase();
+  const response=await apiHandler.fetch(new Request('https://mghalaosimi-web.vercel.app/api/admin/contact-messages',{method:'GET',headers:{'origin':'https://mghalaosimi-web.vercel.app','x-client-ip':'203.0.113.10'}}),environment(DB));
+  assert.equal(response.status,401);
+  const body=await response.json();
+  assert.equal(body.success,false);
+});
