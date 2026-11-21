@@ -372,7 +372,7 @@ export default {
    return out({success:true,id,message:locale==="ar"?"تم استلام رسالتك بنجاح.":"Your message has been received."},201);
   }
   if(admin&&path==="/api/admin/contact-messages"&&method==="GET"){
-   if(!(await can("content.read"))&&!(await can("comments.read")))return fail(403,"FORBIDDEN","Missing contact inbox permission");
+   if(!(await can("content.read")))return fail(403,"FORBIDDEN","Missing content.read permission");
    const status=url.searchParams.get("status"),allowed=["new","read","replied","archived"];
    if(status&&!allowed.includes(status))return fail(400,"VALIDATION_ERROR","Invalid message status");
    const rows=status?await q("SELECT id,sender_name,sender_email,subject,message,locale,status,consent_at,admin_note,created_at,updated_at FROM contact_messages WHERE status=? ORDER BY created_at DESC LIMIT 200",status).all():await q("SELECT id,sender_name,sender_email,subject,message,locale,status,consent_at,admin_note,created_at,updated_at FROM contact_messages ORDER BY created_at DESC LIMIT 200").all();
