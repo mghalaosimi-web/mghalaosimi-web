@@ -53,7 +53,7 @@ The existing Figma file contains the previously created admin concepts and publi
 - No Neon schema/data changes.
 - No edits to SEO-critical metadata or public paths.
 - No changes to credential counts or project claims.
-- No code implementation yet; this commit records the verified audit baseline and sequencing constraints.
+- Implementation has since been added on this branch: distinct About and Academic Journey imagery, and dedicated conceptual SVG covers for all 19 project archive records in Arabic and English. The remaining audit items below are not implied to be complete.
 
 
 ## Visual image system requested for the public portfolio
@@ -86,7 +86,7 @@ The owner explicitly requested distinct imagery by page and by section rather th
 
 ### Current asset inventory finding
 
-The current implementation reuses `/assets/images/mghal-profile-primary.jpg` for the home hero and About profile image, while the photos route already references a distinct 12-item personal/brand gallery under `/profile-gallery/`. This confirms the requested duplication in the hero/profile surfaces. New documentary and project-specific imagery must be sourced or supplied; no new image binaries were added in this audit update.
+At the audit baseline, Home and About reused `/assets/images/mghal-profile-primary.jpg`. This branch now assigns `/profile-gallery/mghal-photo-2026-07-22.jpg` to the visible About profile and `/profile-gallery/mghal-photo-2026-07-28-a.jpg` to the Academic Journey tab in Arabic and English; Home and Person/OG identity metadata retain the primary portrait. The Photos route retains its 12-item gallery. The project archive now uses 19 distinct local conceptual SVG covers; no new raster/photo binaries were added.
 
 ### Required acceptance criteria for the image pass
 
@@ -96,3 +96,14 @@ The current implementation reuses `/assets/images/mghal-profile-primary.jpg` for
 4. Skills, research, labs, knowledge, contact and showcase visuals are semantically relevant and not repeated filler.
 5. Every image has accurate AR/EN alternative text, responsive sizing, a verified source/rights record, and no broken asset URL.
 6. Structured data, canonical URLs, hreflang, sitemap, and existing gallery image inventory remain unchanged unless separately reviewed and approved.
+
+## Preview verification update — 2026-11-22
+
+- GitHub Actions quality workflow run #975 succeeded on `1268300438250c63092439f67741218ba505c877`.
+- Vercel Preview deployment `dpl_DqvUhoGFdt1HXYz5USDjahSAU1R4` reached `READY` for the same commit. It remains a Preview deployment; Production was not changed.
+- Authenticated HTTP retrieval returned 200 for `/`, `/projects`, `/en/projects`, `/projects/waynah`, and `/en/projects/waynah`. The two archive routes each returned 19 project images and retained the official canonical URLs and locale alternates. Preview responses correctly carry `noindex` at the response-header level.
+- A desktop browser screenshot of `/projects` was captured and visually inspected. The archive hero and project-card layout rendered; this is a limited desktop check, not full-page or cross-device visual acceptance.
+- Browser automation reached the Vercel authentication wall before a share link was issued. A temporary authenticated browser session then captured the desktop archive. The temporary browser box later hit the account compute limit; mobile screenshots and additional route screenshots therefore remain unverified.
+- The static legacy detail route `/projects/waynah` returns 200 and retains its own canonical/hreflang and project-specific image gallery. It is not evidence that all legacy detail pages have been migrated to the new Next.js archive cover system.
+- A visible `Visitor session unavailable` message appeared in the project archive preview. Its cause has not been established; do not classify it as a production defect without testing the corresponding production runtime/API.
+- PR #70 remains Draft and unmerged. No production deployment, Neon operation, credential change, or production configuration change was performed.
