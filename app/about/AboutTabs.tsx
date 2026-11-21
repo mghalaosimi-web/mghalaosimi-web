@@ -2,7 +2,7 @@
 import {useState} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {ArrowUpLeft,ArrowLeft,ShieldCheck,Code2,Network,GraduationCap,BookOpen,Search,Workflow,Target,Compass,Layers,Terminal,FlaskConical,Users,FileCheck2,Lightbulb,Globe2,BriefcaseBusiness} from 'lucide-react';
+import {ArrowUpLeft,ArrowLeft,ShieldCheck,Code2,Network,GraduationCap,BookOpen,Workflow,Target,Compass,Layers,Terminal,FlaskConical,FileCheck2,Lightbulb,Globe2,BriefcaseBusiness} from 'lucide-react';
 
 const tabs=[
  {id:'overview',label:'نظرة عامة',en:'OVERVIEW',Icon:Compass},
@@ -19,12 +19,14 @@ function Overview(){return <div className="ab-content-grid">
  <article className="ab-feature"><span className="ab-index">02 / IDENTITY</span><h3>هوية تقنية متعددة المسارات</h3><p>محور عملي هو هندسة البرمجيات وتطوير الأنظمة المؤسسية. وتشمل اهتماماتي الذكاء الاصطناعي التطبيقي وتجربة المستخدم والأمن السيبراني بوصفه مجال تعلم واهتمام، لا تخصص الدرجة الأكاديمية.</p><div className="ab-tags"><span>Software Engineering</span><span>Enterprise Systems</span><span>Applied AI</span></div></article>
  <article className="ab-feature"><span className="ab-index">03 / DIRECTION</span><h3>ما الذي أعمل نحوه؟</h3><p>بناء منتجات رقمية موثوقة وقابلة للصيانة والتوسع، مع توثيق نطاق العمل والتمييز بين ما اكتمل وما يزال قيد التطوير.</p><Link href="/projects" className="ab-inline-link">شاهد المشاريع <ArrowUpLeft size={15}/></Link></article>
  </div>}
-function Journey(){return <div className="ab-timeline">
+function Journey(){return <div className="ab-journey-content">
+ <figure className="ab-journey-visual"><Image src="/profile-gallery/mghal-photo-2026-07-28-a.jpg" alt="محمد غالب العصيمي ضمن تجمع حضوري، من الأرشيف الشخصي" width={900} height={1200} sizes="(max-width: 600px) 100vw, 320px"/><figcaption>لقطة شخصية من الأرشيف · PERSONAL ARCHIVE</figcaption></figure>
+ <div className="ab-timeline">
  <div className="ab-timeline-item"><span className="ab-time">BACHELOR'S</span><div><h3>بكالوريوس تقنية المعلومات</h3><p>كلية المنار للعلوم والتكنولوجيا — اليمن. يركز المسار الأكاديمي على أسس تقنية المعلومات والحوسبة وتطوير الأنظمة.</p><small>المؤهل الأكاديمي الجاري</small></div></div>
  <div className="ab-timeline-item"><span className="ab-time">FOUNDATIONS</span><div><h3>بناء الأساس التقني</h3><p>دراسة أساسيات البرمجة، قواعد البيانات، الشبكات، أنظمة التشغيل، ومعمارية الحاسوب ضمن مسار تقنية المعلومات.</p><small>دراسة أكاديمية وتطبيق عملي</small></div></div>
  <div className="ab-timeline-item"><span className="ab-time">COURSEWORK</span><div><h3>مناهج البحث وتفاعل الإنسان والحاسوب</h3><p>درست مناهج البحث العلمي وتفاعل الإنسان والحاسوب (HCI)، إلى جانب تطوير المعرفة في هندسة البرمجيات وتصميم التجارب الرقمية.</p><small>مقررات أكاديمية مكتملة</small></div></div>
  <div className="ab-timeline-item"><span className="ab-time">NEXT</span><div><h3>هندسة الأنظمة والذكاء الاصطناعي التطبيقي</h3><p>توسيع الخبرة في بناء تطبيقات قابلة للتوسع، والأنظمة المؤسسية، وهندسة البرمجيات، وتطبيقات الذكاء الاصطناعي.</p><small>اتجاه تعلم وبحث قيد التطوير</small></div></div>
- </div>}
+ </div></div>}
 const areas=[
  {Icon:Code2,title:'هندسة البرمجيات والمعمارية',text:'تصميم مكونات واضحة الحدود، وبناء تطبيقات قابلة للاختبار والصيانة والتوسع.'},
  {Icon:Terminal,title:'تطوير Full-Stack',text:'تطوير واجهات الويب والخدمات وواجهات API باستخدام تقنيات JavaScript وTypeScript وReact وNext.js وNode.js.'},
@@ -53,9 +55,9 @@ function Principles(){return <><div className="ab-section-intro"><h2>كيف أف
  [BriefcaseBusiness,'قيمة قابلة للاستخدام','أهتم بأن يكون الناتج واضحًا وموثقًا وقابلًا للصيانة والتطوير.'],
  ].map(([Icon,title,text],i)=>{const I=Icon as typeof Target;return <article key={String(title)}><span>0{i+1}</span><I/><h3>{String(title)}</h3><p>{String(text)}</p></article>})}
  </div><div className="ab-vision"><span>LONG-TERM DIRECTION</span><h2>هندسة البرمجيات · الأنظمة المؤسسية · الذكاء الاصطناعي التطبيقي</h2><p>أطمح إلى الجمع بين العمق التقني والقدرة على بناء حلول حقيقية وموثوقة، وتطوير منتجات قابلة للاستخدام والصيانة.</p><b>Building Systems. Engineering with Purpose.</b></div></>}
-export default function AboutTabs(){const [active,setActive]=useState<TabId>('overview');const current=tabs.find(t=>t.id===active)!;return <main className="content-page about-page ab-page">
+export default function AboutTabs(){const [active,setActive]=useState<TabId>('overview');return <main className="content-page about-page ab-page">
  <div className="ab-topline"><span>PERSONAL PROFILE / 2026</span><span>YEMEN <i/> INFORMATION TECHNOLOGY</span></div>
- <section className="ab-hero"><div className="ab-hero-copy"><span className="ab-kicker">SOFTWARE ENGINEERING · FULL-STACK · ENTERPRISE SYSTEMS</span><h1>محمد غالب العصيمي</h1><h2>طالب تقنية معلومات · مطوّر Full-Stack · مهندس برمجيات</h2><p>أبني فهمًا عميقًا للأنظمة، وأطوّر البرمجيات، وأبحث في كيفية جعل التقنية أكثر أمانًا وموثوقية.</p><div className="ab-hero-facts"><span><GraduationCap/> بكالوريوس — تقنية المعلومات</span><span><Globe2/> اليمن</span><span><ShieldCheck/> تعلّم وتطبيق مستمر</span></div></div><div className="ab-hero-portrait"><div className="ab-portrait-frame"><Image src="/assets/images/mghal-profile-primary.jpg" alt="محمد غالب العصيمي" width={640} height={640} priority/><span>M.GH.AL</span></div><div className="ab-portrait-coordinate">PROFILE / 001<br/>SOFTWARE × SYSTEMS</div></div><div className="ab-hero-watermark" aria-hidden="true">MG</div></section>
+ <section className="ab-hero"><div className="ab-hero-copy"><span className="ab-kicker">SOFTWARE ENGINEERING · FULL-STACK · ENTERPRISE SYSTEMS</span><h1>محمد غالب العصيمي</h1><h2>طالب تقنية معلومات · مطوّر Full-Stack · مهندس برمجيات</h2><p>أبني فهمًا عميقًا للأنظمة، وأطوّر البرمجيات، وأبحث في كيفية جعل التقنية أكثر أمانًا وموثوقية.</p><div className="ab-hero-facts"><span><GraduationCap/> بكالوريوس — تقنية المعلومات</span><span><Globe2/> اليمن</span><span><ShieldCheck/> تعلّم وتطبيق مستمر</span></div></div><div className="ab-hero-portrait"><div className="ab-portrait-frame"><Image src="/profile-gallery/mghal-photo-2026-07-22.jpg" alt="محمد غالب العصيمي أثناء القراءة في مكتبة" width={768} height={1024} sizes="(max-width: 600px) 68vw, 310px" priority/><span>M.GH.AL</span></div><div className="ab-portrait-coordinate">PROFILE / 001<br/>SOFTWARE × SYSTEMS</div></div><div className="ab-hero-watermark" aria-hidden="true">MG</div></section>
  <section className="ab-tab-shell" aria-label="تفاصيل النبذة الشخصية"><div className="ab-tab-head"><div><span>EXPLORE MY PROFILE</span><h2>تعرّف على مساري</h2></div><small>اختر قسمًا لعرض التفاصيل</small></div><div className="ab-tabs" role="tablist" aria-label="أقسام النبذة">{tabs.map(({id,label,en,Icon})=><button key={id} type="button" role="tab" aria-selected={active===id} aria-controls="about-tab-panel" id={'tab-'+id} className={active===id?'is-active':''} onClick={()=>setActive(id)}><Icon/><span>{label}</span><small>{en}</small></button>)}</div><div className="ab-tab-panel" id="about-tab-panel" role="tabpanel" aria-labelledby={'tab-'+active} key={active}>{active==='overview'?<Overview/>:active==='journey'?<Journey/>:active==='expertise'?<Expertise/>:active==='work'?<Work/>:active==='learning'?<Learning/>:<Principles/>}</div></section>
  <footer className="ab-signoff"><span>M.GH.AL</span><b>Building Systems. Engineering with Purpose.</b><Link href="/contact">للتواصل المهني <ArrowLeft size={14}/></Link></footer>
  </main>}
