@@ -72,7 +72,7 @@
 .portfolio-archive-filters button.selected{border-color:rgba(193,164,109,.3);background:linear-gradient(135deg,rgba(147,118,63,.2),rgba(147,118,63,.07));color:var(--mghal-color-text)}
 .portfolio-archive-filters button.selected span{background:rgba(180,147,86,.17);color:var(--mghal-color-focus)}
 .portfolio-archive-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.portfolio-project-cover{position:relative;display:block;overflow:hidden;aspect-ratio:16/9;margin:-19px -19px 16px;border-bottom:1px solid rgba(183,155,104,.18);background:#101f32}.portfolio-project-cover img{object-fit:cover;transition:transform .35s ease}.portfolio-project-card:hover .portfolio-project-cover img{transform:scale(1.035)}
+.portfolio-project-cover{position:relative;display:block;overflow:hidden;aspect-ratio:16/9;margin:-19px -19px 16px;border-bottom:1px solid rgba(183,155,104,.18);background:var(--mghal-color-bg)}.portfolio-project-cover img{object-fit:cover;transition:transform .35s ease}.portfolio-project-card:hover .portfolio-project-cover img{transform:scale(1.035)}
 .portfolio-project-card{display:flex;min-width:0;min-height:310px;flex-direction:column;padding:19px;border:1px solid rgba(183,195,197,.14);border-radius:11px;background:linear-gradient(150deg,rgba(28,42,52,.84),rgba(14,23,31,.94));box-shadow:0 9px 22px rgba(0,0,0,.1)}
 .portfolio-project-card:hover{transform:translateY(-4px);border-color:rgba(194,165,112,.38);background:linear-gradient(150deg,rgba(30,51,63,.92),rgba(14,25,34,.98));box-shadow:0 17px 30px rgba(0,0,0,.2)}
 .portfolio-project-card-top{display:flex;align-items:center;gap:9px;margin-bottom:20px}
