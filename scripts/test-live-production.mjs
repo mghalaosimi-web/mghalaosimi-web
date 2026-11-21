@@ -72,6 +72,26 @@ async function verifyRedirects() {
     ['/en/projects/waynah.html', '/en/projects/waynah'],
   ];
 
+  // Exercise every legacy bilingual page URL, not only the original sample set.
+  const legacyPageSlugs = [
+    'achievements', 'education', 'knowledge', 'profile', 'resume', 'showcase',
+    'skills', 'projects', 'contact', 'research',
+  ];
+  for (const slug of legacyPageSlugs) {
+    cases.push(['/' + slug + '.html', '/' + slug]);
+    cases.push(['/en/' + slug + '.html', '/en/' + slug]);
+  }
+  const legacyProjectSlugs = [
+    'waynah', 'yemen-ai', 'mghal-content-os', 'manar-schedule-system',
+    'ciphersphere', 'focusflow', 'mghal-official-website', 'almanar-schedule-system',
+  ];
+  for (const slug of legacyProjectSlugs) {
+    cases.push(['/projects/' + slug + '/index.html', '/projects/' + slug]);
+    cases.push(['/en/projects/' + slug + '/index.html', '/en/projects/' + slug]);
+    cases.push(['/projects/' + slug + '.html', '/projects/' + slug]);
+    cases.push(['/en/projects/' + slug + '.html', '/en/projects/' + slug]);
+  }
+
   for (const [source, expectedPath] of cases) {
     try {
       const response = await request(source);
