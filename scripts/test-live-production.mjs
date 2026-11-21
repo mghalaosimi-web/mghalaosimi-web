@@ -239,7 +239,9 @@ async function verifyPublicRoutes() {
         }
 
         for (const image of meta.images) {
-          record(attribute(image, 'alt') !== null, path + ': image is missing its alt attribute');
+          const alt = attribute(image, 'alt');
+          record(typeof alt === 'string' && alt.trim().length > 0,
+            path + ': image is missing non-empty alt text');
         }
 
         const titleKey = expectedLocale + ':' + meta.title.toLocaleLowerCase();
