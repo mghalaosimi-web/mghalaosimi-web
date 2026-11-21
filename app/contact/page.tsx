@@ -58,7 +58,7 @@ function ContactPageArabic(){
   </section>
 
   <section className={styles.channelsSection} aria-labelledby="channels-title">
-   <div className={styles.sectionHeading}><div><span className={styles.sectionIndex}>01 / PROFESSIONAL & DIRECT CHANNELS</span><h2 id="channels-title">اختر قناة التواصل المناسبة</h2><p>الشبكات المهنية والبحثية، إلى جانب قنوات التواصل المباشر.</p></div><span className={styles.headingCode}>CONNECT · 07</span></div>
+   <div className={styles.sectionHeading}><div><span className={styles.sectionIndex}>01 / PROFESSIONAL & DIRECT CHANNELS</span><h2 id="channels-title">اختر قناة التواصل المناسبة</h2><p>الشبكات المهنية والبحثية، إلى جانب قنوات التواصل المباشر.</p></div><span className={styles.headingCode}>CONNECT · 11</span></div>
    <div className={styles.channelGrid}>
     {channels.map((item,index)=>{const Icon=item.icon;return <a className={styles.channelCard} href={item.href} key={item.name} target={item.href.startsWith('https://')?'_blank':'_self'} rel={item.href.startsWith('https://')?'noopener noreferrer':undefined}>
       <div className={styles.cardTop}><span className={styles.cardNumber}>0{index+1}</span><span className={styles.cardIcon}><Icon size={19}/></span><ArrowUpRight className={styles.cardArrow} size={16}/></div>
@@ -73,10 +73,10 @@ function ContactPageArabic(){
     <div className={styles.messageIcon}><MessageSquareText size={22}/></div>
     <h2>لديك فكرة أو<br/><em>موضوع للنقاش؟</em></h2>
     <p>اكتب تفاصيل رسالتك وسأطّلع عليها. يُرجى توضيح موضوع التواصل وإضافة المعلومات الضرورية فقط.</p>
-    <div className={styles.privacyNote}><LockKeyhole size={17}/><span><b>خصوصية وأمان</b><small>لا نطلب صلاحية الوصول إلى بريدك أو ملفاتك. عند الإرسال يُجهّز تطبيق البريد رسالة لتراجعها وترسلها بنفسك.</small></span></div>
+    <div className={styles.privacyNote}><LockKeyhole size={17}/><span><b>خصوصية وأمان</b><small>لا نطلب صلاحية الوصول إلى بريدك أو ملفاتك. تُحفظ الرسالة في صندوق تواصل آمن داخل قاعدة البيانات، ولا يطّلع عليها إلا المخولون في لوحة الإدارة.</small></span></div>
     <div className={styles.messageTopics}><span><Code2 size={14}/> Software Engineering</span><span><Layers3 size={14}/> Enterprise Systems</span><span><BrainCircuit size={14}/> Applied AI</span><span><Microscope size={14}/> Research</span></div>
    </div>
-   <div className={styles.formPanel}><div className={styles.formPanelHead}><span>CONTACT FORM</span><span><i/> EMAIL DRAFT</span></div><ContactForm locale="ar"/></div>
+   <div className={styles.formPanel}><div className={styles.formPanelHead}><span>CONTACT FORM</span><span><i/> SECURE INBOX</span></div><ContactForm locale="ar"/></div>
   </section>
 
   <footer className={styles.footer}><span>M.GH.AL</span><span>Building Systems. Engineering with Purpose.</span><a href="/">العودة إلى الرئيسية <ArrowLeft size={14}/></a></footer>
