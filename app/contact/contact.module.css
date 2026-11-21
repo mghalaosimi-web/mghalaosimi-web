@@ -99,7 +99,7 @@
 .formPanel :global(.contact-form .button-primary:disabled){opacity:.55;cursor:not-allowed}
 .formPanel :global(.form-success),.formPanel :global(.form-error){padding:12px 14px;border-radius:7px;font-size:12px;line-height:1.8}
 .formPanel :global(.form-success){border:1px solid rgba(121,201,164,.35);background:rgba(121,201,164,.08)}
-.formPanel :global(.form-error){border:1px solid rgba(230,120,120,.35);background:rgba(230,120,120,.08);color:#efb0a8}
+.formPanel :global(.form-error){border:1px solid rgba(230,120,120,.35);background:rgba(230,120,120,.08);color:var(--mghal-state-danger)}
 .formPanel :global(.contact-auth-status){display:flex;align-items:flex-start;gap:8px;font-size:11px;line-height:1.8}
 .footer{font-size:10px}
 @media(max-width:900px){.messageSection{grid-template-columns:minmax(0,1fr)}}
