@@ -54,3 +54,45 @@ The existing Figma file contains the previously created admin concepts and publi
 - No edits to SEO-critical metadata or public paths.
 - No changes to credential counts or project claims.
 - No code implementation yet; this commit records the verified audit baseline and sequencing constraints.
+
+
+## Visual image system requested for the public portfolio
+
+The owner explicitly requested distinct imagery by page and by section rather than reusing the same portrait everywhere. Apply the following image taxonomy while keeping the M.GH.AL visual identity consistent:
+
+| Page / section | Image type | Source and usage rules |
+| --- | --- | --- |
+| Home hero | One distinct, authentic professional portrait of the owner, different crop/shot from the About page | Use a separately supplied real photograph; do not synthesize or alter facial identity. Keep the current primary portrait as the structured Person identity image until a deliberate SEO asset review. |
+| About / profile | A second authentic portrait, editorial/profile framing | Must be a different real photograph from the home hero; maintain natural appearance and accurate alt text. |
+| Academic / career journey | Documentary academic imagery: real college/classroom/lab photograph, actual study desk or documented participation photo | Use only real supplied/documented images. If none exists, use a restrained editorial illustration of books, research notes, learning and systems—not a fabricated campus, certificate, event, employer or attendance claim. |
+| Skills | Technical editorial illustrations: code editor, architecture diagram, database/network concepts, UI wireframe | Prefer custom vector/diagram artwork and genuine UI/code screenshots with secrets removed; no generic stock-photo collage. |
+| Projects index | A unique project cover/thumbnail per project | Use actual product screenshots, repository-provided artwork, architecture diagrams, or a clearly labeled conceptual illustration. Never imply an unfinished project is production-ready. |
+| Project details | Product screenshots, workflow diagrams, architecture/data-flow illustrations, actual device mockups | Each project gets its own image set. Clearly distinguish implementation screenshots from conceptual diagrams. |
+| Credentials | Official issuer badge/certificate scans already present in the verified inventory | Preserve issuer artwork and verification links; no decorative replacement badges. |
+| Research / Labs / Knowledge | Research diagrams, experiment visuals, document/data-flow illustrations, real lab screenshots where available | Use topic-specific technical visuals; label conceptual images as illustrations. |
+| Achievements | Actual award/certificate/event evidence or restrained milestone graphics | Do not create fake award photographs, event scenes, or institutional seals. |
+| Photos gallery | User-provided personal photographs and brand artwork, classified separately | Keep existing 12-image gallery inventory and accurate alt descriptions; do not repurpose gallery art as documentary evidence without review. |
+| Contact | Minimal brand illustration or abstract communication/network graphic | Avoid unrelated portraits or stock people. |
+| Resume / Showcase | One editorial cover graphic plus verified project/credential thumbnails | Use evidence-backed content and do not invent employment history or client logos. |
+
+### Asset naming and technical treatment
+
+- Store approved originals under descriptive, route-specific names (for example `home-portrait-2026.*`, `about-editorial-portrait-2026.*`, `journey-academic-documentary-01.*`, `skills-software-architecture-01.svg`, `project-waynah-cover.*`); choose extensions only after inspecting actual files.
+- Maintain a source/rights ledger for every new asset: source, owner/permission, date, intended page, factual status (documentary vs conceptual), alt text AR/EN, crop focal point, dimensions, and whether it may be used for Open Graph.
+- Use responsive Next/Image sizes, explicit dimensions/aspect ratios, lazy loading below the fold, and priority only for the actual hero image. Provide meaningful Arabic and English alt text; decorative diagrams use empty alt text when implemented as decorative.
+- Do not duplicate one binary image under multiple filenames to simulate variety.
+- Do not use AI-generated images as documentary evidence or as a replacement for the owner's real face. Conceptual abstract/vector artwork may be generated only when clearly labeled as illustration and not as a real event, person, institution, or product screenshot.
+- Keep the existing primary portrait URL in Person structured data and social metadata until the owner explicitly approves a new identity image and a separate SEO impact review is completed.
+
+### Current asset inventory finding
+
+The current implementation reuses `/assets/images/mghal-profile-primary.jpg` for the home hero and About profile image, while the photos route already references a distinct 12-item personal/brand gallery under `/profile-gallery/`. This confirms the requested duplication in the hero/profile surfaces. New documentary and project-specific imagery must be sourced or supplied; no new image binaries were added in this audit update.
+
+### Required acceptance criteria for the image pass
+
+1. Home hero and About profile use two distinct, owner-approved real photographs.
+2. Journey uses real documented academic imagery or a clearly conceptual editorial illustration—not an invented personal history scene.
+3. Every featured project uses its own evidence-backed cover/thumbnail; placeholders are explicitly labeled.
+4. Skills, research, labs, knowledge, contact and showcase visuals are semantically relevant and not repeated filler.
+5. Every image has accurate AR/EN alternative text, responsive sizing, a verified source/rights record, and no broken asset URL.
+6. Structured data, canonical URLs, hreflang, sitemap, and existing gallery image inventory remain unchanged unless separately reviewed and approved.
