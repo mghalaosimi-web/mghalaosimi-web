@@ -102,3 +102,43 @@ The `/api/ready` handler runs `SELECT 1 AS ok` through the Vercel-native Postgre
 A read-only Neon comparison on 2026-11-13 confirmed that both Production `main` and the isolated Preview branch contain `follower_identities`, `follower_identity_sessions`, and `oauth_transactions`. Production's `_mghal_migrations` ledger records 0001–0005; Preview additionally records `0006_google_follower_identity`. The schema diff between branches contained only ACL/default-privilege differences, not missing Google identity tables or columns. Production migration 0006 was **not** run. The migration is additive/idempotent and intended to reconcile the ledger, but any Production ledger/schema write still requires explicit approval.
 
 The live `GET /api/public/auth/google/config` endpoint returns `enabled: false`. Google OAuth start/callback was not exercised, and OAuth credentials were not inspected or changed.
+
+
+---
+
+## Current verified status — 2026-11-21
+
+This status delta supersedes the older environment and cutover statements above where they conflict. It records read-only evidence gathered on 2026-11-21; it does not authorize a Production release or infrastructure deletion.
+
+### Vercel Production
+
+- The official Production deployment is READY on commit `78413e935f4e7615ded3180d69524dd704e40eae`.
+- The encrypted `DATABASE_URL` variable is present in the Vercel Production target. Its value was not decrypted or disclosed.
+- `MGHAL_API_BASE` is present only in Development, not Production. The Production Vercel runtime therefore has no configured Render API-base dependency.
+- Live `GET /api/health` and `GET /api/ready` both returned HTTP 200 with Neon connected.
+- Public projects, certificates, skills and education endpoints returned HTTP 200. The unauthenticated admin dashboard returned HTTP 401. Owner bootstrap status reports an existing owner and a closed bootstrap path.
+- Google OAuth configuration currently reports `enabled: false`; Google sign-in is not claimed as active or tested.
+- Vercel runtime monitoring reported 38 SSL connection-option warnings in the preceding 24-hour window. PR #58 normalizes the PostgreSQL URL by removing legacy `sslmode` query flags and explicitly retains certificate verification. That fix is Preview/PR-only until merged and deployed.
+
+### Neon Production and Preview
+
+- Production remains on migration-ledger entries `0001`–`0005`. The Google identity tables/indexes from migration 0006 already exist in the Production schema, but its ledger entry is absent.
+- The rate-limit expiry index from migration 0007 is absent in Production. The isolated Preview branch has ledger entries through `0007` and the index is present.
+- At the read-only inspection snapshot, Production had 892 rate-limit keys: 876 older than ten minutes and 16 within the active window. No Production cleanup or migration was executed.
+- The Production role `mghal_app_runtime` exists and has SELECT/INSERT/UPDATE/DELETE grants across 28 public tables. The isolated Preview branch currently has only `mghal_owner`, not the restricted runtime role; this is a Preview least-privilege follow-up.
+- Migrations 0006 and 0007 are additive/idempotent in the reviewed SQL. Their application to Production remains an explicit approval gate.
+
+### Remaining legacy infrastructure
+
+- Cloudflare D1 database inventory is empty. However, the old `mghal-api` Worker still exists, has a D1 binding whose referenced database returns 404, and has its `workers.dev` subdomain enabled. It has no custom Worker domain. Do not recreate D1; retire the stale Worker only after confirming no external consumers and obtaining authorization.
+- Render still has 15 services linked to this repository. All are unsuspended and configured for auto-deploy. No M.GH.AL Render PostgreSQL database was found. Production no longer has `MGHAL_API_BASE`, but these public legacy/preview services have not been suspended or deleted.
+- Render retirement and Cloudflare Worker retirement remain separate, authorized cleanup tasks; neither was performed during this audit.
+
+### Pull-request and SEO state
+
+- PRs #58, #59, #60 and #61 are open, mergeable, and have clean mergeability state. Their GitHub CI checks passed and their Vercel Preview deployments reached READY. None has been merged; Production remains unchanged.
+- PR #59's live production smoke verification checked 65 legacy redirect variants, 68 sitemap URLs (68 unique), 204 hreflang links, 25 image locations, and 68/68 public routes, plus security headers, admin denial, CORS and Neon readiness.
+- Google Search Console processed the official sitemap without errors or warnings (68 web URLs and 25 image locations). Both `/photos` and `/en/photos` are currently `Discovered - currently not indexed`; `/photos/` is unknown to Google. The homepage currently exposes no internal link to the gallery, so adding a visible internal link is a recommended SEO follow-up.
+- The public skills API returns 21 technologies, while both Arabic and English skills pages render a different 17-item list. The two localized pages match each other, but the API and rendered list are separate content inventories that should be reconciled.
+
+**Disposition:** Vercel-to-Neon Production connectivity is verified. Phase 1 remains open for PR integration, controlled Production migration/release, gallery internal-link/indexing follow-up, content-source reconciliation, and authorized retirement of the stale Cloudflare Worker and Render services.
