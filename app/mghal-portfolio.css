@@ -552,3 +552,36 @@ html[dir="rtl"] .mghal-reading-progress{transform-origin:right}
 .mghal-tags span,.mghal-status,.mghal-skill-list span,.mghal-skill-toggle>strong,.mghal-skill-icon,.mghal-research-card strong{color:var(--mghal-color-focus)}
 .mghal-skill-note{color:var(--mghal-color-text)}
 .mghal-filter-row button:not(.active){background:var(--mghal-color-surface-raised);color:var(--mghal-color-text);border-color:var(--mghal-color-border)}
+
+
+/* Mobile accessibility pass: visible horizontal-scroll affordance and consistent touch targets. */
+@media(max-width:1050px){
+  .mghal-primary-nav{
+    scrollbar-width:thin!important;
+    scrollbar-color:rgba(182,154,98,.68) transparent!important;
+  }
+  .mghal-primary-nav::-webkit-scrollbar{display:block!important;height:4px!important}
+  .mghal-primary-nav::-webkit-scrollbar-track{background:transparent!important}
+  .mghal-primary-nav::-webkit-scrollbar-thumb{background:rgba(182,154,98,.68)!important;border-radius:999px!important}
+  .mghal-primary-nav a{min-height:44px!important}
+  .mghal-language a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:44px;
+    min-height:44px;
+    padding:0;
+  }
+  .mghal-search-trigger{min-width:44px;min-height:44px}
+  .mghal-header-cta{min-height:44px}
+  .mghal-footer-nav a,.mghal-footer>div a{
+    display:inline-flex;
+    align-items:center;
+    min-height:44px;
+    padding-inline:8px;
+  }
+}
+@media(max-width:600px){
+  .mghal-search-trigger{width:44px!important;min-width:44px!important;min-height:44px!important}
+  .mghal-header-cta{min-height:44px;padding-block:8px}
+}
