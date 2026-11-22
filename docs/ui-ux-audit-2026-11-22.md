@@ -45,3 +45,17 @@
 ## Exit criteria
 
 A UI change is complete only when the visual before/after is reviewed, Arabic and English parity is preserved, mobile behavior is verified, accessibility checks pass, and the relevant CI workflows succeed.
+
+
+## First mobile audit finding — shared header and touch targets
+
+Source-level inspection of the current shared shell confirms:
+- The mobile navigation is a horizontal, non-wrapping scroll rail; it is not a hamburger menu or multi-row menu.
+- The rail currently hides its scrollbar while individual navigation links have a 38px minimum height. This preserves compactness but gives users little indication that more destinations are horizontally available.
+- The mobile search trigger is reduced to a 36px square.
+- Language links have only small text padding and no explicit minimum hit area.
+- The mobile GitHub header CTA is reduced to a 34px minimum height.
+- Footer social/navigation links do not declare a consistent minimum touch target.
+
+### First UI implementation
+Raise mobile header controls to a consistent 44px minimum target, expose a thin branded scrollbar on the horizontal rail, and enlarge footer navigation/social hit areas. Preserve the current horizontal-rail model, route order, swipe exclusions, Arabic RTL / English LTR behavior, and desktop header geometry. This is a focused accessibility/affordance improvement, not a redesign.
