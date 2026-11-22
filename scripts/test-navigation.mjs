@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 
 const header = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
 const shell = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
+const projectStyles = readFileSync(new URL("../app/projects/projects.css", import.meta.url), "utf8");
 const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const tokens = readFileSync(new URL("../public/assets/design-tokens.css", import.meta.url), "utf8");
 const legacyNav = readFileSync(new URL("../public/assets/section-rail.js", import.meta.url), "utf8");
@@ -84,3 +85,5 @@ assert.ok(shell.includes("scrollbar-width:thin!important"), "The mobile navigati
 assert.ok(shell.includes("::-webkit-scrollbar{display:block!important;height:4px!important}"), "WebKit mobile browsers must show the horizontal rail scrollbar.");
 assert.ok(shell.includes("min-width:44px") && shell.includes("min-height:44px"), "Mobile language and search controls must have accessible hit areas.");
 assert.ok(shell.includes(".mghal-footer-nav a,.mghal-footer>div a") && shell.includes("min-height:44px"), "Footer navigation and social links must have consistent mobile hit areas.");
+
+assert.ok(projectStyles.includes("@media(max-width:650px){.portfolio-archive-filters button{min-height:44px;padding:10px 12px}}"), "Project filters must provide 44px mobile touch targets.");
