@@ -87,3 +87,5 @@ assert.ok(shell.includes("min-width:44px") && shell.includes("min-height:44px"),
 assert.ok(shell.includes(".mghal-footer-nav a,.mghal-footer>div a") && shell.includes("min-height:44px"), "Footer navigation and social links must have consistent mobile hit areas.");
 
 assert.ok(projectStyles.includes("@media(max-width:650px){.portfolio-archive-filters button{min-height:44px;padding:10px 12px}}"), "Project filters must provide 44px mobile touch targets.");
+
+assert.ok(projectStyles.includes("@media(max-width:650px){.portfolio-project-actions button,.portfolio-project-actions a{min-height:44px;padding-inline:10px}}"), "Project preview and detail links must provide 44px mobile touch targets.");
