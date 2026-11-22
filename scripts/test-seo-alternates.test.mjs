@@ -97,3 +97,9 @@ test('projects and credentials pages provide page-specific Open Graph and Twitte
   assert.match(source,/card:\s*'summary_large_image'/);
  }
 });
+
+
+test('global footer exposes the bilingual photo gallery route for crawl discovery',()=>{
+ const layout=readFileSync(new URL('../app/layout.tsx',import.meta.url),'utf8');
+ assert.match(layout,/<a href="\\/photos">\\{isEn\\?'Photo Gallery':'معرض الصور'\\}<\\/a>/);
+});
