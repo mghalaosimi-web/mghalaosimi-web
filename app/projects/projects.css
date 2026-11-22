@@ -177,3 +177,7 @@
 
 /* Keep project filters comfortably tappable on narrow touch screens. */
 @media(max-width:650px){.portfolio-archive-filters button{min-height:44px;padding:10px 12px}}
+
+
+/* Project-card actions need the same usable touch area as the surrounding controls. */
+@media(max-width:650px){.portfolio-project-actions button,.portfolio-project-actions a{min-height:44px;padding-inline:10px}}
