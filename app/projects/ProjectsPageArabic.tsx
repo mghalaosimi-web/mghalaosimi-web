@@ -116,15 +116,15 @@ export default function ProjectsPage(){
         {visible.map((p,i)=>{
           const meta=categoryMeta[p.category];
           const Icon=meta.Icon;
-          return <button type="button" className="portfolio-project-card" onClick={()=>setSelectedProject(p)} key={p.slug} aria-haspopup="dialog" aria-label={'عرض تفاصيل '+p.name}>
+          return <article className="portfolio-project-card" key={p.slug}>
             <div className="portfolio-project-card-top"><span className="portfolio-project-icon"><Icon size={19}/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div>
             <div className="portfolio-project-status"><i/>{p.status}</div>
             <h3>{p.name}</h3>
             <b className="portfolio-project-label">{p.label}</b>
             <p>{p.summary}</p>
             <div className="portfolio-project-stack">{p.stack.slice(0,4).map(x=><span key={x}>{x}</span>)}</div>
-            <div className="portfolio-project-bottom"><span>{p.repository?'REPOSITORY LINKED':'PROJECT PROFILE'}</span><strong>التفاصيل <ArrowUpLeft size={15}/></strong></div>
-          </button>;
+            <div className="portfolio-project-bottom"><span>{p.repository?'REPOSITORY LINKED':'PROJECT PROFILE'}</span><div className="portfolio-project-actions"><button type="button" onClick={()=>setSelectedProject(p)} aria-haspopup="dialog" aria-label={'معاينة '+p.name}>معاينة</button><Link href={'/projects/'+p.slug}>صفحة المشروع <ArrowUpLeft size={15}/></Link></div></div>
+          </article>;
         })}
       </div>
       {visible.length===0&&<div className="portfolio-archive-empty">لا توجد مشاريع ضمن هذا التصنيف حاليًا.</div>}
