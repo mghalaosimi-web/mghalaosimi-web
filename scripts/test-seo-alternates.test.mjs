@@ -103,3 +103,14 @@ test('global footer exposes the bilingual photo gallery route for crawl discover
  const layout=readFileSync(new URL('../app/layout.tsx',import.meta.url),'utf8');
  assert.ok(layout.includes(`<a href="/photos">{isEn?'Photo Gallery':'معرض الصور'}</a>`));
 });
+
+
+test('Arabic and English project cards expose crawlable detail links without removing preview dialogs',()=>{
+ const ar=readFileSync(new URL('../app/projects/ProjectsPageArabic.tsx',import.meta.url),'utf8');
+ const en=readFileSync(new URL('../app/projects/ProjectsExplorerEnglish.tsx',import.meta.url),'utf8');
+ for(const source of [ar,en]){
+  assert.match(source,/<article className="portfolio-project-card" key=\{p\.slug\}>/);
+  assert.match(source,/<Link href=\{'\\/projects\\/'\+p\.slug\}>/);
+  assert.match(source,/aria-haspopup="dialog"/);
+ }
+});
