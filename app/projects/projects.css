@@ -87,7 +87,7 @@
 .portfolio-project-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:17px;padding-top:12px;border-top:1px solid rgba(183,195,197,.11)}
 .portfolio-project-bottom>span{color:var(--mghal-color-muted);font:7px ui-monospace,monospace;letter-spacing:.04em}
 .portfolio-project-actions{display:inline-flex;align-items:center;gap:12px}
-.portfolio-project-actions button,.portfolio-project-actions a{display:inline-flex;align-items:center;gap:4px;padding:0;border:0;background:transparent;color:var(--mghal-color-focus);font:700 10px inherit;text-decoration:none;cursor:pointer}
+.portfolio-project-actions button,.portfolio-project-actions a{display:inline-flex;align-items:center;gap:4px;padding:0;border:0;background:transparent;color:var(--mghal-color-focus);font-family:inherit;font-size:10px;font-weight:700;text-decoration:none;cursor:pointer}
 .portfolio-project-actions button:focus-visible,.portfolio-project-actions a:focus-visible{outline:2px solid var(--mghal-color-gold);outline-offset:4px;border-radius:3px}
 .portfolio-archive-empty{padding:35px;border:1px dashed rgba(183,195,197,.2);border-radius:10px;color:var(--mghal-color-muted);text-align:center}
 .portfolio-archive-disclaimer{margin:19px 0 0;color:var(--mghal-color-muted);font-size:10px;line-height:1.9}
