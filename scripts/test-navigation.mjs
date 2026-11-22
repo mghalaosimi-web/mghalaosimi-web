@@ -77,3 +77,10 @@ assert.ok(legacyCss.includes(".site-menu-button") && legacyCss.includes("display
 assert.ok(header.includes("const currentIndex = links.findIndex((item) => pathname === item.href)"), "Page swipes must be limited to top-level routes and not exit nested project details.");
 assert.ok(header.includes("window.getComputedStyle(ancestor)") && header.includes("ancestor.scrollWidth > ancestor.clientWidth + 1"), "Nested horizontal scrollers must not be intercepted by page-swipe navigation.");
 console.log("Next.js navigation tests passed: 8 routes, sticky horizontal rail, RTL/LTR swipe, control guards, edge gestures, and shared brand tokens.");
+
+
+assert.ok(shell.includes("min-height:44px!important"), "Mobile navigation links must meet the 44px touch-target baseline.");
+assert.ok(shell.includes("scrollbar-width:thin!important"), "The mobile navigation rail must expose a visible scroll affordance.");
+assert.ok(shell.includes("::-webkit-scrollbar{display:block!important;height:4px!important}"), "WebKit mobile browsers must show the horizontal rail scrollbar.");
+assert.ok(shell.includes("min-width:44px") && shell.includes("min-height:44px"), "Mobile language and search controls must have accessible hit areas.");
+assert.ok(shell.includes(".mghal-footer-nav a,.mghal-footer>div a") && shell.includes("min-height:44px"), "Footer navigation and social links must have consistent mobile hit areas.");
