@@ -101,5 +101,5 @@ test('projects and credentials pages provide page-specific Open Graph and Twitte
 
 test('global footer exposes the bilingual photo gallery route for crawl discovery',()=>{
  const layout=readFileSync(new URL('../app/layout.tsx',import.meta.url),'utf8');
- assert.match(layout,/<a href="\\/photos">\\{isEn\\?'Photo Gallery':'معرض الصور'\\}<\\/a>/);
+ assert.ok(layout.includes(`<a href="/photos">{isEn?'Photo Gallery':'معرض الصور'}</a>`));
 });
