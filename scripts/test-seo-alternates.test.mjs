@@ -110,7 +110,7 @@ test('Arabic and English project cards expose crawlable detail links without rem
  const en=readFileSync(new URL('../app/projects/ProjectsExplorerEnglish.tsx',import.meta.url),'utf8');
  for(const source of [ar,en]){
   assert.match(source,/<article className="portfolio-project-card" key=\{p\.slug\}>/);
-  assert.match(source,/<Link href=\{'\\/projects\\/'\+p\.slug\}>/);
+  assert.ok(source.includes(`<Link href={'/projects/'+p.slug}>`));
   assert.match(source,/aria-haspopup="dialog"/);
  }
 });
