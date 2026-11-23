@@ -89,3 +89,6 @@ assert.ok(shell.includes(".mghal-footer-nav a,.mghal-footer>div a") && shell.inc
 assert.ok(projectStyles.includes("@media(max-width:650px){.portfolio-archive-filters button{min-height:44px;padding:10px 12px}}"), "Project filters must provide 44px mobile touch targets.");
 
 assert.ok(projectStyles.includes("@media(max-width:650px){.portfolio-project-actions button,.portfolio-project-actions a{min-height:44px;padding-inline:10px}}"), "Project preview and detail links must provide 44px mobile touch targets.");
+
+const finalProjectCardRule = projectStyles.slice(projectStyles.lastIndexOf(".portfolio-project-card{"), projectStyles.indexOf("}", projectStyles.lastIndexOf(".portfolio-project-card{")) + 1);
+assert.ok(finalProjectCardRule.includes("text-align:start") && finalProjectCardRule.includes("cursor:default"), "Semantic project articles must use locale-aware text alignment and must not advertise a false card-level click target.");
