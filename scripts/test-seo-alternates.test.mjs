@@ -114,3 +114,11 @@ test('Arabic and English project cards expose crawlable detail links without rem
   assert.match(source,/aria-haspopup="dialog"/);
  }
 });
+
+
+test('semantic project archive cards retain locale-aware alignment and neutral card cursor',()=>{
+ const styles=readFileSync(new URL('../app/projects/projects.css',import.meta.url),'utf8');
+ const ruleStart=styles.lastIndexOf('.portfolio-project-card{');
+ const finalRule=styles.slice(ruleStart,styles.indexOf('}',ruleStart)+1);
+ assert.ok(finalRule.includes('text-align:start')&&finalRule.includes('cursor:default'));
+});
