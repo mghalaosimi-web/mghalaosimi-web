@@ -59,3 +59,8 @@ Source-level inspection of the current shared shell confirms:
 
 ### First UI implementation
 Raise mobile header controls to a consistent 44px minimum target, expose a thin branded scrollbar on the horizontal rail, and enlarge footer navigation/social hit areas. Preserve the current horizontal-rail model, route order, swipe exclusions, Arabic RTL / English LTR behavior, and desktop header geometry. This is a focused accessibility/affordance improvement, not a redesign.
+
+
+## Second source-level QA finding — semantic project-card presentation
+
+The project archives now use semantic `article` elements with explicit Preview and Project page controls. A later legacy CSS reset still applied button-era presentation (`text-align:right` and `cursor:pointer`) to the article itself, overriding the new locale-aware rule and implying that the entire card was clickable. The reset now preserves `text-align:start` for Arabic RTL and English LTR and uses a neutral card cursor; the regression test checks the final cascading rule rather than only an earlier declaration.
