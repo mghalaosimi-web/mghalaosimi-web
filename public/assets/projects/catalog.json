@@ -299,8 +299,8 @@
       "id": "mghal-content-os",
       "slug": "mghal-content-os",
       "title": {
-        "ar": "M.GH.AL Content Studio",
-        "en": "M.GH.AL Content Studio"
+        "ar": "M.GH.AL Content OS",
+        "en": "M.GH.AL Content OS"
       },
       "summary": {
         "ar": "نظام تشغيل للمحتوى العربي يجمع التخطيط والتوليد بالذكاء الاصطناعي وتصميم الصور وإدارة المسودات والنشر عبر واجهات رسمية.",
@@ -340,8 +340,8 @@
       "relatedRepositories": [],
       "cover": "/assets/projects/content-os.svg",
       "coverAlt": {
-        "ar": "غلاف فني توضيحي لمشروع M.GH.AL Content Studio، وليس لقطة شاشة.",
-        "en": "M.GH.AL Content Studio illustrative artwork, not a screenshot."
+        "ar": "غلاف فني توضيحي لمشروع M.GH.AL Content OS، وليس لقطة شاشة.",
+        "en": "M.GH.AL Content OS illustrative artwork, not a screenshot."
       },
       "technologies": [
         "Next.js 16.4.3",
@@ -383,8 +383,8 @@
         {
           "src": "https://raw.githubusercontent.com/mghalaosimi-web/mghal-content-os/main/docs/user-guide/images/01-dashboard-overview.png",
           "alt": {
-            "ar": "لوحة التحكم في M.GH.AL Content Studio.",
-            "en": "M.GH.AL Content Studio dashboard."
+            "ar": "لوحة التحكم في M.GH.AL Content OS.",
+            "en": "M.GH.AL Content OS dashboard."
           },
           "caption": {
             "ar": "لوحة التحكم.",
