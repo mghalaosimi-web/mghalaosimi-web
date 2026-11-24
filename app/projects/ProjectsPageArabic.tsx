@@ -1,5 +1,5 @@
 'use client';
-import {useEffect,useMemo,useState} from 'react';
+import {useEffect,useMemo,useRef,useState} from 'react';
 import Link from 'next/link';
 import {projects,Project,ProjectCategory} from '../../data/projects';
 import {
@@ -25,7 +25,10 @@ export default function ProjectsPage(){
   const publicProjects=projects;
   const [filter,setFilter]=useState<typeof filters[number]['id']>('all');
   const [selectedProject,setSelectedProject]=useState<Project|null>(null);
-  useEffect(()=>{if(!selectedProject)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape')setSelectedProject(null)};window.addEventListener('keydown',onKeyDown);return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKeyDown)}},[selectedProject]);
+  const modalRef=useRef<HTMLElement|null>(null);
+  const openerRef=useRef<HTMLElement|null>(null);
+  const openProject=(project:Project)=>{openerRef.current=document.activeElement instanceof HTMLElement?document.activeElement:null;setSelectedProject(project)};
+  useEffect(()=>{if(!selectedProject)return;const previous=document.body.style.overflow;document.body.style.overflow='hidden';modalRef.current?.querySelector<HTMLElement>('.project-modal-close')?.focus();const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape')setSelectedProject(null)};window.addEventListener('keydown',onKeyDown);return()=>{document.body.style.overflow=previous;window.removeEventListener('keydown',onKeyDown);openerRef.current?.focus();}},[selectedProject]);
   
   const featured=publicProjects.find(p=>p.slug==='waynah');
   const archive=publicProjects.filter(p=>p.slug!=='waynah');
@@ -77,7 +80,7 @@ export default function ProjectsPage(){
         <div className="portfolio-featured-tags">{featured.stack.slice(0,4).map(item=><span key={item}>{item}</span>)}</div>
         <div className="portfolio-featured-footer">
           <span>PROJECT CONTRIBUTION<br/><b>M.GH.AL / TEAM CONTRIBUTOR</b></span>
-          <button type="button" onClick={()=>setSelectedProject(featured)}>استكشف المشروع <ArrowUpLeft size={17}/></button>
+          <button type="button" onClick={()=>openProject(featured)}>استكشف المشروع <ArrowUpLeft size={17}/></button>
         </div>
       </div>
     </section>}
@@ -116,7 +119,7 @@ export default function ProjectsPage(){
         {visible.map((p,i)=>{
           const meta=categoryMeta[p.category];
           const Icon=meta.Icon;
-          return <button type="button" className="portfolio-project-card" onClick={()=>setSelectedProject(p)} key={p.slug} aria-haspopup="dialog" aria-label={'عرض تفاصيل '+p.name}>
+          return <button type="button" className="portfolio-project-card" onClick={()=>openProject(p)} key={p.slug} aria-haspopup="dialog" aria-label={'عرض تفاصيل '+p.name}>
             <div className="portfolio-project-card-top"><span className="portfolio-project-icon"><Icon size={19}/></span><span className="portfolio-project-number">{String(i+1).padStart(2,'0')} / {meta.label}</span><ArrowUpRight className="portfolio-project-open" size={17}/></div>
             <div className="portfolio-project-status"><i/>{p.status}</div>
             <h3>{p.name}</h3>
@@ -137,7 +140,7 @@ export default function ProjectsPage(){
     </section>
 
     {selectedProject&&<div className="project-modal-backdrop" role="presentation" onMouseDown={event=>{if(event.target===event.currentTarget)setSelectedProject(null)}}>
-      <section className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" dir="rtl">
+      <section ref={modalRef} className="project-modal" role="dialog" aria-modal="true" aria-labelledby="project-modal-title" dir="rtl" onKeyDown={event=>{if(event.key!=='Tab')return;const focusable=modalRef.current?.querySelectorAll<HTMLElement>('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])');if(!focusable?.length)return;const first=focusable[0];const last=focusable[focusable.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}}}>
         <header className="project-modal-header">
           <div className="project-modal-brand"><span className="project-modal-brand-icon"><Layers3 size={21}/></span><span><small>M.GH.AL / PROJECT PROFILE</small><b>ملف المشروع الهندسي</b></span></div>
           <button type="button" className="project-modal-close" onClick={()=>setSelectedProject(null)} aria-label="إغلاق النافذة"><X size={19}/></button>

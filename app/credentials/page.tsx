@@ -190,7 +190,28 @@ export default async function CredentialsPage(){
   const cisco=credentials.filter(item=>item.provider==='Cisco');
   const edraak=credentials.filter(item=>item.provider==='Edraak');
   const openjs=credentials.filter(item=>item.provider==='OpenJS');
+  const credentialStructuredData={
+    '@context':'https://schema.org',
+    '@type':'ItemList',
+    name:en?'Digital credentials and certificates':'الشهادات والاعتمادات الرقمية',
+    numberOfItems:credentials.length,
+    itemListOrder:'https://schema.org/ItemListOrderAscending',
+    itemListElement:credentials.map((credential,index)=>({
+      '@type':'ListItem',
+      position:index+1,
+      item:{
+        '@type':'EducationalOccupationalCredential',
+        name:en?credential.nameEn:credential.name,
+        description:en?credential.descriptionEn:credential.description,
+        credentialCategory:credential.provider,
+        ...(credential.referenceId?{identifier:credential.referenceId}:{}),
+        ...(credential.verification?{url:credential.verification}:{}),
+      },
+    })),
+  };
+  const credentialJsonLd=JSON.stringify(credentialStructuredData).replace(/</g,'\\u003c');
   return <main className="content-page credentials-page">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{__html:credentialJsonLd}}/>
     <header className="credentials-hero">
       <div className="credentials-brand"><div className="credential-hero-mark"><Award/><b>M.GH.AL</b></div><span/></div>
       <div className="credentials-hero-copy">
