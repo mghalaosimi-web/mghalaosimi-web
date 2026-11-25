@@ -114,6 +114,12 @@ test('Arabic and English project cards expose crawlable detail links without rem
  }
  assert.ok(ar.includes(`<Link href={'/projects/'+p.slug}>`));
  assert.ok(en.includes(`<Link href={'/en/projects/'+p.slug}>`));
+ assert.equal((ar.match(/<article className="portfolio-project-card"/g)||[]).length,1);
+ assert.equal((en.match(/<article className="portfolio-project-card"/g)||[]).length,1);
+ assert.equal((en.match(/className="portfolio-archive-grid"/g)||[]).length,1);
+ assert.ok(en.includes('</article>})}</div>'));
+ assert.doesNotMatch(en, /<button className="portfolio-project-card"/);
+ assert.doesNotMatch(en, /<strong>Details <ArrowUpRight size=\{15\}\\/>/);
 });
 
 test('semantic project archive cards retain locale-aware alignment and neutral card cursor',()=>{
