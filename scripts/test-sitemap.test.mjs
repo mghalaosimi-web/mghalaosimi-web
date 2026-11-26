@@ -75,6 +75,12 @@ const seoRefreshedPaths = [
   '/photos', '/en/photos',
   ...all.flatMap(slug => ['/projects/' + slug, '/en/projects/' + slug]),
 ];
+const nov24RefreshedPaths = [
+  '/about', '/en/about',
+  '/credentials', '/en/credentials',
+  '/projects/mghal-content-os', '/en/projects/mghal-content-os',
+];
+const nov19RefreshedPaths = seoRefreshedPaths.filter(path => !nov24RefreshedPaths.includes(path));
 const sitemapLastmodByUrl = new Map(
   [...sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)].map((match) => {
     const block = match[1];
@@ -83,13 +89,25 @@ const sitemapLastmodByUrl = new Map(
     return [url, lastmod];
   }),
 );
-test('sitemap lastmod reflects the 2026-11-19 SEO metadata updates', () => {
-  for (const path of seoRefreshedPaths) {
+test('sitemap lastmod reflects the 2026-11-19 SEO metadata updates for unchanged routes', () => {
+  for (const path of nov19RefreshedPaths) {
     const url = base + path;
     assert.equal(
       sitemapLastmodByUrl.get(url),
       '2026-11-19',
       'stale lastmod for route updated on 2026-11-19: ' + url,
+    );
+  }
+});
+
+
+test('sitemap lastmod reflects the 2026-11-24 Phase 1 content and structured-data updates', () => {
+  for (const path of nov24RefreshedPaths) {
+    const url = base + path;
+    assert.equal(
+      sitemapLastmodByUrl.get(url),
+      '2026-11-24',
+      'stale lastmod for route updated on 2026-11-24: ' + url,
     );
   }
 });
