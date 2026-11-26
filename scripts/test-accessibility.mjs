@@ -142,4 +142,25 @@ assert.ok(contrastRatio("#9BBCE0", "#172431") >= 4.5, "Dark reaction button text
 assert.ok(contrastRatio("#EEE9DF", "#0B1117") >= 4.5, "Dark gallery heading text must meet WCAG AA.");
 assert.ok(contrastRatio("#BCA477", "#0B1117") >= 4.5, "Dark gallery link text must meet WCAG AA.");
 
+
+const siteHeader = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
+assert.ok(
+  siteHeader.includes("const localePathname = pathname === '/en' || pathname === '/en/'") &&
+  siteHeader.includes("pathname.startsWith('/en/') ? pathname.slice(3) : pathname;"),
+  "English route prefixes must be stripped before building the destination for either language switch.",
+);
+assert.equal(
+  (siteHeader.match(/encodeURIComponent\(localePathname\)/g) ?? []).length,
+  2,
+  "Both AR and EN toggles must use the normalized locale destination.",
+);
+function normalizeLocalePath(pathname) {
+  return pathname === "/en" || pathname === "/en/" ? "/" : pathname.startsWith("/en/") ? pathname.slice(3) : pathname;
+}
+assert.equal(normalizeLocalePath("/en"), "/");
+assert.equal(normalizeLocalePath("/en/"), "/");
+assert.equal(normalizeLocalePath("/en/projects"), "/projects");
+assert.equal(normalizeLocalePath("/en/projects/waynah"), "/projects/waynah");
+assert.equal(normalizeLocalePath("/projects"), "/projects");
+
 console.log("Accessibility tests passed (new and pre-existing localized skip links, keyboard focus, scroll, and tabindex cleanup).");
