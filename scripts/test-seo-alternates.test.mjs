@@ -97,3 +97,34 @@ test('projects and credentials pages provide page-specific Open Graph and Twitte
   assert.match(source,/card:\s*'summary_large_image'/);
  }
 });
+
+
+test('global footer exposes locale-correct photo gallery routes for crawl discovery',()=>{
+ const layout=readFileSync(new URL('../app/layout.tsx',import.meta.url),'utf8');
+ assert.ok(layout.includes(`<a href={isEn?'/en/photos':'/photos'}>{isEn?'Photo Gallery':'معرض الصور'}</a>`));
+});
+
+test('Arabic and English project cards expose crawlable detail links without removing preview dialogs',()=>{
+ const ar=readFileSync(new URL('../app/projects/ProjectsPageArabic.tsx',import.meta.url),'utf8');
+ const en=readFileSync(new URL('../app/projects/ProjectsExplorerEnglish.tsx',import.meta.url),'utf8');
+ for(const source of [ar,en]){
+  assert.ok(source.includes('<article className="portfolio-project-card" key={p.slug}>'));
+  assert.match(source,/portfolio-project-actions/);
+  assert.match(source,/aria-haspopup="dialog"/);
+ }
+ assert.ok(ar.includes(`<Link href={'/projects/'+p.slug}>`));
+ assert.ok(en.includes(`<Link href={'/en/projects/'+p.slug}>`));
+ assert.equal((ar.match(/<article className="portfolio-project-card"/g)||[]).length,1);
+ assert.equal((en.match(/<article className="portfolio-project-card"/g)||[]).length,1);
+ assert.equal((en.match(/className="portfolio-archive-grid"/g)||[]).length,1);
+ assert.ok(en.includes('</article>})}</div>'));
+ assert.doesNotMatch(en, /<button className="portfolio-project-card"/);
+ assert.equal(en.includes('<strong>Details <ArrowUpRight size={15}/></strong>'),false);
+});
+
+test('semantic project archive cards retain locale-aware alignment and neutral card cursor',()=>{
+ const styles=readFileSync(new URL('../app/projects/projects.css',import.meta.url),'utf8');
+ const ruleStart=styles.lastIndexOf('.portfolio-project-card{');
+ const finalRule=styles.slice(ruleStart,styles.indexOf('}',ruleStart)+1);
+ assert.ok(finalRule.includes('text-align:start')&&finalRule.includes('cursor:default'));
+});
