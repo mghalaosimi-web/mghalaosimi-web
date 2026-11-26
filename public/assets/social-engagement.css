@@ -88,3 +88,12 @@ html[data-mghal-theme="dark"] .mghal-follow-form input:focus-visible{
 .mghal-guest-follow{border-color:var(--mghal-brand-gold);background:rgba(182,154,98,.1);color:var(--mghal-brand-gold-ink)}
 html[data-mghal-theme="dark"] .mghal-guest-follow{border-color:var(--mghal-brand-gold);background:rgba(182,154,98,.12);color:var(--mghal-brand-gold-soft)}
 .mghal-guest-follow:hover{border-color:var(--mghal-brand-gold);box-shadow:0 0 18px rgba(182,154,98,.14)}
+
+
+/* Dark-shell accessibility: ensure social labels and actions meet WCAG AA contrast. */
+html[data-mghal-theme="dark"] .mghal-social-eyebrow{
+  color:var(--mghal-brand-gold,#B69A62)!important;
+}
+html[data-mghal-theme="dark"] .mghal-reaction-like{
+  color:#9BBCE0;
+}

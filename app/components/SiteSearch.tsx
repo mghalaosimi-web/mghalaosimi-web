@@ -207,7 +207,7 @@ export default function SiteSearch({ isEn }: { isEn: boolean }) {
         ref={triggerRef}
         type="button"
         className="mghal-search-trigger"
-        aria-label={isEn ? 'Search M.GH.AL' : 'البحث في M.GH.AL'}
+        aria-label={isEn ? 'Search' : 'بحث'}
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-keyshortcuts="Control+K Meta+K"
@@ -218,7 +218,7 @@ export default function SiteSearch({ isEn }: { isEn: boolean }) {
           <path d="m16 16 5 5" />
         </svg>
         <span>{isEn ? 'Search' : 'بحث'}</span>
-        <kbd>Ctrl K</kbd>
+        <kbd aria-hidden="true">Ctrl K</kbd>
       </button>
 
       <dialog

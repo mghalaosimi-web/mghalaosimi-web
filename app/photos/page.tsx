@@ -119,7 +119,7 @@ export default async function PhotosPage() {
         maxWidth: 1120,
         margin: '0 auto',
         padding: 'clamp(20px, 5vw, 56px) 18px',
-        color: 'var(--foreground, #172b4d)',
+        color: 'var(--mghal-dark-text, #EEE9DF)',
       }}
     >
       <header style={{ marginBottom: 28 }}>
@@ -158,7 +158,7 @@ export default async function PhotosPage() {
           style={{
             display: 'inline-block',
             marginTop: 8,
-            color: '#315a85',
+            color: '#BCA477',
           }}
         >
           {en ? 'Return to the home page →' : 'العودة إلى الصفحة الرئيسية ←'}
