@@ -1,6 +1,5 @@
 'use client';
 import {useEffect,useMemo,useRef,useState} from 'react';
-import Link from 'next/link';
 import {projects,Project,ProjectCategory} from '../../data/projects';
 import {
   ArrowLeft,ArrowUpLeft,ArrowUpRight,Code2,FolderGit2,
@@ -104,7 +103,7 @@ export default function ProjectsPage(){
           <div><span>03 / LOCAL INFORMATION</span><h3>دليل محلي موثوق</h3><p>تنظيم بيانات الأماكن والخدمات وإظهار المعلومات بحسب ما تم توثيقه.</p></div>
         </article>
       </div>
-      <Link href="/projects/waynah" className="portfolio-waynah-gallery-link">استعراض ملف WAYNAH <ArrowUpLeft size={16}/></Link>
+      <a href="/projects/waynah" className="portfolio-waynah-gallery-link">استعراض ملف WAYNAH <ArrowUpLeft size={16}/></a>
     </section>}
 
     <section className="portfolio-archive-collection" id="project-collection">
@@ -126,7 +125,7 @@ export default function ProjectsPage(){
             <b className="portfolio-project-label">{p.label}</b>
             <p>{p.summary}</p>
             <div className="portfolio-project-stack">{p.stack.slice(0,4).map(x=><span key={x}>{x}</span>)}</div>
-            <div className="portfolio-project-bottom"><span>{p.repository?'REPOSITORY LINKED':'PROJECT PROFILE'}</span><div className="portfolio-project-actions"><button type="button" onClick={()=>openProject(p)} aria-haspopup="dialog" aria-label={'معاينة '+p.name}>معاينة</button><Link href={'/projects/'+p.slug}>صفحة المشروع <ArrowUpLeft size={15}/></Link></div></div>
+            <div className="portfolio-project-bottom"><span>{p.repository?'REPOSITORY LINKED':'PROJECT PROFILE'}</span><div className="portfolio-project-actions"><button type="button" onClick={()=>openProject(p)} aria-haspopup="dialog" aria-label={'معاينة '+p.name}>معاينة</button><a href={'/projects/'+p.slug}>صفحة المشروع <ArrowUpLeft size={15}/></a></div></div>
           </article>;
         })}
       </div>
@@ -173,7 +172,7 @@ export default function ProjectsPage(){
             <span className="project-modal-reference"><GitBranch size={14}/> PROJECT REF / {selectedProject.slug.toUpperCase()}</span>
             <div className="project-modal-actions">
               {selectedProject.repository&&<a href={selectedProject.repository} target="_blank" rel="noreferrer"><FolderGit2 size={15}/> المستودع البرمجي <ExternalLink size={13}/></a>}
-              <Link href={'/projects/'+selectedProject.slug}>صفحة المشروع <ArrowRightIcon size={15}/></Link>
+              <a href={'/projects/'+selectedProject.slug}>صفحة المشروع <ArrowRightIcon size={15}/></a>
               <button type="button" className="project-modal-done" onClick={()=>setSelectedProject(null)}>إغلاق الملف</button>
             </div>
           </footer>
