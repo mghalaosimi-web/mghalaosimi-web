@@ -18,6 +18,9 @@ const links = [
 
 export default function SiteHeader({ isEn }: SiteHeaderProps) {
   const pathname = usePathname() || '/';
+  const localePathname = pathname === '/en' || pathname === '/en/'
+    ? '/'
+    : pathname.startsWith('/en/') ? pathname.slice(3) : pathname;
   const router = useRouter();
 
   useEffect(() => {
@@ -98,9 +101,9 @@ export default function SiteHeader({ isEn }: SiteHeaderProps) {
       </nav>
       <SiteSearch isEn={isEn}/>
       <div className="mghal-language" aria-label={isEn ? 'Language' : 'اللغة'}>
-        <a href={`/language/ar?next=${encodeURIComponent(pathname)}`} aria-current={!isEn ? 'page' : undefined} lang="ar">AR</a>
+        <a href={`/language/ar?next=${encodeURIComponent(localePathname)}`} aria-current={!isEn ? 'page' : undefined} lang="ar">AR</a>
         <span aria-hidden="true">/</span>
-        <a href={`/language/en?next=${encodeURIComponent(pathname)}`} aria-current={isEn ? 'page' : undefined} lang="en">EN</a>
+        <a href={`/language/en?next=${encodeURIComponent(localePathname)}`} aria-current={isEn ? 'page' : undefined} lang="en">EN</a>
       </div>
       <a className="mghal-header-cta" href="https://github.com/mghalaosimi-web" target="_blank" rel="noreferrer">GitHub ↗</a>
     </header>
