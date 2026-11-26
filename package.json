@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/generate-project-pages.mjs && node scripts/normalize-legacy-html-links.mjs && npm run audit:profile && npm run audit:credentials && npm run audit:design && npm run test:contact-inbox && npm run audit:pwa && npm run test:navigation && npm run test:search && npm run test:security-headers && npm run test:structured-data && npm run test:seo && npm run test:sitemap && npm run test:clean-urls && npm run test:image-optimization && npm run test:project-pages && npm run test:engagement-hydration && npm run test:api-runtime && next build",
+    "build": "node scripts/generate-project-pages.mjs && node scripts/normalize-legacy-html-links.mjs && npm run audit:profile && npm run test:accessibility && npm run test:project-navigation-accessibility && npm run audit:credentials && npm run audit:design && npm run test:contact-inbox && npm run audit:pwa && npm run test:navigation && npm run test:search && npm run test:security-headers && npm run test:structured-data && npm run test:seo && npm run test:sitemap && npm run test:clean-urls && npm run test:image-optimization && npm run test:project-pages && npm run test:engagement-hydration && npm run test:api-runtime && next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "audit:credentials": "node scripts/audit-credentials.mjs",
@@ -12,6 +12,8 @@
     "audit:profile": "node scripts/audit-profile-content.mjs",
     "lint": "npm --prefix mghal-backend run lint",
     "test:api-runtime": "node --test mghal-backend/node/tests/vercel-runtime.node-test.mjs",
+    "test:accessibility": "node scripts/test-accessibility.mjs",
+    "test:project-navigation-accessibility": "node scripts/test-project-navigation-accessibility.mjs",
     "test:seo": "node --test scripts/test-seo-alternates.test.mjs",
     "test:sitemap": "node --test scripts/test-sitemap.test.mjs",
     "test:clean-urls": "node --test scripts/test-clean-urls.test.mjs",
