@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 
 const header = readFileSync(new URL("../app/components/SiteHeader.tsx", import.meta.url), "utf8");
 const shell = readFileSync(new URL("../app/mghal-portfolio.css", import.meta.url), "utf8");
+const projectStyles = readFileSync(new URL("../app/projects/projects.css", import.meta.url), "utf8");
 const layout = readFileSync(new URL("../app/layout.tsx", import.meta.url), "utf8");
 const tokens = readFileSync(new URL("../public/assets/design-tokens.css", import.meta.url), "utf8");
 const legacyNav = readFileSync(new URL("../public/assets/section-rail.js", import.meta.url), "utf8");
@@ -77,3 +78,17 @@ assert.ok(legacyCss.includes(".site-menu-button") && legacyCss.includes("display
 assert.ok(header.includes("const currentIndex = links.findIndex((item) => pathname === item.href)"), "Page swipes must be limited to top-level routes and not exit nested project details.");
 assert.ok(header.includes("window.getComputedStyle(ancestor)") && header.includes("ancestor.scrollWidth > ancestor.clientWidth + 1"), "Nested horizontal scrollers must not be intercepted by page-swipe navigation.");
 console.log("Next.js navigation tests passed: 8 routes, sticky horizontal rail, RTL/LTR swipe, control guards, edge gestures, and shared brand tokens.");
+
+
+assert.ok(shell.includes("min-height:44px!important"), "Mobile navigation links must meet the 44px touch-target baseline.");
+assert.ok(shell.includes("scrollbar-width:thin!important"), "The mobile navigation rail must expose a visible scroll affordance.");
+assert.ok(shell.includes("::-webkit-scrollbar{display:block!important;height:4px!important}"), "WebKit mobile browsers must show the horizontal rail scrollbar.");
+assert.ok(shell.includes("min-width:44px") && shell.includes("min-height:44px"), "Mobile language and search controls must have accessible hit areas.");
+assert.ok(shell.includes(".mghal-footer-nav a,.mghal-footer>div a") && shell.includes("min-height:44px"), "Footer navigation and social links must have consistent mobile hit areas.");
+
+assert.ok(projectStyles.includes("@media(max-width:650px){.portfolio-archive-filters button{min-height:44px;padding:10px 12px}}"), "Project filters must provide 44px mobile touch targets.");
+
+assert.ok(projectStyles.includes("@media(max-width:650px){.portfolio-project-actions button,.portfolio-project-actions a{min-height:44px;padding-inline:10px}}"), "Project preview and detail links must provide 44px mobile touch targets.");
+
+const finalProjectCardRule = projectStyles.slice(projectStyles.lastIndexOf(".portfolio-project-card{"), projectStyles.indexOf("}", projectStyles.lastIndexOf(".portfolio-project-card{")) + 1);
+assert.ok(finalProjectCardRule.includes("text-align:start") && finalProjectCardRule.includes("cursor:default"), "Semantic project articles must use locale-aware text alignment and must not advertise a false card-level click target.");

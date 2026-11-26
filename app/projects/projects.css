@@ -175,3 +175,11 @@
 .waynah-visual-art svg{width:42px;height:42px;stroke-width:1.25;color:var(--mghal-color-focus)}
 .waynah-visual-art b{font:800 11px/1.5 ui-monospace,monospace;letter-spacing:.16em;color:var(--mghal-color-text)}
 .waynah-visual-art small{font:8px/1.5 ui-monospace,monospace;letter-spacing:.12em;color:var(--mghal-color-muted)}
+
+
+/* Keep project filters comfortably tappable on narrow touch screens. */
+@media(max-width:650px){.portfolio-archive-filters button{min-height:44px;padding:10px 12px}}
+
+
+/* Project-card actions need the same usable touch area as the surrounding controls. */
+@media(max-width:650px){.portfolio-project-actions button,.portfolio-project-actions a{min-height:44px;padding-inline:10px}}
