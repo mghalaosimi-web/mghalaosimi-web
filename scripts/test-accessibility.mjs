@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
 
-const source = readFileSync(new URL("../assets/accessibility.js", import.meta.url), "utf8");
+const source = readFileSync(new URL("../public/assets/accessibility.js", import.meta.url), "utf8");
 
 function mount(lang = "ar", hasExistingSkipLink = false) {
   const listeners = new Map();

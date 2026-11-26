@@ -112,8 +112,10 @@ test('Arabic and English project cards expose crawlable detail links without rem
   assert.match(source,/portfolio-project-actions/);
   assert.match(source,/aria-haspopup="dialog"/);
  }
- assert.ok(ar.includes(`<Link href={'/projects/'+p.slug}>`));
- assert.ok(en.includes(`<Link href={'/en/projects/'+p.slug}>`));
+ assert.ok(ar.includes(`<a href={'/projects/'+p.slug}>`));
+ assert.ok(en.includes(`<a href={'/en/projects/'+p.slug}>`));
+ assert.doesNotMatch(ar,/<Link href=\{'\/projects\/\'\+p\.slug\}>/);
+ assert.doesNotMatch(en,/<Link href=\{'\/en\/projects\/\'\+p\.slug\}>/);
  assert.equal((ar.match(/<article className="portfolio-project-card"/g)||[]).length,1);
  assert.equal((en.match(/<article className="portfolio-project-card"/g)||[]).length,1);
  assert.equal((en.match(/className="portfolio-archive-grid"/g)||[]).length,1);
