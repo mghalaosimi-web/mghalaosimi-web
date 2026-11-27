@@ -12,8 +12,8 @@ export function localizedSocialMetadata(
  locale:SiteLocale,
  title:string,
  description:string,
- image='/assets/og-image.svg',
- imageAlt='M.GH.AL — Mohammed Ghaleb Alaosimi',
+ image='/assets/images/mghal-profile-primary.jpg',
+ imageAlt='Mohammed Ghaleb Alaosimi — M.GH.AL',
 ):Pick<Metadata,'openGraph'|'twitter'>{
  const localizedPath=locale==='en'?(path==='/'?'/en':`/en${path}`):path;
  const url=`https://mghalaosimi-web.vercel.app${localizedPath}`;

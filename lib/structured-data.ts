@@ -1,18 +1,26 @@
 const siteUrl='https://mghalaosimi-web.vercel.app';
 const personId=siteUrl+'/#person';
+const profileId=siteUrl+'/#profile';
 
 const person={
   '@type':'Person',
   '@id':personId,
-  name:'Mohammed Ghaleb Alaosimi',
+  name:'محمد غالب العصيمي',
   givenName:'Mohammed Ghaleb',
   familyName:'Alaosimi',
-  alternateName:['محمد غالب العصيمي','M.GH.AL'],
+  alternateName:[
+    'محمد غالب ناصر العصيمي',
+    'محمد العصيمي',
+    'Mohammed Ghaleb Alaosimi',
+    'Mohammed Alaosimi',
+    'M.GH.AL'
+  ],
   identifier:{'@type':'PropertyValue',propertyID:'ORCID',value:'0009-0000-6007-3170'},
   url:siteUrl,
+  mainEntityOfPage:{'@id':profileId},
   image:siteUrl+'/assets/images/mghal-profile-primary.jpg',
   jobTitle:'Full-Stack Developer | Software Engineer | IT Student',
-  description:'Mohammed Ghaleb Alaosimi (M.GH.AL) is an Information Technology bachelor’s student at Al-Manar College for Science and Technology in Yemen and a Full-Stack Developer focused on software engineering, React, Next.js, Node.js, TypeScript, enterprise and ERP systems, role-based access control, databases, applied AI, and bilingual Arabic-English digital products.',
+  description:'محمد غالب العصيمي، المعروف أيضاً باسم محمد غالب ناصر العصيمي وMohammed Ghaleb Alaosimi، طالب بكالوريوس تقنية معلومات في كلية المنار للعلوم والتكنولوجيا باليمن ومطور برمجيات شامل يعمل على بناء تطبيقات الويب والأنظمة المؤسسية ومنتجات رقمية ثنائية اللغة.',
   affiliation:{
     '@type':'CollegeOrUniversity',
     name:'Al-Manar College for Science and Technology',
@@ -50,6 +58,15 @@ export function siteJsonLd(){
     '@context':'https://schema.org',
     '@graph':[
       person,
+      {
+        '@type':'ProfilePage',
+        '@id':profileId,
+        url:siteUrl,
+        name:'الملف الشخصي الرسمي لمحمد غالب العصيمي | M.GH.AL',
+        inLanguage:['ar','en'],
+        mainEntity:{'@id':personId},
+        isPartOf:{'@id':siteUrl+'/#website'}
+      },
       {
         '@type':'WebSite',
         '@id':siteUrl+'/#website',
