@@ -28,8 +28,8 @@ export async function generateMetadata():Promise<Metadata>{
     ?'M.GH.AL | Full-Stack Developer & Software Engineer'
     :'محمد غالب العصيمي | M.GH.AL';
   const description=en
-    ?'The professional digital identity of Mohammed Ghaleb Alaosimi — Full-Stack Developer, Software Engineer and Information Technology student.'
-    :'الهوية الرقمية المهنية لمحمد غالب العصيمي — مطور Full-Stack ومهندس برمجيات وطالب تقنية معلومات في كلية المنار باليمن.';
+    ?'The official profile of Mohammed Ghaleb Alaosimi (محمد غالب ناصر العصيمي), known as M.GH.AL — Full-Stack Developer, Software Engineer and Information Technology student in Yemen.'
+    :'الملف الشخصي الرسمي لمحمد غالب العصيمي (محمد غالب ناصر العصيمي)، مطور برمجيات شامل ومهندس برمجيات وطالب تقنية معلومات في كلية المنار باليمن، تحت الهوية المهنية M.GH.AL.';
   return {
     title,
     description,
