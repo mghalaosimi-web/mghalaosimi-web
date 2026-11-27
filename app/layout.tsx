@@ -6,29 +6,31 @@ import SiteHeader from './components/SiteHeader';
 import SiteExperience from './components/SiteExperience';
 import {siteJsonLd} from '../lib/structured-data';
 
+const profilePortrait='/assets/images/mghal-profile-primary.jpg';
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://mghalaosimi-web.vercel.app'),
-  title: { default: 'M.GH.AL | Mohammed Ghaleb Alaosimi', template: '%s | M.GH.AL' },
-  description: 'الهوية الرقمية الرسمية لمحمد غالب العصيمي (M.GH.AL) — مطور Full-Stack وطالب تقنية معلومات، مع المشاريع والشهادات والسيرة الذاتية والروابط المهنية.',
+  title: { default: 'محمد غالب العصيمي | M.GH.AL', template: '%s | M.GH.AL' },
+  description: 'الملف الشخصي الرسمي لمحمد غالب العصيمي (محمد غالب ناصر العصيمي) — مطور Full-Stack وطالب تقنية معلومات، مع المشاريع والشهادات والسيرة الذاتية والروابط المهنية.',
   applicationName: 'M.GH.AL',
   manifest: '/manifest.json',
-  keywords: ['محمد غالب العصيمي','Mohammed Ghaleb Alaosimi','M.GH.AL','Full-Stack Developer','Software Engineer','Information Technology','Yemen'],
+  keywords: ['محمد غالب العصيمي','محمد غالب ناصر العصيمي','محمد العصيمي','المطور محمد العصيمي','المهندس محمد العصيمي','Mohammed Ghaleb Alaosimi','Mohammed Alaosimi','M.GH.AL','Full-Stack Developer','Software Engineer','Information Technology','Yemen'],
   authors: [{ name: 'Mohammed Ghaleb Alaosimi', url: 'https://mghalaosimi-web.vercel.app' }],
   alternates: { canonical: '/' },
   openGraph: {
-    type: 'website',
+    type: 'profile',
     locale: 'ar_YE',
     url: 'https://mghalaosimi-web.vercel.app',
     siteName: 'M.GH.AL',
-    title: 'M.GH.AL | Mohammed Ghaleb Alaosimi',
-    description: 'الهوية الرقمية الرسمية لمحمد غالب العصيمي — Full-Stack Developer | Software Engineer | IT Student',
-    images: ['/assets/og-image.svg']
+    title: 'محمد غالب العصيمي | M.GH.AL',
+    description: 'الملف الشخصي الرسمي لمحمد غالب العصيمي — Full-Stack Developer | Software Engineer | IT Student',
+    images: [{url:profilePortrait,alt:'الصورة الشخصية الحقيقية لمحمد غالب العصيمي — M.GH.AL'}]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'M.GH.AL | Mohammed Ghaleb Alaosimi',
-    description: 'الهوية الرقمية الرسمية لمحمد غالب العصيمي.',
-    images: ['/assets/og-image.svg']
+    title: 'محمد غالب العصيمي | M.GH.AL',
+    description: 'الملف الشخصي الرسمي لمحمد غالب العصيمي.',
+    images: [profilePortrait],
   },
   robots: { index: true, follow: true }
 };
